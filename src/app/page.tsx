@@ -9,8 +9,11 @@ import { MULTIPLAYER_GAME_ROUTE, SOLO_GAME_ROUTE } from "./routes";
 export default function HomePage() {
   return (
     <PageBase>
-      <PageIntro title="Letter-League" subText="A modern twist on the classic word game">
-
+      <PageIntro
+        title="Letter-League"
+        subText="A modern twist on the classic word game"
+        titleColor="gradient"
+        titleSize="lg">
       </PageIntro>
 
       <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">

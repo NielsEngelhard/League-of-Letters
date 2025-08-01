@@ -3,6 +3,7 @@ import Label from "./Label";
 
 interface InputProps extends React.ComponentProps<"input"> {
     label?: string;
+    subText?: string;
     placeholder?: string;
     errorMsg?: string;
     required?: boolean;
@@ -13,7 +14,7 @@ interface InputProps extends React.ComponentProps<"input"> {
 }
 
 const TextInput = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, label, centerText, required = false, errorMsg, id, supportedSymbols, onChange, ...props }, ref) => {
+  ({ className, type, label, subText, centerText, required = false, errorMsg, id, supportedSymbols, onChange, ...props }, ref) => {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       if (supportedSymbols) {
@@ -29,7 +30,7 @@ const TextInput = React.forwardRef<HTMLInputElement, InputProps>(
     };
 
     return (
-        <div className="flex flex-col w-full">
+        <div className="flex flex-col w-full gap-0.5">
             {label && <Label text={label} required={required} />}
 
             <input
@@ -43,6 +44,11 @@ const TextInput = React.forwardRef<HTMLInputElement, InputProps>(
                 required={required}
                 {...props}
             />
+            {subText && (
+              <div className="text-xs text-foreground-muted">
+                {subText}
+              </div>              
+            )}
         </div>
     );
 });

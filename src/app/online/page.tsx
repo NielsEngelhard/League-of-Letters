@@ -3,11 +3,11 @@
 import PageBase from "@/components/layout/PageBase";
 import PageIntro from "@/components/ui/block/PageIntro";
 import GameModeCard from "@/features/game/components/GameModeCard";
-import { Gamepad, Plus, User, Users } from "lucide-react";
-import { MULTIPLAYER_GAME_ROUTE, SOLO_GAME_ROUTE } from "../routes";
+import { Gamepad, Plus } from "lucide-react";
+import { CREATE_MULTIPLAYER_GAME_ROUTE, SOLO_GAME_ROUTE } from "../routes";
 import TextInput from "@/components/ui/form/TextInput";
 
-export default function OnlineOage() {
+export default function OnlinePage() {
   return (
     <PageBase>
       <PageIntro title="Online Game" subText="Play with other people">
@@ -34,7 +34,7 @@ export default function OnlineOage() {
           title="Create Game"
           subTxt="Start a new game and invite friends / (or foes)"
           btnTxt="Play Online"
-          href={MULTIPLAYER_GAME_ROUTE}
+          href={CREATE_MULTIPLAYER_GAME_ROUTE}
           Icon={Plus}
           variant="accent"
         >
