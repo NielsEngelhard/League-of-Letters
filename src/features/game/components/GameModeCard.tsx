@@ -11,6 +11,7 @@ export interface Props extends VariantProps<typeof buttonVariants> {
     href: string;
     Icon: React.ElementType;
     className?: string;
+    children?: React.ReactNode;
 }
 
 const buttonVariants = cva(
@@ -18,8 +19,11 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        primary: "bg-gradient-to-l from-primary to-primary/70 text-white",
-        secondary: "bg-gradient-to-r from-secondary to-secondary/60 text-white",
+        primary: "bg-primary text-white",
+        secondary: "bg-secondary text-white",
+        accent: "bg-accent text-white",
+        primaryGradient: "bg-gradient-to-l from-primary to-primary/70 text-white",
+        secondaryGradient: "bg-gradient-to-r from-secondary to-secondary/60 text-white",        
       }
     },
     defaultVariants: {
@@ -28,17 +32,19 @@ const buttonVariants = cva(
   }
 )
 
-export default function GameModeCard({ title, subTxt, btnTxt, href, Icon, variant, className }: Props) {
+export default function GameModeCard({ title, subTxt, btnTxt, href, Icon, variant, className, children }: Props) {
     return (
         <Card className="hover:scale-105">
           <div className="w-full flex flex-col gap-3 items-center text-center justify-between h-full">
-            <div className={`w-12 md:w-16 h-12 md:h-16 bg-primary rounded-full flex items-center justify-center text-white ${cn(buttonVariants({ variant }), className)}`}>
+            <div className={`w-12 md:w-16 h-12 md:h-16 rounded-full flex items-center justify-center text-white ${cn(buttonVariants({ variant }), className)}`}>
               <Icon LucideIcon={Icon} />
             </div>
 
             <div className="font-semibold text-2xl tracking-tight">{title}</div>
 
             <div className="text-foreground-muted">{subTxt}</div>
+
+            {children}
 
             <Link href={href} className="w-full">
                 <Button className={`w-full ${cn(buttonVariants({ variant }), className)}`}>{btnTxt}</Button>

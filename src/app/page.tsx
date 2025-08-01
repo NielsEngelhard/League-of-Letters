@@ -2,12 +2,9 @@
 
 import PageBase from "@/components/layout/PageBase";
 import PageIntro from "@/components/ui/block/PageIntro";
-import Button from "@/components/ui/Button";
-import Card from "@/components/ui/card/Card";
-import Icon from "@/components/ui/Icon";
 import GameModeCard from "@/features/game/components/GameModeCard";
-import { Target, User } from "lucide-react";
-import { SOLO_GAME_ROUTE } from "./routes";
+import { User, Users } from "lucide-react";
+import { MULTIPLAYER_GAME_ROUTE, SOLO_GAME_ROUTE } from "./routes";
 
 export default function HomePage() {
   return (
@@ -23,16 +20,16 @@ export default function HomePage() {
           btnTxt="Play Solo"
           href={SOLO_GAME_ROUTE}
           Icon={User}
-          variant="primary"
+          variant="primaryGradient"
         />
         
         <GameModeCard
           title="Multiplayer"
           subTxt="Challenge other people and fight out who's the smartest" // TODO: different texts every x seconds
           btnTxt="Play Online"
-          href={SOLO_GAME_ROUTE}
-          Icon={User}
-          variant="secondary"
+          href={MULTIPLAYER_GAME_ROUTE}
+          Icon={Users}
+          variant="secondaryGradient"
         />        
       </div>
 
