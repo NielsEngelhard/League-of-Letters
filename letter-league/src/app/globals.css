@@ -1,26 +1,51 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
+  --color-primary: var(--primary);
+  --color-secondary: var(--secondary);
+  --color-accent: var(--accent);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-foreground-muted: var(--foreground-muted);
+  --color-border: var(--border);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --color-error: var(--error);
+  --color-warning: var(--warning);
+  --color-success: var(--success);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* Default/Light */
+:root {
+  --background: #FAFAF9;
+  --background-seconary: "#FFFFFF";
+  --foreground: #020817;
+  --foreground-muted: #9CA3B0;
+  --primary: #155dfc;
+  --secondary: #9810fa;
+  --accent: #C2410C;
+  --border: #e3eaf4;
+  --error: #ff3f5d;
+  --warning: #ffc340;
+  --success: #22C55E;
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+
+}
+
+/* Candy theme */
+[data-theme="candy"] {
+
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-inter), ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol, "Noto Color Emoji";
+}
+
+.font-monos {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, Liberation Mono, Courier New, monospace;
 }
