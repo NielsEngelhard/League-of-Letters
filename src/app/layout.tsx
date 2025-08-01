@@ -135,7 +135,7 @@ export default function RootLayout({
       >
         <Providers>
           <Header></Header>
-          <div className="flex justify-center bg-gradient-to-br from-primary/5 to-secondary/5 min-h-screen">
+          <div className="flex justify-center bg-background">
             {children} 
           </div>          
         </Providers>

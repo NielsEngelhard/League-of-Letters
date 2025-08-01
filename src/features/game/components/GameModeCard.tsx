@@ -1,0 +1,49 @@
+import Button from "@/components/ui/Button";
+import Card from "@/components/ui/card/Card";
+import cn from "@/lib/cn";
+import { cva, VariantProps } from "class-variance-authority";
+import Link from "next/link";
+
+export interface Props extends VariantProps<typeof buttonVariants> {
+    title: string;
+    subTxt: string;
+    btnTxt: string;
+    href: string;
+    Icon: React.ElementType;
+    className?: string;
+}
+
+const buttonVariants = cva(
+  "",
+  {
+    variants: {
+      variant: {
+        primary: "bg-gradient-to-l from-primary to-primary/70 text-white",
+        secondary: "bg-gradient-to-r from-secondary to-secondary/60 text-white",
+      }
+    },
+    defaultVariants: {
+        variant: "primary"
+    }
+  }
+)
+
+export default function GameModeCard({ title, subTxt, btnTxt, href, Icon, variant, className }: Props) {
+    return (
+        <Card className="hover:scale-105">
+          <div className="w-full flex flex-col gap-3 items-center text-center justify-between h-full">
+            <div className={`w-12 md:w-16 h-12 md:h-16 bg-primary rounded-full flex items-center justify-center text-white ${cn(buttonVariants({ variant }), className)}`}>
+              <Icon LucideIcon={Icon} />
+            </div>
+
+            <div className="font-semibold text-2xl tracking-tight">{title}</div>
+
+            <div className="text-foreground-muted">{subTxt}</div>
+
+            <Link href={href} className="w-full">
+                <Button className={`w-full ${cn(buttonVariants({ variant }), className)}`}>{btnTxt}</Button>
+            </Link>
+          </div>
+        </Card>        
+    )
+}
