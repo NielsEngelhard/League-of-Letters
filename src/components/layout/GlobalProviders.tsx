@@ -1,5 +1,7 @@
 'use client';
 
+import { AuthProvider } from "@/features/auth/AuthContext";
+
 type Props = {
     children: React.ReactNode;
 }
@@ -7,8 +9,8 @@ type Props = {
 
 export function Providers({ children }: Props) {
   return (
-      <div>
-        {children}
-      </div>
+        <AuthProvider>
+          {children}
+        </AuthProvider>
   );
 }
