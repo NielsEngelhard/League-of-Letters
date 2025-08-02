@@ -1,4 +1,4 @@
-export type ValidatedLetter = {
+export type EvaluatedLetter = {
     position: number;
     letter: string;    
     state: LetterState;    
