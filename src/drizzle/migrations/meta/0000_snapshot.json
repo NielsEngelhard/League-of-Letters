@@ -1,11 +1,11 @@
 {
-  "id": "65a5b001-f8ee-46b0-b11f-2bce50f423db",
+  "id": "a8aba5bf-98d8-4d8f-af28-e15fc6ca6dff",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
-    "public.guest_session": {
-      "name": "guest_session",
+    "public.auth_session": {
+      "name": "auth_session",
       "schema": "",
       "columns": {
         "id": {
@@ -36,9 +36,224 @@
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false
+    },
+    "public.active_game": {
+      "name": "active_game",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "nRounds": {
+          "name": "nRounds",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "nGuessesPerRound": {
+          "name": "nGuessesPerRound",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 6
+        },
+        "gameMode": {
+          "name": "gameMode",
+          "type": "game_mode",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "wordLength": {
+          "name": "wordLength",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "currentRoundIndex": {
+          "name": "currentRoundIndex",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 1
+        },
+        "secretKey": {
+          "name": "secretKey",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.active_game_player": {
+      "name": "active_game_player",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "userId": {
+          "name": "userId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "gameId": {
+          "name": "gameId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "username": {
+          "name": "username",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "score": {
+          "name": "score",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "active_game_player_userId_auth_session_id_fk": {
+          "name": "active_game_player_userId_auth_session_id_fk",
+          "tableFrom": "active_game_player",
+          "tableTo": "auth_session",
+          "columnsFrom": [
+            "userId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "active_game_player_gameId_active_game_id_fk": {
+          "name": "active_game_player_gameId_active_game_id_fk",
+          "tableFrom": "active_game_player",
+          "tableTo": "active_game",
+          "columnsFrom": [
+            "gameId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.active_game_round": {
+      "name": "active_game_round",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "gameId": {
+          "name": "gameId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "roundNumber": {
+          "name": "roundNumber",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "currentGuessIndex": {
+          "name": "currentGuessIndex",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 1
+        },
+        "word": {
+          "name": "word",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "guesses": {
+          "name": "guesses",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'[]'::jsonb"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "active_game_round_gameId_active_game_id_fk": {
+          "name": "active_game_round_gameId_active_game_id_fk",
+          "tableFrom": "active_game_round",
+          "tableTo": "active_game",
+          "columnsFrom": [
+            "gameId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "active_game_round_gameId_roundNumber_unique": {
+          "name": "active_game_round_gameId_roundNumber_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "gameId",
+            "roundNumber"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
     }
   },
-  "enums": {},
+  "enums": {
+    "public.game_mode": {
+      "name": "game_mode",
+      "schema": "public",
+      "values": [
+        "solo",
+        "online"
+      ]
+    }
+  },
   "schemas": {},
   "sequences": {},
   "roles": {},
