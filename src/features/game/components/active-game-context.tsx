@@ -39,7 +39,7 @@ export function ActiveGameProvider({ children, game }: { children: ReactNode, ga
 
   // Check for existing session on mount
   useEffect(() => {
-    console.log("in active game context");
+    // console.log("in active game context");
   }, []);
 
   const getGameId = (): string | null => {

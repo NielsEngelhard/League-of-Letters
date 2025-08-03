@@ -9,7 +9,6 @@ interface Props {
 }
 
 export default function InGamePlayerCard({ player, scorePosition, isCurrentPlayer = false, isHisTurn }: Props) {
-    console.log(player);
     return (
         <div
             key={player.id}
