@@ -1,6 +1,6 @@
 "use client"
 
-import { PICK_GAME_MODE_ROUTE } from "@/app/routes";
+import { PICK_GAME_MODE_ROUTE, PROFILE_ROUTE } from "@/app/routes";
 import { useAuth } from "@/features/auth/AuthContext"
 import Link from "next/link";
 
@@ -20,10 +20,10 @@ export default function Header() {
 
                 {/* Right */}
                 { authSession ? (
-                    <div className="flex flex-col text-foreground-muted text-end">
+                    <Link href={PROFILE_ROUTE} className="flex flex-col text-foreground-muted text-end">
                         <div className="text-sm font-medium">{authSession.username}</div>
                         <div className="text-xs text-primary/50 font-bold">guest session</div>
-                    </div>
+                    </Link>
                 ) : (
                     <div className="text-sm text-foreground-muted">
                         

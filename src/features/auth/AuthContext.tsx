@@ -10,6 +10,7 @@ type AuthContextType = {
   authSession: AuthSessionModel | null;
   getOrCreateGuestAuthSession: () => Promise<AuthSessionModel>;
   getAuthSession: () => AuthSessionModel | null;
+  logout: () => void;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -72,8 +73,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return userFromLocalStorage;
   }
 
+  const logout = (): void => {
+    try {
+      localStorage.clear();
+    } finally {
+      setAuthSession(null);
+    }
+  }
+
   return (
-    <AuthContext.Provider value={{ authSession, getOrCreateGuestAuthSession, getAuthSession }}>
+    <AuthContext.Provider value={{ authSession, getOrCreateGuestAuthSession, getAuthSession, logout }}>
       {children}
     </AuthContext.Provider>
   );
