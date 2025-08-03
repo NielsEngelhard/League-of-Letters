@@ -1,5 +1,5 @@
 {
-  "id": "a8aba5bf-98d8-4d8f-af28-e15fc6ca6dff",
+  "id": "46ee4fcd-3e53-4025-8bce-3faed66c328b",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -23,6 +23,12 @@
         },
         "secretKey": {
           "name": "secretKey",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "createdAt": {
+          "name": "createdAt",
           "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
@@ -80,8 +86,8 @@
           "notNull": true,
           "default": 1
         },
-        "secretKey": {
-          "name": "secretKey",
+        "createdAt": {
+          "name": "createdAt",
           "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": true,
@@ -206,6 +212,13 @@
         },
         "guesses": {
           "name": "guesses",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'[]'::jsonb"
+        },
+        "evaluated_letters": {
+          "name": "evaluated_letters",
           "type": "jsonb",
           "primaryKey": false,
           "notNull": true,

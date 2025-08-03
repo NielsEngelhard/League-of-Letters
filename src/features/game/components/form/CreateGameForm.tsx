@@ -4,12 +4,15 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { GameMode } from "@/drizzle/schema"
 import Seperator from "@/components/ui/Seperator"
 import SelectDropdown from "@/components/ui/form/SelectInput"
+import Button from "@/components/ui/Button"
+import Icon from "@/components/ui/Icon"
+import { Play } from "lucide-react"
 
 interface Props {
-
+    onSubmit: (data: CreateGameSchema) => void;
 }
 
-export default function CreateGameForm() {
+export default function CreateGameForm({ onSubmit }: Props) {
 
     const form = useForm<CreateGameSchema>({
       resolver: zodResolver(createGameSchema),
@@ -20,10 +23,6 @@ export default function CreateGameForm() {
         gameMode: GameMode.Solo
       }
     })    
-
-    function onSubmit() {
-        console.log("submit");
-    }
 
     return (
         <form className="flex flex-col gap-3" onSubmit={form.handleSubmit(onSubmit)}>
@@ -58,7 +57,13 @@ export default function CreateGameForm() {
 
             <div className="text text-foreground-muted font-medium">
                 More settings coming soon...
-            </div>            
+            </div>
+
+            <Button variant="primary" type="submit">
+                <div className="flex items-center gap-1">
+                    <Icon LucideIcon={Play} size="sm" /> Start Game
+                </div>
+            </Button>            
         </form>
     )
 }

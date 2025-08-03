@@ -2,7 +2,8 @@ CREATE TYPE "public"."game_mode" AS ENUM('solo', 'online');--> statement-breakpo
 CREATE TABLE "auth_session" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"username" text NOT NULL,
-	"secretKey" timestamp with time zone DEFAULT now() NOT NULL
+	"secretKey" text NOT NULL,
+	"createdAt" timestamp with time zone DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "active_game" (
@@ -12,7 +13,7 @@ CREATE TABLE "active_game" (
 	"gameMode" "game_mode" NOT NULL,
 	"wordLength" integer NOT NULL,
 	"currentRoundIndex" integer DEFAULT 1 NOT NULL,
-	"secretKey" timestamp with time zone DEFAULT now() NOT NULL
+	"createdAt" timestamp with time zone DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "active_game_player" (
@@ -30,6 +31,7 @@ CREATE TABLE "active_game_round" (
 	"currentGuessIndex" integer DEFAULT 1 NOT NULL,
 	"word" jsonb NOT NULL,
 	"guesses" jsonb DEFAULT '[]'::jsonb NOT NULL,
+	"evaluated_letters" jsonb DEFAULT '[]'::jsonb NOT NULL,
 	CONSTRAINT "active_game_round_gameId_roundNumber_unique" UNIQUE("gameId","roundNumber")
 );
 --> statement-breakpoint

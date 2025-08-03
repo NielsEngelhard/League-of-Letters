@@ -2,7 +2,7 @@ import cn from "@/lib/cn";
 import { cva, VariantProps } from "class-variance-authority";
 import React from "react";
 
-export interface Props extends VariantProps<typeof buttonVariants> {
+export interface Props extends VariantProps<typeof buttonVariants>, Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'className'> {
     children: React.ReactNode;
     className?: string;
 }
@@ -29,9 +29,9 @@ const buttonVariants = cva(
   }
 )
 
-export default function Button({ children, className, variant, size }: Props) {
+export default function Button({ children, className, variant, size, ...props }: Props) {
     return (
-        <button className={cn(buttonVariants({ variant, size }), className)}>
+        <button className={cn(buttonVariants({ variant, size }), className)} {...props}>
             {children}
         </button>
     )
