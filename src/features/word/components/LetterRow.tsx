@@ -43,21 +43,47 @@ export default function LetterRow({ letters, animate = false }: Props) {
     }
 
     return (
-        <div className="flex flex-row gap-2">
+        <div className={`flex flex-row gap-2`}>
             {letters.map((item, index) => (
-                visibleTiles.includes(index)
-                ?
-                <LetterTile 
-                    key={index} 
-                    letter={item.letter} 
-                    state={item.state}
-                    correctAnimation={showCorrectAnimation}
-                />
-                :
-                <LetterTile 
-                    key={index} 
-                />               
+                <div 
+                    key={index}
+                    className={showCorrectAnimation ? 'animate-tile-celebration' : ''}
+                    style={{
+                        animationDelay: showCorrectAnimation ? `${index * 100}ms` : '0ms'
+                    }}
+                >
+                    {visibleTiles.includes(index)
+                    ?
+                    <LetterTile 
+                        letter={item.letter} 
+                        state={item.state}
+                    />
+                    :
+                    <LetterTile />               
+                    }
+                </div>
             ))}
+            
+            <style jsx>{`
+                @keyframes tile-celebration {
+                    0%, 100% {
+                        transform: translateY(0) scale(1) rotateZ(0deg);
+                    }
+                    25% {
+                        transform: translateY(-12px) scale(1.1) rotateZ(-2deg);
+                    }
+                    50% {
+                        transform: translateY(-8px) scale(1.05) rotateZ(1deg);
+                    }
+                    75% {
+                        transform: translateY(-4px) scale(1.02) rotateZ(-1deg);
+                    }
+                }
+                
+                .animate-tile-celebration {
+                    animation: tile-celebration 0.8s ease-out;
+                }
+            `}</style>
         </div>
     );
 }
