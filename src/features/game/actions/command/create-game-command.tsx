@@ -7,13 +7,13 @@ import { db } from "@/drizzle/db";
 import { ActiveGamePlayerTable, ActiveGameRoundTable, ActiveGameTable } from "@/drizzle/schema";
 import { GameRoundFactory } from "../../util/factories/game-round-factory";
 import { GamePlayerFactory } from "../../util/factories/game-player-factory";
+import GetAuthSessionBySecreyKeyRequest from "@/features/auth/actions/request/get-auth-session-by-secret-key";
 
 
-// TODO: make some sort of cookie that is sent along every time?
-export default async function CreateGameCommand(command: CreateGameSchema): Promise<string> {
-    // GET USER BASED ON COOKIE VALUE?
-
-    const userId = "TODO";
+export default async function CreateGameCommand(command: CreateGameSchema, secretKey: string): Promise<string> {
+    // TODO: refactor to use e.g. cookie for security
+    const authSession = await GetAuthSessionBySecreyKeyRequest(secretKey);
+    if (!authSession) throw Error("Could not authenticate user by secretkey");
 
     const words = await GetWordsCommand(command.wordLength, command.totalRounds, "nl");
 
@@ -34,7 +34,7 @@ export default async function CreateGameCommand(command: CreateGameSchema): Prom
         var rounds = GameRoundFactory.createDbRounds(words, gameId);
         await tx.insert(ActiveGameRoundTable).values(rounds);
 
-        var players = GamePlayerFactory.createGamePlayer(gameId, userId);
+        var players = GamePlayerFactory.createGamePlayer(gameId, authSession.id);
         await tx.insert(ActiveGamePlayerTable).values(players);
     });
 

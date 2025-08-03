@@ -9,6 +9,7 @@ const AUTH_SESSION_LOCALSTORAGE_KEY: string = "auth-session";
 type AuthContextType = {  
   authSession: AuthSessionModel | null;
   getOrCreateGuestAuthSession: () => Promise<AuthSessionModel>;
+  getAuthSession: () => AuthSessionModel | null;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -50,11 +51,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   const getOrCreateGuestAuthSession = async (): Promise<AuthSessionModel> => {
-    if (authSession) return authSession;
-
-    // Get from local storage
-    const userFromLocalStorage = getAuthSessionFromLocalStorage();
-    if (userFromLocalStorage != null) return userFromLocalStorage;
+    const existingAuthSession = getAuthSession();
+    if (existingAuthSession) return existingAuthSession;
 
     // Create and get from server
     const newAuthSession = await createAuthSessionOnServer();
@@ -66,8 +64,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return newAuthSession;
   }
 
+  const getAuthSession = (): AuthSessionModel | null => {
+    if (authSession) return authSession;
+
+    const userFromLocalStorage = getAuthSessionFromLocalStorage();
+
+    return userFromLocalStorage;
+  }
+
   return (
-    <AuthContext.Provider value={{ authSession, getOrCreateGuestAuthSession }}>
+    <AuthContext.Provider value={{ authSession, getOrCreateGuestAuthSession, getAuthSession }}>
       {children}
     </AuthContext.Provider>
   );
