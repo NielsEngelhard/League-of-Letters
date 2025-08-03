@@ -1,6 +1,6 @@
 import { timestamp, uuid } from "drizzle-orm/pg-core";
 
-export const id = uuid().primaryKey().defaultRandom();
+export const id = uuid().primaryKey().notNull().defaultRandom();
 export const createdAt = timestamp({ withTimezone: true })
     .notNull()
     .defaultNow();

@@ -37,7 +37,7 @@ export default function GameModeCard({ title, subTxt, btnTxt, href, Icon, varian
         <Card className="hover:scale-105">
           <div className="w-full flex flex-col gap-3 items-center text-center justify-between h-full">
             <div className={`w-12 md:w-16 h-12 md:h-16 rounded-full flex items-center justify-center text-white ${cn(buttonVariants({ variant }), className)}`}>
-              <Icon LucideIcon={Icon} />
+              <Icon />
             </div>
 
             <div className="font-semibold text-2xl tracking-tight">{title}</div>

@@ -7,9 +7,9 @@ import Card from "@/components/ui/card/Card";
 import Icon from "@/components/ui/Icon";
 import SubText from "@/components/ui/text/SubText";
 import Title from "@/components/ui/text/Title";
-import GameSettingsPicker from "@/features/game/settings/GameSettingsPicker";
 import { Play } from "lucide-react";
 import { PICK_GAME_MODE_ROUTE } from "../routes";
+import CreateGameForm from "@/features/game/components/form/CreateGameForm";
 
 export default function SoloPage() {
   return (
@@ -28,9 +28,8 @@ export default function SoloPage() {
           <SubText text="Customize your game" />          
         </div>
 
-        <GameSettingsPicker
+        <CreateGameForm />
         
-        />
       </Card>
 
       <Button variant="primary">

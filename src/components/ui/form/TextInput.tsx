@@ -37,7 +37,7 @@ const TextInput = React.forwardRef<HTMLInputElement, InputProps>(
                 className={`
                     ${centerText ? 'text-center' : ''}
                     ${errorMsg ? "border-error" : "border-border"}
-                    border px-3 py-2 text-sm rounded-md font-monos bg-background`}
+                    border px-3 py-2 text-sm rounded-md font-monos bg-background focus:border-primary/30 outline-none`}
                 type={type}
                 ref={ref}
                 onChange={handleChange}
