@@ -28,16 +28,18 @@ export default function GameBoard({  }: Props) {
     return (
         <div className="w-full flex flex-col items-center gap-6">
             <div className="flex flex-row justify-between w-full text-sm text-foreground-muted font-monos">
-                <div>
-                    Round {currentRoundIndex}/{totalRounds}
+                <div className="flex flex-col">
+                    <div>Round: {currentRoundIndex}/{totalRounds}</div>
+                    <div>Score: 100</div>
+                    <div>Time: ∞</div>
                 </div>
 
                 <div>
-                    Iets van een cirkel die indicate hoeveel tijd totdat volgende ronde bijv.
+                    {/* Iets van een cirkel die indicate hoeveel tijd totdat volgende ronde bijv. */}
                 </div>
 
                 <div>
-                    Unlimited time
+                    TODO: PLAYER LIST
                 </div>
             </div>
 
