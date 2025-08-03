@@ -9,7 +9,7 @@ export const ActiveGamePlayerTable = pgTable("active_game_player", {
     userId: uuid().references(() => AuthSessionTable.id, { onDelete: 'cascade' }).notNull(),
     gameId: text().references(() => ActiveGameTable.id, { onDelete: 'cascade' }).notNull(),
     username: text(),
-    score: integer().notNull().default(0)
+    score: integer().notNull().default(0),
 });
 
 export type DbActiveGamePlayer = InferSelectModel<typeof ActiveGamePlayerTable>;

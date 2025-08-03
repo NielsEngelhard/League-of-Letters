@@ -2,8 +2,7 @@ import { integer, jsonb, pgTable, text, unique } from "drizzle-orm/pg-core";
 import { InferSelectModel, relations } from "drizzle-orm";
 import { id } from "../schema-helpers";
 import { ActiveGameTable } from "./active-game";
-import { EvaluatedLetter, WordState } from "@/features/word/word-models";
-import { UserGuess } from "@/features/user/user-models";
+import { EvaluatedLetter, EvaluatedWord, WordState } from "@/features/word/word-models";
 
 export const ActiveGameRoundTable = pgTable("active_game_round", {
     id,
@@ -11,7 +10,7 @@ export const ActiveGameRoundTable = pgTable("active_game_round", {
     roundNumber: integer().notNull(),
     currentGuessIndex: integer().notNull().default(1),
     word: jsonb('word').$type<WordState>().notNull(),
-    guesses: jsonb('guesses').$type<UserGuess[]>().notNull().default([]),
+    guesses: jsonb('guesses').$type<EvaluatedWord[]>().notNull().default([]),
     evaluatedLetters: jsonb('evaluated_letters').$type<EvaluatedLetter[]>().notNull().default([]),
 }, (t) => [
   unique().on(t.gameId, t.roundNumber)
