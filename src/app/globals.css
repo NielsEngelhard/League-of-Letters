@@ -5,6 +5,7 @@
   --color-secondary: var(--secondary);
   --color-accent: var(--accent);
   --color-background: var(--background);
+  --color-background-secondary: var(--background-secondary);
   --color-foreground: var(--foreground);
   --color-foreground-muted: var(--foreground-muted);
   --color-border: var(--border);
@@ -18,8 +19,8 @@
 /* Default/Light */
 :root {
   --background: #FAFAF9;
-  --background-seconary: "#FFFFFF";
-  --foreground: #020817;
+  --background-secondary: #FFFFFF;
+  --foreground: #364153;
   --foreground-muted: #9CA3B0;
   --primary: #155dfc;
   --secondary: #9810fa;

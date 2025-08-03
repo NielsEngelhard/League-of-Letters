@@ -32,4 +32,5 @@ export interface ActiveGamePlayerModel {
     id: string;
     username: string;
     score: number;
+    isConnected?: boolean;
 }

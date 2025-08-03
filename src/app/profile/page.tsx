@@ -38,8 +38,8 @@ export default function ProfilePage() {
                             </span>
                         </div>
                         {/* Online status */}
-                        <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-green-400 rounded-full border-4 border-white shadow-sm">
-                            <div className="w-full h-full bg-green-400 rounded-full animate-pulse" />
+                        <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-success rounded-full border-4 border-white shadow-sm">
+                            <div className="w-full h-full bg-success rounded-full animate-pulse" />
                         </div>
                         {/* Decorative ring */}
                         <div className="absolute inset-0 rounded-full border-2 border-blue-200 animate-ping opacity-20" />

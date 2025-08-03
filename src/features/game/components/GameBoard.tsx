@@ -27,9 +27,9 @@ export default function GameBoard({}: Props) {
 
     // Mock players data - replace with actual players from context
     const mockPlayers = [
-        { id: "1", username: "You", score: 100, isCurrentPlayer: true },
-        { id: "2", username: "Player2", score: 85, isCurrentPlayer: false },
-        { id: "3", username: "Player3", score: 92, isCurrentPlayer: false },
+        { id: "1", username: "You", score: 100, isCurrentPlayer: true, isConnected: true  },
+        { id: "2", username: "Player2", score: 85, isCurrentPlayer: false, isConnected: false },
+        { id: "3", username: "Player3", score: 92, isCurrentPlayer: false, isConnected: true },
     ];
 
     return (
@@ -42,7 +42,7 @@ export default function GameBoard({}: Props) {
             {/* Players List */}
             <PlayerList
                 players={mockPlayers}
-                currentPlayerId={mockPlayers[0].id}
+                currentPlayerId={mockPlayers[0].id}               
             />
 
             {/* Game Grid */}
