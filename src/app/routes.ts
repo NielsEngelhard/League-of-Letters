@@ -4,5 +4,5 @@ export const MULTIPLAYER_GAME_ROUTE = "/online";
 export const CREATE_MULTIPLAYER_GAME_ROUTE = "/online/create";
 
 export const PLAY_GAME_ROUTE = (gameId: string): string => {
-    return `/play/${gameId}`;
+    return `/game/${gameId}`;
 }

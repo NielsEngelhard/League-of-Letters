@@ -11,6 +11,11 @@ export enum LetterState {
   Unguessed = "unguessed",
 }
 
+export interface EvaluatedWord {
+    position: number;
+    evaluatedLetters: EvaluatedLetter[];
+}
+
 export interface WordState {
     word: string;
     letterStates: WordLetterState[];
