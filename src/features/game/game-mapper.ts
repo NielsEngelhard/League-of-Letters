@@ -6,7 +6,8 @@ export class GameMapper {
         return {
             id: game.id,
             currentRound: game.currentRoundIndex,
-            wordLength: game.wordLength
+            wordLength: game.wordLength,
+            totalRounds: game.nRounds
         }
     }
 }

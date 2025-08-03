@@ -20,7 +20,7 @@ export default function GameBoard({  }: Props) {
         <div className="w-full flex flex-col items-center gap-6">
             <div className="flex flex-row justify-between w-full text-sm text-foreground-muted font-monos">
                 <div>
-                    Round 1/3
+                    Round {activeGame.currentRound}/{activeGame.totalRounds}
                 </div>
 
                 <div>
