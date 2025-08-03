@@ -5,6 +5,7 @@ import PageBase from "@/components/layout/PageBase";
 import { GetActiveGameByIdRequest } from "@/features/game/actions/query/get-active-game-by-id-request";
 import { ActiveGameProvider } from "@/features/game/components/active-game-context";
 import GameBoard from "@/features/game/components/GameBoard";
+import Ingame from "@/features/game/components/InGame";
 import { ActiveGameModel } from "@/features/game/game-models";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -37,9 +38,7 @@ export default function GamePage() {
         <PageBase>
             {game ? (
                 <ActiveGameProvider game={game}>
-                    <GameBoard>
-                
-                    </GameBoard>
+                    <Ingame />
                 </ActiveGameProvider>
             ): (
                 <div>no game</div>

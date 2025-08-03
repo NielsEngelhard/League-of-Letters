@@ -13,6 +13,8 @@ type ActiveGameContextType = {
   wordLength: number;
   currentRound: ActiveGameRoundModel;
   maxAttemptsPerRound: number;
+  ended: boolean;
+  players: ActiveGamePlayerModel[];
 };
 
 const ActiveGameContext = createContext<ActiveGameContextType | undefined>(undefined);
@@ -24,6 +26,7 @@ export function ActiveGameProvider({ children, game }: { children: ReactNode, ga
     const [currentGuessIndex, setCurrentGuessIndex] = useState(currentRound.currentGuessIndex);
     const [theWord, setTheWord] = useState<string | undefined>(undefined);
     const [players, setPlayers] = useState<ActiveGamePlayerModel[]>(game.players);
+    const [ended, setEnded] = useState(false);
 
     const gameId = game.id;
     const totalRounds =  game.totalRounds;
@@ -92,7 +95,8 @@ export function ActiveGameProvider({ children, game }: { children: ReactNode, ga
   }
 
     function triggerEndOfGame() {
-      console.log("TRIGGER END GAME");
+      debugger;
+      setEnded(true);
     }  
 
     function triggerNextRound() {
@@ -113,7 +117,7 @@ export function ActiveGameProvider({ children, game }: { children: ReactNode, ga
     }  
 
   return (
-    <ActiveGameContext.Provider value={{ getGameId, submitGuess, currentRoundIndex, totalRounds, currentRound, maxAttemptsPerRound, wordLength }}>
+    <ActiveGameContext.Provider value={{ getGameId, submitGuess, currentRoundIndex, totalRounds, currentRound, maxAttemptsPerRound, wordLength, ended, players }}>
       {children}
     </ActiveGameContext.Provider>
   );

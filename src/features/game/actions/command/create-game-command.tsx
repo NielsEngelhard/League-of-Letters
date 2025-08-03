@@ -34,7 +34,7 @@ export default async function CreateGameCommand(command: CreateGameSchema, secre
         var rounds = GameRoundFactory.createDbRounds(words, gameId);
         await tx.insert(ActiveGameRoundTable).values(rounds);
 
-        var players = GamePlayerFactory.createGamePlayer(gameId, authSession.id);
+        var players = GamePlayerFactory.createGamePlayer(gameId, authSession.id, authSession.username);
         await tx.insert(ActiveGamePlayerTable).values(players);
     });
 
