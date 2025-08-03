@@ -95,7 +95,6 @@ export function ActiveGameProvider({ children, game }: { children: ReactNode, ga
   }
 
     function triggerEndOfGame() {
-      debugger;
       setEnded(true);
     }  
 
