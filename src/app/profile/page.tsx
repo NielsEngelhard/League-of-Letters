@@ -65,7 +65,7 @@ export default function ProfilePage() {
                         {/* Header */}
                         <div className="px-6 py-4 bg-gradient-to-r from-gray-50 to-slate-50 border-b border-gray-100">
                             <div className="flex items-center gap-2">
-                                <div className="w-2 h-2 bg-blue-500 rounded-full animate-pulse" />
+                                <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
                                 <h2 className="text-lg font-semibold text-gray-900">Profile Information</h2>
                             </div>
                         </div>

@@ -38,7 +38,7 @@ export default function PlayerList({ players, currentPlayerId }: Props) {
                                 <div className="flex items-center gap-2">
                                     <div className={`
                                         w-2 h-2 rounded-full
-                                        ${isCurrentPlayer(player) ? "bg-blue-500 animate-pulse" : "bg-green-400"}
+                                        ${isCurrentPlayer(player) ? "bg-primary animate-pulse" : "bg-green-400"}
                                     `} />
                                     <span className={`
                                         text-sm font-medium truncate
