@@ -36,6 +36,7 @@ export default function PlayerList({ players, currentPlayerId }: Props) {
                             scorePosition={index + 1}
                             isHisTurn={player.id == currentPlayerId}
                             key={index}
+                            isOnlyPlayer={players.length == 1}
                         />
                     ))}
                 </div>
