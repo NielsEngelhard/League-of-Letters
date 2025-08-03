@@ -1,6 +1,8 @@
 "use client"
 
+import { PICK_GAME_MODE_ROUTE } from "@/app/routes";
 import { useAuth } from "@/features/auth/AuthContext"
+import Link from "next/link";
 
 export default function Header() {
     const { authSession } = useAuth();
@@ -9,12 +11,12 @@ export default function Header() {
         <header className="w-full h-[60px] bg-background fixed flex flex-row justify-center border-b-2 border-border">
             <div className="flex flex-row justify-between max-w-2xl px-2 w-full items-center h-full">
                 {/* Left */}
-                <div className="text-xs">
+                <Link href={PICK_GAME_MODE_ROUTE}>
                     <img
                         src="/logo.png"
                         className="h-[40px] w-auto object-contain"
                     />
-                </div>
+                </Link>
 
                 {/* Right */}
                 { authSession ? (
