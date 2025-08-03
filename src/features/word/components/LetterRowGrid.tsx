@@ -16,7 +16,7 @@ export default function LetterRowGrid({ preFilledRows, maxNGuesses, wordLength, 
         return (
             <>
                 {preFilledRows.map((value, i) => (
-                    <LetterRow key={`guess-${i}`} letters={value.evaluatedLetters} animate={maxNGuesses-1 == i} />
+                    <LetterRow key={`guess-${i}`} letters={value.evaluatedLetters} animate={preFilledRows.length-1 == i} />
                 ))}
             </>
         )

@@ -7,7 +7,7 @@ import { LETTER_ANIMATION_TIME_MS, TIME_BETWEEN_ROUNDS_MS } from '../game-consta
 
 type ActiveGameContextType = {  
   getGameId: () => string | null;
-  submitGuess: (guess: string, secretKey: string) => void;
+  submitGuess: (guess: string, secretKey: string) => Promise<void>;
   currentRoundIndex: number;
   totalRounds: number;
   wordLength: number;
@@ -41,7 +41,7 @@ export function ActiveGameProvider({ children, game }: { children: ReactNode, ga
     return null;
   }
 
-  async function submitGuess(guess: string, secretKey: string) {
+  async function submitGuess(guess: string, secretKey: string): Promise<void> {
     if (guess.length != wordLength) return;
 
     const response = await GuessWordCommand({

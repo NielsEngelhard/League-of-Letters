@@ -8,20 +8,18 @@ interface Props {
     currentGuess: string;
     theWord?: string | undefined | null;
     disabled?: boolean;
-    maxLength: number;
+    wordLength: number;
     onChange: (value: string) => void;
     onEnter: () => void;
 }
 
-export default function WordInput({ theWord, currentGuess, onEnter, onChange, maxLength, disabled = false }: Props) {
-    const { activeGame } = useActiveGame();
-
+export default function WordInput({ theWord, currentGuess, onEnter, onChange, wordLength, disabled = false }: Props) {
     function onInputChange(event: React.ChangeEvent<HTMLInputElement>) {
         onChange(event.target.value);
     }
 
     function onKeyPress(keyboardKey: string) {
-        if (currentGuess.length >= activeGame.wordLength) return;
+        if (currentGuess.length >= wordLength) return;
 
         onChange(currentGuess + keyboardKey);
     }
@@ -55,7 +53,7 @@ export default function WordInput({ theWord, currentGuess, onEnter, onChange, ma
             <TextInput
                 disabled={disabled}
                 value={currentGuess}
-                maxLength={maxLength}
+                maxLength={wordLength}
                 centerText={true}
                 className="!font-monos flex items-center"
                 placeholder="Enter your guess ..."

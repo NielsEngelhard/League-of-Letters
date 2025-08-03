@@ -15,9 +15,14 @@ export default function GameBoard({  }: Props) {
     const [currentGuess, setCurrentGuess] = useState<string>("");
 
     async function onSubmitGuess() {
-        await submitGuess(currentGuess, authSession?.secretKey ?? "??");
-
-        console.log("SUBMIT guess");
+        setCanGuess(false);
+        submitGuess(currentGuess, authSession?.secretKey ?? "??")
+        .then(() => {
+            setCurrentGuess("");
+        })
+        .finally(() => {
+            setCanGuess(true);
+        })
     }
 
     return (
@@ -25,6 +30,10 @@ export default function GameBoard({  }: Props) {
             <div className="flex flex-row justify-between w-full text-sm text-foreground-muted font-monos">
                 <div>
                     Round {currentRoundIndex}/{totalRounds}
+                </div>
+
+                <div>
+                    Iets van een cirkel die indicate hoeveel tijd totdat volgende ronde bijv.
                 </div>
 
                 <div>
@@ -41,7 +50,7 @@ export default function GameBoard({  }: Props) {
 
             <ActiveGameWordInput
                 currentGuess={currentGuess}
-                maxLength={wordLength}
+                wordLength={wordLength}
                 onChange={setCurrentGuess}
                 onEnter={onSubmitGuess}
                 disabled={!canGuess}                   
