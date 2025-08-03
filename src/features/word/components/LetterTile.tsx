@@ -4,6 +4,7 @@ import { LetterState } from "../word-models";
 interface Props extends VariantProps<typeof variants> {
     state?: LetterState;
     letter?: string;
+    animate?: boolean;
 }
 
 const variants = cva(
@@ -18,9 +19,10 @@ const variants = cva(
     }
 )
 
-export default function LetterTile({ state, letter, variant = "default" }: Props) {
+export default function LetterTile({ state, letter, animate = false, variant = "default" }: Props) {
     return (
         <div className={`${variants({ variant })} rounded-md flex items-center justify-center
+             ${animate ? "animate-tile-entrance" : ""}         
              ${state == LetterState.Correct ? 'bg-success text-white' : ''}
              ${state == LetterState.Wrong ? 'bg-error text-white' : ''}
              ${state == LetterState.Misplaced ? 'bg-warning text-white' : ''}

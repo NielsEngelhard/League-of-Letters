@@ -57,6 +57,7 @@ export default function LetterRow({ letters, animate = false }: Props) {
                     <LetterTile 
                         letter={item.letter} 
                         state={item.state}
+                        animate={animate}
                     />
                     :
                     <LetterTile />               
