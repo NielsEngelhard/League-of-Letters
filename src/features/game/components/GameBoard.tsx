@@ -2,17 +2,21 @@ import LetterRowGrid from "@/features/word/components/LetterRowGrid";
 import ActiveGameWordInput from "./ActiveGameWordInput";
 import { useActiveGame } from "./active-game-context";
 import { useState } from "react";
+import { useAuth } from "@/features/auth/AuthContext";
 
 interface Props {
 
 }
 
 export default function GameBoard({  }: Props) {
-    const { activeGame } = useActiveGame();
+    const { currentRoundIndex, totalRounds, submitGuess, wordLength, currentRound, maxAttemptsPerRound } = useActiveGame();
+    const { authSession } = useAuth();
     const [canGuess, setCanGuess] = useState(true);
     const [currentGuess, setCurrentGuess] = useState<string>("");
 
-    function onSubmitGuess() {
+    async function onSubmitGuess() {
+        await submitGuess(currentGuess, authSession?.secretKey ?? "??");
+
         console.log("SUBMIT guess");
     }
 
@@ -20,7 +24,7 @@ export default function GameBoard({  }: Props) {
         <div className="w-full flex flex-col items-center gap-6">
             <div className="flex flex-row justify-between w-full text-sm text-foreground-muted font-monos">
                 <div>
-                    Round {activeGame.currentRound}/{activeGame.totalRounds}
+                    Round {currentRoundIndex}/{totalRounds}
                 </div>
 
                 <div>
@@ -30,14 +34,14 @@ export default function GameBoard({  }: Props) {
 
             <LetterRowGrid
                 currentGuess={currentGuess}
-                maxNGuesses={4}
-                preFilledRows={[]}
-                wordLength={6}                
+                maxNGuesses={maxAttemptsPerRound}
+                preFilledRows={currentRound.guesses}
+                wordLength={wordLength}                
             />
 
             <ActiveGameWordInput
                 currentGuess={currentGuess}
-                maxLength={activeGame.wordLength}
+                maxLength={wordLength}
                 onChange={setCurrentGuess}
                 onEnter={onSubmitGuess}
                 disabled={!canGuess}                   

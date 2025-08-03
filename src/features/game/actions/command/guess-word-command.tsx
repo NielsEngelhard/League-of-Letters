@@ -11,7 +11,7 @@ import { ScoreCalculator } from "@/features/score/score-calculator";
 import DeleteGameByIdCommand from "./delete-game-by-id-command";
 import { and, eq } from "drizzle-orm";
 
-export interface GuessWordCommand {
+export interface GuessWordCommandInput {
     gameId: string;
     word: string;
     secretKey: string;
@@ -25,7 +25,7 @@ export interface GuessWordResponse {
     roundTransitionData?: RoundTransitionData;
 }
 
-export default async function GuessWordCommand(command: GuessWordCommand): Promise<GuessWordResponse> {    
+export async function GuessWordCommand(command: GuessWordCommandInput): Promise<GuessWordResponse> {    
     const game = await getGame(command.gameId);
     
     let currentPlayer = getCurrentPlayer(game);

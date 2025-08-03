@@ -3,7 +3,7 @@
 import { PICK_GAME_MODE_ROUTE } from "@/app/routes";
 import PageBase from "@/components/layout/PageBase";
 import { GetActiveGameByIdRequest } from "@/features/game/actions/query/get-active-game-by-id-request";
-import { ActiveGameProvider, useActiveGame } from "@/features/game/components/active-game-context";
+import { ActiveGameProvider } from "@/features/game/components/active-game-context";
 import GameBoard from "@/features/game/components/GameBoard";
 import { ActiveGameModel } from "@/features/game/game-models";
 import { useParams, useRouter } from "next/navigation";
@@ -36,7 +36,7 @@ export default function GamePage() {
     return (
         <PageBase>
             {game ? (
-                <ActiveGameProvider _activeGame={game}>
+                <ActiveGameProvider game={game}>
                     <GameBoard>
                 
                     </GameBoard>
