@@ -65,16 +65,6 @@ export default function GameBoard({}: Props) {
                     disabled={!canGuess}
                 />
             </div>
-
-            {/* Game Status Indicator */}
-            <div className="flex items-center gap-2 text-xs text-gray-500">
-                <div className="flex items-center gap-1">
-                    <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></div>
-                    <span>Game Active</span>
-                </div>
-                <span>•</span>
-                <span>Attempt {currentRound.guesses?.length || 0}/{maxAttemptsPerRound}</span>
-            </div>
         </div>
     );
 }
