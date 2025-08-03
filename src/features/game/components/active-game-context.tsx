@@ -1,16 +1,19 @@
 'use client';
 
 import { createContext, useState, useEffect, ReactNode, useContext } from 'react';
+import { ActiveGameModel } from '../game-models';
 
 const ACTIVE_GAME_ID_LOCALSTORAGE_KEY: string = "active-game-id";
 
 type ActiveGameContextType = {  
+  activeGame: ActiveGameModel;
   getGameId: () => string | null;
 };
 
 const ActiveGameContext = createContext<ActiveGameContextType | undefined>(undefined);
 
-export function ActiveGameProvider({ children }: { children: ReactNode }) {
+export function ActiveGameProvider({ children, _activeGame }: { children: ReactNode, _activeGame: ActiveGameModel }) {
+  const [activeGame, setActiveGame] = useState<ActiveGameModel>(_activeGame);
   const [gameId, setGameId] = useState<string | null>(null);
 
   // Check for existing session on mount
@@ -23,7 +26,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
   }
 
   return (
-    <ActiveGameContext.Provider value={{ getGameId }}>
+    <ActiveGameContext.Provider value={{ getGameId, activeGame }}>
       {children}
     </ActiveGameContext.Provider>
   );
