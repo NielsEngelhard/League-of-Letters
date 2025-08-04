@@ -1,0 +1,71 @@
+const express = require('express');
+const { createServer } = require('http');
+const { Server } = require('socket.io');
+const cors = require('cors');
+
+const app = express();
+const server = createServer(app);
+
+// Configure CORS for Socket.io
+const io = new Server(server, {
+  cors: {
+    origin: process.env.CLIENT_URL || "http://localhost:3000", // Your Next.js app URL
+    methods: ["GET", "POST"],
+    credentials: true
+  }
+});
+
+// Middleware
+app.use(cors({
+  origin: process.env.CLIENT_URL || "http://localhost:3000",
+  credentials: true
+}));
+
+app.use(express.json());
+
+// Basic HTTP endpoint for health checks
+app.get('/health', (req, res) => {
+  res.json({ status: 'WebSocket server is running', timestamp: new Date().toISOString() });
+});
+
+// Socket.io connection handling
+io.on('connection', (socket) => {
+  console.log(`User connected: ${socket.id}`);
+
+  // USER ACTIONS --------------------------------------------------------------------
+  socket.on('join-game', (room) => {
+    socket.join(room);
+    console.log(`User ${socket.id} joined room: ${room}`);
+    socket.to(room).emit('user-joined', { userId: socket.id, room });
+  });
+
+  socket.on('leave-game', (room) => {
+    socket.leave(room);
+    console.log(`User ${socket.id} left room: ${room}`);
+    socket.to(room).emit('user-left', { userId: socket.id, room });
+  });
+  // END USER ACTIONS --------------------------------------------------------------------
+
+  // GENERAL ACTIONS ----------------------------------------------------------------------
+  socket.on('disconnect', () => {
+    console.log(`User disconnected: ${socket.id}`);
+  });
+
+  socket.on('error', (error) => {
+    console.error(`Socket error for ${socket.id}:`, error);
+  });
+
+  // END GENERAL ACTIONS -------------------------------------------------------------------
+});
+
+// Error handling for the server
+server.on('error', (error) => {
+  console.error('Server error:', error);
+});
+
+// Start the server
+const PORT = process.env.PORT || 3001;
+server.listen(PORT, () => {
+  console.log(`WebSocket server running on port ${PORT}`);
+  console.log(`Health check available at http://localhost:${PORT}/health`);
+});
