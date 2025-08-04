@@ -33,10 +33,10 @@ io.on('connection', (socket) => {
   console.log(`User connected: ${socket.id}`);
 
   // USER ACTIONS --------------------------------------------------------------------
-  socket.on('join-game', (room) => {
-    socket.join(room);
-    console.log(`User ${socket.id} joined room: ${room}`);
-    socket.to(room).emit('user-joined', { userId: socket.id, room });
+  socket.on('join-game', ({ gameId, username, userId}) => {
+    socket.join(gameId);
+    console.log(`User ${socket.id} joined room: ${gameId} ${username} ${userId}`);
+    // socket.to(room).emit('user-joined', { userId: username, gameId });
   });
 
   socket.on('leave-game', (room) => {
