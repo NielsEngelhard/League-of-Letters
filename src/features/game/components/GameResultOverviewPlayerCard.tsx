@@ -1,8 +1,8 @@
 import Card from "@/components/ui/card/Card";
-import { ActiveGamePlayerModel } from "../game-models";
+import { GamePlayerModel } from "../game-models";
 
 interface Props {
-    player: ActiveGamePlayerModel;
+    player: GamePlayerModel;
     position: number;
     isWinner?: boolean;
     isLoser?: boolean;

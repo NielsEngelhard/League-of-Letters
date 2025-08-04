@@ -1,5 +1,5 @@
 {
-  "id": "1afa1f5e-ea4c-49e4-aa83-e60edf4a6d6c",
+  "id": "fa6281c8-c664-43ed-bce8-a556afc5f82c",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -102,8 +102,8 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.active_game_player": {
-      "name": "active_game_player",
+    "public.game_player": {
+      "name": "game_player",
       "schema": "",
       "columns": {
         "id": {
@@ -123,7 +123,13 @@
           "name": "gameId",
           "type": "text",
           "primaryKey": false,
-          "notNull": true
+          "notNull": false
+        },
+        "lobbyId": {
+          "name": "lobbyId",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
         },
         "username": {
           "name": "username",
@@ -141,9 +147,9 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "active_game_player_userId_auth_session_id_fk": {
-          "name": "active_game_player_userId_auth_session_id_fk",
-          "tableFrom": "active_game_player",
+        "game_player_userId_auth_session_id_fk": {
+          "name": "game_player_userId_auth_session_id_fk",
+          "tableFrom": "game_player",
           "tableTo": "auth_session",
           "columnsFrom": [
             "userId"
@@ -154,12 +160,25 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "active_game_player_gameId_active_game_id_fk": {
-          "name": "active_game_player_gameId_active_game_id_fk",
-          "tableFrom": "active_game_player",
+        "game_player_gameId_active_game_id_fk": {
+          "name": "game_player_gameId_active_game_id_fk",
+          "tableFrom": "game_player",
           "tableTo": "active_game",
           "columnsFrom": [
             "gameId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
+        "game_player_lobbyId_online_lobby_id_fk": {
+          "name": "game_player_lobbyId_online_lobby_id_fk",
+          "tableFrom": "game_player",
+          "tableTo": "online_lobby",
+          "columnsFrom": [
+            "lobbyId"
           ],
           "columnsTo": [
             "id"
@@ -174,8 +193,8 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
-    "public.active_game_round": {
-      "name": "active_game_round",
+    "public.game_round": {
+      "name": "game_round",
       "schema": "",
       "columns": {
         "id": {
@@ -227,9 +246,9 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "active_game_round_gameId_active_game_id_fk": {
-          "name": "active_game_round_gameId_active_game_id_fk",
-          "tableFrom": "active_game_round",
+        "game_round_gameId_active_game_id_fk": {
+          "name": "game_round_gameId_active_game_id_fk",
+          "tableFrom": "game_round",
           "tableTo": "active_game",
           "columnsFrom": [
             "gameId"
@@ -243,8 +262,8 @@
       },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
-        "active_game_round_gameId_roundNumber_unique": {
-          "name": "active_game_round_gameId_roundNumber_unique",
+        "game_round_gameId_roundNumber_unique": {
+          "name": "game_round_gameId_roundNumber_unique",
           "nullsNotDistinct": false,
           "columns": [
             "gameId",
@@ -252,6 +271,52 @@
           ]
         }
       },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.online_lobby": {
+      "name": "online_lobby",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "userHostId": {
+          "name": "userHostId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "online_lobby_userHostId_auth_session_id_fk": {
+          "name": "online_lobby_userHostId_auth_session_id_fk",
+          "tableFrom": "online_lobby",
+          "tableTo": "auth_session",
+          "columnsFrom": [
+            "userHostId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
       "policies": {},
       "checkConstraints": {},
       "isRLSEnabled": false

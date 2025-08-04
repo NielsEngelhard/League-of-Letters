@@ -1,13 +1,13 @@
 import { Router, Unplug } from "lucide-react";
-import { ActiveGamePlayerModel } from "../game-models";
+import { GamePlayerModel } from "../game-models";
 
 interface Props {
-    players: ActiveGamePlayerModel[];
+    players: GamePlayerModel[];
 }
 
 export default function GameConnectionStatusIndicator({ players }: Props) {
 
-    const disconnectedPlayers: ActiveGamePlayerModel[] = players.filter(p => p.isConnected == false);
+    const disconnectedPlayers: GamePlayerModel[] = players.filter(p => p.isConnected == false);
 
     return (
         <div className="font-semibold text-xs flex flex-row gap-2">

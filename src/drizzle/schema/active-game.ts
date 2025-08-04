@@ -2,8 +2,8 @@ import { integer, pgTable, text } from "drizzle-orm/pg-core";
 import { createdAt } from "../schema-helpers";
 import { InferSelectModel, relations } from "drizzle-orm";
 import { gameModeEnum } from "./enum/game-mode";
-import { DbActiveGameRound, ActiveGameRoundTable } from "./active-game-round";
-import { ActiveGamePlayerTable, DbActiveGamePlayer } from "./active-game-player";
+import { DbGameRound, GameRoundTable } from "./game-round";
+import { GamePlayerTable, DbGamePlayer } from "./game-player";
 
 export const ActiveGameTable = pgTable("active_game", {
     id: text().primaryKey(),        
@@ -17,11 +17,11 @@ export const ActiveGameTable = pgTable("active_game", {
 export type DbActiveGame = InferSelectModel<typeof ActiveGameTable>;
 
 export type DbActiveGameWithRoundsAndPlayers = DbActiveGame & {
-  rounds: DbActiveGameRound[];
-  players: DbActiveGamePlayer[];
+  rounds: DbGameRound[];
+  players: DbGamePlayer[];
 };
 
 export const gameRelations = relations(ActiveGameTable, ({ many }) => ({
-  rounds: many(ActiveGameRoundTable),
-  players: many(ActiveGamePlayerTable)
+  rounds: many(GameRoundTable),
+  players: many(GamePlayerTable)
 }));

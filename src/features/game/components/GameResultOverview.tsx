@@ -1,5 +1,5 @@
 import Card from "@/components/ui/card/Card";
-import { ActiveGamePlayerModel } from "../game-models";
+import { GamePlayerModel } from "../game-models";
 import Title from "@/components/ui/text/Title";
 import SubText from "@/components/ui/text/SubText";
 import GameResultOverviewPlayerCard from "./GameResultOverviewPlayerCard";
@@ -9,7 +9,7 @@ import { PICK_GAME_MODE_ROUTE, SOLO_GAME_ROUTE } from "@/app/routes";
 import { useRouter } from "next/navigation";
 
 interface Props {
-    players: ActiveGamePlayerModel[];
+    players: GamePlayerModel[];
 }
 
 export default function GameResultOverview({ players }: Props) {

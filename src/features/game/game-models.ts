@@ -9,8 +9,8 @@ export interface ActiveGameModel {
     nGuessesPerRound: number;
     gameMode: GameMode;
     createdAt: Date;
-    rounds: ActiveGameRoundModel[];
-    players: ActiveGamePlayerModel[];
+    rounds: GameRoundModel[];
+    players: GamePlayerModel[];
 }
 
 // Data that is send when the current round has ended
@@ -20,7 +20,7 @@ export interface RoundTransitionData {
     nextRoundFirstLetter?: string;    
 }
 
-export interface ActiveGameRoundModel {
+export interface GameRoundModel {
     id: string;
     roundNumber: number;
     currentGuessIndex: number;
@@ -28,7 +28,7 @@ export interface ActiveGameRoundModel {
     guessedLetters: EvaluatedLetter[];    
 }
 
-export interface ActiveGamePlayerModel {
+export interface GamePlayerModel {
     id: string;
     username: string;
     score: number;

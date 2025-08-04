@@ -1,5 +1,5 @@
-import { DbActiveGamePlayer, DbActiveGameRound, DbActiveGameWithRoundsAndPlayers } from "@/drizzle/schema";
-import { ActiveGameModel, ActiveGamePlayerModel, ActiveGameRoundModel } from "./game-models";
+import { DbGamePlayer, DbGameRound, DbActiveGameWithRoundsAndPlayers } from "@/drizzle/schema";
+import { ActiveGameModel, GamePlayerModel, GameRoundModel } from "./game-models";
 
 export class GameMapper {
     static ActiveGameToModel(game: DbActiveGameWithRoundsAndPlayers): ActiveGameModel {
@@ -12,15 +12,15 @@ export class GameMapper {
             gameMode: game.gameMode,
             createdAt: game.createdAt,
             rounds: game.rounds.map((round) => {
-                return GameMapper.ActiveGameRoundToModel(round);
+                return GameMapper.GameRoundToModel(round);
             }),
             players: game.players.map((player) => {
-                return GameMapper.ActiveGamePlayerToModel(player);
+                return GameMapper.GamePlayerToModel(player);
             }),
         }
     }
 
-    static ActiveGamePlayerToModel(player: DbActiveGamePlayer): ActiveGamePlayerModel {
+    static GamePlayerToModel(player: DbGamePlayer): GamePlayerModel {
         return {
             id: player.userId,
             score: player.score,
@@ -28,7 +28,7 @@ export class GameMapper {
         }
     }
 
-    static ActiveGameRoundToModel(round: DbActiveGameRound): ActiveGameRoundModel {
+    static GameRoundToModel(round: DbGameRound): GameRoundModel {
         return {
             id: round.id,
             roundNumber: round.roundNumber,

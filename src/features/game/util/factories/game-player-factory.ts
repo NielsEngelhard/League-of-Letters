@@ -1,8 +1,8 @@
-import { DbActiveGamePlayer } from "@/drizzle/schema";
+import { DbGamePlayer } from "@/drizzle/schema";
 import {v4 as uuid} from 'uuid';
 
 export class GamePlayerFactory {
-    static createGamePlayer(gameId: string, userId: string, username: string | null = null): DbActiveGamePlayer {
+    static createGamePlayer(gameId: string, userId: string, username: string | null = null): DbGamePlayer {
         return {
             id: uuid(),
             gameId: gameId,

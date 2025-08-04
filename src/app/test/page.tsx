@@ -2,11 +2,11 @@
 
 import PageBase from "@/components/layout/PageBase";
 import GameResultOverview from "@/features/game/components/GameResultOverview";
-import { ActiveGamePlayerModel } from "@/features/game/game-models";
+import { GamePlayerModel } from "@/features/game/game-models";
 
 export default function TestPage() {
     
-    const players: ActiveGamePlayerModel[] = [
+    const players: GamePlayerModel[] = [
         {
             id: "1",
             score: 101,

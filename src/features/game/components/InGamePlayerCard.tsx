@@ -1,8 +1,8 @@
 import StatusDot from "@/components/ui/StatusDot";
-import { ActiveGamePlayerModel } from "../game-models";
+import { GamePlayerModel } from "../game-models";
 
 interface Props {
-    player: ActiveGamePlayerModel;
+    player: GamePlayerModel;
     scorePosition: number;
     isCurrentPlayer?: boolean;
     isHisTurn?: boolean;

@@ -1,15 +1,15 @@
-import { ActiveGamePlayerModel } from "../game-models";
+import { GamePlayerModel } from "../game-models";
 import GameConnectionStatusIndicator from "./GameConnectionStatusIndicator";
 import InGamePlayerCard from "./InGamePlayerCard";
 
 interface Props {
-    players: ActiveGamePlayerModel[];
+    players: GamePlayerModel[];
     currentPlayerId?: string;
 }
 
 export default function PlayerList({ players, currentPlayerId }: Props) {
 
-    const disconnectedPlayers: ActiveGamePlayerModel[] = players.filter(p => p.isConnected == false);
+    const disconnectedPlayers: GamePlayerModel[] = players.filter(p => p.isConnected == false);
 
     return (
             <div className="w-full">

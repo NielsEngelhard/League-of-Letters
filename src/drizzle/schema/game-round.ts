@@ -4,7 +4,7 @@ import { id } from "../schema-helpers";
 import { ActiveGameTable } from "./active-game";
 import { EvaluatedLetter, EvaluatedWord, WordState } from "@/features/word/word-models";
 
-export const ActiveGameRoundTable = pgTable("active_game_round", {
+export const GameRoundTable = pgTable("game_round", {
     id,
     gameId: text().references(() => ActiveGameTable.id, { onDelete: 'cascade' }).notNull(),
     roundNumber: integer().notNull(),
@@ -16,11 +16,11 @@ export const ActiveGameRoundTable = pgTable("active_game_round", {
   unique().on(t.gameId, t.roundNumber)
 ]);
 
-export type DbActiveGameRound = InferSelectModel<typeof ActiveGameRoundTable>;
+export type DbGameRound = InferSelectModel<typeof GameRoundTable>;
 
-export const gameRoundRelations = relations(ActiveGameRoundTable, ({ one }) => ({
+export const gameRoundRelations = relations(GameRoundTable, ({ one }) => ({
   game: one(ActiveGameTable, {
-    fields: [ActiveGameRoundTable.gameId],
+    fields: [GameRoundTable.gameId],
     references: [ActiveGameTable.id]
   })
 }));

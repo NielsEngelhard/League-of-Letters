@@ -1,10 +1,10 @@
-import { DbActiveGameRound } from "@/drizzle/schema";
+import { DbGameRound } from "@/drizzle/schema";
 import { WordStateFactory } from "@/features/word/util/factories/word-state-factory";
 import { LetterState } from "@/features/word/word-models";
 import {v4 as uuid} from 'uuid';
 
 export class GameRoundFactory {
-    static createDbRound(word: string, roundNumber: number, gameId: string): DbActiveGameRound {
+    static createDbRound(word: string, roundNumber: number, gameId: string): DbGameRound {
         return {
             id: uuid(),
             word: WordStateFactory.create(word),
@@ -16,7 +16,7 @@ export class GameRoundFactory {
         }
     }
 
-    static createDbRounds(words: string[], gameId: string): DbActiveGameRound[] {
+    static createDbRounds(words: string[], gameId: string): DbGameRound[] {
         return words.map((word, index) => {
             return this.createDbRound(word, index + 1, gameId);
         });

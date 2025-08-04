@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useState, useEffect, ReactNode, useContext } from 'react';
-import { ActiveGameModel, ActiveGamePlayerModel, ActiveGameRoundModel } from '../game-models';
+import { ActiveGameModel, GamePlayerModel, GameRoundModel } from '../game-models';
 import { GuessWordCommand } from '../actions/command/guess-word-command';
 import { LETTER_ANIMATION_TIME_MS, TIME_BETWEEN_ROUNDS_MS } from '../game-constants';
 
@@ -11,24 +11,24 @@ type ActiveGameContextType = {
   currentRoundIndex: number;
   totalRounds: number;
   wordLength: number;
-  currentRound: ActiveGameRoundModel;
+  currentRound: GameRoundModel;
   maxAttemptsPerRound: number;
   ended: boolean;
-  players: ActiveGamePlayerModel[];
-  currentPlayer: ActiveGamePlayerModel | null;
+  players: GamePlayerModel[];
+  currentPlayer: GamePlayerModel | null;
 };
 
 const ActiveGameContext = createContext<ActiveGameContextType | undefined>(undefined);
 
 export function ActiveGameProvider({ children, game }: { children: ReactNode, game: ActiveGameModel }) {
     const [currentRoundIndex, setCurrentRoundIndex] = useState(game.currentRoundIndex);
-    const [rounds, setRounds] = useState<ActiveGameRoundModel[]>(game.rounds);
-    const [currentRound, setCurrentRound] = useState<ActiveGameRoundModel>(getRound());
+    const [rounds, setRounds] = useState<GameRoundModel[]>(game.rounds);
+    const [currentRound, setCurrentRound] = useState<GameRoundModel>(getRound());
     const [currentGuessIndex, setCurrentGuessIndex] = useState(currentRound.currentGuessIndex);
     const [theWord, setTheWord] = useState<string | undefined>(undefined);
-    const [players, setPlayers] = useState<ActiveGamePlayerModel[]>(game.players);
+    const [players, setPlayers] = useState<GamePlayerModel[]>(game.players);
     const [ended, setEnded] = useState(false);
-    const [currentPlayer, setCurrentPlayer] = useState<ActiveGamePlayerModel | null>(null);
+    const [currentPlayer, setCurrentPlayer] = useState<GamePlayerModel | null>(null);
 
     const gameId = game.id;
     const totalRounds =  game.totalRounds;
@@ -109,7 +109,7 @@ export function ActiveGameProvider({ children, game }: { children: ReactNode, ga
       setTheWord(undefined);
     }  
 
-    function getRound(index?: number): ActiveGameRoundModel {
+    function getRound(index?: number): GameRoundModel {
       if (!index) index = currentRoundIndex; 
 
       const round = rounds.find(r => r.roundNumber == index);
