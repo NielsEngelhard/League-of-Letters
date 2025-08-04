@@ -136,7 +136,7 @@ export default function RootLayout({
       >
         <Providers>
           <Header></Header>
-          <div className="flex justify-center bg-background">
+          <div className="flex justify-center bg-background min-h-screen">
             {children} 
           </div>          
         </Providers>

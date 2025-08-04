@@ -4,13 +4,13 @@ import PageBase from "@/components/layout/PageBase";
 import PageIntro from "@/components/ui/block/PageIntro";
 import GameModeCard from "@/features/game/components/GameModeCard";
 import { Gamepad, Plus } from "lucide-react";
-import { CREATE_MULTIPLAYER_GAME_ROUTE, SOLO_GAME_ROUTE } from "../routes";
+import { CREATE_MULTIPLAYER_GAME_ROUTE, PICK_GAME_MODE_ROUTE, SOLO_GAME_ROUTE } from "../routes";
 import TextInput from "@/components/ui/form/TextInput";
 
 export default function OnlinePage() {
   return (
     <PageBase>
-      <PageIntro title="Online Game" subText="Play with other people">
+      <PageIntro title="Online Game" subText="Play with other people" backHref={PICK_GAME_MODE_ROUTE}>
 
       </PageIntro>
 

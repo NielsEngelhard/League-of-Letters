@@ -25,8 +25,9 @@ export default function SoloPage() {
     }
 
   return (
-    <PageBase size="sm" backHref={PICK_GAME_MODE_ROUTE}>
-      <PageIntro title="Solo Game" subText="Start a new game on your own">
+    <PageBase size="sm">
+  
+      <PageIntro title="Solo Game" subText="Start a new game on your own" backHref={PICK_GAME_MODE_ROUTE}>
 
       </PageIntro>
 
