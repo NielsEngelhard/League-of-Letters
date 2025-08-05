@@ -1,4 +1,5 @@
-import { ConnectionStatus, useSocket } from "@/features/realtime/socket-context";
+import { ConnectionStatus } from "@/features/realtime/realtime-models";
+import { useSocket } from "@/features/realtime/socket-context";
 import { useEffect } from "react";
 
 interface Props {

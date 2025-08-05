@@ -15,12 +15,16 @@ import { AuthSessionModel } from "@/features/auth/auth-models";
 import { PICK_GAME_MODE_ROUTE } from "@/app/routes";
 import { useSocket } from "@/features/realtime/socket-context";
 import CreateGameLobbyCommand from "@/features/game/actions/command/create-game-lobby-command";
+import { splitStringInMiddle } from "@/lib/string-util";
+import Icon from "@/components/ui/Icon";
+import { Crown } from "lucide-react";
+import RealtimeConnectedPlayerList from "@/features/realtime/RealtimeConnectedPlayersList";
 
 export default function CreateOnlineGamePage() {
   const router = useRouter()
   const { getOrCreateGuestAuthSession } = useAuth();
   const [authSession, setAuthSession] = useState<AuthSessionModel | null>(null);
-  const { initializeConnection, joinGame } = useSocket();
+  const { initializeConnection, joinGame, connectedPlayers } = useSocket();
   const [gameId, setGameId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -30,10 +34,16 @@ export default function CreateOnlineGamePage() {
   useEffect(() => {
     if (!authSession) return;
 
-    connectWithRealtime();
+    initializeConnection();
+    
     createLobby()
       .then((gameId) => {
         setGameId(gameId);
+        joinGame({
+          gameId: gameId,
+          userId: authSession.id,
+          username: authSession.username
+        });
       });
   }, [authSession]);
 
@@ -45,10 +55,6 @@ export default function CreateOnlineGamePage() {
     .catch(() => {
         router.push(PICK_GAME_MODE_ROUTE);
     });    
-  }
-
-  function connectWithRealtime() {
-    initializeConnection();
   }
 
   async function createLobby(): Promise<string> {
@@ -69,7 +75,7 @@ export default function CreateOnlineGamePage() {
     <PageBase size="lg">
       <PageIntro title="Create Online Game" subText="Join Code:" backHref={PICK_GAME_MODE_ROUTE}>
         <div className="text-3xl font-bold">
-          {gameId}
+          {splitStringInMiddle(gameId ?? "")}
         </div>
       </PageIntro>
 
@@ -90,9 +96,7 @@ export default function CreateOnlineGamePage() {
                 
             </Card>       
             <Card className="col-span-1">
-                <div>
-                    lobby players    
-                </div>    
+              <RealtimeConnectedPlayerList players={connectedPlayers} />
             </Card>     
         </div>
     </PageBase>

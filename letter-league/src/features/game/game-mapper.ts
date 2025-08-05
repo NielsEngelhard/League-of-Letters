@@ -1,6 +1,6 @@
 import { DbGamePlayer, DbGameRound, DbActiveGameWithRoundsAndPlayers, DbOnlineLobbyPlayer, DbAuthSession } from "@/drizzle/schema";
 import { ActiveGameModel, GamePlayerModel, GameRoundModel } from "./game-models";
-import { ConnectionStatus } from "../realtime/socket-context";
+import { ConnectionStatus } from "../realtime/realtime-models";
 
 export class GameMapper {
     static ActiveGameToModel(game: DbActiveGameWithRoundsAndPlayers): ActiveGameModel {

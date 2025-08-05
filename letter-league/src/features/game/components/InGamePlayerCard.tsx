@@ -1,4 +1,4 @@
-import StatusDot from "@/components/ui/StatusDot";
+import StatusDot from "@/features/realtime/StatusDot";
 import { GamePlayerModel } from "../game-models";
 
 interface Props {
@@ -24,7 +24,7 @@ export default function InGamePlayerCard({ player, scorePosition, isCurrentPlaye
             {/* Player indicator */}
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                    {!isOnlyPlayer && <StatusDot isOnline={player.isConnected ? true : false} />}
+                    {!isOnlyPlayer && <StatusDot status="connected" />}
                     <span className="text-sm font-med">{player.username}</span>
                 </div>
                 

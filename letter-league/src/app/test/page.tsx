@@ -2,13 +2,13 @@
 
 import PageBase from "@/components/layout/PageBase";
 import Button from "@/components/ui/Button";
-import StatusDot from "@/components/ui/StatusDot";
+import StatusDot from "@/features/realtime/StatusDot";
 import { useAuth } from "@/features/auth/AuthContext";
 import { JoinGameRealtimeModel } from "@/features/realtime/realtime-models";
 import { useSocket } from "@/features/realtime/socket-context";
 
 export default function TestPage() {
-    const { isConnected, initializeConnection, joinGame, emitTestEvent } = useSocket();
+    const { connectionStatus, initializeConnection, joinGame, emitTestEvent } = useSocket();
     const { authSession } = useAuth();
 
     function onJoinGame() {
@@ -25,7 +25,7 @@ export default function TestPage() {
         <PageBase>
             <div className="flex flex-row gap-2 items-center text-sm">
                 Websocket connection: 
-                <StatusDot isOnline={isConnected} />
+                <StatusDot status={connectionStatus} />
             </div>
 
             <div className="flex flex-row gap-4">

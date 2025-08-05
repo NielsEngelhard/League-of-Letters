@@ -1,14 +1,15 @@
 // SocketContext.tsx
 import React, { createContext, useContext, useEffect, useRef, useState, ReactNode } from 'react';
 import { io, Socket } from 'socket.io-client';
-import { JoinGameRealtimeModel } from './realtime-models';
-
-export type ConnectionStatus = 'empty' | 'connecting' | 'connected' | 'disconnected' | 'error';
+import { ConnectionStatus, JoinGameRealtimeModel, RealtimeConnectedPlayer } from './realtime-models';
 
 interface SocketContextType {
   socket: Socket | null;
   connectionStatus: ConnectionStatus;
   transport: string;
+
+  connectedPlayers: RealtimeConnectedPlayer[];
+
   joinGame: (data: JoinGameRealtimeModel) => void;
   initializeConnection: () => void;
   emitTestEvent: (gameId: string) => void;
@@ -28,6 +29,8 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
   const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>("empty");
   const [transport, setTransport] = useState('N/A');
   const socketRef = useRef<Socket | null>(null);
+
+  const [connectedPlayers, setConnectedPlayers] = useState<RealtimeConnectedPlayer[]>([]);
 
   const initializeConnection = () => {
     if (socketRef.current != null) {
@@ -58,8 +61,10 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
       console.log('Disconnected from WebSocket server');
     });
 
-    socket.on('user-joined', (data: any) => {
+    socket.on('user-joined', (data: RealtimeConnectedPlayer) => {
       console.log("A user joined!!", data);
+
+      setConnectedPlayers(prev => [...prev, data]);
     });
 
     socket.on('test', () => {
@@ -85,6 +90,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
       socket: socketRef.current,
       connectionStatus,
       transport,
+      connectedPlayers,
       joinGame,
       emitTestEvent,
 	  initializeConnection

@@ -2,7 +2,7 @@ import { jsonb, pgTable, text, uuid } from "drizzle-orm/pg-core";
 import { createdAt } from "../schema-helpers";
 import { InferSelectModel } from "drizzle-orm";
 import { AuthSessionTable } from "./auth-session";
-import { ConnectionStatus } from "@/features/realtime/socket-context";
+import { ConnectionStatus } from "@/features/realtime/realtime-models";
 
 export const OnlineLobbyTable = pgTable("online_lobby", {
     id: text().primaryKey(),
