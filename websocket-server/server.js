@@ -36,7 +36,7 @@ io.on('connection', (socket) => {
   socket.on('join-game', ({ gameId, username, userId}) => {
     socket.join(gameId);
     console.log(`User ${socket.id} joined room: ${gameId} ${username} ${userId}`);
-    socket.to(gameId).emit('user-joined', { userId, username, gameId });
+    io.to(gameId).emit('user-joined', { userId: userId, username: username, connectionStatus: "connected" });
   });
 
   socket.on('leave-game', (gameId) => {
