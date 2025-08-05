@@ -29,50 +29,33 @@ export const useSocket = (serverUrl = process.env.NEXT_PUBLIC_WEBSOCKET_SERVER_B
 			setTransport('N/A');
 			console.log('Disconnected from WebSocket server');
 		});
+
+		socket.on('user-joined', (data: any) => {
+			debugger;
+			console.log("A user joined!!");
+			console.log(data);
+		});		
+
+		socket.on('test', () => {
+			debugger;
+			console.log("Received test response from the socket server!");
+		});
 	}
 
+	const joinGame = (data: JoinGameRealtimeModel) => {
+		socketRef.current?.emit('join-game', data);
+	};	
 
-	// useEffect(() => {
-	// // Create socket connection
-	// socketRef.current = io(serverUrl, {
-	// 	withCredentials: true,
-	// 	transports: ['websocket', 'polling']
-	// });
-
-	// const socket = socketRef.current;
-
-	// // Connection event handlers
-	// socket.on('connect', () => {
-	// 	setIsConnected(true);
-	// 	setTransport(socket.io.engine.transport.name);
-	// 	console.log('Connected to WebSocket server');
-	// });
-
-	// socket.on('disconnect', () => {
-	// 	setIsConnected(false);
-	// 	setTransport('N/A');
-	// 	console.log('Disconnected from WebSocket server');
-	// });
-
-	// // Cleanup on unmount
-	// return () => {
-	// 	socket.disconnect();
-	// };
-	// }, [serverUrl]);
-
-	// // Helper functions
-	// const joinGame = (data: JoinGameRealtimeModel) => {
-	// socketRef.current?.emit('join-game', data);
-	// };
-
-	// const leaveGame = (data: LeaveGameRealtimeModel) => {
-	// socketRef.current?.emit('leave-game', data);
-	// };
+	const emitTestEvent = (gameId: string) => {
+		socketRef.current?.emit('test', gameId);
+	};		
 
 	return {
 		socket: socketRef.current,
 		isConnected,
 		transport,
 		initializeConnection,
+		joinGame,
+		emitTestEvent
 	};
 };

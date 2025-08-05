@@ -3,11 +3,23 @@
 import PageBase from "@/components/layout/PageBase";
 import Button from "@/components/ui/Button";
 import StatusDot from "@/components/ui/StatusDot";
-import GameConnectionStatusIndicator from "@/features/game/components/GameConnectionStatusIndicator";
+import { useAuth } from "@/features/auth/AuthContext";
+import { JoinGameRealtimeModel } from "@/features/realtime/realtime-models";
 import { useSocket } from "@/features/realtime/useSocket";
 
 export default function TestPage() {
-    const { isConnected, initializeConnection } = useSocket();
+    const { isConnected, initializeConnection, joinGame, emitTestEvent } = useSocket();
+    const { authSession } = useAuth();
+
+    function onJoinGame() {
+        var data: JoinGameRealtimeModel = {
+            gameId: "yolo",
+            userId: authSession?.id ?? "unauthed_id",
+            username: authSession?.username ?? "unauthed_uname"
+        }
+
+        joinGame(data);
+    }
 
     return (
         <PageBase>
@@ -20,6 +32,14 @@ export default function TestPage() {
                 <Button variant="primary" onClick={initializeConnection}>
                     Connect
                 </Button>
+
+                <Button variant="secondary" onClick={onJoinGame}>
+                    Join room "yolo"
+                </Button>    
+
+                <Button variant="skeleton" onClick={() => emitTestEvent("yolo")}>
+                    Test event
+                </Button>                                
             </div>
         </PageBase>
     )

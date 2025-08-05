@@ -36,13 +36,13 @@ io.on('connection', (socket) => {
   socket.on('join-game', ({ gameId, username, userId}) => {
     socket.join(gameId);
     console.log(`User ${socket.id} joined room: ${gameId} ${username} ${userId}`);
-    // socket.to(room).emit('user-joined', { userId: username, gameId });
+    socket.to(gameId).emit('user-joined', { userId, username, gameId });
   });
 
-  socket.on('leave-game', (room) => {
-    socket.leave(room);
-    console.log(`User ${socket.id} left room: ${room}`);
-    socket.to(room).emit('user-left', { userId: socket.id, room });
+  socket.on('leave-game', (gameId) => {
+    socket.leave(gameId);
+    console.log(`User ${socket.id} left room: ${gameId}`);
+    socket.in(gameId).emit('user-left', { userId: socket.id, room });
   });
   // END USER ACTIONS --------------------------------------------------------------------
 
@@ -54,6 +54,12 @@ io.on('connection', (socket) => {
   socket.on('error', (error) => {
     console.error(`Socket error for ${socket.id}:`, error);
   });
+
+  socket.on('test', (gameId) => {
+    console.error(`Emitting test event to room '${gameId}'`);
+    io.to(gameId).emit('test');
+    console.error(`Emitted test event to room '${gameId}'`);
+  });  
 
   // END GENERAL ACTIONS -------------------------------------------------------------------
 });
