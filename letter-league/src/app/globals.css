@@ -18,8 +18,8 @@
 
 /* Default/Light */
 :root {
-  --background: #FAFAF9;
-  --background-secondary: #FFFFFF;
+  --background: #FFFFFF;
+  --background-secondary: #FAFAF9;
   --foreground: #364153;
   --foreground-muted: #9CA3B0;
   --primary: #155dfc;

@@ -3,9 +3,11 @@ import React, { createContext, useContext, useEffect, useRef, useState, ReactNod
 import { io, Socket } from 'socket.io-client';
 import { JoinGameRealtimeModel } from './realtime-models';
 
+export type ConnectionStatus = 'empty' | 'connecting' | 'connected' | 'disconnected' | 'error';
+
 interface SocketContextType {
   socket: Socket | null;
-  isConnected: boolean;
+  connectionStatus: ConnectionStatus;
   transport: string;
   joinGame: (data: JoinGameRealtimeModel) => void;
   initializeConnection: () => void;
@@ -23,11 +25,13 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
   children, 
   serverUrl = process.env.NEXT_PUBLIC_WEBSOCKET_SERVER_BASE_ADDRESS 
 }) => {
-  const [isConnected, setIsConnected] = useState(false);
+  const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>("empty");
   const [transport, setTransport] = useState('N/A');
   const socketRef = useRef<Socket | null>(null);
 
   const initializeConnection = () => {
+    setConnectionStatus("connecting");
+
     // Initialize connection on mount
     socketRef.current = io(serverUrl, {
       withCredentials: true,
@@ -38,13 +42,13 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
 
     // Connection event handlers
     socket.on('connect', () => {
-      setIsConnected(true);
+      setConnectionStatus("connected");
       setTransport(socket.io.engine.transport.name);
       console.log('Connected to WebSocket server');
     });
 
     socket.on('disconnect', () => {
-      setIsConnected(false);
+      setConnectionStatus("disconnected");
       setTransport('N/A');
       console.log('Disconnected from WebSocket server');
     });
@@ -74,7 +78,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
   return (
     <SocketContext.Provider value={{
       socket: socketRef.current,
-      isConnected,
+      connectionStatus,
       transport,
       joinGame,
       emitTestEvent,

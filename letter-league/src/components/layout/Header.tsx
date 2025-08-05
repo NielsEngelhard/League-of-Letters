@@ -3,14 +3,16 @@
 import { PICK_GAME_MODE_ROUTE, PROFILE_ROUTE } from "@/app/routes";
 import { useAuth } from "@/features/auth/AuthContext"
 import Link from "next/link";
+import WebSocketStatusIndicator from "./WebSocketStatusIndicator";
 
 export default function Header() {
     const { authSession } = useAuth();
 
     return (
-        <header className="w-full h-[60px] fixed top-0 z-50 bg-primary/5 border-b-2 border-border">
-            <div className="flex items-center justify-between max-w-2xl mx-auto px-2 md:px-0 h-full">
+        <header className="w-full h-[60px] fixed top-0 z-50 bg-background-secondary border-b-2 border-border">
+            <div className="flex items-center justify-between max-w-4xl mx-auto px-2 md:px-0 h-full">
                 {/* Left - Logo */}
+            <div className="flex flex-row items-center gap-2">
                 <Link 
                     href={PICK_GAME_MODE_ROUTE}
                     className="group flex items-center transition-all duration-200"
@@ -24,7 +26,10 @@ export default function Header() {
                         {/* Subtle glow effect on hover */}
                         <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-blue-500/0 to-purple-500/0 group-hover:from-blue-500/10 group-hover:to-purple-500/10 transition-all duration-300 blur-sm" />
                     </div>
-                </Link>
+                </Link>         
+
+                <WebSocketStatusIndicator />       
+            </div>
 
                 {/* Right - User Section */}
                 {authSession ? (

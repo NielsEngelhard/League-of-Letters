@@ -5,6 +5,7 @@ import "./animations.css";
 import Header from "@/components/layout/Header";
 import { Providers } from "@/components/layout/GlobalProviders";
 import { APP_NAME } from "./global-constants";
+import Footer from "@/components/layout/Footer";
 
 const inter = localFont({
   src: [
@@ -132,13 +133,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} antialiased`}
+        className={`${inter.variable} antialiased min-h-screen justify-between flex flex-col`}
       >
         <Providers>
           <Header></Header>
-          <div className="flex justify-center bg-background min-h-screen">
+          <div className="flex justify-center bg-background h-full">
             {children} 
           </div>          
+          <Footer />
         </Providers>
       </body>
     </html>
