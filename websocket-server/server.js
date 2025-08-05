@@ -33,10 +33,10 @@ io.on('connection', (socket) => {
   console.log(`User connected: ${socket.id}`);
 
   // USER ACTIONS --------------------------------------------------------------------
-  socket.on('join-game', ({ gameId, username, userId}) => {
+  socket.on('join-game', ({ gameId, username, userId, isHost}) => {
     socket.join(gameId);
     console.log(`User ${socket.id} joined room: ${gameId} ${username} ${userId}`);
-    io.to(gameId).emit('user-joined', { userId: userId, username: username, connectionStatus: "connected" });
+    io.to(gameId).emit('user-joined', { userId: userId, username: username, isHost: isHost, connectionStatus: "connected" });
   });
 
   socket.on('leave-game', (gameId) => {

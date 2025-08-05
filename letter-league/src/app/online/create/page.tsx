@@ -8,7 +8,6 @@ import Title from "@/components/ui/text/Title";
 import CreateGameForm from "@/features/game/components/form/CreateGameForm";
 import { CreateGameSchema } from "@/features/game/game-schemas";
 import { useAuth } from "@/features/auth/AuthContext";
-import CreateGameCommand from "@/features/game/actions/command/create-game-command";
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from "react";
 import { AuthSessionModel } from "@/features/auth/auth-models";
@@ -16,8 +15,6 @@ import { PICK_GAME_MODE_ROUTE } from "@/app/routes";
 import { useSocket } from "@/features/realtime/socket-context";
 import CreateGameLobbyCommand from "@/features/game/actions/command/create-game-lobby-command";
 import { splitStringInMiddle } from "@/lib/string-util";
-import Icon from "@/components/ui/Icon";
-import { Crown } from "lucide-react";
 import RealtimeConnectedPlayerList from "@/features/realtime/RealtimeConnectedPlayersList";
 
 export default function CreateOnlineGamePage() {
@@ -42,7 +39,8 @@ export default function CreateOnlineGamePage() {
         joinGame({
           gameId: gameId,
           userId: authSession.id,
-          username: authSession.username
+          username: authSession.username,
+          isHost: true
         });
       });
   }, [authSession]);
