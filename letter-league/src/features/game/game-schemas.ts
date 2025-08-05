@@ -8,5 +8,9 @@ export const createGameSchema = z.object({
     guessesPerRound: z.number().min(MIN_GUESSES_PER_ROUND).max(MAX_GUESSES_PER_ROUND),
     gameMode: z.enum(GameMode)
 });
-
 export type CreateGameSchema = z.infer<typeof createGameSchema>;
+
+export const createGameLobbySchema = z.object({
+    hostUserId: z.string()
+});
+export type CreateGameLobbySchema = z.infer<typeof createGameLobbySchema>;

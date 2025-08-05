@@ -20,7 +20,6 @@ CREATE TABLE "game_player" (
 	"id" uuid PRIMARY KEY DEFAULT gen_random_uuid() NOT NULL,
 	"userId" uuid NOT NULL,
 	"gameId" text,
-	"lobbyId" text,
 	"username" text,
 	"score" integer DEFAULT 0 NOT NULL
 );
@@ -39,11 +38,11 @@ CREATE TABLE "game_round" (
 CREATE TABLE "online_lobby" (
 	"id" text PRIMARY KEY NOT NULL,
 	"userHostId" uuid NOT NULL,
+	"players" jsonb DEFAULT '[]'::jsonb NOT NULL,
 	"createdAt" timestamp with time zone DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
 ALTER TABLE "game_player" ADD CONSTRAINT "game_player_userId_auth_session_id_fk" FOREIGN KEY ("userId") REFERENCES "public"."auth_session"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "game_player" ADD CONSTRAINT "game_player_gameId_active_game_id_fk" FOREIGN KEY ("gameId") REFERENCES "public"."active_game"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE "game_player" ADD CONSTRAINT "game_player_lobbyId_online_lobby_id_fk" FOREIGN KEY ("lobbyId") REFERENCES "public"."online_lobby"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "game_round" ADD CONSTRAINT "game_round_gameId_active_game_id_fk" FOREIGN KEY ("gameId") REFERENCES "public"."active_game"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE "online_lobby" ADD CONSTRAINT "online_lobby_userHostId_auth_session_id_fk" FOREIGN KEY ("userHostId") REFERENCES "public"."auth_session"("id") ON DELETE cascade ON UPDATE no action;

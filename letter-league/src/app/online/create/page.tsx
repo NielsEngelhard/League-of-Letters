@@ -13,32 +13,63 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from "react";
 import { AuthSessionModel } from "@/features/auth/auth-models";
 import { PICK_GAME_MODE_ROUTE } from "@/app/routes";
+import { useSocket } from "@/features/realtime/socket-context";
+import CreateGameLobbyCommand from "@/features/game/actions/command/create-game-lobby-command";
 
 export default function CreateOnlineGamePage() {
   const router = useRouter()
   const { getOrCreateGuestAuthSession } = useAuth();
   const [authSession, setAuthSession] = useState<AuthSessionModel | null>(null);
+  const { initializeConnection, joinGame } = useSocket();
+  const [gameId, setGameId] = useState<string | null>(null);
 
   useEffect(() => {
+    login();
+  }, []);
+
+  useEffect(() => {
+    if (!authSession) return;
+
+    connectWithRealtime();
+    createLobby()
+      .then((gameId) => {
+        setGameId(gameId);
+      });
+  }, [authSession]);
+
+  function login() {
     getOrCreateGuestAuthSession()
     .then((response) => {
         setAuthSession(response);
     })
     .catch(() => {
         router.push(PICK_GAME_MODE_ROUTE);
-    });
-  });
+    });    
+  }
 
-    async function onSubmit(data: CreateGameSchema) {
-      
+  function connectWithRealtime() {
+    initializeConnection();
+  }
 
-    }
+  async function createLobby(): Promise<string> {
+    if (!authSession) return "ERROR";
+
+    const gameId = await CreateGameLobbyCommand({
+      hostUserId: authSession.id
+    }, authSession.secretKey);
+  
+    return gameId;
+  }
+
+  async function onSubmit(data: CreateGameSchema) {
+
+  }
 
   return (
     <PageBase size="lg">
       <PageIntro title="Create Online Game" subText="Join Code:" backHref={PICK_GAME_MODE_ROUTE}>
         <div className="text-3xl font-bold">
-          ABC-DEF
+          {gameId}
         </div>
       </PageIntro>
 

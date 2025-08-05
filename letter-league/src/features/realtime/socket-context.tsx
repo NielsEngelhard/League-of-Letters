@@ -30,6 +30,11 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
   const socketRef = useRef<Socket | null>(null);
 
   const initializeConnection = () => {
+    if (socketRef.current != null) {
+      console.log(`Can't initializeConnection: already initialized. Status: ${connectionStatus}`);
+      return;
+    }
+
     setConnectionStatus("connecting");
 
     // Initialize connection on mount

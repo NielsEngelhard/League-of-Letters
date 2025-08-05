@@ -1,5 +1,5 @@
 {
-  "id": "fa6281c8-c664-43ed-bce8-a556afc5f82c",
+  "id": "08b65520-e983-4a4a-bd35-ed54088b9a67",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -125,12 +125,6 @@
           "primaryKey": false,
           "notNull": false
         },
-        "lobbyId": {
-          "name": "lobbyId",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false
-        },
         "username": {
           "name": "username",
           "type": "text",
@@ -166,19 +160,6 @@
           "tableTo": "active_game",
           "columnsFrom": [
             "gameId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "game_player_lobbyId_online_lobby_id_fk": {
-          "name": "game_player_lobbyId_online_lobby_id_fk",
-          "tableFrom": "game_player",
-          "tableTo": "online_lobby",
-          "columnsFrom": [
-            "lobbyId"
           ],
           "columnsTo": [
             "id"
@@ -290,6 +271,13 @@
           "type": "uuid",
           "primaryKey": false,
           "notNull": true
+        },
+        "players": {
+          "name": "players",
+          "type": "jsonb",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "'[]'::jsonb"
         },
         "createdAt": {
           "name": "createdAt",

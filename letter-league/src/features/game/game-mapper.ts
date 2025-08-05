@@ -1,5 +1,6 @@
-import { DbGamePlayer, DbGameRound, DbActiveGameWithRoundsAndPlayers } from "@/drizzle/schema";
+import { DbGamePlayer, DbGameRound, DbActiveGameWithRoundsAndPlayers, DbOnlineLobbyPlayer, DbAuthSession } from "@/drizzle/schema";
 import { ActiveGameModel, GamePlayerModel, GameRoundModel } from "./game-models";
+import { ConnectionStatus } from "../realtime/socket-context";
 
 export class GameMapper {
     static ActiveGameToModel(game: DbActiveGameWithRoundsAndPlayers): ActiveGameModel {
@@ -36,5 +37,13 @@ export class GameMapper {
             guesses: round.guesses,
             guessedLetters: round.evaluatedLetters
         }
-    }        
+    }
+
+    static AuthSessionToLobbyPlayer(authSession: DbAuthSession, connectionStatus: ConnectionStatus = "connected"): DbOnlineLobbyPlayer {
+        return {
+            id: authSession.id,
+            connectionStatus: connectionStatus,
+            username: authSession.username
+        }
+    }
 }
