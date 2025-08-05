@@ -8,10 +8,10 @@ interface Props {
 
 export default function RealtimeConnectedPlayerList({ players }: Props ) {
     return (
-        <div className="flex flex-col gap-2 md:gap-4 p-2">
+        <div className="flex flex-col gap-2 md:gap-4">
             {players.map((player, index) => {
                 return (
-                    <Card key={index}  variant="fade" className={`${player.isHost ? "border-2 border-primary/10" : "border-2 bg-background"}`}>
+                    <Card key={index} padding="none" variant="fade" className={`p-2 ${player.isHost ? "border-2 border-primary/10" : "border-2 bg-background"}`}>
                         <div className="w-full flex flex-row justify-between">
                             {/* Left */}
                             <div className="flex flex-row gap-1 items-center">
