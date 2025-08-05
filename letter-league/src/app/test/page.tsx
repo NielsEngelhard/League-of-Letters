@@ -5,7 +5,7 @@ import Button from "@/components/ui/Button";
 import StatusDot from "@/components/ui/StatusDot";
 import { useAuth } from "@/features/auth/AuthContext";
 import { JoinGameRealtimeModel } from "@/features/realtime/realtime-models";
-import { useSocket } from "@/features/realtime/useSocket";
+import { useSocket } from "@/features/realtime/socket-context";
 
 export default function TestPage() {
     const { isConnected, initializeConnection, joinGame, emitTestEvent } = useSocket();
