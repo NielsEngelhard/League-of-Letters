@@ -8,7 +8,7 @@ export interface Props extends VariantProps<typeof buttonVariants> {
     title: string;
     subTxt: string;
     btnTxt: string;
-    href: string;
+    href?: string;
     Icon: React.ElementType;
     className?: string;
     children?: React.ReactNode;
@@ -46,9 +46,11 @@ export default function GameModeCard({ title, subTxt, btnTxt, href, Icon, varian
 
             {children}
 
-            <Link href={href} className="w-full">
-                <Button className={`w-full ${cn(buttonVariants({ variant }), className)}`}>{btnTxt}</Button>
-            </Link>
+            {href && (
+              <Link href={href} className="w-full">
+                  <Button className={`w-full ${cn(buttonVariants({ variant }), className)}`} disabled={true}>{btnTxt}</Button>
+              </Link>              
+            )}
           </div>
         </Card>        
     )

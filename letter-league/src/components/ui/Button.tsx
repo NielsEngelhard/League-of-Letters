@@ -5,6 +5,7 @@ import React from "react";
 export interface Props extends VariantProps<typeof buttonVariants>, Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'className'> {
     children: React.ReactNode;
     className?: string;
+    disable?: boolean;
 }
 
 const buttonVariants = cva(
@@ -30,9 +31,9 @@ const buttonVariants = cva(
   }
 )
 
-export default function Button({ children, className, variant, size, ...props }: Props) {
+export default function Button({ children, className, variant, size, disable, ...props }: Props) {
     return (
-        <button className={cn(buttonVariants({ variant, size }), className)} {...props}>
+        <button className={`${cn(buttonVariants({ variant, size }), className)} ${disable && "opacity-50"}`} {...props} disabled={disable}>
             {children}
         </button>
     )

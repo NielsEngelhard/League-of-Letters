@@ -6,8 +6,17 @@ import GameModeCard from "@/features/game/components/GameModeCard";
 import { Gamepad, Plus } from "lucide-react";
 import { CREATE_MULTIPLAYER_GAME_ROUTE, PICK_GAME_MODE_ROUTE, SOLO_GAME_ROUTE } from "../routes";
 import TextInput from "@/components/ui/form/TextInput";
+import { useState } from "react";
+import Button from "@/components/ui/Button";
 
-export default function OnlinePage() {
+export default function OnlinePage() {  
+  const [isValidJoinCode, setIsValidJoinCode] = useState<boolean>(false);
+
+
+  function onJoinGame() {
+    // TODO: hier morgen verder
+  }
+
   return (
     <PageBase>
       <PageIntro title="Online Game" subText="Play with other people" backHref={PICK_GAME_MODE_ROUTE}>
@@ -19,15 +28,17 @@ export default function OnlinePage() {
           title="Join Game"
           subTxt="Enter a game ID to join an existing match"
           btnTxt="Join Game"
-          href={SOLO_GAME_ROUTE}
           Icon={Gamepad}
           variant="secondary"
         >
+          <>
             <TextInput
                 label="Game ID"
                 className="w-full"
                 placeholder="Enter game ID..."
             />
+            <Button className="w-full" variant="secondary" disabled={true}>Join Game</Button>          
+          </>
         </GameModeCard>
         
         <GameModeCard
