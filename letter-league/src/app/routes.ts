@@ -7,3 +7,7 @@ export const PROFILE_ROUTE = "/profile";
 export const PLAY_GAME_ROUTE = (gameId: string): string => {
     return `/game/${gameId}`;
 }
+
+export const JOIN_GAME_ROUTE = (gameId: string): string => {
+    return `/online/join/${gameId}`;
+}

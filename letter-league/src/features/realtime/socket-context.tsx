@@ -10,7 +10,7 @@ interface SocketContextType {
 
   connectedPlayers: RealtimeConnectedPlayer[];
 
-  joinGame: (data: JoinGameRealtimeModel) => void;
+  emitJoinGame: (data: JoinGameRealtimeModel) => void;
   initializeConnection: () => void;
   emitTestEvent: (gameId: string) => void;
 }
@@ -77,7 +77,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
     };
   };
 
-  const joinGame = (data: JoinGameRealtimeModel) => {
+  const emitJoinGame = (data: JoinGameRealtimeModel) => {
     socketRef.current?.emit('join-game', data);
   };
 
@@ -91,7 +91,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
       connectionStatus,
       transport,
       connectedPlayers,
-      joinGame,
+      emitJoinGame,
       emitTestEvent,
 	  initializeConnection
     }}>

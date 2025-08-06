@@ -14,3 +14,8 @@ export const createGameLobbySchema = z.object({
     hostUserId: z.string()
 });
 export type CreateGameLobbySchema = z.infer<typeof createGameLobbySchema>;
+
+export const joinGameLobbySchema = z.object({
+    gameId: z.string()
+});
+export type JoinGameLobbySchema = z.infer<typeof joinGameLobbySchema>;

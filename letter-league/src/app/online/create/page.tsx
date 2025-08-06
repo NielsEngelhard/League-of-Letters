@@ -21,7 +21,7 @@ export default function CreateOnlineGamePage() {
   const router = useRouter()
   const { getOrCreateGuestAuthSession } = useAuth();
   const [authSession, setAuthSession] = useState<AuthSessionModel | null>(null);
-  const { initializeConnection, joinGame, connectedPlayers } = useSocket();
+  const { initializeConnection, emitJoinGame, connectedPlayers } = useSocket();
   const [gameId, setGameId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -36,7 +36,7 @@ export default function CreateOnlineGamePage() {
     createLobby()
       .then((gameId) => {
         setGameId(gameId);
-        joinGame({
+        emitJoinGame({
           gameId: gameId,
           userId: authSession.id,
           username: authSession.username,

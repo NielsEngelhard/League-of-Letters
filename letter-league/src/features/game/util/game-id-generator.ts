@@ -1,4 +1,7 @@
-export function generateGameId(length: number = 6): string {
+export const GAME_ID_LENGTH = 6;
+export const GAME_ID_REGEX = /^[A-Z0-9]+$/;
+
+export function generateGameId(): string {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   let result = '';
   
@@ -14,13 +17,15 @@ export function parseGameId(input: string): string {
   const uppercaseInput = input.toUpperCase();
   
   // Check if the input contains only valid characters (letters and numbers)
-  if (!/^[A-Z0-9]+$/.test(uppercaseInput)) {
+  if (!GAME_ID_REGEX.test(uppercaseInput)) {
     throw new Error('Game ID can only contain letters and numbers');
   }
   
   return uppercaseInput;
 }
 
-export function generateWodGameId(userId: string) {
-  return `wod-${userId}`;
+export function isValidGameId(input: string): boolean {
+  if (input.length != GAME_ID_LENGTH) return false;
+  
+  return GAME_ID_REGEX.test(input);
 }

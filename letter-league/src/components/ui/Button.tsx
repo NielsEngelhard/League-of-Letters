@@ -33,7 +33,7 @@ const buttonVariants = cva(
 
 export default function Button({ children, className, variant, size, disable, ...props }: Props) {
     return (
-        <button className={`${cn(buttonVariants({ variant, size }), className)} ${disable && "opacity-50"}`} {...props} disabled={disable}>
+        <button className={`${cn(buttonVariants({ variant, size }), className)} ${disable && "!bg-gray-500/50 !cursor-not-allowed"}`} {...props} disabled={disable}>
             {children}
         </button>
     )

@@ -1,5 +1,6 @@
 import { GameMode } from "@/drizzle/schema";
 import { EvaluatedLetter, EvaluatedWord } from "../word/word-models";
+import { ConnectionStatus } from "../realtime/realtime-models";
 
 export interface ActiveGameModel {
     id: string;
@@ -32,5 +33,5 @@ export interface GamePlayerModel {
     id: string;
     username: string;
     score: number;
-    isConnected?: boolean;
+    connectionStatus: ConnectionStatus;
 }
