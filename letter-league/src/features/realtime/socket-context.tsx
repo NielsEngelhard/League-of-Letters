@@ -1,14 +1,15 @@
 // SocketContext.tsx
-import React, { createContext, useContext, useEffect, useRef, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useRef, useState, ReactNode } from 'react';
 import { io, Socket } from 'socket.io-client';
-import { ConnectionStatus, JoinGameRealtimeModel, RealtimeConnectedPlayer } from './realtime-models';
+import { ConnectionStatus, JoinGameRealtimeModel } from './realtime-models';
+import { GamePlayerModel } from '../game/game-models';
 
 interface SocketContextType {
   socket: Socket | null;
   connectionStatus: ConnectionStatus;
   transport: string;
 
-  connectedPlayers: RealtimeConnectedPlayer[];
+  connectedPlayers: GamePlayerModel[];
 
   emitJoinGame: (data: JoinGameRealtimeModel) => void;
   initializeConnection: () => void;
@@ -30,7 +31,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
   const [transport, setTransport] = useState('N/A');
   const socketRef = useRef<Socket | null>(null);
 
-  const [connectedPlayers, setConnectedPlayers] = useState<RealtimeConnectedPlayer[]>([]);
+  const [connectedPlayers, setConnectedPlayers] = useState<GamePlayerModel[]>([]);
 
   const initializeConnection = () => {
     if (socketRef.current != null) {
@@ -61,8 +62,8 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
       console.log('Disconnected from WebSocket server');
     });
 
-    socket.on('user-joined', (data: RealtimeConnectedPlayer) => {
-      console.log("A user joined!!", data);
+    socket.on('user-joined', (data: GamePlayerModel) => {
+      if (connectedPlayers.some(p => p.id == data.id)) return;
 
       setConnectedPlayers(prev => [...prev, data]);
     });

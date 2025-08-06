@@ -12,10 +12,3 @@ export interface LeaveGameRealtimeModel {
     username: string;
     userId: string;
 }
-
-export interface RealtimeConnectedPlayer {
-    userId: string;
-    username: string;
-    connectionStatus: ConnectionStatus;
-    isHost: boolean;
-}

@@ -31,6 +31,7 @@ export interface GameRoundModel {
 
 export interface GamePlayerModel {
     id: string;
+    isHost: boolean;
     username: string;
     score: number;
     connectionStatus: ConnectionStatus;

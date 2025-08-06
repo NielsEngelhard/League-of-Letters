@@ -15,7 +15,10 @@ import { PICK_GAME_MODE_ROUTE } from "@/app/routes";
 import { useSocket } from "@/features/realtime/socket-context";
 import CreateGameLobbyCommand from "@/features/game/actions/command/create-game-lobby-command";
 import { splitStringInMiddle } from "@/lib/string-util";
-import RealtimeConnectedPlayerList from "@/features/realtime/RealtimeConnectedPlayersList";
+import PlayerList from "@/features/game/components/PlayerList";
+import PlayersList from "@/features/game/components/PlayersList";
+import { CardContent, CardHeader, CardTitle } from "@/components/ui/card/card-children";
+import { User } from "lucide-react";
 
 export default function CreateOnlineGamePage() {
   const router = useRouter()
@@ -93,8 +96,16 @@ export default function CreateOnlineGamePage() {
                 />
                 
             </Card>       
-            <Card className="col-span-1">
-              <RealtimeConnectedPlayerList players={connectedPlayers} />
+            <Card>
+              <CardHeader className="pb-3 sm:pb-4">
+                  <CardTitle className="text-base sm:text-lg flex items-center gap-2">
+                  <User className="w-4 h-4" />
+                    Players ({connectedPlayers.length})
+                  </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-2 sm:space-y-3">
+                  <PlayersList players={connectedPlayers} />
+              </CardContent>
             </Card>     
         </div>
     </PageBase>

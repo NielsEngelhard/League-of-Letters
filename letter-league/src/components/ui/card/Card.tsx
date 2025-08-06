@@ -16,21 +16,16 @@ const cardVariants = cva(
         fade: "bg-gradient-to-r from-primary/10 to-secondary/10",
         accent: "bg-accent/10 border-none"
       },
-      padding: {
-        none: "p-0",
-        md: "p-2 lg:p-5"
-      }
     },
     defaultVariants: {
         variant: "default",
-        padding: "md"
     }
   }
 )
 
-export default function Card({ children, className, variant, padding }: Props) {
+export default function Card({ children, className, variant }: Props) {
     return (
-        <div className={cn(cardVariants({ variant, padding }), className)}>
+        <div className={cn(cardVariants({ variant }), className)}>
             {children}
         </div>
     )

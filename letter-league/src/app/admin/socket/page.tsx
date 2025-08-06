@@ -7,8 +7,8 @@ import { useAuth } from "@/features/auth/AuthContext";
 import { JoinGameRealtimeModel } from "@/features/realtime/realtime-models";
 import { useSocket } from "@/features/realtime/socket-context";
 
-export default function TestPage() {
-    const { connectionStatus, initializeConnection, joinGame, emitTestEvent } = useSocket();
+export default function AdminTestSocketPage() {
+    const { connectionStatus, initializeConnection, emitJoinGame, emitTestEvent } = useSocket();
     const { authSession } = useAuth();
 
     function onJoinGame() {
@@ -18,7 +18,7 @@ export default function TestPage() {
             username: authSession?.username ?? "unauthed_uname"
         }
 
-        joinGame(data);
+        emitJoinGame(data);
     }
 
     return (
