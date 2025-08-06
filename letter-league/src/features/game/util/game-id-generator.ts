@@ -5,7 +5,7 @@ export function generateGameId(): string {
   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
   let result = '';
   
-  for (let i = 0; i < length; i++) {
+  for (let i = 0; i < GAME_ID_LENGTH; i++) {
     const randomIndex = Math.floor(Math.random() * characters.length);
     result += characters.charAt(randomIndex);
   }
