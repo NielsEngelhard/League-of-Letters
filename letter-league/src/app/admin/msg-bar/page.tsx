@@ -9,7 +9,7 @@ interface Props {
 }
 
 export default function AdminMsgBarTest() {
-    const { pushMessage } = useMessageBar();
+    const { pushMessage, clearMessage } = useMessageBar();
 
     function onPushMsg() {
         pushMessage({
@@ -19,7 +19,7 @@ export default function AdminMsgBarTest() {
     }
     
     function onClearBar() {
-
+        clearMessage();
     }
 
     return (

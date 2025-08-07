@@ -12,7 +12,7 @@ export interface MessageBarMessage {
 type MessageBarContextType = {
   currentMessage: MessageBarMessage | null;
   pushMessage: (msg: MessageBarMessage) => void;
-  clearBar: () => void;
+  clearMessage: () => void;
 };
 
 const MessageBarContext = createContext<MessageBarContextType | undefined>(undefined);
@@ -25,12 +25,12 @@ export function MessageBarProvider({ children }: { children: ReactNode }) {
     setCurrentMessage(msg);
   }
 
-  function clearBar() {
+  function clearMessage() {
     setCurrentMessage(null);
   }
 
   return (
-    <MessageBarContext.Provider value={{ currentMessage, pushMessage, clearBar }}>
+    <MessageBarContext.Provider value={{ currentMessage, pushMessage, clearMessage }}>
       {children}
     </MessageBarContext.Provider>
   );
