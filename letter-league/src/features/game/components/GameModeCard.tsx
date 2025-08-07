@@ -1,5 +1,6 @@
 import Button from "@/components/ui/Button";
 import Card from "@/components/ui/card/Card";
+import { CardContent, CardHeader } from "@/components/ui/card/card-children";
 import cn from "@/lib/cn";
 import { cva, VariantProps } from "class-variance-authority";
 import Link from "next/link";
@@ -35,23 +36,25 @@ const buttonVariants = cva(
 export default function GameModeCard({ title, subTxt, btnTxt, href, Icon, variant, className, children }: Props) {
     return (
         <Card className="hover:scale-105">
-          <div className="w-full flex flex-col gap-3 items-center text-center justify-between h-full">
-            <div className={`w-12 md:w-16 h-12 md:h-16 rounded-full flex items-center justify-center text-white ${cn(buttonVariants({ variant }), className)}`}>
-              <Icon />
-            </div>
+          <CardHeader className="flex items-center">
+              <div className={`w-12 md:w-16 h-12 md:h-16 rounded-full flex items-center justify-center text-white ${cn(buttonVariants({ variant }), className)}`}>
+                <Icon />
+              </div>
+              <div className="font-semibold text-2xl tracking-tight">{title}</div>
+          </CardHeader>
+          <CardContent>
+            <div className="w-full flex flex-col gap-3 items-center text-center justify-between h-full">
+              <div className="text-foreground-muted">{subTxt}</div>
 
-            <div className="font-semibold text-2xl tracking-tight">{title}</div>
+              {children}
 
-            <div className="text-foreground-muted">{subTxt}</div>
-
-            {children}
-
-            {href && (
-              <Link href={href} className="w-full">
-                  <Button className={`w-full ${cn(buttonVariants({ variant }), className)}`} disabled={true}>{btnTxt}</Button>
-              </Link>              
-            )}
-          </div>
+              {href && (
+                <Link href={href} className="w-full">
+                    <Button className={`w-full ${cn(buttonVariants({ variant }), className)}`} disabled={true}>{btnTxt}</Button>
+                </Link>              
+              )}
+            </div>            
+          </CardContent>
         </Card>        
     )
 }

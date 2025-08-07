@@ -2,7 +2,7 @@
 
 import PageBase from "@/components/layout/PageBase";
 import Button from "@/components/ui/Button";
-import StatusDot from "@/features/realtime/StatusDot";
+import RealtimeStatusIndicator from "@/features/realtime/RealtimeStatusIndicator";
 import { useAuth } from "@/features/auth/AuthContext";
 import { JoinGameRealtimeModel } from "@/features/realtime/realtime-models";
 import { useSocket } from "@/features/realtime/socket-context";
@@ -25,7 +25,7 @@ export default function AdminTestSocketPage() {
         <PageBase>
             <div className="flex flex-row gap-2 items-center text-sm">
                 Websocket connection: 
-                <StatusDot status={connectionStatus} />
+                <RealtimeStatusIndicator status={connectionStatus} />
             </div>
 
             <div className="flex flex-row gap-4">

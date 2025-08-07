@@ -4,6 +4,9 @@ import { Cable, ServerCrash, Telescope, Unplug, Wifi } from "lucide-react";
 
 interface Props {
     status: ConnectionStatus;
+    showIcon?: boolean;
+    showDot?: boolean;
+    showLabel?: boolean;
 }
 
 const getStatusConfig = (status: ConnectionStatus) => {
@@ -12,45 +15,58 @@ const getStatusConfig = (status: ConnectionStatus) => {
             return {
                 bg: 'bg-success',
                 color: 'text-success',
-                Icon: Wifi
+                Icon: Wifi,
+                text: 'connected'
             };
         case 'connecting':
             return {
-                bg: 'bg-warning',
+                bg: 'bg-warning animate-pulse animate-ping',
                 color: 'text-warning',
-                Icon: Cable
+                Icon: Cable,
+                text: 'connecting'
             };
         case 'disconnected':
             return {
                 bg: 'bg-error',
                 color: 'text-error',
-                Icon: Unplug
+                Icon: Unplug,
+                text: 'disconnected'
             };
         case 'error':
             return {
                 bg: 'bg-error',
                 color: 'text-error',
-                Icon: ServerCrash
+                Icon: ServerCrash,
+                text: 'error'
             };
         case 'empty':
             return {
                 bg: 'bg-gray-500',
                 color: 'text-gray-500',
-                Icon: Telescope
+                Icon: Telescope,
+                text: '??'
             };
     }
 }
 
-export default function StatusDot({ status }: Props) {
+export default function RealtimeStatusIndicator({ status, showIcon = false, showDot = true, showLabel = false }: Props) {
     const config = getStatusConfig(status);
 
     return (
     <div className="flex flex-row gap-1 items-center">
-        <div className={`${config.color}`}>
-            <Icon LucideIcon={config.Icon} size="xs" />
-        </div>
+        {showLabel && (
+            <span className={`text-sm ${config.color}`}>{config.text}</span>
+        )}
 
-        <div className={`w-2 h-2 rounded-full ${config.bg}`} />        
+        {showIcon && (
+            <div className={`${config.color}`}>
+                <Icon LucideIcon={config.Icon} size="sm" />
+            </div>            
+        )}
+
+        {showDot && (
+            <div className={`w-2.5 h-2.5 rounded-full ${config.bg}`} />
+        )}
     </div>        
     )
 }

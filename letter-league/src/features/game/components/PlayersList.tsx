@@ -1,14 +1,17 @@
-import Card from "@/components/ui/card/Card";
 import { GamePlayerModel } from "../game-models";
 import Avatar from "@/components/ui/Avatar";
-import { Badge, Crown } from "lucide-react";
+import { Crown } from "lucide-react";
 import Seperator from "@/components/ui/Seperator";
+import { useAuth } from "@/features/auth/AuthContext";
+import RealtimeStatusIndicator from "@/features/realtime/RealtimeStatusIndicator";
 
 interface Props {
     players: GamePlayerModel[];        
 }
 
 export default function PlayersList({ players }: Props ) {
+    const { authSession } = useAuth();
+
     return (
         <>
         {players.map((player, index) => (
@@ -21,27 +24,22 @@ export default function PlayersList({ players }: Props ) {
                     </div>
                 </Avatar>
                 <div className="flex items-center gap-1 sm:gap-2">
-                <span className={`text-sm sm:text-base font-medium ${
-                    player.username === 'You' ? 'text-primary' : ''
-                }`}>
-                    {player.username}
+                <span className="text-sm sm:text-base font-medium">
+                    {player.username === authSession?.username ? (
+                        <span className="text-primary">You</span>
+                    ): (
+                        <span>{player.username}</span>   
+                    )}
                 </span>
                 {player.isHost && (
                     <Crown className="w-3 h-3 sm:w-4 sm:h-4 text-warning" />
                 )}
-                {player.username === 'You' && (
-                    <Badge className="text-xs">
-                    You
-                    </Badge>
-                )}
                 </div>
             </div>
-            <Badge>
-                {player.connectionStatus == "connected" ? "Ready" : "Not Ready"}
-            </Badge>
+                <RealtimeStatusIndicator status={player.connectionStatus} showLabel={true} showDot={false} showIcon={true} />
             </div>
             {index < players.length - 1 && (
-            <Seperator />
+                <Seperator />
             )}
         </div>
         ))}        

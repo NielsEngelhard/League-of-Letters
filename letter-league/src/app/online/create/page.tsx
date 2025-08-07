@@ -4,7 +4,6 @@ import PageBase from "@/components/layout/PageBase";
 import PageIntro from "@/components/ui/block/PageIntro";
 import Card from "@/components/ui/card/Card";
 import SubText from "@/components/ui/text/SubText";
-import Title from "@/components/ui/text/Title";
 import CreateGameForm from "@/features/game/components/form/CreateGameForm";
 import { CreateGameSchema } from "@/features/game/game-schemas";
 import { useAuth } from "@/features/auth/AuthContext";
@@ -15,10 +14,11 @@ import { PICK_GAME_MODE_ROUTE } from "@/app/routes";
 import { useSocket } from "@/features/realtime/socket-context";
 import CreateGameLobbyCommand from "@/features/game/actions/command/create-game-lobby-command";
 import { splitStringInMiddle } from "@/lib/string-util";
-import PlayerList from "@/features/game/components/PlayerList";
 import PlayersList from "@/features/game/components/PlayersList";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card/card-children";
 import { User } from "lucide-react";
+import { GamePlayerModel } from "@/features/game/game-models";
+import { MAX_ONLINE_GAME_PLAYERS } from "@/features/game/game-constants";
 
 export default function CreateOnlineGamePage() {
   const router = useRouter()
@@ -82,26 +82,26 @@ export default function CreateOnlineGamePage() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-10">
             <Card className="col-span-2">
-                <div>
-                <Title
-                    title="Game Settings"
-                    size="sm"
-                    color="text"
-                />
-                <SubText text="Customize your game" />          
-                </div>
-
-                <CreateGameForm
-                onSubmit={onSubmit}
-                />
-                
+              <CardHeader>
+                <CardTitle>
+                  Game Settings
+                </CardTitle>
+                <SubText text="Customize your game" />    
+              </CardHeader>
+              <CardContent>
+                <CreateGameForm onSubmit={onSubmit} />                
+              </CardContent>
             </Card>       
             <Card>
-              <CardHeader className="pb-3 sm:pb-4">
+              <CardHeader className="pb-3 sm:pb-4 justify-between flex flex-row">
                   <CardTitle className="text-base sm:text-lg flex items-center gap-2">
-                  <User className="w-4 h-4" />
+                    <User className="w-4 h-4" />
                     Players ({connectedPlayers.length})
                   </CardTitle>
+
+                  <span className="italic text-xs">
+                    max {MAX_ONLINE_GAME_PLAYERS}
+                  </span>
               </CardHeader>
               <CardContent className="space-y-2 sm:space-y-3">
                   <PlayersList players={connectedPlayers} />

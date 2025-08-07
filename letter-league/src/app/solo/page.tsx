@@ -11,6 +11,7 @@ import { CreateGameSchema } from "@/features/game/game-schemas";
 import { useAuth } from "@/features/auth/AuthContext";
 import CreateGameCommand from "@/features/game/actions/command/create-game-command";
 import { useRouter } from 'next/navigation'
+import { CardContent, CardHeader, CardTitle } from "@/components/ui/card/card-children";
 
 export default function SoloPage() {
   const router = useRouter()
@@ -32,19 +33,15 @@ export default function SoloPage() {
       </PageIntro>
 
       <Card>
-        <div>
-          <Title
-            title="Game Settings"
-            size="sm"
-            color="text"
-          />
-          <SubText text="Customize your game" />          
-        </div>
-
-        <CreateGameForm
-          onSubmit={onSubmit}
-        />
-        
+        <CardHeader>
+          <CardTitle>Game Settings</CardTitle>
+          <SubText text="Customize your game" /> 
+        </CardHeader>
+        <CardContent>          
+          <CreateGameForm
+            onSubmit={onSubmit}
+          />          
+        </CardContent>
       </Card>
     </PageBase>
   )
