@@ -17,7 +17,6 @@ import { splitStringInMiddle } from "@/lib/string-util";
 import PlayersList from "@/features/game/components/PlayersList";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card/card-children";
 import { User } from "lucide-react";
-import { GamePlayerModel } from "@/features/game/game-models";
 import { MAX_ONLINE_GAME_PLAYERS } from "@/features/game/game-constants";
 
 export default function CreateOnlineGamePage() {
@@ -80,8 +79,8 @@ export default function CreateOnlineGamePage() {
         </div>
       </PageIntro>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-10">
-            <Card className="col-span-2">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10">
+            <Card className="col-span-1">
               <CardHeader>
                 <CardTitle>
                   Game Settings

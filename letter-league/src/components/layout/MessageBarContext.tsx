@@ -1,0 +1,45 @@
+'use client';
+
+import { createContext, useState, ReactNode, useContext } from 'react';
+
+export type GlobalMsgType = "success" | "warning" | "error" | "information" | "loading";
+
+export interface MessageBarMessage {
+  msg?: string;
+  type?: GlobalMsgType;
+}
+
+type MessageBarContextType = {
+  currentMessage: MessageBarMessage | null;
+  pushMessage: (msg: MessageBarMessage) => void;
+  clearBar: () => void;
+};
+
+const MessageBarContext = createContext<MessageBarContextType | undefined>(undefined);
+
+export function MessageBarProvider({ children }: { children: ReactNode }) {
+  const [currentMessage, setCurrentMessage] = useState<MessageBarMessage | null>(null);
+
+  function pushMessage(msg: MessageBarMessage) {
+    if (!msg.type) msg.type = "information";
+    setCurrentMessage(msg);
+  }
+
+  function clearBar() {
+    setCurrentMessage(null);
+  }
+
+  return (
+    <MessageBarContext.Provider value={{ currentMessage, pushMessage, clearBar }}>
+      {children}
+    </MessageBarContext.Provider>
+  );
+}
+
+export function useMessageBar() {
+  const context = useContext(MessageBarContext);
+  if (context === undefined) {
+    throw new Error('useMessageBar must be used within an MessageBarProvider');
+  }
+  return context;
+}

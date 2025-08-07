@@ -9,7 +9,7 @@ export default function Header() {
     const { authSession } = useAuth();
 
     return (
-        <header className="w-full h-[60px] fixed top-0 z-50 bg-background-secondary border-b-2 border-border">
+        <header className="w-full h-[60px] fixed top-0 z-50 bg-background-secondary border-b-2 border-border shadow-xs">
             <div className="flex items-center justify-between max-w-4xl mx-auto px-2 md:px-0 h-full">
                 {/* Left - Logo */}
             <div className="flex flex-row items-center gap-2">
