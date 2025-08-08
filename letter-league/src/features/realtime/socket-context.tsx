@@ -63,9 +63,10 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
     });
 
     socket.on('user-joined', (data: GamePlayerModel) => {
-      if (connectedPlayers.some(p => p.id == data.id)) return;
-
-      setConnectedPlayers(prev => [...prev, data]);
+      setConnectedPlayers(prev => {
+        if (prev.some(p => p.id === data.id)) return prev;
+        return [...prev, data];
+      });
     });
 
     socket.on('test', () => {
