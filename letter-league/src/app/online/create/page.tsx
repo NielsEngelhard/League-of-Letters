@@ -24,7 +24,7 @@ import Icon from "@/components/ui/Icon";
 export default function CreateOnlineGamePage() {
   const router = useRouter()
   const { getOrCreateGuestAuthSession } = useAuth();
-  const { initializeConnection, emitJoinGame, connectedPlayers, connectionStatus } = useSocket();
+  const { initializeConnection, emitJoinGame, connectedPlayers, connectionStatus, addConnectedPlayers } = useSocket();
   const { pushMessage, clearMessage } = useMessageBar();
 
   const [authSession, setAuthSession] = useState<AuthSessionModel | null>(null);
@@ -65,18 +65,7 @@ export default function CreateOnlineGamePage() {
       type: "loading"
     }, null);
 
-    createLobby()
-      .then((gameId) => {
-        setGameId(gameId);
-        emitJoinGame({
-          gameId: gameId,
-          userId: authSession.id,
-          username: authSession.username,
-          isHost: true
-        });
-
-        clearMessage();     
-      });
+    createLobby();
 
   }, [connectionStatus, authSession]);
 
@@ -90,14 +79,30 @@ export default function CreateOnlineGamePage() {
     });    
   }
 
-  async function createLobby(): Promise<string> {
-    if (!authSession) return "ERROR";
+  async function createLobby(): Promise<void> {
+    if (!authSession) return;
 
-    const gameId = await CreateGameLobbyCommand({
+    const response = await CreateGameLobbyCommand({
       hostUserId: authSession.id
     }, authSession.secretKey);
-  
-    return gameId;
+
+    if (!response.ok) {
+      pushMessage({ msg: response.errorMsg, type: "error" });
+      router.push(MULTIPLAYER_GAME_ROUTE);
+      return;
+    }
+
+    addConnectedPlayers(response.players);
+
+    setGameId(response.gameId);
+    emitJoinGame({
+      gameId: response.gameId,
+      userId: authSession.id,
+      username: authSession.username,
+      isHost: true
+    });
+
+    clearMessage();  
   }
 
   async function onSubmit(data: CreateGameSchema) {

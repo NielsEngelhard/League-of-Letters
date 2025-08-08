@@ -17,7 +17,7 @@ import { useEffect, useState } from "react";
 
 export default function JoinOnlineGamePage() {
     const [authSession, setAuthSession] = useState<AuthSessionModel | null>(null);
-    const { initializeConnection, emitJoinGame, connectedPlayers, connectionStatus, setConnectedPlayers } = useSocket();
+    const { initializeConnection, emitJoinGame, connectedPlayers, addConnectedPlayers, connectionStatus } = useSocket();
     const { pushMessage, clearMessage } = useMessageBar();
 
     const { getOrCreateGuestAuthSession } = useAuth();
@@ -59,7 +59,7 @@ export default function JoinOnlineGamePage() {
                 return;
             }
 
-            setConnectedPlayers(resp.players);
+            addConnectedPlayers(resp.players);
         })
         .catch(() => {
             pushMessage({
@@ -77,19 +77,21 @@ export default function JoinOnlineGamePage() {
         type: "loading"
     }, null);
 
-    initializeConnection();
-    emitJoinGame({ gameId: joinCode.toString(), userId: authSession.id, username: authSession.username });    
+    initializeConnection();        
 
   }, [connectedPlayers]);
 
   useEffect(() => {
-    if (!connectedPlayers) return;
+    if (!connectedPlayers || connectionStatus != "connected" || !authSession) return;
+
+    emitJoinGame({ gameId: joinCode!.toString(), userId: authSession.id, username: authSession.username });
 
     pushMessage({
         msg: "Connected",
         type: "live-connected"
     }, null);
-  }, [connectedPlayers]);
+
+  }, [connectedPlayers, connectionStatus, authSession]);
 
   function login() {
     getOrCreateGuestAuthSession()
@@ -100,10 +102,6 @@ export default function JoinOnlineGamePage() {
         router.push(MULTIPLAYER_GAME_ROUTE);
     });    
   }  
-
-  function onLeaveGame() {
-    
-  }
 
     return (
         <PageBase>

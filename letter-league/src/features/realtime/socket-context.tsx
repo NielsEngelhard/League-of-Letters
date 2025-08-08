@@ -12,7 +12,7 @@ interface SocketContextType {
   initializeConnection: () => void;
 
   connectedPlayers: GamePlayerModel[];
-  setConnectedPlayers: (players: GamePlayerModel[]) => void;
+  addConnectedPlayers: (players: GamePlayerModel[]) => void;
 
   emitJoinGame: (data: JoinGameRealtimeModel) => void;
   emitTestEvent: (gameId: string) => void;
@@ -65,16 +65,13 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
       console.log('Disconnected from WebSocket server');
     });
 
-    socket.on('user-joined', (data: GamePlayerModel) => {
-      setConnectedPlayers(prev => {
-        if (prev.some(p => p.id === data.id)) return prev;
-        return [...prev, data];
-      });
+    socket.on('user-joined', (player: GamePlayerModel) => {
+      addConnectedPlayers([ player ]);
     });
 
     socket.on('test', () => {
       console.log("Received test response from the socket server!");
-    });
+    });    
 
     // Cleanup on unmount
     return () => {
@@ -90,6 +87,13 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
     socketRef.current?.emit('test', gameId);
   };
 
+  function addConnectedPlayers(players: GamePlayerModel[]) {
+    setConnectedPlayers(prev => {
+      const notAlreadyExistingPlayers = players.filter(p => !prev.some(cp => cp.id === p.id));
+      return [...prev, ...notAlreadyExistingPlayers];
+    });
+  }
+
   return (
     <SocketContext.Provider value={{
       socket: socketRef.current,
@@ -98,7 +102,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
       connectedPlayers,
       emitJoinGame,
       emitTestEvent,
-      setConnectedPlayers,
+      addConnectedPlayers,
 	    initializeConnection,
     }}>
       {children}

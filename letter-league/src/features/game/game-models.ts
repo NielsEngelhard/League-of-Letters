@@ -36,3 +36,10 @@ export interface GamePlayerModel {
     score: number;
     connectionStatus: ConnectionStatus;
 }
+
+export interface JoinGameLobbyResponse {
+    ok: boolean;
+    players: GamePlayerModel[];
+    errorMsg?: string;
+    gameId: string;
+}

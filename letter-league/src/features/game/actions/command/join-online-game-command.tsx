@@ -5,14 +5,16 @@ import { db } from "@/drizzle/db";
 import { DbOnlineLobby, OnlineLobbyTable, DbOnlineLobbyPlayer, DbAuthSession } from "@/drizzle/schema";
 import GetAuthSessionBySecreyKeyRequest from "@/features/auth/actions/request/get-auth-session-by-secret-key";
 import { MAX_ONLINE_GAME_PLAYERS } from "../../game-constants";
-import { GameMapper } from "../../game-mapper";
+import { GameMapper, JoinGameResponseFactory } from "../../game-mapper";
 import { eq } from "drizzle-orm";
 import { GamePlayerModel } from "../../game-models";
 
 export interface JoinGameLobbyResponse {
-    ok: boolean;
-    players: GamePlayerModel[];
+    ok: boolean;    
     errorMsg?: string;
+
+    players: GamePlayerModel[];
+    gameId: string;
 }
 
 export default async function JoinGameLobbyCommand(command: JoinGameLobbySchema, secretKey: string): Promise<JoinGameLobbyResponse> {
@@ -25,8 +27,6 @@ export default async function JoinGameLobbyCommand(command: JoinGameLobbySchema,
         return JoinGameResponseFactory.error(`Lobby with ${command.gameId} does not exist`);
     }
 
-    console.log(lobby);
-
     let updatedPlayers: DbOnlineLobbyPlayer[] = [];
     if (lobby.players.some(p => p.id == authSession.id)) {
         updatedPlayers = await ReconnectPlayer(lobby, authSession);
@@ -38,7 +38,7 @@ export default async function JoinGameLobbyCommand(command: JoinGameLobbySchema,
         updatedPlayers = await CreateNewPlayer(lobby, authSession);
     }
 
-    return JoinGameResponseFactory.success(updatedPlayers.map(p => GameMapper.DbOnlineLobbyPlayerToModel(p)));
+    return JoinGameResponseFactory.success(lobby.id, updatedPlayers.map(p => GameMapper.DbOnlineLobbyPlayerToModel(p)));
 }
 
 async function CreateNewPlayer(lobby: DbOnlineLobby, authSession: DbAuthSession): Promise<DbOnlineLobbyPlayer[]> {
@@ -77,24 +77,4 @@ async function GetGameLobby(gameId: string): Promise<DbOnlineLobby | undefined> 
     });
 
     return gameLobby;
-}
-
-class JoinGameResponseFactory {
-    static success(players: GamePlayerModel[]): JoinGameLobbyResponse {
-        return {
-            ok: true,
-            players: players,
-            errorMsg: undefined         
-        };
-    }
-
-    static error(errorMsg?: string): JoinGameLobbyResponse {
-        if (!errorMsg) errorMsg = "Could not join game";
-        
-        return {
-            ok: false,
-            errorMsg: errorMsg,
-            players: []
-        };
-    }
 }

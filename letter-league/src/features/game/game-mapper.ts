@@ -1,5 +1,5 @@
 import { DbGamePlayer, DbGameRound, DbActiveGameWithRoundsAndPlayers, DbOnlineLobbyPlayer, DbAuthSession } from "@/drizzle/schema";
-import { ActiveGameModel, GamePlayerModel, GameRoundModel } from "./game-models";
+import { ActiveGameModel, GamePlayerModel, GameRoundModel, JoinGameLobbyResponse } from "./game-models";
 import { ConnectionStatus } from "../realtime/realtime-models";
 
 export class GameMapper {
@@ -26,7 +26,8 @@ export class GameMapper {
             id: player.userId,
             score: player.score,
             username: player.username ?? "anonymous",
-            connectionStatus: "connected"
+            connectionStatus: "connected",
+            isHost: false
         }
     }
 
@@ -53,7 +54,30 @@ export class GameMapper {
             id: player.id,
             username: player.username,
             connectionStatus: player.connectionStatus,
-            score: 0
+            score: 0,
+            isHost: false
         }
+    }
+}
+
+export class JoinGameResponseFactory {
+    static success(gameId: string, players: GamePlayerModel[]): JoinGameLobbyResponse {
+        return {
+            ok: true,
+            players: players,
+            errorMsg: undefined,
+            gameId: gameId    
+        };
+    }
+
+    static error(errorMsg?: string): JoinGameLobbyResponse {
+        if (!errorMsg) errorMsg = "Could not join game";
+        
+        return {
+            ok: false,
+            errorMsg: errorMsg,
+            players: [],
+            gameId: "?"
+        };
     }
 }
