@@ -12,7 +12,7 @@ interface Props {
 export default function InGamePlayerCard({ player, scorePosition, isCurrentPlayer = false, isHisTurn, isOnlyPlayer = false }: Props) {
     return (
         <div
-            key={player.id}
+            key={player.userId}
             className={`
                 relative overflow-hidden rounded-xl p-3 transition-all duration-200 border border-gray-100 hover:border-gray-200 hover:shadow-sm
                 ${isHisTurn && !isOnlyPlayer

@@ -23,7 +23,7 @@ export class GameMapper {
 
     static GamePlayerToModel(player: DbGamePlayer): GamePlayerModel {
         return {
-            id: player.userId,
+            userId: player.userId,
             score: player.score,
             username: player.username ?? "anonymous",
             connectionStatus: "connected",
@@ -51,7 +51,7 @@ export class GameMapper {
 
     static DbOnlineLobbyPlayerToModel(player: DbOnlineLobbyPlayer): GamePlayerModel {
         return {
-            id: player.id,
+            userId: player.id,
             username: player.username,
             connectionStatus: player.connectionStatus,
             score: 0,

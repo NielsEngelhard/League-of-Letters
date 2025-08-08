@@ -65,7 +65,7 @@ export function ActiveGameProvider({ children, game }: { children: ReactNode, ga
     // Update player score(s)
     setPlayers(prevPlayers =>
       prevPlayers.map(player =>
-        player.id === response.userId
+        player.userId === response.userId
           ? { ...player, score: player.score + response.scoreResult.totalScore }
           : player
       )

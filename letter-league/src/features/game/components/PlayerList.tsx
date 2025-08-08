@@ -34,7 +34,7 @@ export default function PlayerList({ players, currentPlayerId }: Props) {
                         <InGamePlayerCard
                             player={player}
                             scorePosition={index + 1}
-                            isHisTurn={player.id == currentPlayerId}
+                            isHisTurn={player.userId == currentPlayerId}
                             key={index}
                             isOnlyPlayer={players.length == 1}
                         />

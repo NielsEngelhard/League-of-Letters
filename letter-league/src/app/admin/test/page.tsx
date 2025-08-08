@@ -13,10 +13,10 @@ import { Clock, Crown, User } from "lucide-react";
 
 // Mock data for joined lobby
 const mockPlayers: GamePlayerModel[] = [
-  { id: '1', username: 'Alice', isHost: true, connectionStatus: "connected", score: 0 },
-  { id: '2', username: 'Bob', isHost: false, connectionStatus: "connected", score: 0 },
-  { id: '3', username: 'You', isHost: false, connectionStatus: "connected", score: 0 },
-  { id: '4', username: 'Charlie', isHost: false, connectionStatus: "connected", score: 0 },
+  { userId: '1', username: 'Alice', isHost: true, connectionStatus: "connected", score: 0 },
+  { userId: '2', username: 'Bob', isHost: false, connectionStatus: "connected", score: 0 },
+  { userId: '3', username: 'You', isHost: false, connectionStatus: "connected", score: 0 },
+  { userId: '4', username: 'Charlie', isHost: false, connectionStatus: "connected", score: 0 },
 ];
 
 const mockGameSettings = {

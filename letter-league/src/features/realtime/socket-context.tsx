@@ -74,14 +74,14 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
       console.log(`REALTIME: User ${disconnectedUserId} disconnected`);
 
       setConnectedPlayers(prev => {
-        var userToDelete = prev.find(p => p.id == disconnectedUserId);
+        var userToDelete = prev.find(p => p.userId == disconnectedUserId);
 
         console.log("userToDelete:");
         console.log(userToDelete);
         console.log("playerlist:");
         console.log(prev);
 
-        return prev.map(player => player.id == disconnectedUserId ? {...player, connectionStatus: "disconnected"} : player);
+        return prev.map(player => player.userId == disconnectedUserId ? {...player, connectionStatus: "disconnected"} : player);
       });
     });    
 
@@ -105,7 +105,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
 
   const addPlayerIfNotExists = (player: GamePlayerModel) => {
     setConnectedPlayers(prev => {
-      const playerExists = prev.some(p => p.id === player.id);
+      const playerExists = prev.some(p => p.userId === player.userId);
 
       if (playerExists) {
         return prev;

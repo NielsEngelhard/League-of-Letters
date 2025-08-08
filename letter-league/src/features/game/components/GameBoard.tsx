@@ -35,7 +35,7 @@ export default function GameBoard({}: Props) {
             {/* Players List */}
             <PlayerList
                 players={players}
-                currentPlayerId={players[0].id}               
+                currentPlayerId={players[0].userId}               
             />
 
             {/* Game Grid */}

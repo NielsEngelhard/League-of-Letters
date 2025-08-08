@@ -30,7 +30,7 @@ export interface GameRoundModel {
 }
 
 export interface GamePlayerModel {
-    id: string;
+    userId: string;
     isHost: boolean;
     username: string;
     score: number;
