@@ -15,7 +15,7 @@ export default function PlayersList({ players }: Props ) {
     return (
         <>
         {players.map((player, index) => (
-        <div key={player.id}>
+        <div key={index}>
             <div className="flex items-center justify-between">
             <div className="flex items-center gap-2 sm:gap-3">
                 <Avatar>

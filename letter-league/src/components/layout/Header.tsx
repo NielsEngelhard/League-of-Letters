@@ -4,9 +4,12 @@ import { PICK_GAME_MODE_ROUTE, PROFILE_ROUTE } from "@/app/routes";
 import { useAuth } from "@/features/auth/AuthContext"
 import Link from "next/link";
 import WebSocketStatusIndicator from "./WebSocketStatusIndicator";
+import RealtimeStatusIndicator from "@/features/realtime/RealtimeStatusIndicator";
+import { useSocket } from "@/features/realtime/socket-context";
 
 export default function Header() {
     const { authSession } = useAuth();
+    const { connectionStatus } = useSocket();
 
     return (
         <header className="w-full h-[60px] fixed top-0 z-50 bg-background-secondary border-b-2 border-border shadow-xs">
@@ -45,8 +48,8 @@ export default function Header() {
                                 </span>
                             </div>
                             {/* Online indicator */}
-                            <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-success rounded-full border-2 border-white shadow-sm">
-                                <div className="w-full h-full bg-success rounded-full animate-pulse" />
+                            <div className="absolute -bottom-0.5 -right-0.5 border-background border-2 rounded-full">
+                                <RealtimeStatusIndicator status={connectionStatus} showDot={true} showIcon={false} showLabel={false} />
                             </div>
                         </div>
 
@@ -56,7 +59,6 @@ export default function Header() {
                                 {authSession.username}
                             </div>
                             <div className="flex items-center gap-1 text-xs text-gray-500">
-                                <div className="w-1 h-1 bg-orange-400 rounded-full animate-pulse" />
                                 <span className="font-medium">guest session</span>
                             </div>
                         </div>

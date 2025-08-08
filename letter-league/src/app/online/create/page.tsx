@@ -16,9 +16,10 @@ import CreateGameLobbyCommand from "@/features/game/actions/command/create-game-
 import { splitStringInMiddle } from "@/lib/string-util";
 import PlayersList from "@/features/game/components/PlayersList";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card/card-children";
-import { User } from "lucide-react";
+import { Check, Copy, User } from "lucide-react";
 import { MAX_ONLINE_GAME_PLAYERS } from "@/features/game/game-constants";
 import { useMessageBar } from "@/components/layout/MessageBarContext";
+import Icon from "@/components/ui/Icon";
 
 export default function CreateOnlineGamePage() {
   const router = useRouter()
@@ -28,6 +29,7 @@ export default function CreateOnlineGamePage() {
 
   const [authSession, setAuthSession] = useState<AuthSessionModel | null>(null);
   const [gameId, setGameId] = useState<string | null>(null);
+  const [copiedGameId, setCopiedGameId] = useState(false);
 
   useEffect(() => {
     if (authSession) return;
@@ -45,7 +47,7 @@ export default function CreateOnlineGamePage() {
   }, []);
 
   useEffect(() => {
-    if (!authSession) return;
+    if (!authSession || connectionStatus == "connected") return;
 
     pushMessage({
       msg: "Setting up realtime connection",
@@ -76,7 +78,7 @@ export default function CreateOnlineGamePage() {
         clearMessage();     
       });
 
-  }, [connectionStatus]);
+  }, [connectionStatus, authSession]);
 
   function login() {
     getOrCreateGuestAuthSession()
@@ -102,11 +104,27 @@ export default function CreateOnlineGamePage() {
 
   }
 
+  async function copyJoinCodeToClipboard() {
+    if (!gameId) return;
+
+    await navigator.clipboard.writeText(gameId);
+    setCopiedGameId(true);
+  }
+
   return (
     <PageBase size="lg">
       <PageIntro title="Create Online Game" subText="Join Code:" backHref={PICK_GAME_MODE_ROUTE}>
         <div className="text-3xl font-bold">
-          {gameId ? splitStringInMiddle(gameId ?? "") : "Loading..."}
+          {gameId ? (
+            <button className="flex flex-row cursor-pointer" onClick={copyJoinCodeToClipboard}>
+              {splitStringInMiddle(gameId ?? "")}
+              {copiedGameId ? (
+                <div className="text-success"><Icon LucideIcon={Check} size="xs" /></div>
+              ) : (
+                <Icon LucideIcon={Copy} size="xs" />
+              )}
+            </button>
+          ) : "Loading..."}
         </div>
       </PageIntro>
 
