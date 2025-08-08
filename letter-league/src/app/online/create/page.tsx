@@ -51,14 +51,12 @@ export default function CreateOnlineGamePage() {
 
       const authSession = await getOrCreateGuestAuthSession();
 
-      setTimeout(() => {
-        emitJoinGame({
-          gameId: lobbyResponse.id,
-          userId: authSession.id,
-          username: authSession.username,
-          isHost: true
-        });        
-      }, 1000);
+      emitJoinGame({
+        gameId: lobbyResponse.id,
+        userId: authSession.id,
+        username: authSession.username,
+        isHost: true
+      });
     }
 
     CreateOrGetLobby();
@@ -76,7 +74,7 @@ export default function CreateOnlineGamePage() {
       }, authSession.secretKey);
 
       if (!response.ok || !response.data) {
-        pushMessage({ msg: response.errorMsg, type: "loading" }, null);        
+        pushMessage({ msg: response.errorMsg, type: "error" }, null);        
         throw Error("Something went wrong");
       }
 

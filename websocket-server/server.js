@@ -34,8 +34,13 @@ io.on('connection', (socket) => {
 
   // USER ACTIONS --------------------------------------------------------------------
   socket.on('join-game', ({ gameId, username, userId, isHost}) => {    
+    // Set user specific data
+    socket.userId = userId;
+    socket.gameId = gameId;
+    socket.username = username;
+
     socket.join(gameId);
-    console.log(`User ${socket.id} joined room: ${gameId} ${username} ${userId}`);
+    console.log(`User ${username} joined room: ${gameId}`);
     socket.broadcast.to(gameId).emit('user-joined', { userId: userId, username: username, isHost: isHost, connectionStatus: "connected" });
   });
 
@@ -48,7 +53,8 @@ io.on('connection', (socket) => {
 
   // GENERAL ACTIONS ----------------------------------------------------------------------
   socket.on('disconnect', () => {
-    console.log(`User disconnected: ${socket.id}`);
+    console.log(`User ${socket.username} disconnected from room: ${socket.gameId}`);
+    socket.broadcast.to(socket.gameId).emit('user-disconnected', socket.userId);
   });
 
   socket.on('error', (error) => {

@@ -1,5 +1,5 @@
 // SocketContext.tsx
-import React, { createContext, useContext, useRef, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useRef, useState, ReactNode, useEffect } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { ConnectionStatus, JoinGameRealtimeModel } from './realtime-models';
 import { GamePlayerModel } from '../game/game-models';
@@ -66,8 +66,24 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
     });
 
     socket.on('user-joined', (player: GamePlayerModel) => {
+      console.log(`REALTIME: User ${player.username} joined`);
       addPlayerIfNotExists(player);
     });
+
+    socket.on('user-disconnected', (disconnectedUserId: string) => {
+      console.log(`REALTIME: User ${disconnectedUserId} disconnected`);
+
+      setConnectedPlayers(prev => {
+        var userToDelete = prev.find(p => p.id == disconnectedUserId);
+
+        console.log("userToDelete:");
+        console.log(userToDelete);
+        console.log("playerlist:");
+        console.log(prev);
+
+        return prev.map(player => player.id == disconnectedUserId ? {...player, connectionStatus: "disconnected"} : player);
+      });
+    });    
 
     socket.on('test', () => {
       console.log("Received test response from the socket server!");
@@ -89,27 +105,22 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
 
   const addPlayerIfNotExists = (player: GamePlayerModel) => {
     setConnectedPlayers(prev => {
-      // Check if player already exists
       const playerExists = prev.some(p => p.id === player.id);
-      const getPlayer = prev.find(p => p.id == player.id);
-
-      console.log("WTF!!");
-      console.log(getPlayer);
-      console.log("exists: " + playerExists);
-      console.log("ACTUAL LIST:");
-      console.log(prev);
-      console.log("TRYING TO ADD:");
-      console.log(player);
 
       if (playerExists) {
-        console.log("NOT ADDED");
-        return prev; // Return unchanged array
+        return prev;
       }
 
-      console.log("WEL ADDED");
-      return [...prev, player]; // Add new player
+      return [...prev, player];
     });
   };
+
+    // LOG the connectedPlayers list for DEV reasons
+    useEffect(() => {
+      if (!connectedPlayers) return;
+      
+      console.log(connectedPlayers);
+    }, [connectedPlayers])  
 
   return (
     <SocketContext.Provider value={{

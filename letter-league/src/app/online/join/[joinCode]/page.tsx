@@ -10,14 +10,15 @@ import { useAuth } from "@/features/auth/AuthContext";
 import JoinGameLobbyCommand from "@/features/game/actions/command/join-online-game-command";
 import PlayersList from "@/features/game/components/PlayersList";
 import { MAX_ONLINE_GAME_PLAYERS } from "@/features/game/game-constants";
+import { GameLobbyModel, GamePlayerModel } from "@/features/game/game-models";
 import { useSocket } from "@/features/realtime/socket-context";
 import { User } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function JoinOnlineGamePage() {
-    const [authSession, setAuthSession] = useState<AuthSessionModel | null>(null);
-    const { initializeConnection, emitJoinGame, connectedPlayers, addConnectedPlayers, connectionStatus } = useSocket();
+    const [lobby, setLobby] = useState<GameLobbyModel | null>(null);
+    const { initializeConnection, emitJoinGame, connectedPlayers, connectionStatus, addPlayerIfNotExists } = useSocket();
     const { pushMessage, clearMessage } = useMessageBar();
 
     const { getOrCreateGuestAuthSession } = useAuth();
@@ -27,81 +28,53 @@ export default function JoinOnlineGamePage() {
     const joinCode = params.joinCode;
 
     useEffect(() => {
-        if (authSession) return;
-
-        pushMessage({
-            msg: "Creating session",
-            type: "loading"
-        }, null);
-
-        login();
-
-        return () => {
-            clearMessage();
+        async function LoginAndSetupRealtimeConnection() {
+            await getOrCreateGuestAuthSession();
+            initializeConnection();
         }
+
+        LoginAndSetupRealtimeConnection();
     }, []);
 
     useEffect(() => {
-        if (!joinCode || !authSession) return;
+        async function JoinLobby() {
+            if (connectionStatus != "connected" || lobby || !joinCode) return;
 
-        pushMessage({
-            msg: "Joining game",
-            type: "loading"
-        }, null);
+            const lobbyResponse = await JoinLobbyOnServer(joinCode.toString());
 
-        JoinGameLobbyCommand({ gameId: joinCode.toString() }, authSession.secretKey)
-        .then((resp) => {
-            if (!resp.ok) {
-                pushMessage({
-                    msg: resp.errorMsg ?? "Server error",
-                    type: "error"
-                }, null);
-                return;
-            }
+            addPlayersToRealtimePlayersList(lobbyResponse.players);
+            setLobby(lobbyResponse);
 
-            addConnectedPlayers(resp.players);
-        })
-        .catch(() => {
-            pushMessage({
-                msg: "Server error",
-                type: "error"
-            }, null);
-        });
-    }, [authSession]);    
+            const authSession = await getOrCreateGuestAuthSession();
+            emitJoinGame({
+                gameId: lobbyResponse.id,
+                userId: authSession.id,
+                username: authSession.username,
+                isHost: true
+            });    
+        }
 
-  useEffect(() => {
-    if (!connectedPlayers || !joinCode || !authSession) return;
+        JoinLobby();
+    }, [connectionStatus]);    
 
-    pushMessage({
-        msg: "Setting up realtime server connection",
-        type: "loading"
-    }, null);
+    function addPlayersToRealtimePlayersList(players: GamePlayerModel[]) {
+        players.forEach(player => addPlayerIfNotExists(player));
+        }    
 
-    initializeConnection();        
+        async function JoinLobbyOnServer(gameId: string): Promise<GameLobbyModel> {
+        const authSession = await getOrCreateGuestAuthSession();
 
-  }, [connectedPlayers]);
+        const response = await JoinGameLobbyCommand({
+            gameId: gameId
+        }, authSession.secretKey);
 
-  useEffect(() => {
-    if (!connectedPlayers || connectionStatus != "connected" || !authSession) return;
+        if (!response.ok || !response.data) {
+            pushMessage({ msg: response.errorMsg, type: "error" }, null);        
+            throw Error("Something went wrong");
+        }
 
-    // emitJoinGame({ gameId: joinCode!.toString(), userId: authSession.id, username: authSession.username });
-
-    pushMessage({
-        msg: "Connected",
-        type: "live-connected"
-    }, null);
-
-  }, [connectedPlayers, connectionStatus, authSession]);
-
-  function login() {
-    getOrCreateGuestAuthSession()
-    .then((response) => {
-        setAuthSession(response);
-    })
-    .catch(() => {
-        router.push(MULTIPLAYER_GAME_ROUTE);
-    });    
-  }  
+        return response.data;
+    }  
 
     return (
         <PageBase>
