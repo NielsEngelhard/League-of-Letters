@@ -11,7 +11,7 @@ export interface MessageBarMessage {
 
 type MessageBarContextType = {
   currentMessage: MessageBarMessage | null;
-  pushMessage: (msg: MessageBarMessage) => void;
+  pushMessage: (msg: MessageBarMessage, durationInSeconds?: number | null) => void;
   clearMessage: () => void;
 };
 
@@ -20,9 +20,15 @@ const MessageBarContext = createContext<MessageBarContextType | undefined>(undef
 export function MessageBarProvider({ children }: { children: ReactNode }) {
   const [currentMessage, setCurrentMessage] = useState<MessageBarMessage | null>(null);
 
-  function pushMessage(msg: MessageBarMessage) {
+  function pushMessage(msg: MessageBarMessage, durationInSeconds: number | null = 2) {
     if (!msg.type) msg.type = "information";
     setCurrentMessage(msg);
+
+    if (durationInSeconds != null) {
+      setTimeout(() => {
+        clearMessage();
+      }, (durationInSeconds * 1000) + 200);
+    }
   }
 
   function clearMessage() {

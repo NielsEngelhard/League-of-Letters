@@ -18,12 +18,15 @@ import PlayersList from "@/features/game/components/PlayersList";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card/card-children";
 import { User } from "lucide-react";
 import { MAX_ONLINE_GAME_PLAYERS } from "@/features/game/game-constants";
+import { useMessageBar } from "@/components/layout/MessageBarContext";
 
 export default function CreateOnlineGamePage() {
   const router = useRouter()
   const { getOrCreateGuestAuthSession } = useAuth();
-  const [authSession, setAuthSession] = useState<AuthSessionModel | null>(null);
   const { initializeConnection, emitJoinGame, connectedPlayers } = useSocket();
+  const { pushMessage } = useMessageBar();
+
+  const [authSession, setAuthSession] = useState<AuthSessionModel | null>(null);
   const [gameId, setGameId] = useState<string | null>(null);
 
   useEffect(() => {
