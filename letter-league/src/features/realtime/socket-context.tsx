@@ -9,10 +9,12 @@ interface SocketContextType {
   connectionStatus: ConnectionStatus;
   transport: string;
 
+  initializeConnection: () => void;
+
   connectedPlayers: GamePlayerModel[];
+  setConnectedPlayers: (players: GamePlayerModel[]) => void;
 
   emitJoinGame: (data: JoinGameRealtimeModel) => void;
-  initializeConnection: () => void;
   emitTestEvent: (gameId: string) => void;
 }
 
@@ -59,6 +61,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
     socket.on('disconnect', () => {
       setConnectionStatus("disconnected");
       setTransport('N/A');
+      setConnectedPlayers([]);
       console.log('Disconnected from WebSocket server');
     });
 
@@ -95,7 +98,8 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
       connectedPlayers,
       emitJoinGame,
       emitTestEvent,
-	  initializeConnection
+      setConnectedPlayers,
+	    initializeConnection,
     }}>
       {children}
     </SocketContext.Provider>

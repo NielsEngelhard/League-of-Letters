@@ -1,5 +1,5 @@
 "use client"
-import { Book, Check, CircleX, Settings } from "lucide-react";
+import { Book, Check, CircleX, Router, Settings, Wifi } from "lucide-react";
 import { GlobalMsgType, MessageBarMessage, useMessageBar } from "./MessageBarContext";
 import { useEffect, useState } from "react";
 
@@ -15,7 +15,7 @@ const getConfig = (status: GlobalMsgType) => {
         case 'loading':
             return {
                 bg: 'bg-warning/10',
-                color: 'text-warning',
+                color: 'text-warning animate-pulse',
                 Icon: Settings,
                 text: 'Loading ...'
             };
@@ -26,6 +26,13 @@ const getConfig = (status: GlobalMsgType) => {
                 Icon: CircleX,
                 text: 'Something went wrong...'
             };
+        case 'live-connected':
+            return {
+                bg: 'bg-success/10',
+                color: 'text-success',
+                Icon: Router,
+                text: 'Connected'
+            };         
         default:
             return {
                 bg: 'bg-primary/10',

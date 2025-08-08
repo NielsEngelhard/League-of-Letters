@@ -1,20 +1,24 @@
 "use client"
 
 import { MULTIPLAYER_GAME_ROUTE } from "@/app/routes";
+import { useMessageBar } from "@/components/layout/MessageBarContext";
 import PageBase from "@/components/layout/PageBase";
+import Card from "@/components/ui/card/Card";
+import { CardContent, CardHeader, CardTitle } from "@/components/ui/card/card-children";
 import { AuthSessionModel } from "@/features/auth/auth-models";
 import { useAuth } from "@/features/auth/AuthContext";
 import JoinGameLobbyCommand from "@/features/game/actions/command/join-online-game-command";
-import { GamePlayerModel } from "@/features/game/game-models";
+import PlayersList from "@/features/game/components/PlayersList";
+import { MAX_ONLINE_GAME_PLAYERS } from "@/features/game/game-constants";
 import { useSocket } from "@/features/realtime/socket-context";
+import { User } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function JoinOnlineGamePage() {
-    const [playersInLobby, setPlayersInLobby] = useState<GamePlayerModel[] | null>(null);
     const [authSession, setAuthSession] = useState<AuthSessionModel | null>(null);
-    const { initializeConnection, emitJoinGame, connectedPlayers, connectionStatus } = useSocket();
-    const [error, setError] = useState<string | null>(null);
+    const { initializeConnection, emitJoinGame, connectedPlayers, connectionStatus, setConnectedPlayers } = useSocket();
+    const { pushMessage, clearMessage } = useMessageBar();
 
     const { getOrCreateGuestAuthSession } = useAuth();
     const router = useRouter();
@@ -23,33 +27,69 @@ export default function JoinOnlineGamePage() {
     const joinCode = params.joinCode;
 
     useEffect(() => {
+        if (authSession) return;
+
+        pushMessage({
+            msg: "Creating session",
+            type: "loading"
+        }, null);
+
         login();
+
+        return () => {
+            clearMessage();
+        }
     }, []);
 
     useEffect(() => {
         if (!joinCode || !authSession) return;
 
+        pushMessage({
+            msg: "Joining game",
+            type: "loading"
+        }, null);
+
         JoinGameLobbyCommand({ gameId: joinCode.toString() }, authSession.secretKey)
         .then((resp) => {
             if (!resp.ok) {
-                setError(resp.errorMsg ?? "Error");
+                pushMessage({
+                    msg: resp.errorMsg ?? "Server error",
+                    type: "error"
+                }, null);
                 return;
             }
 
-            setPlayersInLobby(resp.players);            
+            setConnectedPlayers(resp.players);
         })
         .catch(() => {
-            setError("Server Error");
+            pushMessage({
+                msg: "Server error",
+                type: "error"
+            }, null);
         });
     }, [authSession]);    
 
   useEffect(() => {
-    if (!playersInLobby || playersInLobby.length < 1 || !joinCode || !authSession) return;
+    if (!connectedPlayers || !joinCode || !authSession) return;
+
+    pushMessage({
+        msg: "Setting up realtime server connection",
+        type: "loading"
+    }, null);
 
     initializeConnection();
-    emitJoinGame({ gameId: joinCode.toString(), userId: authSession.id, username: authSession.username });
+    emitJoinGame({ gameId: joinCode.toString(), userId: authSession.id, username: authSession.username });    
 
-  }, [playersInLobby]);  
+  }, [connectedPlayers]);
+
+  useEffect(() => {
+    if (!connectedPlayers) return;
+
+    pushMessage({
+        msg: "Connected",
+        type: "live-connected"
+    }, null);
+  }, [connectedPlayers]);
 
   function login() {
     getOrCreateGuestAuthSession()
@@ -61,12 +101,49 @@ export default function JoinOnlineGamePage() {
     });    
   }  
 
+  function onLeaveGame() {
+    
+  }
+
     return (
         <PageBase>
-            {playersInLobby ? (
-                <div>joined</div>
+            {connectedPlayers ? (
+                <>
+                    <Card variant="success">
+                        <CardHeader>
+                            <CardTitle className="text-success">
+                                Joined Game
+                            </CardTitle>
+                            <span className="text-foreground font-medium">
+                                Waiting for host to start...
+                            </span>
+                        </CardHeader>
+
+                        <CardContent>
+                            <ul className="text-sm text-foreground-muted">
+                                <li>Game ID: {joinCode?.toString()}</li>
+                            </ul>
+                        </CardContent>
+                    </Card>
+
+                    <Card>
+                        <CardHeader className="pb-3 sm:pb-4 justify-between flex flex-row">
+                            <CardTitle className="text-base sm:text-lg flex items-center gap-2">
+                                <User className="w-4 h-4" />
+                                Players ({connectedPlayers.length})
+                            </CardTitle>
+
+                            <span className="italic text-xs">
+                                max {MAX_ONLINE_GAME_PLAYERS}
+                            </span>
+                        </CardHeader>
+                        <CardContent>
+                            <PlayersList players={connectedPlayers} />
+                        </CardContent>
+                    </Card>
+                </>
             ): (
-                <div>not joined</div>
+                <div>Loading...</div>
             )}
         </PageBase>
     )

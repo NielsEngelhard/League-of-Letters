@@ -10,7 +10,7 @@ import { useAuth } from "@/features/auth/AuthContext";
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from "react";
 import { AuthSessionModel } from "@/features/auth/auth-models";
-import { PICK_GAME_MODE_ROUTE } from "@/app/routes";
+import { MULTIPLAYER_GAME_ROUTE, PICK_GAME_MODE_ROUTE } from "@/app/routes";
 import { useSocket } from "@/features/realtime/socket-context";
 import CreateGameLobbyCommand from "@/features/game/actions/command/create-game-lobby-command";
 import { splitStringInMiddle } from "@/lib/string-util";
@@ -113,7 +113,7 @@ export default function CreateOnlineGamePage() {
 
   return (
     <PageBase size="lg">
-      <PageIntro title="Create Online Game" subText="Join Code:" backHref={PICK_GAME_MODE_ROUTE}>
+      <PageIntro title="Create Online Game" subText="Join Code:" backHref={MULTIPLAYER_GAME_ROUTE}>
         <div className="text-3xl font-bold">
           {gameId ? (
             <button className="flex flex-row cursor-pointer" onClick={copyJoinCodeToClipboard}>

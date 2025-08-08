@@ -1,12 +1,8 @@
 "use server"
 
-import GetWordsCommand from "@/features/word/actions/command/get-words-command";
-import { CreateGameSchema, JoinGameLobbySchema } from "../../game-schemas";
-import { generateGameId } from "../../util/game-id-generator";
+import { JoinGameLobbySchema } from "../../game-schemas";
 import { db } from "@/drizzle/db";
-import { GamePlayerTable, GameRoundTable, ActiveGameTable, DbOnlineLobby, OnlineLobbyTable, DbOnlineLobbyPlayer } from "@/drizzle/schema";
-import { GameRoundFactory } from "../../util/factories/game-round-factory";
-import { GamePlayerFactory } from "../../util/factories/game-player-factory";
+import { DbOnlineLobby, OnlineLobbyTable, DbOnlineLobbyPlayer, DbAuthSession } from "@/drizzle/schema";
 import GetAuthSessionBySecreyKeyRequest from "@/features/auth/actions/request/get-auth-session-by-secret-key";
 import { MAX_ONLINE_GAME_PLAYERS } from "../../game-constants";
 import { GameMapper } from "../../game-mapper";
@@ -29,11 +25,23 @@ export default async function JoinGameLobbyCommand(command: JoinGameLobbySchema,
         return JoinGameResponseFactory.error(`Lobby with ${command.gameId} does not exist`);
     }
 
-    if (lobby.players.length >= MAX_ONLINE_GAME_PLAYERS) {
-        return JoinGameResponseFactory.error(`Game is full`);
+    console.log(lobby);
+
+    let updatedPlayers: DbOnlineLobbyPlayer[] = [];
+    if (lobby.players.some(p => p.id == authSession.id)) {
+        updatedPlayers = await ReconnectPlayer(lobby, authSession);
+    } else {
+        if (lobby.players.length >= MAX_ONLINE_GAME_PLAYERS) {
+            return JoinGameResponseFactory.error(`Game is full`);
+        }
+
+        updatedPlayers = await CreateNewPlayer(lobby, authSession);
     }
 
-    // add player
+    return JoinGameResponseFactory.success(updatedPlayers.map(p => GameMapper.DbOnlineLobbyPlayerToModel(p)));
+}
+
+async function CreateNewPlayer(lobby: DbOnlineLobby, authSession: DbAuthSession): Promise<DbOnlineLobbyPlayer[]> {
     const player: DbOnlineLobbyPlayer = GameMapper.AuthSessionToLobbyPlayer(authSession);
     const updatedPlayers: DbOnlineLobbyPlayer[] = [...lobby.players, player];
 
@@ -41,9 +49,26 @@ export default async function JoinGameLobbyCommand(command: JoinGameLobbySchema,
         .set({
             players: updatedPlayers
         })
-        .where(eq(OnlineLobbyTable.id, lobby.id));    
+        .where(eq(OnlineLobbyTable.id, lobby.id));     
+        
+    return updatedPlayers;
+}
 
-    return JoinGameResponseFactory.success(updatedPlayers.map(p => GameMapper.DbOnlineLobbyPlayerToModel(p)));
+async function ReconnectPlayer(lobby: DbOnlineLobby, authSession: DbAuthSession): Promise<DbOnlineLobbyPlayer[]> {
+    const updatedPlayers: DbOnlineLobbyPlayer[] = lobby.players.map(p => {
+        if (p.id === authSession.id) {
+            return { ...p, connectionStatus: "connected" }; // updated player
+        }
+        return p;
+    });
+
+    await db.update(OnlineLobbyTable)
+        .set({
+            players: updatedPlayers
+        })
+        .where(eq(OnlineLobbyTable.id, lobby.id));     
+        
+    return updatedPlayers;
 }
 
 async function GetGameLobby(gameId: string): Promise<DbOnlineLobby | undefined> {
