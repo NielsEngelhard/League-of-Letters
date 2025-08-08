@@ -109,13 +109,6 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
     });
   };
 
-    // LOG the connectedPlayers list for DEV reasons
-    useEffect(() => {
-      if (!connectedPlayers) return;
-      
-      console.log(connectedPlayers);
-    }, [connectedPlayers])  
-
   return (
     <SocketContext.Provider value={{
       socket: socketRef.current,

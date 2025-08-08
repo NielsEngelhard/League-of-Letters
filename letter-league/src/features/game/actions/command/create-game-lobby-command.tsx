@@ -17,7 +17,7 @@ export default async function CreateGameLobbyCommand(command: CreateGameLobbySch
 
     // CHEKC EXISTING GAME
     const existingLobby = await GetExistingLobbyIfExists(authSession);
-    
+
     if (existingLobby) {
         return ReJoinExistingLobby(existingLobby, authSession);
     }
