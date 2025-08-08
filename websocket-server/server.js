@@ -37,7 +37,6 @@ io.on('connection', (socket) => {
     // Set user specific data
     socket.userId = userId;
     socket.gameId = gameId;
-    socket.username = username;
 
     socket.join(gameId);
     console.log(`User ${username} joined room: ${gameId}`);
@@ -53,7 +52,7 @@ io.on('connection', (socket) => {
 
   // GENERAL ACTIONS ----------------------------------------------------------------------
   socket.on('disconnect', () => {
-    console.log(`User ${socket.username} disconnected from room: ${socket.gameId}`);
+    console.log(`User '${socket.userId}' disconnected from game: '${socket.gameId}'`);
     socket.broadcast.to(socket.gameId).emit('user-disconnected', socket.userId);
   });
 

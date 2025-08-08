@@ -26,7 +26,7 @@ import { GameLobbyModel, GamePlayerModel } from "@/features/game/game-models";
 export default function CreateOnlineGamePage() {
   const router = useRouter()
   const { getOrCreateGuestAuthSession } = useAuth();
-  const { initializeConnection, emitJoinGame, connectionStatus, connectedPlayers, addPlayerIfNotExists } = useSocket();
+  const { initializeConnection, emitJoinGame, connectionStatus, connectedPlayers, addPlayerOrSetReconnected } = useSocket();
   const { pushMessage, clearMessage } = useMessageBar();
 
   const [lobby, setLobby] = useState<GameLobbyModel | null>(null);
@@ -63,7 +63,7 @@ export default function CreateOnlineGamePage() {
   }, [connectionStatus]);
 
   function addPlayersToRealtimePlayersList(players: GamePlayerModel[]) {
-    players.forEach(player => addPlayerIfNotExists(player));
+    players.forEach(player => addPlayerOrSetReconnected(player));
   }
 
   async function GetOrCreateLobbyFromServer(): Promise<GameLobbyModel> {

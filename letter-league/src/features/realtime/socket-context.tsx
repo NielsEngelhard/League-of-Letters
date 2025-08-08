@@ -12,7 +12,7 @@ interface SocketContextType {
   initializeConnection: () => void;
 
   connectedPlayers: GamePlayerModel[];
-  addPlayerIfNotExists: (players: GamePlayerModel) => void;
+  addPlayerOrSetReconnected: (players: GamePlayerModel) => void;
 
   emitJoinGame: (data: JoinGameRealtimeModel) => void;
   emitTestEvent: (gameId: string) => void;
@@ -67,20 +67,14 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
 
     socket.on('user-joined', (player: GamePlayerModel) => {
       console.log(`REALTIME: User ${player.username} joined`);
-      addPlayerIfNotExists(player);
+      
+      addPlayerOrSetReconnected(player);
     });
 
     socket.on('user-disconnected', (disconnectedUserId: string) => {
       console.log(`REALTIME: User ${disconnectedUserId} disconnected`);
 
       setConnectedPlayers(prev => {
-        var userToDelete = prev.find(p => p.userId == disconnectedUserId);
-
-        console.log("userToDelete:");
-        console.log(userToDelete);
-        console.log("playerlist:");
-        console.log(prev);
-
         return prev.map(player => player.userId == disconnectedUserId ? {...player, connectionStatus: "disconnected"} : player);
       });
     });    
@@ -103,12 +97,12 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
     socketRef.current?.emit('test', gameId);
   };
 
-  const addPlayerIfNotExists = (player: GamePlayerModel) => {
+  const addPlayerOrSetReconnected = (player: GamePlayerModel) => {
     setConnectedPlayers(prev => {
       const playerExists = prev.some(p => p.userId === player.userId);
 
       if (playerExists) {
-        return prev;
+        return prev.map(player => player.userId == player.userId ? {...player, connectionStatus: "connected"} : player);
       }
 
       return [...prev, player];
@@ -130,7 +124,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
       connectedPlayers,
       emitJoinGame,
       emitTestEvent,
-      addPlayerIfNotExists,
+      addPlayerOrSetReconnected,
 	    initializeConnection,
     }}>
       {children}

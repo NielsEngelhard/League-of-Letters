@@ -18,7 +18,7 @@ import { useEffect, useState } from "react";
 
 export default function JoinOnlineGamePage() {
     const [lobby, setLobby] = useState<GameLobbyModel | null>(null);
-    const { initializeConnection, emitJoinGame, connectedPlayers, connectionStatus, addPlayerIfNotExists } = useSocket();
+    const { initializeConnection, emitJoinGame, connectedPlayers, connectionStatus, addPlayerOrSetReconnected } = useSocket();
     const { pushMessage, clearMessage } = useMessageBar();
 
     const { getOrCreateGuestAuthSession } = useAuth();
@@ -58,7 +58,7 @@ export default function JoinOnlineGamePage() {
     }, [connectionStatus]);    
 
     function addPlayersToRealtimePlayersList(players: GamePlayerModel[]) {
-        players.forEach(player => addPlayerIfNotExists(player));
+        players.forEach(player => addPlayerOrSetReconnected(player));
         }    
 
         async function JoinLobbyOnServer(gameId: string): Promise<GameLobbyModel> {
