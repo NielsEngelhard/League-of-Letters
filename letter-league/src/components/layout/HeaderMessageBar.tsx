@@ -1,7 +1,7 @@
 "use client"
-
-import { Book, Check, CircleX, Settings,  } from "lucide-react";
-import { GlobalMsgType, useMessageBar } from "./MessageBarContext";
+import { Book, Check, CircleX, Settings } from "lucide-react";
+import { GlobalMsgType, MessageBarMessage, useMessageBar } from "./MessageBarContext";
+import { useEffect, useState } from "react";
 
 const getConfig = (status: GlobalMsgType) => {
     switch (status) {
@@ -37,19 +37,40 @@ const getConfig = (status: GlobalMsgType) => {
 }
 
 export default function HeaderMessageBar() {
+    const [isOpen, setIsOpen] = useState(false); // Different bool for smooth animation
+    const [msg, setMsg] = useState<MessageBarMessage | null>(null);
+
     const { currentMessage } = useMessageBar();
 
-    const config = getConfig(currentMessage?.type ?? "information");
+    // For smooth text animation
+    useEffect(() => {
+        if (currentMessage != null) {
+            setMsg(currentMessage);
+            setIsOpen(true);
+            return;
+        }
+
+        setIsOpen(false);
+        setTimeout(() => {
+            setMsg(null);
+        }, 300);
+    }, [currentMessage]);
+    
+    const config = getConfig(msg?.type ?? "information");
+    const { Icon } = config;
 
     return (
-        <>
-            {currentMessage && (
-                <div className={`w-full flex justify-center slide-in-top ${config.bg}`}>
-                    <span className={`text-sm py-2 font-medium ${config.color}`}>
-                        {currentMessage.msg ?? config.text}
-                    </span>
-                </div>                
-            )}
-        </>
+        <div 
+            className={`w-full overflow-hidden transition-all duration-300 ease-in-out ${
+                isOpen ? 'max-h-16 opacity-100' : 'max-h-0 opacity-0'
+            }`}
+        >
+            <div className={`w-full flex items-center justify-center gap-2 ${config.bg}`}>
+                <Icon className={`w-4 h-4 ${config.color}`} />
+                <span className={`text-sm py-3 font-medium ${config.color}`}>
+                    {msg?.msg ?? config.text}
+                </span>
+            </div>
+        </div>
     );
 }
