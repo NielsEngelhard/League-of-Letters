@@ -31,7 +31,7 @@ const getConfig = (status: GlobalMsgType) => {
                 bg: 'bg-primary/10',
                 color: 'text-primary',
                 Icon: Book,
-                text: ''
+                text: '??'
             };
     }
 }
@@ -50,6 +50,10 @@ export default function HeaderMessageBar() {
             return;
         }
 
+        if (!isOpen) {
+            return;
+        }
+
         setIsOpen(false);
         setTimeout(() => {
             setMsg(null);
@@ -65,8 +69,8 @@ export default function HeaderMessageBar() {
                 isOpen ? 'max-h-16 opacity-100' : 'max-h-0 opacity-0'
             }`}
         >
-            <div className={`w-full flex items-center justify-center gap-2 ${config.bg}`}>
-                <Icon className={`w-4 h-4 ${config.color}`} />
+            <div className={`w-full flex items-center justify-center gap-1 ${config.bg}`}>
+                <Icon className={`w-4 h-4 ${config.color} ${msg?.type == "loading" && "animate-spin"}`} />
                 <span className={`text-sm py-3 font-medium ${config.color}`}>
                     {msg?.msg ?? config.text}
                 </span>

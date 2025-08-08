@@ -23,21 +23,46 @@ import { useMessageBar } from "@/components/layout/MessageBarContext";
 export default function CreateOnlineGamePage() {
   const router = useRouter()
   const { getOrCreateGuestAuthSession } = useAuth();
-  const { initializeConnection, emitJoinGame, connectedPlayers } = useSocket();
-  const { pushMessage } = useMessageBar();
+  const { initializeConnection, emitJoinGame, connectedPlayers, connectionStatus } = useSocket();
+  const { pushMessage, clearMessage } = useMessageBar();
 
   const [authSession, setAuthSession] = useState<AuthSessionModel | null>(null);
   const [gameId, setGameId] = useState<string | null>(null);
 
   useEffect(() => {
+    if (authSession) return;
+
+    pushMessage({
+      msg: "Creating session",
+      type: "loading"
+    }, null);
+
     login();
+
+    return () => {
+      clearMessage();
+    }
   }, []);
 
   useEffect(() => {
     if (!authSession) return;
 
+    pushMessage({
+      msg: "Setting up realtime connection",
+      type: "loading"
+    }, null);
+
     initializeConnection();
-    
+  }, [authSession]);
+
+  useEffect(() => {
+    if (connectionStatus != "connected" || !authSession) return;
+
+    pushMessage({
+      msg: "Creating lobby",
+      type: "loading"
+    }, null);
+
     createLobby()
       .then((gameId) => {
         setGameId(gameId);
@@ -47,8 +72,11 @@ export default function CreateOnlineGamePage() {
           username: authSession.username,
           isHost: true
         });
+
+        clearMessage();     
       });
-  }, [authSession]);
+
+  }, [connectionStatus]);
 
   function login() {
     getOrCreateGuestAuthSession()
@@ -78,7 +106,7 @@ export default function CreateOnlineGamePage() {
     <PageBase size="lg">
       <PageIntro title="Create Online Game" subText="Join Code:" backHref={PICK_GAME_MODE_ROUTE}>
         <div className="text-3xl font-bold">
-          {splitStringInMiddle(gameId ?? "")}
+          {gameId ? splitStringInMiddle(gameId ?? "") : "Loading..."}
         </div>
       </PageIntro>
 
@@ -91,7 +119,7 @@ export default function CreateOnlineGamePage() {
                 <SubText text="Customize your game" />    
               </CardHeader>
               <CardContent>
-                <CreateGameForm onSubmit={onSubmit} />                
+                <CreateGameForm onSubmit={onSubmit} submitDisabled={!gameId} />                
               </CardContent>
             </Card>       
             <Card>

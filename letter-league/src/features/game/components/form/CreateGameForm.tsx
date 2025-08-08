@@ -10,9 +10,10 @@ import { Play } from "lucide-react"
 
 interface Props {
     onSubmit: (data: CreateGameSchema) => void;
+    submitDisabled?: boolean;
 }
 
-export default function CreateGameForm({ onSubmit }: Props) {
+export default function CreateGameForm({ onSubmit, submitDisabled = false }: Props) {
 
     const form = useForm<CreateGameSchema>({
       resolver: zodResolver(createGameSchema),
@@ -59,7 +60,7 @@ export default function CreateGameForm({ onSubmit }: Props) {
                 More settings coming soon...
             </div>
 
-            <Button variant="primary" type="submit">
+            <Button variant="primary" type="submit" disable={submitDisabled}>
                 <div className="flex items-center gap-1">
                     <Icon LucideIcon={Play} size="sm" /> Start Game
                 </div>
