@@ -5,11 +5,12 @@ import { generateGameId } from "../../util/game-id-generator";
 import { db } from "@/drizzle/db";
 import { DbAuthSession, DbOnlineLobby, OnlineLobbyTable } from "@/drizzle/schema";
 import GetAuthSessionBySecreyKeyRequest from "@/features/auth/actions/request/get-auth-session-by-secret-key";
-import { GameMapper, JoinGameResponseFactory } from "../../game-mapper";
-import { JoinGameLobbyResponse } from "./join-online-game-command";
+import { GameMapper } from "../../game-mapper";
+import { ServerResponse, ServerResponseFactory } from "@/lib/response-handling/response-factory";
+import { GameLobbyModel } from "../../game-models";
 
 
-export default async function CreateGameLobbyCommand(command: CreateGameLobbySchema, secretKey: string): Promise<JoinGameLobbyResponse> {
+export default async function CreateGameLobbyCommand(command: CreateGameLobbySchema, secretKey: string): Promise<ServerResponse<GameLobbyModel>> {
     // TODO: refactor to use e.g. cookie for security
     const authSession = await GetAuthSessionBySecreyKeyRequest(secretKey);
     if (!authSession) throw Error("Could not authenticate user by secretkey");
@@ -24,11 +25,13 @@ export default async function CreateGameLobbyCommand(command: CreateGameLobbySch
     return await CreateNewGame(authSession);
 }
 
-async function ReJoinExistingLobby(existingLobby: DbOnlineLobby, authSession: DbAuthSession): Promise<JoinGameLobbyResponse> {
-    return JoinGameResponseFactory.success(existingLobby.id, existingLobby.players.map(p => GameMapper.DbOnlineLobbyPlayerToModel(p)));
+async function ReJoinExistingLobby(existingLobby: DbOnlineLobby, authSession: DbAuthSession): Promise<ServerResponse<GameLobbyModel>> {
+    const lobbyModel = GameMapper.DbLobbyToModel(existingLobby);
+
+    return ServerResponseFactory.success<GameLobbyModel>(lobbyModel);    
 }
 
-async function CreateNewGame(authSession: DbAuthSession): Promise<JoinGameLobbyResponse> {
+async function CreateNewGame(authSession: DbAuthSession): Promise<ServerResponse<GameLobbyModel>> {
     const gameId = generateGameId();
 
     const lobby = await db.transaction(async (tx) => {
@@ -39,7 +42,9 @@ async function CreateNewGame(authSession: DbAuthSession): Promise<JoinGameLobbyR
         }).returning();
     });
 
-    return JoinGameResponseFactory.success(gameId, lobby[0].players.map(p => GameMapper.DbOnlineLobbyPlayerToModel(p)));
+    const lobbyModel = GameMapper.DbLobbyToModel(lobby[0]);
+
+    return ServerResponseFactory.success<GameLobbyModel>(lobbyModel);
 }
 
 async function GetExistingLobbyIfExists(authSession: DbAuthSession): Promise<DbOnlineLobby | undefined> {

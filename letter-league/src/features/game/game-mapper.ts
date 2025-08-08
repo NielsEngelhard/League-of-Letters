@@ -1,5 +1,5 @@
-import { DbGamePlayer, DbGameRound, DbActiveGameWithRoundsAndPlayers, DbOnlineLobbyPlayer, DbAuthSession } from "@/drizzle/schema";
-import { ActiveGameModel, GamePlayerModel, GameRoundModel, JoinGameLobbyResponse } from "./game-models";
+import { DbGamePlayer, DbGameRound, DbActiveGameWithRoundsAndPlayers, DbOnlineLobbyPlayer, DbAuthSession, DbOnlineLobby } from "@/drizzle/schema";
+import { ActiveGameModel, GameLobbyModel, GamePlayerModel, GameRoundModel } from "./game-models";
 import { ConnectionStatus } from "../realtime/realtime-models";
 
 export class GameMapper {
@@ -58,26 +58,11 @@ export class GameMapper {
             isHost: false
         }
     }
-}
 
-export class JoinGameResponseFactory {
-    static success(gameId: string, players: GamePlayerModel[]): JoinGameLobbyResponse {
+    static DbLobbyToModel(lobby: DbOnlineLobby): GameLobbyModel {
         return {
-            ok: true,
-            players: players,
-            errorMsg: undefined,
-            gameId: gameId    
-        };
-    }
-
-    static error(errorMsg?: string): JoinGameLobbyResponse {
-        if (!errorMsg) errorMsg = "Could not join game";
-        
-        return {
-            ok: false,
-            errorMsg: errorMsg,
-            players: [],
-            gameId: "?"
-        };
+            id: lobby.id,
+            players: lobby.players.map(p => this.DbOnlineLobbyPlayerToModel(p))
+        }
     }
 }

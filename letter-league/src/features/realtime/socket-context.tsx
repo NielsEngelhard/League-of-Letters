@@ -12,7 +12,7 @@ interface SocketContextType {
   initializeConnection: () => void;
 
   connectedPlayers: GamePlayerModel[];
-  addConnectedPlayers: (players: GamePlayerModel[]) => void;
+  addPlayerIfNotExists: (players: GamePlayerModel) => void;
 
   emitJoinGame: (data: JoinGameRealtimeModel) => void;
   emitTestEvent: (gameId: string) => void;
@@ -66,7 +66,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
     });
 
     socket.on('user-joined', (player: GamePlayerModel) => {
-      addConnectedPlayers([ player ]);
+      addPlayerIfNotExists(player);
     });
 
     socket.on('test', () => {
@@ -87,12 +87,29 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
     socketRef.current?.emit('test', gameId);
   };
 
-  function addConnectedPlayers(players: GamePlayerModel[]) {
+  const addPlayerIfNotExists = (player: GamePlayerModel) => {
     setConnectedPlayers(prev => {
-      const notAlreadyExistingPlayers = players.filter(p => !prev.some(cp => cp.id === p.id));
-      return [...prev, ...notAlreadyExistingPlayers];
+      // Check if player already exists
+      const playerExists = prev.some(p => p.id === player.id);
+      const getPlayer = prev.find(p => p.id == player.id);
+
+      console.log("WTF!!");
+      console.log(getPlayer);
+      console.log("exists: " + playerExists);
+      console.log("ACTUAL LIST:");
+      console.log(prev);
+      console.log("TRYING TO ADD:");
+      console.log(player);
+
+      if (playerExists) {
+        console.log("NOT ADDED");
+        return prev; // Return unchanged array
+      }
+
+      console.log("WEL ADDED");
+      return [...prev, player]; // Add new player
     });
-  }
+  };
 
   return (
     <SocketContext.Provider value={{
@@ -102,7 +119,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
       connectedPlayers,
       emitJoinGame,
       emitTestEvent,
-      addConnectedPlayers,
+      addPlayerIfNotExists,
 	    initializeConnection,
     }}>
       {children}

@@ -6,10 +6,10 @@ import { useAuth } from "@/features/auth/AuthContext";
 import RealtimeStatusIndicator from "@/features/realtime/RealtimeStatusIndicator";
 
 interface Props {
-    players: GamePlayerModel[];        
+    players?: GamePlayerModel[];        
 }
 
-export default function PlayersList({ players }: Props ) {
+export default function PlayersList({ players = [] }: Props ) {
     const { authSession } = useAuth();
 
     return (

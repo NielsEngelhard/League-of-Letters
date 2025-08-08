@@ -84,7 +84,7 @@ export default function JoinOnlineGamePage() {
   useEffect(() => {
     if (!connectedPlayers || connectionStatus != "connected" || !authSession) return;
 
-    emitJoinGame({ gameId: joinCode!.toString(), userId: authSession.id, username: authSession.username });
+    // emitJoinGame({ gameId: joinCode!.toString(), userId: authSession.id, username: authSession.username });
 
     pushMessage({
         msg: "Connected",

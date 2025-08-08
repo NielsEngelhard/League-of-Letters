@@ -37,9 +37,7 @@ export interface GamePlayerModel {
     connectionStatus: ConnectionStatus;
 }
 
-export interface JoinGameLobbyResponse {
-    ok: boolean;
+export interface GameLobbyModel {
+    id: string;
     players: GamePlayerModel[];
-    errorMsg?: string;
-    gameId: string;
 }

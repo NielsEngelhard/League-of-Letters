@@ -20,89 +20,67 @@ import { Check, Copy, User } from "lucide-react";
 import { MAX_ONLINE_GAME_PLAYERS } from "@/features/game/game-constants";
 import { useMessageBar } from "@/components/layout/MessageBarContext";
 import Icon from "@/components/ui/Icon";
+import { copyToClipboard } from "@/lib/clipboard-util";
+import { GameLobbyModel, GamePlayerModel } from "@/features/game/game-models";
 
 export default function CreateOnlineGamePage() {
   const router = useRouter()
   const { getOrCreateGuestAuthSession } = useAuth();
-  const { initializeConnection, emitJoinGame, connectedPlayers, connectionStatus, addConnectedPlayers } = useSocket();
+  const { initializeConnection, emitJoinGame, connectionStatus, connectedPlayers, addPlayerIfNotExists } = useSocket();
   const { pushMessage, clearMessage } = useMessageBar();
 
-  const [authSession, setAuthSession] = useState<AuthSessionModel | null>(null);
-  const [gameId, setGameId] = useState<string | null>(null);
+  const [lobby, setLobby] = useState<GameLobbyModel | null>(null);
   const [copiedGameId, setCopiedGameId] = useState(false);
 
   useEffect(() => {
-    if (authSession) return;
+      async function LoginAndSetupRealtimeConnection() {
+          await getOrCreateGuestAuthSession();
+          initializeConnection();
+      }
 
-    pushMessage({
-      msg: "Creating session",
-      type: "loading"
-    }, null);
-
-    login();
-
-    return () => {
-      clearMessage();
-    }
+      LoginAndSetupRealtimeConnection();
   }, []);
 
   useEffect(() => {
-    if (!authSession || connectionStatus == "connected") return;
+    async function CreateOrGetLobby() {
+      if (connectionStatus != "connected" || lobby) return;
 
-    pushMessage({
-      msg: "Setting up realtime connection",
-      type: "loading"
-    }, null);
+      const lobbyResponse = await GetOrCreateLobbyFromServer();
+      addPlayersToRealtimePlayersList(lobbyResponse.players);
+      setLobby(lobbyResponse);
 
-    initializeConnection();
-  }, [authSession]);
+      const authSession = await getOrCreateGuestAuthSession();
 
-  useEffect(() => {
-    if (connectionStatus != "connected" || !authSession) return;
-
-    pushMessage({
-      msg: "Creating lobby",
-      type: "loading"
-    }, null);
-
-    createLobby();
-
-  }, [connectionStatus, authSession]);
-
-  function login() {
-    getOrCreateGuestAuthSession()
-    .then((response) => {
-        setAuthSession(response);
-    })
-    .catch(() => {
-        router.push(PICK_GAME_MODE_ROUTE);
-    });    
-  }
-
-  async function createLobby(): Promise<void> {
-    if (!authSession) return;
-
-    const response = await CreateGameLobbyCommand({
-      hostUserId: authSession.id
-    }, authSession.secretKey);
-
-    if (!response.ok) {
-      pushMessage({ msg: response.errorMsg, type: "error" });
-      router.push(MULTIPLAYER_GAME_ROUTE);
-      return;
+      setTimeout(() => {
+        emitJoinGame({
+          gameId: lobbyResponse.id,
+          userId: authSession.id,
+          username: authSession.username,
+          isHost: true
+        });        
+      }, 1000);
     }
 
-    addConnectedPlayers(response.players);
+    CreateOrGetLobby();
+  }, [connectionStatus]);
 
-    setGameId(response.gameId);
-    emitJoinGame({
-      gameId: response.gameId,
-      userId: authSession.id,
-      username: authSession.username,
-      isHost: true
-    });
+  function addPlayersToRealtimePlayersList(players: GamePlayerModel[]) {
+    players.forEach(player => addPlayerIfNotExists(player));
+  }
 
-    clearMessage();  
+  async function GetOrCreateLobbyFromServer(): Promise<GameLobbyModel> {
+      const authSession = await getOrCreateGuestAuthSession();
+
+      const response = await CreateGameLobbyCommand({
+        hostUserId: authSession.id
+      }, authSession.secretKey);
+
+      if (!response.ok || !response.data) {
+        pushMessage({ msg: response.errorMsg, type: "loading" }, null);        
+        throw Error("Something went wrong");
+      }
+
+      return response.data;
   }
 
   async function onSubmit(data: CreateGameSchema) {
@@ -110,19 +88,17 @@ export default function CreateOnlineGamePage() {
   }
 
   async function copyJoinCodeToClipboard() {
-    if (!gameId) return;
-
-    await navigator.clipboard.writeText(gameId);
+    await copyToClipboard(lobby?.id);
     setCopiedGameId(true);
-  }
+  }  
 
   return (
     <PageBase size="lg">
       <PageIntro title="Create Online Game" subText="Join Code:" backHref={MULTIPLAYER_GAME_ROUTE}>
         <div className="text-3xl font-bold">
-          {gameId ? (
+          {lobby ? (
             <button className="flex flex-row cursor-pointer" onClick={copyJoinCodeToClipboard}>
-              {splitStringInMiddle(gameId ?? "")}
+              {splitStringInMiddle(lobby.id ?? "")}
               {copiedGameId ? (
                 <div className="text-success"><Icon LucideIcon={Check} size="xs" /></div>
               ) : (
@@ -142,7 +118,7 @@ export default function CreateOnlineGamePage() {
                 <SubText text="Customize your game" />    
               </CardHeader>
               <CardContent>
-                <CreateGameForm onSubmit={onSubmit} submitDisabled={!gameId} />                
+                <CreateGameForm onSubmit={onSubmit} submitDisabled={!lobby?.id} />                
               </CardContent>
             </Card>       
             <Card>
