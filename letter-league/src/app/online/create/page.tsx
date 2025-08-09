@@ -23,6 +23,7 @@ import { OnlineLobbyModel, OnlineLobbyPlayerModel } from "@/features/lobby/lobby
 import CreateOnlineLobbyCommand from "@/features/lobby/actions/command/create-online-lobby-command";
 import LoadingDots from "@/components/ui/animation/LoadingDots";
 import CreateOnlineGameBasedOnLobbyCommand from "@/features/lobby/actions/command/create-online-game-based-on-lobby-command";
+import { GameMode } from "@/drizzle/schema";
 
 export default function CreateOnlineGamePage() {
   const router = useRouter()
@@ -121,7 +122,12 @@ export default function CreateOnlineGamePage() {
                 <SubText text="Customize your game" />    
               </CardHeader>
               <CardContent>
-                <CreateGameForm onSubmit={onSubmit} submitDisabled={!lobby?.id} />                
+                <CreateGameForm
+                  onSubmit={onSubmit}
+                  submitDisabled={!lobby?.id}
+                  gameMode={GameMode.Online} 
+                  players={connectedPlayers.map((p) => ({ userId: p.userId, username: p.username }))}
+                />                
               </CardContent>
             </Card>       
             <Card>

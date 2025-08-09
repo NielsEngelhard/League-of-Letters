@@ -17,7 +17,9 @@ export const createGameSchema = z.object({
 }).refine((data) => {
     if (data.gameMode == GameMode.Online) {
         return data.players && data.players.length >= 2;
-    }
+    } 
+
+    return true;
 }, {
     message: "Online games require at least 2 players",
     path: ["players"]

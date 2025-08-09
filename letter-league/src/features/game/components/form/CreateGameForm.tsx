@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form"
-import { CreateGameBasedOnLobbySchema, createGameSchema, CreateGameSchema } from "../../game-schemas"
+import { CreateGameBasedOnLobbySchema, CreateGamePlayerSchema, createGameSchema, CreateGameSchema } from "../../game-schemas"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { GameMode } from "@/drizzle/schema"
 import Seperator from "@/components/ui/Seperator"
@@ -8,14 +8,17 @@ import Button from "@/components/ui/Button"
 import Icon from "@/components/ui/Icon"
 import { Play } from "lucide-react"
 import ErrorText from "@/components/ui/text/ErrorText"
+import { useEffect } from "react"
 
 interface Props {
     onSubmit: (data: CreateGameSchema | CreateGameBasedOnLobbySchema) => void;
     submitDisabled?: boolean;
     onLeaveGame?: () => void;
+    players?: CreateGamePlayerSchema[];
+    gameMode?: GameMode;
 }
 
-export default function CreateGameForm({ onSubmit, onLeaveGame, submitDisabled = false }: Props) {
+export default function CreateGameForm({ onSubmit, onLeaveGame, submitDisabled = false, players, gameMode = GameMode.Solo }: Props) {
 
     const form = useForm<CreateGameSchema>({
       resolver: zodResolver(createGameSchema),
@@ -23,9 +26,15 @@ export default function CreateGameForm({ onSubmit, onLeaveGame, submitDisabled =
         wordLength: 6,
         guessesPerRound: 6,
         totalRounds: 4,
-        gameMode: GameMode.Solo
+        gameMode: gameMode
       }
     })    
+
+    useEffect(() => {
+        if (!players || players.length == 0 || !form) return;        
+        
+        form.setValue("players", players);
+    }, [players, form]);
 
     return (
         <form className="flex flex-col gap-3" onSubmit={form.handleSubmit(onSubmit)}>
