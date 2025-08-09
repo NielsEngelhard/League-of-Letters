@@ -1,10 +1,9 @@
 "use server"
 
 import { db } from "@/drizzle/db";
-import { DbOnlineLobby, OnlineLobbyTable, DbOnlineLobbyPlayer, DbAuthSession, DbOnlineLobbyWithPlayers, OnlineLobbyPlayerTable } from "@/drizzle/schema";
+import { DbOnlineLobby, DbOnlineLobbyPlayer, DbAuthSession, OnlineLobbyPlayerTable } from "@/drizzle/schema";
 import GetAuthSessionBySecreyKeyRequest from "@/features/auth/actions/request/get-auth-session-by-secret-key";
 import { MAX_ONLINE_GAME_PLAYERS } from "../../../game/game-constants";
-import { eq } from "drizzle-orm";
 import { ServerResponse, ServerResponseFactory } from "@/lib/response-handling/response-factory";
 import { JoinOnlineLobbySchema } from "@/features/lobby/lobby-schemas";
 import { OnlineLobbyModel } from "@/features/lobby/lobby-models";
@@ -17,12 +16,14 @@ export default async function JoinGameLobbyCommand(command: JoinOnlineLobbySchem
     const authSession = await GetAuthSessionBySecreyKeyRequest(secretKey);
     if (!authSession) throw Error("Could not authenticate user by secretkey");
     
+    debugger;
+
     const lobby = await GetOnlineLobbyAndPlayersByIdRequest(command.gameId);
     if (!lobby) {
         return ServerResponseFactory.error(`Lobby with '${command.gameId}' does not exist`);
     }
     
-    if (lobby.players.some(p => p.id == authSession.id)) {
+    if (lobby.players.some(p => p.userId == authSession.id)) {
         await ReconnectOnlineLobbyPlayer({
             lobbyId: lobby.id,
             userId: authSession.id
