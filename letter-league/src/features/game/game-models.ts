@@ -36,8 +36,3 @@ export interface GamePlayerModel {
     score: number;
     connectionStatus: ConnectionStatus;
 }
-
-export interface GameLobbyModel {
-    id: string;
-    players: GamePlayerModel[];
-}

@@ -1,23 +1,21 @@
 "use client"
 
-import { MULTIPLAYER_GAME_ROUTE } from "@/app/routes";
 import { useMessageBar } from "@/components/layout/MessageBarContext";
 import PageBase from "@/components/layout/PageBase";
 import Card from "@/components/ui/card/Card";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card/card-children";
-import { AuthSessionModel } from "@/features/auth/auth-models";
 import { useAuth } from "@/features/auth/AuthContext";
-import JoinGameLobbyCommand from "@/features/game/actions/command/join-online-game-command";
+import JoinGameLobbyCommand from "@/features/lobby/actions/command/join-online-lobby-command";
 import PlayersList from "@/features/game/components/PlayersList";
 import { MAX_ONLINE_GAME_PLAYERS } from "@/features/game/game-constants";
-import { GameLobbyModel, GamePlayerModel } from "@/features/game/game-models";
 import { useSocket } from "@/features/realtime/socket-context";
 import { User } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { OnlineLobbyModel, OnlineLobbyPlayerModel } from "@/features/lobby/lobby-models";
 
 export default function JoinOnlineGamePage() {
-    const [lobby, setLobby] = useState<GameLobbyModel | null>(null);
+    const [lobby, setLobby] = useState<OnlineLobbyModel | null>(null);
     const { initializeConnection, emitJoinGame, connectedPlayers, connectionStatus, addPlayerOrSetReconnected } = useSocket();
     const { pushMessage, clearMessage } = useMessageBar();
 
@@ -57,11 +55,11 @@ export default function JoinOnlineGamePage() {
         JoinLobby();
     }, [connectionStatus]);    
 
-    function addPlayersToRealtimePlayersList(players: GamePlayerModel[]) {
+    function addPlayersToRealtimePlayersList(players: OnlineLobbyPlayerModel[]) {
         players.forEach(player => addPlayerOrSetReconnected(player));
         }    
 
-        async function JoinLobbyOnServer(gameId: string): Promise<GameLobbyModel> {
+        async function JoinLobbyOnServer(gameId: string): Promise<OnlineLobbyModel> {
         const authSession = await getOrCreateGuestAuthSession();
 
         const response = await JoinGameLobbyCommand({

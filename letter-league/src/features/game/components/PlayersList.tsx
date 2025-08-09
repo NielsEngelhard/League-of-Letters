@@ -4,9 +4,10 @@ import { Crown } from "lucide-react";
 import Seperator from "@/components/ui/Seperator";
 import { useAuth } from "@/features/auth/AuthContext";
 import RealtimeStatusIndicator from "@/features/realtime/RealtimeStatusIndicator";
+import { OnlineLobbyPlayerModel } from "@/features/lobby/lobby-models";
 
 interface Props {
-    players?: GamePlayerModel[];        
+    players?: GamePlayerModel[] | OnlineLobbyPlayerModel[];        
 }
 
 export default function PlayersList({ players = [] }: Props ) {

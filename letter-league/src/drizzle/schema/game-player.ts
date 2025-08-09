@@ -3,12 +3,14 @@ import { InferSelectModel, relations } from "drizzle-orm";
 import { ActiveGameTable } from "./active-game";
 import { id } from "../schema-helpers";
 import { AuthSessionTable } from "./auth-session";
+import { connectionStatusEnum } from "./enum/connection-status";
 
 export const GamePlayerTable = pgTable("game_player", {
     id,
     userId: uuid().references(() => AuthSessionTable.id, { onDelete: 'cascade' }).notNull(),
-    gameId: text().references(() => ActiveGameTable.id, { onDelete: 'cascade' }),
+    gameId: text().references(() => ActiveGameTable.id, { onDelete: 'cascade' }).notNull(),
     username: text(),
+    connectionStatus: connectionStatusEnum().notNull().default("empty"),
     score: integer().notNull().default(0),
 });
 

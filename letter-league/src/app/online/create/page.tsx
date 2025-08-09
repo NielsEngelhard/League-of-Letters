@@ -12,7 +12,6 @@ import { useEffect, useState } from "react";
 import { AuthSessionModel } from "@/features/auth/auth-models";
 import { MULTIPLAYER_GAME_ROUTE, PICK_GAME_MODE_ROUTE } from "@/app/routes";
 import { useSocket } from "@/features/realtime/socket-context";
-import CreateGameLobbyCommand from "@/features/game/actions/command/create-game-lobby-command";
 import { splitStringInMiddle } from "@/lib/string-util";
 import PlayersList from "@/features/game/components/PlayersList";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card/card-children";
@@ -21,7 +20,8 @@ import { MAX_ONLINE_GAME_PLAYERS } from "@/features/game/game-constants";
 import { useMessageBar } from "@/components/layout/MessageBarContext";
 import Icon from "@/components/ui/Icon";
 import { copyToClipboard } from "@/lib/clipboard-util";
-import { GameLobbyModel, GamePlayerModel } from "@/features/game/game-models";
+import { OnlineLobbyModel, OnlineLobbyPlayerModel } from "@/features/lobby/lobby-models";
+import CreateOnlineLobbyCommand from "@/features/lobby/actions/command/create-online-lobby-command";
 
 export default function CreateOnlineGamePage() {
   const router = useRouter()
@@ -29,7 +29,7 @@ export default function CreateOnlineGamePage() {
   const { initializeConnection, emitJoinGame, connectionStatus, connectedPlayers, addPlayerOrSetReconnected } = useSocket();
   const { pushMessage, clearMessage } = useMessageBar();
 
-  const [lobby, setLobby] = useState<GameLobbyModel | null>(null);
+  const [lobby, setLobby] = useState<OnlineLobbyModel | null>(null);
   const [copiedGameId, setCopiedGameId] = useState(false);
 
   useEffect(() => {
@@ -62,14 +62,14 @@ export default function CreateOnlineGamePage() {
     CreateOrGetLobby();
   }, [connectionStatus]);
 
-  function addPlayersToRealtimePlayersList(players: GamePlayerModel[]) {
+  function addPlayersToRealtimePlayersList(players: OnlineLobbyPlayerModel[]) {
     players.forEach(player => addPlayerOrSetReconnected(player));
   }
 
-  async function GetOrCreateLobbyFromServer(): Promise<GameLobbyModel> {
+  async function GetOrCreateLobbyFromServer(): Promise<OnlineLobbyModel> {
       const authSession = await getOrCreateGuestAuthSession();
 
-      const response = await CreateGameLobbyCommand({
+      const response = await CreateOnlineLobbyCommand({
         hostUserId: authSession.id
       }, authSession.secretKey);
 

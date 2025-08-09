@@ -1,16 +1,31 @@
 import { db } from "@/drizzle/db";
+import { GamePlayerTable, OnlineLobbyPlayerTable } from "@/drizzle/schema";
+import { and, eq } from "drizzle-orm";
 
 interface Props {
     userId: string;
     gameId: string;
 }
 
-export default async function PlayerDisconnectedCommand() {
-    // TODO: kan in lobby zijn maar kan ook in actieve game zijn... even kijken hoe ik dat oplos. Moet de server.js bijhouden of het een lobby speler is of niet?? idk idk.
+export default async function PlayerDisconnectedCommand(data: Props) {
+    await db.transaction(async (tx) => {
 
-    await db.update(Auth)
-        .set({
-            currentRoundIndex: game.currentRoundIndex + 1
-        })
-        .where(eq(ActiveGameTable.id, game.id));        
+        await tx.update(GamePlayerTable)
+            .set({
+                connectionStatus: "disconnected"
+            })
+            .where(and(
+                eq(GamePlayerTable.userId, data.userId),
+                eq(GamePlayerTable.gameId, data.gameId)
+            ));
+
+        await tx.update(OnlineLobbyPlayerTable)
+            .set({
+                connectionStatus: "disconnected"
+            })
+            .where(and(
+                eq(OnlineLobbyPlayerTable.userId, data.userId),
+                eq(OnlineLobbyPlayerTable.lobbyId, data.gameId)
+            ));     
+    });
 }

@@ -7,7 +7,7 @@ interface Props {
 
 export default function GameConnectionStatusIndicator({ players }: Props) {
 
-    const disconnectedPlayers: GamePlayerModel[] = players.filter(p => p.isConnected == false);
+    const disconnectedPlayers: GamePlayerModel[] = players.filter(p => p.connectionStatus != "connected");
 
     return (
         <div className="font-semibold text-xs flex flex-row gap-2">

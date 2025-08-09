@@ -9,7 +9,7 @@ interface Props {
 
 export default function PlayerList({ players, currentPlayerId }: Props) {
 
-    const disconnectedPlayers: GamePlayerModel[] = players.filter(p => p.isConnected == false);
+    const disconnectedPlayers: GamePlayerModel[] = players.filter(p => p.connectionStatus != "connected");
 
     return (
             <div className="w-full">

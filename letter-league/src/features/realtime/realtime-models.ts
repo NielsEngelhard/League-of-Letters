@@ -1,4 +1,5 @@
-export type ConnectionStatus = 'empty' | 'connecting' | 'connected' | 'disconnected' | 'error';
+export const connectionStatusses = ['empty', 'connecting', 'connected', 'disconnected', 'error'] as const;
+export type ConnectionStatus = (typeof connectionStatusses)[number];
 
 export interface JoinGameRealtimeModel {
     gameId: string;

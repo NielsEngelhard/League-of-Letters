@@ -1,6 +1,5 @@
-import { DbGamePlayer, DbGameRound, DbActiveGameWithRoundsAndPlayers, DbOnlineLobbyPlayer, DbAuthSession, DbOnlineLobby } from "@/drizzle/schema";
-import { ActiveGameModel, GameLobbyModel, GamePlayerModel, GameRoundModel } from "./game-models";
-import { ConnectionStatus } from "../realtime/realtime-models";
+import { DbGamePlayer, DbGameRound, DbActiveGameWithRoundsAndPlayers } from "@/drizzle/schema";
+import { ActiveGameModel, GamePlayerModel, GameRoundModel } from "./game-models";
 
 export class GameMapper {
     static ActiveGameToModel(game: DbActiveGameWithRoundsAndPlayers): ActiveGameModel {
@@ -38,31 +37,6 @@ export class GameMapper {
             currentGuessIndex: round.currentGuessIndex,            
             guesses: round.guesses,
             guessedLetters: round.evaluatedLetters
-        }
-    }
-
-    static AuthSessionToLobbyPlayer(authSession: DbAuthSession, connectionStatus: ConnectionStatus = "connected"): DbOnlineLobbyPlayer {
-        return {
-            id: authSession.id,
-            connectionStatus: connectionStatus,
-            username: authSession.username
-        }
-    }
-
-    static DbOnlineLobbyPlayerToModel(player: DbOnlineLobbyPlayer): GamePlayerModel {
-        return {
-            userId: player.id,
-            username: player.username,
-            connectionStatus: player.connectionStatus,
-            score: 0,
-            isHost: false
-        }
-    }
-
-    static DbLobbyToModel(lobby: DbOnlineLobby): GameLobbyModel {
-        return {
-            id: lobby.id,
-            players: lobby.players.map(p => this.DbOnlineLobbyPlayerToModel(p))
         }
     }
 }

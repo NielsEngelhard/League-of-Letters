@@ -2,7 +2,7 @@
 import React, { createContext, useContext, useRef, useState, ReactNode, useEffect } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { ConnectionStatus, JoinGameRealtimeModel } from './realtime-models';
-import { GamePlayerModel } from '../game/game-models';
+import { OnlineLobbyPlayerModel } from '../lobby/lobby-models';
 
 interface SocketContextType {
   socket: Socket | null;
@@ -11,8 +11,8 @@ interface SocketContextType {
 
   initializeConnection: () => void;
 
-  connectedPlayers: GamePlayerModel[];
-  addPlayerOrSetReconnected: (players: GamePlayerModel) => void;
+  connectedPlayers: OnlineLobbyPlayerModel[];
+  addPlayerOrSetReconnected: (players: OnlineLobbyPlayerModel) => void;
 
   emitJoinGame: (data: JoinGameRealtimeModel) => void;
   emitTestEvent: (gameId: string) => void;
@@ -33,7 +33,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
   const [transport, setTransport] = useState('N/A');
   const socketRef = useRef<Socket | null>(null);
 
-  const [connectedPlayers, setConnectedPlayers] = useState<GamePlayerModel[]>([]);
+  const [connectedPlayers, setConnectedPlayers] = useState<OnlineLobbyPlayerModel[]>([]);
 
   const initializeConnection = () => {
     if (socketRef.current != null) {
@@ -65,7 +65,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
       console.log('Disconnected from WebSocket server');
     });
 
-    socket.on('user-joined', (player: GamePlayerModel) => {
+    socket.on('user-joined', (player: OnlineLobbyPlayerModel) => {
       console.log(`REALTIME: User ${player.username} joined`);
       
       addPlayerOrSetReconnected(player);
@@ -97,7 +97,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
     socketRef.current?.emit('test', gameId);
   };
 
-  const addPlayerOrSetReconnected = (player: GamePlayerModel) => {
+  const addPlayerOrSetReconnected = (player: OnlineLobbyPlayerModel) => {
     setConnectedPlayers(prev => {
       const playerExists = prev.some(p => p.userId === player.userId);
 

@@ -1,19 +1,20 @@
-import { jsonb, pgTable, text, uuid } from "drizzle-orm/pg-core";
+import { pgTable, text, uuid } from "drizzle-orm/pg-core";
 import { createdAt } from "../schema-helpers";
-import { InferSelectModel } from "drizzle-orm";
+import { InferSelectModel, relations } from "drizzle-orm";
 import { AuthSessionTable } from "./auth-session";
-import { ConnectionStatus } from "@/features/realtime/realtime-models";
+import { DbOnlineLobbyPlayer, OnlineLobbyPlayerTable } from "./online-lobby-player";
 
 export const OnlineLobbyTable = pgTable("online_lobby", {
     id: text().primaryKey(),
     userHostId: uuid().references(() => AuthSessionTable.id, { onDelete: 'cascade' }).notNull(),
-    players: jsonb('players').$type<DbOnlineLobbyPlayer[]>().notNull().default([]),
     createdAt,
 });
 export type DbOnlineLobby = InferSelectModel<typeof OnlineLobbyTable>;
 
-export type DbOnlineLobbyPlayer = {
-  id: string;
-  username: string;
-  connectionStatus: ConnectionStatus;
-}
+export type DbOnlineLobbyWithPlayers = DbOnlineLobby & {
+  players: DbOnlineLobbyPlayer[];
+};
+
+export const onlineLobbyRelations = relations(OnlineLobbyTable, ({ many }) => ({
+  players: many(OnlineLobbyPlayerTable)
+}));

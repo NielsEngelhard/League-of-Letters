@@ -8,7 +8,8 @@ export class GamePlayerFactory {
             gameId: gameId,
             userId: userId,
             score: 0,
-            username: username
+            username: username,
+            connectionStatus: "empty"
         }
     }
 }
