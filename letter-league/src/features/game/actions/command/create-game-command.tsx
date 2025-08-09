@@ -49,7 +49,7 @@ export default async function CreateGameCommand(schema: CreateGameSchema, secret
 }
 
 function createPlayers(schema: CreateGameSchema, gameId: string): DbGamePlayer[] {
-    if (!schema.players || schema.players.length < 2) throw Error("Cant create an online game with less than 2 players");
+    if (!schema.players) throw Error("No players assigned");
 
     return schema.players?.map(schemaPlayer => 
         GamePlayerFactory.createGamePlayer(gameId, schemaPlayer.userId, schemaPlayer.username)

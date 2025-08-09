@@ -3,6 +3,8 @@ import React, { createContext, useContext, useRef, useState, ReactNode, useEffec
 import { io, Socket } from 'socket.io-client';
 import { ConnectionStatus, JoinGameRealtimeModel } from './realtime-models';
 import { OnlineLobbyPlayerModel } from '../lobby/lobby-models';
+import { useRouter } from 'next/navigation';
+import { PLAY_GAME_ROUTE } from '@/app/routes';
 
 interface SocketContextType {
   socket: Socket | null;
@@ -85,6 +87,8 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
     
     socket.on('start-game-transition', (gameId: string) => {
       console.log("START GAME HAS BEEN TRIGGERED " + gameId);
+      const router = useRouter();
+      router.push(PLAY_GAME_ROUTE(gameId));
     });    
 
     // Cleanup on unmount
