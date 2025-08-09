@@ -81,13 +81,14 @@ export default function CreateOnlineGamePage() {
       return response.data;
   }
 
-  async function onSubmit(data: CreateGameSchema) {
-
-  }
-
   async function copyJoinCodeToClipboard() {
     await copyToClipboard(lobby?.id);
     setCopiedGameId(true);
+  }
+  
+  async function onSubmit(data: CreateGameSchema) {
+    // EMIT CREATING EVENT
+    // START IN DATABASE
   }  
 
   return (
