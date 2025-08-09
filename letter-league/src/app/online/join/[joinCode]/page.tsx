@@ -110,9 +110,36 @@ export default function JoinOnlineGamePage() {
                             <PlayersList players={connectedPlayers} userHostId={lobby?.userHostId} />
                         </CardContent>
                     </Card>
+
+                    {/* Game Settings Info */}
+                    <Card>
+                        <CardHeader className="pb-3 sm:pb-4">
+                            <CardTitle className="text-base sm:text-lg">Game Settings</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="grid grid-cols-2 gap-3 sm:gap-4 text-sm">
+                            <div>
+                                <span className="text-muted-foreground font-bold">Max Players:</span>
+                                <div>{MAX_ONLINE_GAME_PLAYERS}</div>
+                            </div>
+                            <div>
+                                <span className="text-muted-foreground font-bold">Time Limit:</span>
+                                <div>Unlimited time</div>
+                            </div>
+                            <div>
+                                <span className="text-muted-foreground font-bold">Game Type:</span>
+                                <div>Private</div>
+                            </div>
+                            <div>
+                                <span className="text-muted-foreground font-bold">Created</span>
+                                <div>{lobby?.createdAt.toDateString()}</div>
+                            </div>
+                            </div>
+                        </CardContent>
+                    </Card>                    
                 </>
             ): (
-                <div>Loading...</div>
+                <div>Joining...</div>
             )}
         </PageBase>
     )
