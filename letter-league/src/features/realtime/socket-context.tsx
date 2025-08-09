@@ -81,6 +81,10 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
 
     socket.on('test', () => {
       console.log("Received test response from the socket server!");
+    });
+    
+    socket.on('start-game-transition', (gameId: string) => {
+      console.log("START GAME HAS BEEN TRIGGERED " + gameId);
     });    
 
     // Cleanup on unmount

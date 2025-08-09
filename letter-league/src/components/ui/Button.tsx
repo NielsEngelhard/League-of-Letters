@@ -9,7 +9,7 @@ export interface Props extends VariantProps<typeof buttonVariants>, Omit<React.B
 }
 
 const buttonVariants = cva(
-  "border-2 rounded-md font-medium text-lg cursor-pointer hover:opacity-95 justify-center flex",
+  "border-2 rounded-md font-medium text-lg !cursor-pointer hover:opacity-95 justify-center flex",
   {
     variants: {
       variant: {

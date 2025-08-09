@@ -89,9 +89,8 @@ export default function CreateOnlineGamePage() {
   }
   
   async function onSubmit(data: CreateGameSchema) {
-    debugger;
     const authSession = await getOrCreateGuestAuthSession();
-    CreateOnlineGameBasedOnLobbyCommand(data, authSession.secretKey);
+    await CreateOnlineGameBasedOnLobbyCommand(data, authSession.secretKey);
     // EMIT CREATING EVENT
     // START IN DATABASE
   }  

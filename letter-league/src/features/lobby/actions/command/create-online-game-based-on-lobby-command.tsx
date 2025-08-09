@@ -7,6 +7,7 @@ import CreateGameCommand from "@/features/game/actions/command/create-game-comma
 import { OnlineLobbyPlayerModel } from "../../lobby-models";
 import { db } from "@/drizzle/db";
 import DeleteOnlineLobbyById from "./delete-online-lobby";
+import { EmitStartGameRealtimeEvent } from "@/features/realtime/realtime-api-adapter";
 
 export default async function CreateOnlineGameBasedOnLobbyCommand(schema: CreateGameSchema, secretKey: string): Promise<void> {
     // TODO: refactor to use e.g. cookie for security
@@ -14,21 +15,19 @@ export default async function CreateOnlineGameBasedOnLobbyCommand(schema: Create
     if (!authSession) throw Error("Could not authenticate user by secretkey");    
     
 
-const lobby = await GetOnlineLobbyAndPlayersByIdRequest(schema.gameId!);
+    const lobby = await GetOnlineLobbyAndPlayersByIdRequest(schema.gameId!);
     if (lobby?.userHostId != authSession.id) {
         throw new Error("AUTH ERROR: only the host can start this game");
     }
     
     AddPlayersToCreateSchema(schema, lobby.players);
 
-    // Add players to schema
-
     await db.transaction(async (tx) => {
         await CreateGameCommand(schema, secretKey, lobby.id, tx);
         await DeleteOnlineLobbyById(lobby.id, tx);
     });
 
-    // EMIT REALTIME EVENT TO ALL PLAYERS THAT GAME IS STARTED
+    await EmitStartGameRealtimeEvent(schema.gameId!);
 }
 
 function AddPlayersToCreateSchema(schema: CreateGameSchema, lobbyPlayers: OnlineLobbyPlayerModel[]) {

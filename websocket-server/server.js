@@ -23,6 +23,15 @@ app.use(cors({
 
 app.use(express.json());
 
+app.post('/emit-to-room', (req, res) => {
+  const { room, event, data } = req.body;
+  
+  // Emit to specific room
+  io.to(room).emit(event, data);
+  
+  res.json({ success: true, message: `Event ${event} sent to room ${room}` });
+});
+
 // Basic HTTP endpoint for health checks
 app.get('/health', (req, res) => {
   res.json({ status: 'WebSocket server is running', timestamp: new Date().toISOString() });
@@ -49,6 +58,16 @@ io.on('connection', (socket) => {
     socket.in(gameId).emit('user-left', { userId: socket.id, room });
   });
   // END USER ACTIONS --------------------------------------------------------------------
+
+  // (external) SERVER ACTIONS 
+
+  // Transition from lobby to playing game
+  socket.on('start-game-transition', (gameId) => {
+    console.log("start game transition triggered " + gameId);
+    socket.in(gameId).emit('start-game', { gameId: gameId });
+  });
+
+  // END SERVER ACTIONS
 
   // GENERAL ACTIONS ----------------------------------------------------------------------
   socket.on('disconnect', () => {

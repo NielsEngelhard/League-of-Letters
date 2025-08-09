@@ -5,7 +5,7 @@ let serverSocket: Socket | null = null;
 
 export function getServerSocketClient() {
   if (!serverSocket) {
-    const socketUrl = process.env.WEBSOCKET_SERVER_URL || 'http://localhost:3001';
+    const socketUrl = process.env.NEXT_PUBLIC_WEBSOCKET_SERVER_BASE_ADDRESS;
     serverSocket = io(socketUrl, {
       autoConnect: true,
     });
