@@ -1,4 +1,4 @@
-import { DbAuthSession, DbOnlineLobbyPlayer, DbOnlineLobbyWithPlayers } from "@/drizzle/schema"
+import { DbAuthSession, DbGamePlayer, DbOnlineLobbyPlayer, DbOnlineLobbyWithPlayers } from "@/drizzle/schema"
 import { ConnectionStatus } from "../realtime/realtime-models"
 import { OnlineLobbyModel, OnlineLobbyPlayerModel } from "./lobby-models"
 

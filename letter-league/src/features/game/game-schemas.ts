@@ -12,7 +12,19 @@ export const createGameSchema = z.object({
     wordLength: z.number().min(MIN_WORD_LENGTH).max(MAX_WORD_LENGTH),
     totalRounds: z.number().min(MIN_TOTAL_ROUNDS).max(MAX_TOTAL_ROUNDS),
     guessesPerRound: z.number().min(MIN_GUESSES_PER_ROUND).max(MAX_GUESSES_PER_ROUND),
-    players: z.array(createGamePlayerSchema),
+    players: z.array(createGamePlayerSchema).optional(),
     gameMode: z.enum(GameMode)
+}).refine((data) => {
+    if (data.gameMode == GameMode.Online) {
+        return data.players && data.players.length >= 2;
+    }
+}, {
+    message: "Online games require at least 2 players",
+    path: ["players"]
 });
 export type CreateGameSchema = z.infer<typeof createGameSchema>;
+
+export const createGameBasedOnLobbySchema = createGameSchema.extend({
+    lobbyId: z.string().nonempty()
+});
+export type CreateGameBasedOnLobbySchema = z.infer<typeof createGameBasedOnLobbySchema>;

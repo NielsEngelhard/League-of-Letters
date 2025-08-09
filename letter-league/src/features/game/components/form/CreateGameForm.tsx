@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form"
-import { createGameSchema, CreateGameSchema } from "../../game-schemas"
+import { CreateGameBasedOnLobbySchema, createGameSchema, CreateGameSchema } from "../../game-schemas"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { GameMode } from "@/drizzle/schema"
 import Seperator from "@/components/ui/Seperator"
@@ -7,9 +7,10 @@ import SelectDropdown from "@/components/ui/form/SelectInput"
 import Button from "@/components/ui/Button"
 import Icon from "@/components/ui/Icon"
 import { Play } from "lucide-react"
+import ErrorText from "@/components/ui/text/ErrorText"
 
 interface Props {
-    onSubmit: (data: CreateGameSchema) => void;
+    onSubmit: (data: CreateGameSchema | CreateGameBasedOnLobbySchema) => void;
     submitDisabled?: boolean;
     onLeaveGame?: () => void;
 }
@@ -61,11 +62,16 @@ export default function CreateGameForm({ onSubmit, onLeaveGame, submitDisabled =
                 More settings coming soon...
             </div>
 
-            <Button variant="primary" type="submit" disable={submitDisabled} className="w-full">
-                <div className="flex items-center gap-1">
-                    <Icon LucideIcon={Play} size="sm" /> Start Game
-                </div>
-            </Button>     
+            <div>
+                <Button variant="primary" type="submit" disable={submitDisabled} className="w-full">
+                    <div className="flex items-center gap-1">
+                        <Icon LucideIcon={Play} size="sm" /> Start Game
+                    </div>
+                </Button>   
+                <ErrorText>
+                    <>{Object.values(form.formState.errors)[0]?.message}</>
+                </ErrorText>  
+            </div>
 
             {onLeaveGame && (
                 <Button variant="error" type="button" onClick={onLeaveGame} className="w-full">
@@ -73,7 +79,7 @@ export default function CreateGameForm({ onSubmit, onLeaveGame, submitDisabled =
                         Leave Game
                     </div>
                 </Button>                  
-            )}                
+            )}            
         </form>
     )
 }

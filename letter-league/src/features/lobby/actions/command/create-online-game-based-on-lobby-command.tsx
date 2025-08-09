@@ -1,23 +1,41 @@
 "use server"
 
 import GetAuthSessionBySecreyKeyRequest from "@/features/auth/actions/request/get-auth-session-by-secret-key";
+import GetOnlineLobbyAndPlayersByIdRequest from "../query/get-lobby-and-players-by-id-command";
+import { CreateGameBasedOnLobbySchema, CreateGameSchema } from "@/features/game/game-schemas";
+import CreateGameCommand from "@/features/game/actions/command/create-game-command";
+import { OnlineLobbyPlayerModel } from "../../lobby-models";
+import { db } from "@/drizzle/db";
+import DeleteOnlineLobbyById from "./delete-online-lobby";
 
- interface Props {
-    gameId: string;
- }
-
-export default async function CreateOnlineGameBasedOnLobbyCommand(data: Props, secretKey: string): Promise<string> {
+export default async function CreateOnlineGameBasedOnLobbyCommand(schema: CreateGameBasedOnLobbySchema, secretKey: string): Promise<void> {
     // TODO: refactor to use e.g. cookie for security
     const authSession = await GetAuthSessionBySecreyKeyRequest(secretKey);
     if (!authSession) throw Error("Could not authenticate user by secretkey");    
     
-    // GET CURRENT LOBBY
 
-    // CREATE GAME BASED ON CURRENT LOBBY
+    const lobby = await GetOnlineLobbyAndPlayersByIdRequest(schema.lobbyId);
+    if (lobby?.userHostId != authSession.id) {
+        throw new Error("AUTH ERROR: only the host can start this game");
+    }
+    
+    AddPlayersToCreateSchema(schema, lobby.players);
 
-    // DELETE LOBBY
+    // Add players to schema
 
-    // EMIT EVENT TO ALL PLAYERS THAT THE GAME CAN BE STARTED??
+    await db.transaction(async (tx) => {
+        CreateGameCommand(schema, secretKey, lobby.id, tx);
+        await DeleteOnlineLobbyById(lobby.id, tx);
+    });
 
-    return "";
+    // EMIT REALTIME EVENT TO ALL PLAYERS THAT GAME IS STARTED
+}
+
+function AddPlayersToCreateSchema(schema: CreateGameSchema, lobbyPlayers: OnlineLobbyPlayerModel[]) {
+    schema.players = lobbyPlayers.map(p => {
+        return {
+            userId: p.userId,
+            username: p.username
+        }
+    });
 }

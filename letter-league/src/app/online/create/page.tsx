@@ -5,7 +5,7 @@ import PageIntro from "@/components/ui/block/PageIntro";
 import Card from "@/components/ui/card/Card";
 import SubText from "@/components/ui/text/SubText";
 import CreateGameForm from "@/features/game/components/form/CreateGameForm";
-import { CreateGameSchema } from "@/features/game/game-schemas";
+import { CreateGameBasedOnLobbySchema, CreateGameSchema } from "@/features/game/game-schemas";
 import { useAuth } from "@/features/auth/AuthContext";
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from "react";
@@ -22,6 +22,7 @@ import { copyToClipboard } from "@/lib/clipboard-util";
 import { OnlineLobbyModel, OnlineLobbyPlayerModel } from "@/features/lobby/lobby-models";
 import CreateOnlineLobbyCommand from "@/features/lobby/actions/command/create-online-lobby-command";
 import LoadingDots from "@/components/ui/animation/LoadingDots";
+import CreateOnlineGameBasedOnLobbyCommand from "@/features/lobby/actions/command/create-online-game-based-on-lobby-command";
 
 export default function CreateOnlineGamePage() {
   const router = useRouter()
@@ -86,7 +87,10 @@ export default function CreateOnlineGamePage() {
     setCopiedGameId(true);
   }
   
-  async function onSubmit(data: CreateGameSchema) {
+  async function onSubmit(data: CreateGameBasedOnLobbySchema | CreateGameSchema) {
+    debugger;
+    const authSession = await getOrCreateGuestAuthSession();
+    CreateOnlineGameBasedOnLobbyCommand(data as CreateGameBasedOnLobbySchema, authSession.secretKey);
     // EMIT CREATING EVENT
     // START IN DATABASE
   }  

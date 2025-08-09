@@ -4,29 +4,36 @@ import GetWordsCommand from "@/features/word/actions/command/get-words-command";
 import { CreateGameSchema } from "../../game-schemas";
 import { generateGameId } from "../../util/game-id-generator";
 import { db } from "@/drizzle/db";
-import { GamePlayerTable, GameRoundTable, ActiveGameTable } from "@/drizzle/schema";
+import { GamePlayerTable, GameRoundTable, ActiveGameTable, GameMode, DbAuthSession, DbGamePlayer } from "@/drizzle/schema";
 import { GameRoundFactory } from "../../util/factories/game-round-factory";
 import { GamePlayerFactory } from "../../util/factories/game-player-factory";
 import GetAuthSessionBySecreyKeyRequest from "@/features/auth/actions/request/get-auth-session-by-secret-key";
+import { DbOrTransaction } from "@/drizzle/util/transaction-util";
 
 
-export default async function CreateGameCommand(command: CreateGameSchema, secretKey: string): Promise<string> {
+export default async function CreateGameCommand(schema: CreateGameSchema, secretKey: string, gameId?: string, transaction?: DbOrTransaction): Promise<string> {
+    const dbInstance = transaction || db;
+    
     // TODO: refactor to use e.g. cookie for security
     const authSession = await GetAuthSessionBySecreyKeyRequest(secretKey);
     if (!authSession) throw Error("Could not authenticate user by secretkey");
 
-    const words = await GetWordsCommand(command.wordLength, command.totalRounds, "nl");
+    if (schema.gameMode == GameMode.Solo) {
+        AddCallerAsOnlyPlayer(schema, authSession);
+    }
 
-    const gameId = generateGameId();
+    const words = await GetWordsCommand(schema.wordLength, schema.totalRounds, "nl");
 
-    await db.transaction(async (tx) => {
+    if (!gameId) gameId = generateGameId();
+
+    await dbInstance.transaction(async (tx) => {
         await tx.insert(ActiveGameTable).values({
             id: gameId,
-            nRounds: command.totalRounds,            
-            gameMode: command.gameMode,
-            wordLength: command.wordLength,
+            nRounds: schema.totalRounds,            
+            gameMode: schema.gameMode,
+            wordLength: schema.wordLength,
             currentRoundIndex: 1,
-            nGuessesPerRound: command.guessesPerRound
+            nGuessesPerRound: schema.guessesPerRound
         }).returning({
             gameId: ActiveGameTable.id
         });
@@ -34,9 +41,26 @@ export default async function CreateGameCommand(command: CreateGameSchema, secre
         var rounds = GameRoundFactory.createDbRounds(words, gameId);
         await tx.insert(GameRoundTable).values(rounds);
 
-        var players = GamePlayerFactory.createGamePlayer(gameId, authSession.id, authSession.username);
+        var players = createPlayers(schema, gameId);
         await tx.insert(GamePlayerTable).values(players);
     });
 
     return gameId;
+}
+
+function createPlayers(schema: CreateGameSchema, gameId: string): DbGamePlayer[] {
+    if (!schema.players || schema.players.length < 2) throw Error("Cant create an online game with less than 2 players");
+
+    return schema.players?.map(schemaPlayer => 
+        GamePlayerFactory.createGamePlayer(gameId, schemaPlayer.userId, schemaPlayer.username)
+    );
+}
+
+function AddCallerAsOnlyPlayer(schema: CreateGameSchema, authSession: DbAuthSession,) {
+    schema.players = [
+        {
+            userId: authSession.id,
+            username: authSession.username
+        }
+    ];
 }
