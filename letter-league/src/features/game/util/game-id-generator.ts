@@ -24,8 +24,8 @@ export function parseGameId(input: string): string {
   return uppercaseInput;
 }
 
-export function isValidGameId(input: string): boolean {
-  if (input.length != GAME_ID_LENGTH) return false;
+export function isValidGameId(input?: string): boolean {
+  if (!input || input.length != GAME_ID_LENGTH) return false;
   
   return GAME_ID_REGEX.test(input);
 }

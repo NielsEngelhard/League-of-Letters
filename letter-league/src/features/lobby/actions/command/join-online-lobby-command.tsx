@@ -16,8 +16,6 @@ export default async function JoinGameLobbyCommand(command: JoinOnlineLobbySchem
     const authSession = await GetAuthSessionBySecreyKeyRequest(secretKey);
     if (!authSession) throw Error("Could not authenticate user by secretkey");
     
-    debugger;
-
     const lobby = await GetOnlineLobbyAndPlayersByIdRequest(command.gameId);
     if (!lobby) {
         return ServerResponseFactory.error(`Lobby with '${command.gameId}' does not exist`);

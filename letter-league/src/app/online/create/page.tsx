@@ -5,7 +5,7 @@ import PageIntro from "@/components/ui/block/PageIntro";
 import Card from "@/components/ui/card/Card";
 import SubText from "@/components/ui/text/SubText";
 import CreateGameForm from "@/features/game/components/form/CreateGameForm";
-import { CreateGameBasedOnLobbySchema, CreateGameSchema } from "@/features/game/game-schemas";
+import { CreateGameSchema } from "@/features/game/game-schemas";
 import { useAuth } from "@/features/auth/AuthContext";
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from "react";
@@ -88,10 +88,10 @@ export default function CreateOnlineGamePage() {
     setCopiedGameId(true);
   }
   
-  async function onSubmit(data: CreateGameBasedOnLobbySchema | CreateGameSchema) {
+  async function onSubmit(data: CreateGameSchema) {
     debugger;
     const authSession = await getOrCreateGuestAuthSession();
-    CreateOnlineGameBasedOnLobbyCommand(data as CreateGameBasedOnLobbySchema, authSession.secretKey);
+    CreateOnlineGameBasedOnLobbyCommand(data, authSession.secretKey);
     // EMIT CREATING EVENT
     // START IN DATABASE
   }  
@@ -122,12 +122,17 @@ export default function CreateOnlineGamePage() {
                 <SubText text="Customize your game" />    
               </CardHeader>
               <CardContent>
-                <CreateGameForm
-                  onSubmit={onSubmit}
-                  submitDisabled={!lobby?.id}
-                  gameMode={GameMode.Online} 
-                  players={connectedPlayers.map((p) => ({ userId: p.userId, username: p.username }))}
-                />                
+                {lobby ? (
+                  <CreateGameForm
+                    gameId={lobby?.id}
+                    onSubmit={onSubmit}
+                    submitDisabled={!lobby?.id}
+                    gameMode={GameMode.Online} 
+                    players={connectedPlayers.map((p) => ({ userId: p.userId, username: p.username }))}
+                  />
+                ) : (
+                  <LoadingDots />
+                )}                
               </CardContent>
             </Card>       
             <Card>

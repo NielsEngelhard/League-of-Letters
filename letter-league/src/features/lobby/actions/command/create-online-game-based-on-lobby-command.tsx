@@ -2,19 +2,19 @@
 
 import GetAuthSessionBySecreyKeyRequest from "@/features/auth/actions/request/get-auth-session-by-secret-key";
 import GetOnlineLobbyAndPlayersByIdRequest from "../query/get-lobby-and-players-by-id-command";
-import { CreateGameBasedOnLobbySchema, CreateGameSchema } from "@/features/game/game-schemas";
+import { CreateGameSchema } from "@/features/game/game-schemas";
 import CreateGameCommand from "@/features/game/actions/command/create-game-command";
 import { OnlineLobbyPlayerModel } from "../../lobby-models";
 import { db } from "@/drizzle/db";
 import DeleteOnlineLobbyById from "./delete-online-lobby";
 
-export default async function CreateOnlineGameBasedOnLobbyCommand(schema: CreateGameBasedOnLobbySchema, secretKey: string): Promise<void> {
+export default async function CreateOnlineGameBasedOnLobbyCommand(schema: CreateGameSchema, secretKey: string): Promise<void> {
     // TODO: refactor to use e.g. cookie for security
     const authSession = await GetAuthSessionBySecreyKeyRequest(secretKey);
     if (!authSession) throw Error("Could not authenticate user by secretkey");    
     
 
-    const lobby = await GetOnlineLobbyAndPlayersByIdRequest(schema.lobbyId);
+const lobby = await GetOnlineLobbyAndPlayersByIdRequest(schema.gameId!);
     if (lobby?.userHostId != authSession.id) {
         throw new Error("AUTH ERROR: only the host can start this game");
     }
@@ -24,7 +24,7 @@ export default async function CreateOnlineGameBasedOnLobbyCommand(schema: Create
     // Add players to schema
 
     await db.transaction(async (tx) => {
-        CreateGameCommand(schema, secretKey, lobby.id, tx);
+        await CreateGameCommand(schema, secretKey, lobby.id, tx);
         await DeleteOnlineLobbyById(lobby.id, tx);
     });
 
