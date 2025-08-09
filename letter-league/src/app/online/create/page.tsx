@@ -21,6 +21,7 @@ import Icon from "@/components/ui/Icon";
 import { copyToClipboard } from "@/lib/clipboard-util";
 import { OnlineLobbyModel, OnlineLobbyPlayerModel } from "@/features/lobby/lobby-models";
 import CreateOnlineLobbyCommand from "@/features/lobby/actions/command/create-online-lobby-command";
+import LoadingDots from "@/components/ui/animation/LoadingDots";
 
 export default function CreateOnlineGamePage() {
   const router = useRouter()
@@ -123,11 +124,10 @@ export default function CreateOnlineGamePage() {
                   <CardTitle className="text-base sm:text-lg flex items-center gap-2">
                     <User className="w-4 h-4" />
                     Players ({connectedPlayers.length})
+                    <sup className="italic text-xs font-normal">max {MAX_ONLINE_GAME_PLAYERS}</sup>
                   </CardTitle>
 
-                  <span className="italic text-xs">
-                    max {MAX_ONLINE_GAME_PLAYERS}
-                  </span>
+                  <LoadingDots color="success" size="md" />
               </CardHeader>
               <CardContent className="space-y-2 sm:space-y-3">
                   <PlayersList players={connectedPlayers} userHostId={lobby?.userHostId} />
