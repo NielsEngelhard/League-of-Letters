@@ -25,7 +25,7 @@ export default function Footer() {
                                     alt="Logo"
                                 />
                                 {/* Subtle glow effect on hover */}
-                                <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-blue-500/0 to-purple-500/0 group-hover:from-blue-500/10 group-hover:to-purple-500/10 transition-all duration-300 blur-sm" />
+                                <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-primary/0 to-secondary/0 group-hover:from-primary/10 group-hover:to-secondary/10 transition-all duration-300 blur-sm" />
                             </div>
                         </Link>
                         <div className="text-sm text-foreground font-medium">

@@ -32,7 +32,7 @@ export default function ProfilePage() {
                 <div className="text-center space-y-4">
                     {/* Avatar */}
                     <div className="relative inline-block">
-                        <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center shadow-lg">
+                        <div className="w-20 h-20 bg-gradient-to-br from-primary to-purple-600 rounded-full flex items-center justify-center shadow-lg">
                             <span className="text-white text-2xl font-bold">
                                 {getInitials(authSession?.username || "")}
                             </span>

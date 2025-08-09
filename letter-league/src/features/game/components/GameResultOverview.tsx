@@ -35,7 +35,7 @@ export default function GameResultOverview({ players }: Props) {
     return (
         <div className="relative w-full max-w-lg mx-auto">
             {/* Animated background gradient */}
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-purple-500/10 to-pink-500/10 rounded-2xl blur-xl animate-pulse" />
+            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-purple-500/10 to-pink-500/10 rounded-2xl blur-xl animate-pulse" />
             
             <Card className="relative flex flex-col gap-6 items-center p-6 backdrop-blur-sm border border-white/20">
                 {/* Winner celebration effect - only show for multiplayer games */}
