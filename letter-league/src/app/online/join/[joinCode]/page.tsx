@@ -13,6 +13,8 @@ import { User } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { OnlineLobbyModel, OnlineLobbyPlayerModel } from "@/features/lobby/lobby-models";
+import LoadingSpinner from "@/components/ui/animation/LoadingSpinner";
+import LoadingDots from "@/components/ui/animation/LoadingDots";
 
 export default function JoinOnlineGamePage() {
     const [lobby, setLobby] = useState<OnlineLobbyModel | null>(null);
@@ -78,21 +80,23 @@ export default function JoinOnlineGamePage() {
         <PageBase>
             {connectedPlayers ? (
                 <>
-                    <Card variant="success">
-                        <CardHeader>
-                            <CardTitle className="text-success">
-                                Joined Game
-                            </CardTitle>
-                            <span className="text-foreground font-medium">
-                                Waiting for host to start...
-                            </span>
-                        </CardHeader>
+                    <Card variant="success" className="animate-pulse-subtle">
+                    <CardHeader>
+                        <CardTitle className="text-success flex items-center gap-3">
+                        Joined Game
+                            <LoadingDots size="md" color="success" />
+                        </CardTitle>
+                        <span className="text-foreground font-medium flex items-center gap-2">
+                            <LoadingSpinner size="sm" color="success" />
+                            Waiting for host to start...
+                        </span>
+                    </CardHeader>
 
-                        <CardContent>
-                            <ul className="text-sm text-foreground-muted">
-                                <li>Game ID: {joinCode?.toString()}</li>
-                            </ul>
-                        </CardContent>
+                    <CardContent>
+                        <ul className="text-sm text-foreground-muted">
+                        <li>Game ID: {joinCode?.toString()}</li>
+                        </ul>
+                    </CardContent>
                     </Card>
 
                     <Card>
