@@ -1,7 +1,7 @@
 // app/api/webhook/route.ts
 
 import { db } from '@/drizzle/db';
-import PlayerDisconnectedCommand from '@/features/game/actions/command/active-game-player-disconnected-command';
+import ActiveGamePlayerDisconnectedCommand from '@/features/game/actions/command/active-game-player-disconnected-command';
 import DisconnectOnlineLobbyPlayer from '@/features/lobby/actions/command/disconnect-online-lobby-player';
 import { NextRequest, NextResponse } from 'next/server';
 
@@ -20,7 +20,7 @@ export async function POST(req: NextRequest) {
         userId: body.userId
       }, tx);
 
-      await PlayerDisconnectedCommand({
+      await ActiveGamePlayerDisconnectedCommand({
         gameId: body.gameId,
         userId: body.userId
       }, tx);      

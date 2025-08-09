@@ -23,12 +23,11 @@ export class OnlineLobbyMapper {
         }
     }
 
-    static DbLobbyPlayerToModel(lobbyPlayer: DbOnlineLobbyPlayer, hostUserId: string | null = null): OnlineLobbyPlayerModel {
+    static DbLobbyPlayerToModel(lobbyPlayer: DbOnlineLobbyPlayer): OnlineLobbyPlayerModel {
         return {
             userId: lobbyPlayer.userId,            
             username: lobbyPlayer.username,
             connectionStatus: lobbyPlayer.connectionStatus,
-            isHost: lobbyPlayer.userId == hostUserId
         }
     }
 }

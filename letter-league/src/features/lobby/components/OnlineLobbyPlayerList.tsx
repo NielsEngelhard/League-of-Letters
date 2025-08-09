@@ -1,4 +1,3 @@
-import { GamePlayerModel } from "../game-models";
 import Avatar from "@/components/ui/Avatar";
 import { Crown } from "lucide-react";
 import Seperator from "@/components/ui/Seperator";
@@ -7,10 +6,11 @@ import RealtimeStatusIndicator from "@/features/realtime/RealtimeStatusIndicator
 import { OnlineLobbyPlayerModel } from "@/features/lobby/lobby-models";
 
 interface Props {
-    players?: GamePlayerModel[] | OnlineLobbyPlayerModel[];        
+    players?: OnlineLobbyPlayerModel[];
+    userHostId?: string;
 }
 
-export default function PlayersList({ players = [] }: Props ) {
+export default function OnlineLobbyPlayerList({ players = [], userHostId }: Props ) {
     const { authSession } = useAuth();
 
     return (
@@ -32,7 +32,7 @@ export default function PlayersList({ players = [] }: Props ) {
                         <span>{player.username}</span>   
                     )}
                 </span>
-                {player.isHost && (
+                {player.userId == userHostId && (
                     <Crown className="w-3 h-3 sm:w-4 sm:h-4 text-warning" />
                 )}
                 </div>

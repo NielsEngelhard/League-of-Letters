@@ -7,7 +7,7 @@ import Button from "@/components/ui/Button";
 import Card from "@/components/ui/card/Card";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card/card-children";
 import Seperator from "@/components/ui/Seperator";
-import PlayersList from "@/features/game/components/PlayersList";
+import PlayersList from "@/features/lobby/components/OnlineLobbyPlayerList";
 import { GamePlayerModel } from "@/features/game/game-models";
 import { Clock, Crown, User } from "lucide-react";
 

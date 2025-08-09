@@ -9,11 +9,10 @@ import { CreateGameSchema } from "@/features/game/game-schemas";
 import { useAuth } from "@/features/auth/AuthContext";
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from "react";
-import { AuthSessionModel } from "@/features/auth/auth-models";
-import { MULTIPLAYER_GAME_ROUTE, PICK_GAME_MODE_ROUTE } from "@/app/routes";
+import { MULTIPLAYER_GAME_ROUTE } from "@/app/routes";
 import { useSocket } from "@/features/realtime/socket-context";
 import { splitStringInMiddle } from "@/lib/string-util";
-import PlayersList from "@/features/game/components/PlayersList";
+import PlayersList from "@/features/lobby/components/OnlineLobbyPlayerList";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card/card-children";
 import { Check, Copy, User } from "lucide-react";
 import { MAX_ONLINE_GAME_PLAYERS } from "@/features/game/game-constants";
@@ -131,7 +130,7 @@ export default function CreateOnlineGamePage() {
                   </span>
               </CardHeader>
               <CardContent className="space-y-2 sm:space-y-3">
-                  <PlayersList players={connectedPlayers} />
+                  <PlayersList players={connectedPlayers} userHostId={lobby?.userHostId} />
               </CardContent>
             </Card>     
         </div>

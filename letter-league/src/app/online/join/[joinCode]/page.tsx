@@ -6,7 +6,7 @@ import Card from "@/components/ui/card/Card";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card/card-children";
 import { useAuth } from "@/features/auth/AuthContext";
 import JoinGameLobbyCommand from "@/features/lobby/actions/command/join-online-lobby-command";
-import PlayersList from "@/features/game/components/PlayersList";
+import PlayersList from "@/features/lobby/components/OnlineLobbyPlayerList";
 import { MAX_ONLINE_GAME_PLAYERS } from "@/features/game/game-constants";
 import { useSocket } from "@/features/realtime/socket-context";
 import { User } from "lucide-react";
@@ -107,7 +107,7 @@ export default function JoinOnlineGamePage() {
                             </span>
                         </CardHeader>
                         <CardContent>
-                            <PlayersList players={connectedPlayers} />
+                            <PlayersList players={connectedPlayers} userHostId={lobby?.userHostId} />
                         </CardContent>
                     </Card>
                 </>

@@ -9,7 +9,6 @@ export interface OnlineLobbyModel {
 
 export interface OnlineLobbyPlayerModel {    
     userId: string;
-    isHost: boolean;
     username: string;
     connectionStatus: ConnectionStatus;    
 }
