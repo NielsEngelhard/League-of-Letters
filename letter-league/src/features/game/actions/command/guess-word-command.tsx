@@ -10,6 +10,7 @@ import { DetailedValidationResult, WordValidator } from "@/features/word/word-va
 import { ScoreCalculator } from "@/features/score/score-calculator";
 import DeleteGameByIdCommand from "./delete-game-by-id-command";
 import { and, eq } from "drizzle-orm";
+import { DetermineCurrentPlayerId } from "../../util/current-players-turn-calculator";
 
 export interface GuessWordCommandInput {
     gameId: string;
@@ -56,7 +57,11 @@ function addScoreToPlayer(scoreResult: CalculateScoreResult, player: DbGamePlaye
 }
 
 function getCurrentPlayer(game: DbActiveGameWithRoundsAndPlayers): DbGamePlayer {
-    return game.players[0]; // Works for solo game because then there is only 1 player - but needs adjustments for multiplayer games TODO FUTURE
+    if (game.players.length == 1) return game.players[0];
+
+    const playerId = DetermineCurrentPlayerId(game.players.map(p => p.id), game.currentRoundIndex, 1);
+
+    return game.players.find(p => p.id == playerId)!;
 }
 
 async function updateCurrentGameState(game: DbActiveGameWithRoundsAndPlayers, currentRound: DbGameRound, validationResult: DetailedValidationResult, scoreResult: CalculateScoreResult, currentPlayer: DbGamePlayer): Promise<GuessWordResponse> {
