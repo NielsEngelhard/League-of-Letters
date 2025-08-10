@@ -1,5 +1,6 @@
 import Card from "@/components/ui/card/Card";
 import { GamePlayerModel } from "../game-models";
+import { CardContent } from "@/components/ui/card/card-children";
 
 interface Props {
     player: GamePlayerModel;
@@ -102,86 +103,86 @@ export default function GameResultOverviewPlayerCard({
             )}
             
             <Card className={`
-                relative transition-all duration-300 ease-out
+                relative transition-all duration-300 ease-out p-4
                 ${getCardStyle(position)}
                 ${(isWinner || isSoloGame) ? 'transform hover:scale-102' : 'hover:scale-101'}
                 ${(isPodium || isSoloGame) ? 'ring-1 ring-black/5' : ''}
             `}>
-                <div className="flex items-center justify-between w-full p-1">
-                    {/* Left side: Position and name */}
-                    <div className="flex items-center gap-3">
-                        {/* Position indicator - hidden for solo games */}
-                        {!isSoloGame && (
-                            <div className={`
-                                flex items-center justify-center
-                                ${position <= 3 ? 'text-xl' : 'text-sm font-bold'}
-                                ${getPositionColor(position)}
-                                ${isWinner ? 'animate-pulse' : ''}
-                                min-w-[2rem]
-                            `}>
-                                {getPositionIcon(position)}
-                            </div>
-                        )}
-                        
-                        {/* Solo game icon */}
-                        {isSoloGame && (
-                            <div className={`
-                                flex items-center justify-center text-xl
-                                ${getPositionColor(position)}
-                                animate-pulse min-w-[2rem]
-                            `}>
-                                {getPositionIcon(position)}
-                            </div>
-                        )}
-                        
-                        {/* Player info */}
-                        <div className="flex flex-col">
-                            <div className={`
-                                font-semibold
-                                ${(isWinner || isSoloGame) ? 'text-lg' : 'text-base'}
-                                ${isSoloGame ? 'text-blue-800' : ''}
-                                ${isWinner ? 'text-yellow-800' : ''}
-                                ${isLoser ? 'text-red-600' : ''}
-                                ${position === 2 && !isDuel ? 'text-gray-700' : ''}
-                                ${position === 3 ? 'text-amber-700' : ''}
-                            `}>
-                                {player.username}
-                            </div>
-                            {getPlayerTitle() && (
-                                <div className="text-xs text-gray-500 capitalize">
-                                    {getPlayerTitle()}
+                    <div className="flex items-center justify-between w-full p-1">
+                        {/* Left side: Position and name */}
+                        <div className="flex items-center gap-3">
+                            {/* Position indicator - hidden for solo games */}
+                            {!isSoloGame && (
+                                <div className={`
+                                    flex items-center justify-center
+                                    ${position <= 3 ? 'text-xl' : 'text-sm font-bold'}
+                                    ${getPositionColor(position)}
+                                    ${isWinner ? 'animate-pulse' : ''}
+                                    min-w-[2rem]
+                                `}>
+                                    {getPositionIcon(position)}
                                 </div>
                             )}
+                            
+                            {/* Solo game icon */}
+                            {isSoloGame && (
+                                <div className={`
+                                    flex items-center justify-center text-xl
+                                    ${getPositionColor(position)}
+                                    animate-pulse min-w-[2rem]
+                                `}>
+                                    {getPositionIcon(position)}
+                                </div>
+                            )}
+                            
+                            {/* Player info */}
+                            <div className="flex flex-col">
+                                <div className={`
+                                    font-semibold
+                                    ${(isWinner || isSoloGame) ? 'text-lg' : 'text-base'}
+                                    ${isSoloGame ? 'text-blue-800' : ''}
+                                    ${isWinner ? 'text-yellow-800' : ''}
+                                    ${isLoser ? 'text-red-600' : ''}
+                                    ${position === 2 && !isDuel ? 'text-gray-700' : ''}
+                                    ${position === 3 ? 'text-amber-700' : ''}
+                                `}>
+                                    {player.username}
+                                </div>
+                                {getPlayerTitle() && (
+                                    <div className="text-xs text-gray-500 capitalize">
+                                        {getPlayerTitle()}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Right side: Score */}
+                        <div className="flex flex-col items-end">
+                            <div className={`
+                                font-bold text-lg
+                                ${(isWinner || isSoloGame) ? 'text-xl' : ''}
+                                ${isSoloGame ? 'text-blue-600' : ''}
+                                ${isWinner ? 'text-yellow-600' : ''}
+                                ${isLoser ? 'text-red-500' : ''}
+                                ${position === 2 && !isDuel ? 'text-gray-600' : ''}
+                                ${position === 3 ? 'text-amber-600' : ''}
+                                ${!isWinner && !isSoloGame && !isLoser ? 'text-gray-700' : ''}
+                            `}>
+                                {player.score}
+                            </div>
+                            <div className="text-xs text-gray-500 font-medium">
+                                points
+                            </div>
                         </div>
                     </div>
 
-                    {/* Right side: Score */}
-                    <div className="flex flex-col items-end">
+                    {/* Subtle animation line */}
+                    {(isWinner || isSoloGame) && (
                         <div className={`
-                            font-bold text-lg
-                            ${(isWinner || isSoloGame) ? 'text-xl' : ''}
-                            ${isSoloGame ? 'text-blue-600' : ''}
-                            ${isWinner ? 'text-yellow-600' : ''}
-                            ${isLoser ? 'text-red-500' : ''}
-                            ${position === 2 && !isDuel ? 'text-gray-600' : ''}
-                            ${position === 3 ? 'text-amber-600' : ''}
-                            ${!isWinner && !isSoloGame && !isLoser ? 'text-gray-700' : ''}
-                        `}>
-                            {player.score}
-                        </div>
-                        <div className="text-xs text-gray-500 font-medium">
-                            points
-                        </div>
-                    </div>
-                </div>
-
-                {/* Subtle animation line */}
-                {(isWinner || isSoloGame) && (
-                    <div className={`
-                        absolute bottom-0 left-0 right-0 h-px opacity-60
-                        ${isSoloGame ? 'bg-gradient-to-r from-transparent via-blue-400 to-transparent' : 'bg-gradient-to-r from-transparent via-yellow-400 to-transparent'}
-                    `} />
-                )}
+                            absolute bottom-0 left-0 right-0 h-px opacity-60
+                            ${isSoloGame ? 'bg-gradient-to-r from-transparent via-blue-400 to-transparent' : 'bg-gradient-to-r from-transparent via-yellow-400 to-transparent'}
+                        `} />
+                    )}                    
             </Card>
         </div>
     );

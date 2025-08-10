@@ -48,9 +48,11 @@ export default function Header() {
                                 </span>
                             </div>
                             {/* Online indicator */}
-                            <div className="absolute -bottom-0.5 -right-0.5 border-background border-2 rounded-full">
-                                <RealtimeStatusIndicator status={connectionStatus} showDot={true} showIcon={false} showLabel={false} />
-                            </div>
+                            {connectionStatus != "empty" && (
+                                <div className="absolute -bottom-0.5 -right-0.5 border-background border-2 rounded-full">
+                                    <RealtimeStatusIndicator status={connectionStatus} showDot={true} showIcon={false} showLabel={false} />
+                                </div>                                
+                            )}
                         </div>
 
                         {/* User Info */}
