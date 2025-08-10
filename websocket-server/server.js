@@ -57,6 +57,11 @@ io.on('connection', (socket) => {
     console.log(`User ${socket.id} left room: ${gameId}`);
     socket.in(gameId).emit('user-left', { userId: socket.id, room });
   });
+
+  socket.on('player-guess-changed', (guess) => {
+    console.log("player-guess-changed " + guess);
+    socket.broadcast.to(socket.gameId).emit('player-guess-changed', guess);
+  });  
   // END USER ACTIONS --------------------------------------------------------------------
 
   // (external) SERVER ACTIONS 

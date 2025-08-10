@@ -1,16 +1,18 @@
 import LetterRowGrid from "@/features/word/components/LetterRowGrid";
 import ActiveGameWordInput from "./ActiveGameWordInput";
 import { useActiveGame } from "./active-game-context";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "@/features/auth/AuthContext";
 import InGamePlayerBar from "./in-game/InGamePlayersBar";
 import GameProgressionBar from "./in-game/InGameProgressionBar";
+import { useSocket } from "@/features/realtime/socket-context";
 
 interface Props {}
 
 export default function GameBoard({}: Props) {
     const { currentRoundIndex, totalRounds, submitGuess, wordLength, currentRound, maxAttemptsPerRound, players } = useActiveGame();
     const { authSession } = useAuth();
+    const { emitGuessChangedEvent, currentGuessOfOtherPlayer } = useSocket();
     const [canGuess, setCanGuess] = useState(true);
     const [currentGuess, setCurrentGuess] = useState<string>("");
 
@@ -24,6 +26,13 @@ export default function GameBoard({}: Props) {
                 setCanGuess(true);
             });
     }
+
+    useEffect(() => {
+        if (!currentGuess || currentGuess == "") return;
+        
+        emitGuessChangedEvent(currentGuess);
+        
+    }, [currentGuess]);
 
     return (
         <div className="w-full flex flex-col items-center gap-6 max-w-2xl mx-auto">

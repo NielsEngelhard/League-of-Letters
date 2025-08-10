@@ -15,10 +15,12 @@ interface SocketContextType {
   initializeConnection: () => void;
 
   connectedPlayers: OnlineLobbyPlayerModel[];
+  currentGuessOfOtherPlayer: string;
   addPlayerOrSetReconnected: (players: OnlineLobbyPlayerModel) => void;
 
   emitJoinGame: (data: JoinGameRealtimeModel) => void;
   emitTestEvent: (gameId: string) => void;
+  emitGuessChangedEvent: (guess: string) => void;
 }
 
 const SocketContext = createContext<SocketContextType | undefined>(undefined);
@@ -39,6 +41,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
   const socketRef = useRef<Socket | null>(null);
 
   const [connectedPlayers, setConnectedPlayers] = useState<OnlineLobbyPlayerModel[]>([]);
+  const [currentGuessOfOtherPlayer, setCurrentGuessOfOtherPlayer] = useState<string>("");
 
   const initializeConnection = () => {
     if (socketRef.current != null) {
@@ -99,7 +102,11 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
         type: "information"
       });
       router.push(MULTIPLAYER_GAME_ROUTE);
-    });        
+    });
+    
+    socket.on('player-guess-changed', (guess: string) => {
+      setCurrentGuessOfOtherPlayer(guess);
+    });         
 
     // Cleanup on unmount
     return () => {
@@ -113,6 +120,10 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
 
   const emitTestEvent = (gameId: string) => {
     socketRef.current?.emit('test', gameId);
+  };
+
+  const emitGuessChangedEvent = (guess: string) => {
+    socketRef.current?.emit('player-guess-changed', guess);
   };
 
   const addPlayerOrSetReconnected = (player: OnlineLobbyPlayerModel) => {
@@ -133,8 +144,10 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
       connectionStatus,
       transport,
       connectedPlayers,
+      currentGuessOfOtherPlayer,
       emitJoinGame,
       emitTestEvent,
+      emitGuessChangedEvent,
       addPlayerOrSetReconnected,
 	    initializeConnection,
     }}>

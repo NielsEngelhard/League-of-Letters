@@ -4,21 +4,24 @@ import { PICK_GAME_MODE_ROUTE } from "@/app/routes";
 import PageBase from "@/components/layout/PageBase";
 import { GetActiveGameByIdRequest } from "@/features/game/actions/query/get-active-game-by-id-request";
 import { ActiveGameProvider } from "@/features/game/components/active-game-context";
-import GameBoard from "@/features/game/components/GameBoard";
 import Ingame from "@/features/game/components/InGame";
 import { ActiveGameModel } from "@/features/game/game-models";
+import { useSocket } from "@/features/realtime/socket-context";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 
 export default function GamePage() {
     const router = useRouter();
+    const { initializeConnection } = useSocket();
     const [game, setGame] = useState<ActiveGameModel | null>(null);
 
     const params = useParams();
     const gameId = params.gameId;
 
     useEffect(() => {
+        initializeConnection();
+
         async function GetGame() {
             if (!gameId) return;
             
