@@ -5,7 +5,7 @@ interface Props {
     totalRounds: number;
 }
 
-export default function GameProgressionBar({ currentRoundIndex, totalRounds }: Props) {
+export default function InGameProgressionBar({ currentRoundIndex, totalRounds }: Props) {
     return (
         <PopupCard>
             <>

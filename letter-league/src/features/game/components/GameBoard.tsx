@@ -3,8 +3,8 @@ import ActiveGameWordInput from "./ActiveGameWordInput";
 import { useActiveGame } from "./active-game-context";
 import { useState } from "react";
 import { useAuth } from "@/features/auth/AuthContext";
-import PlayerList from "./PlayerList";
-import GameProgressionBar from "./GameProgressionBar";
+import InGamePlayerBar from "./in-game/InGamePlayersBar";
+import GameProgressionBar from "./in-game/InGameProgressionBar";
 
 interface Props {}
 
@@ -32,8 +32,8 @@ export default function GameBoard({}: Props) {
                 totalRounds={totalRounds}
             />
 
-            {/* Players List */}
-            <PlayerList
+            {/* Player bar */}
+            <InGamePlayerBar
                 players={players}
                 currentPlayerId={players[0].userId}               
             />
