@@ -24,6 +24,9 @@ import CreateOnlineLobbyCommand from "@/features/lobby/actions/command/create-on
 import LoadingDots from "@/components/ui/animation/LoadingDots";
 import CreateOnlineGameBasedOnLobbyCommand from "@/features/lobby/actions/command/create-online-game-based-on-lobby-command";
 import { GameMode } from "@/drizzle/schema";
+import Button from "@/components/ui/Button";
+import { OptionItem } from "@/components/ui/OptionsMenu";
+import DeleteOnlineLobbyById from "@/features/lobby/actions/command/delete-online-lobby";
 
 export default function CreateOnlineGamePage() {
   const router = useRouter()
@@ -95,9 +98,22 @@ export default function CreateOnlineGamePage() {
     // START IN DATABASE
   }  
 
+  async function abandonLobby() {
+    if (!lobby) return;
+    await DeleteOnlineLobbyById(lobby.id, undefined, true);
+  }
+
+  const lobbyOptions: OptionItem[] = [
+  {
+    label: "Abandon",
+    onClick: abandonLobby,
+    destructive: true
+  }
+]
+
   return (
     <PageBase size="lg">
-      <PageIntro title="Create Online Game" subText="Join Code:" backHref={MULTIPLAYER_GAME_ROUTE}>
+      <PageIntro title="Create Online Game" subText="Join Code:" backHref={MULTIPLAYER_GAME_ROUTE} options={lobbyOptions}>
         <div className="text-3xl font-bold">
           {lobby ? (
             <button className="flex flex-row cursor-pointer" onClick={copyJoinCodeToClipboard}>
@@ -147,7 +163,7 @@ export default function CreateOnlineGamePage() {
               <CardContent className="space-y-2 sm:space-y-3">
                   <PlayersList players={connectedPlayers} userHostId={lobby?.userHostId} />
               </CardContent>
-            </Card>     
+            </Card>
         </div>
     </PageBase>
   )

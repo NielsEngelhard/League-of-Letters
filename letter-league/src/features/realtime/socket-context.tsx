@@ -4,7 +4,8 @@ import { io, Socket } from 'socket.io-client';
 import { ConnectionStatus, JoinGameRealtimeModel } from './realtime-models';
 import { OnlineLobbyPlayerModel } from '../lobby/lobby-models';
 import { useRouter } from 'next/navigation';
-import { PLAY_GAME_ROUTE } from '@/app/routes';
+import { MULTIPLAYER_GAME_ROUTE, PLAY_GAME_ROUTE } from '@/app/routes';
+import { useMessageBar } from '@/components/layout/MessageBarContext';
 
 interface SocketContextType {
   socket: Socket | null;
@@ -31,6 +32,8 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
   children, 
   serverUrl = process.env.NEXT_PUBLIC_WEBSOCKET_SERVER_BASE_ADDRESS 
 }) => {
+  const { pushMessage } = useMessageBar();
+  const router = useRouter();
   const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>("empty");
   const [transport, setTransport] = useState('N/A');
   const socketRef = useRef<Socket | null>(null);
@@ -87,9 +90,16 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
     
     socket.on('start-game-transition', (gameId: string) => {
       console.log("START GAME HAS BEEN TRIGGERED " + gameId);
-      const router = useRouter();
       router.push(PLAY_GAME_ROUTE(gameId));
     });    
+
+    socket.on('delete-game', (gameId: string) => {
+      pushMessage({
+        msg: "Game abandoned",
+        type: "information"
+      });
+      router.push(MULTIPLAYER_GAME_ROUTE);
+    });        
 
     // Cleanup on unmount
     return () => {

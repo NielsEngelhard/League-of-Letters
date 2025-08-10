@@ -11,12 +11,12 @@ type Props = {
 
 export function Providers({ children }: Props) {
   return (
+    <MessageBarProvider>
         <AuthProvider>
           <SocketProvider>
-            <MessageBarProvider>
               {children}
-            </MessageBarProvider>
           </SocketProvider>
-        </AuthProvider>
+      </AuthProvider>
+    </MessageBarProvider>
   );
 }

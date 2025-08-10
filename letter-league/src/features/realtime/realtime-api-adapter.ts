@@ -27,3 +27,11 @@ export async function EmitStartGameRealtimeEvent(gameId: string) {
         data: gameId
     });
 }
+
+export async function EmitDeleteGameRealtimeEvent(gameId: string) {
+    return await TriggerRealtimeEventOnSocketServer({
+        event: "delete-game",
+        room: gameId,
+        data: gameId
+    });
+}

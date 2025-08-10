@@ -85,6 +85,11 @@ io.on('connection', (socket) => {
     console.error(`Emitted test event to room '${gameId}'`);
   });  
 
+  socket.on('delete-game', (gameId) => {
+    console.log(`delete-game '${gameId}'`);
+    socket.broadcast.to(gameId).emit('delete-game');
+  });
+
   // END GENERAL ACTIONS -------------------------------------------------------------------
 });
 
