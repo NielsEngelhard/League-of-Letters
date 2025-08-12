@@ -10,7 +10,7 @@ import LoadingSpinner from "@/components/ui/animation/LoadingSpinner";
 interface Props {}
 
 export default function GameBoard({}: Props) {
-    const { game, players, setCurrentGuess, submitGuess, currentGuess, currentRound, currentPlayerId } = useActiveGame();
+    const { game, players, setCurrentGuess, submitGuess, currentGuess, currentRound, isThisPlayersTurn } = useActiveGame();
     const { authSession } = useAuth();
 
     async function onSubmitGuess() {
@@ -61,7 +61,7 @@ export default function GameBoard({}: Props) {
                         wordLength={game.wordLength}
                         onChange={setCurrentGuess}
                         onEnter={onSubmitGuess}
-                        disabled={authSession?.id != currentPlayerId}
+                        disabled={!isThisPlayersTurn}
                     />
                 </div>
             </div>

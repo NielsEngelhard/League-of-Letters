@@ -111,7 +111,8 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
     });
     
     socket.on('player-guess-changed', (guess: string) => {
-      activeGameContext.setCurrentGuess(guess);
+      console.log("player guess changed!! " + guess);
+      // activeGameContext.setCurrentGuess(guess);
     });         
 
     // Cleanup on unmount
@@ -143,6 +144,16 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
       return [...prev, player];
     });
   };
+
+  // When the user's currentGuess changes "locally", other players should see that
+  useEffect(() => {    
+    // Prevent infinite loop by only doing this for the person who's turn it is
+    if (activeGameContext.currentGuess == undefined || !activeGameContext.isThisPlayersTurn) {
+      return;
+    }
+
+    socketRef.current?.emit('player-guess-changed', activeGameContext.currentGuess);
+  }, [activeGameContext.currentGuess]);
 
   return (
     <SocketContext.Provider value={{

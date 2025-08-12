@@ -1,11 +1,12 @@
 'use client';
 
-import { createContext, useState, ReactNode, useContext } from 'react';
+import { createContext, useState, ReactNode, useContext, useEffect } from 'react';
 import { ActiveGameModel, GamePlayerModel, GameRoundModel, RoundTransitionData } from '../game-models';
 import { GuessWordCommand, GuessWordCommandInput, GuessWordResponse } from '../actions/command/guess-word-command';
 import { LETTER_ANIMATION_TIME_MS, TIME_BETWEEN_ROUNDS_MS } from '../game-constants';
 import { useMessageBar } from '@/components/layout/MessageBarContext';
 import { DetermineCurrentPlayerAlgorithm } from '../util/current-players-turn-calculator';
+import { useAuth } from '@/features/auth/AuthContext';
 
 type ActiveGameContextType = {  
   // Data
@@ -14,9 +15,10 @@ type ActiveGameContextType = {
   currentGuess: string | undefined;
   currentRound: GameRoundModel | undefined;
   currentPlayerId: string;
+  isThisPlayersTurn: boolean;
 
   // Actions
-  initializeGameState: (_game: ActiveGameModel) => void;
+  initializeGameState: (_game: ActiveGameModel, _thisPlayersUserId: string) => void;
   submitGuess: (secretKey: string) => Promise<void>;
   setCurrentGuess: (guess: string) => void;
   handleWordGuess: (response: GuessWordResponse) => void;
@@ -33,15 +35,18 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
   const [theWord, setTheWord] = useState<string | undefined>(undefined);
   const [currentGuess, setCurrentGuess] = useState<string | undefined>(undefined);
   const [currentPlayerId, setCurrentPlayerId] = useState<string>("");
+  const [isThisPlayersTurn, setIsThisPlayersTurn] = useState<boolean>(false);
+  const [thisPlayersUserId, setThisPlayersUserId] = useState<string | undefined>(undefined);
 
   // Always call this first
-  function initializeGameState(_game: ActiveGameModel) {
+  function initializeGameState(_game: ActiveGameModel, _thisPlayersUserId: string) {
     setGame(_game);
     setPlayers(_game.players);
 
-    const currentRound = getRound(_game);
+    const _currentRound = getRound(_game);
     setCurrentRound(currentRound);
-    determineCurrentPlayer(_game, currentRound);
+    // determineCurrentPlayer(_game, _currentRound, _thisPlayersUserId);
+    setThisPlayersUserId(_thisPlayersUserId);
   }
 
   async function submitGuess(secretKey: string): Promise<void> {
@@ -85,7 +90,9 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
 
     if (response.roundTransitionData) {
       handleEndOfCurrentRound(response.roundTransitionData);
-    }        
+    } else {
+      // TODO: set next round for currentGuess
+    }
   }
 
   function handleEndOfCurrentRound(roundTransitionData: RoundTransitionData) {
@@ -149,10 +156,23 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
   }
 
   // TODO: this can be a static method somewhere else
-  function determineCurrentPlayer(_game: ActiveGameModel, _currentRound: GameRoundModel) {
-    const playerId = DetermineCurrentPlayerAlgorithm.execute(_game.players.map(p => p.userId), _game.currentRoundIndex, _currentRound.currentGuessIndex);
+  function determineCurrentPlayer() {
+    if (!game || !currentRound) return;
+
+    const playerId = DetermineCurrentPlayerAlgorithm.execute(game.players.map(p => p.userId), game.currentRoundIndex, currentRound.currentGuessIndex);
     setCurrentPlayerId(playerId);
+    setIsThisPlayersTurn(thisPlayersUserId == playerId);
   }
+
+  // Determine the current player whos turn it is
+  useEffect(() => {
+    if (!game || !currentRound) return;
+
+    console.log("EVEN KIJKEN OF DIT NIET GESPAMMED WORDT!!!!!!!!!!");
+    debugger;
+    determineCurrentPlayer();
+
+  }, [game?.currentRoundIndex, currentRound?.currentGuessIndex]);
 
   return (
     <ActiveGameContext.Provider value={{        
@@ -164,7 +184,8 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
         setCurrentGuess,
         submitGuess,
         currentPlayerId,
-        handleWordGuess
+        handleWordGuess,
+        isThisPlayersTurn
        }}>
       {children}
     </ActiveGameContext.Provider>
