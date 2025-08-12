@@ -1,3 +1,4 @@
+import LoadingDots from "@/components/ui/animation/LoadingDots";
 import Button from "@/components/ui/Button";
 import TextInput from "@/components/ui/form/TextInput";
 import CustomKeyboard from "@/components/ui/keyboard/CustomKeyboard";
@@ -28,6 +29,14 @@ export default function WordInput({ theWord, currentGuess, onEnter, onChange, wo
 
         onChange(currentGuess.slice(0, -1));
     }    
+
+    if (disabled) {
+        return (
+            <div className="w-full flex justify-center">
+                <LoadingDots />
+            </div>
+        )
+    }
 
     return (
         theWord

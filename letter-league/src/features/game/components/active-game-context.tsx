@@ -5,6 +5,7 @@ import { ActiveGameModel, GamePlayerModel, GameRoundModel, RoundTransitionData }
 import { GuessWordCommand, GuessWordCommandInput, GuessWordResponse } from '../actions/command/guess-word-command';
 import { LETTER_ANIMATION_TIME_MS, TIME_BETWEEN_ROUNDS_MS } from '../game-constants';
 import { useMessageBar } from '@/components/layout/MessageBarContext';
+import { DetermineCurrentPlayerAlgorithm } from '../util/current-players-turn-calculator';
 
 type ActiveGameContextType = {  
   // Data
@@ -37,7 +38,10 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
   function initializeGameState(_game: ActiveGameModel) {
     setGame(_game);
     setPlayers(_game.players);
-    setCurrentRound(getRound(_game));
+
+    const currentRound = getRound(_game);
+    setCurrentRound(currentRound);
+    determineCurrentPlayer(_game, currentRound);
   }
 
   async function submitGuess(secretKey: string): Promise<void> {
@@ -135,13 +139,20 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     setTheWord(undefined);
   }
 
+  // TODO: this can be a static method somewhere else
   function getRound(_game: ActiveGameModel, index?: number): GameRoundModel {
     if (!index) index = _game.currentRoundIndex; 
 
     const round = _game.rounds.find(r => r.roundNumber == index);
     if (!round) throw Error("Could not find current round CORRUPT STATE");
     return round;
-  }  
+  }
+
+  // TODO: this can be a static method somewhere else
+  function determineCurrentPlayer(_game: ActiveGameModel, _currentRound: GameRoundModel) {
+    const playerId = DetermineCurrentPlayerAlgorithm.execute(_game.players.map(p => p.userId), _game.currentRoundIndex, _currentRound.currentGuessIndex);
+    setCurrentPlayerId(playerId);
+  }
 
   return (
     <ActiveGameContext.Provider value={{        
