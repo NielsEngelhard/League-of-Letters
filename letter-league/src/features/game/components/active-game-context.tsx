@@ -173,6 +173,10 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
 
   }, [game?.currentRoundIndex, currentRound?.currentGuessIndex]);
 
+  useEffect(() => {
+    console.log("kkk " + currentGuess);
+  }, [currentGuess])
+
   return (
     <ActiveGameContext.Provider value={{        
         initializeGameState,

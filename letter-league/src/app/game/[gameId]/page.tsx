@@ -16,7 +16,7 @@ import { useEffect, useState } from "react";
 export default function GamePage() {
     const { authSession } = useAuth();
     const { initializeGameState, game } = useActiveGame();    
-    const { initializeConnection } = useSocket();
+    const { initializeConnection, emitJoinGame } = useSocket();
     const router = useRouter();
 
     const params = useParams();
@@ -37,7 +37,13 @@ export default function GamePage() {
                     return;
                 };
                 
-                initializeGameState(resp, authSession.id);                
+                initializeGameState(resp, authSession.id);
+                emitJoinGame({
+                    gameId: resp.id,
+                    userId: authSession.id,
+                    username: authSession.username,
+                    isHost: false // TODO
+                });                
             } catch(err) {
                 console.log(err);
                 router.push(PICK_GAME_MODE_ROUTE);

@@ -20,15 +20,6 @@ export default function GameBoard({}: Props) {
             });
     }
 
-    useEffect(() => {
-        if (!currentGuess || currentGuess == "") return;
-        
-        // TODO: if not current players turn
-
-        // emitGuessChangedEvent(currentGuess);
-        
-    }, [currentGuess]);
-
     return (
         <>
         {game ? (

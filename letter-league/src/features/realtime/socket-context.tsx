@@ -21,7 +21,6 @@ interface SocketContextType {
 
   emitJoinGame: (data: JoinGameRealtimeModel) => void;
   emitTestEvent: (gameId: string) => void;
-  emitGuessChangedEvent: (guess: string) => void;
 }
 
 const SocketContext = createContext<SocketContextType | undefined>(undefined);
@@ -112,7 +111,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
     
     socket.on('player-guess-changed', (guess: string) => {
       console.log("player guess changed!! " + guess);
-      // activeGameContext.setCurrentGuess(guess);
+      activeGameContext.setCurrentGuess(guess);
     });         
 
     // Cleanup on unmount
@@ -151,8 +150,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
     if (activeGameContext.currentGuess == undefined || !activeGameContext.isThisPlayersTurn) {
       return;
     }
-
-    socketRef.current?.emit('player-guess-changed', activeGameContext.currentGuess);
+    emitGuessChangedEvent(activeGameContext.currentGuess);    
   }, [activeGameContext.currentGuess]);
 
   return (
@@ -163,7 +161,6 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
       connectedPlayers,
       emitJoinGame,
       emitTestEvent,
-      emitGuessChangedEvent,
       addPlayerOrSetReconnected,
 	    initializeConnection,
     }}>

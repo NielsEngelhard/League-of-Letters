@@ -85,6 +85,10 @@ io.on('connection', (socket) => {
     socket.broadcast.to(socket.gameId).emit('user-disconnected', socket.userId);
   });
 
+  socket.on('reconnect', () => {
+    console.log(`User '${socket.userId}' reconnected'`);
+  });  
+
   socket.on('error', (error) => {
     console.error(`Socket error for ${socket.id}:`, error);
   });
