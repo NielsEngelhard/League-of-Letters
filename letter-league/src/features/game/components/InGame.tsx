@@ -4,7 +4,7 @@ import GameResultOverview from "./GameResultOverview";
 
 export default function Ingame() {
     const { game, players } = useActiveGame();
-
+    
     return (
         <>
             {game?.gameIsOver ? (

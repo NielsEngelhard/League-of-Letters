@@ -4,7 +4,6 @@ import PageBase from "@/components/layout/PageBase";
 import PageIntro from "@/components/ui/block/PageIntro";
 import Card from "@/components/ui/card/Card";
 import SubText from "@/components/ui/text/SubText";
-import Title from "@/components/ui/text/Title";
 import { PICK_GAME_MODE_ROUTE, PLAY_GAME_ROUTE } from "../routes";
 import CreateGameForm from "@/features/game/components/form/CreateGameForm";
 import { CreateGameSchema } from "@/features/game/game-schemas";

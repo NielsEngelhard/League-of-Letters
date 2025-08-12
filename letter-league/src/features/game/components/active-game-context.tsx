@@ -31,7 +31,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
   function initializeGameState(_game: ActiveGameModel) {
     setGame(_game);
     setPlayers(_game.players);
-    setCurrentRound(getRound());
+    setCurrentRound(getRound(_game));
   }
 
   async function submitGuess(secretKey: string): Promise<void> {
@@ -122,15 +122,14 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
         }
       });
  
-      setCurrentRound(getRound(nextRoundIndex));
+      setCurrentRound(getRound(game, nextRoundIndex));
       setTheWord(undefined);
     }
 
-    function getRound(index?: number): GameRoundModel {
-      if (!game) throw Error("GAME NOT INITIALIZED");
-      if (!index) index = game.currentRoundIndex; 
+    function getRound(_game: ActiveGameModel, index?: number): GameRoundModel {
+      if (!index) index = _game.currentRoundIndex; 
 
-      const round = game.rounds.find(r => r.roundNumber == index);
+      const round = _game.rounds.find(r => r.roundNumber == index);
       if (!round) throw Error("Could not find current round CORRUPT STATE");
       return round;
     }  
