@@ -167,6 +167,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!game || !currentRound) return;
 
+    console.log("THE CURRENT PLAYERS TURN IS GETTING RE DETERMINED");
     console.log("EVEN KIJKEN OF DIT NIET GESPAMMED WORDT!!!!!!!!!!");
     determineCurrentPlayer();
 
