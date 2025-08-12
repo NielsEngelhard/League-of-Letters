@@ -100,7 +100,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
 
       return {
         ...g,
-        
+        gameIsOver: true
       }
     });
   }  
