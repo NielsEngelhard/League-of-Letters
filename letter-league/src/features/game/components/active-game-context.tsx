@@ -2,8 +2,9 @@
 
 import { createContext, useState, ReactNode, useContext } from 'react';
 import { ActiveGameModel, GamePlayerModel, GameRoundModel, RoundTransitionData } from '../game-models';
-import { GuessWordCommand } from '../actions/command/guess-word-command';
+import { GuessWordCommand, GuessWordCommandInput, GuessWordResponse } from '../actions/command/guess-word-command';
 import { LETTER_ANIMATION_TIME_MS, TIME_BETWEEN_ROUNDS_MS } from '../game-constants';
+import { useMessageBar } from '@/components/layout/MessageBarContext';
 
 type ActiveGameContextType = {  
   // Data
@@ -11,21 +12,26 @@ type ActiveGameContextType = {
   players: GamePlayerModel[];
   currentGuess: string | undefined;
   currentRound: GameRoundModel | undefined;
+  currentPlayerId: string;
 
   // Actions
   initializeGameState: (_game: ActiveGameModel) => void;
   submitGuess: (secretKey: string) => Promise<void>;
   setCurrentGuess: (guess: string) => void;
+  handleWordGuess: (response: GuessWordResponse) => void;
 };
 
 const ActiveGameContext = createContext<ActiveGameContextType | undefined>(undefined);
 
 export function ActiveGameProvider({ children }: { children: ReactNode }) {
+  const { pushErrorMsg } = useMessageBar();
+
   const [game, setGame] = useState<ActiveGameModel | undefined>(undefined);
   const [currentRound, setCurrentRound] = useState<GameRoundModel | undefined>(undefined);
   const [players, setPlayers] = useState<GamePlayerModel[]>([]);
   const [theWord, setTheWord] = useState<string | undefined>(undefined);
   const [currentGuess, setCurrentGuess] = useState<string | undefined>(undefined);
+  const [currentPlayerId, setCurrentPlayerId] = useState<string>("");
 
   // Always call this first
   function initializeGameState(_game: ActiveGameModel) {
@@ -38,23 +44,31 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     if (!game || !currentRound) return;
     if (currentGuess?.length != game.wordLength) throw Error("GUESS LENGTH DOES NOT MATCH");
 
-    // TODO: use generic server response HERE
-    const response = await GuessWordCommand({
+    const serverResponse = await GuessWordCommand({
         gameId: game.id,
         secretKey: secretKey,
         word: currentGuess
     });
 
-    // Update current round
-      setCurrentRound(prevRound => {
-        if (prevRound == null) return;
+    if (!serverResponse.ok || !serverResponse.data) {
+      pushErrorMsg(serverResponse.errorMsg);
+      return;
+    } else {
+      handleWordGuess(serverResponse.data);
+    }
+  }
 
-        return {
-          ...prevRound,
-          guesses: [...prevRound.guesses, response.guessResult],
-          guessedLetters: [...prevRound.guessedLetters, ...response.newLetters]
-        };
-      });
+  function handleWordGuess(response: GuessWordResponse) {
+    // Update current round
+    setCurrentRound(prevRound => {
+      if (prevRound == null) return;
+
+      return {
+        ...prevRound,
+        guesses: [...prevRound.guesses, response.guessResult],
+        guessedLetters: [...prevRound.guessedLetters, ...response.newLetters]
+      };
+    });
 
     // Update player score(s)
     setPlayers(prevPlayers =>
@@ -137,7 +151,9 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
         currentRound,
         players,
         setCurrentGuess,
-        submitGuess
+        submitGuess,
+        currentPlayerId,
+        handleWordGuess
        }}>
       {children}
     </ActiveGameContext.Provider>

@@ -61,6 +61,11 @@ io.on('connection', (socket) => {
   socket.on('player-guess-changed', (guess) => {
     console.log("player-guess-changed " + guess);
     socket.broadcast.to(socket.gameId).emit('player-guess-changed', guess);
+  });
+
+  socket.on('guess-word', (guessWordResponse) => {
+    console.log("guess-word triggered");
+    socket.broadcast.to(socket.gameId).emit('guess-word', guessWordResponse);
   });  
   // END USER ACTIONS --------------------------------------------------------------------
 

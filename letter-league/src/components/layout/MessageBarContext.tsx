@@ -12,6 +12,7 @@ export interface MessageBarMessage {
 type MessageBarContextType = {
   currentMessage: MessageBarMessage | null;
   pushMessage: (msg: MessageBarMessage, durationInSeconds?: number | null) => void;
+  pushErrorMsg: (msg?: string) => void;
   clearMessage: () => void;
 };
 
@@ -31,12 +32,16 @@ export function MessageBarProvider({ children }: { children: ReactNode }) {
     }
   }
 
+  function pushErrorMsg(msg?: string) {
+    pushMessage({ msg: msg, type: "error"});
+  }
+
   function clearMessage() {
     setCurrentMessage(null);
   }
 
   return (
-    <MessageBarContext.Provider value={{ currentMessage, pushMessage, clearMessage }}>
+    <MessageBarContext.Provider value={{ currentMessage, pushMessage, clearMessage, pushErrorMsg }}>
       {children}
     </MessageBarContext.Provider>
   );

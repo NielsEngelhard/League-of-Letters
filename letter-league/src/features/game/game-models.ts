@@ -35,5 +35,5 @@ export interface GamePlayerModel {
     isHost: boolean;
     username: string;
     score: number;
-    connectionStatus: ConnectionStatus;
+    connectionStatus: ConnectionStatus;    
 }

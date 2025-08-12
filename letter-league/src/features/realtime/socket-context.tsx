@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import { MULTIPLAYER_GAME_ROUTE, PLAY_GAME_ROUTE } from '@/app/routes';
 import { useMessageBar } from '@/components/layout/MessageBarContext';
 import { useActiveGame } from '../game/components/active-game-context';
+import { GuessWordResponse } from '../game/actions/command/guess-word-command';
 
 interface SocketContextType {
   socket: Socket | null;
@@ -94,6 +95,11 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
     socket.on('start-game-transition', (gameId: string) => {
       console.log("START GAME HAS BEEN TRIGGERED " + gameId);
       router.push(PLAY_GAME_ROUTE(gameId));
+    });
+
+    socket.on('guess-word', (response: GuessWordResponse) => {
+      console.log("GUESS WORD HAS BEEN TRIGGERED");
+      activeGameContext.handleWordGuess(response);
     });    
 
     socket.on('delete-game', (gameId: string) => {

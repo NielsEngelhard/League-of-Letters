@@ -4,13 +4,15 @@ import { db } from "@/drizzle/db";
 import { CalculateScoreResult } from "@/features/score/score-models";
 import { EvaluatedLetter, EvaluatedWord } from "@/features/word/word-models";
 import { RoundTransitionData } from "../../game-models";
-import { GamePlayerTable, GameRoundTable, ActiveGameTable, DbActiveGame, DbGamePlayer, DbGameRound, DbActiveGameWithRoundsAndPlayers } from "@/drizzle/schema";
+import { GamePlayerTable, GameRoundTable, ActiveGameTable, DbActiveGame, DbGamePlayer, DbGameRound, DbActiveGameWithRoundsAndPlayers, GameMode } from "@/drizzle/schema";
 import GetAuthSessionBySecreyKeyRequest from "@/features/auth/actions/request/get-auth-session-by-secret-key";
 import { DetailedValidationResult, WordValidator } from "@/features/word/word-validator";
 import { ScoreCalculator } from "@/features/score/score-calculator";
 import DeleteGameByIdCommand from "./delete-game-by-id-command";
 import { and, eq } from "drizzle-orm";
 import { DetermineCurrentPlayerId } from "../../util/current-players-turn-calculator";
+import { ServerResponse, ServerResponseFactory } from "@/lib/response-handling/response-factory";
+import { EmitGuessWordRealtimeEvent } from "@/features/realtime/realtime-api-adapter";
 
 export interface GuessWordCommandInput {
     gameId: string;
@@ -26,15 +28,18 @@ export interface GuessWordResponse {
     roundTransitionData?: RoundTransitionData;
 }
 
-export async function GuessWordCommand(command: GuessWordCommandInput): Promise<GuessWordResponse> {    
+export async function GuessWordCommand(command: GuessWordCommandInput): Promise<ServerResponse<GuessWordResponse>> {    
     const game = await getGame(command.gameId);
     
     let currentPlayer = getCurrentPlayer(game);
 
-    await validateUserAuth(command.secretKey, currentPlayer);
+    const isThisPlayersTurn = await isPlayersTurn(command.secretKey, currentPlayer);
+    if (!isThisPlayersTurn) {
+        return ServerResponseFactory.error("Not your turn!");
+    }
 
     let currentRound = game.rounds.find(g => g.roundNumber == game.currentRoundIndex);
-    if (!currentRound) throw Error(`GUESS WORD: INVALID STATE could not find round`);    
+    if (!currentRound) throw Error(`GUESS WORD: INVALID STATE could not find round`);
     
     const validationResult = WordValidator.validateAndFilter(command.word, currentRound.word.word, currentRound.evaluatedLetters);
 
@@ -49,7 +54,11 @@ export async function GuessWordCommand(command: GuessWordCommandInput): Promise<
 
     const currentGuess = await updateCurrentGameState(game, currentRound, validationResult, scoreResult, currentPlayer);
 
-    return currentGuess;
+    if (game.gameMode == GameMode.Online) {
+        await EmitGuessWordRealtimeEvent(game.id, currentGuess);
+    }
+
+    return ServerResponseFactory.success(currentGuess);
 }
 
 function addScoreToPlayer(scoreResult: CalculateScoreResult, player: DbGamePlayer) {
@@ -132,12 +141,10 @@ async function getGame(gameId: string): Promise<DbActiveGameWithRoundsAndPlayers
     return game as unknown as DbActiveGameWithRoundsAndPlayers;
 }
 
-async function validateUserAuth(secretKey: string, currentPlayer: DbGamePlayer) {
+async function isPlayersTurn(secretKey: string, currentPlayer: DbGamePlayer): Promise<boolean> {
     const authSession = await GetAuthSessionBySecreyKeyRequest(secretKey);
     
-    if (authSession?.id != currentPlayer.userId) {
-        throw Error("AUTH ERROR: session.id and currentPlayer.userId do not match for this guess");
-    }
+    return authSession?.id == currentPlayer.userId;
 }
 
 async function updateGameRoundWithCurrentGuess(currentRound: DbGameRound, validationResult: DetailedValidationResult) {

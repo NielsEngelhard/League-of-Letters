@@ -1,3 +1,5 @@
+import { GuessWordResponse } from "../game/actions/command/guess-word-command";
+
 interface TriggerRealtimeEvent {
     room: string;
     event: string;
@@ -33,5 +35,13 @@ export async function EmitDeleteGameRealtimeEvent(gameId: string) {
         event: "delete-game",
         room: gameId,
         data: gameId
+    });
+}
+
+export async function EmitGuessWordRealtimeEvent(gameId: string, guessWordResponse: GuessWordResponse) {
+    return await TriggerRealtimeEventOnSocketServer({
+        event: "guess-word",
+        room: gameId,
+        data: guessWordResponse
     });
 }
