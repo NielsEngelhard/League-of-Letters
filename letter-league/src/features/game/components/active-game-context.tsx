@@ -44,8 +44,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     setPlayers(_game.players);
 
     const _currentRound = getRound(_game);
-    setCurrentRound(currentRound);
-    // determineCurrentPlayer(_game, _currentRound, _thisPlayersUserId);
+    setCurrentRound(_currentRound);
     setThisPlayersUserId(_thisPlayersUserId);
   }
 
@@ -169,7 +168,6 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     if (!game || !currentRound) return;
 
     console.log("EVEN KIJKEN OF DIT NIET GESPAMMED WORDT!!!!!!!!!!");
-    debugger;
     determineCurrentPlayer();
 
   }, [game?.currentRoundIndex, currentRound?.currentGuessIndex]);

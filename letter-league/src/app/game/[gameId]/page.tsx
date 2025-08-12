@@ -3,6 +3,7 @@
 import { PICK_GAME_MODE_ROUTE } from "@/app/routes";
 import PageBase from "@/components/layout/PageBase";
 import LoadingSpinner from "@/components/ui/animation/LoadingSpinner";
+import { useAuth } from "@/features/auth/AuthContext";
 import { GetActiveGameByIdRequest } from "@/features/game/actions/query/get-active-game-by-id-request";
 import { useActiveGame } from "@/features/game/components/active-game-context";
 import Ingame from "@/features/game/components/InGame";
@@ -13,6 +14,7 @@ import { useEffect, useState } from "react";
 
 
 export default function GamePage() {
+    const { authSession } = useAuth();
     const { initializeGameState, game } = useActiveGame();    
     const { initializeConnection } = useSocket();
     const router = useRouter();
@@ -21,10 +23,12 @@ export default function GamePage() {
     const gameId = params.gameId;
 
     useEffect(() => {
+        if (!gameId || !authSession) return;
+
         initializeConnection();
 
         async function GetGame() {
-            if (!gameId) return;
+            if (!gameId || !authSession) return;
             
             try {
                 var resp = await GetActiveGameByIdRequest(gameId.toString());
@@ -33,7 +37,7 @@ export default function GamePage() {
                     return;
                 };
                 
-                initializeGameState(resp);                
+                initializeGameState(resp, authSession.id);                
             } catch(err) {
                 console.log(err);
                 router.push(PICK_GAME_MODE_ROUTE);
@@ -41,7 +45,7 @@ export default function GamePage() {
         }
 
         GetGame();
-    }, [gameId]);
+    }, [gameId, authSession]);
 
     return (
         <PageBase>
