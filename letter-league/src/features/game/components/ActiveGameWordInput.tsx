@@ -1,6 +1,5 @@
 import Button from "@/components/ui/Button";
 import TextInput from "@/components/ui/form/TextInput";
-import { useActiveGame } from "./active-game-context";
 import CustomKeyboard from "@/components/ui/keyboard/CustomKeyboard";
 import KeyboardColorExplanation from "@/components/ui/keyboard/KeyboardColorExplanation";
 

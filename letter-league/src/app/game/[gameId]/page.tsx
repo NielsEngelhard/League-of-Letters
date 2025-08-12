@@ -40,9 +40,7 @@ export default function GamePage() {
     return (
         <PageBase>
             {game ? (
-                <ActiveGameProvider game={game}>
-                    <Ingame />
-                </ActiveGameProvider>
+                <Ingame />
             ): (
                 <div>no game</div>
             )}

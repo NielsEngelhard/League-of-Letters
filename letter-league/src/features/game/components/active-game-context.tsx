@@ -1,66 +1,62 @@
 'use client';
 
-import { createContext, useState, useEffect, ReactNode, useContext } from 'react';
+import { createContext, useState, ReactNode, useContext } from 'react';
 import { ActiveGameModel, GamePlayerModel, GameRoundModel } from '../game-models';
 import { GuessWordCommand } from '../actions/command/guess-word-command';
 import { LETTER_ANIMATION_TIME_MS, TIME_BETWEEN_ROUNDS_MS } from '../game-constants';
 
 type ActiveGameContextType = {  
-  getGameId: () => string | null;
-  submitGuess: (guess: string, secretKey: string) => Promise<void>;
-  currentRoundIndex: number;
-  totalRounds: number;
-  wordLength: number;
-  currentRound: GameRoundModel;
-  maxAttemptsPerRound: number;
-  ended: boolean;
+  // Data
+  game: ActiveGameModel | undefined;  
   players: GamePlayerModel[];
-  currentPlayer: GamePlayerModel | null;
+  currentGuess: string | undefined;
+  currentRound: GameRoundModel | undefined;
+
+  // Actions
+  initializeGameState: (_game: ActiveGameModel) => void;
+  submitGuess: (secretKey: string) => Promise<void>;
+  setCurrentGuess: (guess: string) => void;
 };
 
 const ActiveGameContext = createContext<ActiveGameContextType | undefined>(undefined);
 
-export function ActiveGameProvider({ children, game }: { children: ReactNode, game: ActiveGameModel }) {
-    const [currentRoundIndex, setCurrentRoundIndex] = useState(game.currentRoundIndex);
-    const [rounds, setRounds] = useState<GameRoundModel[]>(game.rounds);
-    const [currentRound, setCurrentRound] = useState<GameRoundModel>(getRound());
-    const [currentGuessIndex, setCurrentGuessIndex] = useState(currentRound.currentGuessIndex);
-    const [theWord, setTheWord] = useState<string | undefined>(undefined);
-    const [players, setPlayers] = useState<GamePlayerModel[]>(game.players);
-    const [ended, setEnded] = useState(false);
-    const [currentPlayer, setCurrentPlayer] = useState<GamePlayerModel | null>(null);
+export function ActiveGameProvider({ children }: { children: ReactNode }) {
+  const [game, setGame] = useState<ActiveGameModel | undefined>(undefined);
+  const [currentRound, setCurrentRound] = useState<GameRoundModel | undefined>(undefined);
+  const [players, setPlayers] = useState<GamePlayerModel[]>([]);
+  const [theWord, setTheWord] = useState<string | undefined>(undefined);
+  const [currentGuess, setCurrentGuess] = useState<string | undefined>(undefined);
 
-    const gameId = game.id;
-    const totalRounds =  game.totalRounds;
-    const maxAttemptsPerRound =  game.nGuessesPerRound;
-    const gameMode =  game.gameMode;
-    const createdAt =  game.createdAt;
-    const wordLength =  game.wordLength;
-
-  // Check for existing session on mount
-  useEffect(() => {
-    // console.log("in active game context");
-  }, []);
-
-  const getGameId = (): string | null => {
-    return null;
+  // Always call this first
+  function initializeGameState(_game: ActiveGameModel) {
+    setGame(_game);
+    setPlayers(_game.players);
+    setCurrentRound(getRound());
   }
 
-  async function submitGuess(guess: string, secretKey: string): Promise<void> {
-    if (guess.length != wordLength) return;
+  async function submitGuess(secretKey: string): Promise<void> {
+    if (!game || !currentRound) return;
+    if (currentGuess?.length != game.wordLength) throw Error("GUESS LENGTH DOES NOT MATCH");
 
+    // TODO: use generic server response HERE
     const response = await GuessWordCommand({
-        gameId: gameId,
+        gameId: game.id,
         secretKey: secretKey,
-        word: guess
+        word: currentGuess
     });
 
+    game.rounds
+
     // Update current round
-    setCurrentRound(prevRound => ({
-      ...prevRound,
-      guesses: [...prevRound.guesses, response.guessResult],
-      guessedLetters: [...currentRound.guessedLetters, ...response.newLetters]
-    }));
+      setCurrentRound(prevRound => {
+        if (prevRound == null) return;
+
+        return {
+          ...prevRound,
+          guesses: [...prevRound.guesses, response.guessResult],
+          guessedLetters: [...prevRound.guessedLetters, ...response.newLetters]
+        };
+      });
 
     // Update player score(s)
     setPlayers(prevPlayers =>
@@ -71,54 +67,84 @@ export function ActiveGameProvider({ children, game }: { children: ReactNode, ga
       )
     );   
     
-      setCurrentGuessIndex(currentGuessIndex + 1);
+    setGame(g => {
+      if (!g) return;
 
-      const letterAnimationLength = LETTER_ANIMATION_TIME_MS * wordLength;
+      return {
+        ...g,
+        currentRoundIndex: game.currentRoundIndex + 1
+      }
+    });
 
-      const endOfCurrentRound = response.roundTransitionData != undefined;
-      if (endOfCurrentRound) {
+    const letterAnimationLength = LETTER_ANIMATION_TIME_MS * game.wordLength;
+
+    const endOfCurrentRound = response.roundTransitionData != undefined;
+    if (endOfCurrentRound) {
+      setTimeout(() => {
+        setTheWord(response.roundTransitionData?.currentWord);
+      }, letterAnimationLength);
+
+      if (response.roundTransitionData?.isEndOfGame)
+      {
         setTimeout(() => {
-          setTheWord(response.roundTransitionData?.currentWord);
-        }, letterAnimationLength);
-
-        if (response.roundTransitionData?.isEndOfGame)
-        {
-          setTimeout(() => {
-             triggerEndOfGame();
-            }, TIME_BETWEEN_ROUNDS_MS + letterAnimationLength);          
-        }
-        else
-        {
-          setTimeout(() => {
-             triggerNextRound();
-            }, TIME_BETWEEN_ROUNDS_MS + letterAnimationLength);          
-        }
-      }        
+            triggerEndOfGame();
+          }, TIME_BETWEEN_ROUNDS_MS + letterAnimationLength);          
+      }
+      else
+      {
+        setTimeout(() => {
+            triggerNextRound();
+          }, TIME_BETWEEN_ROUNDS_MS + letterAnimationLength);          
+      }
+    }        
   }
 
     function triggerEndOfGame() {
-      setEnded(true);
+      setGame(g => {
+        if (!g) return;
+
+        return {
+          ...g,
+          
+        }
+      });
     }  
 
     function triggerNextRound() {
-      const nextRoundIndex = currentRoundIndex + 1;
-      
-      setCurrentGuessIndex(1);
-      setCurrentRoundIndex(nextRoundIndex);
+      if (!game) return;
+      const nextRoundIndex: number = game.currentRoundIndex + 1;
+
+      setGame(g => {
+        if (!g) return;      
+        return {
+          ...g,
+          currentRoundIndex: nextRoundIndex,
+        }
+      });
+ 
       setCurrentRound(getRound(nextRoundIndex));
       setTheWord(undefined);
-    }  
+    }
 
     function getRound(index?: number): GameRoundModel {
-      if (!index) index = currentRoundIndex; 
+      if (!game) throw Error("GAME NOT INITIALIZED");
+      if (!index) index = game.currentRoundIndex; 
 
-      const round = rounds.find(r => r.roundNumber == index);
+      const round = game.rounds.find(r => r.roundNumber == index);
       if (!round) throw Error("Could not find current round CORRUPT STATE");
       return round;
     }  
 
   return (
-    <ActiveGameContext.Provider value={{ getGameId, submitGuess, currentRoundIndex, totalRounds, currentRound, maxAttemptsPerRound, wordLength, ended, players, currentPlayer }}>
+    <ActiveGameContext.Provider value={{        
+        initializeGameState,
+        game,
+        currentGuess,
+        currentRound,
+        players,
+        setCurrentGuess,
+        submitGuess
+       }}>
       {children}
     </ActiveGameContext.Provider>
   );

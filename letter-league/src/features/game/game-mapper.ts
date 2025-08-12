@@ -11,6 +11,7 @@ export class GameMapper {
             nGuessesPerRound: game.nGuessesPerRound,
             gameMode: game.gameMode,
             createdAt: game.createdAt,
+            gameIsOver: game.gameIsOver,
             rounds: game.rounds.map((round) => {
                 return GameMapper.GameRoundToModel(round);
             }),

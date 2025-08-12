@@ -6,6 +6,7 @@ import { OnlineLobbyPlayerModel } from '../lobby/lobby-models';
 import { useRouter } from 'next/navigation';
 import { MULTIPLAYER_GAME_ROUTE, PLAY_GAME_ROUTE } from '@/app/routes';
 import { useMessageBar } from '@/components/layout/MessageBarContext';
+import { useActiveGame } from '../game/components/active-game-context';
 
 interface SocketContextType {
   socket: Socket | null;
@@ -15,7 +16,6 @@ interface SocketContextType {
   initializeConnection: () => void;
 
   connectedPlayers: OnlineLobbyPlayerModel[];
-  currentGuessOfOtherPlayer: string;
   addPlayerOrSetReconnected: (players: OnlineLobbyPlayerModel) => void;
 
   emitJoinGame: (data: JoinGameRealtimeModel) => void;
@@ -35,13 +35,13 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
   serverUrl = process.env.NEXT_PUBLIC_WEBSOCKET_SERVER_BASE_ADDRESS 
 }) => {
   const { pushMessage } = useMessageBar();
+  const activeGameContext = useActiveGame();
   const router = useRouter();
   const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>("empty");
   const [transport, setTransport] = useState('N/A');
   const socketRef = useRef<Socket | null>(null);
 
-  const [connectedPlayers, setConnectedPlayers] = useState<OnlineLobbyPlayerModel[]>([]);
-  const [currentGuessOfOtherPlayer, setCurrentGuessOfOtherPlayer] = useState<string>("");
+  const [connectedPlayers, setConnectedPlayers] = useState<OnlineLobbyPlayerModel[]>([]); // TODO: refactor icm andere context
 
   const initializeConnection = () => {
     if (socketRef.current != null) {
@@ -105,7 +105,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
     });
     
     socket.on('player-guess-changed', (guess: string) => {
-      setCurrentGuessOfOtherPlayer(guess);
+      activeGameContext.setCurrentGuess(guess);
     });         
 
     // Cleanup on unmount
@@ -144,7 +144,6 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
       connectionStatus,
       transport,
       connectedPlayers,
-      currentGuessOfOtherPlayer,
       emitJoinGame,
       emitTestEvent,
       emitGuessChangedEvent,

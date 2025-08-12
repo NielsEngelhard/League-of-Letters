@@ -5,68 +5,74 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/features/auth/AuthContext";
 import InGamePlayerBar from "./in-game/InGamePlayersBar";
 import GameProgressionBar from "./in-game/InGameProgressionBar";
-import { useSocket } from "@/features/realtime/socket-context";
+import LoadingSpinner from "@/components/ui/animation/LoadingSpinner";
 
 interface Props {}
 
 export default function GameBoard({}: Props) {
-    const { currentRoundIndex, totalRounds, submitGuess, wordLength, currentRound, maxAttemptsPerRound, players } = useActiveGame();
+    const { game, players, setCurrentGuess, submitGuess, currentGuess, currentRound } = useActiveGame();
     const { authSession } = useAuth();
-    const { emitGuessChangedEvent, currentGuessOfOtherPlayer } = useSocket();
-    const [canGuess, setCanGuess] = useState(true);
-    const [currentGuess, setCurrentGuess] = useState<string>("");
+    const [isThisPlayersTurn, setIsThisPlayersTurn] = useState(true);
 
     async function onSubmitGuess() {
-        setCanGuess(false);
-        submitGuess(currentGuess, authSession?.secretKey ?? "??")
+        setIsThisPlayersTurn(false);
+        submitGuess(authSession?.secretKey ?? "??")
             .then(() => {
                 setCurrentGuess("");
             })
             .finally(() => {
-                setCanGuess(true);
+                setIsThisPlayersTurn(true);
             });
     }
 
     useEffect(() => {
         if (!currentGuess || currentGuess == "") return;
         
-        emitGuessChangedEvent(currentGuess);
+        // TODO: if not current players turn
+
+        // emitGuessChangedEvent(currentGuess);
         
     }, [currentGuess]);
 
     return (
-        <div className="w-full flex flex-col items-center gap-6 max-w-2xl mx-auto">
-            <GameProgressionBar
-                currentRoundIndex={currentRoundIndex}
-                totalRounds={totalRounds}
-            />
-
-            {/* Player bar */}
-            <InGamePlayerBar
-                players={players}
-                currentPlayerId={players[0].userId}               
-            />
-
-            {/* Game Grid */}
-            <div className="w-full flex justify-center">
-                <LetterRowGrid
-                    currentGuess={currentGuess}
-                    maxNGuesses={maxAttemptsPerRound}
-                    preFilledRows={currentRound.guesses}
-                    wordLength={wordLength}
+        <>
+        {game ? (
+            <div className="w-full flex flex-col items-center gap-6 max-w-2xl mx-auto">
+                <GameProgressionBar
+                    currentRoundIndex={game.currentRoundIndex}
+                    totalRounds={game.totalRounds}
                 />
-            </div>
 
-            {/* Word Input */}
-            <div className="w-full max-w-md">
-                <ActiveGameWordInput
-                    currentGuess={currentGuess}
-                    wordLength={wordLength}
-                    onChange={setCurrentGuess}
-                    onEnter={onSubmitGuess}
-                    disabled={!canGuess}
+                {/* Player bar */}
+                <InGamePlayerBar
+                    players={players}
+                    currentPlayerId={players[0].userId}               
                 />
+
+                {/* Game Grid */}
+                <div className="w-full flex justify-center">
+                    <LetterRowGrid
+                        currentGuess={currentGuess ?? ""}
+                        maxNGuesses={game.nGuessesPerRound}
+                        preFilledRows={currentRound?.guesses ?? []}
+                        wordLength={game.wordLength}
+                    />
+                </div>
+
+                {/* Word Input */}
+                <div className="w-full max-w-md">
+                    <ActiveGameWordInput
+                        currentGuess={currentGuess ?? ""}
+                        wordLength={game.wordLength}
+                        onChange={setCurrentGuess}
+                        onEnter={onSubmitGuess}
+                        disabled={!isThisPlayersTurn}
+                    />
+                </div>
             </div>
-        </div>
+            ): (
+                <LoadingSpinner size="md" />
+            )}
+        </>
     );
 }

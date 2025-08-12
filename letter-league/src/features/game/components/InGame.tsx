@@ -3,11 +3,11 @@ import GameBoard from "./GameBoard";
 import GameResultOverview from "./GameResultOverview";
 
 export default function Ingame() {
-    const { ended, players } = useActiveGame();
+    const { game, players } = useActiveGame();
 
     return (
         <>
-            {ended ? (
+            {game?.gameIsOver ? (
                 <GameResultOverview
                     players={players}
                 />

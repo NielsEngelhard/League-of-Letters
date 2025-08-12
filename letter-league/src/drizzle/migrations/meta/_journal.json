@@ -8,6 +8,13 @@
       "when": 1754733925176,
       "tag": "0000_mysterious_loa",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1755016613575,
+      "tag": "0001_powerful_skin",
+      "breakpoints": true
     }
   ]
 }
