@@ -33,6 +33,7 @@ export async function GuessWordCommand(command: GuessWordCommandInput): Promise<
     
     let currentPlayer = getCurrentPlayer(game);
 
+    debugger;
     const isThisPlayersTurn = await isPlayersTurn(command.secretKey, currentPlayer);
     if (!isThisPlayersTurn) {
         return ServerResponseFactory.error("Not your turn!");
@@ -68,6 +69,7 @@ function addScoreToPlayer(scoreResult: CalculateScoreResult, player: DbGamePlaye
 function getCurrentPlayer(game: DbActiveGameWithRoundsAndPlayers): DbGamePlayer {
     if (game.players.length == 1) return game.players[0];
 
+    debugger;
     const playerId = DetermineCurrentPlayerAlgorithm.execute(game.players.map(p => p.id), game.currentRoundIndex, 1);
 
     return game.players.find(p => p.id == playerId)!;

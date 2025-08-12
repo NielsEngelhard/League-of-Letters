@@ -1,3 +1,5 @@
+
+// TODO: VOOR MORGEN HIER JEST TEST WANT IK DENK DAT HET ZO IS DAT 0 1 ARRAY GEDOE ER IS
 export class DetermineCurrentPlayerAlgorithm {
     static execute(playerIdsInOrder: string[], currentRound: number, currentGuess: number) {
         if (!playerIdsInOrder || playerIdsInOrder.length === 0) {
