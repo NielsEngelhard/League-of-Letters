@@ -1,7 +1,7 @@
 'use client';
 
 import { createContext, useState, ReactNode, useContext } from 'react';
-import { ActiveGameModel, GamePlayerModel, GameRoundModel } from '../game-models';
+import { ActiveGameModel, GamePlayerModel, GameRoundModel, RoundTransitionData } from '../game-models';
 import { GuessWordCommand } from '../actions/command/guess-word-command';
 import { LETTER_ANIMATION_TIME_MS, TIME_BETWEEN_ROUNDS_MS } from '../game-constants';
 
@@ -45,8 +45,6 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
         word: currentGuess
     });
 
-    game.rounds
-
     // Update current round
       setCurrentRound(prevRound => {
         if (prevRound == null) return;
@@ -66,73 +64,70 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
           : player
       )
     );   
-    
+
+    if (response.roundTransitionData) {
+      handleEndOfCurrentRound(response.roundTransitionData);
+    }        
+  }
+
+  function handleEndOfCurrentRound(roundTransitionData: RoundTransitionData) {
+    if (!game) return;
+
+    const letterAnimationLength = LETTER_ANIMATION_TIME_MS * game.wordLength;
+
+
+    setTimeout(() => {
+      setTheWord(roundTransitionData.currentWord);
+    }, letterAnimationLength);
+
+    if (roundTransitionData.isEndOfGame)
+    {
+      setTimeout(() => {
+          triggerEndOfGame();
+        }, TIME_BETWEEN_ROUNDS_MS + letterAnimationLength);          
+    }
+    else
+    {
+      setTimeout(() => {
+          triggerNextRound();
+        }, TIME_BETWEEN_ROUNDS_MS + letterAnimationLength);          
+    }
+  }
+
+  function triggerEndOfGame() {
     setGame(g => {
       if (!g) return;
 
       return {
         ...g,
-        currentRoundIndex: game.currentRoundIndex + 1
+        
+      }
+    });
+  }  
+
+  function triggerNextRound() {
+    if (!game) return;
+    const nextRoundIndex: number = game.currentRoundIndex + 1;
+
+    setGame(g => {
+      if (!g) return;      
+      return {
+        ...g,
+        currentRoundIndex: nextRoundIndex,
       }
     });
 
-    const letterAnimationLength = LETTER_ANIMATION_TIME_MS * game.wordLength;
-
-    const endOfCurrentRound = response.roundTransitionData != undefined;
-    if (endOfCurrentRound) {
-      setTimeout(() => {
-        setTheWord(response.roundTransitionData?.currentWord);
-      }, letterAnimationLength);
-
-      if (response.roundTransitionData?.isEndOfGame)
-      {
-        setTimeout(() => {
-            triggerEndOfGame();
-          }, TIME_BETWEEN_ROUNDS_MS + letterAnimationLength);          
-      }
-      else
-      {
-        setTimeout(() => {
-            triggerNextRound();
-          }, TIME_BETWEEN_ROUNDS_MS + letterAnimationLength);          
-      }
-    }        
+    setCurrentRound(getRound(game, nextRoundIndex));
+    setTheWord(undefined);
   }
 
-    function triggerEndOfGame() {
-      setGame(g => {
-        if (!g) return;
+  function getRound(_game: ActiveGameModel, index?: number): GameRoundModel {
+    if (!index) index = _game.currentRoundIndex; 
 
-        return {
-          ...g,
-          
-        }
-      });
-    }  
-
-    function triggerNextRound() {
-      if (!game) return;
-      const nextRoundIndex: number = game.currentRoundIndex + 1;
-
-      setGame(g => {
-        if (!g) return;      
-        return {
-          ...g,
-          currentRoundIndex: nextRoundIndex,
-        }
-      });
- 
-      setCurrentRound(getRound(game, nextRoundIndex));
-      setTheWord(undefined);
-    }
-
-    function getRound(_game: ActiveGameModel, index?: number): GameRoundModel {
-      if (!index) index = _game.currentRoundIndex; 
-
-      const round = _game.rounds.find(r => r.roundNumber == index);
-      if (!round) throw Error("Could not find current round CORRUPT STATE");
-      return round;
-    }  
+    const round = _game.rounds.find(r => r.roundNumber == index);
+    if (!round) throw Error("Could not find current round CORRUPT STATE");
+    return round;
+  }  
 
   return (
     <ActiveGameContext.Provider value={{        
