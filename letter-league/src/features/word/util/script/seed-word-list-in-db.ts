@@ -21,10 +21,10 @@ export async function seedWordListInDb(wordListPath: string, tableName: string, 
       const trimmedLine = line.trim();
       
      if (trimmedLine.length >= minWordLength && trimmedLine.length <= maxWordLength) {
-        db.insert(NlWordsTable).values({
+        await db.insert(NlWordsTable).values({
             word: trimmedLine,
             length: trimmedLine.length,            
-        });
+        }).onConflictDoNothing();
      }
     }
   } catch (error) {

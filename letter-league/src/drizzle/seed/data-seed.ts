@@ -8,15 +8,17 @@ const DB_CONNETION_STRING = "postgresql://postgres:kaaskaas@localhost:5432/lette
 async function seed() {
     console.log('🌱 Seeding database...');
     
-    const db = drizzle("postgresql://postgres:kaas@localhost:5432/letter-league");
+    const db = drizzle("postgresql://postgres:kaas@localhost:5432/letter-league") as DbOrTransaction;
 
     try {
       db.insert(NlWordsTable).values({ length: 3, word: "kip"});
-        // seedAllWordListsForAllLanguages(db);
-      
+        await seedAllWordListsForAllLanguages(db);
+
         console.log('✅ Seed completed successfully');
+        return;
     } catch (error) {
       console.error('❌ Seed failed:', error);
+      return;
     }
   }
   
