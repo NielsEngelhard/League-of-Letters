@@ -1,9 +1,10 @@
-import { officialWordsLanguageTableMap } from '@/drizzle/schema';
+import { NlWordsTable, officialWordsLanguageTableMap } from '@/drizzle/schema';
 import { DbOrTransaction } from '@/drizzle/util/transaction-util';
+import { PgTable } from 'drizzle-orm/pg-core';
 import * as fs from 'fs';
 import * as readline from 'readline';
 
-export async function seedWordListInDb(wordListPath: string, tableName: string, minWordLength: number, maxWordLength: number, db: DbOrTransaction): Promise<void> {
+export async function seedWordListInDb(wordListPath: string, tableName: string, minWordLength: number, maxWordLength: number, db: DbOrTransaction, tableDefinition: PgTable): Promise<void> {
   try {
     // Create a readable stream from the input file
     const fileStream = fs.createReadStream(wordListPath);
@@ -20,7 +21,7 @@ export async function seedWordListInDb(wordListPath: string, tableName: string, 
       const trimmedLine = line.trim();
       
      if (trimmedLine.length >= minWordLength && trimmedLine.length <= maxWordLength) {
-        db.insert(officialWordsLanguageTableMap["nl"]).values({
+        db.insert(NlWordsTable).values({
             word: trimmedLine,
             length: trimmedLine.length,            
         });

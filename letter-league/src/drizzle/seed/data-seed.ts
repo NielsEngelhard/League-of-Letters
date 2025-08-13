@@ -2,7 +2,7 @@ import { seedAllWordListsForAllLanguages } from "@/features/word/util/script/see
 import { drizzle } from "drizzle-orm/node-postgres";
 import { DbOrTransaction } from "../util/transaction-util";
 
-const DB_CONNETION_STRING = "postgresql://postgres:kaas@localhost:5432/memorable";
+const DB_CONNETION_STRING = "";
 
 async function seed() {
     console.log('🌱 Seeding database...');

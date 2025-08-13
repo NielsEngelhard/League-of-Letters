@@ -1,5 +1,7 @@
 import { DbOrTransaction } from "@/drizzle/util/transaction-util";
 import { seedWordListInDb } from "./seed-word-list-in-db";
+import { officialWordsLanguageTableMap } from "@/drizzle/schema";
+import { PgTable } from "drizzle-orm/pg-core";
 
 export async function seedAllWordListsForAllLanguages(db: DbOrTransaction) {
     console.log('🌱 Start seeding word lists');
@@ -7,10 +9,12 @@ export async function seedAllWordListsForAllLanguages(db: DbOrTransaction) {
     const wordListLengths = [5, 6, 7, 8, 9, 10, 11, 12];
     const languages = ["nl"];
 
-    for(var i=0; i<wordListLengths.length; i++) {
-        for(var j=0; j<languages.length; j++) {
-            const wordLength = wordListLengths[i];
-            const language = languages[j];
+    for(var i=0; i<languages.length; i++) {
+        const language = languages[i];
+        const languageTable: PgTable = officialWordsLanguageTableMap[language as "nl"];
+
+        for(var j=0; j<wordListLengths.length; j++) {
+            const wordLength = wordListLengths[j];            
 
             const tableName = `${language}_words`
             const fileName = `public/word-lists/${language}/cleaned-${language}-${wordLength}.txt`;
@@ -22,7 +26,8 @@ export async function seedAllWordListsForAllLanguages(db: DbOrTransaction) {
                     tableName,
                     wordListLengths[0],
                     wordListLengths[wordListLengths.length - 1],
-                    db
+                    db,
+                    languageTable
                 );
                 console.log(`✅ Successfully seeded ${fileName}`);
             } catch(error) {
