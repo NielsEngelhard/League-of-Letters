@@ -18,7 +18,7 @@ export default async function CreateGameCommand(schema: CreateGameSchema, secret
     const authSession = await GetAuthSessionBySecreyKeyRequest(secretKey);
     if (!authSession) throw Error("Could not authenticate user by secretkey");
 
-    if (schema.gameMode == GameMode.Solo) {
+    if (schema.gameMode == "solo") {
         AddCallerAsOnlyPlayer(schema, authSession);
     }
 

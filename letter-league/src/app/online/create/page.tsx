@@ -142,7 +142,7 @@ export default function CreateOnlineGamePage() {
                     gameId={lobby?.id}
                     onSubmit={onSubmit}
                     submitDisabled={!lobby?.id}
-                    gameMode={GameMode.Online} 
+                    gameMode="online" 
                     players={connectedPlayers.map((p) => ({ userId: p.userId, username: p.username }))}
                   />
                 ) : (

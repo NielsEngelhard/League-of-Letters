@@ -1,4 +1,4 @@
-import { GameMode } from "@/drizzle/schema";
+import { gameModes } from "@/drizzle/schema";
 import { z } from "zod";
 import { MAX_GUESSES_PER_ROUND, MAX_TOTAL_ROUNDS, MAX_WORD_LENGTH, MIN_GUESSES_PER_ROUND, MIN_TOTAL_ROUNDS, MIN_WORD_LENGTH } from "./game-constants";
 import { isValidGameId } from "./util/game-id-generator";
@@ -14,10 +14,10 @@ export const createGameSchema = z.object({
     totalRounds: z.number().min(MIN_TOTAL_ROUNDS).max(MAX_TOTAL_ROUNDS),
     guessesPerRound: z.number().min(MIN_GUESSES_PER_ROUND).max(MAX_GUESSES_PER_ROUND),
     players: z.array(createGamePlayerSchema).optional(),
-    gameMode: z.enum(GameMode),
+    gameMode: z.enum(gameModes),
     gameId: z.string().optional()
 }).refine((data) => {
-    if (data.gameMode == GameMode.Online) {
+    if (data.gameMode == "online") {
         return data.players && data.players.length >= 2;
     } 
 
@@ -26,7 +26,7 @@ export const createGameSchema = z.object({
     message: "Online games require at least 2 players",
     path: ["players"]
 }).refine((data) => {
-    if (data.gameMode == GameMode.Online) {
+    if (data.gameMode == "online") {
         return isValidGameId(data.gameId);
     }
 

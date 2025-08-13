@@ -19,7 +19,7 @@ interface Props {
     gameId?: string;
 }
 
-export default function CreateGameForm({ onSubmit, onLeaveGame, submitDisabled = false, players, gameMode = GameMode.Solo, gameId }: Props) {
+export default function CreateGameForm({ onSubmit, onLeaveGame, submitDisabled = false, players, gameMode = "solo", gameId }: Props) {
 
     const form = useForm<CreateGameSchema>({
       resolver: zodResolver(createGameSchema),

@@ -1,9 +1,9 @@
 import { integer, pgTable, text, boolean } from "drizzle-orm/pg-core";
 import { createdAt } from "../schema-helpers";
 import { InferSelectModel, relations } from "drizzle-orm";
-import { gameModeEnum } from "./enum/game-mode";
 import { DbGameRound, GameRoundTable } from "./game-round";
 import { GamePlayerTable, DbGamePlayer } from "./game-player";
+import { gameModeEnum } from "../schema";
 
 export const ActiveGameTable = pgTable("active_game", {
     id: text().primaryKey(),        

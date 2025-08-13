@@ -15,6 +15,13 @@
       "when": 1755016613575,
       "tag": "0001_powerful_skin",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1755092915082,
+      "tag": "0002_yielding_ultimates",
+      "breakpoints": true
     }
   ]
 }

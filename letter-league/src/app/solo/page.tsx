@@ -40,7 +40,7 @@ export default function SoloPage() {
         <CardContent>          
           <CreateGameForm
             onSubmit={onSubmit}
-            gameMode={GameMode.Solo}
+            gameMode="solo"
           />          
         </CardContent>
       </Card>

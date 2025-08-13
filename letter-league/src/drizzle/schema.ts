@@ -9,3 +9,5 @@ export * from "./schema/game-round";
 
 export * from "./schema/online-lobby";
 export * from "./schema/online-lobby-player";
+
+export * from "./schema/official-words";

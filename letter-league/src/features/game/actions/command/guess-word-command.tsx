@@ -55,7 +55,7 @@ export async function GuessWordCommand(command: GuessWordCommandInput): Promise<
 
     const currentGuess = await updateCurrentGameState(game, currentRound, validationResult, scoreResult, currentPlayer);
 
-    if (game.gameMode == GameMode.Online) {
+    if (game.gameMode == "online") {
         await EmitGuessWordRealtimeEvent(game.id, currentGuess);
     }
 
