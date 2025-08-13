@@ -5,7 +5,7 @@ import { ActiveGameModel, GamePlayerModel, GameRoundModel, RoundTransitionData }
 import { GuessWordCommand, GuessWordCommandInput, GuessWordResponse } from '../actions/command/guess-word-command';
 import { LETTER_ANIMATION_TIME_MS, TIME_BETWEEN_ROUNDS_MS } from '../game-constants';
 import { useMessageBar } from '@/components/layout/MessageBarContext';
-import { DetermineCurrentPlayerAlgorithm } from '../util/current-players-turn-calculator';
+import { TurnTrackerAlgorithm } from '../util/algorithm/turn-tracker-algorithm/turn-tracker';
 import { useAuth } from '@/features/auth/AuthContext';
 
 type ActiveGameContextType = {  
@@ -158,7 +158,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
   function determineCurrentPlayer() {
     if (!game || !currentRound) return;
 
-    const playerId = DetermineCurrentPlayerAlgorithm.execute(game.players.map(p => p.userId), game.currentRoundIndex, currentRound.currentGuessIndex);
+    const playerId = TurnTrackerAlgorithm.determineWhosTurnItIs(game.players.map(p => p.userId), game.currentRoundIndex, currentRound.currentGuessIndex);
     setCurrentPlayerId(playerId);
     setIsThisPlayersTurn(thisPlayersUserId == playerId);
   }

@@ -10,7 +10,7 @@ import { DetailedValidationResult, WordValidator } from "@/features/word/word-va
 import { ScoreCalculator } from "@/features/score/score-calculator";
 import DeleteGameByIdCommand from "./delete-game-by-id-command";
 import { and, eq } from "drizzle-orm";
-import { DetermineCurrentPlayerAlgorithm } from "../../util/current-players-turn-calculator";
+import { TurnTrackerAlgorithm } from "../../util/algorithm/turn-tracker-algorithm/turn-tracker";
 import { ServerResponse, ServerResponseFactory } from "@/lib/response-handling/response-factory";
 import { EmitGuessWordRealtimeEvent } from "@/features/realtime/realtime-api-adapter";
 
@@ -70,7 +70,7 @@ function getCurrentPlayer(game: DbActiveGameWithRoundsAndPlayers): DbGamePlayer 
     if (game.players.length == 1) return game.players[0];
 
     debugger;
-    const playerId = DetermineCurrentPlayerAlgorithm.execute(game.players.map(p => p.id), game.currentRoundIndex, 1);
+    const playerId = TurnTrackerAlgorithm.determineWhosTurnItIs(game.players.map(p => p.id), game.currentRoundIndex, 1);
 
     return game.players.find(p => p.id == playerId)!;
 }
