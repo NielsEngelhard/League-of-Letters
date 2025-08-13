@@ -4,10 +4,11 @@ import GetAuthSessionBySecreyKeyRequest from "@/features/auth/actions/request/ge
 import GetOnlineLobbyAndPlayersByIdRequest from "../query/get-lobby-and-players-by-id-command";
 import { CreateGameSchema } from "@/features/game/game-schemas";
 import CreateGameCommand from "@/features/game/actions/command/create-game-command";
-import { OnlineLobbyPlayerModel } from "../../lobby-models";
 import { db } from "@/drizzle/db";
 import DeleteOnlineLobbyById from "./delete-online-lobby";
 import { EmitStartGameRealtimeEvent } from "@/features/realtime/realtime-api-adapter";
+import { GamePlayerModel } from "@/features/game/game-models";
+import { DbGamePlayer, DbOnlineLobbyPlayer } from "@/drizzle/schema";
 
 export default async function CreateOnlineGameBasedOnLobbyCommand(schema: CreateGameSchema, secretKey: string): Promise<void> {
     // TODO: refactor to use e.g. cookie for security
@@ -30,7 +31,7 @@ export default async function CreateOnlineGameBasedOnLobbyCommand(schema: Create
     await EmitStartGameRealtimeEvent(schema.gameId!);
 }
 
-function AddPlayersToCreateSchema(schema: CreateGameSchema, lobbyPlayers: OnlineLobbyPlayerModel[]) {
+function AddPlayersToCreateSchema(schema: CreateGameSchema, lobbyPlayers: DbOnlineLobbyPlayer[]) {
     schema.players = lobbyPlayers.map(p => {
         return {
             userId: p.userId,

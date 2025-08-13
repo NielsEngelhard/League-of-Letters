@@ -19,21 +19,20 @@ import { MAX_ONLINE_GAME_PLAYERS } from "@/features/game/game-constants";
 import { useMessageBar } from "@/components/layout/MessageBarContext";
 import Icon from "@/components/ui/Icon";
 import { copyToClipboard } from "@/lib/clipboard-util";
-import { OnlineLobbyModel, OnlineLobbyPlayerModel } from "@/features/lobby/lobby-models";
+import { OnlineLobbyModel } from "@/features/lobby/lobby-models";
 import CreateOnlineLobbyCommand from "@/features/lobby/actions/command/create-online-lobby-command";
 import LoadingDots from "@/components/ui/animation/LoadingDots";
 import CreateOnlineGameBasedOnLobbyCommand from "@/features/lobby/actions/command/create-online-game-based-on-lobby-command";
-import { GameMode } from "@/drizzle/schema";
-import Button from "@/components/ui/Button";
 import { OptionItem } from "@/components/ui/OptionsMenu";
 import DeleteOnlineLobbyById from "@/features/lobby/actions/command/delete-online-lobby";
 import { useActiveGame } from "@/features/game/components/active-game-context";
+import { GamePlayerModel } from "@/features/game/game-models";
 
 export default function CreateOnlineGamePage() {
   const router = useRouter()
   const { getOrCreateGuestAuthSession } = useAuth();
-  const { initializeConnection, emitJoinGame, connectionStatus, addPlayerOrSetReconnected } = useSocket();
-  const { players } = useActiveGame();
+  const { initializeConnection, emitJoinGame, connectionStatus } = useSocket();
+  const { players, addOrReconnectPlayer } = useActiveGame();
   const { pushMessage, clearMessage } = useMessageBar();
 
   const [lobby, setLobby] = useState<OnlineLobbyModel | null>(null);
@@ -69,8 +68,10 @@ export default function CreateOnlineGamePage() {
     CreateOrGetLobby();
   }, [connectionStatus]);
 
-  function addPlayersToRealtimePlayersList(players: OnlineLobbyPlayerModel[]) {
-    players.forEach(player => addPlayerOrSetReconnected(player));
+  function addPlayersToRealtimePlayersList(players: GamePlayerModel[]) {
+    players.forEach(p => {
+      addOrReconnectPlayer(p);
+    });
   }
 
   async function GetOrCreateLobbyFromServer(): Promise<OnlineLobbyModel> {

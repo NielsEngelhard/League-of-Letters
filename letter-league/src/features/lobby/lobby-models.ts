@@ -1,14 +1,8 @@
-import { ConnectionStatus } from "../realtime/realtime-models";
+import { GamePlayerModel } from "../game/game-models";
 
 export interface OnlineLobbyModel {
     id: string;
     userHostId: string;
-    players: OnlineLobbyPlayerModel[];
+    players: GamePlayerModel[];
     createdAt: Date;
-}
-
-export interface OnlineLobbyPlayerModel {    
-    userId: string;
-    username: string;
-    connectionStatus: ConnectionStatus;    
 }

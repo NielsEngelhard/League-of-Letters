@@ -1,6 +1,7 @@
 import { DbAuthSession, DbGamePlayer, DbOnlineLobbyPlayer, DbOnlineLobbyWithPlayers } from "@/drizzle/schema"
 import { ConnectionStatus } from "../realtime/realtime-models"
-import { OnlineLobbyModel, OnlineLobbyPlayerModel } from "./lobby-models"
+import { OnlineLobbyModel } from "./lobby-models"
+import { GamePlayerModel } from "../game/game-models"
 
 export class OnlineLobbyMapper {
     static AuthSessionToLobbyPlayer(authSession: DbAuthSession, lobbyId: string, connectionStatus: ConnectionStatus = "connected"): DbOnlineLobbyPlayer {
@@ -23,11 +24,14 @@ export class OnlineLobbyMapper {
         }
     }
 
-    static DbLobbyPlayerToModel(lobbyPlayer: DbOnlineLobbyPlayer): OnlineLobbyPlayerModel {
+    static DbLobbyPlayerToModel(lobbyPlayer: DbOnlineLobbyPlayer): GamePlayerModel {
         return {
             userId: lobbyPlayer.userId,            
             username: lobbyPlayer.username,
             connectionStatus: lobbyPlayer.connectionStatus,
+            isHost: false,
+            position: 0,
+            score: 0
         }
     }
 }

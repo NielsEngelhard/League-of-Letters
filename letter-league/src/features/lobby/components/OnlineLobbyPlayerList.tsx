@@ -3,10 +3,10 @@ import { Crown } from "lucide-react";
 import Seperator from "@/components/ui/Seperator";
 import { useAuth } from "@/features/auth/AuthContext";
 import RealtimeStatusIndicator from "@/features/realtime/RealtimeStatusIndicator";
-import { OnlineLobbyPlayerModel } from "@/features/lobby/lobby-models";
+import { GamePlayerModel } from "@/features/game/game-models";
 
 interface Props {
-    players?: OnlineLobbyPlayerModel[];
+    players?: GamePlayerModel[];
     userHostId?: string;
 }
 

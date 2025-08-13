@@ -2,7 +2,6 @@
 import React, { createContext, useContext, useRef, useState, ReactNode, useEffect } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { ConnectionStatus, JoinGameRealtimeModel } from './realtime-models';
-import { OnlineLobbyPlayerModel } from '../lobby/lobby-models';
 import { useRouter } from 'next/navigation';
 import { MULTIPLAYER_GAME_ROUTE, PLAY_GAME_ROUTE } from '@/app/routes';
 import { useMessageBar } from '@/components/layout/MessageBarContext';
@@ -72,17 +71,10 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
       activeGameContext.clearGameState();
     });
 
-    socket.on('user-joined', (player: OnlineLobbyPlayerModel) => {
+    socket.on('user-joined', (player: GamePlayerModel) => {
       console.log(`REALTIME: User ${player.username} joined`);
       
-      activeGameContext.addOrReconnectPlayer({
-        userId: player.userId,
-        username: player.username,
-        connectionStatus: player.connectionStatus,
-        isHost: false,
-        position: 0,
-        score: 0
-      });
+      activeGameContext.addOrReconnectPlayer(player);
     });
 
     socket.on('user-disconnected', (disconnectedUserId: string) => {

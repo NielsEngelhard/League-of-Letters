@@ -12,15 +12,16 @@ import { useSocket } from "@/features/realtime/socket-context";
 import { User } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { OnlineLobbyModel, OnlineLobbyPlayerModel } from "@/features/lobby/lobby-models";
+import { OnlineLobbyModel } from "@/features/lobby/lobby-models";
 import LoadingSpinner from "@/components/ui/animation/LoadingSpinner";
 import LoadingDots from "@/components/ui/animation/LoadingDots";
 import { useActiveGame } from "@/features/game/components/active-game-context";
+import { GamePlayerModel } from "@/features/game/game-models";
 
 export default function JoinOnlineGamePage() {
     const [lobby, setLobby] = useState<OnlineLobbyModel | null>(null);
-    const { initializeConnection, emitJoinGame, connectionStatus, addPlayerOrSetReconnected } = useSocket();
-    const { players } = useActiveGame();
+    const { initializeConnection, emitJoinGame, connectionStatus } = useSocket();
+    const { players, addOrReconnectPlayer } = useActiveGame();
     const { pushMessage, clearMessage } = useMessageBar();
 
     const { getOrCreateGuestAuthSession } = useAuth();
@@ -59,8 +60,8 @@ export default function JoinOnlineGamePage() {
         JoinLobby();
     }, [connectionStatus]);    
 
-    function addPlayersToRealtimePlayersList(players: OnlineLobbyPlayerModel[]) {
-        players.forEach(player => addPlayerOrSetReconnected(player));
+    function addPlayersToRealtimePlayersList(players: GamePlayerModel[]) {
+        players.forEach(player => addOrReconnectPlayer(player));
         }    
 
         async function JoinLobbyOnServer(gameId: string): Promise<OnlineLobbyModel> {

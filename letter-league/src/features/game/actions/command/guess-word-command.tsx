@@ -34,9 +34,9 @@ export async function GuessWordCommand(command: GuessWordCommandInput): Promise<
     let currentRound = game.rounds.find(g => g.roundNumber == game.currentRoundIndex);
     if (!currentRound) throw Error(`GUESS WORD: INVALID STATE could not find round`);
 
+    console.log(`ROUND: ${currentRound.roundNumber} | ROUND: ${currentRound.currentGuessIndex}`);
     let currentPlayer = getCurrentPlayer(game, currentRound.currentGuessIndex);
 
-    debugger;
     const isThisPlayersTurn = await isPlayersTurn(command.secretKey, currentPlayer);
     if (!isThisPlayersTurn) {
         return ServerResponseFactory.error("Not your turn!");
