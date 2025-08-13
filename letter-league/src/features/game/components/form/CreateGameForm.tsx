@@ -50,6 +50,12 @@ export default function CreateGameForm({ onSubmit, onLeaveGame, submitDisabled =
                     { value: 4, label: "4 (four)" },
                     { value: 5, label: "5 (five)" },
                     { value: 6, label: "6 (six)" },
+                    { value: 7, label: "7 (seven)" },
+                    { value: 8, label: "8 (eight)" },
+                    { value: 9, label: "9 (nine)" },
+                    { value: 10, label: "10 (ten)" },
+                    { value: 11, label: "11 (eleven)" },
+                    { value: 12, label: "12 (twelve)" },
                 ]}
             />
 
