@@ -8,6 +8,7 @@ import { MULTIPLAYER_GAME_ROUTE, PLAY_GAME_ROUTE } from '@/app/routes';
 import { useMessageBar } from '@/components/layout/MessageBarContext';
 import { useActiveGame } from '../game/components/active-game-context';
 import { GuessWordResponse } from '../game/actions/command/guess-word-command';
+import { useAuth } from '../auth/AuthContext';
 
 interface SocketContextType {
   socket: Socket | null;
@@ -36,6 +37,8 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
 }) => {
   const { pushMessage } = useMessageBar();
   const activeGameContext = useActiveGame();
+  const { authSession } = useAuth();
+
   const router = useRouter();
   const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>("empty");
   const [transport, setTransport] = useState('N/A');
@@ -97,6 +100,8 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
     });
 
     socket.on('guess-word', (response: GuessWordResponse) => {
+      if (response.userId == authSession?.id) return;
+
       console.log("GUESS WORD HAS BEEN TRIGGERED");
       activeGameContext.handleWordGuess(response);
     });    

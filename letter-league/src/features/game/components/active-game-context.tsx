@@ -2,11 +2,11 @@
 
 import { createContext, useState, ReactNode, useContext, useEffect } from 'react';
 import { ActiveGameModel, GamePlayerModel, GameRoundModel, RoundTransitionData } from '../game-models';
-import { GuessWordCommand, GuessWordCommandInput, GuessWordResponse } from '../actions/command/guess-word-command';
-import { LETTER_ANIMATION_TIME_MS, TIME_BETWEEN_ROUNDS_MS } from '../game-constants';
+import { GuessWordCommand, GuessWordResponse } from '../actions/command/guess-word-command';
+import { TIME_BETWEEN_ROUNDS_MS } from '../game-constants';
 import { useMessageBar } from '@/components/layout/MessageBarContext';
 import { TurnTrackerAlgorithm } from '../util/algorithm/turn-tracker-algorithm/turn-tracker';
-import { useAuth } from '@/features/auth/AuthContext';
+import { GetLetterAnimationDurationInMs } from '../util/game-time-calculators';
 
 type ActiveGameContextType = {  
   // Data
@@ -16,6 +16,7 @@ type ActiveGameContextType = {
   currentRound: GameRoundModel | undefined;
   currentPlayerId: string;
   isThisPlayersTurn: boolean;
+  isAnimating: boolean;
 
   // Actions
   initializeGameState: (_game: ActiveGameModel, _thisPlayersUserId: string) => void;
@@ -28,7 +29,7 @@ const ActiveGameContext = createContext<ActiveGameContextType | undefined>(undef
 
 export function ActiveGameProvider({ children }: { children: ReactNode }) {
   const { pushErrorMsg } = useMessageBar();
-
+  
   const [game, setGame] = useState<ActiveGameModel | undefined>(undefined);
   const [currentRound, setCurrentRound] = useState<GameRoundModel | undefined>(undefined);
   const [players, setPlayers] = useState<GamePlayerModel[]>([]);
@@ -37,6 +38,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
   const [currentPlayerId, setCurrentPlayerId] = useState<string>("");
   const [isThisPlayersTurn, setIsThisPlayersTurn] = useState<boolean>(false);
   const [thisPlayersUserId, setThisPlayersUserId] = useState<string | undefined>(undefined);
+  const [isAnimating, setIsAnimating] = useState(false);
 
   // Always call this first
   function initializeGameState(_game: ActiveGameModel, _thisPlayersUserId: string) {
@@ -66,8 +68,39 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     }
   }
 
-  function handleWordGuess(response: GuessWordResponse) {
-    // Update current round
+  function handleWordGuess(response: GuessWordResponse) {    
+    setCurrentGuess(undefined);
+
+    addGuessToCurrentRound(response);
+
+    const letterAnimationDuration = GetLetterAnimationDurationInMs(response.guessResult.evaluatedLetters.length);
+    setIsAnimating(true);
+
+    setTimeout(() => {
+      if (response.roundTransitionData) {
+        updatePlayerScores(response);
+        handleEndOfCurrentRound(response.roundTransitionData);
+      } else {
+        // TODO: after animation
+        updatePlayerScores(response);
+        incrementCurrentGuessIndex();
+      }
+
+      setIsAnimating(false);
+    }, letterAnimationDuration);
+  }
+
+  function updatePlayerScores(response: GuessWordResponse) {
+    setPlayers(prevPlayers =>
+      prevPlayers.map(player =>
+        player.userId === response.userId
+          ? { ...player, score: player.score + response.scoreResult.totalScore }
+          : player
+      )
+    );       
+  }
+
+  function addGuessToCurrentRound(response: GuessWordResponse) {
     setCurrentRound(prevRound => {
       if (prevRound == null) return;
 
@@ -75,30 +108,25 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
         ...prevRound,
         guesses: [...prevRound.guesses, response.guessResult],
         guessedLetters: [...prevRound.guessedLetters, ...response.newLetters],
-        currentGuessIndex: prevRound.currentGuessIndex + 1
       };
     });
+  }
 
-    // Update player score(s)
-    setPlayers(prevPlayers =>
-      prevPlayers.map(player =>
-        player.userId === response.userId
-          ? { ...player, score: player.score + response.scoreResult.totalScore }
-          : player
-      )
-    );   
+  function incrementCurrentGuessIndex() {
+      setCurrentRound(prevRound => {
+        if (prevRound == null) return;
 
-    if (response.roundTransitionData) {
-      handleEndOfCurrentRound(response.roundTransitionData);
-    } else {
-      // TODO: set next round for currentGuess
-    }
+        return {
+          ...prevRound,
+          currentGuessIndex: prevRound.currentGuessIndex + 1
+        };
+      });    
   }
 
   function handleEndOfCurrentRound(roundTransitionData: RoundTransitionData) {
     if (!game) return;
 
-    const letterAnimationLength = LETTER_ANIMATION_TIME_MS * game.wordLength;
+    const letterAnimationLength = GetLetterAnimationDurationInMs(game.wordLength);
 
     setTimeout(() => {
       setTheWord(roundTransitionData.currentWord);
@@ -187,7 +215,8 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
         submitGuess,
         currentPlayerId,
         handleWordGuess,
-        isThisPlayersTurn
+        isThisPlayersTurn,
+        isAnimating
        }}>
       {children}
     </ActiveGameContext.Provider>

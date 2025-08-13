@@ -1,7 +1,6 @@
 import LetterRowGrid from "@/features/word/components/LetterRowGrid";
 import ActiveGameWordInput from "./ActiveGameWordInput";
 import { useActiveGame } from "./active-game-context";
-import { useEffect, useState } from "react";
 import { useAuth } from "@/features/auth/AuthContext";
 import InGamePlayerBar from "./in-game/InGamePlayersBar";
 import GameProgressionBar from "./in-game/InGameProgressionBar";
@@ -10,7 +9,7 @@ import LoadingSpinner from "@/components/ui/animation/LoadingSpinner";
 interface Props {}
 
 export default function GameBoard({}: Props) {
-    const { game, players, setCurrentGuess, submitGuess, currentGuess, currentRound, isThisPlayersTurn } = useActiveGame();
+    const { game, players, setCurrentGuess, submitGuess, currentGuess, currentRound, isThisPlayersTurn, isAnimating } = useActiveGame();
     const { authSession } = useAuth();
 
     async function onSubmitGuess() {
@@ -52,7 +51,7 @@ export default function GameBoard({}: Props) {
                         wordLength={game.wordLength}
                         onChange={setCurrentGuess}
                         onEnter={onSubmitGuess}
-                        disabled={!isThisPlayersTurn}
+                        disabled={!isThisPlayersTurn || isAnimating}
                     />
                 </div>
             </div>
