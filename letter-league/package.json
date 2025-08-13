@@ -11,7 +11,7 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:studio": "drizzle-kit studio",
-    "db:seed": "npx tsx drizzle/seed/data-seed.ts",
+    "db:seed": "npx tsx src/drizzle/seed/data-seed.ts",
     "words:clean": "npx tsx src/features/word/util/script/clean-all-lists.ts"
   },
   "dependencies": {
