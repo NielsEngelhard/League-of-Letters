@@ -31,16 +31,16 @@ export interface GuessWordResponse {
 export async function GuessWordCommand(command: GuessWordCommandInput): Promise<ServerResponse<GuessWordResponse>> {    
     const game = await getGame(command.gameId);
     
-    let currentPlayer = getCurrentPlayer(game);
+    let currentRound = game.rounds.find(g => g.roundNumber == game.currentRoundIndex);
+    if (!currentRound) throw Error(`GUESS WORD: INVALID STATE could not find round`);
+
+    let currentPlayer = getCurrentPlayer(game, currentRound.currentGuessIndex);
 
     debugger;
     const isThisPlayersTurn = await isPlayersTurn(command.secretKey, currentPlayer);
     if (!isThisPlayersTurn) {
         return ServerResponseFactory.error("Not your turn!");
     }
-
-    let currentRound = game.rounds.find(g => g.roundNumber == game.currentRoundIndex);
-    if (!currentRound) throw Error(`GUESS WORD: INVALID STATE could not find round`);
     
     const validationResult = WordValidator.validateAndFilter(command.word, currentRound.word.word, currentRound.evaluatedLetters);
 
@@ -66,10 +66,11 @@ function addScoreToPlayer(scoreResult: CalculateScoreResult, player: DbGamePlaye
     player.score += scoreResult.totalScore;
 }
 
-function getCurrentPlayer(game: DbActiveGameWithRoundsAndPlayers): DbGamePlayer {
+function getCurrentPlayer(game: DbActiveGameWithRoundsAndPlayers, currentGuessIndex: number): DbGamePlayer {
     if (game.players.length == 1) return game.players[0];
 
-    const playerId = TurnTrackerAlgorithm.determineWhosTurnItIs(game.players.map(p => p.id), game.currentRoundIndex, 1);
+    debugger;
+    const playerId = TurnTrackerAlgorithm.determineWhosTurnItIs(game.players.sort(p => p.position).map(p => p.id), game.currentRoundIndex, currentGuessIndex);
 
     return game.players.find(p => p.id == playerId)!;
 }

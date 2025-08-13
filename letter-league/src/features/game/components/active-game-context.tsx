@@ -74,7 +74,8 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
       return {
         ...prevRound,
         guesses: [...prevRound.guesses, response.guessResult],
-        guessedLetters: [...prevRound.guessedLetters, ...response.newLetters]
+        guessedLetters: [...prevRound.guessedLetters, ...response.newLetters],
+        currentGuessIndex: prevRound.currentGuessIndex + 1
       };
     });
 
@@ -98,7 +99,6 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     if (!game) return;
 
     const letterAnimationLength = LETTER_ANIMATION_TIME_MS * game.wordLength;
-
 
     setTimeout(() => {
       setTheWord(roundTransitionData.currentWord);
@@ -154,11 +154,10 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     return round;
   }
 
-  // TODO: this can be a static method somewhere else
   function determineCurrentPlayer() {
     if (!game || !currentRound) return;
-    debugger;
-    const playerId = TurnTrackerAlgorithm.determineWhosTurnItIs(game.players.map(p => p.userId), game.currentRoundIndex, currentRound.currentGuessIndex);
+    
+    const playerId = TurnTrackerAlgorithm.determineWhosTurnItIs(game.players.sort(p => p.position).map(p => p.userId), game.currentRoundIndex, currentRound.currentGuessIndex);
     setCurrentPlayerId(playerId);
     setIsThisPlayersTurn(thisPlayersUserId == playerId);
   }

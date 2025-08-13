@@ -2,11 +2,12 @@ import { DbGamePlayer } from "@/drizzle/schema";
 import {v4 as uuid} from 'uuid';
 
 export class GamePlayerFactory {
-    static createGamePlayer(gameId: string, userId: string, username: string | null = null): DbGamePlayer {
+    static createGamePlayer(gameId: string, userId: string, position: number, username: string | null = null): DbGamePlayer {
         return {
             id: uuid(),
             gameId: gameId,
             userId: userId,
+            position: position,
             score: 0,
             username: username,
             connectionStatus: "empty"

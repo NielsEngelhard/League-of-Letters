@@ -51,8 +51,8 @@ export default async function CreateGameCommand(schema: CreateGameSchema, secret
 function createPlayers(schema: CreateGameSchema, gameId: string): DbGamePlayer[] {
     if (!schema.players) throw Error("No players assigned");
 
-    return schema.players?.map(schemaPlayer => 
-        GamePlayerFactory.createGamePlayer(gameId, schemaPlayer.userId, schemaPlayer.username)
+    return schema.players?.map((schemaPlayer, index) => 
+        GamePlayerFactory.createGamePlayer(gameId, schemaPlayer.userId, index + 1, schemaPlayer.username)
     );
 }
 

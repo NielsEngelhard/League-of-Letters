@@ -27,7 +27,8 @@ export class GameMapper {
             score: player.score,
             username: player.username ?? "anonymous",
             connectionStatus: "connected",
-            isHost: false
+            isHost: false,
+            position: player.position
         }
     }
 

@@ -1,0 +1,2 @@
+ALTER TABLE "game_player" ADD COLUMN "position" integer DEFAULT 1 NOT NULL;--> statement-breakpoint
+CREATE UNIQUE INDEX "game_player_gameId_position_unique" ON "game_player" USING btree ("gameId","position");
