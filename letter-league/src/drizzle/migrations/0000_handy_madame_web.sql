@@ -14,6 +14,7 @@ CREATE TABLE "active_game" (
 	"gameMode" "game_mode" NOT NULL,
 	"wordLength" integer NOT NULL,
 	"currentRoundIndex" integer DEFAULT 1 NOT NULL,
+	"gameIsOver" boolean DEFAULT false NOT NULL,
 	"createdAt" timestamp with time zone DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
@@ -50,6 +51,12 @@ CREATE TABLE "online_lobby_player" (
 	"username" text DEFAULT 'anonymous' NOT NULL,
 	"connectionStatus" "connection_status" DEFAULT 'empty' NOT NULL,
 	"createdAt" timestamp with time zone DEFAULT now() NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE "nl_words" (
+	"word" text PRIMARY KEY NOT NULL,
+	"length" integer NOT NULL,
+	CONSTRAINT "nl_words_word_unique" UNIQUE("word")
 );
 --> statement-breakpoint
 ALTER TABLE "game_player" ADD CONSTRAINT "game_player_userId_auth_session_id_fk" FOREIGN KEY ("userId") REFERENCES "public"."auth_session"("id") ON DELETE cascade ON UPDATE no action;--> statement-breakpoint
