@@ -19,7 +19,7 @@ export class WordValidator {
     }
 
     static validate(guess: string, word: string): EvaluatedLetter[] {
-        var validatedLetters: EvaluatedLetter[] = new Array(guess.length);
+        var evaluatedLetters: EvaluatedLetter[] = new Array(guess.length);
 
         for(var i=0; i<guess.length; i++) {
             const guessedLetter = guess[i].toUpperCase();
@@ -39,10 +39,10 @@ export class WordValidator {
                 letterData.state = LetterState.Misplaced;
             };
 
-            validatedLetters[i] = letterData;            
+            evaluatedLetters[i] = letterData;            
         }
 
-        return validatedLetters;
+        return evaluatedLetters;
     }
 
     // Filter only the newly guessed letters
@@ -65,26 +65,26 @@ export class WordValidator {
     }    
 }
 
-function addCorrectGuessIfNotAlreadyExists(validatedLetter: EvaluatedLetter, previouslyGuessedLetters: EvaluatedLetter[], newLetters: EvaluatedLetter[]) {
-    if (!letterAndStateAndPositionAlreadyExist(validatedLetter, previouslyGuessedLetters)) {
-        newLetters.push(validatedLetter);
+function addCorrectGuessIfNotAlreadyExists(evaluatedLetter: EvaluatedLetter, previouslyGuessedLetters: EvaluatedLetter[], newLetters: EvaluatedLetter[]) {
+    if (!letterAndStateAndPositionAlreadyExist(evaluatedLetter, previouslyGuessedLetters)) {
+        newLetters.push(evaluatedLetter);
     }
 }
 
-function addWrongGuessIfNotAlreadyExists(validatedLetter: EvaluatedLetter, previouslyGuessedLetters: EvaluatedLetter[], newLetters: EvaluatedLetter[]) {  
-    if (!letterAndStateAlreadyExist(validatedLetter, previouslyGuessedLetters)) {
+function addWrongGuessIfNotAlreadyExists(evaluatedLetter: EvaluatedLetter, previouslyGuessedLetters: EvaluatedLetter[], newLetters: EvaluatedLetter[]) {  
+    if (!letterAndStateAlreadyExist(evaluatedLetter, previouslyGuessedLetters)) {
         
-        if (!letterAndStateAlreadyExist(validatedLetter, newLetters)) {
-            newLetters.push(validatedLetter);
+        if (!letterAndStateAlreadyExist(evaluatedLetter, newLetters)) {
+            newLetters.push(evaluatedLetter);
         }
     }
 }
 
-function addMisplacedIfNotAlreadyExists(validatedLetter: EvaluatedLetter, previouslyGuessedLetters: EvaluatedLetter[], newLetters: EvaluatedLetter[]) {  
-    if (!letterAndStateAlreadyExist(validatedLetter, previouslyGuessedLetters)) {
+function addMisplacedIfNotAlreadyExists(evaluatedLetter: EvaluatedLetter, previouslyGuessedLetters: EvaluatedLetter[], newLetters: EvaluatedLetter[]) {  
+    if (!letterAndStateAlreadyExist(evaluatedLetter, previouslyGuessedLetters)) {
         
-        if (!letterAndStateAlreadyExist(validatedLetter, newLetters)) {
-            newLetters.push(validatedLetter);
+        if (!letterAndStateAlreadyExist(evaluatedLetter, newLetters)) {
+            newLetters.push(evaluatedLetter);
         }
     }
 }
