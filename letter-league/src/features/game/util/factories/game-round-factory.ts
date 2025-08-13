@@ -9,7 +9,7 @@ export class GameRoundFactory {
             id: uuid(),
             word: WordStateFactory.create(word),
             roundNumber: roundNumber,
-            currentGuessIndex: 0,
+            currentGuessIndex: 1,
             gameId: gameId,
             guesses: [],
             evaluatedLetters: [{ position: 1, state: LetterState.Correct, letter: word[0].toUpperCase() }]

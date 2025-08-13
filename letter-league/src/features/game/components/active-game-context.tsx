@@ -157,7 +157,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
   // TODO: this can be a static method somewhere else
   function determineCurrentPlayer() {
     if (!game || !currentRound) return;
-
+    debugger;
     const playerId = TurnTrackerAlgorithm.determineWhosTurnItIs(game.players.map(p => p.userId), game.currentRoundIndex, currentRound.currentGuessIndex);
     setCurrentPlayerId(playerId);
     setIsThisPlayersTurn(thisPlayersUserId == playerId);
