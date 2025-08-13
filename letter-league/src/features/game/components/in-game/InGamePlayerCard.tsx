@@ -23,7 +23,7 @@ export default function InGamePlayerCards({ player, scorePosition, isCurrentPlay
             {/* Player indicator */}
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                     <RealtimeStatusIndicator status="connected" />
+                     <RealtimeStatusIndicator status={player.connectionStatus} />
                     <span className="text-sm font-med">{player.username}</span>
                 </div>
                 

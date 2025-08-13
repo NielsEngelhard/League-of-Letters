@@ -18,8 +18,6 @@ interface SocketContextType {
 
   initializeConnection: () => void;
 
-  addPlayerOrSetReconnected: (players: OnlineLobbyPlayerModel) => void;
-
   emitJoinGame: (data: JoinGameRealtimeModel) => void;
   emitTestEvent: (gameId: string) => void;
 }
@@ -71,19 +69,26 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
       setConnectionStatus("disconnected");
       setTransport('N/A');
       console.log('Disconnected from WebSocket server');
+      activeGameContext.clearGameState();
     });
 
     socket.on('user-joined', (player: OnlineLobbyPlayerModel) => {
       console.log(`REALTIME: User ${player.username} joined`);
       
-      addPlayerOrSetReconnected(player);
+      activeGameContext.addOrReconnectPlayer({
+        userId: player.userId,
+        username: player.username,
+        connectionStatus: player.connectionStatus,
+        isHost: false,
+        position: 0,
+        score: 0
+      });
     });
 
     socket.on('user-disconnected', (disconnectedUserId: string) => {
       console.log(`REALTIME: User ${disconnectedUserId} disconnected`);
 
-      const updatedPlayers: GamePlayerModel[] = activeGameContext.players.map(player => player.userId == disconnectedUserId ? {...player, connectionStatus: "disconnected"} : player);
-      activeGameContext.setPlayers(updatedPlayers);
+      activeGameContext.disconnectPlayer(disconnectedUserId);
     });    
 
     socket.on('test', () => {
@@ -133,25 +138,6 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
     socketRef.current?.emit('player-guess-changed', guess);
   };
 
-  const addPlayerOrSetReconnected = (player: OnlineLobbyPlayerModel) => {
-      const playerExists = activeGameContext.players.some(p => p.userId === player.userId);
-
-      if (playerExists) {
-        const updatedPlayers: GamePlayerModel[] = activeGameContext.players.map(player => player.userId == player.userId ? {...player, connectionStatus: "connected"} : player);
-        activeGameContext.setPlayers(updatedPlayers);
-        return;
-      }
-
-      activeGameContext.setPlayers([...activeGameContext.players, {
-        userId: player.userId,
-        username: player.username  ,     
-        connectionStatus: player.connectionStatus,
-        isHost: false,
-        position: 0,
-        score: 0,
-      }]);
-  };
-
   // When the user's currentGuess changes "locally", other players should see that
   useEffect(() => {    
     // Prevent infinite loop by only doing this for the person who's turn it is
@@ -168,7 +154,6 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
       transport,
       emitJoinGame,
       emitTestEvent,
-      addPlayerOrSetReconnected,
 	    initializeConnection,
     }}>
       {children}

@@ -23,7 +23,10 @@ type ActiveGameContextType = {
   submitGuess: (secretKey: string) => Promise<void>;
   setCurrentGuess: (guess: string) => void;
   handleWordGuess: (response: GuessWordResponse) => void;
-  setPlayers: (p: GamePlayerModel[]) => void;
+  clearGameState: () => void;
+  addOrReconnectPlayer: (p: GamePlayerModel) => void;
+  removePlayer: (playerId: string) => void;
+  disconnectPlayer: (playerId: string) => void;
 };
 
 const ActiveGameContext = createContext<ActiveGameContextType | undefined>(undefined);
@@ -50,6 +53,13 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     setCurrentRound(_currentRound);
     setThisPlayersUserId(_thisPlayersUserId);
   }
+
+  function clearGameState() {
+    setGame(undefined);
+    setCurrentRound(undefined);
+    setCurrentGuess(undefined);
+    setPlayers([]); 
+  }  
 
   async function submitGuess(secretKey: string): Promise<void> {
     if (!game || !currentRound) return;
@@ -201,9 +211,25 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
 
   }, [game?.currentRoundIndex, currentRound?.currentGuessIndex]);
 
-  useEffect(() => {
-    console.log("kkk " + currentGuess);
-  }, [currentGuess])
+  function addOrReconnectPlayer(player: GamePlayerModel) {
+    setPlayers(prev => {
+      const playerExists = prev.some(p => p.userId === player.userId);
+
+      if (playerExists) {
+        return prev.map(player => player.userId == player.userId ? {...player, connectionStatus: "connected"} : player);
+      }
+
+      return [...prev, player];
+    });
+  }
+
+  function removePlayer(playerId: string) {
+    setPlayers(prev => prev.filter(p => p.userId != playerId));
+  }
+
+  function disconnectPlayer(playerId: string) {
+    setPlayers(prev => prev.map(player => player.userId == playerId ? {...player, connectionStatus: "disconnected"} : player));
+  }
 
   return (
     <ActiveGameContext.Provider value={{        
@@ -218,7 +244,10 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
         handleWordGuess,
         isThisPlayersTurn,
         isAnimating,
-        setPlayers
+        clearGameState,
+        addOrReconnectPlayer,
+        disconnectPlayer,
+        removePlayer
        }}>
       {children}
     </ActiveGameContext.Provider>
