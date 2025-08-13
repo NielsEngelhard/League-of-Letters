@@ -1,7 +1,7 @@
-import { EvaluatedLetter, LetterState } from "../word/word-models";
-import { CALCULATE_STREAK_POINTS, CORRECT_AFTER_MISPLACED_POINTS, INSTANT_CORRECT_POINTS, INSTANT_GUESS_BONUS, JUST_A_GUESS_BONUS, MISPLACED_POINTS, SECOND_GUESS_BONUS, STREAK_THRESHOLD } from "./score-constants";
-import { CalculateScoreCommand, CalculateScoreResult } from "./score-models";
-import { StreakFinder } from "./streak-finder";
+import { EvaluatedLetter, LetterState } from "../../../features/word/word-models";
+import { CALCULATE_STREAK_POINTS, CORRECT_AFTER_MISPLACED_POINTS, INSTANT_CORRECT_POINTS, INSTANT_GUESS_BONUS, JUST_A_GUESS_BONUS, MISPLACED_POINTS, SECOND_GUESS_BONUS, STREAK_THRESHOLD } from "../score-constants";
+import { CalculateScoreCommand, CalculateScoreResult } from "../score-models";
+import { StreakFinder } from "../streak-finder";
 
 export class ScoreCalculator {
     static calculate(command: CalculateScoreCommand): CalculateScoreResult {
