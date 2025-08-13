@@ -6,7 +6,7 @@ import { EvaluatedLetter, EvaluatedWord } from "@/features/word/word-models";
 import { RoundTransitionData } from "../../game-models";
 import { GamePlayerTable, GameRoundTable, ActiveGameTable, DbActiveGame, DbGamePlayer, DbGameRound, DbActiveGameWithRoundsAndPlayers, GameMode } from "@/drizzle/schema";
 import GetAuthSessionBySecreyKeyRequest from "@/features/auth/actions/request/get-auth-session-by-secret-key";
-import { DetailedValidationResult, WordValidator } from "@/features/word/word-validator";
+import { DetailedValidationResult, WordValidator } from "@/features/word/util/word-validator/word-validator";
 import DeleteGameByIdCommand from "./delete-game-by-id-command";
 import { and, eq } from "drizzle-orm";
 import { TurnTrackerAlgorithm } from "../../util/algorithm/turn-tracker-algorithm/turn-tracker";

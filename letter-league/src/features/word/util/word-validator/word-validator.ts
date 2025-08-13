@@ -1,4 +1,4 @@
-import { EvaluatedLetter, LetterState } from "./word-models";
+import { EvaluatedLetter, LetterState } from "../../word-models";
 
 export interface DetailedValidationResult {
     validatedWord: EvaluatedLetter[];
