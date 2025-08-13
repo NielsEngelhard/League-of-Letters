@@ -36,3 +36,20 @@ describe("Solo player should return the only player no matter what round or gues
             expect(result).toEqual(playerIds[0]);
         });
 });    
+
+describe("Game with 2 players", () => {
+    it("should have correct first and second turn when sorting on player position", () => {
+        const players = [{ userId: "player_one", username: "something1", position: 2 }, { userId: "player_two", username: "something2", position: 1 }];
+
+        const sortedPlayerIds = players
+            .slice() // create a copy so original array is not mutated
+            .sort((a, b) => a.position - b.position)
+            .map(p => p.userId);
+
+        const firstRoundResult = TurnTrackerAlgorithm.determineWhosTurnItIs(sortedPlayerIds, 1, 1);
+        expect(firstRoundResult).toBe(players[0].userId);
+
+        const secondRoundResult = TurnTrackerAlgorithm.determineWhosTurnItIs(sortedPlayerIds, 1, 2);
+        expect(secondRoundResult).toBe(players[1].userId);
+    });        
+});

@@ -13,6 +13,7 @@ import { TurnTrackerAlgorithm } from "../../util/algorithm/turn-tracker-algorith
 import { ServerResponse, ServerResponseFactory } from "@/lib/response-handling/response-factory";
 import { EmitGuessWordRealtimeEvent } from "@/features/realtime/realtime-api-adapter";
 import { ScoreCalculator } from "@/features/score/score-calculator/score-calculator";
+import { sortDbPlayerOnPositionAndGetUserIds } from "../../util/player-sorting";
 
 export interface GuessWordCommandInput {
     gameId: string;
@@ -34,8 +35,7 @@ export async function GuessWordCommand(command: GuessWordCommandInput): Promise<
     let currentRound = game.rounds.find(g => g.roundNumber == game.currentRoundIndex);
     if (!currentRound) throw Error(`GUESS WORD: INVALID STATE could not find round`);
 
-    console.log(`ROUND: ${currentRound.roundNumber} | ROUND: ${currentRound.currentGuessIndex}`);
-    let currentPlayer = getCurrentPlayer(game, currentRound.currentGuessIndex);
+    let currentPlayer = getPlayerWhosTurnItIs(game, currentRound.currentGuessIndex);
 
     const isThisPlayersTurn = await isPlayersTurn(command.secretKey, currentPlayer);
     if (!isThisPlayersTurn) {
@@ -66,13 +66,13 @@ function addScoreToPlayer(scoreResult: CalculateScoreResult, player: DbGamePlaye
     player.score += scoreResult.totalScore;
 }
 
-function getCurrentPlayer(game: DbActiveGameWithRoundsAndPlayers, currentGuessIndex: number): DbGamePlayer {
+function getPlayerWhosTurnItIs(game: DbActiveGameWithRoundsAndPlayers, currentGuessIndex: number): DbGamePlayer {
     if (game.players.length == 1) return game.players[0];
 
-    debugger;
-    const playerId = TurnTrackerAlgorithm.determineWhosTurnItIs(game.players.sort(p => p.position).map(p => p.id), game.currentRoundIndex, currentGuessIndex);
+    const sortedPlayerIds = sortDbPlayerOnPositionAndGetUserIds(game.players);
 
-    return game.players.find(p => p.id == playerId)!;
+    const playerId = TurnTrackerAlgorithm.determineWhosTurnItIs(sortedPlayerIds, game.currentRoundIndex, currentGuessIndex);
+    return game.players.find(p => p.userId == playerId)!;
 }
 
 async function updateCurrentGameState(game: DbActiveGameWithRoundsAndPlayers, currentRound: DbGameRound, validationResult: DetailedValidationResult, scoreResult: CalculateScoreResult, currentPlayer: DbGamePlayer): Promise<GuessWordResponse> {

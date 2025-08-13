@@ -7,6 +7,7 @@ import { TIME_BETWEEN_ROUNDS_MS } from '../game-constants';
 import { useMessageBar } from '@/components/layout/MessageBarContext';
 import { TurnTrackerAlgorithm } from '../util/algorithm/turn-tracker-algorithm/turn-tracker';
 import { GetLetterAnimationDurationInMs } from '../util/game-time-calculators';
+import { sortPlayerModelOnPositionAndGetUserIds } from '../util/player-sorting';
 
 type ActiveGameContextType = {  
   // Data
@@ -196,7 +197,8 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
   function determineCurrentPlayer() {
     if (!game || !currentRound) return;
     
-    const playerId = TurnTrackerAlgorithm.determineWhosTurnItIs(game.players.sort(p => p.position).map(p => p.userId), game.currentRoundIndex, currentRound.currentGuessIndex);
+    const sortedPlayerIds = sortPlayerModelOnPositionAndGetUserIds(game.players);
+    const playerId = TurnTrackerAlgorithm.determineWhosTurnItIs(sortedPlayerIds, game.currentRoundIndex, currentRound.currentGuessIndex);
     setCurrentPlayerId(playerId);
     setIsThisPlayersTurn(thisPlayersUserId == playerId);
   }
