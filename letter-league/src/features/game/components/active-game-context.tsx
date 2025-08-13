@@ -23,6 +23,7 @@ type ActiveGameContextType = {
   submitGuess: (secretKey: string) => Promise<void>;
   setCurrentGuess: (guess: string) => void;
   handleWordGuess: (response: GuessWordResponse) => void;
+  setPlayers: (p: GamePlayerModel[]) => void;
 };
 
 const ActiveGameContext = createContext<ActiveGameContextType | undefined>(undefined);
@@ -216,7 +217,8 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
         currentPlayerId,
         handleWordGuess,
         isThisPlayersTurn,
-        isAnimating
+        isAnimating,
+        setPlayers
        }}>
       {children}
     </ActiveGameContext.Provider>

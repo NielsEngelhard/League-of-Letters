@@ -2,6 +2,7 @@ import RealtimeStatusIndicator from "@/features/realtime/RealtimeStatusIndicator
 import { GamePlayerModel } from "../../game-models";
 import InGameConnectionStatusIndicator from "./InGameConnectionStatusIndicator";
 import InGamePlayerCard from "./InGamePlayerCard";
+import { useEffect } from "react";
 
 interface Props {
     players: GamePlayerModel[];
@@ -12,6 +13,11 @@ export default function InGamePlayerBar({ players, currentPlayerId }: Props) {
 
     const disconnectedPlayers: GamePlayerModel[] = players.filter(p => p.connectionStatus != "connected");
     const isSoloGame: boolean = players.length == 1;
+
+    useEffect(() => {
+        console.log("EVEN LOGGEN");
+        console.log(players);
+    }, [players]);
 
     return (
             <div className="w-full">

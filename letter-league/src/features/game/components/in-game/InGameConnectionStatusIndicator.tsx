@@ -1,5 +1,5 @@
 import { Router, Unplug } from "lucide-react";
-import { GamePlayerModel } from "../game-models";
+import { GamePlayerModel } from "../../game-models";
 
 interface Props {
     players: GamePlayerModel[];

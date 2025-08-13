@@ -9,6 +9,7 @@ import { useMessageBar } from '@/components/layout/MessageBarContext';
 import { useActiveGame } from '../game/components/active-game-context';
 import { GuessWordResponse } from '../game/actions/command/guess-word-command';
 import { useAuth } from '../auth/AuthContext';
+import { GamePlayerModel } from '../game/game-models';
 
 interface SocketContextType {
   socket: Socket | null;
@@ -17,7 +18,6 @@ interface SocketContextType {
 
   initializeConnection: () => void;
 
-  connectedPlayers: OnlineLobbyPlayerModel[];
   addPlayerOrSetReconnected: (players: OnlineLobbyPlayerModel) => void;
 
   emitJoinGame: (data: JoinGameRealtimeModel) => void;
@@ -43,8 +43,6 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
   const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>("empty");
   const [transport, setTransport] = useState('N/A');
   const socketRef = useRef<Socket | null>(null);
-
-  const [connectedPlayers, setConnectedPlayers] = useState<OnlineLobbyPlayerModel[]>([]); // TODO: refactor icm andere context
 
   const initializeConnection = () => {
     if (socketRef.current != null) {
@@ -72,7 +70,6 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
     socket.on('disconnect', () => {
       setConnectionStatus("disconnected");
       setTransport('N/A');
-      setConnectedPlayers([]);
       console.log('Disconnected from WebSocket server');
     });
 
@@ -85,9 +82,8 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
     socket.on('user-disconnected', (disconnectedUserId: string) => {
       console.log(`REALTIME: User ${disconnectedUserId} disconnected`);
 
-      setConnectedPlayers(prev => {
-        return prev.map(player => player.userId == disconnectedUserId ? {...player, connectionStatus: "disconnected"} : player);
-      });
+      const updatedPlayers: GamePlayerModel[] = activeGameContext.players.map(player => player.userId == disconnectedUserId ? {...player, connectionStatus: "disconnected"} : player);
+      activeGameContext.setPlayers(updatedPlayers);
     });    
 
     socket.on('test', () => {
@@ -138,15 +134,22 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
   };
 
   const addPlayerOrSetReconnected = (player: OnlineLobbyPlayerModel) => {
-    setConnectedPlayers(prev => {
-      const playerExists = prev.some(p => p.userId === player.userId);
+      const playerExists = activeGameContext.players.some(p => p.userId === player.userId);
 
       if (playerExists) {
-        return prev.map(player => player.userId == player.userId ? {...player, connectionStatus: "connected"} : player);
+        const updatedPlayers: GamePlayerModel[] = activeGameContext.players.map(player => player.userId == player.userId ? {...player, connectionStatus: "connected"} : player);
+        activeGameContext.setPlayers(updatedPlayers);
+        return;
       }
 
-      return [...prev, player];
-    });
+      activeGameContext.setPlayers([...activeGameContext.players, {
+        userId: player.userId,
+        username: player.username  ,     
+        connectionStatus: player.connectionStatus,
+        isHost: false,
+        position: 0,
+        score: 0,
+      }]);
   };
 
   // When the user's currentGuess changes "locally", other players should see that
@@ -163,7 +166,6 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
       socket: socketRef.current,
       connectionStatus,
       transport,
-      connectedPlayers,
       emitJoinGame,
       emitTestEvent,
       addPlayerOrSetReconnected,

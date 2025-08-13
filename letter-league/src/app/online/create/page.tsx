@@ -27,11 +27,13 @@ import { GameMode } from "@/drizzle/schema";
 import Button from "@/components/ui/Button";
 import { OptionItem } from "@/components/ui/OptionsMenu";
 import DeleteOnlineLobbyById from "@/features/lobby/actions/command/delete-online-lobby";
+import { useActiveGame } from "@/features/game/components/active-game-context";
 
 export default function CreateOnlineGamePage() {
   const router = useRouter()
   const { getOrCreateGuestAuthSession } = useAuth();
-  const { initializeConnection, emitJoinGame, connectionStatus, connectedPlayers, addPlayerOrSetReconnected } = useSocket();
+  const { initializeConnection, emitJoinGame, connectionStatus, addPlayerOrSetReconnected } = useSocket();
+  const { players } = useActiveGame();
   const { pushMessage, clearMessage } = useMessageBar();
 
   const [lobby, setLobby] = useState<OnlineLobbyModel | null>(null);
@@ -143,7 +145,7 @@ export default function CreateOnlineGamePage() {
                     onSubmit={onSubmit}
                     submitDisabled={!lobby?.id}
                     gameMode="online" 
-                    players={connectedPlayers.map((p) => ({ userId: p.userId, username: p.username }))}
+                    players={players.map((p) => ({ userId: p.userId, username: p.username }))}
                   />
                 ) : (
                   <LoadingDots />
@@ -154,14 +156,14 @@ export default function CreateOnlineGamePage() {
               <CardHeader className="pb-3 sm:pb-4 justify-between flex flex-row">
                   <CardTitle className="text-base sm:text-lg flex items-center gap-2">
                     <User className="w-4 h-4" />
-                    Players ({connectedPlayers.length})
+                    Players ({players.length})
                     <sup className="italic text-xs font-normal">max {MAX_ONLINE_GAME_PLAYERS}</sup>
                   </CardTitle>
 
                   <LoadingDots color="success" size="md" />
               </CardHeader>
               <CardContent className="space-y-2 sm:space-y-3">
-                  <PlayersList players={connectedPlayers} userHostId={lobby?.userHostId} />
+                  <PlayersList players={players} userHostId={lobby?.userHostId} />
               </CardContent>
             </Card>
         </div>

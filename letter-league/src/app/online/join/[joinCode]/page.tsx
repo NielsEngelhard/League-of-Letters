@@ -15,10 +15,12 @@ import { useEffect, useState } from "react";
 import { OnlineLobbyModel, OnlineLobbyPlayerModel } from "@/features/lobby/lobby-models";
 import LoadingSpinner from "@/components/ui/animation/LoadingSpinner";
 import LoadingDots from "@/components/ui/animation/LoadingDots";
+import { useActiveGame } from "@/features/game/components/active-game-context";
 
 export default function JoinOnlineGamePage() {
     const [lobby, setLobby] = useState<OnlineLobbyModel | null>(null);
-    const { initializeConnection, emitJoinGame, connectedPlayers, connectionStatus, addPlayerOrSetReconnected } = useSocket();
+    const { initializeConnection, emitJoinGame, connectionStatus, addPlayerOrSetReconnected } = useSocket();
+    const { players } = useActiveGame();
     const { pushMessage, clearMessage } = useMessageBar();
 
     const { getOrCreateGuestAuthSession } = useAuth();
@@ -78,7 +80,7 @@ export default function JoinOnlineGamePage() {
 
     return (
         <PageBase>
-            {connectedPlayers ? (
+            {players ? (
                 <>
                     <Card variant="success" className="animate-pulse-subtle">
                     <CardHeader>
@@ -103,7 +105,7 @@ export default function JoinOnlineGamePage() {
                         <CardHeader className="pb-3 sm:pb-4 justify-between flex flex-row">
                             <CardTitle className="text-base sm:text-lg flex items-center gap-2">
                                 <User className="w-4 h-4" />
-                                Players ({connectedPlayers.length})
+                                Players ({players.length})
                             </CardTitle>
 
                             <span className="italic text-xs">
@@ -111,7 +113,7 @@ export default function JoinOnlineGamePage() {
                             </span>
                         </CardHeader>
                         <CardContent>
-                            <PlayersList players={connectedPlayers} userHostId={lobby?.userHostId} />
+                            <PlayersList players={players} userHostId={lobby?.userHostId} />
                         </CardContent>
                     </Card>
 
