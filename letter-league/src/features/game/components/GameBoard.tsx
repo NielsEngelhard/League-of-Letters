@@ -5,6 +5,7 @@ import { useAuth } from "@/features/auth/AuthContext";
 import InGamePlayerBar from "./in-game/InGamePlayersBar";
 import GameProgressionBar from "./in-game/InGameProgressionBar";
 import LoadingSpinner from "@/components/ui/animation/LoadingSpinner";
+import SettingsCard from "@/features/settings/components/SettingsCard";
 
 interface Props {}
 
@@ -54,6 +55,9 @@ export default function GameBoard({}: Props) {
                         disabled={!isThisPlayersTurn || isAnimating}
                     />
                 </div>
+
+                {/* Settings */}
+                <SettingsCard />
             </div>
             ): (
                 <LoadingSpinner size="md" />
