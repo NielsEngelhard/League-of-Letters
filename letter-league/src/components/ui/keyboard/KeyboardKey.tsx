@@ -12,11 +12,11 @@ export const KeyboardKeyVariants = cva(
     {
         variants: {
             variant: {
-                neutral: "bg-[#F1F3F6]/85 border-gray-200 hover:bg-gray-200",
-                success: "bg-success/85 border-success hover:opacity-90 text-white",
-                warning: "bg-warning/85 border-warning hover:opacity-90 text-white",
-                primary: "bg-primary/85 border-primary hover:opacity-90 text-white",
-                error: "bg-error/85 border-error hover:opacity-90 text-white",
+                neutral: "bg-background-secondary border-gray-200 hover:bg-background-secondary/50",
+                success: "bg-success border-success hover:opacity-90 text-white",
+                warning: "bg-warning border-warning hover:opacity-90 text-white",
+                primary: "bg-primary border-primary hover:opacity-90 text-white",
+                error: "bg-error border-error hover:opacity-90 text-white",
             }
         }
     }
