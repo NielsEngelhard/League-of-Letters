@@ -7,15 +7,33 @@ import { useForm } from "react-hook-form"
 import { settingsSchema, SettingsSchema } from "../profile-schemas";
 import SwitchInput from "@/components/ui/form/SwitchInput";
 import Label from "@/components/ui/form/Label";
+import { useProfile } from "../profile-context";
+import { useEffect, useState } from "react";
+import Button from "@/components/ui/Button";
 
 export default function SettingsCard() {
+    const { settings, saveSettingsOnServer, setSettingsOnClient } = useProfile();
+    const [atLeastOneSettingChanged, setAtLeastOneSettingChanged] = useState(false);
 
     const form = useForm<SettingsSchema>({
-      resolver: zodResolver(settingsSchema)
+      resolver: zodResolver(settingsSchema),
+      defaultValues: settings
     })
 
-    function onSubmit() {
-        console.log("UPDATE SETTINGS");
+    const watchedValues = form.watch();
+
+    useEffect(() => {
+        const subscription = form.watch((value) => {
+            setSettingsOnClient(value as SettingsSchema);
+            setAtLeastOneSettingChanged(true);
+        });
+
+        return () => subscription.unsubscribe();
+    }, [form, setSettingsOnClient]);
+
+    async function onSubmit() {
+        await saveSettingsOnServer(watchedValues);
+        setAtLeastOneSettingChanged(false);
     }
 
     return (
@@ -50,7 +68,8 @@ export default function SettingsCard() {
                             options={[
                                 { value: "light", label: "light" },
                                 { value: "dark", label: "dark" },
-                                { value: "candy", label: "candy" }
+                                { value: "candy", label: "candy" },
+                                { value: "hackerman", label: "h_a_c_k_e_r" }
                             ]}
                         />                     
                     
@@ -71,6 +90,10 @@ export default function SettingsCard() {
                             />                                       
                         </div>                        
                     </div>
+
+                    <Button type="submit" className="mt-2" disable={!atLeastOneSettingChanged}>
+                        Save
+                    </Button>
                 </form>
             </CardContent>
         </Card>

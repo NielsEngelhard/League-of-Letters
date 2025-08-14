@@ -18,27 +18,62 @@
 
 /* Default/Light */
 :root {
-  --background: #FFFFFF;
-  --background-secondary: #FAFAF9;
-  --foreground: #364153;
-  --foreground-muted: #9CA3B0;
-  --primary: #155dfc;
-  --secondary: #9810fa;
-  --accent: #6dbaa1;
-  --border: #e3eaf4;
-  --error: #ff3f5d;
-  --warning: #ffc340;
-  --success: #22C55E;
+  --background: #FDFDFD;
+  --background-secondary: #F8FAFC;
+  --foreground: #1E293B;
+  --foreground-muted: #64748B;
+  --primary: #3B82F6;
+  --secondary: #6366F1;
+  --accent: #06B6D4;
+  --border: #E2E8F0;
+  --error: #EF4444;
+  --warning: #F59E0B;
+  --success: #10B981;
 }
 
 /* Dark theme */
 [data-theme="dark"] {
-
+  --background: #0F172A;
+  --background-secondary: #1E293B;
+  --foreground: #F1F5F9;
+  --foreground-muted: #94A3B8;
+  --primary: #60A5FA;
+  --secondary: #818CF8;
+  --accent: #22D3EE;
+  --border: #334155;
+  --error: #F87171;
+  --warning: #FBBF24;
+  --success: #34D399;
 }
 
 /* Candy theme */
 [data-theme="candy"] {
+  --background: #FEF7FF;
+  --background-secondary: #FAF5FF;
+  --foreground: #581C87;
+  --foreground-muted: #A855F7;
+  --primary: #EC4899;
+  --secondary: #8B5CF6;
+  --accent: #06B6D4;
+  --border: #E879F9;
+  --error: #F43F5E;
+  --warning: #FB923C;
+  --success: #22C55E;
+}
 
+/* Hackerman theme */
+[data-theme="hackerman"] {
+  --background: #0A0E0A;
+  --background-secondary: #0F1B0F;
+  --foreground: #00FF41;
+  --foreground-muted: #4AFF69;
+  --primary: #00FFFF;
+  --secondary: #39FF14;
+  --accent: #FF073A;
+  --border: #1A4D1A;
+  --error: #FF0040;
+  --warning: #FFFF00;
+  --success: #00FF00;
 }
 
 body {

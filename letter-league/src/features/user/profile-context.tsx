@@ -3,10 +3,17 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { SettingsSchema } from './profile-schemas';
 
+const DEFAULT_SETTINGS: SettingsSchema = {
+  keyboardInput: "on-screen-keyboard",
+  playBackgroundMusic: true,
+  playSoundEffects: true,
+  theme: "light"
+}
+
 interface ProfileContextType {
-  settings: SettingsSchema | null;
+  settings: SettingsSchema;
   setSettingsOnClient: (s: SettingsSchema) => void;
-  saveSettingsOnServer: (s: SettingsSchema) => void;
+  saveSettingsOnServer: (s: SettingsSchema) => Promise<void>;
 }
 
 const ProfileContext = createContext<ProfileContextType | undefined>(undefined);
@@ -18,19 +25,22 @@ interface ProfileProviderProps {
 export const ProfileProvider: React.FC<ProfileProviderProps> = ({ 
   children 
 }) => {
-  const [settings, setSettings] = useState<SettingsSchema | null>(null);
+  const [settings, setSettings] = useState<SettingsSchema>(DEFAULT_SETTINGS);
 
   function setSettingsOnClient(s: SettingsSchema) {
     setSettings(s);
   }
 
-  function saveSettingsOnServer(s: SettingsSchema) {
-    setSettings(s);
+  async function saveSettingsOnServer(s: SettingsSchema) {
+    console.log("save on server TODO");
   }
 
   useEffect(() => {
+    if (!settings?.theme) return;
     console.log("THEME HAS BEEN CHANGED");
-  }, [settings?.theme]);
+    const root = window.document.documentElement
+    root.setAttribute('data-theme', settings.theme)    
+  }, [settings.theme]);
 
   return (
     <ProfileContext.Provider value={{
