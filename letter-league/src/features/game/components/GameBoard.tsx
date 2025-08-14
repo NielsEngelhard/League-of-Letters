@@ -6,6 +6,7 @@ import InGamePlayerBar from "./in-game/InGamePlayersBar";
 import GameProgressionBar from "./in-game/InGameProgressionBar";
 import LoadingSpinner from "@/components/ui/animation/LoadingSpinner";
 import SettingsCard from "@/features/user/components/SettingsCard";
+import { useEffect } from "react";
 
 interface Props {}
 
@@ -19,6 +20,14 @@ export default function GameBoard({}: Props) {
                 setCurrentGuess("");
             });
     }
+
+    function onChangeInput (i: string) {
+        setCurrentGuess(i);
+    }
+
+    useEffect(() => {
+        console.log("Current guess changed to " + currentGuess);
+    }, [currentGuess]);
 
     return (
         <>
@@ -38,7 +47,7 @@ export default function GameBoard({}: Props) {
                 {/* Game Grid */}
                 <div className="w-full flex justify-center">
                     <LetterRowGrid
-                        currentGuess={currentGuess ?? ""}
+                        currentGuess={currentGuess}
                         maxNGuesses={game.nGuessesPerRound}
                         preFilledRows={currentRound?.guesses ?? []}
                         wordLength={game.wordLength}
@@ -49,9 +58,9 @@ export default function GameBoard({}: Props) {
                 <div className="w-full max-w-md">
                     {!theWord ? (
                         <ActiveGameWordInput
-                            currentGuess={currentGuess ?? ""}
+                            currentGuess={currentGuess}
                             wordLength={game.wordLength}
-                            onChange={setCurrentGuess}
+                            onChange={onChangeInput}
                             onEnter={onSubmitGuess}
                             disabled={!isThisPlayersTurn || isAnimating}
                         />

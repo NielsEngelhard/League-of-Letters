@@ -32,7 +32,7 @@ export default function WordInput({ currentGuess, onEnter, onChange, wordLength,
         onChange(currentGuess.slice(0, -1));
     }
 
-    function onKeyboardEvent(event: KeyboardEvent) {
+    function onKeyboardLog(event: KeyboardEvent) {
         if (event.key == 'Backspace') {
             onKeyDelete();
             return;
@@ -43,7 +43,9 @@ export default function WordInput({ currentGuess, onEnter, onChange, wordLength,
             return;
         }
 
-        onKeyPress(event.key);
+        if (event.key.length == 1) {
+            onKeyPress(event.key);
+        }
     }
 
     if (disabled) {
@@ -76,7 +78,7 @@ export default function WordInput({ currentGuess, onEnter, onChange, wordLength,
             <div className="p-4 text-foreground/80 bg-background-secondary rounded border-2 border-dashed border-border font-semibold text-center">
                 Type with your keyboard
             </div>            
-            <InvisibleKeyLogger onKeyboardEvent={onKeyboardEvent} />
+            <InvisibleKeyLogger onKeyboardEvent={onKeyboardLog} />
         </div>            
         )
     } else {

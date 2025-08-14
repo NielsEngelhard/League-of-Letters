@@ -13,7 +13,7 @@ type ActiveGameContextType = {
   // Data
   game: ActiveGameModel | undefined;  
   players: GamePlayerModel[];
-  currentGuess: string | undefined;
+  currentGuess: string;
   currentRound: GameRoundModel | undefined;
   currentPlayerId: string;
   isThisPlayersTurn: boolean;
@@ -40,7 +40,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
   const [currentRound, setCurrentRound] = useState<GameRoundModel | undefined>(undefined);
   const [players, setPlayers] = useState<GamePlayerModel[]>([]);
   const [theWord, setTheWord] = useState<string | undefined>(undefined);
-  const [currentGuess, setCurrentGuess] = useState<string | undefined>(undefined);
+  const [currentGuess, setCurrentGuess] = useState<string>("");
   const [currentPlayerId, setCurrentPlayerId] = useState<string>("");
   const [isThisPlayersTurn, setIsThisPlayersTurn] = useState<boolean>(false);
   const [thisPlayersUserId, setThisPlayersUserId] = useState<string | undefined>(undefined);
@@ -59,7 +59,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
   function clearGameState() {
     setGame(undefined);
     setCurrentRound(undefined);
-    setCurrentGuess(undefined);
+    setCurrentGuess("");
     setPlayers([]); 
   }  
 
@@ -82,7 +82,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
   }
 
   function handleWordGuess(response: GuessWordResponse) {    
-    setCurrentGuess(undefined);
+    setCurrentGuess("");
 
     addGuessToCurrentRound(response);
 
