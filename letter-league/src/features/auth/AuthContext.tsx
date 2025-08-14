@@ -6,7 +6,7 @@ import CreateAuthSession from './actions/command/create-auth-session';
 
 const AUTH_SESSION_LOCALSTORAGE_KEY: string = "auth-session";
 
-type AuthContextType = {  
+type AuthContextType = {
   authSession: AuthSessionModel | null;
   getOrCreateGuestAuthSession: () => Promise<AuthSessionModel>;
   getAuthSession: () => AuthSessionModel | null;

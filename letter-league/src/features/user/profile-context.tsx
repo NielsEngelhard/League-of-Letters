@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { SettingsSchema } from './profile-schemas';
+import { useAuth } from '../auth/AuthContext';
 
 const DEFAULT_SETTINGS: SettingsSchema = {
   keyboardInput: "on-screen-keyboard",
@@ -25,6 +26,7 @@ interface ProfileProviderProps {
 export const ProfileProvider: React.FC<ProfileProviderProps> = ({ 
   children 
 }) => {
+  const authContext = useAuth();
   const [settings, setSettings] = useState<SettingsSchema>(DEFAULT_SETTINGS);
 
   function setSettingsOnClient(s: SettingsSchema) {

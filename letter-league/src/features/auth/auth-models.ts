@@ -3,4 +3,5 @@ export interface AuthSessionModel {
     username: string;
     secretKey: string;
     createdAt: Date;
+    isGuestSession: boolean;//TODO: HIERVERDERZO
 }
