@@ -2,7 +2,7 @@ import LoadingDots from "@/components/ui/animation/LoadingDots";
 import Button from "@/components/ui/Button";
 import TextInput from "@/components/ui/form/TextInput";
 import CustomKeyboard from "@/components/ui/keyboard/CustomKeyboard";
-import KeyboardColorExplanation from "@/components/ui/keyboard/KeyboardColorExplanation";
+import InvisibleKeyLogger from "@/components/ui/keyboard/InvisibleKeyLogger";
 import { useProfile } from "@/features/user/profile-context";
 
 interface Props {
@@ -17,7 +17,6 @@ export default function WordInput({ currentGuess, onEnter, onChange, wordLength,
     const { settings } = useProfile();
 
     function onInputChange(event: React.ChangeEvent<HTMLInputElement>) {
-        debugger;
         onChange(event.target.value);
     }
 
@@ -31,7 +30,21 @@ export default function WordInput({ currentGuess, onEnter, onChange, wordLength,
         if (currentGuess.length == 0) return;
 
         onChange(currentGuess.slice(0, -1));
-    }    
+    }
+
+    function onKeyboardEvent(event: KeyboardEvent) {
+        if (event.key == 'Backspace') {
+            onKeyDelete();
+            return;
+        }
+
+        if (event.key == 'Enter') {
+            onEnter();
+            return;
+        }
+
+        onKeyPress(event.key);
+    }
 
     if (disabled) {
         return (
@@ -60,7 +73,10 @@ export default function WordInput({ currentGuess, onEnter, onChange, wordLength,
     } else if (settings.keyboardInput == "keystroke") {
         return (
         <div>
-            keystrokess
+            <div className="p-4 text-foreground/80 bg-background-secondary rounded border-2 border-dashed border-border font-semibold text-center">
+                Type with your keyboard
+            </div>            
+            <InvisibleKeyLogger onKeyboardEvent={onKeyboardEvent} />
         </div>            
         )
     } else {
