@@ -14,15 +14,15 @@ type Props = {
 export function Providers({ children }: Props) {
   return (
     <MessageBarProvider>
-      <ProfileProvider>
-        <AuthProvider>
+      <AuthProvider>
+        <ProfileProvider>
           <ActiveGameProvider>
             <SocketProvider>
                 {children}
             </SocketProvider>              
           </ActiveGameProvider>
-        </AuthProvider>        
-      </ProfileProvider>
+        </ProfileProvider>
+      </AuthProvider>        
     </MessageBarProvider>
   );
 }

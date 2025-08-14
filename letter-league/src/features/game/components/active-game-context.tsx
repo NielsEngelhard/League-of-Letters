@@ -18,6 +18,7 @@ type ActiveGameContextType = {
   currentPlayerId: string;
   isThisPlayersTurn: boolean;
   isAnimating: boolean;
+  theWord?: string;
 
   // Actions
   initializeGameState: (_game: ActiveGameModel, _thisPlayersUserId: string) => void;
@@ -249,7 +250,8 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
         clearGameState,
         addOrReconnectPlayer,
         disconnectPlayer,
-        removePlayer
+        removePlayer,
+        theWord
        }}>
       {children}
     </ActiveGameContext.Provider>

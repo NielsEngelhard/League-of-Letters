@@ -10,7 +10,7 @@ import SettingsCard from "@/features/user/components/SettingsCard";
 interface Props {}
 
 export default function GameBoard({}: Props) {
-    const { game, players, setCurrentGuess, submitGuess, currentGuess, currentRound, isThisPlayersTurn, isAnimating, currentPlayerId } = useActiveGame();
+    const { game, players, setCurrentGuess, submitGuess, currentGuess, currentRound, isThisPlayersTurn, isAnimating, theWord, currentPlayerId } = useActiveGame();
     const { authSession } = useAuth();
 
     async function onSubmitGuess() {
@@ -45,15 +45,22 @@ export default function GameBoard({}: Props) {
                     />
                 </div>
 
-                {/* Word Input */}
+                {/* Word Input OR The Word */}
                 <div className="w-full max-w-md">
-                    <ActiveGameWordInput
-                        currentGuess={currentGuess ?? ""}
-                        wordLength={game.wordLength}
-                        onChange={setCurrentGuess}
-                        onEnter={onSubmitGuess}
-                        disabled={!isThisPlayersTurn || isAnimating}
-                    />
+                    {!theWord ? (
+                        <ActiveGameWordInput
+                            currentGuess={currentGuess ?? ""}
+                            wordLength={game.wordLength}
+                            onChange={setCurrentGuess}
+                            onEnter={onSubmitGuess}
+                            disabled={!isThisPlayersTurn || isAnimating}
+                        />
+                    ) : (
+                        <div className="w-full flex flex-col items-center">
+                            <span className="text-sm text-foreground-muted">The word was:</span>
+                            <span className="text-4xl text-primary font-bold">{theWord}</span>
+                        </div>
+                    )}
                 </div>
 
                 {/* Settings */}

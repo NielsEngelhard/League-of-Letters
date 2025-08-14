@@ -11,7 +11,7 @@ export default function HomePage() {
     <PageBase>
       <PageIntro
         title="Letter-League"
-        subText="A modern twist on the classic word game"
+        subText="A cheeky game of wordplay"
         titleColor="gradient"
         titleSize="lg">
       </PageIntro>
@@ -28,7 +28,7 @@ export default function HomePage() {
         
         <GameModeCard
           title="Multiplayer"
-          subTxt="Challenge other people and fight out who's the smartest" // TODO: different texts every x seconds
+          subTxt="Prove you’re the sharpest mind in the room" 
           btnTxt="Play Online"
           href={MULTIPLAYER_GAME_ROUTE}
           Icon={Users}

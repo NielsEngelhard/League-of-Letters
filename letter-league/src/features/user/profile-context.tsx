@@ -3,6 +3,9 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { SettingsSchema } from './profile-schemas';
 import { useAuth } from '../auth/AuthContext';
+import { ThemeOption } from './profile-models';
+
+const SETTINGS_LOCAL_STORAGE_KEY = "SETTINGS";
 
 const DEFAULT_SETTINGS: SettingsSchema = {
   keyboardInput: "on-screen-keyboard",
@@ -29,19 +32,52 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({
   const authContext = useAuth();
   const [settings, setSettings] = useState<SettingsSchema>(DEFAULT_SETTINGS);
 
+  // Initial setup
+  useEffect(() => {
+    const intitialSettings = getLocalSettingsOrDefault();
+    setSettings(intitialSettings);
+  }, []);
+
+  function getLocalSettingsOrDefault(): SettingsSchema {
+    try {
+      const storedSettings = localStorage.getItem(SETTINGS_LOCAL_STORAGE_KEY);
+      if (!storedSettings) return DEFAULT_SETTINGS;
+
+      const parsedSettings = JSON.parse(storedSettings);
+      setSettings(parsedSettings);
+
+      return parsedSettings;      
+    } catch {
+      return DEFAULT_SETTINGS;
+    }    
+  }
+
+  function trySetSettingsInLocalStorage(s: SettingsSchema) {
+    try {
+      const jsonString = JSON.stringify(s);
+      localStorage.setItem(SETTINGS_LOCAL_STORAGE_KEY, jsonString);  
+    } catch(err) {
+      console.log("Could not set settings in local storage " + err);
+    }
+  }
+
   function setSettingsOnClient(s: SettingsSchema) {
     setSettings(s);
+    trySetSettingsInLocalStorage(s);
   }
 
   async function saveSettingsOnServer(s: SettingsSchema) {
     console.log("save on server TODO");
   }
 
+  function setThemeInRoot(theme: ThemeOption) {
+    const root = window.document.documentElement
+    root.setAttribute('data-theme', theme)   
+  }
+
   useEffect(() => {
     if (!settings?.theme) return;
-    console.log("THEME HAS BEEN CHANGED");
-    const root = window.document.documentElement
-    root.setAttribute('data-theme', settings.theme)    
+    setThemeInRoot(settings.theme);
   }, [settings.theme]);
 
   return (

@@ -1,5 +1,6 @@
 import { Delete, Send } from "lucide-react";
 import KeyboardKey from "./KeyboardKey";
+import KeyboardColorExplanation from "./KeyboardColorExplanation";
 
 const keyboardRows = [
     ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
@@ -26,6 +27,7 @@ export default function CustomKeyboard({ correctKeys, warningKeys, errorKeys, on
     }
 
     return (
+    <>
         <div className="flex flex-col gap-1.5 lg:gap-2.5 items-center w-full">
             {keyboardRows.map((keyboardRow, rowIndex) => (
                 <div className="flex flex-row gap-1.5 lg:gap-2.5" key={`kb-row-${rowIndex}`}>
@@ -69,5 +71,7 @@ export default function CustomKeyboard({ correctKeys, warningKeys, errorKeys, on
                 </div>
             ))}
         </div>
+        <KeyboardColorExplanation />
+    </>
     )
 }
