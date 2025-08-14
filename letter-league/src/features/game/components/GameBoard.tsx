@@ -5,7 +5,7 @@ import { useAuth } from "@/features/auth/AuthContext";
 import InGamePlayerBar from "./in-game/InGamePlayersBar";
 import GameProgressionBar from "./in-game/InGameProgressionBar";
 import LoadingSpinner from "@/components/ui/animation/LoadingSpinner";
-import SettingsCard from "@/features/settings/components/SettingsCard";
+import SettingsCard from "@/features/user/components/SettingsCard";
 
 interface Props {}
 
