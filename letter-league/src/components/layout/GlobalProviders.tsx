@@ -4,7 +4,7 @@ import { AuthProvider } from "@/features/auth/AuthContext";
 import { SocketProvider } from "@/features/realtime/socket-context";
 import { MessageBarProvider } from "./MessageBarContext";
 import { ActiveGameProvider } from "@/features/game/components/active-game-context";
-import { AccountProvider } from "@/features/user/account-context";
+import { AccountProvider } from "@/features/account/account-context";
 
 type Props = {
     children: React.ReactNode;

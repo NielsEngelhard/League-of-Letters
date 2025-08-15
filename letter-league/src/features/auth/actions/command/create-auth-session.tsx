@@ -5,7 +5,7 @@ import { AuthSessionTable } from "@/drizzle/schema"
 import { AuthMapper } from "../../auth-mapper";
 import { AuthSessionModel } from "../../auth-models";
 import { generateUUID } from "@/lib/token-generation";
-import GenerateRandomUsername from "@/features/user/actions/command/generate-random-username";
+import GenerateRandomUsername from "@/features/account/actions/command/generate-random-username";
 
 export default async function CreateAuthSession(): Promise<AuthSessionModel> {
     const secretKey = generateUUID();

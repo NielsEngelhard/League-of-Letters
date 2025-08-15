@@ -3,7 +3,7 @@ import Button from "@/components/ui/Button";
 import TextInput from "@/components/ui/form/TextInput";
 import CustomKeyboard from "@/components/ui/keyboard/CustomKeyboard";
 import InvisibleKeyLogger from "@/components/ui/keyboard/InvisibleKeyLogger";
-import { useAccount } from "@/features/user/account-context";
+import { useAccount } from "@/features/account/account-context";
 import { useEffect } from "react";
 
 interface Props {
