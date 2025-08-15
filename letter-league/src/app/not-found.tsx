@@ -7,7 +7,7 @@ import Button from '@/components/ui/Button';
 
 export default function NotFound() {
   return (
-    <PageBase>
+    <PageBase requiresAuh={false}>
       <div className="text-center space-y-8 flex flex-col items-center justify-center w-full">
         {/* 404 Number */}
         <div className="relative">

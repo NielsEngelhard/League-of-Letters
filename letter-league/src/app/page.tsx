@@ -8,7 +8,7 @@ import { MULTIPLAYER_GAME_ROUTE, SOLO_GAME_ROUTE } from "./routes";
 
 export default function HomePage() {
   return (
-    <PageBase>
+    <PageBase requiresAuh={false}>
       <PageIntro
         title="Letter-League"
         subText="A cheeky game of wordplay"
