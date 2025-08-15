@@ -1,10 +1,10 @@
-import { boolean, pgTable, text } from "drizzle-orm/pg-core";
+import { boolean, pgTable, text, uuid } from "drizzle-orm/pg-core";
 import { InferSelectModel, relations } from "drizzle-orm";
 import { themeEnum, wordInputEnum } from "./enum/settings-enum";
 import { AccountTable } from "./account";
 
 export const AccountSettingsTable = pgTable("account_settings", {
-    accountId: text().primaryKey().references(() => AccountTable.id, { onDelete: "cascade" }),
+    accountId: uuid().primaryKey().references(() => AccountTable.id, { onDelete: "cascade" }),
     wordInput: wordInputEnum().notNull(),
     theme: themeEnum().notNull(),
     enableSoundEffects: boolean().notNull().default(true),

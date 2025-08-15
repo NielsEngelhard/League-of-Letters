@@ -1,5 +1,5 @@
 {
-  "id": "301736a1-f748-4fa2-b313-1ad5ac612d2a",
+  "id": "157ab446-4114-46db-b10d-f459314b6516",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -27,6 +27,109 @@
           "primaryKey": false,
           "notNull": true
         },
+        "isGuestSession": {
+          "name": "isGuestSession",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "accountId": {
+          "name": "accountId",
+          "type": "uuid",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "timestamp with time zone",
+          "primaryKey": false,
+          "notNull": true,
+          "default": "now()"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "auth_session_accountId_account_id_fk": {
+          "name": "auth_session_accountId_account_id_fk",
+          "tableFrom": "auth_session",
+          "tableTo": "account",
+          "columnsFrom": [
+            "accountId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.account": {
+      "name": "account",
+      "schema": "",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true,
+          "default": "gen_random_uuid()"
+        },
+        "username": {
+          "name": "username",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "email": {
+          "name": "email",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "password": {
+          "name": "password",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "salt": {
+          "name": "salt",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "favouriteWord": {
+          "name": "favouriteWord",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
+        },
+        "nGamesPlayed": {
+          "name": "nGamesPlayed",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "highestScoreAchieved": {
+          "name": "highestScoreAchieved",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 0
+        },
+        "colorHex": {
+          "name": "colorHex",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true
+        },
         "createdAt": {
           "name": "createdAt",
           "type": "timestamp with time zone",
@@ -37,6 +140,67 @@
       },
       "indexes": {},
       "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.account_settings": {
+      "name": "account_settings",
+      "schema": "",
+      "columns": {
+        "accountId": {
+          "name": "accountId",
+          "type": "uuid",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "wordInput": {
+          "name": "wordInput",
+          "type": "word_input_setting",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "theme": {
+          "name": "theme",
+          "type": "theme_setting",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
+        },
+        "enableSoundEffects": {
+          "name": "enableSoundEffects",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        },
+        "enableBackgroundMusic": {
+          "name": "enableBackgroundMusic",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "account_settings_accountId_account_id_fk": {
+          "name": "account_settings_accountId_account_id_fk",
+          "tableFrom": "account_settings",
+          "tableTo": "account",
+          "columnsFrom": [
+            "accountId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "policies": {},
@@ -152,9 +316,38 @@
           "primaryKey": false,
           "notNull": true,
           "default": 0
+        },
+        "position": {
+          "name": "position",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "default": 1
         }
       },
-      "indexes": {},
+      "indexes": {
+        "game_player_gameId_position_unique": {
+          "name": "game_player_gameId_position_unique",
+          "columns": [
+            {
+              "expression": "gameId",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            },
+            {
+              "expression": "position",
+              "isExpression": false,
+              "asc": true,
+              "nulls": "last"
+            }
+          ],
+          "isUnique": true,
+          "concurrently": false,
+          "method": "btree",
+          "with": {}
+        }
+      },
       "foreignKeys": {
         "game_player_userId_auth_session_id_fk": {
           "name": "game_player_userId_auth_session_id_fk",
@@ -450,6 +643,25 @@
         "connected",
         "disconnected",
         "error"
+      ]
+    },
+    "public.theme_setting": {
+      "name": "theme_setting",
+      "schema": "public",
+      "values": [
+        "light",
+        "dark",
+        "candy",
+        "hackerman"
+      ]
+    },
+    "public.word_input_setting": {
+      "name": "word_input_setting",
+      "schema": "public",
+      "values": [
+        "on-screen-keyboard",
+        "html-input",
+        "keystroke"
       ]
     }
   },
