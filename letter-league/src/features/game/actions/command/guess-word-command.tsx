@@ -5,7 +5,6 @@ import { CalculateScoreResult } from "@/features/score/score-models";
 import { EvaluatedLetter, EvaluatedWord } from "@/features/word/word-models";
 import { RoundTransitionData } from "../../game-models";
 import { GamePlayerTable, GameRoundTable, ActiveGameTable, DbActiveGame, DbGamePlayer, DbGameRound, DbActiveGameWithRoundsAndPlayers, GameMode } from "@/drizzle/schema";
-import GetAuthSessionBySecreyKeyRequest from "@/features/auth/actions/request/get-auth-session-by-secret-key";
 import { DetailedValidationResult, WordValidator } from "@/features/word/util/word-validator/word-validator";
 import DeleteGameByIdCommand from "./delete-game-by-id-command";
 import { and, eq } from "drizzle-orm";
@@ -14,11 +13,11 @@ import { ServerResponse, ServerResponseFactory } from "@/lib/response-handling/r
 import { EmitGuessWordRealtimeEvent } from "@/features/realtime/realtime-api-adapter";
 import { ScoreCalculator } from "@/features/score/score-calculator/score-calculator";
 import { sortDbPlayerOnPositionAndGetUserIds } from "../../util/player-sorting";
+import { getCurrentUserOrCrash } from "@/features/auth/current-user";
 
 export interface GuessWordCommandInput {
     gameId: string;
     word: string;
-    secretKey: string;
 }
 
 export interface GuessWordResponse {
@@ -37,7 +36,7 @@ export async function GuessWordCommand(command: GuessWordCommandInput): Promise<
 
     let currentPlayer = getPlayerWhosTurnItIs(game, currentRound.currentGuessIndex);
 
-    const isThisPlayersTurn = await isPlayersTurn(command.secretKey, currentPlayer);
+    const isThisPlayersTurn = await isPlayersTurn(currentPlayer);
     if (!isThisPlayersTurn) {
         return ServerResponseFactory.error("Not your turn!");
     }
@@ -143,10 +142,10 @@ async function getGame(gameId: string): Promise<DbActiveGameWithRoundsAndPlayers
     return game as unknown as DbActiveGameWithRoundsAndPlayers;
 }
 
-async function isPlayersTurn(secretKey: string, currentPlayer: DbGamePlayer): Promise<boolean> {
-    const authSession = await GetAuthSessionBySecreyKeyRequest(secretKey);
+async function isPlayersTurn(currentPlayer: DbGamePlayer): Promise<boolean> {
+    const currentUser = await getCurrentUserOrCrash();
     
-    return authSession?.id == currentPlayer.userId;
+    return currentUser.accountId == currentPlayer.userId;
 }
 
 async function updateGameRoundWithCurrentGuess(currentRound: DbGameRound, validationResult: DetailedValidationResult) {

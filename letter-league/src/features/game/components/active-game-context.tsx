@@ -22,7 +22,7 @@ type ActiveGameContextType = {
 
   // Actions
   initializeGameState: (_game: ActiveGameModel, _thisPlayersUserId: string) => void;
-  submitGuess: (secretKey: string) => Promise<void>;
+  submitGuess: () => Promise<void>;
   setCurrentGuess: (guess: string) => void;
   handleWordGuess: (response: GuessWordResponse) => void;
   clearGameState: () => void;
@@ -63,13 +63,12 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     setPlayers([]); 
   }  
 
-  async function submitGuess(secretKey: string): Promise<void> {
+  async function submitGuess(): Promise<void> {
     if (!game || !currentRound) return;
     if (currentGuess?.length != game.wordLength) throw Error("GUESS LENGTH DOES NOT MATCH");
 
     const serverResponse = await GuessWordCommand({
         gameId: game.id,
-        secretKey: secretKey,
         word: currentGuess
     });
 

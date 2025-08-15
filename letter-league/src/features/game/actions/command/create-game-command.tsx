@@ -4,22 +4,20 @@ import GetWordsCommand from "@/features/word/actions/command/get-words-command";
 import { CreateGameSchema } from "../../game-schemas";
 import { generateGameId } from "../../util/game-id-generator";
 import { db } from "@/drizzle/db";
-import { GamePlayerTable, GameRoundTable, ActiveGameTable, GameMode, DbAuthSession, DbGamePlayer } from "@/drizzle/schema";
+import { GamePlayerTable, GameRoundTable, ActiveGameTable, DbGamePlayer } from "@/drizzle/schema";
 import { GameRoundFactory } from "../../util/factories/game-round-factory";
 import { GamePlayerFactory } from "../../util/factories/game-player-factory";
-import GetAuthSessionBySecreyKeyRequest from "@/features/auth/actions/request/get-auth-session-by-secret-key";
 import { DbOrTransaction } from "@/drizzle/util/transaction-util";
+import { CurrentUserData, getCurrentUserOrCrash } from "@/features/auth/current-user";
 
 
-export default async function CreateGameCommand(schema: CreateGameSchema, secretKey: string, gameId?: string, transaction?: DbOrTransaction): Promise<string> {
+export default async function CreateGameCommand(schema: CreateGameSchema, gameId?: string, transaction?: DbOrTransaction): Promise<string> {
     const dbInstance = transaction || db;
     
-    // TODO: refactor to use e.g. cookie for security
-    const authSession = await GetAuthSessionBySecreyKeyRequest(secretKey);
-    if (!authSession) throw Error("Could not authenticate user by secretkey");
+    const currentUser = await getCurrentUserOrCrash();
 
     if (schema.gameMode == "solo") {
-        AddCallerAsOnlyPlayer(schema, authSession);
+        AddCallerAsOnlyPlayer(schema, currentUser);
     }
 
     const words = await GetWordsCommand(schema.wordLength, schema.totalRounds, "nl");
@@ -56,11 +54,11 @@ function createPlayers(schema: CreateGameSchema, gameId: string): DbGamePlayer[]
     );
 }
 
-function AddCallerAsOnlyPlayer(schema: CreateGameSchema, authSession: DbAuthSession,) {
+function AddCallerAsOnlyPlayer(schema: CreateGameSchema, currentUser: CurrentUserData) {
     schema.players = [
         {
-            userId: authSession.id,
-            username: authSession.username
+            userId: currentUser.accountId,
+            username: currentUser.username
         }
     ];
 }

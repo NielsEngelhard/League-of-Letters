@@ -1,16 +1,17 @@
-import { DbAuthSession, DbGamePlayer, DbOnlineLobbyPlayer, DbOnlineLobbyWithPlayers } from "@/drizzle/schema"
+import { DbOnlineLobbyPlayer, DbOnlineLobbyWithPlayers } from "@/drizzle/schema"
 import { ConnectionStatus } from "../realtime/realtime-models"
 import { OnlineLobbyModel } from "./lobby-models"
 import { GamePlayerModel } from "../game/game-models"
+import { CurrentUserData } from "../auth/current-user"
 
 export class OnlineLobbyMapper {
-    static AuthSessionToLobbyPlayer(authSession: DbAuthSession, lobbyId: string, connectionStatus: ConnectionStatus = "connected"): DbOnlineLobbyPlayer {
+    static AuthSessionToLobbyPlayer(currentUser: CurrentUserData, lobbyId: string, connectionStatus: ConnectionStatus = "connected"): DbOnlineLobbyPlayer {
         return {
             id: undefined!,
-            userId: authSession.id,
+            userId: currentUser.accountId,
             lobbyId: lobbyId,
             connectionStatus: connectionStatus,
-            username: authSession.username,
+            username: currentUser.username,
             createdAt: undefined!
         }
     }

@@ -6,6 +6,7 @@ import { loginSchema } from '../account/account-schemas';
 import { z } from 'zod';
 import LoginCommand from './actions/command/login-command';
 import { PublicAccountModel } from '../account/account-models';
+import { LogoutCommand } from './actions/command/logout-command';
 
 const ACCOUNT_LOCALSTORAGE_KEY: string = "account";
 
@@ -73,8 +74,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   //   return userFromLocalStorage;
   // }
 
-  const logout = (): void => {
+  const logout = async (): Promise<void> => {
     try {
+      await LogoutCommand();
       localStorage.clear();
     } finally {
       setAuthSession(null);
@@ -82,7 +84,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   const login = async (data: z.infer<typeof loginSchema>): Promise<string | undefined> => {
-    debugger;
     var loginResponse = await LoginCommand(data);
     if (!loginResponse.ok) return loginResponse.errorMsg;
 

@@ -7,20 +7,16 @@ import SubText from "@/components/ui/text/SubText";
 import { PICK_GAME_MODE_ROUTE, PLAY_GAME_ROUTE } from "../routes";
 import CreateGameForm from "@/features/game/components/form/CreateGameForm";
 import { CreateGameSchema } from "@/features/game/game-schemas";
-import { useAuth } from "@/features/auth/AuthContext";
 import CreateGameCommand from "@/features/game/actions/command/create-game-command";
 import { useRouter } from 'next/navigation'
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card/card-children";
-import { GameMode } from "@/drizzle/schema";
 import LoginModal from "@/features/account/components/LoginModal";
 
 export default function SoloPage() {
   const router = useRouter()
-  const { getOrCreateGuestAuthSession } = useAuth();
 
     async function onSubmit(data: CreateGameSchema) {
-      const session = await getOrCreateGuestAuthSession();
-      CreateGameCommand(data, session.secretKey)
+      CreateGameCommand(data)
       .then((gameId) => {
         router.push(PLAY_GAME_ROUTE(gameId));
       });

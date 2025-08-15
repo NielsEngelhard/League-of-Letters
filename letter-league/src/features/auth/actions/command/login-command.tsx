@@ -9,8 +9,7 @@ import { comparePasswords } from "@/features/auth/password-hasher";
 import { ServerResponse, ServerResponseFactory } from "@/lib/response-handling/response-factory";
 import { PublicAccountModel } from "../../../account/account-models";
 import { AccountMapper } from "../../../account/account-mapper";
-import CreateAuthSession from "./create-auth-session";
-import { cookies } from "next/headers";
+import { JWTService } from "../../jwt-service";
 
 export default async function LoginCommand(unsafeData: z.infer<typeof loginSchema>): Promise<ServerResponse<PublicAccountModel>> {
     const { success, data } = loginSchema.safeParse(unsafeData);
@@ -28,9 +27,12 @@ export default async function LoginCommand(unsafeData: z.infer<typeof loginSchem
 
     if (!isCorrectPassword) ServerResponseFactory.error("Could not login");
 
-       await CreateAuthSession({
-            forAccountId: account.id
-        }, await cookies());
+    await JWTService.setAuthCookie({
+      accountId: account.id,
+      email: account.email,
+      username: account.username,
+      isGuest: false
+    });
 
     return ServerResponseFactory.success(AccountMapper.DbAccountToPublicModel(account));
 }
