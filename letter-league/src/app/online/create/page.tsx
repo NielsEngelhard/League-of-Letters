@@ -9,7 +9,7 @@ import { CreateGameSchema } from "@/features/game/game-schemas";
 import { useAuth } from "@/features/auth/AuthContext";
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from "react";
-import { MULTIPLAYER_GAME_ROUTE } from "@/app/routes";
+import { JOIN_GAME_ROUTE, MULTIPLAYER_GAME_ROUTE } from "@/app/routes";
 import { useSocket } from "@/features/realtime/socket-context";
 import { splitStringInMiddle } from "@/lib/string-util";
 import PlayersList from "@/features/lobby/components/OnlineLobbyPlayerList";
@@ -27,6 +27,7 @@ import { OptionItem } from "@/components/ui/OptionsMenu";
 import DeleteOnlineLobbyById from "@/features/lobby/actions/command/delete-online-lobby";
 import { useActiveGame } from "@/features/game/components/active-game-context";
 import { GamePlayerModel } from "@/features/game/game-models";
+import CopyTextBlock from "@/components/ui/CopyTextBlock";
 
 export default function CreateOnlineGamePage() {
   const { initializeConnection, emitJoinGame, connectionStatus } = useSocket();
@@ -114,14 +115,20 @@ export default function CreateOnlineGamePage() {
       <PageIntro title="Create Online Game" subText="Join Code:" backHref={MULTIPLAYER_GAME_ROUTE} options={lobbyOptions}>
         <div className="text-3xl font-bold">
           {lobby ? (
-            <button className="flex flex-row cursor-pointer" onClick={copyJoinCodeToClipboard}>
-              {splitStringInMiddle(lobby.id ?? "")}
-              {copiedGameId ? (
-                <div className="text-success"><Icon LucideIcon={Check} size="xs" /></div>
-              ) : (
-                <Icon LucideIcon={Copy} size="xs" />
-              )}
-            </button>
+            <div className="flex flex-col items-center">
+              {/* Join Code */}
+              <button className="flex flex-row cursor-pointer" onClick={copyJoinCodeToClipboard}>
+                {splitStringInMiddle(lobby.id ?? "")}
+                {copiedGameId ? (
+                  <div className="text-success"><Icon LucideIcon={Check} size="xs" /></div>
+                ) : (
+                  <Icon LucideIcon={Copy} size="xs" />
+                )}
+              </button>
+
+              {/* Join Url */}
+              <CopyTextBlock label="Game link" value={`${window.location.origin}/${JOIN_GAME_ROUTE(lobby.id)}`} />
+            </div>
           ) : "Loading..."}
         </div>
       </PageIntro>

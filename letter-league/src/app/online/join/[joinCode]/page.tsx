@@ -72,73 +72,73 @@ export default function JoinOnlineGamePage() {
 
     return (
         <PageBase>
-                <>
-                    <Card variant={lobby ? "success" : "default"} className="animate-pulse-subtle">
-                    <CardHeader>
-                        <CardTitle className="text-success flex items-center gap-3">
-                            {lobby ? "Joined Game" : ""}
-                            <LoadingDots size="md" color={lobby ? "success" : "text"} />
-                        </CardTitle>
-                        {lobby && (
-                            <span className="text-foreground font-medium flex items-center gap-2">
-                                <LoadingSpinner size="sm" color="success" />
-                                Waiting for host to start...
-                            </span>                            
-                        )}
+        <>
+            <Card variant={lobby ? "success" : "default"} className="animate-pulse-subtle">
+            <CardHeader>
+                <CardTitle className="text-success flex items-center gap-3">
+                    {lobby ? "Joined Game" : ""}
+                    <LoadingDots size="md" color={lobby ? "success" : "text"} />
+                </CardTitle>
+                {lobby && (
+                    <span className="text-foreground font-medium flex items-center gap-2">
+                        <LoadingSpinner size="sm" color="success" />
+                        Waiting for host to start...
+                    </span>                            
+                )}
+            </CardHeader>
+
+            <CardContent>
+                <ul className="text-sm text-foreground-muted">
+                    <li>Game ID: {joinCode?.toString()}</li>
+                </ul>
+            </CardContent>
+            </Card>
+
+            <Card>
+                <CardHeader className="pb-3 sm:pb-4 justify-between flex flex-row">
+                    <CardTitle className="text-base sm:text-lg flex items-center gap-2">
+                        <User className="w-4 h-4" />
+                        Players ({players.length})
+                    </CardTitle>
+
+                    <span className="italic text-xs">
+                        max {MAX_ONLINE_GAME_PLAYERS}
+                    </span>
+                </CardHeader>
+                <CardContent>
+                    <PlayersList players={players} userHostId={lobby?.userHostId} />
+                </CardContent>
+            </Card>
+
+            {/* Game Settings Overview */}
+            {lobby && (
+                <Card>
+                    <CardHeader className="pb-3 sm:pb-4">
+                        <CardTitle className="text-base sm:text-lg">Game Settings</CardTitle>
                     </CardHeader>
-
                     <CardContent>
-                        <ul className="text-sm text-foreground-muted">
-                        <li>Game ID: {joinCode?.toString()}</li>
-                        </ul>
+                        <div className="grid grid-cols-2 gap-3 sm:gap-4 text-sm">
+                        <div>
+                            <span className="text-muted-foreground font-bold">Max Players:</span>
+                            <div>{MAX_ONLINE_GAME_PLAYERS}</div>
+                        </div>
+                        <div>
+                            <span className="text-muted-foreground font-bold">Time Limit:</span>
+                            <div>Unlimited time</div>
+                        </div>
+                        <div>
+                            <span className="text-muted-foreground font-bold">Game Type:</span>
+                            <div>Private</div>
+                        </div>
+                        <div>
+                            <span className="text-muted-foreground font-bold">Created</span>
+                            <div>{lobby?.createdAt.toDateString()}</div>
+                        </div>
+                        </div>
                     </CardContent>
-                    </Card>
-
-                    <Card>
-                        <CardHeader className="pb-3 sm:pb-4 justify-between flex flex-row">
-                            <CardTitle className="text-base sm:text-lg flex items-center gap-2">
-                                <User className="w-4 h-4" />
-                                Players ({players.length})
-                            </CardTitle>
-
-                            <span className="italic text-xs">
-                                max {MAX_ONLINE_GAME_PLAYERS}
-                            </span>
-                        </CardHeader>
-                        <CardContent>
-                            <PlayersList players={players} userHostId={lobby?.userHostId} />
-                        </CardContent>
-                    </Card>
-
-                    {/* Game Settings Overview */}
-                    {lobby && (
-                        <Card>
-                            <CardHeader className="pb-3 sm:pb-4">
-                                <CardTitle className="text-base sm:text-lg">Game Settings</CardTitle>
-                            </CardHeader>
-                            <CardContent>
-                                <div className="grid grid-cols-2 gap-3 sm:gap-4 text-sm">
-                                <div>
-                                    <span className="text-muted-foreground font-bold">Max Players:</span>
-                                    <div>{MAX_ONLINE_GAME_PLAYERS}</div>
-                                </div>
-                                <div>
-                                    <span className="text-muted-foreground font-bold">Time Limit:</span>
-                                    <div>Unlimited time</div>
-                                </div>
-                                <div>
-                                    <span className="text-muted-foreground font-bold">Game Type:</span>
-                                    <div>Private</div>
-                                </div>
-                                <div>
-                                    <span className="text-muted-foreground font-bold">Created</span>
-                                    <div>{lobby?.createdAt.toDateString()}</div>
-                                </div>
-                                </div>
-                            </CardContent>
-                        </Card> 
-                    )}
-                </>
+                </Card> 
+            )}
+        </>
         </PageBase>
     )
 }
