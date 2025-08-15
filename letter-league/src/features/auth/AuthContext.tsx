@@ -1,28 +1,39 @@
 'use client';
 
 import { createContext, useState, ReactNode, useContext, useEffect } from 'react';
-import { loginSchema } from '../account/account-schemas';
+import { loginSchema, SettingsSchema } from '../account/account-schemas';
 import { z } from 'zod';
 import LoginCommand from './actions/command/login-command';
 import { PublicAccountModel } from '../account/account-models';
 import { LogoutCommand } from './actions/command/logout-command';
 
+const DEFAULT_SETTINGS: SettingsSchema = {
+  keyboardInput: "on-screen-keyboard",
+  playBackgroundMusic: true,
+  playSoundEffects: true,
+  theme: "light"
+}
+
 const ACCOUNT_LOCALSTORAGE_KEY: string = "account";
 
 type AuthContextType = {
   account: PublicAccountModel | null;
+  settings: SettingsSchema;
   isLoggedIn: boolean;
   isLoading: boolean;  
+  showLoginModal: boolean;
 
   logout: () => void;
   login: (data: z.infer<typeof loginSchema>) => Promise<string | undefined>;
+  toggleLoginModal: () => void;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [account, setAccount] = useState<PublicAccountModel | null>(null);
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(true);
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
   // Initialize account from localStorage on mount
   useEffect(() => {
@@ -68,6 +79,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       
       localStorage.setItem(ACCOUNT_LOCALSTORAGE_KEY, JSON.stringify(responseData));
       setAccount(responseData);
+
+      setShowLoginModal(false);
       
       return undefined; // Success, no error message
     } catch (error) {
@@ -78,6 +91,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  function toggleLoginModal() {
+    // already logged in so dont show modal
+    if (!!account) {
+      setShowLoginModal(false);
+      return;
+    };
+
+    setShowLoginModal(prev => !prev);
+  }
+
   return (
     <AuthContext.Provider value={{ 
       account,
@@ -85,6 +108,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       isLoading,
       logout, 
       login,
+      toggleLoginModal,
+      showLoginModal,
+      settings: account?.settings ?? DEFAULT_SETTINGS
     }}>
       {children}
     </AuthContext.Provider>

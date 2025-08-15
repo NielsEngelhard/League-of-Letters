@@ -6,9 +6,11 @@ import Link from "next/link";
 import WebSocketStatusIndicator from "./WebSocketStatusIndicator";
 import RealtimeStatusIndicator from "@/features/realtime/RealtimeStatusIndicator";
 import { useSocket } from "@/features/realtime/socket-context";
+import Button from "../ui/Button";
+import LoginModal from "@/features/account/components/LoginModal";
 
 export default function Header() {
-    const { authSession } = useAuth();
+    const { isLoading, isLoggedIn, account, toggleLoginModal, showLoginModal } = useAuth();
     const { connectionStatus } = useSocket();
 
     return (
@@ -33,9 +35,8 @@ export default function Header() {
 
                 <WebSocketStatusIndicator />       
             </div>
-
                 {/* Right - User Section */}
-                {authSession ? (
+                {isLoggedIn && account ? (
                     <Link 
                         href={PROFILE_ROUTE} 
                         className="group flex items-center gap-3 p-2 pr-0 rounded-xl transition-all duration-200"
@@ -44,7 +45,7 @@ export default function Header() {
                         <div className="relative">
                             <div className="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center shadow-sm group-hover:shadow-md transition-all duration-200">
                                 <span className="text-white text-sm font-bold">
-                                    {authSession.username.charAt(0).toUpperCase()}
+                                    {account.username.charAt(0).toUpperCase()}
                                 </span>
                             </div>
                             {/* Online indicator */}
@@ -58,22 +59,28 @@ export default function Header() {
                         {/* User Info */}
                         <div className="flex flex-col text-right">
                             <div className="text-sm font-semibold text-gray-800 group-hover:text-gray-900 transition-colors duration-200">
-                                {authSession.username}
+                                {account.username}
                             </div>
                             <div className="flex items-center gap-1 text-xs text-gray-500">
-                                <span className="font-medium">guest session</span>
+                                {account.isGuest == true ? (
+                                    <span className="font-medium">guest session</span>
+                                ) : (
+                                    <span className="font-medium">user session</span>
+                                )}
                             </div>
                         </div>
                     </Link>
                 ) : (
-                    <div className="flex items-center gap-2">
-                        {/* Login prompt for unauthenticated users */}
-                        <div className="text-sm text-gray-500 hidden sm:block">
-                            Ready to play?
-                        </div>
-                    </div>
+                    /* When unauthenticated */
+                    <Button variant="primary" size="sm" onClick={toggleLoginModal}>
+                        Login
+                    </Button>
                 )}
             </div>
+
+            {showLoginModal && (
+                <LoginModal />
+            )}
         </header>
     )
 }

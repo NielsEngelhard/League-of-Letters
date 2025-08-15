@@ -3,7 +3,7 @@ import Button from "@/components/ui/Button";
 import TextInput from "@/components/ui/form/TextInput";
 import CustomKeyboard from "@/components/ui/keyboard/CustomKeyboard";
 import InvisibleKeyLogger from "@/components/ui/keyboard/InvisibleKeyLogger";
-import { useAccount } from "@/features/account/account-context";
+import { useAuth } from "@/features/auth/AuthContext";
 import { useEffect } from "react";
 
 interface Props {
@@ -15,7 +15,7 @@ interface Props {
 }
 
 export default function WordInput({ currentGuess, onEnter, onChange, wordLength, disabled = false }: Props) {
-    const { settings } = useAccount();
+    const { settings } = useAuth();
 
     // Reset when keyboard input methods changes
     useEffect(() => {

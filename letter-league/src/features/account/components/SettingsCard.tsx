@@ -7,12 +7,12 @@ import { useForm } from "react-hook-form"
 import { settingsSchema, SettingsSchema } from "../account-schemas";
 import SwitchInput from "@/components/ui/form/SwitchInput";
 import Label from "@/components/ui/form/Label";
-import { useAccount } from "../account-context";
 import { useEffect, useState } from "react";
 import Button from "@/components/ui/Button";
+import { useAuth } from "@/features/auth/AuthContext";
 
 export default function SettingsCard() {
-    const { settings, saveSettingsOnServer, setSettingsOnClient } = useAccount();
+    const { settings } = useAuth();
     const [atLeastOneSettingChanged, setAtLeastOneSettingChanged] = useState(false);
 
     const form = useForm<SettingsSchema>({
@@ -35,6 +35,14 @@ export default function SettingsCard() {
         await saveSettingsOnServer(watchedValues);
         setAtLeastOneSettingChanged(false);
     }
+
+    function setSettingsOnClient(s: SettingsSchema) {
+        // TODO: UPDATE ACCOUNT IN AUTH THINGY 
+    }
+
+    async function saveSettingsOnServer(s: SettingsSchema) {
+        console.log("save on server TODO");
+    }    
 
     return (
         <Card className="w-full">

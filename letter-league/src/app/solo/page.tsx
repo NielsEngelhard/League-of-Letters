@@ -10,7 +10,6 @@ import { CreateGameSchema } from "@/features/game/game-schemas";
 import CreateGameCommand from "@/features/game/actions/command/create-game-command";
 import { useRouter } from 'next/navigation'
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card/card-children";
-import LoginModal from "@/features/account/components/LoginModal";
 
 export default function SoloPage() {
   const router = useRouter()
@@ -41,8 +40,6 @@ export default function SoloPage() {
           />          
         </CardContent>
       </Card>
-
-      <LoginModal />
     </PageBase>
   )
 }

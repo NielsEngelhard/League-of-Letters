@@ -9,7 +9,7 @@ import AccountCard from "@/features/account/components/AccountCard";
 import SettingsCard from "@/features/account/components/SettingsCard";
 
 export default function AccountPage() {
-    const { authSession, logout } = useAuth();
+    const { logout } = useAuth();
     const router = useRouter();
 
     function onLogout() {

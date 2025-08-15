@@ -1,3 +1,5 @@
+import { SettingsSchema } from "./account-schemas";
+
 export const wordInputOptions = ['on-screen-keyboard', 'html-input', 'keystroke'] as const;
 export type WordInputOption = (typeof wordInputOptions)[number];
 
@@ -12,6 +14,8 @@ export interface PublicAccountModel {
     highestScoreAchieved: number;
     colorHex: string;
     createdAt: Date;
+    isGuest?: boolean;
+    settings?: SettingsSchema;
 }
 
 export interface PrivateAccountModel {
