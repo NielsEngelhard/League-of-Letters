@@ -12,6 +12,7 @@ import CreateGameCommand from "@/features/game/actions/command/create-game-comma
 import { useRouter } from 'next/navigation'
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card/card-children";
 import { GameMode } from "@/drizzle/schema";
+import LoginModal from "@/features/account/components/LoginModal";
 
 export default function SoloPage() {
   const router = useRouter()
@@ -44,6 +45,8 @@ export default function SoloPage() {
           />          
         </CardContent>
       </Card>
+
+      <LoginModal />
     </PageBase>
   )
 }
