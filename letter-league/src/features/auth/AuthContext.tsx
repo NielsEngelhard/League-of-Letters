@@ -82,6 +82,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   const login = async (data: z.infer<typeof loginSchema>): Promise<string | undefined> => {
+    debugger;
     var loginResponse = await LoginCommand(data);
     if (!loginResponse.ok) return loginResponse.errorMsg;
 

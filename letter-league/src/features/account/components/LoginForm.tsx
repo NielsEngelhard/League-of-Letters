@@ -5,12 +5,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "@/components/ui/Button";
 import ErrorText from "@/components/ui/text/ErrorText";
 import { IdCard, LogIn } from "lucide-react";
+import { useAuth } from "@/features/auth/AuthContext";
 
 interface Props {
     onNavToSignUp: () => void;
 }
 
 export default function LoginForm({ onNavToSignUp }: Props) {
+    const authContext = useAuth();
 
     const form = useForm<LoginSchema>({
         resolver: zodResolver(loginSchema),
@@ -21,12 +23,12 @@ export default function LoginForm({ onNavToSignUp }: Props) {
     })
 
     async function onSubmit(data: LoginSchema) {
-        // var error = await login(data);
+        var error = await authContext.login(data);
 
-        // form.setError("root", {
-        //     type: "manual",
-        //     message: error
-        // });        
+        form.setError("root", {
+            type: "manual",
+            message: error
+        });        
     }    
 
     return (

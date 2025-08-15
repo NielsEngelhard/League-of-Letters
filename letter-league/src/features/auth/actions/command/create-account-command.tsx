@@ -23,8 +23,10 @@ export default async function CreateAccountCommand(unsafeData: z.infer<typeof si
         ))
         .then(rows => rows[0]);
 
-    if (existingUserByEmail?.email == data.email) return "Email address is already in use";
-    if (existingUserByEmail?.username != "" && existingUserByEmail.username == data.username) return "Username already taken";
+    if (existingUserByEmail) {
+        if (existingUserByEmail.email == data.email) return "Email address is already in use";
+        if (existingUserByEmail.username != "" && existingUserByEmail.username == data.username) return "Username already taken";
+    }
     
     try {
         const salt = generateSalt();
@@ -32,13 +34,6 @@ export default async function CreateAccountCommand(unsafeData: z.infer<typeof si
     
         const account = await createDatabaseRecords(data.email, hashedPassword, salt, data.username!);        
         if (!account) return "Unable to create account"; 
-
-        // TODO: SESSION
-        // await createUserSession({
-        //     sessionId: "",
-        //     userId: userId,
-        //     role: "user"
-        // }, await cookies());
     } catch (ex) {
         console.log(ex);
         return "Something went wrong while creating your account";
