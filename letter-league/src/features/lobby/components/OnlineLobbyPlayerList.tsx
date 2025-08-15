@@ -11,7 +11,7 @@ interface Props {
 }
 
 export default function OnlineLobbyPlayerList({ players = [], userHostId }: Props ) {
-    const { authSession } = useAuth();
+    const { account } = useAuth();
 
     return (
         <>
@@ -26,7 +26,7 @@ export default function OnlineLobbyPlayerList({ players = [], userHostId }: Prop
                 </Avatar>
                 <div className="flex items-center gap-1 sm:gap-2">
                 <span className="text-sm sm:text-base font-medium">
-                    {player.username === authSession?.username ? (
+                    {player.username === account?.username ? (
                         <span className="text-primary">You</span>
                     ): (
                         <span>{player.username}</span>   

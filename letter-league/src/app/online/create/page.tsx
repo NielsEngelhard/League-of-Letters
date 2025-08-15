@@ -30,37 +30,34 @@ import { GamePlayerModel } from "@/features/game/game-models";
 
 export default function CreateOnlineGamePage() {
   const router = useRouter()
-  const { getOrCreateGuestAuthSession } = useAuth();
   const { initializeConnection, emitJoinGame, connectionStatus } = useSocket();
   const { players, addOrReconnectPlayer } = useActiveGame();
   const { pushMessage, clearMessage } = useMessageBar();
+  const { account } = useAuth();
 
   const [lobby, setLobby] = useState<OnlineLobbyModel | null>(null);
   const [copiedGameId, setCopiedGameId] = useState(false);
 
   useEffect(() => {
-      async function LoginAndSetupRealtimeConnection() {
-          await getOrCreateGuestAuthSession();
+      async function SetupRealtimeConnection() {
           initializeConnection();
       }
 
-      LoginAndSetupRealtimeConnection();
+      SetupRealtimeConnection();
   }, []);
 
   useEffect(() => {
     async function CreateOrGetLobby() {
-      if (connectionStatus != "connected" || lobby) return;
+      if (connectionStatus != "connected" || lobby || !account) return;
 
       const lobbyResponse = await GetOrCreateLobbyFromServer();
       addPlayersToRealtimePlayersList(lobbyResponse.players);
       setLobby(lobbyResponse);
 
-      const authSession = await getOrCreateGuestAuthSession();
-
       emitJoinGame({
         gameId: lobbyResponse.id,
-        userId: authSession.id,
-        username: authSession.username,
+        userId: account.id,
+        username: account.username,
         isHost: true
       });
     }
@@ -75,11 +72,11 @@ export default function CreateOnlineGamePage() {
   }
 
   async function GetOrCreateLobbyFromServer(): Promise<OnlineLobbyModel> {
-      const authSession = await getOrCreateGuestAuthSession();
+      if (!account) throw Error("NOT LOGGED IN");
 
       const response = await CreateOnlineLobbyCommand({
-        hostUserId: authSession.id
-      }, authSession.secretKey);
+        hostUserId: account.id
+      });
 
       if (!response.ok || !response.data) {
         pushMessage({ msg: response.errorMsg, type: "error" }, null);        
@@ -95,10 +92,7 @@ export default function CreateOnlineGamePage() {
   }
   
   async function onSubmit(data: CreateGameSchema) {
-    const authSession = await getOrCreateGuestAuthSession();
-    await CreateOnlineGameBasedOnLobbyCommand(data, authSession.secretKey);
-    // EMIT CREATING EVENT
-    // START IN DATABASE
+    await CreateOnlineGameBasedOnLobbyCommand(data);
   }  
 
   async function abandonLobby() {

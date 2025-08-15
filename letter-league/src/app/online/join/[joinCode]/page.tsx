@@ -24,35 +24,33 @@ export default function JoinOnlineGamePage() {
     const { players, addOrReconnectPlayer } = useActiveGame();
     const { pushMessage, clearMessage } = useMessageBar();
 
-    const { getOrCreateGuestAuthSession } = useAuth();
+    const { account } = useAuth();
     const router = useRouter();
 
     const params = useParams();
     const joinCode = params.joinCode;
 
     useEffect(() => {
-        async function LoginAndSetupRealtimeConnection() {
-            await getOrCreateGuestAuthSession();
+        async function SetupRealtimeConnection() {
             initializeConnection();
         }
 
-        LoginAndSetupRealtimeConnection();
+        SetupRealtimeConnection();
     }, []);
 
     useEffect(() => {
         async function JoinLobby() {
-            if (connectionStatus != "connected" || lobby || !joinCode) return;
+            if (connectionStatus != "connected" || lobby || !joinCode || !account) return;
 
             const lobbyResponse = await JoinLobbyOnServer(joinCode.toString());
 
             addPlayersToRealtimePlayersList(lobbyResponse.players);
             setLobby(lobbyResponse);
 
-            const authSession = await getOrCreateGuestAuthSession();
             emitJoinGame({
                 gameId: lobbyResponse.id,
-                userId: authSession.id,
-                username: authSession.username,
+                userId: account.id,
+                username: account.username,
                 isHost: true
             });    
         }
@@ -65,11 +63,10 @@ export default function JoinOnlineGamePage() {
         }    
 
         async function JoinLobbyOnServer(gameId: string): Promise<OnlineLobbyModel> {
-        const authSession = await getOrCreateGuestAuthSession();
 
         const response = await JoinGameLobbyCommand({
             gameId: gameId
-        }, authSession.secretKey);
+        });
 
         if (!response.ok || !response.data) {
             pushMessage({ msg: response.errorMsg, type: "error" }, null);        

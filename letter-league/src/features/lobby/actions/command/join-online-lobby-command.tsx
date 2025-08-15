@@ -39,7 +39,7 @@ export default async function JoinGameLobbyCommand(command: JoinOnlineLobbySchem
 }
 
 async function CreateNewPlayer(lobby: DbOnlineLobby, currentUser: CurrentUserData): Promise<DbOnlineLobbyPlayer> {
-    const player: DbOnlineLobbyPlayer = OnlineLobbyMapper.AuthSessionToLobbyPlayer(currentUser, lobby.id);
+    const player: DbOnlineLobbyPlayer = OnlineLobbyMapper.CurrentUserToLobbyPlayer(currentUser, lobby.id);
 
     await db.insert(OnlineLobbyPlayerTable)
         .values(player);

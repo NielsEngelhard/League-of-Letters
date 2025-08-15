@@ -12,10 +12,9 @@ interface Props {}
 
 export default function GameBoard({}: Props) {
     const { game, players, setCurrentGuess, submitGuess, currentGuess, currentRound, isThisPlayersTurn, isAnimating, theWord, currentPlayerId } = useActiveGame();
-    const { authSession } = useAuth();
 
     async function onSubmitGuess() {
-        submitGuess(authSession?.secretKey ?? "??")
+        submitGuess()
             .then(() => {
                 setCurrentGuess("");
             });

@@ -7,14 +7,13 @@ import { useAuth } from "@/features/auth/AuthContext";
 import { GetActiveGameByIdRequest } from "@/features/game/actions/query/get-active-game-by-id-request";
 import { useActiveGame } from "@/features/game/components/active-game-context";
 import Ingame from "@/features/game/components/InGame";
-import { ActiveGameModel } from "@/features/game/game-models";
 import { useSocket } from "@/features/realtime/socket-context";
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 
 export default function GamePage() {
-    const { authSession } = useAuth();
+    const { account } = useAuth();
     const { initializeGameState, game } = useActiveGame();    
     const { initializeConnection, emitJoinGame } = useSocket();
     const router = useRouter();
@@ -23,12 +22,12 @@ export default function GamePage() {
     const gameId = params.gameId;
 
     useEffect(() => {
-        if (!gameId || !authSession) return;
+        if (!gameId || !account) return;
 
         initializeConnection();
 
         async function GetGame() {
-            if (!gameId || !authSession) return;
+            if (!gameId || !account) return;
             
             try {
                 var resp = await GetActiveGameByIdRequest(gameId.toString());
@@ -37,11 +36,11 @@ export default function GamePage() {
                     return;
                 };
                 
-                initializeGameState(resp, authSession.id);
+                initializeGameState(resp, account.id);
                 emitJoinGame({
                     gameId: resp.id,
-                    userId: authSession.id,
-                    username: authSession.username,
+                    userId: account.id,
+                    username: account.username,
                     isHost: false // TODO
                 });                
             } catch(err) {
@@ -51,7 +50,7 @@ export default function GamePage() {
         }
 
         GetGame();
-    }, [gameId, authSession]);
+    }, [gameId, account]);
 
     return (
         <PageBase>

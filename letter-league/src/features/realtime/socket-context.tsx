@@ -34,7 +34,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
 }) => {
   const { pushMessage } = useMessageBar();
   const activeGameContext = useActiveGame();
-  const { authSession } = useAuth();
+  const { account } = useAuth();
 
   const router = useRouter();
   const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>("empty");
@@ -93,7 +93,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
     });
 
     socket.on('guess-word', (response: GuessWordResponse) => {
-      if (response.userId == authSession?.id) return;
+      if (response.userId == account?.id) return;
 
       console.log("GUESS WORD HAS BEEN TRIGGERED");
       activeGameContext.handleWordGuess(response);

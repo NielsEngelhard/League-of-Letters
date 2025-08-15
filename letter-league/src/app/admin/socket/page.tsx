@@ -9,13 +9,13 @@ import { useSocket } from "@/features/realtime/socket-context";
 
 export default function AdminTestSocketPage() {
     const { connectionStatus, initializeConnection, emitJoinGame, emitTestEvent } = useSocket();
-    const { authSession } = useAuth();
+    const { account } = useAuth();
 
     function onJoinGame() {
         var data: JoinGameRealtimeModel = {
             gameId: "yolo",
-            userId: authSession?.id ?? "unauthed_id",
-            username: authSession?.username ?? "unauthed_uname"
+            userId: account?.id ?? "unauthed_id",
+            username: account?.username ?? "unauthed_uname"
         }
 
         emitJoinGame(data);

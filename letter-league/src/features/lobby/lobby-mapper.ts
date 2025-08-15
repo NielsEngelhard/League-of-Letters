@@ -5,7 +5,7 @@ import { GamePlayerModel } from "../game/game-models"
 import { CurrentUserData } from "../auth/current-user"
 
 export class OnlineLobbyMapper {
-    static AuthSessionToLobbyPlayer(currentUser: CurrentUserData, lobbyId: string, connectionStatus: ConnectionStatus = "connected"): DbOnlineLobbyPlayer {
+    static CurrentUserToLobbyPlayer(currentUser: CurrentUserData, lobbyId: string, connectionStatus: ConnectionStatus = "connected"): DbOnlineLobbyPlayer {
         return {
             id: undefined!,
             userId: currentUser.accountId,
