@@ -4,7 +4,7 @@ import Button from '../ui/Button';
 import { useAuth } from '@/features/auth/AuthContext';
 
 export default function AuthenticationRequiredBlock() {
-  const { toggleLoginModal } = useAuth();
+  const { setShowLoginModal } = useAuth();
 
   return (
     <div className="flex flex-col gap-6 items-center justify-center text-center max-w-md mx-auto p-8">
@@ -24,7 +24,7 @@ export default function AuthenticationRequiredBlock() {
       </div>
       
       {/* Button */}
-      <Button onClick={toggleLoginModal} size="lg">
+      <Button onClick={() => setShowLoginModal(true)} size="lg">
         Continue
         <ArrowRight className="w-4 h-4" />
       </Button>

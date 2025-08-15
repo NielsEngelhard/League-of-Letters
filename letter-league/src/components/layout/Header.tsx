@@ -10,7 +10,7 @@ import Button from "../ui/Button";
 import LoginModal from "@/features/account/components/LoginModal";
 
 export default function Header() {
-    const { isLoading, isLoggedIn, account, toggleLoginModal, showLoginModal } = useAuth();
+    const { isLoading, isLoggedIn, account, setShowLoginModal, showLoginModal } = useAuth();
     const { connectionStatus } = useSocket();
 
     return (
@@ -72,7 +72,7 @@ export default function Header() {
                     </Link>
                 ) : (
                     /* When unauthenticated */
-                    <Button variant="primary" size="sm" onClick={toggleLoginModal}>
+                    <Button variant="primary" size="sm" onClick={() => setShowLoginModal(true)}>
                         Login
                     </Button>
                 )}

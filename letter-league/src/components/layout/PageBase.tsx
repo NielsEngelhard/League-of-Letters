@@ -28,13 +28,17 @@ const pageBaseVariants = cva(
 )
 
 export default function PageBase({ children, size, loadingMessage, requiresAuh = true }: Props) {
-  const { isLoggedIn, toggleLoginModal } = useAuth();
+  const { isLoggedIn, setShowLoginModal } = useAuth();
 
   // If page requires auth and not logged in, enforce login modal
   useEffect(() => {
-    if (isLoggedIn || !requiresAuh) return;
-    
-    toggleLoginModal();
+    const pageRequiresAuthAndUserIsNotLoggedIn: boolean = isLoggedIn || !requiresAuh;
+
+    if (pageRequiresAuthAndUserIsNotLoggedIn) {
+      setShowLoginModal(false);
+    } else {
+      setShowLoginModal(true);
+    }    
   }, [isLoggedIn, requiresAuh]);
 
   return (

@@ -28,7 +28,7 @@ type AuthContextType = {
   logout: () => void;
   login: (data: z.infer<typeof loginSchema>) => Promise<string | undefined>;
   loginWithGuestAccount: () => Promise<string | undefined>;
-  toggleLoginModal: () => void;
+  setShowLoginModal: (newValue: boolean) => void;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -97,16 +97,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setShowLoginModal(false);    
   }
 
-  function toggleLoginModal() {
-    // already logged in so dont show modal
-    if (!!account) {
-      setShowLoginModal(false);
-      return;
-    };
-
-    setShowLoginModal(prev => !prev);
-  }
-
   const loginWithGuestAccount = async () => {
     setIsLoading(true);
     try {
@@ -128,7 +118,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       isLoading,
       logout, 
       login,
-      toggleLoginModal,
+      setShowLoginModal,
       showLoginModal,
       settings: account?.settings ?? DEFAULT_SETTINGS,
       loginWithGuestAccount

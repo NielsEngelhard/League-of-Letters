@@ -2,7 +2,7 @@ import Button from "@/components/ui/Button";
 import Card from "@/components/ui/card/Card";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card/card-children";
 import SubText from "@/components/ui/text/SubText";
-import { CircleX, ClosedCaption, Cross, HatGlasses, LogIn } from "lucide-react";
+import { CircleX, HatGlasses, LogIn } from "lucide-react";
 import { useState } from "react";
 import LoginForm from "./LoginForm";
 import SignUpForm from "./SignUpForm";
@@ -14,7 +14,7 @@ interface Props {
 
 export default function LoginModal({}: Props) {
     const [onLoginSection, setOnLoginSection] = useState(true);
-    const { toggleLoginModal, loginWithGuestAccount } = useAuth();
+    const { setShowLoginModal, loginWithGuestAccount } = useAuth();
 
     async function onContinueAsGuest () {
         await loginWithGuestAccount();
@@ -59,7 +59,7 @@ export default function LoginModal({}: Props) {
                 </CardContent>
 
                 <div className="absolute right-2 top-2">
-                    <button onClick={toggleLoginModal} className="hover:cursor-pointer">
+                    <button onClick={() => setShowLoginModal(false)} className="hover:cursor-pointer">
                         <CircleX className="text-foreground-muted" />
                     </button>
                 </div>
