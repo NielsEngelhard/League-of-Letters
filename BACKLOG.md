@@ -1,0 +1,8 @@
+- Profile page
+- User login and guest login functionality for stats
+- Timer for online games
+- Landing page with explanation
+- Support multiple languages English, French and Deutsch at first
+- Score explanation
+- Online game mode "challenge each other by picking your own words at the beginning of the game"
+- Sound effects

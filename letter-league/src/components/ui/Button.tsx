@@ -6,6 +6,7 @@ export interface Props extends VariantProps<typeof buttonVariants>, Omit<React.B
     children: React.ReactNode;
     className?: string;
     disable?: boolean;
+    soundOnClick?: boolean;
 }
 
 const buttonVariants = cva(

@@ -4,6 +4,7 @@ import TextInput from "@/components/ui/form/TextInput";
 import CustomKeyboard from "@/components/ui/keyboard/CustomKeyboard";
 import InvisibleKeyLogger from "@/components/ui/keyboard/InvisibleKeyLogger";
 import { useProfile } from "@/features/user/profile-context";
+import { useEffect } from "react";
 
 interface Props {
     currentGuess: string;
@@ -15,6 +16,11 @@ interface Props {
 
 export default function WordInput({ currentGuess, onEnter, onChange, wordLength, disabled = false }: Props) {
     const { settings } = useProfile();
+
+    // Reset when keyboard input methods changes
+    useEffect(() => {
+        onChange("");
+    }, [settings.keyboardInput]);
 
     function onInputChange(event: React.ChangeEvent<HTMLInputElement>) {
         onChange(event.target.value);
