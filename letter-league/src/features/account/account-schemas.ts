@@ -1,5 +1,5 @@
 import z from "zod";
-import { themeOptions, wordInputOptions } from "./profile-models";
+import { themeOptions, wordInputOptions } from "./account-models";
 
 export const settingsSchema = z.object({
     keyboardInput: z.enum(wordInputOptions).default("on-screen-keyboard").optional(),

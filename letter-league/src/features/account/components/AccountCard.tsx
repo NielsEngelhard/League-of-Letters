@@ -8,7 +8,7 @@ interface Props {
 
 }
 
-export default function ProfileCard({  }: Props) {
+export default function AccountCard({  }: Props) {
 
     const getInitials = (name: string) => {
         return name?.charAt(0).toUpperCase() || "?";
@@ -19,7 +19,7 @@ export default function ProfileCard({  }: Props) {
             <CardHeader className="pb-3 sm:pb-4 justify-between flex flex-row">
                 <CardTitle className="text-base sm:text-lg flex items-center gap-2">
                 <User className="w-4 h-4" />
-                Usernames Profile
+                Usernames Account
                 </CardTitle>
             </CardHeader>
             <CardContent className="space-y-2 sm:space-y-3">

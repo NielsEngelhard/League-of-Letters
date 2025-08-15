@@ -4,7 +4,7 @@ import { AuthProvider } from "@/features/auth/AuthContext";
 import { SocketProvider } from "@/features/realtime/socket-context";
 import { MessageBarProvider } from "./MessageBarContext";
 import { ActiveGameProvider } from "@/features/game/components/active-game-context";
-import { ProfileProvider } from "@/features/user/profile-context";
+import { AccountProvider } from "@/features/user/account-context";
 
 type Props = {
     children: React.ReactNode;
@@ -15,13 +15,13 @@ export function Providers({ children }: Props) {
   return (
     <MessageBarProvider>
       <AuthProvider>
-        <ProfileProvider>
+        <AccountProvider>
           <ActiveGameProvider>
             <SocketProvider>
                 {children}
             </SocketProvider>              
           </ActiveGameProvider>
-        </ProfileProvider>
+        </AccountProvider>
       </AuthProvider>        
     </MessageBarProvider>
   );

@@ -1,9 +1,9 @@
 "use client"
 
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
-import { SettingsSchema } from './profile-schemas';
+import { SettingsSchema } from './account-schemas';
 import { useAuth } from '../auth/AuthContext';
-import { ThemeOption } from './profile-models';
+import { ThemeOption } from './account-models';
 
 const SETTINGS_LOCAL_STORAGE_KEY = "SETTINGS";
 
@@ -14,19 +14,19 @@ const DEFAULT_SETTINGS: SettingsSchema = {
   theme: "light"
 }
 
-interface ProfileContextType {
+interface AccountContextType {
   settings: SettingsSchema;
   setSettingsOnClient: (s: SettingsSchema) => void;
   saveSettingsOnServer: (s: SettingsSchema) => Promise<void>;
 }
 
-const ProfileContext = createContext<ProfileContextType | undefined>(undefined);
+const AccountContext = createContext<AccountContextType | undefined>(undefined);
 
-interface ProfileProviderProps {
+interface AccountProviderProps {
   children: ReactNode;
 }
 
-export const ProfileProvider: React.FC<ProfileProviderProps> = ({ 
+export const AccountProvider: React.FC<AccountProviderProps> = ({ 
   children 
 }) => {
   const authContext = useAuth();
@@ -81,21 +81,21 @@ export const ProfileProvider: React.FC<ProfileProviderProps> = ({
   }, [settings.theme]);
 
   return (
-    <ProfileContext.Provider value={{
+    <AccountContext.Provider value={{
       settings,
       setSettingsOnClient,
       saveSettingsOnServer
     }}>
       {children}
-    </ProfileContext.Provider>
+    </AccountContext.Provider>
   );
 };
 
-// Custom hook to use the profile context
-export const useProfile = (): ProfileContextType => {
-  const context = useContext(ProfileContext);
+// Custom hook to use the account context
+export const useAccount = (): AccountContextType => {
+  const context = useContext(AccountContext);
   if (context === undefined) {
-    throw new Error('useProfile must be used within a ProfileProvider');
+    throw new Error('useAccount must be used within a AccountProvider');
   }
   return context;
 };

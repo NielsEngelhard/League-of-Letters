@@ -5,10 +5,10 @@ import Button from "@/components/ui/Button";
 import { useAuth } from "@/features/auth/AuthContext"
 import { useRouter } from "next/navigation";
 import { PICK_GAME_MODE_ROUTE } from "../routes";
-import ProfileCard from "@/features/user/components/ProfileCard";
-import SettingsCard from "@/features/user/components/SettingsCard";
+import AccountCard from "@/features/account/components/AccountCard";
+import SettingsCard from "@/features/account/components/SettingsCard";
 
-export default function ProfilePage() {
+export default function AccountPage() {
     const { authSession, logout } = useAuth();
     const router = useRouter();
 
@@ -19,9 +19,9 @@ export default function ProfilePage() {
 
     return (
         <PageBase>
-            <ProfileCard>
+            <AccountCard>
                 
-            </ProfileCard>
+            </AccountCard>
 
             <SettingsCard>
 

@@ -4,15 +4,15 @@ import SelectDropdown from "@/components/ui/form/SelectInput";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Moon, Music, Settings, Volume2 } from "lucide-react";
 import { useForm } from "react-hook-form"
-import { settingsSchema, SettingsSchema } from "../profile-schemas";
+import { settingsSchema, SettingsSchema } from "../account-schemas";
 import SwitchInput from "@/components/ui/form/SwitchInput";
 import Label from "@/components/ui/form/Label";
-import { useProfile } from "../profile-context";
+import { useAccount } from "../account-context";
 import { useEffect, useState } from "react";
 import Button from "@/components/ui/Button";
 
 export default function SettingsCard() {
-    const { settings, saveSettingsOnServer, setSettingsOnClient } = useProfile();
+    const { settings, saveSettingsOnServer, setSettingsOnClient } = useAccount();
     const [atLeastOneSettingChanged, setAtLeastOneSettingChanged] = useState(false);
 
     const form = useForm<SettingsSchema>({
