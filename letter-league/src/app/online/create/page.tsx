@@ -29,26 +29,25 @@ import { useActiveGame } from "@/features/game/components/active-game-context";
 import { GamePlayerModel } from "@/features/game/game-models";
 
 export default function CreateOnlineGamePage() {
-  const router = useRouter()
   const { initializeConnection, emitJoinGame, connectionStatus } = useSocket();
   const { players, addOrReconnectPlayer } = useActiveGame();
-  const { pushMessage, clearMessage } = useMessageBar();
+  const { pushSuccessMsg, pushLoadingMsg, pushErrorMsg } = useMessageBar();
   const { account } = useAuth();
 
   const [lobby, setLobby] = useState<OnlineLobbyModel | null>(null);
   const [copiedGameId, setCopiedGameId] = useState(false);
 
+  // On initial load, connect with the websocket server
   useEffect(() => {
-      async function SetupRealtimeConnection() {
-          initializeConnection();
-      }
-
-      SetupRealtimeConnection();
+      pushLoadingMsg("Connecting with the realtime server");
+      initializeConnection();
   }, []);
 
   useEffect(() => {
     async function CreateOrGetLobby() {
       if (connectionStatus != "connected" || lobby || !account) return;
+
+      pushLoadingMsg("Connecting to lobby");
 
       const lobbyResponse = await GetOrCreateLobbyFromServer();
       addPlayersToRealtimePlayersList(lobbyResponse.players);
@@ -60,6 +59,8 @@ export default function CreateOnlineGamePage() {
         username: account.username,
         isHost: true
       });
+
+      pushSuccessMsg("Connected");      
     }
 
     CreateOrGetLobby();
@@ -79,7 +80,7 @@ export default function CreateOnlineGamePage() {
       });
 
       if (!response.ok || !response.data) {
-        pushMessage({ msg: response.errorMsg, type: "error" }, null);        
+        pushErrorMsg(response.errorMsg);        
         throw Error("Something went wrong");
       }
 

@@ -4,6 +4,7 @@ import { cva, VariantProps } from "class-variance-authority";
 import React, { useEffect } from "react";
 import Button from "../ui/Button";
 import AuthenticationRequiredBlock from "./AuthenticationRequiredBlock";
+import LoadingDots from "../ui/animation/LoadingDots";
 
 interface Props extends VariantProps<typeof pageBaseVariants> {
     children: React.ReactNode;
@@ -28,7 +29,7 @@ const pageBaseVariants = cva(
 )
 
 export default function PageBase({ children, size, loadingMessage, requiresAuh = true }: Props) {
-  const { isLoggedIn, setShowLoginModal } = useAuth();
+  const { isLoggedIn, setShowLoginModal, isLoading } = useAuth();
 
   // If page requires auth and not logged in, enforce login modal
   useEffect(() => {
@@ -49,7 +50,13 @@ export default function PageBase({ children, size, loadingMessage, requiresAuh =
                     {children}
                   </>
                 ) : (
-                  <AuthenticationRequiredBlock />
+                  isLoading ? (
+                    <div className="w-full flex justify-center mt-10">
+                      <LoadingDots />
+                    </div>
+                  ) : (
+                    <AuthenticationRequiredBlock />                    
+                  )
                 )}
             </div>
         </div>        

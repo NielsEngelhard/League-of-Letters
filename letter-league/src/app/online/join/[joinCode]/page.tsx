@@ -22,26 +22,24 @@ export default function JoinOnlineGamePage() {
     const [lobby, setLobby] = useState<OnlineLobbyModel | null>(null);
     const { initializeConnection, emitJoinGame, connectionStatus } = useSocket();
     const { players, addOrReconnectPlayer } = useActiveGame();
-    const { pushMessage, clearMessage } = useMessageBar();
+    const { pushSuccessMsg, pushLoadingMsg, pushErrorMsg } = useMessageBar();
 
     const { account } = useAuth();
-    const router = useRouter();
 
     const params = useParams();
     const joinCode = params.joinCode;
 
     useEffect(() => {
-        async function SetupRealtimeConnection() {
-            initializeConnection();
-        }
-
-        SetupRealtimeConnection();
+        pushLoadingMsg("Connecting with the realtime server");
+        initializeConnection();
     }, []);
 
     useEffect(() => {
-        async function JoinLobby() {
-            if (connectionStatus != "connected" || lobby || !joinCode || !account) return;
+        if (connectionStatus != "connected" || lobby || !joinCode || !account) return;
+        pushLoadingMsg("Joining lobby");
 
+        async function JoinLobby() {            
+            if (!joinCode || !account) return;
             const lobbyResponse = await JoinLobbyOnServer(joinCode.toString());
 
             addPlayersToRealtimePlayersList(lobbyResponse.players);
@@ -53,6 +51,8 @@ export default function JoinOnlineGamePage() {
                 username: account.username,
                 isHost: true
             });    
+
+            pushSuccessMsg("Joined lobby");
         }
 
         JoinLobby();
@@ -69,7 +69,7 @@ export default function JoinOnlineGamePage() {
         });
 
         if (!response.ok || !response.data) {
-            pushMessage({ msg: response.errorMsg, type: "error" }, null);        
+            pushErrorMsg(response.errorMsg);
             throw Error("Something went wrong");
         }
 
@@ -78,18 +78,19 @@ export default function JoinOnlineGamePage() {
 
     return (
         <PageBase>
-            {players ? (
                 <>
-                    <Card variant="success" className="animate-pulse-subtle">
+                    <Card variant={lobby ? "success" : "default"} className="animate-pulse-subtle">
                     <CardHeader>
                         <CardTitle className="text-success flex items-center gap-3">
-                        Joined Game
-                            <LoadingDots size="md" color="success" />
+                            {lobby ? "Joined Game" : ""}
+                            <LoadingDots size="md" color={lobby ? "success" : "text"} />
                         </CardTitle>
-                        <span className="text-foreground font-medium flex items-center gap-2">
-                            <LoadingSpinner size="sm" color="success" />
-                            Waiting for host to start...
-                        </span>
+                        {lobby && (
+                            <span className="text-foreground font-medium flex items-center gap-2">
+                                <LoadingSpinner size="sm" color="success" />
+                                Waiting for host to start...
+                            </span>                            
+                        )}
                     </CardHeader>
 
                     <CardContent>
@@ -115,36 +116,35 @@ export default function JoinOnlineGamePage() {
                         </CardContent>
                     </Card>
 
-                    {/* Game Settings Info */}
-                    <Card>
-                        <CardHeader className="pb-3 sm:pb-4">
-                            <CardTitle className="text-base sm:text-lg">Game Settings</CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                            <div className="grid grid-cols-2 gap-3 sm:gap-4 text-sm">
-                            <div>
-                                <span className="text-muted-foreground font-bold">Max Players:</span>
-                                <div>{MAX_ONLINE_GAME_PLAYERS}</div>
-                            </div>
-                            <div>
-                                <span className="text-muted-foreground font-bold">Time Limit:</span>
-                                <div>Unlimited time</div>
-                            </div>
-                            <div>
-                                <span className="text-muted-foreground font-bold">Game Type:</span>
-                                <div>Private</div>
-                            </div>
-                            <div>
-                                <span className="text-muted-foreground font-bold">Created</span>
-                                <div>{lobby?.createdAt.toDateString()}</div>
-                            </div>
-                            </div>
-                        </CardContent>
-                    </Card>                    
+                    {/* Game Settings Overview */}
+                    {lobby && (
+                        <Card>
+                            <CardHeader className="pb-3 sm:pb-4">
+                                <CardTitle className="text-base sm:text-lg">Game Settings</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                                <div className="grid grid-cols-2 gap-3 sm:gap-4 text-sm">
+                                <div>
+                                    <span className="text-muted-foreground font-bold">Max Players:</span>
+                                    <div>{MAX_ONLINE_GAME_PLAYERS}</div>
+                                </div>
+                                <div>
+                                    <span className="text-muted-foreground font-bold">Time Limit:</span>
+                                    <div>Unlimited time</div>
+                                </div>
+                                <div>
+                                    <span className="text-muted-foreground font-bold">Game Type:</span>
+                                    <div>Private</div>
+                                </div>
+                                <div>
+                                    <span className="text-muted-foreground font-bold">Created</span>
+                                    <div>{lobby?.createdAt.toDateString()}</div>
+                                </div>
+                                </div>
+                            </CardContent>
+                        </Card> 
+                    )}
                 </>
-            ): (
-                <div>Joining...</div>
-            )}
         </PageBase>
     )
 }
