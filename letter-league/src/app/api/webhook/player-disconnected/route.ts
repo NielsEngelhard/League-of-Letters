@@ -4,15 +4,19 @@ import { db } from '@/drizzle/db';
 import ActiveGamePlayerDisconnectedCommand from '@/features/game/actions/command/active-game-player-disconnected-command';
 import DisconnectOnlineLobbyPlayer from '@/features/lobby/actions/command/disconnect-online-lobby-player';
 import { NextRequest, NextResponse } from 'next/server';
+import { hasValidApikey } from '../webhook-utils';
 
+// TODO: REWRITE DO JUST NORMAL ENDPOINT WITH UPDATE CONNECTION STATUS
 export interface PlayerDisconnectedPayload {
   gameId: string;
   userId: string;
 }
 
 export async function POST(req: NextRequest) {
+  if (!hasValidApikey(req)) throw Error("UnAuthorized");
+
   try {
-    const body = await req.json();
+    const body: PlayerDisconnectedPayload = await req.json();
 
     await db.transaction(async (tx) => {
       await DisconnectOnlineLobbyPlayer({

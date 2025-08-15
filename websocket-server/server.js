@@ -1,3 +1,7 @@
+require('dotenv').config();
+
+const { CallWebhook_PlayerDisconnected } = require("./letter-league-api-webhooks");
+
 const express = require('express');
 const { createServer } = require('http');
 const { Server } = require('socket.io');
@@ -65,6 +69,8 @@ io.on('connection', (socket) => {
 
   socket.on('guess-word', (guessWordResponse) => {
     console.log("guess-word triggered");
+    // TODO: WHEN THIS MEANS GAME OVER, UNSUBSCRIBE FROM THIS GAME
+    // TODO SET SOMETHING so that disconnect wont trigger server call (disconnect status should not be updated when game is not more)
     socket.broadcast.to(socket.gameId).emit('guess-word', guessWordResponse);
   });  
   // END USER ACTIONS --------------------------------------------------------------------
@@ -82,7 +88,10 @@ io.on('connection', (socket) => {
   // GENERAL ACTIONS ----------------------------------------------------------------------
   socket.on('disconnect', () => {
     console.log(`User '${socket.userId}' disconnected from game: '${socket.gameId}'`);
-    socket.broadcast.to(socket.gameId).emit('user-disconnected', socket.userId);
+    CallWebhook_PlayerDisconnected(socket.gameId, socket.userId)
+    .finally(() => {
+      socket.broadcast.to(socket.gameId).emit('user-disconnected', socket.userId);   
+    });     
   });
 
   socket.on('reconnect', () => {
@@ -100,6 +109,7 @@ io.on('connection', (socket) => {
   });  
 
   socket.on('delete-game', (gameId) => {
+    // TODO SET SOMETHING so that disconnect wont trigger server call (disconnect status should not be updated when game is not more)
     console.log(`delete-game '${gameId}'`);
     socket.broadcast.to(gameId).emit('delete-game');
   });
