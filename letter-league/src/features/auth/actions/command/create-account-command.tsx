@@ -29,10 +29,9 @@ export default async function CreateAccountCommand(unsafeData: z.infer<typeof si
     }
     
     try {
-        const salt = generateSalt();
-        const hashedPassword = await hashPassword(data.password, salt);
+ 
     
-        const account = await createDatabaseRecords(data.email, hashedPassword, salt, data.username!);        
+        const account = await createDatabaseRecords(data.email, data.password, data.username!);        
         if (!account) return "Unable to create account"; 
     } catch (ex) {
         console.log(ex);
@@ -42,8 +41,8 @@ export default async function CreateAccountCommand(unsafeData: z.infer<typeof si
     return undefined;    
 }
 
-async function createDatabaseRecords(email: string, hashedPassword: string, salt: string, username: string): Promise<DbAccount> {
-    const accountRecord: DbAccount = AccountFactory.createDbAccount(email, username, hashedPassword, salt);
+async function createDatabaseRecords(email: string, password: string, username: string): Promise<DbAccount> {
+    const accountRecord: DbAccount = await AccountFactory.createDbAccount(email, username, password, false);
     const settingsRecord: DbAccountSettings = AccountFactory.createDbAccountSettings(accountRecord.id);
 
     await db.transaction(async (tx) => {

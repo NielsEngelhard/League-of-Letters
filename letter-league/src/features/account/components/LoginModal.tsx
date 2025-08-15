@@ -14,7 +14,11 @@ interface Props {
 
 export default function LoginModal({}: Props) {
     const [onLoginSection, setOnLoginSection] = useState(true);
-    const { toggleLoginModal } = useAuth();
+    const { toggleLoginModal, loginWithGuestAccount } = useAuth();
+
+    async function onContinueAsGuest () {
+        await loginWithGuestAccount();
+    }
 
     return (
         <div className="fixed top-0 left-0 w-screen h-screen bg-background-secondary/80 flex items-center justify-center">
@@ -43,10 +47,15 @@ export default function LoginModal({}: Props) {
                         </>
                     )}
 
-                    <Button variant="skeleton" className="w-full mt-4">
-                        <HatGlasses className="w-4 h-4" />
-                        Continue as Guest
-                    </Button>                        
+                    <div>
+                        <Button variant="skeleton" className="w-full mt-4" onClick={onContinueAsGuest}>
+                            <HatGlasses className="w-4 h-4" />
+                            Continue as Guest
+                        </Button>             
+                        <span className="text-sm font-medium text-foreground-muted">
+                            24-hour guest session. Progress won’t be saved, and reconnecting will be limited.    
+                        </span>                        
+                    </div>
                 </CardContent>
 
                 <div className="absolute right-2 top-2">

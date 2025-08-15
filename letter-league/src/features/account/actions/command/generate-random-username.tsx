@@ -30,13 +30,19 @@ const nouns = [
     "Goose", "Crane", "Heron", "Stork", "Ibis", "Egret"
 ];
 
-export default function GenerateRandomUsername(): string {
+export default function GenerateRandomUsername(isGuest: boolean = false): string {
     // Get random adjective and noun
     const randomAdjective = adjectives[Math.floor(Math.random() * adjectives.length)];
     const randomNoun = nouns[Math.floor(Math.random() * nouns.length)];
     
     // Generate random number between 000-999 (padded with zeros)
-    const randomNumber = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+    let postFix: string = "";
+
+    if (isGuest == true) {
+        postFix = "GUEST";
+    } else {
+        postFix = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+    }
     
-    return `${randomAdjective}${randomNoun}${randomNumber}`;
+    return `${randomAdjective}${randomNoun}_${postFix}`;
 }

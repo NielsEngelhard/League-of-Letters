@@ -6,6 +6,8 @@ import { z } from 'zod';
 import LoginCommand from './actions/command/login-command';
 import { PublicAccountModel } from '../account/account-models';
 import { LogoutCommand } from './actions/command/logout-command';
+import CreateGuestSessionCommand from './actions/command/create-guest-session-command';
+import { ServerResponse } from '@/lib/response-handling/response-factory';
 
 const DEFAULT_SETTINGS: SettingsSchema = {
   keyboardInput: "on-screen-keyboard",
@@ -25,6 +27,7 @@ type AuthContextType = {
 
   logout: () => void;
   login: (data: z.infer<typeof loginSchema>) => Promise<string | undefined>;
+  loginWithGuestAccount: () => Promise<string | undefined>;
   toggleLoginModal: () => void;
 };
 
@@ -71,6 +74,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsLoading(true);
     try {
       const loginResponse = await LoginCommand(data);
+      handleLoginResponse(loginResponse);      
+      return undefined; // Success, no error message
+    } catch (error) {
+      console.error('Login failed:', error);
+      return 'Login failed due to an unexpected error';
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  function handleLoginResponse(loginResponse: ServerResponse<PublicAccountModel>) {
       if (!loginResponse.ok) {
         return loginResponse.errorMsg;
       }
@@ -80,16 +94,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       localStorage.setItem(ACCOUNT_LOCALSTORAGE_KEY, JSON.stringify(responseData));
       setAccount(responseData);
 
-      setShowLoginModal(false);
-      
-      return undefined; // Success, no error message
-    } catch (error) {
-      console.error('Login failed:', error);
-      return 'Login failed due to an unexpected error';
-    } finally {
-      setIsLoading(false);
-    }
-  };
+      setShowLoginModal(false);    
+  }
 
   function toggleLoginModal() {
     // already logged in so dont show modal
@@ -101,6 +107,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setShowLoginModal(prev => !prev);
   }
 
+  const loginWithGuestAccount = async () => {
+    setIsLoading(true);
+    try {
+      const guestLoginResponse = await CreateGuestSessionCommand();
+      handleLoginResponse(guestLoginResponse);      
+      return undefined; // Success, no error message
+    } catch (error) {
+      console.error('Login failed:', error);
+      return 'Login failed due to an unexpected error';
+    } finally {
+      setIsLoading(false);
+    }
+  } 
+
   return (
     <AuthContext.Provider value={{ 
       account,
@@ -110,7 +130,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       login,
       toggleLoginModal,
       showLoginModal,
-      settings: account?.settings ?? DEFAULT_SETTINGS
+      settings: account?.settings ?? DEFAULT_SETTINGS,
+      loginWithGuestAccount
     }}>
       {children}
     </AuthContext.Provider>

@@ -16,8 +16,9 @@ export default async function LoginCommand(unsafeData: z.infer<typeof loginSchem
     if (!success) return ServerResponseFactory.error("Invalid login data");
     
     const account = await findAccountByEmailOrUsername(data.username);
-
-    if (account == null) ServerResponseFactory.error("Could not login");
+    
+    if (!account) return ServerResponseFactory.error("Could not login");
+    if (account.isGuestAccount) return ServerResponseFactory.error("Can't login to a GUEST_SESSION");
 
     const isCorrectPassword = await comparePasswords({
         hashedPassword: account.password,

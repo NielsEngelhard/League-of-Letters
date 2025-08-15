@@ -1,4 +1,4 @@
-import { integer, pgTable, text } from "drizzle-orm/pg-core";
+import { integer, pgTable, text, boolean } from "drizzle-orm/pg-core";
 import { createdAt, id } from "../schema-helpers";
 import { InferSelectModel } from "drizzle-orm";
 import { DbAccountSettings } from "./account-settings";
@@ -13,6 +13,7 @@ export const AccountTable = pgTable("account", {
     nGamesPlayed: integer().notNull().default(0),
     highestScoreAchieved: integer().notNull().default(0),
     colorHex: text().notNull(),
+    isGuestAccount: boolean().notNull().default(false),
     createdAt,
 });
 

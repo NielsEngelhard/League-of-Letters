@@ -1,0 +1,1 @@
+ALTER TABLE "account" ADD COLUMN "isGuestAccount" boolean DEFAULT false NOT NULL;
