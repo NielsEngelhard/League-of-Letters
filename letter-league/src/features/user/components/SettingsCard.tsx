@@ -74,7 +74,7 @@ export default function SettingsCard() {
                         />                     
                     
                     <div>
-                        <Label text="Audio Settings" />
+                        <Label text="Audio Settings (coming soon)" />
                         <div className="flex flex-col gap-2">
                             <SwitchInput
                                 label="Enable Sound Effects"
