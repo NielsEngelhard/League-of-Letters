@@ -3,6 +3,7 @@ import ToggleSwitch from "./Switch";
 
 interface Props {
   label: string;
+  description?: string;
   Icon: React.ElementType;
   name: string; // Field name for react-hook-form
   control: Control<any>; // Control from useForm
@@ -12,6 +13,7 @@ interface Props {
 
 export default function SwitchInput({ 
   label, 
+  description,
   Icon, 
   name, 
   control, 
@@ -25,13 +27,20 @@ export default function SwitchInput({
   });
 
   return (
-    <div className="space-y-3">
+    <div className="space-y-2">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Icon className="w-4 h-4 text-muted-foreground" />
-          <span className="text-sm cursor-pointer text-foreground">
-            {label}
-          </span>
+        <div className="flex items-center gap-3">
+          <Icon className={`w-4 h-4 ${disabled ? 'text-muted-foreground/50' : 'text-muted-foreground'}`} />
+          <div className="space-y-1">
+            <span className={`text-sm font-medium cursor-pointer ${disabled ? 'text-muted-foreground' : 'text-foreground'}`}>
+              {label}
+            </span>
+            {description && (
+              <p className="text-xs text-muted-foreground max-w-sm">
+                {description}
+              </p>
+            )}
+          </div>
         </div>
         <ToggleSwitch
           checked={field.value}
