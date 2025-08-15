@@ -11,10 +11,12 @@ import { useEffect, useState } from "react";
 import Button from "@/components/ui/Button";
 import { useAuth } from "@/features/auth/AuthContext";
 import UpdateCurrentUserSettingsCommand from "../actions/command/update-current-user-settings";
+import { useMessageBar } from "@/components/layout/MessageBarContext";
 
 export default function SettingsCard() {
     const { settings, setSettingsOnClient } = useAuth();
     const [atLeastOneSettingChanged, setAtLeastOneSettingChanged] = useState(false);
+    const { pushMessage } = useMessageBar();
 
     const form = useForm<SettingsSchema>({
       resolver: zodResolver(settingsSchema),
@@ -38,7 +40,13 @@ export default function SettingsCard() {
     }
 
     async function saveSettingsOnServer(updatedSettings: SettingsSchema) {
-        await UpdateCurrentUserSettingsCommand(updatedSettings);
+        UpdateCurrentUserSettingsCommand(updatedSettings)
+            .then(() => {
+                pushMessage({ msg: "Settings saved", type: "success" }, 3);
+            })
+            .catch(() => {
+                pushMessage({ msg: "Try again later", type: "error" }, 3);
+            });
     }
 
     useEffect(() => {
