@@ -30,11 +30,11 @@ export default function ProfilePage() {
     return (
         <PageBase>
             <ProfileCard>
-
+                
             </ProfileCard>
 
             <SettingsCard>
-                
+
             </SettingsCard>
         </PageBase>
     )

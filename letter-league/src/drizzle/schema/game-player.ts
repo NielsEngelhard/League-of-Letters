@@ -1,7 +1,6 @@
 import { integer, pgTable, text, uniqueIndex, uuid } from "drizzle-orm/pg-core";
 import { InferSelectModel, relations } from "drizzle-orm";
 import { ActiveGameTable } from "./active-game";
-import { id } from "../schema-helpers";
 import { AuthSessionTable } from "./auth-session";
 import { connectionStatusEnum } from "./enum/connection-status";
 
