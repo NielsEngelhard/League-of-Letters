@@ -40,9 +40,11 @@ export default function CreateOnlineGamePage() {
 
   // On initial load, connect with the websocket server
   useEffect(() => {
+      if (!account) return;
+
       pushLoadingMsg("Connecting with the realtime server");
       initializeConnection();
-  }, []);
+  }, [account]);
 
   useEffect(() => {
     async function CreateOrGetLobby() {

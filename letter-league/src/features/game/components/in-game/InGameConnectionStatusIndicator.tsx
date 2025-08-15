@@ -13,7 +13,7 @@ export default function GameConnectionStatusIndicator({ players }: Props) {
         <div className="font-semibold text-xs flex flex-row gap-2">
             {disconnectedPlayers.length > 0 ? (
                 disconnectedPlayers.map((dp, i) => {
-                    return <span className="text-error flex flex-row items-center">
+                    return <span className="text-error flex flex-row items-center" key={i}>
                         <Unplug size={14} />
                         {dp.username}
                     </span>

@@ -38,7 +38,7 @@ export default function Footer() {
                         {/* Social Links */}
                         <div className="flex items-center gap-2">
                             <a 
-                                href="https://github.com" 
+                                href="https://github.com/NielsEngelhard/Letter-League" 
                                 target="_blank" 
                                 rel="noopener noreferrer"
                                 className="p-1.5 rounded-lg bg-white/50 hover:bg-white transition-all duration-200 border border-gray-200 hover:border-gray-300 group"

@@ -32,9 +32,11 @@ export default function JoinOnlineGamePage() {
     const joinCode = params.joinCode;
 
     useEffect(() => {
+        if (!account) return;
+
         pushLoadingMsg("Connecting with the realtime server");
         initializeConnection();
-    }, []);
+    }, [account]);
 
     useEffect(() => {
         if (connectionStatus != "connected" || lobby || !joinCode || !account) return;
