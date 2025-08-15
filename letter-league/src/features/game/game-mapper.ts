@@ -12,6 +12,7 @@ export class GameMapper {
             gameMode: game.gameMode,
             createdAt: game.createdAt,
             gameIsOver: game.gameIsOver,
+            hostAccountId: game.hostAccountId,
             rounds: game.rounds.map((round) => {
                 return GameMapper.GameRoundToModel(round);
             }),

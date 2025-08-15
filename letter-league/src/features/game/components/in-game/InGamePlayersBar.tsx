@@ -22,16 +22,18 @@ export default function InGamePlayerBar({ players, currentPlayerId }: Props) {
     return (
             <div className="w-full">
                 <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-sm font-semibold flex items-center gap-2">
-                        <RealtimeStatusIndicator status={disconnectedPlayers.length == 0 ? "connected" : "disconnected"} />
+                    <h3 className="text-sm font-semibold flex items-center gap-2">                        
                         {isSoloGame ? (
                             <span>
                                 {players[0].username}
                             </span>
                         ) : (
+                            <>
+                            <RealtimeStatusIndicator status={disconnectedPlayers.length == 0 ? "connected" : "disconnected"} />
                             <span>
                                 Players ({players.length - disconnectedPlayers.length}/{players.length})
-                            </span>
+                            </span>                            
+                            </>
                         )}
                     </h3>
                     <div className="">

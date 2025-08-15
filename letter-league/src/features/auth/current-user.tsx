@@ -1,6 +1,6 @@
 "use server";
 
-import { JWTPayload, JWTService } from "./jwt-service";
+import { JWTService } from "./jwt-service";
 
 export interface CurrentUserData {
   accountId: string;

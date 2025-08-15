@@ -13,6 +13,7 @@ export interface ActiveGameModel {
     rounds: GameRoundModel[];
     players: GamePlayerModel[];
     gameIsOver: boolean;
+    hostAccountId: string;
 }
 
 // Data that is send when the current round has ended

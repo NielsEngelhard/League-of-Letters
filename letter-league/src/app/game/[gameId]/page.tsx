@@ -15,16 +15,14 @@ import { useEffect } from "react";
 export default function GamePage() {
     const { account } = useAuth();
     const { initializeGameState, game } = useActiveGame();    
-    const { initializeConnection, emitJoinGame } = useSocket();
+    const { initializeConnection, emitJoinGame, connectionStatus } = useSocket();
     const router = useRouter();
 
     const params = useParams();
     const gameId = params.gameId;
 
     useEffect(() => {
-        if (!gameId || !account) return;
-
-        initializeConnection();
+        if (!gameId || !account) return;        
 
         async function GetGame() {
             if (!gameId || !account) return;
@@ -36,13 +34,7 @@ export default function GamePage() {
                     return;
                 };
                 
-                initializeGameState(resp, account.id);
-                emitJoinGame({
-                    gameId: resp.id,
-                    accountId: account.id,
-                    username: account.username,
-                    isHost: false // TODO
-                });                
+                initializeGameState(resp, account.id);               
             } catch(err) {
                 console.log(err);
                 router.push(PICK_GAME_MODE_ROUTE);
@@ -51,6 +43,24 @@ export default function GamePage() {
 
         GetGame();
     }, [gameId, account]);
+
+    // Connect with realtime if online game
+    useEffect(() => {
+        if (!game || game.gameMode == "solo") return;
+        initializeConnection();
+    }, [game]);
+
+    // Join the game room when realtime is connected
+    useEffect(() => {
+        if (!account || !game || connectionStatus != "connected") return;
+        
+        emitJoinGame({
+            gameId: game.id,
+            accountId: account.id,
+            username: account.username,
+            isHost: account.id == game?.hostAccountId
+        });         
+    }, [connectionStatus, game, account]);
 
     return (
         <PageBase>
