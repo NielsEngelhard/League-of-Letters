@@ -1,4 +1,6 @@
+- Scan the guess. If it is not in the list with official words, try to check if it is weird like xxxaa. Maybe some sort of latin vibe validator?
 - Timer for online games
+- statistics regarding games played
 - Landing page with explanation
 - Support multiple languages English, French and Deutsch at first
 - Score explanation

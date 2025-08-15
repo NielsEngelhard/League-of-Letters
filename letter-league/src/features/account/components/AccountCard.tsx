@@ -83,10 +83,10 @@ export default function AccountCard({
                         </div>
                         
                         {account.isGuest && (
-                            <div className="bg-muted/50 rounded-lg p-3 border border-border/50">
+                            <div className="bg-warning/50 rounded-lg p-3 border border-border/50">
                                 <p className="text-xs text-muted-foreground">
-                                    <strong>Guest Account:</strong> Your progress is saved locally but won't sync across devices. 
-                                    Consider creating a full account to preserve your statistics!
+                                    <strong>Guest Account:</strong> Your progress is not saved. 
+                                    Consider creating a full account to preserve your statistics and have better reconnection possibilities!
                                 </p>
                             </div>
                         )}
@@ -104,21 +104,21 @@ export default function AccountCard({
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                             <div className="text-center p-4 bg-muted/30 rounded-lg border border-border/50">
                                 <StatisticHighlight
-                                    title={account.nGamesPlayed.toString()}
+                                    title={account.isGuest ? 'n/a' : account.nGamesPlayed.toString()}
                                     text="Games Played"
                                 />
                             </div>
                             
                             <div className="text-center p-4 bg-muted/30 rounded-lg border border-border/50">
                                 <StatisticHighlight
-                                    title={account.highestScoreAchieved.toString()}
+                                    title={account.isGuest ? 'n/a' : account.highestScoreAchieved.toString()}
                                     text="Best Score"
                                 />
                             </div>
                             
                             <div className="text-center p-4 bg-muted/30 rounded-lg border border-border/50">
                                 <StatisticHighlight
-                                    title={account.favouriteWord || "None"}
+                                    title={account.isGuest ? 'n/a' : account.favouriteWord || "None"}
                                     text="Favorite Word"
                                 />
                             </div>
