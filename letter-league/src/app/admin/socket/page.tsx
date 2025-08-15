@@ -14,7 +14,7 @@ export default function AdminTestSocketPage() {
     function onJoinGame() {
         var data: JoinGameRealtimeModel = {
             gameId: "yolo",
-            userId: account?.id ?? "unauthed_id",
+            accountId: account?.id ?? "unauthed_id",
             username: account?.username ?? "unauthed_uname"
         }
 

@@ -105,7 +105,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
   function updatePlayerScores(response: GuessWordResponse) {
     setPlayers(prevPlayers =>
       prevPlayers.map(player =>
-        player.userId === response.userId
+        player.accountId === response.accountId
           ? { ...player, score: player.score + response.scoreResult.totalScore }
           : player
       )
@@ -215,10 +215,10 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
 
   function addOrReconnectPlayer(player: GamePlayerModel) {
     setPlayers(prev => {
-      const playerExists = prev.some(p => p.userId === player.userId);
+      const playerExists = prev.some(p => p.accountId === player.accountId);
 
       if (playerExists) {
-        return prev.map(player => player.userId == player.userId ? {...player, connectionStatus: "connected"} : player);
+        return prev.map(player => player.accountId == player.accountId ? {...player, connectionStatus: "connected"} : player);
       }
 
       return [...prev, player];
@@ -226,11 +226,11 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
   }
 
   function removePlayer(playerId: string) {
-    setPlayers(prev => prev.filter(p => p.userId != playerId));
+    setPlayers(prev => prev.filter(p => p.accountId != playerId));
   }
 
   function disconnectPlayer(playerId: string) {
-    setPlayers(prev => prev.map(player => player.userId == playerId ? {...player, connectionStatus: "disconnected"} : player));
+    setPlayers(prev => prev.map(player => player.accountId == playerId ? {...player, connectionStatus: "disconnected"} : player));
   }
 
   return (

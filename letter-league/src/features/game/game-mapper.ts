@@ -16,19 +16,19 @@ export class GameMapper {
                 return GameMapper.GameRoundToModel(round);
             }),
             players: game.players.map((player) => {
-                return GameMapper.GamePlayerToModel(player);
+                return GameMapper.GamePlayerToModel(player, game.hostAccountId);
             }),
         }
     }
 
-    static GamePlayerToModel(player: DbGamePlayer): GamePlayerModel {
+    static GamePlayerToModel(player: DbGamePlayer, hostUserId?: string): GamePlayerModel {
         return {
-            userId: player.userId,
+            accountId: player.accountId,
             score: player.score,
-            username: player.username ?? "anonymous",
-            connectionStatus: "connected",
-            isHost: false,
-            position: player.position
+            username: player.username ?? "anonymous",            
+            isHost: player.accountId == hostUserId,
+            position: player.position,
+            connectionStatus: player.connectionStatus,
         }
     }
 

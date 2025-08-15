@@ -31,7 +31,8 @@ export default async function CreateGameCommand(schema: CreateGameSchema, gameId
             gameMode: schema.gameMode,
             wordLength: schema.wordLength,
             currentRoundIndex: 1,
-            nGuessesPerRound: schema.guessesPerRound
+            nGuessesPerRound: schema.guessesPerRound,
+            hostAccountId: currentUser.accountId
         }).returning({
             gameId: ActiveGameTable.id
         });
@@ -50,14 +51,14 @@ function createPlayers(schema: CreateGameSchema, gameId: string): DbGamePlayer[]
     if (!schema.players) throw Error("No players assigned");
 
     return schema.players?.map((schemaPlayer, index) => 
-        GamePlayerFactory.createGamePlayer(gameId, schemaPlayer.userId, index + 1, schemaPlayer.username)
+        GamePlayerFactory.createGamePlayer(gameId, schemaPlayer.accountId, index + 1, schemaPlayer.connectionStatus ?? "empty", schemaPlayer.username)
     );
 }
 
 function AddCallerAsOnlyPlayer(schema: CreateGameSchema, currentUser: CurrentUserData) {
     schema.players = [
         {
-            userId: currentUser.accountId,
+            accountId: currentUser.accountId,
             username: currentUser.username
         }
     ];

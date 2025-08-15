@@ -68,7 +68,7 @@ export default function GameResultOverview({ players }: Props) {
                         
                         return (
                             <div 
-                                key={player.userId || index}
+                                key={player.accountId || index}
                                 className={`
                                     transform transition-all duration-500 ease-out
                                     ${isWinner ? 'scale-105' : ''}

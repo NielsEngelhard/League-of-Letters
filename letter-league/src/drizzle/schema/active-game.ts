@@ -1,9 +1,9 @@
-import { integer, pgTable, text, boolean } from "drizzle-orm/pg-core";
+import { integer, pgTable, text, boolean, uuid } from "drizzle-orm/pg-core";
 import { createdAt } from "../schema-helpers";
 import { InferSelectModel, relations } from "drizzle-orm";
 import { DbGameRound, GameRoundTable } from "./game-round";
 import { GamePlayerTable, DbGamePlayer } from "./game-player";
-import { gameModeEnum } from "../schema";
+import { AccountTable, gameModeEnum } from "../schema";
 
 export const ActiveGameTable = pgTable("active_game", {
     id: text().primaryKey(),        
@@ -13,6 +13,9 @@ export const ActiveGameTable = pgTable("active_game", {
     wordLength: integer().notNull(),    
     currentRoundIndex: integer().notNull().default(1),    
     gameIsOver: boolean().notNull().default(false),
+    hostAccountId: uuid()
+      .references(() => AccountTable.id, { onDelete: "cascade" })
+      .notNull(),
     createdAt,
 });
 export type DbActiveGame = InferSelectModel<typeof ActiveGameTable>;

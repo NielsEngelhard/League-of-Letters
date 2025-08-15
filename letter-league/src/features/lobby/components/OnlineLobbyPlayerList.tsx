@@ -32,7 +32,7 @@ export default function OnlineLobbyPlayerList({ players = [], userHostId }: Prop
                         <span>{player.username}</span>   
                     )}
                 </span>
-                {player.userId == userHostId && (
+                {player.accountId == userHostId && (
                     <Crown className="w-3 h-3 sm:w-4 sm:h-4 text-warning" />
                 )}
                 </div>

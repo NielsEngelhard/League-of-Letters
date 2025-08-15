@@ -19,10 +19,10 @@ export default async function JoinGameLobbyCommand(command: JoinOnlineLobbySchem
         return ServerResponseFactory.error(`Lobby with '${command.gameId}' does not exist`);
     }
     
-    if (lobby.players.some(p => p.userId == currentUser.accountId)) {
+    if (lobby.players.some(p => p.accountId == currentUser.accountId)) {
         await ReconnectOnlineLobbyPlayer({
             lobbyId: lobby.id,
-            userId: currentUser.accountId
+            accountId: currentUser.accountId
         });
     } else {
         if (lobby.players.length >= MAX_ONLINE_GAME_PLAYERS) {

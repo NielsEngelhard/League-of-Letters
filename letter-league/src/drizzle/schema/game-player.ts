@@ -8,7 +8,7 @@ export const GamePlayerTable = pgTable(
   "game_player",
   {
     id: uuid().primaryKey().defaultRandom(),
-    userId: uuid()
+    accountId: uuid()
       .references(() => AccountTable.id, { onDelete: "cascade" })
       .notNull(),
     gameId: text()

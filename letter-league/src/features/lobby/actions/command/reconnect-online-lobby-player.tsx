@@ -5,7 +5,7 @@ import { OnlineLobbyPlayerTable } from "@/drizzle/schema";
 import { and, eq } from "drizzle-orm";
 
 interface Props {
-    userId: string;
+    accountId: string;
     lobbyId: string;
 }
 
@@ -15,7 +15,7 @@ export default async function ReconnectOnlineLobbyPlayer(data: Props) {
             connectionStatus: "connected"
         })
         .where(and(
-            eq(OnlineLobbyPlayerTable.userId, data.userId),
+            eq(OnlineLobbyPlayerTable.accountId, data.accountId),
             eq(OnlineLobbyPlayerTable.lobbyId, data.lobbyId)
         ));         
 }

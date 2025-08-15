@@ -49,7 +49,7 @@ export default function InGamePlayerBar({ players, currentPlayerId }: Props) {
                             <InGamePlayerCard
                                 player={player}
                                 scorePosition={index + 1}
-                                isHisTurn={player.userId == currentPlayerId}
+                                isHisTurn={player.accountId == currentPlayerId}
                                 key={index}
                             />
                         ))}

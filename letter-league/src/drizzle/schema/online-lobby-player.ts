@@ -6,7 +6,7 @@ import { AccountTable, connectionStatusEnum } from "../schema";
 
 export const OnlineLobbyPlayerTable = pgTable("online_lobby_player", {
     id,
-    userId: uuid().references(() => AccountTable.id, { onDelete: 'cascade' }).notNull(),
+    accountId: uuid().references(() => AccountTable.id, { onDelete: 'cascade' }).notNull(),
     lobbyId: text().references(() => OnlineLobbyTable.id, { onDelete: 'cascade' }),
     username: text().notNull().default("anonymous"),
     connectionStatus: connectionStatusEnum().notNull().default("empty"),

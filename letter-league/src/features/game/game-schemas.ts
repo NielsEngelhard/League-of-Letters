@@ -2,10 +2,12 @@ import { gameModes } from "@/drizzle/schema";
 import { z } from "zod";
 import { MAX_GUESSES_PER_ROUND, MAX_TOTAL_ROUNDS, MAX_WORD_LENGTH, MIN_GUESSES_PER_ROUND, MIN_TOTAL_ROUNDS, MIN_WORD_LENGTH } from "./game-constants";
 import { isValidGameId } from "./util/game-id-generator";
+import { connectionStatusses } from "../realtime/realtime-models";
 
 export const createGamePlayerSchema = z.object({
-    userId: z.string().nonempty(),
-    username: z.string().nonempty(),    
+    accountId: z.string().nonempty(),
+    username: z.string().nonempty(),
+    connectionStatus: z.enum(connectionStatusses).optional(),
 });
 export type CreateGamePlayerSchema = z.infer<typeof createGamePlayerSchema>;
 

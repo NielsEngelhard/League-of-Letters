@@ -7,7 +7,7 @@ import { ConnectionStatus } from "@/features/realtime/realtime-models";
 import { and, eq } from "drizzle-orm";
 
 interface Props {
-    userId: string;
+    accountId: string;
     lobbyId: string;
     connectionStatus: ConnectionStatus;
 }
@@ -20,7 +20,7 @@ export default async function UpdateOnlineLobbyPlayerConnectionStatus(data: Prop
             connectionStatus: data.connectionStatus
         })
         .where(and(
-            eq(OnlineLobbyPlayerTable.userId, data.userId),
+            eq(OnlineLobbyPlayerTable.accountId, data.accountId),
             eq(OnlineLobbyPlayerTable.lobbyId, data.lobbyId)
         ));         
 }

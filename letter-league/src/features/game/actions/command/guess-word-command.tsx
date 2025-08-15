@@ -21,7 +21,7 @@ export interface GuessWordCommandInput {
 }
 
 export interface GuessWordResponse {
-    userId: string;
+    accountId: string;
     guessResult: EvaluatedWord;
     newLetters: EvaluatedLetter[];
     scoreResult: CalculateScoreResult;
@@ -71,7 +71,7 @@ function getPlayerWhosTurnItIs(game: DbActiveGameWithRoundsAndPlayers, currentGu
     const sortedPlayerIds = sortDbPlayerOnPositionAndGetUserIds(game.players);
 
     const playerId = TurnTrackerAlgorithm.determineWhosTurnItIs(sortedPlayerIds, game.currentRoundIndex, currentGuessIndex);
-    return game.players.find(p => p.userId == playerId)!;
+    return game.players.find(p => p.accountId == playerId)!;
 }
 
 async function updateCurrentGameState(game: DbActiveGameWithRoundsAndPlayers, currentRound: DbGameRound, validationResult: DetailedValidationResult, scoreResult: CalculateScoreResult, currentPlayer: DbGamePlayer): Promise<GuessWordResponse> {
@@ -95,7 +95,7 @@ async function updateCurrentGameState(game: DbActiveGameWithRoundsAndPlayers, cu
     }
 
     return {
-        userId: currentPlayer.userId,
+        accountId: currentPlayer.accountId,
         guessResult: currentGuess,
         newLetters: validationResult.newLetters,
         scoreResult: scoreResult,
@@ -145,7 +145,7 @@ async function getGame(gameId: string): Promise<DbActiveGameWithRoundsAndPlayers
 async function isPlayersTurn(currentPlayer: DbGamePlayer): Promise<boolean> {
     const currentUser = await getCurrentUserOrCrash();
     
-    return currentUser.accountId == currentPlayer.userId;
+    return currentUser.accountId == currentPlayer.accountId;
 }
 
 async function updateGameRoundWithCurrentGuess(currentRound: DbGameRound, validationResult: DetailedValidationResult) {
@@ -176,7 +176,7 @@ async function addScoreForPlayer(player: DbGamePlayer, score: number) {
     })
     .where(
       and(
-        eq(GamePlayerTable.userId, player.userId),
+        eq(GamePlayerTable.accountId, player.accountId),
         eq(GamePlayerTable.gameId, player.gameId)
       )
     );

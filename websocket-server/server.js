@@ -46,19 +46,19 @@ io.on('connection', (socket) => {
   console.log(`User connected: ${socket.id}`);
 
   // USER ACTIONS --------------------------------------------------------------------
-  socket.on('join-game', ({ gameId, username, userId, isHost}) => {    
+  socket.on('join-game', ({ gameId, username, accountId, isHost}) => {    
     // TODO: check in back-end if this lobby does exist
     
     // Set user specific data
-    socket.userId = userId;
+    socket.accountId = accountId;
     socket.gameId = gameId;
 
     socket.join(gameId);
     console.log(`User ${username} joined room: ${gameId}`);    
 
-    CallWebhook_UpdatePlayerConnectionStatus(socket.gameId, socket.userId, "connected")
+    CallWebhook_UpdatePlayerConnectionStatus(socket.gameId, socket.accountId, "connected")
     .finally(() => {
-      socket.broadcast.to(gameId).emit('user-joined', { userId: userId, username: username, isHost: isHost, connectionStatus: "connected" });
+      socket.broadcast.to(gameId).emit('user-joined', { accountId: accountId, username: username, isHost: isHost, connectionStatus: "connected" });
     });      
   });
 
@@ -67,7 +67,7 @@ io.on('connection', (socket) => {
   socket.on('leave-game', (gameId) => {
     socket.leave(gameId);
     console.log(`User ${socket.id} left room: ${gameId}`);
-    socket.in(gameId).emit('user-left', { userId: socket.id, room });
+    socket.in(gameId).emit('user-left', { accountId: socket.id, room });
   });
 
   socket.on('player-guess-changed', (guess) => {
@@ -95,16 +95,16 @@ io.on('connection', (socket) => {
 
   // GENERAL ACTIONS ----------------------------------------------------------------------
   socket.on('disconnect', () => {
-    console.log(`User '${socket.userId}' disconnected from game: '${socket.gameId}'`);
+    console.log(`User '${socket.accountId}' disconnected from game: '${socket.gameId}'`);
 
-    CallWebhook_UpdatePlayerConnectionStatus(socket.gameId, socket.userId, "disconnected")
+    CallWebhook_UpdatePlayerConnectionStatus(socket.gameId, socket.accountId, "disconnected")
     .finally(() => {
-      socket.broadcast.to(socket.gameId).emit('user-disconnected', socket.userId);   
+      socket.broadcast.to(socket.gameId).emit('user-disconnected', socket.accountId);   
     });     
   });
 
   socket.on('reconnect', () => {
-    console.log(`User '${socket.userId}' reconnected'`);
+    console.log(`User '${socket.accountId}' reconnected'`);
   });  
 
   socket.on('error', (error) => {

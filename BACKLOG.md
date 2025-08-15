@@ -1,5 +1,3 @@
-- Account page
-- User login and guest login functionality for stats
 - Timer for online games
 - Landing page with explanation
 - Support multiple languages English, French and Deutsch at first

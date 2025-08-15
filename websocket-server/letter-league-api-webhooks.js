@@ -20,10 +20,10 @@ async function CallWebhook(webhookPath, data) {
   } 
 }  
 
-async function CallWebhook_UpdatePlayerConnectionStatus(gameId, userId, connectionStatus) {     
+async function CallWebhook_UpdatePlayerConnectionStatus(gameId, accountId, connectionStatus) {     
   await CallWebhook("update-player-connection-status", {             
       gameId: gameId,             
-      userId: userId,
+      accountId: accountId,
       connectionStatus: connectionStatus      
     }); 
 } 

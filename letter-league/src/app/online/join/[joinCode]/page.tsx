@@ -57,7 +57,7 @@ export default function JoinOnlineGamePage() {
 
             emitJoinGame({
                 gameId: serverResponse.data.id,
-                userId: account.id,
+                accountId: account.id,
                 username: account.username,
                 isHost: true
             });    

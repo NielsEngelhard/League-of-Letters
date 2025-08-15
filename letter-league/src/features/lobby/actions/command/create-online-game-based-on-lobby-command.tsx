@@ -30,8 +30,9 @@ export default async function CreateOnlineGameBasedOnLobbyCommand(schema: Create
 function AddPlayersToCreateSchema(schema: CreateGameSchema, lobbyPlayers: DbOnlineLobbyPlayer[]) {
     schema.players = lobbyPlayers.map(p => {
         return {
-            userId: p.userId,
-            username: p.username
+            accountId: p.accountId,
+            username: p.username,
+            connectionStatus: p.connectionStatus
         }
     });
 }

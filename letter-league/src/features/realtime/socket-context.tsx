@@ -93,7 +93,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
     });
 
     socket.on('guess-word', (response: GuessWordResponse) => {
-      if (response.userId == account?.id) return;
+      if (response.accountId == account?.id) return;
 
       console.log("GUESS WORD HAS BEEN TRIGGERED");
       activeGameContext.handleWordGuess(response);

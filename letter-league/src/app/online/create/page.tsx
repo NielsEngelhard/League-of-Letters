@@ -58,7 +58,7 @@ export default function CreateOnlineGamePage() {
 
       emitJoinGame({
         gameId: lobbyResponse.id,
-        userId: account.id,
+        accountId: account.id,
         username: account.username,
         isHost: true
       });
@@ -150,7 +150,7 @@ export default function CreateOnlineGamePage() {
                     onSubmit={onSubmit}
                     submitDisabled={!lobby?.id}
                     gameMode="online" 
-                    players={players.map((p) => ({ userId: p.userId, username: p.username }))}
+                    players={players.map((p) => ({ accountId: p.accountId, username: p.username }))}
                   />
                 ) : (
                   <LoadingDots />

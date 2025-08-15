@@ -7,7 +7,7 @@ import UpdateActiveGamePlayerConnectionStatus from '@/features/game/actions/comm
 
 export interface UpdatePlayerConnectionStatusPayload {
   gameId: string;
-  userId: string;
+  accountId: string;
   connectionStatus: ConnectionStatus;
 }
 
@@ -22,13 +22,13 @@ export async function POST(req: NextRequest) {
     await db.transaction(async (tx) => {
       await UpdateOnlineLobbyPlayerConnectionStatus({
         lobbyId: body.gameId,
-        userId: body.userId,
+        accountId: body.accountId,
         connectionStatus: body.connectionStatus
       }, tx);
 
       await UpdateActiveGamePlayerConnectionStatus({
         gameId: body.gameId,
-        userId: body.userId,
+        accountId: body.accountId,
         connectionStatus: body.connectionStatus
       }, tx);      
     })

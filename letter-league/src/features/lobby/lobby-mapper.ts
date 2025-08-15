@@ -8,7 +8,7 @@ export class OnlineLobbyMapper {
     static CurrentUserToLobbyPlayer(currentUser: CurrentUserData, lobbyId: string, connectionStatus: ConnectionStatus = "connected"): DbOnlineLobbyPlayer {
         return {
             id: undefined!,
-            userId: currentUser.accountId,
+            accountId: currentUser.accountId,
             lobbyId: lobbyId,
             connectionStatus: connectionStatus,
             username: currentUser.username,
@@ -27,7 +27,7 @@ export class OnlineLobbyMapper {
 
     static DbLobbyPlayerToModel(lobbyPlayer: DbOnlineLobbyPlayer): GamePlayerModel {
         return {
-            userId: lobbyPlayer.userId,            
+            accountId: lobbyPlayer.accountId,            
             username: lobbyPlayer.username,
             connectionStatus: lobbyPlayer.connectionStatus,
             isHost: false,

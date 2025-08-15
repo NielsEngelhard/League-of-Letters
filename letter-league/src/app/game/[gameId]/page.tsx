@@ -39,7 +39,7 @@ export default function GamePage() {
                 initializeGameState(resp, account.id);
                 emitJoinGame({
                     gameId: resp.id,
-                    userId: account.id,
+                    accountId: account.id,
                     username: account.username,
                     isHost: false // TODO
                 });                
