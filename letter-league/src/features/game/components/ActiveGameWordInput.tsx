@@ -93,9 +93,6 @@ export default function WordInput({ currentGuess, onEnter, onChange, wordLength,
                 onKeyPress={onKeyPress}
                 onDelete={onKeyDelete}
                 onEnter={onEnter}
-                // correctKeys={currentRound.guessedLetters.filter(l => l.state == LetterState.Correct && l.letter !== undefined).map(l => l.letter as string)}
-                // warningKeys={currentRound.guessedLetters.filter(l => l.state == LetterState.Misplaced && l.letter !== undefined).map(l => l.letter as string)}
-                // errorKeys={currentRound.guessedLetters.filter(l => l.state == LetterState.Wrong && l.letter !== undefined).map(l => l.letter as string)}
             />                        
         )
     }

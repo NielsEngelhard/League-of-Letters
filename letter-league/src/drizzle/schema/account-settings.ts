@@ -11,6 +11,8 @@ export const AccountSettingsTable = pgTable("account_settings", {
     showKeyboardHints: boolean().notNull().default(true),
     showLettersOnTopOfScreen: boolean().notNull().default(true),
     enableBackgroundMusic: boolean().notNull().default(true),
+    showGuessedLettersBar: boolean().notNull().default(false),
+    preFillGuess: boolean().notNull().default(false),
 });
 
 export type DbAccountSettings = InferSelectModel<typeof AccountSettingsTable>;

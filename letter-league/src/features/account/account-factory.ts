@@ -29,7 +29,10 @@ export default class AccountFactory {
             enableBackgroundMusic: true,
             enableSoundEffects: true,
             theme: "light",
-            wordInput: "on-screen-keyboard"
+            wordInput: "on-screen-keyboard",
+            showKeyboardHints: true,
+            showLettersOnTopOfScreen: false,
+            showGuessedLettersBar: false
         }
     }
 }

@@ -10,6 +10,7 @@ import Label from "@/components/ui/form/Label";
 import { useEffect, useState } from "react";
 import Button from "@/components/ui/Button";
 import { useAuth } from "@/features/auth/AuthContext";
+import UpdateCurrentUserSettingsCommand from "../actions/command/update-current-user-settings";
 
 export default function SettingsCard() {
     const { settings, setSettingsOnClient } = useAuth();
@@ -36,8 +37,8 @@ export default function SettingsCard() {
         setAtLeastOneSettingChanged(false);
     }
 
-    async function saveSettingsOnServer(s: SettingsSchema) {
-        console.log("save on server TODO");
+    async function saveSettingsOnServer(updatedSettings: SettingsSchema) {
+        await UpdateCurrentUserSettingsCommand(updatedSettings);
     }
 
     useEffect(() => {
@@ -103,7 +104,13 @@ export default function SettingsCard() {
                                 control={form.control}
                                 name="showLettersOnTopOfScreen"
                                 disabled={settings.showGuessedLettersBar == false}             
-                            />                                                                   
+                            />
+                            <SwitchInput
+                                label="Pre fill guess"
+                                Icon={LetterText}
+                                control={form.control}
+                                name="preFillGuess"
+                            />                                                                                               
                         </div>                        
                     </div>                                       
                     

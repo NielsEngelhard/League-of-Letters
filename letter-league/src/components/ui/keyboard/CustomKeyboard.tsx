@@ -1,6 +1,10 @@
 import { Delete, Send } from "lucide-react";
 import KeyboardKey from "./KeyboardKey";
 import KeyboardColorExplanation from "./KeyboardColorExplanation";
+import { useEffect } from "react";
+import { useAuth } from "@/features/auth/AuthContext";
+import { useActiveGame } from "@/features/game/components/active-game-context";
+import { LetterState } from "@/features/word/word-models";
 
 const keyboardRows = [
     ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
@@ -10,20 +14,31 @@ const keyboardRows = [
 
 interface Props {
     onKeyPress: (key: string) => void;
-    correctKeys?: string[];
-    warningKeys?: string[];
-    errorKeys?: string[];
     onDelete?: () => void;
     onEnter?: () => void;
 }
 
-export default function CustomKeyboard({ correctKeys, warningKeys, errorKeys, onKeyPress, onDelete, onEnter }: Props) {
-    function determineKeyVariant(keyboardKey: string): "neutral" | "success" | "warning" | "error" | null | undefined {
-        if (warningKeys?.includes(keyboardKey.toUpperCase())) return "warning";
-        if (correctKeys?.includes(keyboardKey.toUpperCase())) return "success";        
-        if (errorKeys?.includes(keyboardKey.toUpperCase())) return "error";
+export default function CustomKeyboard({ onKeyPress, onDelete, onEnter }: Props) {
+    const { settings } = useAuth();
+    const { currentRound } = useActiveGame();
 
-        return "neutral";
+    function determineKeyVariant(keyboardKey: string): "neutral" | "success" | "warning" | "error" | null | undefined {
+        if (!settings.showKeyboardHints) return "neutral";
+
+        const guessedLetter = currentRound?.guessedLetters.find(l => l.letter == keyboardKey);
+
+        if (!guessedLetter) return "neutral";
+
+        switch(guessedLetter.state) {
+            case LetterState.Correct:
+                return "success";
+            case LetterState.Misplaced:
+                return "warning";
+            case LetterState.Wrong:
+                return "error";
+            default:
+                return "neutral";                                                
+        }
     }
 
     return (
@@ -71,7 +86,7 @@ export default function CustomKeyboard({ correctKeys, warningKeys, errorKeys, on
                 </div>
             ))}
         </div>
-        <KeyboardColorExplanation />
+        {settings.showKeyboardHints == true && <KeyboardColorExplanation />}
     </>
     )
 }

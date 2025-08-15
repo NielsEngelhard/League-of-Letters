@@ -12,6 +12,8 @@ export const settingsSchema = z.object({
     showKeyboardHints: z.boolean().default(true).optional(),
     showGuessedLettersBar: z.boolean().default(true).optional(),
 
+    preFillGuess: z.boolean().default(false).optional(),
+
     // Sound
     playSoundEffects: z.boolean().default(true).optional(),
     playBackgroundMusic: z.boolean().default(true).optional(),
