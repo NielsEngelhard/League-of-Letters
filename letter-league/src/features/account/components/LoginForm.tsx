@@ -4,8 +4,13 @@ import { loginSchema, LoginSchema } from "../account-schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "@/components/ui/Button";
 import ErrorText from "@/components/ui/text/ErrorText";
+import { IdCard, LogIn } from "lucide-react";
 
-export default function LoginForm() {
+interface Props {
+    onNavToSignUp: () => void;
+}
+
+export default function LoginForm({ onNavToSignUp }: Props) {
 
     const form = useForm<LoginSchema>({
         resolver: zodResolver(loginSchema),
@@ -32,10 +37,12 @@ export default function LoginForm() {
 
             <div className="flex flex-col md:flex-row gap-4">
                 <Button variant="primary" className="w-full">
+                    <LogIn className="w-4 h-4" />
                     Login
                 </Button>
-                <Button variant="skeleton" className="w-full">
-                    Continue as Guest
+                <Button variant="secondary" className="w-full" onClick={onNavToSignUp}>
+                    <IdCard className="w-4 h-4" />
+                    Sign Up
                 </Button>                        
             </div>
 

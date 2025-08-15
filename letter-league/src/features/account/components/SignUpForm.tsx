@@ -4,6 +4,7 @@ import { loginSchema, LoginSchema, signUpSchema, SignUpSchema } from "../account
 import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "@/components/ui/Button";
 import ErrorText from "@/components/ui/text/ErrorText";
+import { IdCard } from "lucide-react";
 
 export default function SignUpForm() {
 
@@ -38,7 +39,10 @@ export default function SignUpForm() {
 
             <TextInput label="Username" placeholder="Your username" {...form.register("username")} errorMsg={form.formState.errors.username?.message} />
 
-            <Button type="submit">Sign Up</Button>
+            <Button type="submit">
+                <IdCard className="w-6 h-6" />
+                Create Account
+            </Button>
 
             <ErrorText>
                 <span>
