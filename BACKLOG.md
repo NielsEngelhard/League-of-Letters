@@ -1,4 +1,4 @@
-- Profile page
+- Account page
 - User login and guest login functionality for stats
 - Timer for online games
 - Landing page with explanation

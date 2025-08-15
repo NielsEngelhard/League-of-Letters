@@ -3,7 +3,12 @@
 import { createContext, useState, useEffect, ReactNode, useContext } from 'react';
 import { AuthSessionModel } from './auth-models';
 import CreateAuthSession from './actions/command/create-auth-session';
+import { loginSchema } from '../account/account-schemas';
+import { z } from 'zod';
+import LoginCommand from '../account/actions/command/login-command';
+import { PublicAccountModel } from '../account/account-models';
 
+const ACCOUNT_LOCALSTORAGE_KEY: string = "account";
 const AUTH_SESSION_LOCALSTORAGE_KEY: string = "auth-session";
 
 type AuthContextType = {
@@ -11,12 +16,15 @@ type AuthContextType = {
   getOrCreateGuestAuthSession: () => Promise<AuthSessionModel>;
   getAuthSession: () => AuthSessionModel | null;
   logout: () => void;
+
+  login: (data: z.infer<typeof loginSchema>) => Promise<string | undefined>;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [authSession, setAuthSession] = useState<AuthSessionModel | null>(null);
+  const [account, setAccount] = useState<PublicAccountModel | null>(null);
 
   // Check for existing session on mount
   useEffect(() => {
@@ -81,8 +89,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }
 
+  const login = async (data: z.infer<typeof loginSchema>): Promise<string | undefined> => {
+    var loginResponse = await LoginCommand(data);
+    if (!loginResponse.ok) return loginResponse.errorMsg;
+
+    const responseData: PublicAccountModel = loginResponse.data!;
+
+    localStorage.setItem(ACCOUNT_LOCALSTORAGE_KEY, JSON.stringify(responseData));
+    setAccount(responseData);
+  };  
+
   return (
-    <AuthContext.Provider value={{ authSession, getOrCreateGuestAuthSession, getAuthSession, logout }}>
+    <AuthContext.Provider value={{ authSession, getOrCreateGuestAuthSession, getAuthSession, logout, login }}>
       {children}
     </AuthContext.Provider>
   );

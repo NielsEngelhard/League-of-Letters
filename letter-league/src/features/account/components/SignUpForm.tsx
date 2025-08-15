@@ -1,12 +1,17 @@
 import TextInput from "@/components/ui/form/TextInput";
 import { useForm } from "react-hook-form";
-import { loginSchema, LoginSchema, signUpSchema, SignUpSchema } from "../account-schemas";
+import { signUpSchema, SignUpSchema } from "../account-schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Button from "@/components/ui/Button";
 import ErrorText from "@/components/ui/text/ErrorText";
 import { IdCard } from "lucide-react";
+import { useAuth } from "@/features/auth/AuthContext";
+import CreateAccountCommand from "../actions/command/create-account-command";
+import { useRouter } from "next/navigation";
 
 export default function SignUpForm() {
+    const router = useRouter();
+    const authContext = useAuth();
 
     const form = useForm<SignUpSchema>({
         resolver: zodResolver(signUpSchema),
@@ -18,17 +23,15 @@ export default function SignUpForm() {
     })
 
     async function onSubmit(data: SignUpSchema) {
-        // const error = await signUp(data);
-        // if (!error) {
-        //     await login({ username: data.email, password: data.password });
-        //     toggleShowAuthModal();
-        //     redirect("/play");
-        // } 
+        const error = await CreateAccountCommand(data);
+        if (!error) {
+            await authContext.login({ username: data.email, password: data.password });
+        } 
 
-        // form.setError("root", {
-        //     type: "manual",
-        //     message: error
-        // });
+        form.setError("root", {
+            type: "manual",
+            message: error
+        });
     }
 
     return (

@@ -12,6 +12,7 @@ export const AccountTable = pgTable("account", {
     favouriteWord: text(),
     nGamesPlayed: integer().notNull().default(0),
     highestScoreAchieved: integer().notNull().default(0),
+    colorHex: text().notNull(),
     createdAt,
 });
 
