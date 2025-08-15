@@ -10,7 +10,8 @@ export class AccountMapper {
             favouriteWord: account.favouriteWord ?? "-",
             highestScoreAchieved: account.highestScoreAchieved,
             nGamesPlayed: account.highestScoreAchieved,
-            username: account.username
+            username: account.username,
+            isGuest: account.isGuestAccount
         }
     } 
 

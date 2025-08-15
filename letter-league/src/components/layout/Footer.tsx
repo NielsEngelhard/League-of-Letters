@@ -1,7 +1,7 @@
 "use client"
 
 import { APP_NAME } from "@/app/global-constants";
-import { PICK_GAME_MODE_ROUTE } from "@/app/routes";
+import { PICK_GAME_MODE_ROUTE, PRIVACY_POLICY_ROUTE, TERMS_OF_SERVICE_ROUTE } from "@/app/routes";
 import Link from "next/link";
 
 export default function Footer() {
@@ -59,13 +59,13 @@ export default function Footer() {
                     </div>
                     <div className="flex items-center gap-4">
                         <Link 
-                            href="/privacy" 
+                            href={PRIVACY_POLICY_ROUTE} 
                             className="text-xs text-gray-500 hover:text-gray-700 transition-colors duration-200"
                         >
                             Privacy Policy
                         </Link>
                         <Link 
-                            href="/terms" 
+                            href={TERMS_OF_SERVICE_ROUTE}
                             className="text-xs text-gray-500 hover:text-gray-700 transition-colors duration-200"
                         >
                             Terms of Service

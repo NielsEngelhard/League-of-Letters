@@ -17,7 +17,7 @@ export default async function CreateGuestSessionCommand(): Promise<ServerRespons
             accountId: guestAccount.id,
             email: guestAccount.email,
             username: guestAccount.username,
-            isGuest: false
+            isGuest: true
         });
         
         return ServerResponseFactory.success(AccountMapper.DbAccountToPublicModel(guestAccount));

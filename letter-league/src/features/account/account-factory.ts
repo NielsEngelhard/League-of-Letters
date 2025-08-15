@@ -32,7 +32,8 @@ export default class AccountFactory {
             wordInput: "on-screen-keyboard",
             showKeyboardHints: true,
             showLettersOnTopOfScreen: false,
-            showGuessedLettersBar: false
+            showGuessedLettersBar: false,
+            preFillGuess: true
         }
     }
 }
