@@ -1,7 +1,6 @@
 'use client';
 
-import { createContext, useState, ReactNode, useContext } from 'react';
-import { AuthSessionModel } from './auth-models';
+import { createContext, useState, ReactNode, useContext, useEffect } from 'react';
 import { loginSchema } from '../account/account-schemas';
 import { z } from 'zod';
 import LoginCommand from './actions/command/login-command';
@@ -11,90 +10,82 @@ import { LogoutCommand } from './actions/command/logout-command';
 const ACCOUNT_LOCALSTORAGE_KEY: string = "account";
 
 type AuthContextType = {
-  authSession: AuthSessionModel | null;
-  logout: () => void;
+  account: PublicAccountModel | null;
+  isLoggedIn: boolean;
+  isLoading: boolean;  
 
+  logout: () => void;
   login: (data: z.infer<typeof loginSchema>) => Promise<string | undefined>;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [authSession, setAuthSession] = useState<AuthSessionModel | null>(null);
   const [account, setAccount] = useState<PublicAccountModel | null>(null);
+  const [isLoading, setIsLoading] = useState(true)
 
-  // Check for existing session on mount
-  // useEffect(() => {
-  //   getAuthSessionFromLocalStorage();
-  // }, []);
-
-  // const getAuthSessionFromLocalStorage = (): AuthSessionModel | null => {
-  //   try {
-  //     const storedAuthSession = localStorage.getItem(AUTH_SESSION_LOCALSTORAGE_KEY);
-  //     if (!storedAuthSession) return null;
-
-  //     const parsedAuthSession = JSON.parse(storedAuthSession);
-  //     setAuthSession(parsedAuthSession);
-
-  //     return parsedAuthSession;      
-  //   } catch {
-  //     console.log("ERROR while retrieving auth session from local storage");
-  //     return null;
-  //   }
-  // }
-
-  // const setAuthSessionInLocalStorage = (authSession: AuthSessionModel): void => {
-  //   try {
-  //     const jsonString = JSON.stringify(authSession);
-  //     localStorage.setItem(AUTH_SESSION_LOCALSTORAGE_KEY, jsonString);      
-  //   } catch {
-  //     console.log("ERROR while setting auth session in local storage");
-  //   }
-  // }
-
-  // const getOrCreateGuestAuthSession = async (): Promise<AuthSessionModel> => {
-  //   const existingAuthSession = getAuthSession();
-  //   if (existingAuthSession) return existingAuthSession;
-
-  //   // Create and get from server
-  //   const newAuthSession = await createAuthSessionOnServer();
-  //   if (!newAuthSession) throw Error("Could not setup a auth guest session ...");
-
-  //   setAuthSession(newAuthSession);
-  //   setAuthSessionInLocalStorage(newAuthSession);
-
-  //   return newAuthSession;
-  // }
-
-  // const getAuthSession = (): AuthSessionModel | null => {
-  //   if (authSession) return authSession;
-
-  //   const userFromLocalStorage = getAuthSessionFromLocalStorage();
-
-  //   return userFromLocalStorage;
-  // }
+  // Initialize account from localStorage on mount
+  useEffect(() => {
+    try {
+      const storedAccount = localStorage.getItem(ACCOUNT_LOCALSTORAGE_KEY);
+      if (storedAccount) {
+        const parsedAccount: PublicAccountModel = JSON.parse(storedAccount);
+        setAccount(parsedAccount);
+      }
+    } catch (error) {
+      console.error('Failed to parse stored account:', error);
+      localStorage.removeItem(ACCOUNT_LOCALSTORAGE_KEY);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
 
   const logout = async (): Promise<void> => {
+    setIsLoading(true);
     try {
       await LogoutCommand();
-      localStorage.clear();
+      localStorage.removeItem(ACCOUNT_LOCALSTORAGE_KEY);
+      setAccount(null);
+    } catch (error) {
+      console.error('Logout failed:', error);
+      // Still clear local state even if server call fails
+      localStorage.removeItem(ACCOUNT_LOCALSTORAGE_KEY);
+      setAccount(null);
     } finally {
-      setAuthSession(null);
+      setIsLoading(false);
     }
-  }
+  };
 
   const login = async (data: z.infer<typeof loginSchema>): Promise<string | undefined> => {
-    var loginResponse = await LoginCommand(data);
-    if (!loginResponse.ok) return loginResponse.errorMsg;
+    setIsLoading(true);
+    try {
+      const loginResponse = await LoginCommand(data);
+      if (!loginResponse.ok) {
+        return loginResponse.errorMsg;
+      }
 
-    const responseData: PublicAccountModel = loginResponse.data!;
-
-    localStorage.setItem(ACCOUNT_LOCALSTORAGE_KEY, JSON.stringify(responseData));
-    setAccount(responseData);
-  };  
+      const responseData: PublicAccountModel = loginResponse.data!;
+      
+      localStorage.setItem(ACCOUNT_LOCALSTORAGE_KEY, JSON.stringify(responseData));
+      setAccount(responseData);
+      
+      return undefined; // Success, no error message
+    } catch (error) {
+      console.error('Login failed:', error);
+      return 'Login failed due to an unexpected error';
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
-    <AuthContext.Provider value={{ authSession, logout, login }}>
+    <AuthContext.Provider value={{ 
+      account,
+      isLoggedIn: !!account,
+      isLoading,
+      logout, 
+      login,
+    }}>
       {children}
     </AuthContext.Provider>
   );
@@ -106,4 +97,9 @@ export function useAuth() {
     throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
+}
+
+export function useIsLoggedIn(): boolean {
+  const { isLoggedIn } = useAuth();
+  return isLoggedIn;
 }
