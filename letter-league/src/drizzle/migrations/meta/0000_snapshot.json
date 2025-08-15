@@ -1,74 +1,9 @@
 {
-  "id": "157ab446-4114-46db-b10d-f459314b6516",
+  "id": "f00bdcbf-7035-413b-8617-7c5bdc662e06",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
-    "public.auth_session": {
-      "name": "auth_session",
-      "schema": "",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "uuid",
-          "primaryKey": true,
-          "notNull": true,
-          "default": "gen_random_uuid()"
-        },
-        "username": {
-          "name": "username",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "secretKey": {
-          "name": "secretKey",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true
-        },
-        "isGuestSession": {
-          "name": "isGuestSession",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "accountId": {
-          "name": "accountId",
-          "type": "uuid",
-          "primaryKey": false,
-          "notNull": false
-        },
-        "createdAt": {
-          "name": "createdAt",
-          "type": "timestamp with time zone",
-          "primaryKey": false,
-          "notNull": true,
-          "default": "now()"
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "auth_session_accountId_account_id_fk": {
-          "name": "auth_session_accountId_account_id_fk",
-          "tableFrom": "auth_session",
-          "tableTo": "account",
-          "columnsFrom": [
-            "accountId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "policies": {},
-      "checkConstraints": {},
-      "isRLSEnabled": false
-    },
     "public.account": {
       "name": "account",
       "schema": "",
@@ -349,10 +284,10 @@
         }
       },
       "foreignKeys": {
-        "game_player_userId_auth_session_id_fk": {
-          "name": "game_player_userId_auth_session_id_fk",
+        "game_player_userId_account_id_fk": {
+          "name": "game_player_userId_account_id_fk",
           "tableFrom": "game_player",
-          "tableTo": "auth_session",
+          "tableTo": "account",
           "columnsFrom": [
             "userId"
           ],
@@ -490,10 +425,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "online_lobby_userHostId_auth_session_id_fk": {
-          "name": "online_lobby_userHostId_auth_session_id_fk",
+        "online_lobby_userHostId_account_id_fk": {
+          "name": "online_lobby_userHostId_account_id_fk",
           "tableFrom": "online_lobby",
-          "tableTo": "auth_session",
+          "tableTo": "account",
           "columnsFrom": [
             "userHostId"
           ],
@@ -558,10 +493,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "online_lobby_player_userId_auth_session_id_fk": {
-          "name": "online_lobby_player_userId_auth_session_id_fk",
+        "online_lobby_player_userId_account_id_fk": {
+          "name": "online_lobby_player_userId_account_id_fk",
           "tableFrom": "online_lobby_player",
-          "tableTo": "auth_session",
+          "tableTo": "account",
           "columnsFrom": [
             "userId"
           ],
