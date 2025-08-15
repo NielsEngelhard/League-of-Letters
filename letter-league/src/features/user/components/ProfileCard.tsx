@@ -9,6 +9,11 @@ interface Props {
 }
 
 export default function ProfileCard({  }: Props) {
+
+    const getInitials = (name: string) => {
+        return name?.charAt(0).toUpperCase() || "?";
+    };
+
     return (
         <Card>
             <CardHeader className="pb-3 sm:pb-4 justify-between flex flex-row">
@@ -21,7 +26,7 @@ export default function ProfileCard({  }: Props) {
                 <div className="flex flex-row items-center gap-2">
                     {/* Avatar */}
                     <div className="w-14 h-14 rounded-full bg-primary flex items-center justify-center">
-                        <span className="font-bold text-xl text-background">W</span>
+                        <span className="font-bold text-xl text-background">{getInitials("Username")}</span>
                     </div>
 
                     {/* info */}

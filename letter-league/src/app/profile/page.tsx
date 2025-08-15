@@ -17,16 +17,6 @@ export default function ProfilePage() {
         router.push(PICK_GAME_MODE_ROUTE);
     }
 
-    const profileData = [
-        { label: "User ID", value: authSession?.id || "—", icon: "🆔" },
-        { label: "Username", value: authSession?.username || "—", icon: "👤" },
-        { label: "Member Since", value: authSession?.createdAt ? new Date(authSession.createdAt).toLocaleDateString() : "—", icon: "📅" }
-    ];
-
-    const getInitials = (name: string) => {
-        return name?.charAt(0).toUpperCase() || "?";
-    };
-
     return (
         <PageBase>
             <ProfileCard>
@@ -36,6 +26,14 @@ export default function ProfilePage() {
             <SettingsCard>
 
             </SettingsCard>
+
+            <Button 
+                variant="error" 
+                className="w-full"
+                onClick={onLogout}
+            >
+                <span>Sign Out</span>
+            </Button>            
         </PageBase>
     )
 }
