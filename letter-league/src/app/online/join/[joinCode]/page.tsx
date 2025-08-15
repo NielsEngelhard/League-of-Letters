@@ -17,6 +17,7 @@ import LoadingSpinner from "@/components/ui/animation/LoadingSpinner";
 import LoadingDots from "@/components/ui/animation/LoadingDots";
 import { useActiveGame } from "@/features/game/components/active-game-context";
 import { GamePlayerModel } from "@/features/game/game-models";
+import { MULTIPLAYER_GAME_ROUTE } from "@/app/routes";
 
 export default function JoinOnlineGamePage() {
     const [lobby, setLobby] = useState<OnlineLobbyModel | null>(null);
@@ -25,6 +26,7 @@ export default function JoinOnlineGamePage() {
     const { pushSuccessMsg, pushLoadingMsg, pushErrorMsg } = useMessageBar();
 
     const { account } = useAuth();
+    const router = useRouter();
 
     const params = useParams();
     const joinCode = params.joinCode;
@@ -40,13 +42,19 @@ export default function JoinOnlineGamePage() {
 
         async function JoinLobby() {            
             if (!joinCode || !account) return;
-            const lobbyResponse = await JoinLobbyOnServer(joinCode.toString());
+            const serverResponse = await JoinGameLobbyCommand({ gameId: joinCode.toString() });
 
-            addPlayersToRealtimePlayersList(lobbyResponse.players);
-            setLobby(lobbyResponse);
+            if (!serverResponse.ok || !serverResponse.data) {
+                pushErrorMsg(serverResponse.errorMsg);
+                router.push(MULTIPLAYER_GAME_ROUTE);
+                return;
+            }
+
+            addPlayersToRealtimePlayersList(serverResponse.data.players);
+            setLobby(serverResponse.data);
 
             emitJoinGame({
-                gameId: lobbyResponse.id,
+                gameId: serverResponse.data.id,
                 userId: account.id,
                 username: account.username,
                 isHost: true
@@ -60,21 +68,7 @@ export default function JoinOnlineGamePage() {
 
     function addPlayersToRealtimePlayersList(players: GamePlayerModel[]) {
         players.forEach(player => addOrReconnectPlayer(player));
-        }    
-
-        async function JoinLobbyOnServer(gameId: string): Promise<OnlineLobbyModel> {
-
-        const response = await JoinGameLobbyCommand({
-            gameId: gameId
-        });
-
-        if (!response.ok || !response.data) {
-            pushErrorMsg(response.errorMsg);
-            throw Error("Something went wrong");
-        }
-
-        return response.data;
-    }  
+    }    
 
     return (
         <PageBase>
