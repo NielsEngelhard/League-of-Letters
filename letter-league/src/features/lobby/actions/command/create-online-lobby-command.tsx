@@ -34,7 +34,7 @@ async function CreateNewGame(currentUser: CurrentUserData): Promise<ServerRespon
     const lobby = await db.transaction(async (tx) => {
         const lobby = await tx.insert(OnlineLobbyTable).values({
             id: gameId,
-            userHostId: currentUser.accountId,
+            hostAccountId: currentUser.accountId,
         }).returning();
 
         const hostLobbyPlayer: DbOnlineLobbyPlayer = OnlineLobbyMapper.CurrentUserToLobbyPlayer(currentUser, gameId);
@@ -56,7 +56,7 @@ async function CreateNewGame(currentUser: CurrentUserData): Promise<ServerRespon
 
 async function GetExistingLobbyIfExists(currentUser: CurrentUserData): Promise<DbOnlineLobbyWithPlayers | undefined> {
     const lobby = await db.query.OnlineLobbyTable.findFirst({
-        where: (l, { eq }) => eq(l.userHostId, currentUser.accountId),
+        where: (l, { eq }) => eq(l.hostAccountId, currentUser.accountId),
         with: {
             players: true
         }

@@ -108,7 +108,7 @@ export default function JoinOnlineGamePage() {
                     </span>
                 </CardHeader>
                 <CardContent>
-                    <PlayersList players={players} userHostId={lobby?.userHostId} />
+                    <PlayersList players={players} hostAccountId={lobby?.hostAccountId} />
                 </CardContent>
             </Card>
 

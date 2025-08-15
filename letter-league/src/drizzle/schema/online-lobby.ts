@@ -6,7 +6,7 @@ import { AccountTable } from "./account";
 
 export const OnlineLobbyTable = pgTable("online_lobby", {
     id: text().primaryKey(),
-    userHostId: uuid().references(() => AccountTable.id, { onDelete: 'cascade' }).notNull(),
+    hostAccountId: uuid().references(() => AccountTable.id, { onDelete: 'cascade' }).notNull(),
     createdAt,
 });
 export type DbOnlineLobby = InferSelectModel<typeof OnlineLobbyTable>;

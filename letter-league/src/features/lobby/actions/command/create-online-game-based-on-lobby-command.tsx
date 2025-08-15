@@ -13,7 +13,7 @@ export default async function CreateOnlineGameBasedOnLobbyCommand(schema: Create
     const currentUser = await getCurrentUserOrCrash();       
 
     const lobby = await GetOnlineLobbyAndPlayersByIdRequest(schema.gameId!);
-    if (lobby?.userHostId != currentUser.accountId) {
+    if (lobby?.hostAccountId != currentUser.accountId) {
         throw new Error("AUTH ERROR: only the host can start this game");
     }
     

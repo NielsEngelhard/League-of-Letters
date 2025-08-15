@@ -21,7 +21,7 @@ export class OnlineLobbyMapper {
             id: lobby.id,
             players: lobby.players.map(p => this.DbLobbyPlayerToModel(p)),
             createdAt: lobby.createdAt,
-            userHostId: lobby.userHostId
+            hostAccountId: lobby.hostAccountId
         }
     }
 

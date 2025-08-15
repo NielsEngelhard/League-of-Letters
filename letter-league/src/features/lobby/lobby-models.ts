@@ -2,7 +2,7 @@ import { GamePlayerModel } from "../game/game-models";
 
 export interface OnlineLobbyModel {
     id: string;
-    userHostId: string;
+    hostAccountId: string;
     players: GamePlayerModel[];
     createdAt: Date;
 }

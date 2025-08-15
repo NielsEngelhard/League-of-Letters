@@ -7,10 +7,10 @@ import { GamePlayerModel } from "@/features/game/game-models";
 
 interface Props {
     players?: GamePlayerModel[];
-    userHostId?: string;
+    hostAccountId?: string;
 }
 
-export default function OnlineLobbyPlayerList({ players = [], userHostId }: Props ) {
+export default function OnlineLobbyPlayerList({ players = [], hostAccountId }: Props ) {
     const { account } = useAuth();
 
     return (
@@ -32,7 +32,7 @@ export default function OnlineLobbyPlayerList({ players = [], userHostId }: Prop
                         <span>{player.username}</span>   
                     )}
                 </span>
-                {player.accountId == userHostId && (
+                {player.accountId == hostAccountId && (
                     <Crown className="w-3 h-3 sm:w-4 sm:h-4 text-warning" />
                 )}
                 </div>
