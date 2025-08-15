@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { PICK_GAME_MODE_ROUTE } from "../routes";
 import AccountCard from "@/features/account/components/AccountCard";
 import SettingsCard from "@/features/account/components/SettingsCard";
+import { LogOut } from "lucide-react";
 
 export default function AccountPage() {
     const { logout } = useAuth();
@@ -19,21 +20,22 @@ export default function AccountPage() {
 
     return (
         <PageBase>
-            <AccountCard>
+            <div className="space-y-6 max-w-4xl mx-auto">
+                <AccountCard />
                 
-            </AccountCard>
-
-            <SettingsCard>
-
-            </SettingsCard>
-
-            <Button 
-                variant="error" 
-                className="w-full"
-                onClick={onLogout}
-            >
-                <span>Sign Out</span>
-            </Button>            
+                <SettingsCard />
+                
+                <div className="pt-4 border-t border-border/50">
+                    <Button
+                        variant="error"
+                        className="w-full sm:w-auto px-8 flex items-center gap-2 justify-center"
+                        onClick={onLogout}
+                    >
+                        <LogOut className="w-4 h-4" />
+                        <span>Sign Out</span>
+                    </Button>
+                </div>
+            </div>
         </PageBase>
     )
 }
