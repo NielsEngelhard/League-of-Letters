@@ -1,15 +1,15 @@
 import { integer, pgTable, text, uniqueIndex, uuid } from "drizzle-orm/pg-core";
 import { InferSelectModel, relations } from "drizzle-orm";
 import { ActiveGameTable } from "./active-game";
-import { AuthSessionTable } from "./auth-session";
 import { connectionStatusEnum } from "./enum/connection-status";
+import { AccountTable } from "./account";
 
 export const GamePlayerTable = pgTable(
   "game_player",
   {
     id: uuid().primaryKey().defaultRandom(),
     userId: uuid()
-      .references(() => AuthSessionTable.id, { onDelete: "cascade" })
+      .references(() => AccountTable.id, { onDelete: "cascade" })
       .notNull(),
     gameId: text()
       .references(() => ActiveGameTable.id, { onDelete: "cascade" })

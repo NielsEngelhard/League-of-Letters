@@ -1,7 +1,7 @@
 "use server"
 
 import { db } from "@/drizzle/db";
-import { DbOnlineLobby, DbOnlineLobbyPlayer, DbAuthSession, OnlineLobbyPlayerTable } from "@/drizzle/schema";
+import { DbOnlineLobby, DbOnlineLobbyPlayer, OnlineLobbyPlayerTable } from "@/drizzle/schema";
 import { MAX_ONLINE_GAME_PLAYERS } from "../../../game/game-constants";
 import { ServerResponse, ServerResponseFactory } from "@/lib/response-handling/response-factory";
 import { JoinOnlineLobbySchema } from "@/features/lobby/lobby-schemas";

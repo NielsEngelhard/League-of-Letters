@@ -2,7 +2,6 @@ export * from "./schema/enum/game-mode";
 export * from "./schema/enum/connection-status";
 export * from "./schema/enum/settings-enum";
 
-export * from "./schema/auth-session";
 export * from "./schema/account";
 export * from "./schema/account-settings";
 
