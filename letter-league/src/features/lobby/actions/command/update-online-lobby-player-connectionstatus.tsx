@@ -3,19 +3,21 @@
 import { db } from "@/drizzle/db";
 import { OnlineLobbyPlayerTable } from "@/drizzle/schema";
 import { DbOrTransaction } from "@/drizzle/util/transaction-util";
+import { ConnectionStatus } from "@/features/realtime/realtime-models";
 import { and, eq } from "drizzle-orm";
 
 interface Props {
     userId: string;
     lobbyId: string;
+    connectionStatus: ConnectionStatus;
 }
 
-export default async function DisconnectOnlineLobbyPlayer(data: Props, tx?: DbOrTransaction) {
+export default async function UpdateOnlineLobbyPlayerConnectionStatus(data: Props, tx?: DbOrTransaction) {
     const dbInstance = tx || db;
     
     await dbInstance.update(OnlineLobbyPlayerTable)
         .set({
-            connectionStatus: "disconnected"
+            connectionStatus: data.connectionStatus
         })
         .where(and(
             eq(OnlineLobbyPlayerTable.userId, data.userId),

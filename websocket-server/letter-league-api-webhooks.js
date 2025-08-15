@@ -10,7 +10,7 @@ async function CallWebhook(webhookPath, data) {
         'Content-Type': 'application/json',         
         'API-KEY': process.env.WEBHOOK_API_KEY,       
       },       
-      body: JSON.stringify(data), // Fixed: was using 'request' instead of the actual data    
+      body: JSON.stringify(data),
     });          
     
     return response.ok;   
@@ -20,14 +20,15 @@ async function CallWebhook(webhookPath, data) {
   } 
 }  
 
-async function CallWebhook_PlayerDisconnected(gameId, userId) {     
-  await CallWebhook("player-disconnected", {             
+async function CallWebhook_UpdatePlayerConnectionStatus(gameId, userId, connectionStatus) {     
+  await CallWebhook("update-player-connection-status", {             
       gameId: gameId,             
-      userId: userId         
+      userId: userId,
+      connectionStatus: connectionStatus      
     }); 
 } 
 
 // Export using CommonJS
 module.exports = {
-  CallWebhook_PlayerDisconnected
+  CallWebhook_UpdatePlayerConnectionStatus
 };

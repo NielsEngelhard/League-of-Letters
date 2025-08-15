@@ -1,6 +1,6 @@
 require('dotenv').config();
 
-const { CallWebhook_PlayerDisconnected } = require("./letter-league-api-webhooks");
+const { CallWebhook_UpdatePlayerConnectionStatus } = require("./letter-league-api-webhooks");
 
 const express = require('express');
 const { createServer } = require('http');
@@ -47,14 +47,22 @@ io.on('connection', (socket) => {
 
   // USER ACTIONS --------------------------------------------------------------------
   socket.on('join-game', ({ gameId, username, userId, isHost}) => {    
+    // TODO: check in back-end if this lobby does exist
+    
     // Set user specific data
     socket.userId = userId;
     socket.gameId = gameId;
 
     socket.join(gameId);
-    console.log(`User ${username} joined room: ${gameId}`);
-    socket.broadcast.to(gameId).emit('user-joined', { userId: userId, username: username, isHost: isHost, connectionStatus: "connected" });
+    console.log(`User ${username} joined room: ${gameId}`);    
+
+    CallWebhook_UpdatePlayerConnectionStatus(socket.gameId, socket.userId, "connected")
+    .finally(() => {
+      socket.broadcast.to(gameId).emit('user-joined', { userId: userId, username: username, isHost: isHost, connectionStatus: "connected" });
+    });      
   });
+
+  // TODO: Create a back-end endpoint that disposes the whole room when the game is deleted CLEAN UP
 
   socket.on('leave-game', (gameId) => {
     socket.leave(gameId);
@@ -88,7 +96,8 @@ io.on('connection', (socket) => {
   // GENERAL ACTIONS ----------------------------------------------------------------------
   socket.on('disconnect', () => {
     console.log(`User '${socket.userId}' disconnected from game: '${socket.gameId}'`);
-    CallWebhook_PlayerDisconnected(socket.gameId, socket.userId)
+
+    CallWebhook_UpdatePlayerConnectionStatus(socket.gameId, socket.userId, "disconnected")
     .finally(() => {
       socket.broadcast.to(socket.gameId).emit('user-disconnected', socket.userId);   
     });     
