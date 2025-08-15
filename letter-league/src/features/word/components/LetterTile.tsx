@@ -23,9 +23,9 @@ export default function LetterTile({ state, letter, animate = false, variant = "
     return (
         <div className={`${variants({ variant })} rounded-md flex items-center justify-center
              ${animate ? "animate-tile-entrance" : ""}         
-             ${state == LetterState.Correct ? 'bg-success text-background' : ''}
-             ${state == LetterState.Wrong ? 'bg-error text-background' : ''}
-             ${state == LetterState.Misplaced ? 'bg-warning text-background' : ''}
+             ${state == LetterState.Correct ? 'bg-success text-white' : ''}
+             ${state == LetterState.Wrong ? 'bg-error text-white' : ''}
+             ${state == LetterState.Misplaced ? 'bg-warning text-white' : ''}
              ${!state && !letter ? 'bg-border/30' : ''}
              ${!state && letter ? 'bg-primary/20 border-primary/40' : ''}`}>
             <span className="font-bold uppercase">{letter}</span>

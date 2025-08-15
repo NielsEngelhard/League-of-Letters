@@ -7,6 +7,7 @@ interface Props {
   name: string; // Field name for react-hook-form
   control: Control<any>; // Control from useForm
   defaultValue?: boolean;
+  disabled?: boolean;
 }
 
 export default function SwitchInput({ 
@@ -14,7 +15,8 @@ export default function SwitchInput({
   Icon, 
   name, 
   control, 
-  defaultValue = false 
+  defaultValue = false,
+  disabled = false,
 }: Props) {
   const { field } = useController({
     name,
@@ -34,6 +36,7 @@ export default function SwitchInput({
         <ToggleSwitch
           checked={field.value}
           onClick={() => field.onChange(!field.value)}
+          disabled={disabled}
         />
       </div>
     </div>        

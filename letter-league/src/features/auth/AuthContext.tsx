@@ -13,6 +13,9 @@ const DEFAULT_SETTINGS: SettingsSchema = {
   keyboardInput: "on-screen-keyboard",
   playBackgroundMusic: true,
   playSoundEffects: true,
+  showKeyboardHints: true,
+  showLettersOnTopOfScreen: true,
+  showGuessedLettersBar: true,
   theme: "light"
 }
 
@@ -29,6 +32,7 @@ type AuthContextType = {
   login: (data: z.infer<typeof loginSchema>) => Promise<string | undefined>;
   loginWithGuestAccount: () => Promise<string | undefined>;
   setShowLoginModal: (newValue: boolean) => void;
+  setSettingsOnClient: (s: SettingsSchema) => void;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -90,8 +94,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
       const responseData: PublicAccountModel = loginResponse.data!;
-      
-      localStorage.setItem(ACCOUNT_LOCALSTORAGE_KEY, JSON.stringify(responseData));
+          
       setAccount(responseData);
 
       setShowLoginModal(false);    
@@ -111,6 +114,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   } 
 
+  const setSettingsOnClient = (updatedSettings: SettingsSchema) => {
+    setAccount(prev => {
+      if (!prev) return prev;
+      
+      return {
+        ...prev,
+        settings: updatedSettings
+      };
+    });
+  };
+
+  // Set account in local storage when the value is updated
+  useEffect(() => {
+    if (!account) return;
+
+    localStorage.setItem(ACCOUNT_LOCALSTORAGE_KEY, JSON.stringify(account));
+  }, [account]);
+
   return (
     <AuthContext.Provider value={{ 
       account,
@@ -121,7 +142,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setShowLoginModal,
       showLoginModal,
       settings: account?.settings ?? DEFAULT_SETTINGS,
-      loginWithGuestAccount
+      loginWithGuestAccount,
+      setSettingsOnClient
     }}>
       {children}
     </AuthContext.Provider>

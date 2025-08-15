@@ -7,11 +7,15 @@ import GameProgressionBar from "./in-game/InGameProgressionBar";
 import LoadingSpinner from "@/components/ui/animation/LoadingSpinner";
 import SettingsCard from "@/features/account/components/SettingsCard";
 import { useEffect } from "react";
+import InGameGuessedLettersOverview from "./in-game/InGameGuessedLettersOverview";
 
 interface Props {}
 
+
+
 export default function GameBoard({}: Props) {
     const { game, players, setCurrentGuess, submitGuess, currentGuess, currentRound, isThisPlayersTurn, isAnimating, theWord, currentPlayerId } = useActiveGame();
+    const { settings } = useAuth();
 
     async function onSubmitGuess() {
         submitGuess()
@@ -43,6 +47,13 @@ export default function GameBoard({}: Props) {
                     currentPlayerId={currentPlayerId}               
                 />
 
+                {/* Guessed Letters Display (TOP) - ON MOBILE DISPLAY FIXED AT TOP */}
+                {(settings.showGuessedLettersBar == true && settings.showLettersOnTopOfScreen) == true && (
+                    <div className="fixed md:relative mx-2 top-[60px] md:top-0">
+                        <InGameGuessedLettersOverview />
+                    </div>
+                )}                
+
                 {/* Game Grid */}
                 <div className="w-full flex justify-center">
                     <LetterRowGrid
@@ -70,6 +81,11 @@ export default function GameBoard({}: Props) {
                         </div>
                     )}
                 </div>
+
+                {/* Guessed Letters Display (BOTTOM) */}
+                {(settings.showGuessedLettersBar == true && settings.showLettersOnTopOfScreen == false) && (
+                    <InGameGuessedLettersOverview />
+                )}
 
                 {/* Settings */}
                 <SettingsCard />

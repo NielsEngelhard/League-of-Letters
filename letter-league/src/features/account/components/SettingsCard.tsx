@@ -2,7 +2,7 @@ import Card from "@/components/ui/card/Card";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card/card-children";
 import SelectDropdown from "@/components/ui/form/SelectInput";
 import { zodResolver } from "@hookform/resolvers/zod"
-import { Moon, Music, Settings, Volume2 } from "lucide-react";
+import { Dock, KeyboardMusic, LetterText, Music, Settings, Volume2 } from "lucide-react";
 import { useForm } from "react-hook-form"
 import { settingsSchema, SettingsSchema } from "../account-schemas";
 import SwitchInput from "@/components/ui/form/SwitchInput";
@@ -12,7 +12,7 @@ import Button from "@/components/ui/Button";
 import { useAuth } from "@/features/auth/AuthContext";
 
 export default function SettingsCard() {
-    const { settings } = useAuth();
+    const { settings, setSettingsOnClient } = useAuth();
     const [atLeastOneSettingChanged, setAtLeastOneSettingChanged] = useState(false);
 
     const form = useForm<SettingsSchema>({
@@ -29,20 +29,22 @@ export default function SettingsCard() {
         });
 
         return () => subscription.unsubscribe();
-    }, [form, setSettingsOnClient]);
+    }, [form]);
 
     async function onSubmit() {
         await saveSettingsOnServer(watchedValues);
         setAtLeastOneSettingChanged(false);
     }
 
-    function setSettingsOnClient(s: SettingsSchema) {
-        // TODO: UPDATE ACCOUNT IN AUTH THINGY 
-    }
-
     async function saveSettingsOnServer(s: SettingsSchema) {
         console.log("save on server TODO");
-    }    
+    }
+
+    useEffect(() => {
+        if (!settings.theme) return;
+
+        document.documentElement.setAttribute('data-theme', settings.theme);
+    }, [settings.theme]);
 
     return (
         <Card className="w-full">
@@ -53,20 +55,7 @@ export default function SettingsCard() {
                 </CardTitle>
             </CardHeader>
             <CardContent>
-                <form className="flex flex-col gap-3" onSubmit={form.handleSubmit(onSubmit)}>
-                    <SelectDropdown
-                        name="keyboardInput"
-                        control={form.control}
-                        label="Input preference"
-                        placeholder="Input type"
-                        required
-                        options={[
-                            { value: "on-screen-keyboard", label: "On screen Keyboard" },
-                            { value: "html-input", label: "Input Box" },
-                            { value: "keystroke", label: "External keyboard" }
-                        ]}
-                    />       
-
+                <form className="flex flex-col gap-3" onSubmit={form.handleSubmit(onSubmit)}>    
                         <SelectDropdown
                             name="theme"
                             control={form.control}
@@ -79,7 +68,44 @@ export default function SettingsCard() {
                                 { value: "candy", label: "candy" },
                                 { value: "hackerman", label: "h_a_c_k_e_r" }
                             ]}
-                        />                     
+                        />      
+
+                    <div>
+                        <Label text="Keyboard Settings" />
+                        <div className="flex flex-col gap-2">
+                            <SelectDropdown
+                                name="keyboardInput"
+                                control={form.control}
+                                label="Input preference"
+                                placeholder="Input type"
+                                required
+                                options={[
+                                    { value: "on-screen-keyboard", label: "On screen Keyboard" },
+                                    { value: "html-input", label: "Input Box" },
+                                    { value: "keystroke", label: "External keyboard" }
+                                ]}
+                            />  
+                            <SwitchInput
+                                label="Show keyboard hints"
+                                Icon={KeyboardMusic}
+                                control={form.control}
+                                name="showKeyboardHints"                                     
+                            />
+                            <SwitchInput
+                                label="Show guessed letters bar"
+                                Icon={Dock}
+                                control={form.control}
+                                name="showGuessedLettersBar"                                     
+                            />                            
+                            <SwitchInput
+                                label="Letters on top of screen"
+                                Icon={LetterText}
+                                control={form.control}
+                                name="showLettersOnTopOfScreen"
+                                disabled={settings.showGuessedLettersBar == false}             
+                            />                                                                   
+                        </div>                        
+                    </div>                                       
                     
                     <div>
                         <Label text="Audio Settings (coming soon)" />

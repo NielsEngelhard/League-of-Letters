@@ -1,4 +1,4 @@
-import { boolean, pgTable, text, uuid } from "drizzle-orm/pg-core";
+import { boolean, pgTable, uuid } from "drizzle-orm/pg-core";
 import { InferSelectModel, relations } from "drizzle-orm";
 import { themeEnum, wordInputEnum } from "./enum/settings-enum";
 import { AccountTable } from "./account";
@@ -8,6 +8,8 @@ export const AccountSettingsTable = pgTable("account_settings", {
     wordInput: wordInputEnum().notNull(),
     theme: themeEnum().notNull(),
     enableSoundEffects: boolean().notNull().default(true),
+    showKeyboardHints: boolean().notNull().default(true),
+    showLettersOnTopOfScreen: boolean().notNull().default(true),
     enableBackgroundMusic: boolean().notNull().default(true),
 });
 

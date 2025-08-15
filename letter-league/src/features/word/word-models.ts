@@ -11,6 +11,13 @@ export enum LetterState {
   Unguessed = "unguessed",
 }
 
+export const LetterStateSortOrder = {
+  [LetterState.Correct]: 0,
+  [LetterState.Misplaced]: 1,
+  [LetterState.Wrong]: 2,
+  [LetterState.Unguessed]: 3
+};
+
 export interface EvaluatedWord {
     position: number;
     evaluatedLetters: EvaluatedLetter[];
