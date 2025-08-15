@@ -1,20 +1,16 @@
 'use client';
 
-import { createContext, useState, useEffect, ReactNode, useContext } from 'react';
+import { createContext, useState, ReactNode, useContext } from 'react';
 import { AuthSessionModel } from './auth-models';
-import CreateAuthSession from './actions/command/create-auth-session';
 import { loginSchema } from '../account/account-schemas';
 import { z } from 'zod';
-import LoginCommand from '../account/actions/command/login-command';
+import LoginCommand from './actions/command/login-command';
 import { PublicAccountModel } from '../account/account-models';
 
 const ACCOUNT_LOCALSTORAGE_KEY: string = "account";
-const AUTH_SESSION_LOCALSTORAGE_KEY: string = "auth-session";
 
 type AuthContextType = {
   authSession: AuthSessionModel | null;
-  getOrCreateGuestAuthSession: () => Promise<AuthSessionModel>;
-  getAuthSession: () => AuthSessionModel | null;
   logout: () => void;
 
   login: (data: z.infer<typeof loginSchema>) => Promise<string | undefined>;
@@ -27,59 +23,55 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [account, setAccount] = useState<PublicAccountModel | null>(null);
 
   // Check for existing session on mount
-  useEffect(() => {
-    getAuthSessionFromLocalStorage();
-  }, []);
+  // useEffect(() => {
+  //   getAuthSessionFromLocalStorage();
+  // }, []);
 
-  const getAuthSessionFromLocalStorage = (): AuthSessionModel | null => {
-    try {
-      const storedAuthSession = localStorage.getItem(AUTH_SESSION_LOCALSTORAGE_KEY);
-      if (!storedAuthSession) return null;
+  // const getAuthSessionFromLocalStorage = (): AuthSessionModel | null => {
+  //   try {
+  //     const storedAuthSession = localStorage.getItem(AUTH_SESSION_LOCALSTORAGE_KEY);
+  //     if (!storedAuthSession) return null;
 
-      const parsedAuthSession = JSON.parse(storedAuthSession);
-      setAuthSession(parsedAuthSession);
+  //     const parsedAuthSession = JSON.parse(storedAuthSession);
+  //     setAuthSession(parsedAuthSession);
 
-      return parsedAuthSession;      
-    } catch {
-      console.log("ERROR while retrieving auth session from local storage");
-      return null;
-    }
-  }
+  //     return parsedAuthSession;      
+  //   } catch {
+  //     console.log("ERROR while retrieving auth session from local storage");
+  //     return null;
+  //   }
+  // }
 
-  const setAuthSessionInLocalStorage = (authSession: AuthSessionModel): void => {
-    try {
-      const jsonString = JSON.stringify(authSession);
-      localStorage.setItem(AUTH_SESSION_LOCALSTORAGE_KEY, jsonString);      
-    } catch {
-      console.log("ERROR while setting auth session in local storage");
-    }
-  }
+  // const setAuthSessionInLocalStorage = (authSession: AuthSessionModel): void => {
+  //   try {
+  //     const jsonString = JSON.stringify(authSession);
+  //     localStorage.setItem(AUTH_SESSION_LOCALSTORAGE_KEY, jsonString);      
+  //   } catch {
+  //     console.log("ERROR while setting auth session in local storage");
+  //   }
+  // }
 
-  const createAuthSessionOnServer = async (): Promise<AuthSessionModel> => {
-    return await CreateAuthSession();
-  }
+  // const getOrCreateGuestAuthSession = async (): Promise<AuthSessionModel> => {
+  //   const existingAuthSession = getAuthSession();
+  //   if (existingAuthSession) return existingAuthSession;
 
-  const getOrCreateGuestAuthSession = async (): Promise<AuthSessionModel> => {
-    const existingAuthSession = getAuthSession();
-    if (existingAuthSession) return existingAuthSession;
+  //   // Create and get from server
+  //   const newAuthSession = await createAuthSessionOnServer();
+  //   if (!newAuthSession) throw Error("Could not setup a auth guest session ...");
 
-    // Create and get from server
-    const newAuthSession = await createAuthSessionOnServer();
-    if (!newAuthSession) throw Error("Could not setup a auth guest session ...");
+  //   setAuthSession(newAuthSession);
+  //   setAuthSessionInLocalStorage(newAuthSession);
 
-    setAuthSession(newAuthSession);
-    setAuthSessionInLocalStorage(newAuthSession);
+  //   return newAuthSession;
+  // }
 
-    return newAuthSession;
-  }
+  // const getAuthSession = (): AuthSessionModel | null => {
+  //   if (authSession) return authSession;
 
-  const getAuthSession = (): AuthSessionModel | null => {
-    if (authSession) return authSession;
+  //   const userFromLocalStorage = getAuthSessionFromLocalStorage();
 
-    const userFromLocalStorage = getAuthSessionFromLocalStorage();
-
-    return userFromLocalStorage;
-  }
+  //   return userFromLocalStorage;
+  // }
 
   const logout = (): void => {
     try {
@@ -100,7 +92,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };  
 
   return (
-    <AuthContext.Provider value={{ authSession, getOrCreateGuestAuthSession, getAuthSession, logout, login }}>
+    <AuthContext.Provider value={{ authSession, logout, login }}>
       {children}
     </AuthContext.Provider>
   );

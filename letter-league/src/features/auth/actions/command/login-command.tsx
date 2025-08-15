@@ -1,14 +1,16 @@
 "use server"
 
 import z from "zod";
-import { loginSchema } from "../../account-schemas";
+import { loginSchema } from "../../../account/account-schemas";
 import { AccountTable, DbAccount } from "@/drizzle/schema";
 import { db } from "@/drizzle/db";
 import { eq } from "drizzle-orm";
 import { comparePasswords } from "@/features/auth/password-hasher";
 import { ServerResponse, ServerResponseFactory } from "@/lib/response-handling/response-factory";
-import { PublicAccountModel } from "../../account-models";
-import { AccountMapper } from "../../account-mapper";
+import { PublicAccountModel } from "../../../account/account-models";
+import { AccountMapper } from "../../../account/account-mapper";
+import CreateAuthSession from "./create-auth-session";
+import { cookies } from "next/headers";
 
 export default async function LoginCommand(unsafeData: z.infer<typeof loginSchema>): Promise<ServerResponse<PublicAccountModel>> {
     const { success, data } = loginSchema.safeParse(unsafeData);
@@ -26,12 +28,9 @@ export default async function LoginCommand(unsafeData: z.infer<typeof loginSchem
 
     if (!isCorrectPassword) ServerResponseFactory.error("Could not login");
 
-    // TODO: CREATE SESSION
-    // await createUserSession({
-    //     userId: user.id,
-    //     role: user.role,
-    //     sessionId: ""
-    // }, await cookies());
+       await CreateAuthSession({
+            forAccountId: account.id
+        }, await cookies());
 
     return ServerResponseFactory.success(AccountMapper.DbAccountToPublicModel(account));
 }

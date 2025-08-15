@@ -1,13 +1,13 @@
 "use server";
 
 import z from "zod";
-import { signUpSchema } from "../../account-schemas";
+import { signUpSchema } from "../../../account/account-schemas";
 import { AccountSettingsTable, AccountTable, DbAccount, DbAccountSettings } from "@/drizzle/schema";
 import { eq, or } from "drizzle-orm";
 import { db } from "@/drizzle/db";
-import GenerateRandomUsername from "./generate-random-username";
+import GenerateRandomUsername from "../../../account/actions/command/generate-random-username";
 import { generateSalt, hashPassword } from "@/features/auth/password-hasher";
-import AccountFactory from "../../account-factory";
+import AccountFactory from "../../../account/account-factory";
 
 export default async function CreateAccountCommand(unsafeData: z.infer<typeof signUpSchema>) {
     const { success, data } = signUpSchema.safeParse(unsafeData);
