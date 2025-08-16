@@ -3,7 +3,7 @@ import { Clock } from 'lucide-react';
 
 interface CountdownTimerProps {
   initialTime?: number; // in seconds
-  onComplete?: () => void;
+  onTimerEnd?: () => void;
   isPaused?: boolean;
   showControls?: boolean;
   warningThreshold?: number; // seconds when to show warning state
@@ -12,7 +12,7 @@ interface CountdownTimerProps {
 
 export default function CountdownTimer({
   initialTime = 60,
-  onComplete,
+  onTimerEnd,
   warningThreshold = 10,
   criticalThreshold = 5,
   isPaused = false
@@ -36,7 +36,7 @@ export default function CountdownTimer({
           const newTime = prevTime - 1;
           
           if (newTime <= 0) {
-            onComplete?.();
+            onTimerEnd?.();
             return 0;
           }
           
@@ -48,21 +48,21 @@ export default function CountdownTimer({
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isPaused, secondsLeft, onComplete]);
+  }, [isPaused, secondsLeft, onTimerEnd]);
 
   const timerState = getTimerState();
 
   // Dynamic styling based on timer state
   const getTimerStyles = () => {
-    const baseStyles = "font-mono font-bold transition-all duration-300";
+    const baseStyles = "font-mono font-bold transition-all duration-300 text-xl sm:text-2xl";
     
     switch (timerState) {
       case 'critical':
-        return `${baseStyles} text-3xl sm:text-4xl text-error animate-pulse`;
+        return `${baseStyles} text-error animate-pulse`;
       case 'warning':
-        return `${baseStyles} text-2xl sm:text-3xl text-warning`;
+        return `${baseStyles} text-warning`;
       default:
-        return `${baseStyles} text-xl sm:text-2xl text-foreground`;
+        return `${baseStyles} text-foreground`;
     }
   };
 

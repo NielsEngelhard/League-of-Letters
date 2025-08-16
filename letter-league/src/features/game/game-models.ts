@@ -14,6 +14,7 @@ export interface ActiveGameModel {
     players: GamePlayerModel[];
     gameIsOver: boolean;
     hostAccountId: string;
+    nSecondsPerGuess?: number | null;
 }
 
 // Data that is send when the current round has ended

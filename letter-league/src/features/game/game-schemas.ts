@@ -17,6 +17,7 @@ export const createGameSchema = z.object({
     guessesPerRound: z.number().min(MIN_GUESSES_PER_ROUND).max(MAX_GUESSES_PER_ROUND),
     players: z.array(createGamePlayerSchema).optional(),
     gameMode: z.enum(gameModes),
+    nSecondsPerGuess: z.number().max(300).optional(),
     gameId: z.string().optional()
 }).refine((data) => {
     if (data.gameMode == "online") {

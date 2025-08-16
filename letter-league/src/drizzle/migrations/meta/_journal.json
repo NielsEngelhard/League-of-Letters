@@ -15,6 +15,13 @@
       "when": 1755284670392,
       "tag": "0001_steady_havok",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1755337967551,
+      "tag": "0002_colossal_machine_man",
+      "breakpoints": true
     }
   ]
 }

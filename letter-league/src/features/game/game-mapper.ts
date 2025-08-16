@@ -13,6 +13,7 @@ export class GameMapper {
             createdAt: game.createdAt,
             gameIsOver: game.gameIsOver,
             hostAccountId: game.hostAccountId,
+            nSecondsPerGuess: game.nSecondsPerGuess,
             rounds: game.rounds.map((round) => {
                 return GameMapper.GameRoundToModel(round);
             }),

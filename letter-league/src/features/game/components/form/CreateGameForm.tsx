@@ -28,7 +28,8 @@ export default function CreateGameForm({ onSubmit, onLeaveGame, submitDisabled =
         guessesPerRound: 6,
         totalRounds: 4,
         gameMode: gameMode,
-        gameId: gameId
+        gameId: gameId,
+        nSecondsPerGuess: 60
       }
     })    
 
@@ -71,7 +72,23 @@ export default function CreateGameForm({ onSubmit, onLeaveGame, submitDisabled =
                     { value: 3, label: "3 (three)" },
                     { value: 4, label: "4 (four)" },
                 ]}
-            />            
+            />
+
+            <SelectDropdown
+                name="nSecondsPerGuess"
+                control={form.control}
+                label="Seconds per guess"
+                placeholder="Seconds per guess"
+                required
+                options={[
+                    { value: 0, label: "no time" },
+                    { value: 20, label: "20s" },
+                    { value: 40, label: "40s" },
+                    { value: 60, label: "60s" },
+                    { value: 80, label: "80s" },
+                    { value: 100, label: "100s" },
+                ]}
+            />                        
 
             <Seperator />
 

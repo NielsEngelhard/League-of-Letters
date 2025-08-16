@@ -13,6 +13,7 @@ export const ActiveGameTable = pgTable("active_game", {
     wordLength: integer().notNull(),    
     currentRoundIndex: integer().notNull().default(1),    
     gameIsOver: boolean().notNull().default(false),
+    nSecondsPerGuess: integer(), // Undefined/null = infinite time
     hostAccountId: uuid()
       .references(() => AccountTable.id, { onDelete: "cascade" })
       .notNull(),
