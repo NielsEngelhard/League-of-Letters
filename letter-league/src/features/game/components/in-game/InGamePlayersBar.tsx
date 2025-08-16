@@ -3,6 +3,7 @@ import { GamePlayerModel } from "../../game-models";
 import InGameConnectionStatusIndicator from "./InGameConnectionStatusIndicator";
 import InGamePlayerCard from "./InGamePlayerCard";
 import { useEffect } from "react";
+import InGameTimer from "./InGameTimer";
 
 interface Props {
     players: GamePlayerModel[];
@@ -36,12 +37,12 @@ export default function InGamePlayerBar({ players, currentPlayerId }: Props) {
                             </>
                         )}
                     </h3>
-                    <div className="">
+                    <div className="flex flex-col gap-1 text-end">
                         {isSoloGame ? (
                             <span className="text-primary/50">{players[0].score}pts</span>
                         ) : (
                             <InGameConnectionStatusIndicator players={players} />
-                        )}
+                        )}                        
                     </div>
                 </div>             
                 

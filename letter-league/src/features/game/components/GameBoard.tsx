@@ -8,6 +8,7 @@ import LoadingSpinner from "@/components/ui/animation/LoadingSpinner";
 import SettingsCard from "@/features/account/components/SettingsCard";
 import { useEffect } from "react";
 import InGameGuessedLettersOverview from "./in-game/InGameGuessedLettersOverview";
+import InGameTimer from "./in-game/InGameTimer";
 
 interface Props {}
 
@@ -55,7 +56,8 @@ export default function GameBoard({}: Props) {
                 )}                
 
                 {/* Game Grid */}
-                <div className="w-full flex justify-center">
+                <div className="w-full flex flex-col items-center justify-center gap-2">
+                    <InGameTimer initialTime={60} />                    
                     <LetterRowGrid
                         currentGuess={currentGuess}
                         maxNGuesses={game.nGuessesPerRound}
