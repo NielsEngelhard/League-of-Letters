@@ -12,6 +12,7 @@ import Button from "@/components/ui/Button";
 import { useAuth } from "@/features/auth/AuthContext";
 import { useMessageBar } from "@/components/layout/MessageBarContext";
 import UpdateCurrentUserSettingsCommand from "../actions/command/update-current-user-settings";
+import ExpandableCardContent from "@/components/ui/card/ExpandableCardContent";
 
 export default function SettingsCard() {
     const { settings, setSettingsOnClient } = useAuth();
@@ -57,13 +58,8 @@ export default function SettingsCard() {
 
     return (
         <Card className="w-full">
-            <CardHeader>
-                <CardTitle className="text-base sm:text-lg flex items-center gap-2">
-                    <Settings className="w-4 h-4" />
-                    Settings
-                </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-8">
+            <ExpandableCardContent Icon={Settings} title="Settings"
+                description="Click to customize the settings to your liking">
                 <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>    
                     {/* Appearance Section */}
                     <div className="space-y-4">
@@ -188,8 +184,8 @@ export default function SettingsCard() {
                             Save Settings
                         </Button>
                     </div>
-                </form>
-            </CardContent>
+                </form>                
+            </ExpandableCardContent>
         </Card>
     )
 }
