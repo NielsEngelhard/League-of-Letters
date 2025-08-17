@@ -105,14 +105,14 @@ export default function AccountCard({
                             <div className="text-center p-4 bg-muted/30 rounded-lg border border-border/50">
                                 <StatisticHighlight
                                     title={account.isGuest ? 'n/a' : account.nGamesPlayed.toString()}
-                                    text="Games Played"
+                                    text="Wins"
                                 />
                             </div>
                             
                             <div className="text-center p-4 bg-muted/30 rounded-lg border border-border/50">
                                 <StatisticHighlight
                                     title={account.isGuest ? 'n/a' : account.highestScoreAchieved.toString()}
-                                    text="Best Score"
+                                    text="Chickened out online games"
                                 />
                             </div>
                             
