@@ -16,7 +16,7 @@ export default function GameTeaserCard({ teaser }: Props) {
         <Card>
             <div className="p-2 flex flex-row justify-between">
                 {/* Left */}
-                <div className="flex flex-row gap-2 items-center justify-center">
+                <div className="flex flex-row gap-2 items-center justify-center text-start">
                     
                     {/* Icon */}
                     <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-background">
