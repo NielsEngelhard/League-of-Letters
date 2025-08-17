@@ -5,7 +5,6 @@ interface InGameTimerProps {
   initialTime?: number; // in seconds
   onTimerEnd?: () => void;
   isPaused?: boolean;
-  showControls?: boolean;
   warningThreshold?: number; // seconds when to show warning state
 }
 
@@ -51,7 +50,7 @@ export default function InGameTimer({
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isPaused, onTimerEnd]); // Removed secondsLeft from dependencies
+  }, [isPaused, initialTime]);
 
   // Reset the ended flag when timer is reset
   useEffect(() => {

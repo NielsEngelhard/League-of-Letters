@@ -6,9 +6,10 @@ import InGamePlayerBar from "./in-game/InGamePlayersBar";
 import GameProgressionBar from "./in-game/InGameProgressionBar";
 import LoadingSpinner from "@/components/ui/animation/LoadingSpinner";
 import SettingsCard from "@/features/account/components/SettingsCard";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import InGameGuessedLettersOverview from "./in-game/InGameGuessedLettersOverview";
 import InGameTimer from "./in-game/InGameTimer";
+import { getCurrentUtcUnixTimestamp_Seconds } from "@/lib/time-util";
 
 interface Props {}
 
@@ -16,6 +17,7 @@ interface Props {}
 
 export default function GameBoard({}: Props) {
     const { game, players, setCurrentGuess, submitGuess, currentGuess, currentRound, isThisPlayersTurn, isAnimating, theWord, currentPlayerId, recalculateCurrentPlayer } = useActiveGame();
+    const [initialTimeLeftForThisTurn, setInitialTimeLeftForThisTurn] = useState<number | null>(null);
     const { settings } = useAuth();
 
     async function onSubmitGuess() {
@@ -32,6 +34,22 @@ export default function GameBoard({}: Props) {
     useEffect(() => {
         console.log("Current guess changed to " + currentGuess);
     }, [currentGuess]);
+
+    // Update timer if needed
+    useEffect(() => {
+        if (!game || !currentRound) return;
+        if (!currentRound.lastGuessUnixUtcTimestamp_InSeconds || !game.nSecondsPerGuess) return;
+        const timeLeftForThisTurn = calculateTimeLeftForThisTurn(currentRound.lastGuessUnixUtcTimestamp_InSeconds, game.nSecondsPerGuess);
+
+        setInitialTimeLeftForThisTurn(timeLeftForThisTurn);
+    }, [game?.currentRoundIndex, currentRound?.currentGuessIndex, currentRound?.lastGuessUnixUtcTimestamp_InSeconds]);
+
+    function calculateTimeLeftForThisTurn(lastGuessUnixSeconds: number, timePerTurn: number) {
+        const diff = getCurrentUtcUnixTimestamp_Seconds() - lastGuessUnixSeconds;
+        const timePastForThisTurn = diff % timePerTurn;
+
+        return timePerTurn = timePastForThisTurn;
+    }
 
     return (
         <>
@@ -58,10 +76,11 @@ export default function GameBoard({}: Props) {
                 {/* Game Grid */}
                 <div className="w-full flex flex-col items-center justify-center gap-2">
 
-                    {game.nSecondsPerGuess && (
+                    {(currentRound.lastGuessUnixUtcTimestamp_InSeconds && initialTimeLeftForThisTurn) && (
                         <InGameTimer
-                            initialTime={game.nSecondsPerGuess}
-                            onTimerEnd={recalculateCurrentPlayer} />    
+                            initialTime={initialTimeLeftForThisTurn}
+                            onTimerEnd={recalculateCurrentPlayer}
+                            isPaused={isAnimating} />    
                     )}
                                     
                     <LetterRowGrid

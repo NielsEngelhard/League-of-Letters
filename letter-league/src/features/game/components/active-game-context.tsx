@@ -96,9 +96,8 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
         updatePlayerScores(response);
         handleEndOfCurrentRound(response.roundTransitionData);
       } else {
-        // TODO: after animation
         updatePlayerScores(response);
-        incrementCurrentGuessIndex();
+        updateCurrentRoundWithGuess(response.unixTimestampInSeconds);
       }
 
       setIsAnimating(false);
@@ -127,13 +126,14 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     });
   }
 
-  function incrementCurrentGuessIndex() {
+  function updateCurrentRoundWithGuess(unixTimestampInSeconds?: number) {
       setCurrentRound(prevRound => {
         if (prevRound == null) return;
 
         return {
           ...prevRound,
-          currentGuessIndex: prevRound.currentGuessIndex + 1
+          currentGuessIndex: prevRound.currentGuessIndex + 1,
+          lastGuessUnixUtcTimestamp_InSeconds: unixTimestampInSeconds
         };
       });    
   }
@@ -184,7 +184,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
       }
     });
 
-    setCurrentRound(getRound(game, nextRoundIndex));
+    setCurrentRound(getRound(game, nextRoundIndex)); // TODO: update unixTimestampInSeconds
     setTheWord(undefined);
   }
 
