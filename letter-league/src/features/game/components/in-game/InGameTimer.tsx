@@ -19,6 +19,12 @@ export default function InGameTimer({
   const [secondsLeft, setSecondsLeft] = useState(initialTime);
   const hasEndedRef = useRef(false);
 
+  // Reset timer when initialTime changes (new turn started)
+  useEffect(() => {
+    setSecondsLeft(initialTime);
+    hasEndedRef.current = false;
+  }, [initialTime]);
+
   // Get timer state for styling
   const getTimerState = useCallback(() => {
     if (secondsLeft <= warningThreshold) return 'warning';
@@ -28,10 +34,6 @@ export default function InGameTimer({
   // Timer logic
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
-
-    if (secondsLeft == -1) {
-      setSecondsLeft(timePerTurn);
-    }
 
     if (!isPaused && secondsLeft > 0) {
       interval = setInterval(() => {
@@ -56,14 +58,7 @@ export default function InGameTimer({
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isPaused, initialTime, onTimerEnd]);
-
-  // Reset the ended flag when timer is reset
-  useEffect(() => {
-    if (secondsLeft > 0) {
-      hasEndedRef.current = false;
-    }
-  }, [secondsLeft]);
+  }, [isPaused, onTimerEnd]); // Removed initialTime from here to prevent restart loops
 
   const timerState = getTimerState();
 
@@ -87,7 +82,7 @@ export default function InGameTimer({
           timerState === 'warning' ? 'text-warning' : 
           'text-foreground-muted'
         }`} />
-                
+                        
         <div className={getTimerStyles()}>
           {secondsLeft}
         </div>
@@ -101,7 +96,7 @@ export default function InGameTimer({
             'bg-primary'
           }`}
           style={{
-            width: `${(secondsLeft / initialTime) * 100}%`
+            width: `${(secondsLeft / timePerTurn) * 100}%`
           }}
         />
       </div>

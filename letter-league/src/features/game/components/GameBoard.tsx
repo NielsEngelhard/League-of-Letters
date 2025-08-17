@@ -42,13 +42,13 @@ export default function GameBoard({}: Props) {
         const timeLeftForThisTurn = calculateTimeLeftForThisTurn(currentRound.lastGuessUnixUtcTimestamp_InSeconds, game.nSecondsPerGuess);
 
         setInitialTimeLeftForThisTurn(timeLeftForThisTurn);
-    }, [game?.currentRoundIndex, currentRound?.currentGuessIndex, currentRound?.lastGuessUnixUtcTimestamp_InSeconds]);
+    }, [game?.currentRoundIndex, currentRound?.currentGuessIndex, currentRound?.lastGuessUnixUtcTimestamp_InSeconds, currentPlayerId]);
 
     function calculateTimeLeftForThisTurn(lastGuessUnixSeconds: number, timePerTurn: number) {
         const diff = getCurrentUtcUnixTimestamp_Seconds() - lastGuessUnixSeconds;
         const timePastForThisTurn = diff % timePerTurn;
 
-        return timePerTurn = timePastForThisTurn;
+        return timePerTurn - timePastForThisTurn;
     }
 
     return (
@@ -78,10 +78,12 @@ export default function GameBoard({}: Props) {
 
                     {(currentRound.lastGuessUnixUtcTimestamp_InSeconds && initialTimeLeftForThisTurn && game.nSecondsPerGuess) && (
                         <InGameTimer
+                            key={`${currentPlayerId}-${currentRound.currentGuessIndex}`} // Add this line
                             timePerTurn={game.nSecondsPerGuess}
                             initialTime={initialTimeLeftForThisTurn}
                             onTimerEnd={recalculateCurrentPlayer}
-                            isPaused={isAnimating} />    
+                            isPaused={isAnimating}
+                        />   
                     )}
                                     
                     <LetterRowGrid
