@@ -11,6 +11,7 @@ export class WordValidator {
         const validatedWord = this.validate(guess, word,);
         const newLetters = this.filterNewLetters(validatedWord, previouslyGuessedLetters);
         
+        debugger;
         return {
             validatedWord: validatedWord,
             newLetters: newLetters,
@@ -22,6 +23,7 @@ export class WordValidator {
         var evaluatedLetters: EvaluatedLetter[] = new Array(guess.length);
 
         for(var i=0; i<guess.length; i++) {
+            debugger;
             const guessedLetter = guess[i].toUpperCase();
             const actualLetter = word[i].toUpperCase();            
 

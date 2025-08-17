@@ -8,6 +8,13 @@
       "when": 1755406440004,
       "tag": "0000_whole_magik",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1755453292871,
+      "tag": "0001_tan_major_mapleleaf",
+      "breakpoints": true
     }
   ]
 }
