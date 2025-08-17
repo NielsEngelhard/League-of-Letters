@@ -98,9 +98,8 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
       } else {
         updatePlayerScores(response);
         updateCurrentRoundWithGuess(response.unixTimestampInSeconds);
-      }
-
-      setIsAnimating(false);
+        setIsAnimating(false);
+      }      
     }, letterAnimationDuration);
   }
 
@@ -187,8 +186,9 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     setCurrentRound({
       ...getRound(game, nextRoundIndex),
       lastGuessUnixUtcTimestamp_InSeconds: guessStartUnixTimestampInSeconds
-    }); // TODO: update unixTimestampInSeconds
+    });
     setTheWord(undefined);
+    setIsAnimating(false);
   }
 
   // TODO: this can be a static method somewhere else

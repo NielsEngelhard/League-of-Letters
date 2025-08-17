@@ -85,7 +85,7 @@ function getPlayerWhosTurnItIs(game: DbActiveGameWithRoundsAndPlayers, currentRo
 }
 
 async function updateCurrentGameState(game: DbActiveGameWithRoundsAndPlayers, currentRound: DbGameRound, validationResult: DetailedValidationResult, scoreResult: CalculateScoreResult, currentPlayer: DbGamePlayer): Promise<GuessWordResponse> {
-    const roundMaxGuessesReached = (currentRound.currentGuessIndex + 1) >= game.nGuessesPerRound;
+    const roundMaxGuessesReached = (currentRound.currentGuessIndex) >= game.nGuessesPerRound;
     const endCurrentRound = roundMaxGuessesReached || validationResult.allCorrect;
     const endGame = endCurrentRound && (game.currentRoundIndex >= game.nRounds);
 
@@ -95,9 +95,6 @@ async function updateCurrentGameState(game: DbActiveGameWithRoundsAndPlayers, cu
     }
 
     const nextRound = game.rounds.find(g => g.roundNumber == game.currentRoundIndex+1);
-    if (!nextRound && !endGame) {
-        throw Error("CORRUPT STATE: no next round AND no end of game");
-    }
 
     // TODO: refactor this name
     const unixTimestampInSeconds: number | undefined = game.nSecondsPerGuess
