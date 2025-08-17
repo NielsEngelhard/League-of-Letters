@@ -76,8 +76,9 @@ export default function GameBoard({}: Props) {
                 {/* Game Grid */}
                 <div className="w-full flex flex-col items-center justify-center gap-2">
 
-                    {(currentRound.lastGuessUnixUtcTimestamp_InSeconds && initialTimeLeftForThisTurn) && (
+                    {(currentRound.lastGuessUnixUtcTimestamp_InSeconds && initialTimeLeftForThisTurn && game.nSecondsPerGuess) && (
                         <InGameTimer
+                            timePerTurn={game.nSecondsPerGuess}
                             initialTime={initialTimeLeftForThisTurn}
                             onTimerEnd={recalculateCurrentPlayer}
                             isPaused={isAnimating} />    

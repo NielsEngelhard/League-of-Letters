@@ -2,14 +2,16 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Clock } from 'lucide-react';
 
 interface InGameTimerProps {
-  initialTime?: number; // in seconds
+  timePerTurn: number;
+  initialTime: number; // in seconds
   onTimerEnd?: () => void;
   isPaused?: boolean;
   warningThreshold?: number; // seconds when to show warning state
 }
 
 export default function InGameTimer({
-  initialTime = 60,
+  timePerTurn,
+  initialTime,
   onTimerEnd,
   warningThreshold = 7,
   isPaused = false
@@ -26,6 +28,10 @@ export default function InGameTimer({
   // Timer logic
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
+
+    if (secondsLeft == -1) {
+      setSecondsLeft(timePerTurn);
+    }
 
     if (!isPaused && secondsLeft > 0) {
       interval = setInterval(() => {
@@ -50,7 +56,7 @@ export default function InGameTimer({
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isPaused, initialTime]);
+  }, [isPaused, initialTime, onTimerEnd]);
 
   // Reset the ended flag when timer is reset
   useEffect(() => {
