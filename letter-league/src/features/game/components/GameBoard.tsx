@@ -57,7 +57,11 @@ export default function GameBoard({}: Props) {
 
                 {/* Game Grid */}
                 <div className="w-full flex flex-col items-center justify-center gap-2">
-                    <InGameTimer initialTime={60} />                    
+
+                    {game.nSecondsPerGuess && (
+                        <InGameTimer initialTime={60} />    
+                    )}
+                                    
                     <LetterRowGrid
                         currentGuess={currentGuess}
                         maxNGuesses={game.nGuessesPerRound}

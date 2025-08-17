@@ -1,0 +1,1 @@
+ALTER TABLE "game_round" ADD COLUMN "last_guess_unix_utc_timestamp" bigint;

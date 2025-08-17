@@ -12,7 +12,8 @@ export class GameRoundFactory {
             currentGuessIndex: 1,
             gameId: gameId,
             guesses: [],
-            evaluatedLetters: [{ position: 1, state: LetterState.Correct, letter: word[0].toUpperCase() }]
+            evaluatedLetters: [{ position: 1, state: LetterState.Correct, letter: word[0].toUpperCase() }],
+            lastGuessUnixUtcTimestamp: null
         }
     }
 
