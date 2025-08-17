@@ -40,7 +40,7 @@ export class GameRoundFactory {
         return data.words.map((word, i) => this.createDbRound({
             gameId: data.gameId,
             word: word,
-            roundNumber: i,
+            roundNumber: i + 1,
             hasTimePerGuess: data.hasTimePerGuess,
         }));
     }

@@ -20,7 +20,8 @@ export interface ActiveGameModel {
 export interface RoundTransitionData {    
     currentWord: string;
     isEndOfGame: boolean;
-    nextRoundFirstLetter?: string;    
+    nextRoundFirstLetter?: string;
+    lastGuessUnixUtcTimestamp_InSeconds?: number; 
 }
 
 export interface GameRoundModel {

@@ -156,7 +156,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     else
     {
       setTimeout(() => {
-          triggerNextRound();
+          triggerNextRound(roundTransitionData.lastGuessUnixUtcTimestamp_InSeconds);
         }, TIME_BETWEEN_ROUNDS_MS + letterAnimationLength);          
     }
   }
@@ -172,7 +172,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     });
   }  
 
-  function triggerNextRound() {
+  function triggerNextRound(guessStartUnixTimestampInSeconds?: number) {
     if (!game) return;
     const nextRoundIndex: number = game.currentRoundIndex + 1;
 
@@ -184,7 +184,10 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
       }
     });
 
-    setCurrentRound(getRound(game, nextRoundIndex)); // TODO: update unixTimestampInSeconds
+    setCurrentRound({
+      ...getRound(game, nextRoundIndex),
+      lastGuessUnixUtcTimestamp_InSeconds: guessStartUnixTimestampInSeconds
+    }); // TODO: update unixTimestampInSeconds
     setTheWord(undefined);
   }
 
@@ -201,7 +204,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     if (!game || !currentRound) return;
 
     const sortedPlayerIds = sortPlayerModelOnPositionAndGetUserIds(game.players);
-    const playerId = TurnTrackerAlgorithm.determineWhosTurnItIs({
+    const newCurrentPlayerId = TurnTrackerAlgorithm.determineWhosTurnItIs({
       playerIdsInOrder: sortedPlayerIds,
       currentGuess: currentRound.currentGuessIndex,
       currentRound: game.currentRoundIndex,
@@ -209,8 +212,13 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
       secondsPerGuess: game.nSecondsPerGuess
     });
 
-    setCurrentPlayerId(playerId);
-    setIsThisPlayersTurn(thisPlayersUserId == playerId);
+    const currentPlayerIdChanged = currentPlayerId != newCurrentPlayerId;
+
+    if (currentPlayerIdChanged) {
+      setCurrentPlayerId(newCurrentPlayerId);
+      setIsThisPlayersTurn(thisPlayersUserId == newCurrentPlayerId);
+      setCurrentGuess("");
+    }
   }
 
   // Determine the current player whos turn it is

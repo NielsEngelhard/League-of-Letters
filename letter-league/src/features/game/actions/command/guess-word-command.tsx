@@ -99,15 +99,19 @@ async function updateCurrentGameState(game: DbActiveGameWithRoundsAndPlayers, cu
         throw Error("CORRUPT STATE: no next round AND no end of game");
     }
 
+    // TODO: refactor this name
+    const unixTimestampInSeconds: number | undefined = game.nSecondsPerGuess
+        ? getCurrentUtcUnixTimestamp_Seconds() + 3 // 3 seconds extra because of animations and initial delay
+        : undefined;
+
     if (endGame) {
         currentPlayer.score += scoreResult.totalScore;
         currentRound.guesses.push(currentGuess);
         await triggerEndGame(game);
-    } else if (endCurrentRound) {
-        
-        await triggerNextRound(currentRound, nextRound!, validationResult, currentPlayer, scoreResult, game);
+    } else if (endCurrentRound) {        
+        await triggerNextRound(currentRound, nextRound!, validationResult, currentPlayer, scoreResult, game, unixTimestampInSeconds);
     } else {
-        await triggerNextGuess(currentRound, validationResult, currentPlayer, scoreResult);
+        await triggerNextGuess(currentRound, validationResult, currentPlayer, scoreResult, unixTimestampInSeconds);
     }
 
     return {
@@ -115,30 +119,32 @@ async function updateCurrentGameState(game: DbActiveGameWithRoundsAndPlayers, cu
         guessResult: currentGuess,
         newLetters: validationResult.newLetters,
         scoreResult: scoreResult,
+        unixTimestampInSeconds: unixTimestampInSeconds,
         roundTransitionData: endCurrentRound ? {
             isEndOfGame: endGame,
             currentWord: currentRound.word.word,
             nextRoundFirstLetter: nextRound?.word.word[0],
+            lastGuessUnixUtcTimestamp_InSeconds: unixTimestampInSeconds
         } : undefined
     };    
 }
 
-async function triggerNextGuess(currentRound: DbGameRound, validationResult: DetailedValidationResult, currentPlayer: DbGamePlayer, scoreResult: CalculateScoreResult) {
+async function triggerNextGuess(currentRound: DbGameRound, validationResult: DetailedValidationResult, currentPlayer: DbGamePlayer, scoreResult: CalculateScoreResult, unixTimestampInSeconds?: number) {
     await db.transaction(async (tx) => {   
-        await updateCurrentGameRoundWithCurrentGuess(currentRound, validationResult, tx);
+        await updateCurrentGameRoundWithCurrentGuess(currentRound, validationResult, tx, unixTimestampInSeconds);
         await addScoreForPlayer(currentPlayer, scoreResult.totalScore, tx);
     });          
 }
 
-async function triggerNextRound(currentRound: DbGameRound, nextRound: DbGameRound, validationResult: DetailedValidationResult, currentPlayer: DbGamePlayer, scoreResult: CalculateScoreResult, game: DbActiveGame) {
+async function triggerNextRound(currentRound: DbGameRound, nextRound: DbGameRound, validationResult: DetailedValidationResult, currentPlayer: DbGamePlayer, scoreResult: CalculateScoreResult, game: DbActiveGame, unixTimestampInSeconds?: number) {
     await db.transaction(async (tx) => {     
-        await updateCurrentGameRoundWithCurrentGuess(currentRound, validationResult, tx);
+        await updateCurrentGameRoundWithCurrentGuess(currentRound, validationResult, tx, unixTimestampInSeconds);
         await addScoreForPlayer(currentPlayer, scoreResult.totalScore, tx);
         await updateGameForNextRound(game, tx);
 
         // TODO: helper method to perform "domain actions" like this?
-        if (currentRound.lastGuessUnixUtcTimestamp_InSeconds) { // if IsGameWithTime
-            updateNextRoundsLastGuessTimestamp(nextRound.id, tx);
+        if (unixTimestampInSeconds) {
+            updateNextRoundsLastGuessTimestamp(nextRound.id, unixTimestampInSeconds, tx);
         }
     });          
 }
@@ -169,7 +175,7 @@ async function isPlayersTurn(currentPlayer: DbGamePlayer): Promise<boolean> {
     return currentUser.accountId == currentPlayer.accountId;
 }
 
-async function updateCurrentGameRoundWithCurrentGuess(currentRound: DbGameRound, validationResult: DetailedValidationResult, tx: DbOrTransaction) {
+async function updateCurrentGameRoundWithCurrentGuess(currentRound: DbGameRound, validationResult: DetailedValidationResult, tx: DbOrTransaction, unixTimestampInSeconds?: number) {
     await tx.update(GameRoundTable)
         .set({
             currentGuessIndex: currentRound.currentGuessIndex + 1,
@@ -178,15 +184,15 @@ async function updateCurrentGameRoundWithCurrentGuess(currentRound: DbGameRound,
                 evaluatedLetters: validationResult.validatedWord
             }],
             evaluatedLetters: [...currentRound.evaluatedLetters, ...validationResult.newLetters],
-            lastGuessUnixUtcTimestamp_InSeconds: currentRound.lastGuessUnixUtcTimestamp_InSeconds ? getCurrentUtcUnixTimestamp_Seconds() : null
+            lastGuessUnixUtcTimestamp_InSeconds: currentRound.lastGuessUnixUtcTimestamp_InSeconds ? unixTimestampInSeconds : null
         })
         .where(eq(GameRoundTable.id, currentRound.id));        
 }
 
-async function updateNextRoundsLastGuessTimestamp(nextRoundId: string, tx: DbOrTransaction) {
+async function updateNextRoundsLastGuessTimestamp(nextRoundId: string, unixTimestampInSeconds: number, tx: DbOrTransaction) {
     await tx.update(GameRoundTable)
         .set({
-            lastGuessUnixUtcTimestamp_InSeconds: getCurrentUtcUnixTimestamp_Seconds()
+            lastGuessUnixUtcTimestamp_InSeconds: unixTimestampInSeconds
         })
         .where(eq(GameRoundTable.id, nextRoundId));    
 }
