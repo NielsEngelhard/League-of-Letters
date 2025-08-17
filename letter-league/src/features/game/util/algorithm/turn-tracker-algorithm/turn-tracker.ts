@@ -18,31 +18,44 @@ export class TurnTrackerAlgorithm {
         
         const nPlayers = data.playerIdsInOrder.length;
 
-        const startingPlayerIndex = determineStartingPlayerForRound(data.currentRound, nPlayers);
+        const startingPlayerIndex = calculateStartingPlayerForRound(data.currentRound, nPlayers);
         
-        const currentGuessOffset = determinePlayerOffsetForCurrentGuess(data.currentGuess, nPlayers);
+        const currentGuessOffset = calculatePlayerOffsetForCurrentGuess(data.currentGuess, nPlayers);
         
-        // Calculate the final index, ensuring it wraps around properly
-        const currentPlayerIndex = determineCurrentPlayerIndexByCurrentRoundAndCurrentGuess(startingPlayerIndex, currentGuessOffset, nPlayers);
+        const currentPlayerIndexByRoundAndGuessIndex = calculateCurrentPlayerIndexByCurrentRoundAndCurrentGuess(startingPlayerIndex, currentGuessOffset, nPlayers);
         
-        return data.playerIdsInOrder[currentPlayerIndex];
+        const withoutTime: boolean = (!data.secondsBetweenLastGuess || !data.secondsPerGuess);
+        if (withoutTime) {
+            return data.playerIdsInOrder[currentPlayerIndexByRoundAndGuessIndex];
+        }
+
+        const passedTimeOffset = calculateTimePassedOffset(data.secondsPerGuess!, data.secondsBetweenLastGuess!);
+        const playerIndexAdjustedWithTimeOffset = (currentPlayerIndexByRoundAndGuessIndex + passedTimeOffset) % nPlayers;
+
+        return data.playerIdsInOrder[playerIndexAdjustedWithTimeOffset];
     }
 }
 
 // Calculate who starts the round (0-based index)
 // For round 1, player 0 starts
 // For round 2, player 1 starts, etc.
-function determineStartingPlayerForRound(currentRoundIndex: number, nPlayers: number) {
+function calculateStartingPlayerForRound(currentRoundIndex: number, nPlayers: number) {
     return (currentRoundIndex - 1) % nPlayers;
 }
 
 // Calculate the current player based on the starting player and current guess
 // Subtract 1 from currentGuess to get 0-based indexing for guesses
-function determinePlayerOffsetForCurrentGuess(currentGuessIndex: number, nPlayers: number) {
+function calculatePlayerOffsetForCurrentGuess(currentGuessIndex: number, nPlayers: number) {
     return (currentGuessIndex - 1) % nPlayers;
 }
 
 // Calculate the final index
-function determineCurrentPlayerIndexByCurrentRoundAndCurrentGuess(startingPlayerIndex: number, currentGuessOffset: number, nPlayers: number) {
+function calculateCurrentPlayerIndexByCurrentRoundAndCurrentGuess(startingPlayerIndex: number, currentGuessOffset: number, nPlayers: number) {
     return (startingPlayerIndex + currentGuessOffset) % nPlayers;
+}
+
+function calculateTimePassedOffset(secondsPerGuess: number, secondsBetweenLastGuess: number) {
+    if (secondsBetweenLastGuess < secondsPerGuess) return 0;
+
+    return Math.floor(secondsBetweenLastGuess / secondsPerGuess);
 }
