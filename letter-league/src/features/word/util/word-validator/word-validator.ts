@@ -1,4 +1,4 @@
-import { EvaluatedLetter, LetterState } from "../../word-models";
+import { EvaluatedLetter, LetterState, WordState } from "../../word-models";
 
 export interface DetailedValidationResult {
     validatedWord: EvaluatedLetter[];
@@ -7,11 +7,17 @@ export interface DetailedValidationResult {
 }
 
 export class WordValidator {
-    static validateAndFilter(guess: string, word: string, previouslyGuessedLetters: EvaluatedLetter[] ): DetailedValidationResult {
-        const validatedWord = this.validate(guess, word,);
+    static validateAndFilter(guess: string, wordState: WordState, previouslyGuessedLetters: EvaluatedLetter[] ): DetailedValidationResult {
+        const validatedWord = this.validate(guess, wordState.word);
         const newLetters = this.filterNewLetters(validatedWord, previouslyGuessedLetters);
         
-        debugger;
+        this.updateWordStateAndFilterMisplaced(wordState, newLetters);
+        // this.filterMisplacedThatDoNoOccurAnymoreFromNewLetters(newLetters, wordState);
+
+        // Update the wordState
+        // 1: toggle all new corrects
+        // 2: check if the MISPLACED still counts, if not add as WRONG
+
         return {
             validatedWord: validatedWord,
             newLetters: newLetters,
@@ -19,11 +25,34 @@ export class WordValidator {
         }
     }
 
+    static updateWordStateAndFilterMisplaced(wordState: WordState, newLetters: EvaluatedLetter[]) {
+
+        // Switch the new correct letters to CORRECT
+        for (var i=0; i < newLetters.length; i++) {
+            if (newLetters[i].state != LetterState.Correct) return;
+            
+            const position = newLetters[i].position;
+
+            debugger;
+            wordState.letterStates[position-1].guessed = true;
+        }
+
+        // If there are new misplaced letters that are not misplaced anymore after the correct letters are determined,
+        // => set misplaced letter to wrong
+        for (var i=0; i < newLetters.length; i++) {
+            if (newLetters[i].state != LetterState.Misplaced) return;
+            
+            const isStillMisplaced = wordState.letterStates.some(ls => ls.letter == newLetters[i].letter && ls.guessed == false);
+            if (isStillMisplaced) return;
+
+            newLetters[i].state = LetterState.Wrong;
+        }
+    }
+
     static validate(guess: string, word: string): EvaluatedLetter[] {
         var evaluatedLetters: EvaluatedLetter[] = new Array(guess.length);
 
         for(var i=0; i<guess.length; i++) {
-            debugger;
             const guessedLetter = guess[i].toUpperCase();
             const actualLetter = word[i].toUpperCase();            
 
