@@ -1,11 +1,15 @@
 MUST
-- KICK player
-- Scan the guess. If it is not in the list with official words, try to check if it is weird like xxxaa. Maybe some sort of latin vibe validator?
+
 - BUG: oranje blijft ook al zit er geen oranje meer in
+    - letter states sws even nalopen
+
+- show guest session expire date in header
+- Scan the guess. If it is not in the list with official words, try to check if it is weird like xxxaa. Maybe some sort of latin vibe validator?
 - JWT refresh flow
 - Automatic cleanup (cronjob?) for guest accounts and "old games"
 - statistics regarding games played
 - Landing page with explanation
+- bring your own word mode
 
 
 SHOULD
