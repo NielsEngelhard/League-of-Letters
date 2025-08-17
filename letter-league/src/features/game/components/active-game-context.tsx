@@ -28,6 +28,7 @@ type ActiveGameContextType = {
   handleWordGuess: (response: GuessWordResponse) => void;
   clearGameState: () => void;
   addOrReconnectPlayer: (p: GamePlayerModel) => void;
+  setInitialPlayers: (players: GamePlayerModel[]) => void;
   removePlayer: (playerId: string) => void;
   disconnectPlayer: (playerId: string) => void;
   recalculateCurrentPlayer: () => void;
@@ -226,7 +227,6 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!game || !currentRound) return;
     determineCurrentPlayer();
-
   }, [recalculateCurrentPlayerTrigger, game?.currentRoundIndex, currentRound?.currentGuessIndex]);
 
   function recalculateCurrentPlayer() {
@@ -238,11 +238,15 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
       const playerExists = prev.some(p => p.accountId === player.accountId);
 
       if (playerExists) {
-        return prev.map(player => player.accountId == player.accountId ? {...player, connectionStatus: "connected"} : player);
+        return prev.map(p => p.accountId == player.accountId ? {...p, connectionStatus: "connected"} : p);
       }
-
+      debugger;
       return [...prev, player];
     });
+  }
+
+  function setInitialPlayers(players: GamePlayerModel[]) {
+    setPlayers(players);
   }
 
   function removePlayer(playerId: string) {
@@ -272,6 +276,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
         removePlayer,
         theWord,
         recalculateCurrentPlayer,
+        setInitialPlayers,
        }}>
       {children}
     </ActiveGameContext.Provider>

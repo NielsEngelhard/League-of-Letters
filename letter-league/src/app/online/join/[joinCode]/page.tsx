@@ -16,13 +16,12 @@ import { OnlineLobbyModel } from "@/features/lobby/lobby-models";
 import LoadingSpinner from "@/components/ui/animation/LoadingSpinner";
 import LoadingDots from "@/components/ui/animation/LoadingDots";
 import { useActiveGame } from "@/features/game/components/active-game-context";
-import { GamePlayerModel } from "@/features/game/game-models";
 import { MULTIPLAYER_GAME_ROUTE } from "@/app/routes";
 
 export default function JoinOnlineGamePage() {
     const [lobby, setLobby] = useState<OnlineLobbyModel | null>(null);
     const { initializeConnection, emitJoinGame, connectionStatus } = useSocket();
-    const { players, addOrReconnectPlayer, clearGameState } = useActiveGame();
+    const { players, setInitialPlayers, clearGameState } = useActiveGame();
     const { pushSuccessMsg, pushLoadingMsg, pushErrorMsg } = useMessageBar();
 
     const { account } = useAuth();
@@ -33,12 +32,13 @@ export default function JoinOnlineGamePage() {
 
     useEffect(() => {
         if (!account) return;
-
         pushLoadingMsg("Connecting with the realtime server");
+        clearGameState();
         initializeConnection();
     }, [account]);
 
     useEffect(() => {
+        if (players.length != 0) return;
         if (connectionStatus != "connected" || lobby || !joinCode || !account) return;
         pushLoadingMsg("Joining lobby");
 
@@ -52,25 +52,25 @@ export default function JoinOnlineGamePage() {
                 return;
             }
 
-            addPlayersToRealtimePlayersList(serverResponse.data.players);
+            setInitialPlayers(serverResponse.data.players);
             setLobby(serverResponse.data);
-
-            emitJoinGame({
-                gameId: serverResponse.data.id,
-                accountId: account.id,
-                username: account.username,
-                isHost: true
-            });    
-
-            pushSuccessMsg("Joined lobby");
         }
 
         JoinLobby();
-    }, [connectionStatus]);    
+    }, [connectionStatus, players]);    
 
-    function addPlayersToRealtimePlayersList(players: GamePlayerModel[]) {
-        players.forEach(player => addOrReconnectPlayer(player));
-    }    
+    useEffect(() => {        
+        if (!lobby || !account) return;
+
+        emitJoinGame({
+            gameId: lobby.id,
+            accountId: account.id,
+            username: account.username,
+            isHost: false
+        });
+
+        pushSuccessMsg("Connected");      
+    }, [lobby, account]);    
 
     useEffect(() => {
         return () => {

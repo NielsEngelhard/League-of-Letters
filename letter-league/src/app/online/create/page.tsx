@@ -30,7 +30,7 @@ import CopyTextBlock from "@/components/ui/CopyTextBlock";
 
 export default function CreateOnlineGamePage() {
   const { initializeConnection, emitJoinGame, connectionStatus } = useSocket();
-  const { players, addOrReconnectPlayer, clearGameState } = useActiveGame();
+  const { players, setInitialPlayers, clearGameState } = useActiveGame();
   const { pushSuccessMsg, pushLoadingMsg, pushErrorMsg } = useMessageBar();
   const { account } = useAuth();
 
@@ -41,37 +41,40 @@ export default function CreateOnlineGamePage() {
   useEffect(() => {
       if (!account) return;
 
+      clearGameState();
       pushLoadingMsg("Connecting with the realtime server");
       initializeConnection();
   }, [account]);
 
   useEffect(() => {
     async function CreateOrGetLobby() {
+      if (players?.length != 0) return;
       if (connectionStatus != "connected" || lobby || !account) return;
 
       pushLoadingMsg("Connecting to lobby");
 
       const lobbyResponse = await GetOrCreateLobbyFromServer();
-      addPlayersToRealtimePlayersList(lobbyResponse.players);
-      setLobby(lobbyResponse);
+      addInitialPlayers(lobbyResponse.players);
+      setLobby(lobbyResponse);    
+    }
 
+    CreateOrGetLobby();
+  }, [connectionStatus, players]);
+
+  useEffect(() => {
+    if (!lobby || !account) return;
       emitJoinGame({
-        gameId: lobbyResponse.id,
+        gameId: lobby.id,
         accountId: account.id,
         username: account.username,
         isHost: true
       });
 
       pushSuccessMsg("Connected");      
-    }
+  }, [lobby, account]);
 
-    CreateOrGetLobby();
-  }, [connectionStatus]);
-
-  function addPlayersToRealtimePlayersList(players: GamePlayerModel[]) {
-    players.forEach(p => {
-      addOrReconnectPlayer(p);
-    });
+  function addInitialPlayers(players: GamePlayerModel[]) {
+    setInitialPlayers(players);
   }
 
   async function GetOrCreateLobbyFromServer(): Promise<OnlineLobbyModel> {

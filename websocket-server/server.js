@@ -58,7 +58,7 @@ io.on('connection', (socket) => {
 
     CallWebhook_UpdatePlayerConnectionStatus(socket.gameId, socket.accountId, "connected")
     .finally(() => {
-      socket.broadcast.to(gameId).emit('user-joined', { accountId: accountId, username: username, isHost: isHost, connectionStatus: "connected" });
+      io.to(gameId).emit('user-joined', { accountId: accountId, username: username, isHost: isHost, connectionStatus: "connected" });
     });      
   });
 
