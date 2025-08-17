@@ -59,7 +59,7 @@ export default function GameBoard({}: Props) {
                 <div className="w-full flex flex-col items-center justify-center gap-2">
 
                     {game.nSecondsPerGuess && (
-                        <InGameTimer initialTime={60} />    
+                        <InGameTimer initialTime={game.nSecondsPerGuess} />    
                     )}
                                     
                     <LetterRowGrid

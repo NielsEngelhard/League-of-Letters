@@ -37,7 +37,7 @@ export default async function CreateGameCommand(schema: CreateGameSchema, gameId
             gameId: ActiveGameTable.id
         });
 
-        var rounds = GameRoundFactory.createDbRounds({ gameId: gameId, isMultiplayerGame: schema.gameMode == "online", words: words});
+        var rounds = GameRoundFactory.createDbRounds({ gameId: gameId, hasTimePerGuess: (schema.nSecondsPerGuess != undefined || schema.nSecondsPerGuess != null), words: words});
         await tx.insert(GameRoundTable).values(rounds);
 
         var players = createPlayers(schema, gameId);

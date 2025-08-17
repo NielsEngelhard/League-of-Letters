@@ -8,18 +8,18 @@ export interface CreateGameRoundData {
     gameId: string;
     word: string;
     roundNumber: number;
-    forMultiplayerGame: boolean;    
+    hasTimePerGuess: boolean;    
 }
 
 export interface CreateGameRoundsData {
     gameId: string;
     words: string[];
-    isMultiplayerGame: boolean;
+    hasTimePerGuess: boolean;
 }
 
 export class GameRoundFactory {
     static createDbRound(data: CreateGameRoundData): DbGameRound {
-        const unixTimestampInSeconds = (data.forMultiplayerGame && data.roundNumber == 1)
+        const unixTimestampInSeconds = (data.hasTimePerGuess && data.roundNumber == 1)
             ? getCurrentUtcUnixTimestamp_Seconds()
             : null;
 
@@ -32,7 +32,7 @@ export class GameRoundFactory {
             guesses: [],
             evaluatedLetters: [{ position: 1, state: LetterState.Correct, letter: data.word[0].toUpperCase() }],
             lastGuessUnixUtcTimestamp_InSeconds: unixTimestampInSeconds,
-            wordLength: data.word.length,            
+            wordLength: data.word.length,
         }
     }
 
@@ -41,7 +41,7 @@ export class GameRoundFactory {
             gameId: data.gameId,
             word: word,
             roundNumber: i,
-            forMultiplayerGame: data.isMultiplayerGame,
+            hasTimePerGuess: data.hasTimePerGuess,
         }));
     }
 }

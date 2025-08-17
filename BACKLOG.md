@@ -1,4 +1,7 @@
 - Timer for online games
+    - Timer also determines the score (bonus system extended)
+
+- See which player guessed which word
 
 - Scan the guess. If it is not in the list with official words, try to check if it is weird like xxxaa. Maybe some sort of latin vibe validator?
 - BUG: oranje blijft ook al zit er geen oranje meer in
