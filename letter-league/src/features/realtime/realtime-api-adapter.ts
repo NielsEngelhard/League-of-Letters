@@ -45,3 +45,11 @@ export async function EmitGuessWordRealtimeEvent(gameId: string, guessWordRespon
         data: guessWordResponse
     });
 }
+
+export async function EmitPlayerKickedRealtimeEvent(gameId: string, accountId: string) {
+    return await TriggerRealtimeEventOnSocketServer({
+        event: "kick-player",
+        room: gameId,
+        data: { accountId: accountId, gameId: gameId}
+    });
+}

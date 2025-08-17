@@ -81,6 +81,11 @@ io.on('connection', (socket) => {
     // TODO SET SOMETHING so that disconnect wont trigger server call (disconnect status should not be updated when game is not more)
     socket.broadcast.to(socket.gameId).emit('guess-word', guessWordResponse);
   });  
+
+  socket.on('kick-player', ({ accountId, gameId }) => {
+    console.log("kick-player triggered");
+    io.to(gameId).emit('kick-player', accountId);
+  });    
   // END USER ACTIONS --------------------------------------------------------------------
 
   // (external) SERVER ACTIONS 

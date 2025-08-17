@@ -32,12 +32,13 @@ type ActiveGameContextType = {
   removePlayer: (playerId: string) => void;
   disconnectPlayer: (playerId: string) => void;
   recalculateCurrentPlayer: () => void;
+  kickPlayer: (accountId: string) => void;
 };
 
 const ActiveGameContext = createContext<ActiveGameContextType | undefined>(undefined);
 
 export function ActiveGameProvider({ children }: { children: ReactNode }) {
-  const { pushErrorMsg } = useMessageBar();
+  const { pushErrorMsg, pushMessage } = useMessageBar();
   
   const [game, setGame] = useState<ActiveGameModel | undefined>(undefined);
   const [currentRound, setCurrentRound] = useState<GameRoundModel | undefined>(undefined);
@@ -113,6 +114,14 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
           : player
       )
     );       
+  }
+
+  function kickPlayer(accountId: string) {
+    const playerToRemove = players.find(p => p.accountId == accountId);
+    if (!playerToRemove) return;
+
+    pushMessage({ msg: `${playerToRemove.username} kicked`, type: "information" }, 3000);
+    removePlayer(accountId);
   }
 
   function addGuessToCurrentRound(response: GuessWordResponse) {
@@ -249,8 +258,8 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     setPlayers(players);
   }
 
-  function removePlayer(playerId: string) {
-    setPlayers(prev => prev.filter(p => p.accountId != playerId));
+  function removePlayer(accountId: string) {
+    setPlayers(prev => prev.filter(p => p.accountId != accountId));
   }
 
   function disconnectPlayer(playerId: string) {
@@ -277,6 +286,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
         theWord,
         recalculateCurrentPlayer,
         setInitialPlayers,
+        kickPlayer,
        }}>
       {children}
     </ActiveGameContext.Provider>

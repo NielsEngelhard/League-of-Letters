@@ -92,7 +92,21 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
       RealtimeLogger.Log(`guess-word ${response.guessResult.evaluatedLetters.map(el => el.letter)}`);
       if (response.accountId == account?.id) return;
       activeGameContext.handleWordGuess(response);
-    });    
+    });
+
+    socket.on('kick-player', ({ accountId, gameId }) => {
+      RealtimeLogger.Log(`kick-player ${accountId}`);
+      
+      const youAreTheKickedPlayer: boolean = account?.id == accountId;
+      
+      activeGameContext.kickPlayer(accountId);
+
+      if (youAreTheKickedPlayer) {
+        activeGameContext.clearGameState();
+        router.push(MULTIPLAYER_GAME_ROUTE);
+        return;
+      }
+    });        
 
     socket.on('delete-game', (gameId: string) => {
       pushMessage({

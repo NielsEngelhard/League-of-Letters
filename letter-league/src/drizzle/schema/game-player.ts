@@ -1,4 +1,4 @@
-import { integer, pgTable, text, uniqueIndex, uuid } from "drizzle-orm/pg-core";
+import { boolean, integer, pgTable, text, uniqueIndex, uuid } from "drizzle-orm/pg-core";
 import { InferSelectModel, relations } from "drizzle-orm";
 import { ActiveGameTable } from "./active-game";
 import { connectionStatusEnum } from "./enum/connection-status";
@@ -18,6 +18,7 @@ export const GamePlayerTable = pgTable(
     connectionStatus: connectionStatusEnum().notNull().default("empty"),
     score: integer().notNull().default(0),
     position: integer().notNull().default(1),
+    playerLeft: boolean().notNull().default(false)
   },
   (table) => ({
     gameId_position_unique: uniqueIndex("game_player_gameId_position_unique").on(

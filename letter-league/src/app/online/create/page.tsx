@@ -174,7 +174,11 @@ export default function CreateOnlineGamePage() {
                   <LoadingDots color="success" size="md" />
               </CardHeader>
               <CardContent className="space-y-2 sm:space-y-3">
-                  <PlayersList players={players} hostAccountId={lobby?.hostAccountId} />
+                  <PlayersList
+                    players={players}
+                    hostAccountId={lobby?.hostAccountId}
+                    lobbyId={lobby?.id}
+                  />
               </CardContent>
             </Card>
         </div>
