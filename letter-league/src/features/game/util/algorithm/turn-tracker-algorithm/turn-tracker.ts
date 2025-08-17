@@ -3,7 +3,7 @@ export interface DetermineWhosTurnItIsData {
     currentRound: number;
     currentGuess: number;
     secondsBetweenLastGuess?: number;
-    secondsPerGuess?: number;
+    secondsPerGuess?: number | null;
 }
 
 export class TurnTrackerAlgorithm {

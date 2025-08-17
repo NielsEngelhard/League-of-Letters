@@ -44,7 +44,7 @@ export default function Header() {
                         {/* User Avatar */}
                         <div className="relative">
                             <div className="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center shadow-sm group-hover:shadow-md transition-all duration-200">
-                                <span className="text-white text-sm font-bold">
+                                <span className="text-foreground text-sm font-bold">
                                     {account.username.charAt(0).toUpperCase()}
                                 </span>
                             </div>
@@ -58,10 +58,10 @@ export default function Header() {
 
                         {/* User Info */}
                         <div className="flex flex-col text-right">
-                            <div className="text-sm font-semibold text-gray-800 group-hover:text-gray-900 transition-colors duration-200">
+                            <div className="text-sm font-semibold text-foreground/90 group-hover:text-foreground transition-colors duration-200">
                                 {account.username}
                             </div>
-                            <div className="flex items-center gap-1 text-xs text-gray-500">
+                            <div className="flex items-center gap-1 text-xs text-foreground-muted">
                                 {account.isGuest == true ? (
                                     <span className="font-medium">guest session</span>
                                 ) : (

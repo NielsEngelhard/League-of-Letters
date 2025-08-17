@@ -15,7 +15,7 @@ interface Props {}
 
 
 export default function GameBoard({}: Props) {
-    const { game, players, setCurrentGuess, submitGuess, currentGuess, currentRound, isThisPlayersTurn, isAnimating, theWord, currentPlayerId } = useActiveGame();
+    const { game, players, setCurrentGuess, submitGuess, currentGuess, currentRound, isThisPlayersTurn, isAnimating, theWord, currentPlayerId, recalculateCurrentPlayer } = useActiveGame();
     const { settings } = useAuth();
 
     async function onSubmitGuess() {
@@ -59,7 +59,9 @@ export default function GameBoard({}: Props) {
                 <div className="w-full flex flex-col items-center justify-center gap-2">
 
                     {game.nSecondsPerGuess && (
-                        <InGameTimer initialTime={game.nSecondsPerGuess} />    
+                        <InGameTimer
+                            initialTime={game.nSecondsPerGuess}
+                            onTimerEnd={recalculateCurrentPlayer} />    
                     )}
                                     
                     <LetterRowGrid

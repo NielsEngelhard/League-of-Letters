@@ -1,30 +1,28 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { Clock } from 'lucide-react';
 
-interface CountdownTimerProps {
+interface InGameTimerProps {
   initialTime?: number; // in seconds
   onTimerEnd?: () => void;
   isPaused?: boolean;
   showControls?: boolean;
   warningThreshold?: number; // seconds when to show warning state
-  criticalThreshold?: number; // seconds when to show critical state
 }
 
-export default function CountdownTimer({
+export default function InGameTimer({
   initialTime = 60,
   onTimerEnd,
-  warningThreshold = 10,
-  criticalThreshold = 5,
+  warningThreshold = 7,
   isPaused = false
-}: CountdownTimerProps) {
+}: InGameTimerProps) {
   const [secondsLeft, setSecondsLeft] = useState(initialTime);
+  const hasEndedRef = useRef(false);
 
   // Get timer state for styling
   const getTimerState = useCallback(() => {
-    if (secondsLeft <= criticalThreshold) return 'critical';
     if (secondsLeft <= warningThreshold) return 'warning';
     return 'normal';
-  }, [secondsLeft, criticalThreshold, warningThreshold]);
+  }, [secondsLeft, warningThreshold]);
 
   // Timer logic
   useEffect(() => {
@@ -35,8 +33,13 @@ export default function CountdownTimer({
         setSecondsLeft((prevTime) => {
           const newTime = prevTime - 1;
           
-          if (newTime <= 0) {
-            onTimerEnd?.();
+          // Check if timer just ended and hasn't been handled yet
+          if (newTime <= 0 && !hasEndedRef.current) {
+            hasEndedRef.current = true;
+            // Schedule the callback to run after the current render cycle
+            setTimeout(() => {
+              if (onTimerEnd) onTimerEnd();
+            }, 0);
             return 0;
           }
           
@@ -48,17 +51,22 @@ export default function CountdownTimer({
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isPaused, secondsLeft, onTimerEnd]);
+  }, [isPaused, onTimerEnd]); // Removed secondsLeft from dependencies
+
+  // Reset the ended flag when timer is reset
+  useEffect(() => {
+    if (secondsLeft > 0) {
+      hasEndedRef.current = false;
+    }
+  }, [secondsLeft]);
 
   const timerState = getTimerState();
 
   // Dynamic styling based on timer state
   const getTimerStyles = () => {
     const baseStyles = "font-mono font-bold transition-all duration-300 text-xl sm:text-2xl";
-    
+        
     switch (timerState) {
-      case 'critical':
-        return `${baseStyles} text-error animate-pulse`;
       case 'warning':
         return `${baseStyles} text-warning`;
       default:
@@ -71,25 +79,19 @@ export default function CountdownTimer({
       {/* Timer Display */}
       <div className="flex items-center space-x-3">
         <Clock className={`w-5 h-5 ${
-          timerState === 'critical' ? 'text-error' : 
           timerState === 'warning' ? 'text-warning' : 
           'text-foreground-muted'
         }`} />
-        
+                
         <div className={getTimerStyles()}>
           {secondsLeft}
         </div>
-        
-        {secondsLeft === 0 && (
-          <span className="text-sm text-error font-medium">Time's up!</span>
-        )}
       </div>
 
       {/* Progress Bar */}
       <div className="w-full max-w-xs bg-foreground-muted/10 rounded-full h-2 overflow-hidden">
         <div 
           className={`h-full transition-all duration-1000 ease-linear ${
-            timerState === 'critical' ? 'bg-error' :
             timerState === 'warning' ? 'bg-warning' :
             'bg-primary'
           }`}

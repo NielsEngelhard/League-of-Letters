@@ -65,6 +65,6 @@ function AddCallerAsOnlyPlayer(schema: CreateGameSchema, currentUser: CurrentUse
 }
 
 function determineSecondsPerGuess(inputValue: number | null | undefined ): number | null {
-    if (!inputValue || inputValue < 10 || inputValue > 300) return null;
+    if (!inputValue || inputValue < 5 || inputValue > 300) return null;
     return inputValue;
 }

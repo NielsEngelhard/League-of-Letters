@@ -8,6 +8,7 @@ import { useMessageBar } from '@/components/layout/MessageBarContext';
 import { TurnTrackerAlgorithm } from '../util/algorithm/turn-tracker-algorithm/turn-tracker';
 import { GetLetterAnimationDurationInMs } from '../util/game-time-calculators';
 import { sortPlayerModelOnPositionAndGetUserIds } from '../util/player-sorting';
+import { getSecondsBetweenNowAndUnixTimestampInSeconds } from '@/lib/time-util';
 
 type ActiveGameContextType = {  
   // Data
@@ -29,6 +30,7 @@ type ActiveGameContextType = {
   addOrReconnectPlayer: (p: GamePlayerModel) => void;
   removePlayer: (playerId: string) => void;
   disconnectPlayer: (playerId: string) => void;
+  recalculateCurrentPlayer: () => void;
 };
 
 const ActiveGameContext = createContext<ActiveGameContextType | undefined>(undefined);
@@ -45,6 +47,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
   const [isThisPlayersTurn, setIsThisPlayersTurn] = useState<boolean>(false);
   const [thisPlayersUserId, setThisPlayersUserId] = useState<string | undefined>(undefined);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [recalculateCurrentPlayerTrigger, setRecalculateCurrentPlayerTrigger] = useState(false);
 
   // Always call this first
   function initializeGameState(_game: ActiveGameModel, _thisPlayersUserId: string) {
@@ -196,9 +199,16 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
 
   function determineCurrentPlayer() {
     if (!game || !currentRound) return;
-    
+
     const sortedPlayerIds = sortPlayerModelOnPositionAndGetUserIds(game.players);
-    const playerId = TurnTrackerAlgorithm.determineWhosTurnItIs(sortedPlayerIds, game.currentRoundIndex, currentRound.currentGuessIndex);
+    const playerId = TurnTrackerAlgorithm.determineWhosTurnItIs({
+      playerIdsInOrder: sortedPlayerIds,
+      currentGuess: currentRound.currentGuessIndex,
+      currentRound: game.currentRoundIndex,
+      secondsBetweenLastGuess: getSecondsBetweenNowAndUnixTimestampInSeconds(currentRound.lastGuessUnixUtcTimestamp_InSeconds),
+      secondsPerGuess: game.nSecondsPerGuess
+    });
+
     setCurrentPlayerId(playerId);
     setIsThisPlayersTurn(thisPlayersUserId == playerId);
   }
@@ -211,7 +221,11 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     console.log("EVEN KIJKEN OF DIT NIET GESPAMMED WORDT!!!!!!!!!!");
     determineCurrentPlayer();
 
-  }, [game?.currentRoundIndex, currentRound?.currentGuessIndex]);
+  }, [recalculateCurrentPlayerTrigger, game?.currentRoundIndex, currentRound?.currentGuessIndex]);
+
+  function recalculateCurrentPlayer() {
+    setRecalculateCurrentPlayerTrigger(prev => !prev);
+  }
 
   function addOrReconnectPlayer(player: GamePlayerModel) {
     setPlayers(prev => {
@@ -250,7 +264,8 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
         addOrReconnectPlayer,
         disconnectPlayer,
         removePlayer,
-        theWord
+        theWord,
+        recalculateCurrentPlayer
        }}>
       {children}
     </ActiveGameContext.Provider>

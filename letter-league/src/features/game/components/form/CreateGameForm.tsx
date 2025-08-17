@@ -82,6 +82,7 @@ export default function CreateGameForm({ onSubmit, onLeaveGame, submitDisabled =
                 required
                 options={[
                     { value: 0, label: "no time" },
+                    { value: 5, label: "5s (DEV ONLY)" },
                     { value: 20, label: "20s" },
                     { value: 40, label: "40s" },
                     { value: 60, label: "60s" },
