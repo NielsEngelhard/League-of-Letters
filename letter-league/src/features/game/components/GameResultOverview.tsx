@@ -17,7 +17,6 @@ export default function GameResultOverview({ players }: Props) {
     const router = useRouter();
     
     const sortedPlayers = players.sort((a, b) => b.score - a.score);
-    const winner = sortedPlayers[0];
     const isSoloGame = players.length === 1;
     const isDuel = players.length === 2;
 

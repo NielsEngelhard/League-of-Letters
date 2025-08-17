@@ -11,10 +11,9 @@ import { useSocket } from "@/features/realtime/socket-context";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
-
 export default function GamePage() {
     const { account } = useAuth();
-    const { initializeGameState, game } = useActiveGame();    
+    const { initializeGameState, game, clearGameState } = useActiveGame();    
     const { initializeConnection, emitJoinGame, connectionStatus } = useSocket();
     const router = useRouter();
 
@@ -46,8 +45,9 @@ export default function GamePage() {
 
     // Connect with realtime if online game
     useEffect(() => {
-        if (!game || game.gameMode == "solo") return;
-        initializeConnection();
+        if (game && game.gameMode == "online") {
+            initializeConnection();
+        }
     }, [game]);
 
     // Join the game room when realtime is connected
@@ -61,6 +61,12 @@ export default function GamePage() {
             isHost: account.id == game?.hostAccountId
         });         
     }, [connectionStatus, game, account]);
+
+    useEffect(() => {
+        return () => {
+            clearGameState();
+        }
+    }, []);
 
     return (
         <PageBase>

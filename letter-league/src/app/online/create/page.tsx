@@ -7,7 +7,6 @@ import SubText from "@/components/ui/text/SubText";
 import CreateGameForm from "@/features/game/components/form/CreateGameForm";
 import { CreateGameSchema } from "@/features/game/game-schemas";
 import { useAuth } from "@/features/auth/AuthContext";
-import { useRouter } from 'next/navigation'
 import { useEffect, useState } from "react";
 import { JOIN_GAME_ROUTE, MULTIPLAYER_GAME_ROUTE } from "@/app/routes";
 import { useSocket } from "@/features/realtime/socket-context";
@@ -31,7 +30,7 @@ import CopyTextBlock from "@/components/ui/CopyTextBlock";
 
 export default function CreateOnlineGamePage() {
   const { initializeConnection, emitJoinGame, connectionStatus } = useSocket();
-  const { players, addOrReconnectPlayer } = useActiveGame();
+  const { players, addOrReconnectPlayer, clearGameState } = useActiveGame();
   const { pushSuccessMsg, pushLoadingMsg, pushErrorMsg } = useMessageBar();
   const { account } = useAuth();
 
@@ -105,12 +104,16 @@ export default function CreateOnlineGamePage() {
   }
 
   const lobbyOptions: OptionItem[] = [
-  {
-    label: "Abandon",
-    onClick: abandonLobby,
-    destructive: true
-  }
-]
+    {
+      label: "Abandon",
+      onClick: abandonLobby,
+      destructive: true
+    }
+  ]
+
+  useEffect(() => {
+    clearGameState();
+  }, []);
 
   return (
     <PageBase size="lg">

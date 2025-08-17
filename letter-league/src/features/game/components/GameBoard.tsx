@@ -31,10 +31,6 @@ export default function GameBoard({}: Props) {
         setCurrentGuess(i);
     }
 
-    useEffect(() => {
-        console.log("Current guess changed to " + currentGuess);
-    }, [currentGuess]);
-
     // Update timer if needed
     useEffect(() => {
         if (!game || !currentRound) return;

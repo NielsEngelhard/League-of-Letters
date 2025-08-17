@@ -9,6 +9,7 @@ import { useActiveGame } from '../game/components/active-game-context';
 import { GuessWordResponse } from '../game/actions/command/guess-word-command';
 import { useAuth } from '../auth/AuthContext';
 import { GamePlayerModel } from '../game/game-models';
+import { RealtimeLogger } from './realtime-logger';
 
 interface SocketContextType {
   socket: Socket | null;
@@ -59,43 +60,37 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
 
     // Connection event handlers
     socket.on('connect', () => {
-      setConnectionStatus("connected");
+      RealtimeLogger.Log("connected (this client)");
+      setConnectionStatus("connected");      
       setTransport(socket.io.engine.transport.name);
       console.log('Connected to WebSocket server');
     });
 
     socket.on('disconnect', () => {
+      RealtimeLogger.Log("disconnect");
       setConnectionStatus("disconnected");
-      setTransport('N/A');
-      console.log('Disconnected from WebSocket server');
+      setTransport('N/A');      
       activeGameContext.clearGameState();
     });
 
     socket.on('user-joined', (player: GamePlayerModel) => {
-      console.log(`REALTIME: User ${player.username} joined`);
-      
-      activeGameContext.addOrReconnectPlayer(player);
+      RealtimeLogger.Log(`user-joined ${player.username} joined`);
+      activeGameContext.addOrReconnectPlayer(player);      
     });
 
     socket.on('user-disconnected', (disconnectedUserId: string) => {
-      console.log(`REALTIME: User ${disconnectedUserId} disconnected`);
-
+      RealtimeLogger.Log(`user-disconnected ${disconnectedUserId} disconnected`);
       activeGameContext.disconnectPlayer(disconnectedUserId);
-    });    
-
-    socket.on('test', () => {
-      console.log("Received test response from the socket server!");
     });
     
     socket.on('start-game-transition', (gameId: string) => {
-      console.log("START GAME HAS BEEN TRIGGERED " + gameId);
+      RealtimeLogger.Log(`start-game-transition ${gameId}`);
       router.push(PLAY_GAME_ROUTE(gameId));
     });
 
     socket.on('guess-word', (response: GuessWordResponse) => {
+      RealtimeLogger.Log(`guess-word ${response.guessResult.evaluatedLetters.map(el => el.letter)}`);
       if (response.accountId == account?.id) return;
-
-      console.log("GUESS WORD HAS BEEN TRIGGERED");
       activeGameContext.handleWordGuess(response);
     });    
 
@@ -108,7 +103,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
     });
     
     socket.on('player-guess-changed', (guess: string) => {
-      console.log("player guess changed!! " + guess);
+      RealtimeLogger.Log(`player-guess-changed ${guess}`);
       activeGameContext.setCurrentGuess(guess);
     });         
 

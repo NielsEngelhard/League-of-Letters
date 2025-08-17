@@ -55,16 +55,17 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     setPlayers(_game.players);
 
     const _currentRound = getRound(_game);
-    setCurrentRound(_currentRound);
-    setThisPlayersUserId(_thisPlayersUserId);
-  }
+      setCurrentRound(_currentRound);
+      setThisPlayersUserId(_thisPlayersUserId);
+    }
 
   function clearGameState() {
     setGame(undefined);
     setCurrentRound(undefined);
     setCurrentGuess("");
     setPlayers([]); 
-  }  
+    setTheWord(undefined);
+  }
 
   async function submitGuess(): Promise<void> {
     if (!game || !currentRound) return;
@@ -224,9 +225,6 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
   // Determine the current player whos turn it is
   useEffect(() => {
     if (!game || !currentRound) return;
-
-    console.log("THE CURRENT PLAYERS TURN IS GETTING RE DETERMINED");
-    console.log("EVEN KIJKEN OF DIT NIET GESPAMMED WORDT!!!!!!!!!!");
     determineCurrentPlayer();
 
   }, [recalculateCurrentPlayerTrigger, game?.currentRoundIndex, currentRound?.currentGuessIndex]);
@@ -273,7 +271,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
         disconnectPlayer,
         removePlayer,
         theWord,
-        recalculateCurrentPlayer
+        recalculateCurrentPlayer,
        }}>
       {children}
     </ActiveGameContext.Provider>

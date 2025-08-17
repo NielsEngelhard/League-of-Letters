@@ -22,7 +22,7 @@ import { MULTIPLAYER_GAME_ROUTE } from "@/app/routes";
 export default function JoinOnlineGamePage() {
     const [lobby, setLobby] = useState<OnlineLobbyModel | null>(null);
     const { initializeConnection, emitJoinGame, connectionStatus } = useSocket();
-    const { players, addOrReconnectPlayer } = useActiveGame();
+    const { players, addOrReconnectPlayer, clearGameState } = useActiveGame();
     const { pushSuccessMsg, pushLoadingMsg, pushErrorMsg } = useMessageBar();
 
     const { account } = useAuth();
@@ -71,6 +71,12 @@ export default function JoinOnlineGamePage() {
     function addPlayersToRealtimePlayersList(players: GamePlayerModel[]) {
         players.forEach(player => addOrReconnectPlayer(player));
     }    
+
+    useEffect(() => {
+        return () => {
+            clearGameState();
+        }
+    }, []);    
 
     return (
         <PageBase>
