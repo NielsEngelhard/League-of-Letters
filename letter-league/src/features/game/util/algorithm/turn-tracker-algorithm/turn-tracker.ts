@@ -16,20 +16,33 @@ export class TurnTrackerAlgorithm {
             return data.playerIdsInOrder[0];
         }
         
-        const numberOfPlayers = data.playerIdsInOrder.length;
+        const nPlayers = data.playerIdsInOrder.length;
+
+        const startingPlayerIndex = determineStartingPlayerForRound(data.currentRound, nPlayers);
         
-        // Calculate who starts the round (0-based index)
-        // For round 1, player 0 starts
-        // For round 2, player 1 starts, etc.
-        const startingPlayerIndex = (data.currentRound - 1) % numberOfPlayers;
-        
-        // Calculate the current player based on the starting player and current guess
-        // Subtract 1 from currentGuess to get 0-based indexing for guesses
-        const playerOffset = (data.currentGuess - 1) % numberOfPlayers;
+        const currentGuessOffset = determinePlayerOffsetForCurrentGuess(data.currentGuess, nPlayers);
         
         // Calculate the final index, ensuring it wraps around properly
-        const currentPlayerIndex = (startingPlayerIndex + playerOffset) % numberOfPlayers;
+        const currentPlayerIndex = determineCurrentPlayerIndexByCurrentRoundAndCurrentGuess(startingPlayerIndex, currentGuessOffset, nPlayers);
         
         return data.playerIdsInOrder[currentPlayerIndex];
     }
+}
+
+// Calculate who starts the round (0-based index)
+// For round 1, player 0 starts
+// For round 2, player 1 starts, etc.
+function determineStartingPlayerForRound(currentRoundIndex: number, nPlayers: number) {
+    return (currentRoundIndex - 1) % nPlayers;
+}
+
+// Calculate the current player based on the starting player and current guess
+// Subtract 1 from currentGuess to get 0-based indexing for guesses
+function determinePlayerOffsetForCurrentGuess(currentGuessIndex: number, nPlayers: number) {
+    return (currentGuessIndex - 1) % nPlayers;
+}
+
+// Calculate the final index
+function determineCurrentPlayerIndexByCurrentRoundAndCurrentGuess(startingPlayerIndex: number, currentGuessOffset: number, nPlayers: number) {
+    return (startingPlayerIndex + currentGuessOffset) % nPlayers;
 }
