@@ -2,33 +2,6 @@
   "version": "7",
   "dialect": "postgresql",
   "entries": [
-    {
-      "idx": 0,
-      "version": "7",
-      "when": 1755279581920,
-      "tag": "0000_solid_wilson_fisk",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "7",
-      "when": 1755284670392,
-      "tag": "0001_steady_havok",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "7",
-      "when": 1755337967551,
-      "tag": "0002_colossal_machine_man",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "7",
-      "when": 1755405327514,
-      "tag": "0003_wide_black_bolt",
-      "breakpoints": true
-    }
+
   ]
 }

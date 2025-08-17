@@ -6,7 +6,6 @@ export class GameMapper {
         return {
             id: game.id,
             currentRoundIndex: game.currentRoundIndex,
-            wordLength: game.wordLength,
             totalRounds: game.nRounds,
             nGuessesPerRound: game.nGuessesPerRound,
             gameMode: game.gameMode,
@@ -40,7 +39,9 @@ export class GameMapper {
             roundNumber: round.roundNumber,
             currentGuessIndex: round.currentGuessIndex,            
             guesses: round.guesses,
-            guessedLetters: round.evaluatedLetters
+            guessedLetters: round.evaluatedLetters,
+            wordLength: round.wordLength,
+            lastGuessUnixUtcTimestamp_InSeconds: round.lastGuessUnixUtcTimestamp_InSeconds ?? undefined
         }
     }
 }

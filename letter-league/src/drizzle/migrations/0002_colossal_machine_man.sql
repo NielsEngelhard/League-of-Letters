@@ -1,1 +1,0 @@
-ALTER TABLE "active_game" ADD COLUMN "nSecondsPerGuess" integer;

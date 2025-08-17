@@ -3,8 +3,7 @@ import { EvaluatedLetter, EvaluatedWord } from "../word/word-models";
 import { ConnectionStatus } from "../realtime/realtime-models";
 
 export interface ActiveGameModel {
-    id: string;
-    wordLength: number;    
+    id: string;    
     totalRounds: number;
     currentRoundIndex: number;
     nGuessesPerRound: number;
@@ -29,7 +28,9 @@ export interface GameRoundModel {
     roundNumber: number;
     currentGuessIndex: number;
     guesses: EvaluatedWord[];
-    guessedLetters: EvaluatedLetter[];    
+    guessedLetters: EvaluatedLetter[];
+    wordLength: number;
+    lastGuessUnixUtcTimestamp_InSeconds?: number;
 }
 
 export interface GamePlayerModel {

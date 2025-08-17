@@ -9,8 +9,7 @@ export const ActiveGameTable = pgTable("active_game", {
     id: text().primaryKey(),        
     nRounds: integer().notNull(),
     nGuessesPerRound: integer().notNull().default(6),
-    gameMode: gameModeEnum().notNull(),
-    wordLength: integer().notNull(),    
+    gameMode: gameModeEnum().notNull(),    
     currentRoundIndex: integer().notNull().default(1),    
     gameIsOver: boolean().notNull().default(false),
     nSecondsPerGuess: integer(), // Undefined/null = infinite time

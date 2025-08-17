@@ -29,7 +29,6 @@ export default async function CreateGameCommand(schema: CreateGameSchema, gameId
             id: gameId,
             nRounds: schema.totalRounds,            
             gameMode: schema.gameMode,
-            wordLength: schema.wordLength,
             currentRoundIndex: 1,
             nGuessesPerRound: schema.guessesPerRound,
             hostAccountId: currentUser.accountId,
@@ -38,7 +37,7 @@ export default async function CreateGameCommand(schema: CreateGameSchema, gameId
             gameId: ActiveGameTable.id
         });
 
-        var rounds = GameRoundFactory.createDbRounds(words, gameId);
+        var rounds = GameRoundFactory.createDbRounds({ gameId: gameId, isMultiplayerGame: schema.gameMode == "online", words: words});
         await tx.insert(GameRoundTable).values(rounds);
 
         var players = createPlayers(schema, gameId);

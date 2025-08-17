@@ -35,7 +35,7 @@ export default function GameBoard({}: Props) {
 
     return (
         <>
-        {game ? (
+        {(game && currentRound) ? (
             <div className="w-full flex flex-col items-center gap-6 max-w-2xl mx-auto">
                 <GameProgressionBar
                     currentRoundIndex={game.currentRoundIndex}
@@ -65,8 +65,8 @@ export default function GameBoard({}: Props) {
                     <LetterRowGrid
                         currentGuess={currentGuess}
                         maxNGuesses={game.nGuessesPerRound}
-                        preFilledRows={currentRound?.guesses ?? []}
-                        wordLength={game.wordLength}
+                        preFilledRows={currentRound.guesses ?? []}
+                        wordLength={currentRound.wordLength}
                     />
                 </div>
 
@@ -75,7 +75,7 @@ export default function GameBoard({}: Props) {
                     {!theWord ? (
                         <ActiveGameWordInput
                             currentGuess={currentGuess}
-                            wordLength={game.wordLength}
+                            wordLength={currentRound.wordLength}
                             onChange={onChangeInput}
                             onEnter={onSubmitGuess}
                             disabled={!isThisPlayersTurn || isAnimating}

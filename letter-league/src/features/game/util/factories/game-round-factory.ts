@@ -1,25 +1,47 @@
 import { DbGameRound } from "@/drizzle/schema";
 import { WordStateFactory } from "@/features/word/util/factories/word-state-factory";
 import { LetterState } from "@/features/word/word-models";
+import { getCurrentUtcUnixTimestamp_Seconds } from "@/lib/time-util";
 import {v4 as uuid} from 'uuid';
 
+export interface CreateGameRoundData {
+    gameId: string;
+    word: string;
+    roundNumber: number;
+    forMultiplayerGame: boolean;    
+}
+
+export interface CreateGameRoundsData {
+    gameId: string;
+    words: string[];
+    isMultiplayerGame: boolean;
+}
+
 export class GameRoundFactory {
-    static createDbRound(word: string, roundNumber: number, gameId: string): DbGameRound {
+    static createDbRound(data: CreateGameRoundData): DbGameRound {
+        const unixTimestampInSeconds = (data.forMultiplayerGame && data.roundNumber == 1)
+            ? getCurrentUtcUnixTimestamp_Seconds()
+            : null;
+
         return {
             id: uuid(),
-            word: WordStateFactory.create(word),
-            roundNumber: roundNumber,
+            word: WordStateFactory.create(data.word),
+            roundNumber: data.roundNumber,
             currentGuessIndex: 1,
-            gameId: gameId,
+            gameId: data.gameId,
             guesses: [],
-            evaluatedLetters: [{ position: 1, state: LetterState.Correct, letter: word[0].toUpperCase() }],
-            lastGuessUnixUtcTimestamp: null
+            evaluatedLetters: [{ position: 1, state: LetterState.Correct, letter: data.word[0].toUpperCase() }],
+            lastGuessUnixUtcTimestamp_InSeconds: unixTimestampInSeconds,
+            wordLength: data.word.length,            
         }
     }
 
-    static createDbRounds(words: string[], gameId: string): DbGameRound[] {
-        return words.map((word, index) => {
-            return this.createDbRound(word, index + 1, gameId);
-        });
+    static createDbRounds(data: CreateGameRoundsData): DbGameRound[] {
+        return data.words.map((word, i) => this.createDbRound({
+            gameId: data.gameId,
+            word: word,
+            roundNumber: i,
+            forMultiplayerGame: data.isMultiplayerGame,
+        }));
     }
 }

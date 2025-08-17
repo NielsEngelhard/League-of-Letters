@@ -65,7 +65,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
 
   async function submitGuess(): Promise<void> {
     if (!game || !currentRound) return;
-    if (currentGuess?.length != game.wordLength) throw Error("GUESS LENGTH DOES NOT MATCH");
+    if (currentGuess?.length != currentRound.wordLength) throw Error("GUESS LENGTH DOES NOT MATCH");
 
     const serverResponse = await GuessWordCommand({
         gameId: game.id,
@@ -136,9 +136,9 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
   }
 
   function handleEndOfCurrentRound(roundTransitionData: RoundTransitionData) {
-    if (!game) return;
+    if (!game || !currentRound) return;
 
-    const letterAnimationLength = GetLetterAnimationDurationInMs(game.wordLength);
+    const letterAnimationLength = GetLetterAnimationDurationInMs(currentRound.wordLength);
 
     setTimeout(() => {
       setTheWord(roundTransitionData.currentWord);
