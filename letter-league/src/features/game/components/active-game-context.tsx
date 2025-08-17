@@ -240,7 +240,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
       if (playerExists) {
         return prev.map(p => p.accountId == player.accountId ? {...p, connectionStatus: "connected"} : p);
       }
-      debugger;
+
       return [...prev, player];
     });
   }

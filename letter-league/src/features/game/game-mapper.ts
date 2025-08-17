@@ -1,5 +1,5 @@
-import { DbGamePlayer, DbGameRound, DbActiveGameWithRoundsAndPlayers } from "@/drizzle/schema";
-import { ActiveGameModel, GamePlayerModel, GameRoundModel } from "./game-models";
+import { DbGamePlayer, DbGameRound, DbActiveGameWithRoundsAndPlayers, DbActiveGame } from "@/drizzle/schema";
+import { ActiveGameModel, ActiveGameTeaserModel, GamePlayerModel, GameRoundModel } from "./game-models";
 
 export class GameMapper {
     static ActiveGameToModel(game: DbActiveGameWithRoundsAndPlayers): ActiveGameModel {
@@ -20,6 +20,16 @@ export class GameMapper {
                 return GameMapper.GamePlayerToModel(player, game.hostAccountId);
             }),
         }
+    }
+
+    static ActiveGameToTeaserModel(game: DbActiveGame): ActiveGameTeaserModel {
+        return {
+            id: game.id,
+            currentRoundIndex: game.currentRoundIndex,
+            totalRounds: game.nRounds,
+            gameMode: game.gameMode,
+            createdAt: game.createdAt,
+        }        
     }
 
     static GamePlayerToModel(player: DbGamePlayer, hostUserId?: string): GamePlayerModel {

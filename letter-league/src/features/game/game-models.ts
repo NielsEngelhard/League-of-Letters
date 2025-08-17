@@ -16,6 +16,14 @@ export interface ActiveGameModel {
     nSecondsPerGuess?: number | null;
 }
 
+export interface ActiveGameTeaserModel {
+    id: string;    
+    totalRounds: number;
+    currentRoundIndex: number;
+    gameMode: GameMode;
+    createdAt: Date;
+}
+
 // Data that is send when the current round has ended
 export interface RoundTransitionData {    
     currentWord: string;

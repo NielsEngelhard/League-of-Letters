@@ -5,6 +5,7 @@ import PageIntro from "@/components/ui/block/PageIntro";
 import GameModeCard from "@/features/game/components/GameModeCard";
 import { User, Users } from "lucide-react";
 import { MULTIPLAYER_GAME_ROUTE, SOLO_GAME_ROUTE } from "./routes";
+import ReconnectGamesOverview from "@/features/game/components/ReconnectGamesOverview";
 
 export default function HomePage() {
   return (
@@ -15,6 +16,8 @@ export default function HomePage() {
         titleColor="gradient"
         titleSize="lg">
       </PageIntro>
+
+      <ReconnectGamesOverview />
 
       <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
         <GameModeCard
