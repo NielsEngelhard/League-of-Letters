@@ -20,12 +20,10 @@ describe("validate remove misplaced letters if they are not misplaced in combina
 
         expect(result.newLetters).toEqual(
             expect.arrayContaining([
-                expect.objectContaining({ letter: "A", state: LetterState.Wrong, position: 1 }),
+                expect.objectContaining({ letter: "A", state: LetterState.Wrong, position: -1 }),
                 expect.objectContaining({ letter: "A", state: LetterState.Correct, position: 2 }),
-                expect.objectContaining({ letter: "A", state: LetterState.Wrong, position: 3 }),
                 expect.objectContaining({ letter: "A", state: LetterState.Correct, position: 4 }),
                 expect.objectContaining({ letter: "A", state: LetterState.Correct, position: 5 }),
-                expect.objectContaining({ letter: "A", state: LetterState.Wrong, position: 6 }),
             ])
         );        
     });

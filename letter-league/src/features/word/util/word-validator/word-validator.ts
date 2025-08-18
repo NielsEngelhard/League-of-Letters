@@ -12,11 +12,6 @@ export class WordValidator {
         const newLetters = this.filterNewLetters(validatedWord, previouslyGuessedLetters);
         
         this.updateWordStateAndFilterMisplaced(wordState, newLetters);
-        // this.filterMisplacedThatDoNoOccurAnymoreFromNewLetters(newLetters, wordState);
-
-        // Update the wordState
-        // 1: toggle all new corrects
-        // 2: check if the MISPLACED still counts, if not add as WRONG
 
         return {
             validatedWord: validatedWord,
@@ -26,26 +21,34 @@ export class WordValidator {
     }
 
     static updateWordStateAndFilterMisplaced(wordState: WordState, newLetters: EvaluatedLetter[]) {
-
-        // Switch the new correct letters to CORRECT
-        for (var i=0; i < newLetters.length; i++) {
-            if (newLetters[i].state != LetterState.Correct) return;
-            
-            const position = newLetters[i].position;
-
-            debugger;
-            wordState.letterStates[position-1].guessed = true;
+        // Count occurrences of each letter in the target word
+        const targetLetterCounts = new Map<string, number>();
+        for (const char of wordState.word.toUpperCase()) {
+            targetLetterCounts.set(char, (targetLetterCounts.get(char) || 0) + 1);
         }
 
-        // If there are new misplaced letters that are not misplaced anymore after the correct letters are determined,
-        // => set misplaced letter to wrong
-        for (var i=0; i < newLetters.length; i++) {
-            if (newLetters[i].state != LetterState.Misplaced) return;
-            
-            const isStillMisplaced = wordState.letterStates.some(ls => ls.letter == newLetters[i].letter && ls.guessed == false);
-            if (isStillMisplaced) return;
+        // Count how many of each letter are already correctly placed
+        const correctlyPlacedCounts = new Map<string, number>();
+        for (const evaluatedLetter of newLetters) {
+            if (evaluatedLetter.state === LetterState.Correct) {
+                const letter = evaluatedLetter.letter.toUpperCase();
+                correctlyPlacedCounts.set(letter, (correctlyPlacedCounts.get(letter) || 0) + 1);
+            }
+        }
 
-            newLetters[i].state = LetterState.Wrong;
+        // Check misplaced letters and convert to wrong if no remaining positions available
+        for (const evaluatedLetter of newLetters) {
+            if (evaluatedLetter.state === LetterState.Misplaced) {
+                const letter = evaluatedLetter.letter.toUpperCase();
+                const totalOccurrencesInTarget = targetLetterCounts.get(letter) || 0;
+                const correctlyPlacedCount = correctlyPlacedCounts.get(letter) || 0;
+                
+                // If all occurrences of this letter are already correctly placed,
+                // then this misplaced letter should actually be marked as wrong
+                if (correctlyPlacedCount >= totalOccurrencesInTarget) {
+                    evaluatedLetter.state = LetterState.Wrong;
+                }
+            }
         }
     }
 
