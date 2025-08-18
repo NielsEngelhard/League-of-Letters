@@ -34,6 +34,23 @@ describe("calculate score correct", () => {
 
         expect(score.letterStateScore).toEqual(INSTANT_CORRECT_POINTS * newCorrectLetters.length);
     });
+
+    it("should assign the points for a misplaced letter only once per letter", () => {
+        const newCorrectLetters: EvaluatedLetter[] = [
+            { letter: "A", position: 1, state: LetterState.Correct },
+            { letter: "B", position: 3, state: LetterState.Correct },
+            { letter: "C", position: 5, state: LetterState.Correct }
+        ];
+
+        const score = ScoreCalculator.calculate({
+            newLetters: newCorrectLetters,
+            previouslyGuessedLetters: [],
+            wordGuessed: false,
+            currentGuessIndex: 4
+        });
+
+        expect(score.letterStateScore).toEqual(INSTANT_CORRECT_POINTS * newCorrectLetters.length);
+    });    
     
     it("should assign less points when a already misplaced letter becomes correct", () => {
         const correctLetterThatWasMisplacedBefore: EvaluatedLetter[] = [

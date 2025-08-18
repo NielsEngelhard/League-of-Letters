@@ -34,13 +34,13 @@ describe("validate specific misplaced scenarios", () => {
         const firstGuess = "rooots";
         const secondGuess = "oooooo"; // all O's are already guessed so should not return any new letters for the second guess
         
-        let previouslyGuessedLetters: EvaluatedLetter[] = [];
         const wordState = WordStateFactory.create(actualWord);
-        const firstGuessResult = WordValidator.validateAndFilter(firstGuess, wordState, previouslyGuessedLetters);
+        const firstGuessResult = WordValidator.validateAndFilter(firstGuess, wordState, []);
+
+        const previouslyGuessedLetters = firstGuessResult.newLetters;
+
         const secondGuessResult = WordValidator.validateAndFilter(secondGuess, wordState, previouslyGuessedLetters);
 
-        // Currently wrong because length is 3 with:
-        // [{"letter": "O", "position": -1, "state": "wrong"}, {"letter": "O", "position": 2, "state": "correct"}, {"letter": "O", "position": 4, "state": "correct"}]
         expect(secondGuessResult.newLetters).toHaveLength(0);
     });      
 });

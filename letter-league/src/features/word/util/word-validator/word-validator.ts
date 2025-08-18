@@ -11,7 +11,7 @@ export class WordValidator {
         const validatedWord = this.validate(guess, wordState.word);
         const newLetters = this.filterNewLetters(validatedWord, previouslyGuessedLetters);
         
-        this.updateWordStateAndFilterMisplaced(wordState, newLetters);
+        this.updateWordStateAndFilterMisplaced(wordState, newLetters, previouslyGuessedLetters);
 
         return {
             validatedWord: validatedWord,
@@ -20,7 +20,7 @@ export class WordValidator {
         }
     }
 
-    static updateWordStateAndFilterMisplaced(wordState: WordState, newLetters: EvaluatedLetter[]) {
+    static updateWordStateAndFilterMisplaced(wordState: WordState, newLetters: EvaluatedLetter[], previouslyGuessedLetters: EvaluatedLetter[]) {
         // Count occurrences of each letter in the target word
         const targetLetterCounts = new Map<string, number>();
         for (const char of wordState.word.toUpperCase()) {
@@ -115,6 +115,9 @@ function addWrongGuessIfNotAlreadyExists(evaluatedLetter: EvaluatedLetter, previ
 }
 
 function addMisplacedIfNotAlreadyExists(evaluatedLetter: EvaluatedLetter, previouslyGuessedLetters: EvaluatedLetter[], newLetters: EvaluatedLetter[]) {  
+    const letterPreviouslyMarkedAsWrong = previouslyGuessedLetters.some(pgl => pgl.letter == evaluatedLetter.letter && pgl.state == LetterState.Wrong);    
+    if (letterPreviouslyMarkedAsWrong) return;
+    
     if (!letterAndStateAlreadyExist(evaluatedLetter, previouslyGuessedLetters)) {
         
         if (!letterAndStateAlreadyExist(evaluatedLetter, newLetters)) {
