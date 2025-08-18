@@ -36,11 +36,30 @@ describe("validate specific misplaced scenarios", () => {
         
         const wordState = WordStateFactory.create(actualWord);
         const firstGuessResult = WordValidator.validateAndFilter(firstGuess, wordState, []);
-
         const previouslyGuessedLetters = firstGuessResult.newLetters;
 
         const secondGuessResult = WordValidator.validateAndFilter(secondGuess, wordState, previouslyGuessedLetters);
 
         expect(secondGuessResult.newLetters).toHaveLength(0);
-    });      
+    });
+
+    it("was misplaced, then guessed and not occur anymore, so should be present in wrong now too", () => {
+        const actualWord = "afname";
+        
+        const firstGuess = "afmaan";
+        const secondGuess = "afnaan"; // The last 'n' should also be added as Wrong because
+        
+        const wordState = WordStateFactory.create(actualWord);
+        const firstGuessResult = WordValidator.validateAndFilter(firstGuess, wordState, []);
+        const previouslyGuessedLetters = firstGuessResult.newLetters;
+
+        const secondGuessResult = WordValidator.validateAndFilter(secondGuess, wordState, previouslyGuessedLetters);
+
+        expect(secondGuessResult.newLetters).toContainEqual(
+            expect.objectContaining({
+                letter: "N",
+                state: LetterState.Wrong
+            })
+        );
+    });    
 });

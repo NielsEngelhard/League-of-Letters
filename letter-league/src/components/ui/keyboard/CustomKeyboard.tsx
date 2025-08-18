@@ -25,20 +25,26 @@ export default function CustomKeyboard({ onKeyPress, onDelete, onEnter }: Props)
     function determineKeyVariant(keyboardKey: string): "neutral" | "success" | "warning" | "error" | null | undefined {
         if (!settings.showKeyboardHints) return "neutral";
 
-        const guessedLetter = currentRound?.guessedLetters.find(l => l.letter == keyboardKey);
+        const keyboardKeyLetterStates = currentRound?.guessedLetters.filter(l => l.letter == keyboardKey);
 
-        if (!guessedLetter) return "neutral";
+        if (!keyboardKeyLetterStates || keyboardKeyLetterStates.length == 0) return "neutral";
 
-        switch(guessedLetter.state) {
-            case LetterState.Correct:
-                return "success";
-            case LetterState.Misplaced:
-                return "warning";
-            case LetterState.Wrong:
-                return "error";
-            default:
-                return "neutral";                                                
+        // Completely wrong
+        const isCompletelyWrong = keyboardKeyLetterStates.some(ls => ls.state != LetterState.Wrong) == false;
+        if (isCompletelyWrong) return "error";
+
+        // Completely correct
+        const isCompletelyCorrect = keyboardKeyLetterStates.some(ls => ls.state != LetterState.Correct) == false;
+        if (isCompletelyCorrect) return "success";
+
+        // First misplaced, then wrong -> means success (Sounds weird at first, but it is true) - scenario means that it does not occur anymore
+        const wasMisplacedButNotOccurAnymore = keyboardKeyLetterStates.some(ls => ls.state == LetterState.Misplaced) && keyboardKeyLetterStates.some(ls => ls.state == LetterState.Wrong);
+        if (wasMisplacedButNotOccurAnymore) {
+            return "success";
         }
+        
+        // Still misplaced
+        return "warning";
     }
 
     return (
