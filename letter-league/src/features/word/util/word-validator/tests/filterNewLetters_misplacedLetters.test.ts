@@ -72,5 +72,5 @@ describe("filterNewLetters correct letters", () => {
         const misplacedLettersA = result.filter(l => l.letter == "A");
 
         expect(misplacedLettersA).toHaveLength(1);        
-    });       
+    });          
 });

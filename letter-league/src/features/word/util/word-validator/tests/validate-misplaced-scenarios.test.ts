@@ -1,0 +1,46 @@
+import { EvaluatedLetter, LetterState } from "../../../word-models";
+import { WordStateFactory } from "../../factories/word-state-factory";
+import { WordValidator } from "../word-validator";
+
+describe("validate specific misplaced scenarios", () => {
+    it("should mark the misplaced letters as wrong if not occur anymore", () => {
+        const actualWord = "banaan";
+        const guess      = "aaaaaa";
+
+        // b a MISPLACED - but wrong because all a's are already guessed during this guess
+        // a a CORRECT
+        // n a MISPLACED - but wrong because all a's are already guessed during this guess
+        // a a CORRECT
+        // a a CORRECT
+        // n a MISPLACED - but wrong because all a's are already guessed during this guess
+
+        const wordState = WordStateFactory.create(actualWord);
+
+        const result = WordValidator.validateAndFilter(guess, wordState, []);
+
+        expect(result.newLetters).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({ letter: "A", state: LetterState.Wrong, position: -1 }), // Wrong letters are only returned once per letter
+                expect.objectContaining({ letter: "A", state: LetterState.Correct, position: 2 }),
+                expect.objectContaining({ letter: "A", state: LetterState.Correct, position: 4 }),
+                expect.objectContaining({ letter: "A", state: LetterState.Correct, position: 5 }),
+            ])
+        );        
+    });    
+
+    it("should not return letter as misplaced when it was not misplaced before and not occur anymore", () => {
+        const actualWord = "robots";
+        
+        const firstGuess = "rooots";
+        const secondGuess = "oooooo"; // all O's are already guessed so should not return any new letters for the second guess
+        
+        let previouslyGuessedLetters: EvaluatedLetter[] = [];
+        const wordState = WordStateFactory.create(actualWord);
+        const firstGuessResult = WordValidator.validateAndFilter(firstGuess, wordState, previouslyGuessedLetters);
+        const secondGuessResult = WordValidator.validateAndFilter(secondGuess, wordState, previouslyGuessedLetters);
+
+        // Currently wrong because length is 3 with:
+        // [{"letter": "O", "position": -1, "state": "wrong"}, {"letter": "O", "position": 2, "state": "correct"}, {"letter": "O", "position": 4, "state": "correct"}]
+        expect(secondGuessResult.newLetters).toHaveLength(0);
+    });      
+});
