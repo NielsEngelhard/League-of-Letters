@@ -1,9 +1,8 @@
 import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
+import { COOKIE_NAME, GUEST_USER_JWT_EXPIRE_TIME_IN_HOURS, REGULAR_USER_JWT_EXPIRE_TIME_IN_HOURS } from './auth-constants';
 
 const JWT_SECRET = process.env.JWT_SECRET!;
-const JWT_EXPIRES_IN = '7d';
-const COOKIE_NAME = 'auth-token';
 
 export interface JWTPayload {
   accountId: string;
@@ -15,10 +14,21 @@ export interface JWTPayload {
 }
 
 export class JWTService {
-  static generateToken(payload: Omit<JWTPayload, 'iat' | 'exp'>): string {
+  static generateToken(payload: Omit<JWTPayload, 'iat' | 'exp'>, accountType: 'account' | 'guest'): string {
+    const expiresInSeconds = this.getExpiresInSeconds(accountType);
+    
     return jwt.sign(payload, JWT_SECRET, { 
-      expiresIn: JWT_EXPIRES_IN 
+      expiresIn: expiresInSeconds 
     });
+  }
+
+  static getExpiresInSeconds(accountType: 'account' | 'guest'): number {
+    switch(accountType) {
+      case 'account':
+        return 60 * 60 * REGULAR_USER_JWT_EXPIRE_TIME_IN_HOURS;
+      case 'guest':
+        return 60 * 60 * GUEST_USER_JWT_EXPIRE_TIME_IN_HOURS; 
+    }
   }
 
   static verifyToken(token: string): JWTPayload | null {
@@ -29,8 +39,8 @@ export class JWTService {
     }
   }
 
-  static async setAuthCookie(payload: Omit<JWTPayload, 'iat' | 'exp'>): Promise<void> {
-    const token = this.generateToken(payload);
+  static async setAuthCookie(payload: Omit<JWTPayload, 'iat' | 'exp'>, accountType: 'account' | 'guest'): Promise<void> {
+    const token = this.generateToken(payload, accountType);
     const cookieStore = await cookies();
     
     cookieStore.set(COOKIE_NAME, token, {

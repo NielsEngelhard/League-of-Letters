@@ -1,8 +1,5 @@
 require('dotenv').config();
 
-const { CallWebhook_UpdatePlayerConnectionStatus } = require("./letter-league-api-webhooks");
-const { Logger } = require("./logger");
-
 const express = require('express');
 const { createServer } = require('http');
 const { Server } = require('socket.io');
@@ -20,7 +17,7 @@ const io = new Server(server, {
   }
 });
 
-const httpRoutes = require('./httpRoutes')(io);
+const httpRoutes = require('./http-routes')(io);
 const socketHandlers = require('./socketHandlers');
 
 // Middleware

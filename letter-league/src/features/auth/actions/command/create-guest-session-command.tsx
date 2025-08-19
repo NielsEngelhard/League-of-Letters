@@ -18,7 +18,7 @@ export default async function CreateGuestSessionCommand(): Promise<ServerRespons
             email: guestAccount.email,
             username: guestAccount.username,
             isGuest: true
-        });
+        }, 'guest');
         
         return ServerResponseFactory.success(AccountMapper.DbAccountToPublicModel(guestAccount));
     } catch(err) {
