@@ -39,17 +39,28 @@ export class JWTService {
     }
   }
 
-  static async setAuthCookie(payload: Omit<JWTPayload, 'iat' | 'exp'>, accountType: 'account' | 'guest'): Promise<void> {
+  static async setAuthCookie(
+    payload: Omit<JWTPayload, 'iat' | 'exp'>,
+    accountType: 'account' | 'guest'
+  ): Promise<Date> {
     const token = this.generateToken(payload, accountType);
     const cookieStore = await cookies();
-    
+
+    const maxAge = this.getExpiresInSeconds(accountType);
+
     cookieStore.set(COOKIE_NAME, token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
-      maxAge: 60 * 60 * 24 * 7, // 7 days
+      maxAge: maxAge,
     });
+
+    // Calculate expiration UTC Date
+    const expiresAtUtc = new Date(Date.now() + maxAge * 1000);
+
+    return expiresAtUtc;
   }
+
 
   static async getAuthCookie(): Promise<string | null> {
     const cookieStore = await cookies();

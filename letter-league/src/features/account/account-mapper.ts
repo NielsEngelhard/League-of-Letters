@@ -2,7 +2,7 @@ import { DbAccount } from "@/drizzle/schema";
 import { PrivateAccountModel, PublicAccountModel } from "./account-models";
 
 export class AccountMapper {
-    static DbAccountToPublicModel(account: DbAccount): PublicAccountModel {
+    static DbAccountToPublicModel(account: DbAccount, tokenExpireUtcDate?: Date): PublicAccountModel {
         return {
             id: account.id,
             colorHex: account.colorHex,
@@ -11,7 +11,8 @@ export class AccountMapper {
             highestScoreAchieved: account.highestScoreAchieved,
             nGamesPlayed: account.highestScoreAchieved,
             username: account.username,
-            isGuest: account.isGuestAccount
+            isGuest: account.isGuestAccount,
+            tokenExpireUtcDate: tokenExpireUtcDate,
         }
     } 
 

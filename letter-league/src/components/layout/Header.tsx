@@ -1,5 +1,4 @@
 "use client"
-
 import { PICK_GAME_MODE_ROUTE, PROFILE_ROUTE, RECONNECT_ROUTE } from "@/app/routes";
 import { useAuth } from "@/features/auth/AuthContext"
 import Link from "next/link";
@@ -8,77 +7,147 @@ import RealtimeStatusIndicator from "@/features/realtime/RealtimeStatusIndicator
 import { useSocket } from "@/features/realtime/socket-context";
 import Button from "../ui/Button";
 import LoginModal from "@/features/account/components/LoginModal";
-import { RefreshCw } from "lucide-react";
+import { RefreshCw, Clock } from "lucide-react";
+import { useEffect, useState } from "react";
 
 export default function Header() {
     const { isLoggedIn, account, setShowLoginModal, showLoginModal } = useAuth();
     const { connectionStatus } = useSocket();
+    const [timeRemaining, setTimeRemaining] = useState<string>("");
+    const [isExpiringSoon, setIsExpiringSoon] = useState(false);
+
+    // Calculate time remaining for token expiration
+    useEffect(() => {
+        if (!account?.tokenExpireUtcDate) return;
+
+        const updateTimeRemaining = () => {
+            if (!account.tokenExpireUtcDate) return;
+
+            const now = new Date();
+            const diffMs = new Date(account.tokenExpireUtcDate).getTime() - now.getTime();
+
+            if (diffMs <= 0) {
+                setTimeRemaining("Expired");
+                setIsExpiringSoon(true);
+                return;
+            }
+
+            const hours = Math.floor(diffMs / (1000 * 60 * 60));
+            const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+
+            if (hours > 0) {
+                setTimeRemaining(`${hours}h ${minutes}m`);
+            } else {
+                setTimeRemaining(`${minutes}m`);
+            }
+
+            // Mark as expiring soon if less than 2 hours
+            setIsExpiringSoon(diffMs < 2 * 60 * 60 * 1000);
+        };
+
+        updateTimeRemaining();
+        const interval = setInterval(updateTimeRemaining, 60000 * 5); // Update every 5 minutes
+
+        return () => clearInterval(interval);
+    }, [account?.tokenExpireUtcDate]);
 
     return (
-        <header className="w-full h-[60px] fixed top-0 z-50 bg-background-secondary border-b-2 border-border shadow-xs">
-            <div className="flex items-center justify-between max-w-4xl mx-auto px-2 md:px-0 h-full">
-                {/* Left - Logo */}
-            <div className="flex flex-row items-center gap-2">
-                <Link 
-                    href={PICK_GAME_MODE_ROUTE}
-                    className="group flex items-center transition-all duration-200"
-                >
-                    <div className="relative">
-                        <img
-                            src="/logo.png"
-                            className="h-[40px] w-auto object-contain transition-all duration-200 group-hover:brightness-110"
-                            alt="Logo"
-                        />
-                        {/* Subtle glow effect on hover */}
-                        <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-primary/0 to-secondary/0 group-hover:from-primary/10 group-hover:to-secondary/10 transition-all duration-300 blur-sm" />
-                    </div>
-                </Link>         
+        <header className="w-full h-[60px] fixed top-0 z-50 bg-background-secondary/95 backdrop-blur-sm border-b border-border/50 shadow-sm">
+            <div className="flex items-center justify-between max-w-4xl mx-auto px-4 md:px-6 h-full">
+                {/* Left - Logo & Status */}
+                <div className="flex flex-row items-center gap-3">
+                    <Link 
+                        href={PICK_GAME_MODE_ROUTE}
+                        className="group flex items-center transition-all duration-200"
+                    >
+                        <div className="relative">
+                            <img
+                                src="/logo.png"
+                                className="h-[36px] w-auto object-contain transition-all duration-200 group-hover:brightness-110"
+                                alt="Logo"
+                            />
+                            <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-primary/0 to-secondary/0 group-hover:from-primary/10 group-hover:to-secondary/10 transition-all duration-300 blur-sm" />
+                        </div>
+                    </Link>         
+                    <WebSocketStatusIndicator />       
+                </div>
 
-                <WebSocketStatusIndicator />       
-            </div>
                 {/* Right - User Section */}
                 {isLoggedIn && account ? (
-                    <div className="flex flex-row gap-2">
-                        {/* Reconnect */}
-                        <Link href={RECONNECT_ROUTE} className="flex flex-row items-center justify-center text-foreground-muted text-sm gap-1 cursor-pointer">
-                            <RefreshCw className="w-4 h-4" />
-                            <span>Try Reconnect</span>                    
+                    <div className="flex flex-row items-center gap-3">
+                        {/* Reconnect Button */}
+                        <Link href={RECONNECT_ROUTE}>
+                            <Button 
+                                variant="skeleton" 
+                                size="sm" 
+                                className="flex items-center gap-2 text-foreground-muted hover:text-foreground transition-colors duration-200"
+                            >
+                                <RefreshCw className="w-4 h-4" />
+                                <span className="hidden sm:inline">Reconnect</span>
+                            </Button>
                         </Link>
 
-                        {/* Profile */}
+                        {/* Profile Section */}
                         <Link 
                             href={PROFILE_ROUTE} 
-                            className="group flex items-center gap-3 p-2 pr-0 rounded-xl transition-all duration-200"
+                            className="group flex items-center gap-3 p-2 rounded-lg hover:bg-background/50 transition-all duration-200"
                         >
                             {/* User Avatar */}
                             <div className="relative">
-                                <div className="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center shadow-sm group-hover:shadow-md transition-all duration-200">
+                                <div className="w-9 h-9 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center shadow-sm group-hover:shadow-md transition-all duration-200">
                                     <span className="text-foreground text-sm font-bold">
                                         {account.username.charAt(0).toUpperCase()}
                                     </span>
                                 </div>
                                 {/* Online indicator */}
-                                {connectionStatus != "empty" && (
+                                {connectionStatus !== "empty" && (
                                     <div className="absolute -bottom-0.5 -right-0.5 border-background border-2 rounded-full">
                                         <RealtimeStatusIndicator status={connectionStatus} showDot={true} showIcon={false} showLabel={false} />
                                     </div>                                
                                 )}
                             </div>
 
-                            {/* User Info */}
-                            <div className="flex flex-col text-right">
+                            {/* User Info - Hidden on mobile */}
+                            <div className="hidden md:flex flex-col">
                                 <div className="text-sm font-semibold text-foreground/90 group-hover:text-foreground transition-colors duration-200">
                                     {account.username}
                                 </div>
-                                <div className="flex items-center gap-1 text-xs text-foreground-muted">
-                                    {account.isGuest == true ? (
-                                        <span className="font-medium">guest session</span>
+                                <div className="flex items-center gap-1.5 text-xs">
+                                    {account.isGuest ? (
+                                        <>
+                                            <div className="flex items-center gap-1">
+                                                <Clock className="w-3 h-3" />
+                                                <span className={`font-medium transition-colors duration-200 ${
+                                                    isExpiringSoon 
+                                                        ? 'text-orange-500 dark:text-orange-400' 
+                                                        : 'text-foreground-muted'
+                                                }`}>
+                                                    {timeRemaining}
+                                                </span>
+                                            </div>
+                                            <span className="text-foreground-muted/60">•</span>
+                                            <span className="text-foreground-muted font-medium">Guest</span>
+                                        </>
                                     ) : (
-                                        <span className="font-medium">user session</span>
+                                        <span className="text-foreground-muted font-medium">User</span>
                                     )}
                                 </div>
                             </div>
-                        </Link>                        
+                        </Link>
+
+                        {/* Mobile Token Expiration Indicator */}
+                        {account.isGuest && (
+                            <div className="md:hidden flex items-center gap-1 px-2 py-1 rounded-md bg-background/50">
+                                <Clock className="w-3 h-3" />
+                                <span className={`text-xs font-medium transition-colors duration-200 ${
+                                    isExpiringSoon 
+                                        ? 'text-orange-500 dark:text-orange-400' 
+                                        : 'text-foreground-muted'
+                                }`}>
+                                    {timeRemaining}
+                                </span>
+                            </div>
+                        )}
                     </div>
                 ) : (
                     /* When unauthenticated */
@@ -87,7 +156,6 @@ export default function Header() {
                     </Button>
                 )}
             </div>
-
             {showLoginModal && (
                 <LoginModal />
             )}

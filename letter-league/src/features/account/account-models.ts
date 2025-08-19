@@ -16,6 +16,7 @@ export interface PublicAccountModel {
     createdAt: Date;
     isGuest?: boolean;
     settings?: SettingsSchema;
+    tokenExpireUtcDate?: Date;
 }
 
 export interface PrivateAccountModel {

@@ -13,14 +13,14 @@ export default async function CreateGuestSessionCommand(): Promise<ServerRespons
     try {
         const guestAccount = await createTempGuestAccount(); 
 
-        await JWTService.setAuthCookie({
+        const expireDateUtc = await JWTService.setAuthCookie({
             accountId: guestAccount.id,
             email: guestAccount.email,
             username: guestAccount.username,
             isGuest: true
         }, 'guest');
         
-        return ServerResponseFactory.success(AccountMapper.DbAccountToPublicModel(guestAccount));
+        return ServerResponseFactory.success(AccountMapper.DbAccountToPublicModel(guestAccount, expireDateUtc));
     } catch(err) {
         console.log("Failed to create GUEST auth session. Reason: " + err);
         return ServerResponseFactory.error("Failed to guest session");
