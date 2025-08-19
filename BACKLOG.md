@@ -20,4 +20,4 @@ SHOULD
 COULD
 - Timer also determines the score (bonus system extended)
 - See which player guessed which word
-- Online game mode "challenge each other by picking your own words at the beginning of the game"
+- Online game mode "challenge each other by picking your own words at the beginning of the game" 
