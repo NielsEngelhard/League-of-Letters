@@ -45,7 +45,7 @@ describe("specific long scenarios - based on real testing", () => {
         expect(result4.evaluatedGuess[3].position).toBe(4);
     });
 
-    it("should not mark already guessed non occuring letters as misplaced REAL SCENARIO 1", () => {
+    it("should not mark already guessed non occuring letters as misplaced REAL SCENARIO 2", () => {
         const actualWordState = WordStateFactory.create("hoefde");
         
         // Based on real test scenario
@@ -69,5 +69,31 @@ describe("specific long scenarios - based on real testing", () => {
         expect(result2.evaluatedGuess[1].letter).toBe("E");
         expect(result2.evaluatedGuess[1].state).toBe(LetterState.Wrong);
         expect(result2.evaluatedGuess[1].position).toBe(2);
-    });        
+    });
+    
+    it("should mark misplaced letter still as misplaced if not guessed in second try either SCENARIO 1", () => {
+        const actualWordState = WordStateFactory.create("inslag");
+        
+        // Based on real test scenario
+        const firstGuess = "inslga"; // G & A = Misplaced
+        const secondGuess = "gaaaaa"; // Only G = Misplaced
+
+        const result1 = WordValidator.validate({
+            actualWordState: actualWordState, 
+            guess: firstGuess,
+            currentGuessIndex: 1,
+            previouslyGuessedMisplacedLetters: []
+        });
+
+        const result2 = WordValidator.validate({
+            actualWordState: actualWordState, 
+            guess: secondGuess,
+            currentGuessIndex: 2,
+            previouslyGuessedMisplacedLetters: result1.previouslyGuessedMisplacedLetters
+        });
+
+        expect(result2.evaluatedGuess[0].letter).toBe("G");
+        expect(result2.evaluatedGuess[0].state).toBe(LetterState.Misplaced);
+        expect(result2.evaluatedGuess[0].position).toBe(1);
+    });          
 });

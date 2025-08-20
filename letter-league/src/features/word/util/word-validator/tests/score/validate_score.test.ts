@@ -56,15 +56,15 @@ describe('WordValidator should assign the correct score for correct and misplace
 
     it('should assign misplaced and correct score combined when the guess is partially correct with some misplaced', () => {
         const result = WordValidator.validate({
-            actualWordState: WordStateFactory.create("koukleunen", false),
-            guess: "kookleunen",
+            actualWordState: WordStateFactory.create("popen", false),
+            guess: "lopen",
             previouslyGuessedMisplacedLetters: ['N'],
             currentGuessIndex: 1
         });
 
-        const expectedScore = (LETTER_MISPLACED_POINTS * 1) + // Misplaced;
+        const expectedScore = (LETTER_MISPLACED_POINTS * 0) + // Misplaced; P is misplaced and correct but the misplaced is not visible (only correct position guessed)
                               (LETTER_CORRECT_AFTER_MISPLACED_POINTS * 1) + // correct AFTER misplaced
-                              (LETTER_CORRECTLY_GUESSED_WITHOUT_MISPLACE_POINTS * 7); // correct without misplaced
+                              (LETTER_CORRECTLY_GUESSED_WITHOUT_MISPLACE_POINTS * 3); // correct without misplaced
         expect(result.score).toBe(expectedScore);    
     });        
 

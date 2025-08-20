@@ -6,7 +6,7 @@ MUST
 
 
 - multiple languages
-
+- Option when creating game 'with starting letter' <-- laten zien of niet
 - Scan the guess. If it is not in the list with official words, try to check if it is weird like xxxaa. Maybe some sort of latin vibe validator?
 - JWT refresh flow
 - Automatic cleanup (cronjob?) for guest accounts and "old games"

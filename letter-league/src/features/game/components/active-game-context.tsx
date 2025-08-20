@@ -57,8 +57,9 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     setPlayers(_game.players);
 
     const _currentRound = getRound(_game);
-      setCurrentRound(_currentRound);
-      setThisPlayersUserId(_thisPlayersUserId);
+
+    setCurrentRound(_currentRound);
+    setThisPlayersUserId(_thisPlayersUserId);
     }
 
   function clearGameState() {
@@ -135,7 +136,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     });
   }
 
-  function updateCurrentRoundWithGuess(unixTimestampInSeconds?: number) {
+  function updateCurrentRoundWithGuess(unixTimestampInSeconds?: number,) {
       setCurrentRound(prevRound => {
         if (prevRound == null) return;
 

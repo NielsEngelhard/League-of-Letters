@@ -40,6 +40,7 @@ export interface GameRoundModel {
     wordLength: number;
     lastGuessUnixUtcTimestamp_InSeconds?: number;
     startingLetter?: string;
+    unguessedMisplacedLetters: string[];
 }
 
 export interface GamePlayerModel {

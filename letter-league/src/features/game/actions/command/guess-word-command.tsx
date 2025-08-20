@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/drizzle/db";
-import { EvaluatedWord } from "@/features/word/word-models";
+import { EvaluatedWord, WordState } from "@/features/word/word-models";
 import { RoundTransitionData } from "../../game-models";
 import { GamePlayerTable, GameRoundTable, ActiveGameTable, DbActiveGame, DbGamePlayer, DbGameRound, DbActiveGameWithRoundsAndPlayers, GameMode } from "@/drizzle/schema";
 import { DetailedValidationResult, WordValidator } from "@/features/word/util/word-validator/word-validator";
@@ -14,6 +14,7 @@ import { sortDbPlayerOnPositionAndGetUserIds } from "../../util/player-sorting";
 import { getCurrentUserOrCrash } from "@/features/auth/current-user";
 import { getCurrentUtcUnixTimestamp_Seconds, getSecondsBetweenNowAndUnixTimestampInSeconds } from "@/lib/time-util";
 import { DbOrTransaction } from "@/drizzle/util/transaction-util";
+import { GameMapper } from "../../game-mapper";
 
 export interface GuessWordCommandInput {
     gameId: string;
@@ -24,8 +25,9 @@ export interface GuessWordResponse {
     accountId: string;
     guessResult: EvaluatedWord;
     score: number;
+    unguessedMisplacedLetters: string[]; // hard to determine in client with public info, so determined easily in the server
     roundTransitionData?: RoundTransitionData;
-    unixTimestampInSeconds?: number;
+    unixTimestampInSeconds?: number;    
 }
 
 export async function GuessWordCommand(command: GuessWordCommandInput): Promise<ServerResponse<GuessWordResponse>> {    
@@ -43,7 +45,6 @@ export async function GuessWordCommand(command: GuessWordCommandInput): Promise<
     
     const previouslyMisplacedLetters = currentRound.previouslyMisplacedLetters;
 
-    debugger;
     const validationResult = WordValidator.validate({
         actualWordState: currentRound.word,
         currentGuessIndex: currentRound.currentGuessIndex,
@@ -119,7 +120,8 @@ async function updateCurrentGameState(game: DbActiveGameWithRoundsAndPlayers, cu
             currentWord: currentRound.word.word,
             nextRoundFirstLetter: nextRound?.word.word[0],
             lastGuessUnixUtcTimestamp_InSeconds: unixTimestampInSeconds
-        } : undefined
+        } : undefined,
+        unguessedMisplacedLetters: GameMapper.FilterMisplacedLettersForCurrentWord(validationResult.previouslyGuessedMisplacedLetters, currentRound.word)
     };    
 }
 

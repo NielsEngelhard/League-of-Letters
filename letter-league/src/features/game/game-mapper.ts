@@ -1,5 +1,6 @@
 import { DbGamePlayer, DbGameRound, DbActiveGameWithRoundsAndPlayers, DbActiveGame } from "@/drizzle/schema";
 import { ActiveGameModel, ActiveGameTeaserModel, GamePlayerModel, GameRoundModel } from "./game-models";
+import { WordState } from "../word/word-models";
 
 export class GameMapper {
     static ActiveGameToModel(game: DbActiveGameWithRoundsAndPlayers): ActiveGameModel {
@@ -51,7 +52,13 @@ export class GameMapper {
             guesses: round.guesses,
             wordLength: round.wordLength,
             lastGuessUnixUtcTimestamp_InSeconds: round.lastGuessUnixUtcTimestamp_InSeconds ?? undefined,
-            startingLetter: round.word.word[0]
+            startingLetter: round.word.word[0],
+            unguessedMisplacedLetters: this.FilterMisplacedLettersForCurrentWord(round.previouslyMisplacedLetters, round.word)
         }
+    }
+
+    static FilterMisplacedLettersForCurrentWord(allMisplacedLettersForThisRound: string[], currentWordState: WordState): string[] {
+        const currentWordUngussedLetters = currentWordState.letterStates.filter(c => c.guessed == false).map(c => c.letter.toUpperCase());
+        return allMisplacedLettersForThisRound.filter(letter => currentWordUngussedLetters.includes(letter.toUpperCase()));
     }
 }

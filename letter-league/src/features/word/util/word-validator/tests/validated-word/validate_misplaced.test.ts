@@ -47,7 +47,7 @@ describe("validate misplaced letters", () => {
 
     it("should return an updated version of the input 'previouslyGuessedMisplacedLetters'", () => {
         const actualWord = "abba";
-        const guess      = "baas"; // a is misplaced (twice) but it should only be added once
+        const guess      = "kaas"; // a is misplaced (twice) but it should only be added once
 
         const result = WordValidator.validate({
             actualWordState: WordStateFactory.create(actualWord), 

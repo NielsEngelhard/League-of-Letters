@@ -49,18 +49,17 @@ export class WordValidator {
         // After defining the correct letters, another iteration is needed to handle misplaced scenarios
         for (let i = 0; i < requestData.actualWordState.letterStates.length; i++) {
             // If correct, it is for sure not misplaced
-            if (requestData.actualWordState.letterStates[i].guessed == true) continue;
-            
             const wrongLetter = requestData.guess[i].toUpperCase();
             const wordStateContainsUnguessedLettersOfThisVariant = requestData.actualWordState.letterStates.some(l => l.guessed == false && l.letter.toUpperCase() == wrongLetter);
             
             // The letter is misplaced, because there are still guessed=false letters in the wordState
             if (wordStateContainsUnguessedLettersOfThisVariant) {
-                evaluatedGuess[i].state = LetterState.Misplaced;
-                score += ScoreCalculator.calculateScoreForMisplacedLetter(wrongLetter, requestData.previouslyGuessedMisplacedLetters);        
+                evaluatedGuess[i].state = LetterState.Misplaced;                
                 
                 // Add to misplaced letters if not already
-                if (requestData.previouslyGuessedMisplacedLetters.some(l => l == wrongLetter) == false) {
+                const letterWasAlreadyGuessedAsMisplacedBefore = requestData.previouslyGuessedMisplacedLetters.some(l => l == wrongLetter);
+                if (letterWasAlreadyGuessedAsMisplacedBefore == false) {
+                    score += ScoreCalculator.calculateScoreForMisplacedLetter(wrongLetter, requestData.previouslyGuessedMisplacedLetters);
                     requestData.previouslyGuessedMisplacedLetters.push(wrongLetter);
                 }
             }

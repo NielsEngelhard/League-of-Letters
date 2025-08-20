@@ -75,34 +75,39 @@ export default function WordInput({ currentGuess, onEnter, onChange, wordLength,
         )
     }
 
-    function createKeyboardLetterStatesMapBasedOnPreviousGuesses(): Map<string, LetterState> {
-        const previousGuess = currentRound?.guesses;
-        const startingLetter = currentRound?.startingLetter?.toUpperCase();
+function createKeyboardLetterStatesMapBasedOnPreviousGuesses(): Map<string, LetterState> {
+    const previousGuess = currentRound?.guesses;
+    const startingLetter = currentRound?.startingLetter?.toUpperCase();
 
-        const letterStateMap = new Map<string, LetterState>();
+    const letterStateMap = new Map<string, LetterState>();
 
-        if (startingLetter) {
-            letterStateMap.set(startingLetter, LetterState.Correct);
-        }
+    if (startingLetter) {
+        letterStateMap.set(startingLetter, LetterState.Correct);
+    }
 
-        previousGuess?.forEach((previousGuess) => {
-            previousGuess.evaluatedLetters.forEach((evaluatedLetter => {
-                const currentLetter = evaluatedLetter.letter.toUpperCase();
-                
-                if (evaluatedLetter.state == LetterState.Correct) {                    
-                    if (letterStateMap.get(currentLetter)) return; // If already exists go on
-                    letterStateMap.set(currentLetter, LetterState.Correct);
-                } else if (evaluatedLetter.state == LetterState.Wrong) {
-                    if (letterStateMap.get(currentLetter)) return; // If already exists go on
+    previousGuess?.forEach((previousGuess) => {
+        previousGuess.evaluatedLetters.forEach((evaluatedLetter => {
+            const currentLetter = evaluatedLetter.letter.toUpperCase();
+            const currentState = letterStateMap.get(currentLetter);
+
+            if (evaluatedLetter.state == LetterState.Correct) {
+                // Correct always takes priority over any existing state
+                letterStateMap.set(currentLetter, LetterState.Correct);
+            } else if (evaluatedLetter.state == LetterState.Wrong) {
+                // Only set to Wrong if no existing state (lowest priority)
+                if (!currentState) {
                     letterStateMap.set(currentLetter, LetterState.Wrong);
-                } else if (evaluatedLetter.state == LetterState.Misplaced) {
-                    // Replace as misplaced
                 }
-            }));
-        });
+            }            
+        }));
 
-        return letterStateMap;
-    }    
+        currentRound?.unguessedMisplacedLetters.forEach(unguessedMisplacedLetter => {
+            letterStateMap.set(unguessedMisplacedLetter, LetterState.Misplaced);
+        });
+    });
+
+    return letterStateMap;
+}
 
     // Return correct input option
     if (settings.keyboardInput == "html-input") {
