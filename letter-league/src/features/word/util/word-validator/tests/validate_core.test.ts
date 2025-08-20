@@ -6,7 +6,7 @@ describe("validate core", () => {
         const actualWord = "banaan";
         const guess      = "banaan";
 
-        const result = WordValidator.validate(guess, actualWord);
+        const result = WordValidator.validateEntireWord(guess, actualWord);
 
         expect(result).toEqual(
             expect.arrayContaining([
@@ -24,7 +24,7 @@ describe("validate core", () => {
         const actualWord = "henk";
         const guess      = "sjos";
 
-        const result = WordValidator.validate(guess, actualWord);
+        const result = WordValidator.validateEntireWord(guess, actualWord);
 
         expect(result).toEqual(
             expect.arrayContaining([
@@ -40,7 +40,7 @@ describe("validate core", () => {
         const actualWord = "konijn";
         const guess      = "njinok";
 
-        const result = WordValidator.validate(guess, actualWord);
+        const result = WordValidator.validateEntireWord(guess, actualWord);
 
         expect(result).toEqual(
             expect.arrayContaining([
@@ -97,7 +97,7 @@ describe("WordValidator - mixed letter states", () => {
   test.each(testCases)(
     "should validate mixed guess correctly - $description",
     ({ actualWord, guess, expected }) => {
-      const result = WordValidator.validate(guess, actualWord);
+      const result = WordValidator.validateEntireWord(guess, actualWord);
 
       expected.forEach((expectedItem, index) => {
         expect(result[index]).toEqual(expect.objectContaining(expectedItem));

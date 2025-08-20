@@ -6,7 +6,7 @@ describe("validate casing", () => {
         const actualWord = "A";
         const guess      = "a";
 
-        const result = WordValidator.validate(guess, actualWord);
+        const result = WordValidator.validateEntireWord(guess, actualWord);
 
         expect(result).toEqual(
             expect.arrayContaining([
@@ -19,7 +19,7 @@ describe("validate casing", () => {
         const actualWord = "a";
         const guess      = "A";
 
-        const result = WordValidator.validate(guess, actualWord);
+        const result = WordValidator.validateEntireWord(guess, actualWord);
 
         expect(result).toEqual(
             expect.arrayContaining([
