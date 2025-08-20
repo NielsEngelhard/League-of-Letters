@@ -37,14 +37,18 @@ export default function CustomKeyboard({ onKeyPress, onDelete, onEnter }: Props)
         const isCompletelyCorrect = keyboardKeyLetterStates.some(ls => ls.state != LetterState.Correct) == false;
         if (isCompletelyCorrect) return "success";
 
+        // Completely correct
+        const isCompletelyMisplaced = keyboardKeyLetterStates.some(ls => ls.state != LetterState.Misplaced) == false;
+        if (isCompletelyCorrect) return "warning";        
+
         // First misplaced, then wrong -> means success (Sounds weird at first, but it is true) - scenario means that it does not occur anymore
         const wasMisplacedButNotOccurAnymore = keyboardKeyLetterStates.some(ls => ls.state == LetterState.Misplaced) && keyboardKeyLetterStates.some(ls => ls.state == LetterState.Wrong);
         if (wasMisplacedButNotOccurAnymore) {
             return "success";
         }
-        
-        // Still misplaced
-        return "warning";
+
+        // Only scenario left is correct & wrong combination (so mark as correct because it does occur)
+        return "success";
     }
 
     return (
