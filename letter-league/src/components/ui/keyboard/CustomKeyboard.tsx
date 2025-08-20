@@ -1,7 +1,6 @@
-import { Delete, Send } from "lucide-react";
+import { Delete } from "lucide-react";
 import KeyboardKey from "./KeyboardKey";
 import KeyboardColorExplanation from "./KeyboardColorExplanation";
-import { useEffect } from "react";
 import { useAuth } from "@/features/auth/AuthContext";
 import { useActiveGame } from "@/features/game/components/active-game-context";
 import { LetterState } from "@/features/word/word-models";
