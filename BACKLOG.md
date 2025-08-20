@@ -3,7 +3,9 @@ MUST
 - BUG: oranje blijft ook al zit er geen oranje meer in
     - letter states sws even nalopen
 
-
+- in front-end 2 states for correct
+    - CORRECT and does not occur anymore
+    - CORRECT and may occur more
 
 - multiple languages
 - Option when creating game 'with starting letter' <-- laten zien of niet

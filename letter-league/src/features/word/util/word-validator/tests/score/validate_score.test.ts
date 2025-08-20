@@ -80,4 +80,19 @@ describe('WordValidator should assign the correct score for correct and misplace
                               (LETTER_CORRECTLY_GUESSED_WITHOUT_MISPLACE_POINTS * 2); // correct without misplaced
         expect(result.score).toBe(expectedScore);    
     });
+
+    it('should assign the score only for CORRECT if the letter is guessed once but occurs twice EDGE CASE', () => {
+        const wordState = WordStateFactory.create("aaa", false);
+        
+        const result = WordValidator.validate({
+            actualWordState: wordState,
+            guess: "abb", // A is correct, but also occurs one more time, should not assign twice
+            previouslyGuessedMisplacedLetters: [],
+            currentGuessIndex: 1
+        });
+
+        const expectedScore = (LETTER_MISPLACED_POINTS * 0) + // Misplaced; P is misplaced and correct but the misplaced is not visible (only correct position guessed)
+                              (LETTER_CORRECTLY_GUESSED_WITHOUT_MISPLACE_POINTS * 1); // correct without misplaced
+        expect(result.score).toBe(expectedScore);    
+    });       
 });
