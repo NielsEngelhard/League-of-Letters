@@ -49,7 +49,7 @@ describe("WordValidator - mixed letter states", () => {
       const result = WordValidator.validate(guess, actualWordState, []);
 
       expected.forEach((expectedItem, index) => {
-        // expect(result[index]).toEqual(expect.objectContaining(expectedItem));
+          expect(result.evaluatedGuess[index]).toEqual(expect.objectContaining(expectedItem));
       });
     }
   );
