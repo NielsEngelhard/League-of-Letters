@@ -59,4 +59,17 @@ describe("validate misplaced letters", () => {
         expect(result.previouslyGuessedMisplacedLetters.length).toEqual(1);
         expect(result.previouslyGuessedMisplacedLetters[0]).toEqual('A');
     });   
+
+    it('should NOT add the letter as previous letter if the letter is guessed once but occurs twice EDGE CASE', () => {
+        const wordState = WordStateFactory.create("aaa", false);
+        
+        const result = WordValidator.validate({
+            actualWordState: wordState,
+            guess: "abb", // A is correct, but also occurs one more time, should not indicate as previous guess
+            previouslyGuessedMisplacedLetters: [],
+            currentGuessIndex: 1
+        });
+
+        expect(result.previouslyGuessedMisplacedLetters.length).toBe(0);    
+    });           
 })
