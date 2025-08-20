@@ -6,22 +6,30 @@ import GameTeaserCard from "./GameTeaserCard";
 import Card from "@/components/ui/card/Card";
 import UspCard from "@/components/ui/UspCard";
 import { Gamepad } from "lucide-react";
+import { useAuth } from "@/features/auth/AuthContext";
 
 interface Props {
     
 }
 
 export default function ReconnectGamesOverview() {
+    const {account} = useAuth();
     const [games, setGames] = useState<ActiveGameTeaserModel[] | null>(null);
 
     useEffect(() => {
+        if (!account) return;
+
         async function fetchGames() {
             const response = await GetActiveGamesForCurrentPlayerRequest();
             setGames(response);
         }
 
         fetchGames();
-    }, []);
+    }, [account]);
+
+    if (!account) {
+        return <div></div>
+    }
 
     return (
         <div className="w-full flex flex-col gap-2 items-center">

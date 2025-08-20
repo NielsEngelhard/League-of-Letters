@@ -27,25 +27,16 @@ export class WordValidator {
             targetLetterCounts.set(char, (targetLetterCounts.get(char) || 0) + 1);
         }
 
-        // Count how many of each letter are already correctly placed
-        const correctlyPlacedCounts = new Map<string, number>();
-        for (const evaluatedLetter of newLetters) {
-            if (evaluatedLetter.state === LetterState.Correct) {
-                const letter = evaluatedLetter.letter.toUpperCase();
-                correctlyPlacedCounts.set(letter, (correctlyPlacedCounts.get(letter) || 0) + 1);
-            }
-        }
-
         // Check misplaced letters and convert to wrong if no remaining positions available
         for (const evaluatedLetter of newLetters) {
             if (evaluatedLetter.state === LetterState.Misplaced) {
                 const letter = evaluatedLetter.letter.toUpperCase();
-                const totalOccurrencesInTarget = targetLetterCounts.get(letter) || 0;
-                const correctlyPlacedCount = correctlyPlacedCounts.get(letter) || 0;
+                const nOccurrencesInActualWord = wordState.letterStates.filter(ls => ls.letter == letter);
+                const nAlreadyCorrect = nOccurrencesInActualWord.filter(ls => ls.guessed == true)
                 
                 // If all occurrences of this letter are already correctly placed,
                 // then this misplaced letter should actually be marked as wrong
-                if (correctlyPlacedCount >= totalOccurrencesInTarget) {
+                if (nAlreadyCorrect >= nOccurrencesInActualWord) {
                     evaluatedLetter.state = LetterState.Wrong;
                 }
             }
