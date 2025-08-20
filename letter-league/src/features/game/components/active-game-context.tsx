@@ -110,7 +110,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     setPlayers(prevPlayers =>
       prevPlayers.map(player =>
         player.accountId === response.accountId
-          ? { ...player, score: player.score + response.scoreResult.totalScore }
+          ? { ...player, score: player.score + response.score }
           : player
       )
     );       
@@ -130,8 +130,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
 
       return {
         ...prevRound,
-        guesses: [...prevRound.guesses, response.guessResult],
-        guessedLetters: [...prevRound.guessedLetters, ...response.newLetters],
+        guesses: [...prevRound.guesses, response.guessResult],        
       };
     });
   }

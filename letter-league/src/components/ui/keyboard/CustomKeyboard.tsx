@@ -22,32 +22,7 @@ export default function CustomKeyboard({ onKeyPress, onDelete, onEnter }: Props)
     const { currentRound } = useActiveGame();
 
     function determineKeyVariant(keyboardKey: string): "neutral" | "success" | "warning" | "error" | null | undefined {
-        if (!settings.showKeyboardHints) return "neutral";
-
-        const keyboardKeyLetterStates = currentRound?.guessedLetters.filter(l => l.letter == keyboardKey);
-
-        if (!keyboardKeyLetterStates || keyboardKeyLetterStates.length == 0) return "neutral";
-
-        // Completely wrong
-        const isCompletelyWrong = keyboardKeyLetterStates.some(ls => ls.state != LetterState.Wrong) == false;
-        if (isCompletelyWrong) return "error";
-
-        // Completely correct
-        const isCompletelyCorrect = keyboardKeyLetterStates.some(ls => ls.state != LetterState.Correct) == false;
-        if (isCompletelyCorrect) return "success";
-
-        // Completely correct
-        const isCompletelyMisplaced = keyboardKeyLetterStates.some(ls => ls.state != LetterState.Misplaced) == false;
-        if (isCompletelyCorrect) return "warning";        
-
-        // First misplaced, then wrong -> means success (Sounds weird at first, but it is true) - scenario means that it does not occur anymore
-        const wasMisplacedButNotOccurAnymore = keyboardKeyLetterStates.some(ls => ls.state == LetterState.Misplaced) && keyboardKeyLetterStates.some(ls => ls.state == LetterState.Wrong);
-        if (wasMisplacedButNotOccurAnymore) {
-            return "success";
-        }
-
-        // Only scenario left is correct & wrong combination (so mark as correct because it does occur)
-        return "success";
+        return "neutral";
     }
 
     return (

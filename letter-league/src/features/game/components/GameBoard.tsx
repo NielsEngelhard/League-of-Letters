@@ -7,7 +7,6 @@ import GameProgressionBar from "./in-game/InGameProgressionBar";
 import LoadingSpinner from "@/components/ui/animation/LoadingSpinner";
 import SettingsCard from "@/features/account/components/SettingsCard";
 import { useEffect, useState } from "react";
-import InGameGuessedLettersOverview from "./in-game/InGameGuessedLettersOverview";
 import InGameTimer from "./in-game/InGameTimer";
 import { getCurrentUtcUnixTimestamp_Seconds } from "@/lib/time-util";
 
@@ -62,13 +61,6 @@ export default function GameBoard({}: Props) {
                     currentPlayerId={currentPlayerId}               
                 />
 
-                {/* Guessed Letters Display (TOP) - ON MOBILE DISPLAY FIXED AT TOP */}
-                {(settings.showGuessedLettersBar == true && settings.showLettersOnTopOfScreen) == true && (
-                    <div className="fixed md:relative mx-2 top-[60px] md:top-0">
-                        <InGameGuessedLettersOverview />
-                    </div>
-                )}                
-
                 {/* Game Grid */}
                 <div className="w-full flex flex-col items-center justify-center gap-2">
 
@@ -107,11 +99,6 @@ export default function GameBoard({}: Props) {
                         </div>
                     )}
                 </div>
-
-                {/* Guessed Letters Display (BOTTOM) */}
-                {(settings.showGuessedLettersBar == true && settings.showLettersOnTopOfScreen == false) && (
-                    <InGameGuessedLettersOverview />
-                )}
 
                 {/* Settings */}
                 <SettingsCard />

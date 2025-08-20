@@ -1,1 +1,0 @@
-ALTER TABLE "game_player" ADD COLUMN "playerLeft" boolean DEFAULT false NOT NULL;

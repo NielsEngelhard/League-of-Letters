@@ -1,5 +1,5 @@
 {
-  "id": "60b46aeb-8004-413e-83a5-8082f03733ce",
+  "id": "bce81e1b-4544-425f-b053-84eedbb6fb20",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -313,6 +313,13 @@
           "primaryKey": false,
           "notNull": true,
           "default": 1
+        },
+        "playerLeft": {
+          "name": "playerLeft",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": false
         }
       },
       "indexes": {
@@ -415,8 +422,8 @@
           "notNull": true,
           "default": "'[]'::jsonb"
         },
-        "evaluated_letters": {
-          "name": "evaluated_letters",
+        "previously_misplaced_letters": {
+          "name": "previously_misplaced_letters",
           "type": "jsonb",
           "primaryKey": false,
           "notNull": true,

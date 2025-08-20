@@ -37,7 +37,6 @@ export interface GameRoundModel {
     roundNumber: number;
     currentGuessIndex: number;
     guesses: EvaluatedWord[];
-    guessedLetters: EvaluatedLetter[];
     wordLength: number;
     lastGuessUnixUtcTimestamp_InSeconds?: number;
 }

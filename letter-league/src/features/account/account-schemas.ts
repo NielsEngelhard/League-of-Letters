@@ -4,20 +4,16 @@ import { themeOptions, wordInputOptions } from "./account-models";
 export const settingsSchema = z.object({    
     theme: z.enum(themeOptions).default("light").optional(),
     
-    // Display
-    showLettersOnTopOfScreen: z.boolean().default(true).optional(),
-
     // Keyboard
     keyboardInput: z.enum(wordInputOptions).default("on-screen-keyboard").optional(),
     showKeyboardHints: z.boolean().default(true).optional(),
-    showGuessedLettersBar: z.boolean().default(true).optional(),
 
+    // Display
     preFillGuess: z.boolean().default(false).optional(),
 
     // Sound
     playSoundEffects: z.boolean().default(true).optional(),
     playBackgroundMusic: z.boolean().default(true).optional(),
-
 });
 export type SettingsSchema = z.infer<typeof settingsSchema>;
 

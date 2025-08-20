@@ -14,8 +14,6 @@ const DEFAULT_SETTINGS: SettingsSchema = {
   playBackgroundMusic: true,
   playSoundEffects: true,
   showKeyboardHints: true,
-  showLettersOnTopOfScreen: true,
-  showGuessedLettersBar: false,
   theme: "light"
 }
 

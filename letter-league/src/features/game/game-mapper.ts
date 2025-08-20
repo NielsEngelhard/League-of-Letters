@@ -49,7 +49,7 @@ export class GameMapper {
             roundNumber: round.roundNumber,
             currentGuessIndex: round.currentGuessIndex,            
             guesses: round.guesses,
-            guessedLetters: round.evaluatedLetters,
+            misplacedLetters: round.previouslyMisplacedLetters,
             wordLength: round.wordLength,
             lastGuessUnixUtcTimestamp_InSeconds: round.lastGuessUnixUtcTimestamp_InSeconds ?? undefined
         }

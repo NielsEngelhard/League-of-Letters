@@ -47,7 +47,8 @@ CREATE TABLE "game_player" (
 	"username" text,
 	"connectionStatus" "connection_status" DEFAULT 'empty' NOT NULL,
 	"score" integer DEFAULT 0 NOT NULL,
-	"position" integer DEFAULT 1 NOT NULL
+	"position" integer DEFAULT 1 NOT NULL,
+	"playerLeft" boolean DEFAULT false NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "game_round" (
@@ -57,7 +58,7 @@ CREATE TABLE "game_round" (
 	"currentGuessIndex" integer DEFAULT 1 NOT NULL,
 	"word" jsonb NOT NULL,
 	"guesses" jsonb DEFAULT '[]'::jsonb NOT NULL,
-	"evaluated_letters" jsonb DEFAULT '[]'::jsonb NOT NULL,
+	"previously_misplaced_letters" jsonb DEFAULT '[]'::jsonb NOT NULL,
 	"last_guess_unix_utc_timestamp_in_seconds" bigint,
 	"wordLength" integer NOT NULL,
 	CONSTRAINT "game_round_gameId_roundNumber_unique" UNIQUE("gameId","roundNumber")
