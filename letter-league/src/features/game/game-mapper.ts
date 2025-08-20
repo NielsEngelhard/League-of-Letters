@@ -49,9 +49,9 @@ export class GameMapper {
             roundNumber: round.roundNumber,
             currentGuessIndex: round.currentGuessIndex,            
             guesses: round.guesses,
-            misplacedLetters: round.previouslyMisplacedLetters,
             wordLength: round.wordLength,
-            lastGuessUnixUtcTimestamp_InSeconds: round.lastGuessUnixUtcTimestamp_InSeconds ?? undefined
+            lastGuessUnixUtcTimestamp_InSeconds: round.lastGuessUnixUtcTimestamp_InSeconds ?? undefined,
+            startingLetter: round.word.word[0]
         }
     }
 }

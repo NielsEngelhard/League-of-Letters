@@ -42,6 +42,8 @@ export async function GuessWordCommand(command: GuessWordCommandInput): Promise<
     }
     
     const previouslyMisplacedLetters = currentRound.previouslyMisplacedLetters;
+
+    debugger;
     const validationResult = WordValidator.validate({
         actualWordState: currentRound.word,
         currentGuessIndex: currentRound.currentGuessIndex,
@@ -176,7 +178,8 @@ async function updateCurrentGameRoundWithCurrentGuess(currentRound: DbGameRound,
                 evaluatedLetters: validationResult.evaluatedGuess
             }],
             previouslyMisplacedLetters: validationResult.previouslyGuessedMisplacedLetters,
-            lastGuessUnixUtcTimestamp_InSeconds: currentRound.lastGuessUnixUtcTimestamp_InSeconds ? unixTimestampInSeconds : null
+            lastGuessUnixUtcTimestamp_InSeconds: currentRound.lastGuessUnixUtcTimestamp_InSeconds ? unixTimestampInSeconds : null,
+            word: validationResult.actualWordState            
         })
         .where(eq(GameRoundTable.id, currentRound.id));        
 }

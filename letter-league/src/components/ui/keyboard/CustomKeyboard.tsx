@@ -2,7 +2,6 @@ import { Delete } from "lucide-react";
 import KeyboardKey from "./KeyboardKey";
 import KeyboardColorExplanation from "./KeyboardColorExplanation";
 import { useAuth } from "@/features/auth/AuthContext";
-import { useActiveGame } from "@/features/game/components/active-game-context";
 import { LetterState } from "@/features/word/word-models";
 
 const keyboardRows = [
@@ -15,15 +14,28 @@ interface Props {
     onKeyPress: (key: string) => void;
     onDelete?: () => void;
     onEnter?: () => void;
+    keyStates?: Map<string, LetterState>;
 }
 
-export default function CustomKeyboard({ onKeyPress, onDelete, onEnter }: Props) {
+export default function CustomKeyboard({ onKeyPress, onDelete, onEnter, keyStates }: Props) {
     const { settings } = useAuth();
-    const { currentRound } = useActiveGame();
 
     function determineKeyVariant(keyboardKey: string): "neutral" | "success" | "warning" | "error" | null | undefined {
-        return "neutral";
-    }
+        const keyState = keyStates ? keyStates.get(keyboardKey.toUpperCase()) : undefined;
+        
+        if (!keyState) return "neutral";
+
+        switch(keyState) {
+            case LetterState.Correct:
+                return "success"; 
+            case LetterState.Wrong:
+                return "error"; 
+            case LetterState.Misplaced:
+                return "warning"; 
+            default:
+                return "neutral";                                                 
+        }        
+    }   
 
     return (
     <>

@@ -129,15 +129,6 @@ export default function SettingsCard() {
                             />
 
                             <SwitchInput
-                                label="Letters on top of screen"
-                                description="Position the guessed letters bar at the top of the screen"
-                                Icon={LetterText}
-                                control={form.control}
-                                name="showLettersOnTopOfScreen"
-                                disabled={settings.showGuessedLettersBar == false}             
-                            />
-
-                            <SwitchInput
                                 label="Pre-fill guess"
                                 description="Automatically populate your guess as you type"
                                 Icon={CaseUpper}

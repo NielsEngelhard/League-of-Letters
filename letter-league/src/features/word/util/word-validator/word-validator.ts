@@ -6,6 +6,7 @@ export interface DetailedValidationResult {
     score: number;
     allCorrect: boolean;
     previouslyGuessedMisplacedLetters: string[]; // Updated version
+    actualWordState: WordState; // Updated version
 }
 
 export interface ValidateWordRequestData {
@@ -74,7 +75,8 @@ export class WordValidator {
             evaluatedGuess: evaluatedGuess,
             score: score,
             allCorrect: guessIsCorrect,
-            previouslyGuessedMisplacedLetters: requestData.previouslyGuessedMisplacedLetters
+            previouslyGuessedMisplacedLetters: requestData.previouslyGuessedMisplacedLetters,
+            actualWordState: requestData.actualWordState
         }
     }
 }

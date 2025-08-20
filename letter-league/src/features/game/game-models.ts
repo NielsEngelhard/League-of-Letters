@@ -1,5 +1,5 @@
 import { GameMode } from "@/drizzle/schema";
-import { EvaluatedLetter, EvaluatedWord } from "../word/word-models";
+import { EvaluatedWord } from "../word/word-models";
 import { ConnectionStatus } from "../realtime/realtime-models";
 
 export interface ActiveGameModel {
@@ -39,6 +39,7 @@ export interface GameRoundModel {
     guesses: EvaluatedWord[];
     wordLength: number;
     lastGuessUnixUtcTimestamp_InSeconds?: number;
+    startingLetter?: string;
 }
 
 export interface GamePlayerModel {
