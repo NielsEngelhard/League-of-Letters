@@ -47,8 +47,14 @@ export class WordValidator {
         }
 
         // After defining the correct letters, another iteration is needed to handle misplaced scenarios
-        for (let i = 0; i < requestData.actualWordState.letterStates.length; i++) {
-            // If correct, it is for sure not misplaced
+        // ONLY check letters that were marked as Wrong (not Correct)
+        for (let i = 0; i < requestData.guess.length; i++) {
+            // Skip letters that are already correct
+            if (evaluatedGuess[i].state === LetterState.Correct) { // prevent scenario that one letter can be counted as CORRECT and MISPLACED at the same time
+                continue;
+            }
+            
+            // If wrong, check if it should be misplaced
             const wrongLetter = requestData.guess[i].toUpperCase();
             const wordStateContainsUnguessedLettersOfThisVariant = requestData.actualWordState.letterStates.some(l => l.guessed == false && l.letter.toUpperCase() == wrongLetter);
             
