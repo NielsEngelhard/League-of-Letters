@@ -1,8 +1,7 @@
 "use server";
 
 import { db } from "@/drizzle/db";
-import { CalculateScoreResult } from "@/features/score/score-models";
-import { EvaluatedLetter, EvaluatedWord } from "@/features/word/word-models";
+import { EvaluatedWord } from "@/features/word/word-models";
 import { RoundTransitionData } from "../../game-models";
 import { GamePlayerTable, GameRoundTable, ActiveGameTable, DbActiveGame, DbGamePlayer, DbGameRound, DbActiveGameWithRoundsAndPlayers, GameMode } from "@/drizzle/schema";
 import { DetailedValidationResult, WordValidator } from "@/features/word/util/word-validator/word-validator";
@@ -11,7 +10,6 @@ import { and, eq } from "drizzle-orm";
 import { TurnTrackerAlgorithm } from "../../util/algorithm/turn-tracker-algorithm/turn-tracker";
 import { ServerResponse, ServerResponseFactory } from "@/lib/response-handling/response-factory";
 import { EmitGuessWordRealtimeEvent } from "@/features/realtime/realtime-api-adapter";
-import { ScoreCalculator } from "@/features/score/score-calculator/score-calculator";
 import { sortDbPlayerOnPositionAndGetUserIds } from "../../util/player-sorting";
 import { getCurrentUserOrCrash } from "@/features/auth/current-user";
 import { getCurrentUtcUnixTimestamp_Seconds, getSecondsBetweenNowAndUnixTimestampInSeconds } from "@/lib/time-util";
@@ -25,8 +23,7 @@ export interface GuessWordCommandInput {
 export interface GuessWordResponse {
     accountId: string;
     guessResult: EvaluatedWord;
-    newLetters: EvaluatedLetter[];
-    scoreResult: CalculateScoreResult;
+    score: number;
     roundTransitionData?: RoundTransitionData;
     unixTimestampInSeconds?: number;
 }
@@ -44,18 +41,17 @@ export async function GuessWordCommand(command: GuessWordCommandInput): Promise<
         return ServerResponseFactory.error("Not your turn!");
     }
     
-    const validationResult = validateAndFilter.validate(command.word, currentRound.word, currentRound.evaluatedLetters);
-
-    const scoreResult = ScoreCalculator.calculate({
+    const previouslyMisplacedLetters = currentRound.previouslyMisplacedLetters;
+    const validationResult = WordValidator.validate({
+        actualWordState: currentRound.word,
         currentGuessIndex: currentRound.currentGuessIndex,
-        newLetters: validationResult.newLetters,
-        previouslyGuessedLetters: currentRound.evaluatedLetters,
-        wordGuessed: validationResult.allCorrect
+        guess: command.word,
+        previouslyGuessedMisplacedLetters: previouslyMisplacedLetters
     });
 
-    addScoreToPlayer(scoreResult, currentPlayer);
+    addScoreToPlayer(validationResult.score, currentPlayer);
 
-    const currentGuess = await updateCurrentGameState(game, currentRound, validationResult, scoreResult, currentPlayer);
+    const currentGuess = await updateCurrentGameState(game, currentRound, validationResult, currentPlayer);
 
     if (game.gameMode == "online") {
         await EmitGuessWordRealtimeEvent(game.id, currentGuess);
@@ -64,8 +60,8 @@ export async function GuessWordCommand(command: GuessWordCommandInput): Promise<
     return ServerResponseFactory.success(currentGuess);
 }
 
-function addScoreToPlayer(scoreResult: CalculateScoreResult, player: DbGamePlayer) {
-    player.score += scoreResult.totalScore;
+function addScoreToPlayer(score: number, player: DbGamePlayer) {
+    player.score += score;
 }
 
 function getPlayerWhosTurnItIs(game: DbActiveGameWithRoundsAndPlayers, currentRound: DbGameRound): DbGamePlayer {
@@ -84,14 +80,14 @@ function getPlayerWhosTurnItIs(game: DbActiveGameWithRoundsAndPlayers, currentRo
     return game.players.find(p => p.accountId == playerId)!;
 }
 
-async function updateCurrentGameState(game: DbActiveGameWithRoundsAndPlayers, currentRound: DbGameRound, validationResult: DetailedValidationResult, scoreResult: CalculateScoreResult, currentPlayer: DbGamePlayer): Promise<GuessWordResponse> {
+async function updateCurrentGameState(game: DbActiveGameWithRoundsAndPlayers, currentRound: DbGameRound, validationResult: DetailedValidationResult, currentPlayer: DbGamePlayer): Promise<GuessWordResponse> {
     const roundMaxGuessesReached = (currentRound.currentGuessIndex) >= game.nGuessesPerRound;
     const endCurrentRound = roundMaxGuessesReached || validationResult.allCorrect;
     const endGame = endCurrentRound && (game.currentRoundIndex >= game.nRounds);
 
     const currentGuess: EvaluatedWord = {
         position: currentRound.currentGuessIndex,
-        evaluatedLetters: validationResult.validatedWord
+        evaluatedLetters: validationResult.evaluatedGuess
     }
 
     const nextRound = game.rounds.find(g => g.roundNumber == game.currentRoundIndex+1);
@@ -102,20 +98,19 @@ async function updateCurrentGameState(game: DbActiveGameWithRoundsAndPlayers, cu
         : undefined;
 
     if (endGame) {
-        currentPlayer.score += scoreResult.totalScore;
+        currentPlayer.score += validationResult.score;
         currentRound.guesses.push(currentGuess);
         await triggerEndGame(game);
     } else if (endCurrentRound) {        
-        await triggerNextRound(currentRound, nextRound!, validationResult, currentPlayer, scoreResult, game, unixTimestampInSeconds);
+        await triggerNextRound(currentRound, nextRound!, validationResult, currentPlayer, game, unixTimestampInSeconds);
     } else {
-        await triggerNextGuess(currentRound, validationResult, currentPlayer, scoreResult, unixTimestampInSeconds);
+        await triggerNextGuess(currentRound, validationResult, currentPlayer, unixTimestampInSeconds);
     }
 
     return {
         accountId: currentPlayer.accountId,
         guessResult: currentGuess,
-        newLetters: validationResult.newLetters,
-        scoreResult: scoreResult,
+        score: validationResult.score,
         unixTimestampInSeconds: unixTimestampInSeconds,
         roundTransitionData: endCurrentRound ? {
             isEndOfGame: endGame,
@@ -126,17 +121,17 @@ async function updateCurrentGameState(game: DbActiveGameWithRoundsAndPlayers, cu
     };    
 }
 
-async function triggerNextGuess(currentRound: DbGameRound, validationResult: DetailedValidationResult, currentPlayer: DbGamePlayer, scoreResult: CalculateScoreResult, unixTimestampInSeconds?: number) {
+async function triggerNextGuess(currentRound: DbGameRound, validationResult: DetailedValidationResult, currentPlayer: DbGamePlayer, unixTimestampInSeconds?: number) {
     await db.transaction(async (tx) => {   
         await updateCurrentGameRoundWithCurrentGuess(currentRound, validationResult, tx, unixTimestampInSeconds);
-        await addScoreForPlayer(currentPlayer, scoreResult.totalScore, tx);
+        await addScoreForPlayer(currentPlayer, validationResult.score, tx);
     });          
 }
 
-async function triggerNextRound(currentRound: DbGameRound, nextRound: DbGameRound, validationResult: DetailedValidationResult, currentPlayer: DbGamePlayer, scoreResult: CalculateScoreResult, game: DbActiveGame, unixTimestampInSeconds?: number) {
+async function triggerNextRound(currentRound: DbGameRound, nextRound: DbGameRound, validationResult: DetailedValidationResult, currentPlayer: DbGamePlayer, game: DbActiveGame, unixTimestampInSeconds?: number) {
     await db.transaction(async (tx) => {     
         await updateCurrentGameRoundWithCurrentGuess(currentRound, validationResult, tx, unixTimestampInSeconds);
-        await addScoreForPlayer(currentPlayer, scoreResult.totalScore, tx);
+        await addScoreForPlayer(currentPlayer, validationResult.score, tx);
         await updateGameForNextRound(game, tx);
 
         // TODO: helper method to perform "domain actions" like this?
@@ -178,9 +173,9 @@ async function updateCurrentGameRoundWithCurrentGuess(currentRound: DbGameRound,
             currentGuessIndex: currentRound.currentGuessIndex + 1,
             guesses: [...currentRound.guesses, {
                 position: currentRound.currentGuessIndex,
-                evaluatedLetters: validationResult.validatedWord
+                evaluatedLetters: validationResult.evaluatedGuess
             }],
-            evaluatedLetters: [...currentRound.evaluatedLetters, ...validationResult.newLetters],
+            previouslyMisplacedLetters: validationResult.previouslyGuessedMisplacedLetters,
             lastGuessUnixUtcTimestamp_InSeconds: currentRound.lastGuessUnixUtcTimestamp_InSeconds ? unixTimestampInSeconds : null
         })
         .where(eq(GameRoundTable.id, currentRound.id));        

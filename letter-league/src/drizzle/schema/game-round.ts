@@ -11,7 +11,7 @@ export const GameRoundTable = pgTable("game_round", {
     currentGuessIndex: integer().notNull().default(1),
     word: jsonb('word').$type<WordState>().notNull(),
     guesses: jsonb('guesses').$type<EvaluatedWord[]>().notNull().default([]),
-    evaluatedLetters: jsonb('evaluated_letters').$type<EvaluatedLetter[]>().notNull().default([]),
+    previouslyMisplacedLetters: jsonb('previously_misplaced_letters').$type<string[]>().notNull().default([]),
     lastGuessUnixUtcTimestamp_InSeconds: bigint("last_guess_unix_utc_timestamp_in_seconds", { mode: "number" }), // Used in games where time plays a role
     wordLength: integer().notNull(),
 }, (t) => [

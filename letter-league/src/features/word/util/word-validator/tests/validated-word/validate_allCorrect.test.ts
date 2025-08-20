@@ -28,5 +28,5 @@ describe("allCorrect in response", () => {
         });
 
         expect(result.allCorrect).toBe(false);    
-    });    
+    });
 });

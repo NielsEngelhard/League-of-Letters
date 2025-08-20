@@ -79,5 +79,5 @@ describe('WordValidator should assign the correct score for correct and misplace
         const expectedScore = (LETTER_CORRECT_AFTER_MISPLACED_POINTS * 2) + // correct AFTER misplaced
                               (LETTER_CORRECTLY_GUESSED_WITHOUT_MISPLACE_POINTS * 2); // correct without misplaced
         expect(result.score).toBe(expectedScore);    
-    });            
+    });
 });
