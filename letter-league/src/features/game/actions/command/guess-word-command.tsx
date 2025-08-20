@@ -44,7 +44,7 @@ export async function GuessWordCommand(command: GuessWordCommandInput): Promise<
         return ServerResponseFactory.error("Not your turn!");
     }
     
-    const validationResult = WordValidator.validateEntireWordAndFilter(command.word, currentRound.word, currentRound.evaluatedLetters);
+    const validationResult = WordValidator.validateAndFilter(command.word, currentRound.word, currentRound.evaluatedLetters);
 
     const scoreResult = ScoreCalculator.calculate({
         currentGuessIndex: currentRound.currentGuessIndex,

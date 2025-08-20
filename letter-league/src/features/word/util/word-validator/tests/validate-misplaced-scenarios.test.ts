@@ -16,7 +16,7 @@ describe("validate specific misplaced scenarios", () => {
 
         const wordState = WordStateFactory.create(actualWord);
 
-        const result = WordValidator.validateEntireWordAndFilter(guess, wordState, []);
+        const result = WordValidator.validateAndFilter(guess, wordState, []);
 
         expect(result.newLetters).toEqual(
             expect.arrayContaining([
@@ -35,10 +35,10 @@ describe("validate specific misplaced scenarios", () => {
         const secondGuess = "oooooo"; // all O's are already guessed so should not return any new letters for the second guess
         
         const wordState = WordStateFactory.create(actualWord);
-        const firstGuessResult = WordValidator.validateEntireWordAndFilter(firstGuess, wordState, []);
+        const firstGuessResult = WordValidator.validateAndFilter(firstGuess, wordState, []);
         const previouslyGuessedLetters = firstGuessResult.newLetters;
 
-        const secondGuessResult = WordValidator.validateEntireWordAndFilter(secondGuess, wordState, previouslyGuessedLetters);
+        const secondGuessResult = WordValidator.validateAndFilter(secondGuess, wordState, previouslyGuessedLetters);
 
         expect(secondGuessResult.newLetters).toHaveLength(0);
     });
@@ -50,10 +50,10 @@ describe("validate specific misplaced scenarios", () => {
         const secondGuess = "afnaan"; // The last 'n' should also be added as Wrong because it does not occur anymore
         
         const wordState = WordStateFactory.create(actualWord);
-        const firstGuessResult = WordValidator.validateEntireWordAndFilter(firstGuess, wordState, []);
+        const firstGuessResult = WordValidator.validateAndFilter(firstGuess, wordState, []);
         const previouslyGuessedLetters = firstGuessResult.newLetters;
 
-        const secondGuessResult = WordValidator.validateEntireWordAndFilter(secondGuess, wordState, previouslyGuessedLetters);
+        const secondGuessResult = WordValidator.validateAndFilter(secondGuess, wordState, previouslyGuessedLetters);
 
         expect(secondGuessResult.newLetters).toContainEqual(
             expect.objectContaining({
@@ -70,10 +70,10 @@ describe("validate specific misplaced scenarios", () => {
         const secondGuess = "koeeee"; // The last 'n' should also be added as Wrong because it does not occur anymore
         
         const wordState = WordStateFactory.create(actualWord);
-        const firstGuessResult = WordValidator.validateEntireWordAndFilter(firstGuess, wordState, []);
+        const firstGuessResult = WordValidator.validateAndFilter(firstGuess, wordState, []);
         const previouslyGuessedLetters = firstGuessResult.newLetters;
 
-        const secondGuessResult = WordValidator.validateEntireWordAndFilter(secondGuess, wordState, previouslyGuessedLetters);
+        const secondGuessResult = WordValidator.validateAndFilter(secondGuess, wordState, previouslyGuessedLetters);
 
         expect(secondGuessResult.newLetters).toContainEqual(
             expect.objectContaining({
