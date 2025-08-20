@@ -11,11 +11,11 @@ export class ScoreCalculator {
     }
 
     static calculateScoreForMisplacedLetter(letter: string, previouslyGuessedMisplacedLetters: string[]): number {
-        const isFirstMisplacedOfThisLetter = previouslyGuessedMisplacedLetters.some(l => l.toUpperCase() != letter.toUpperCase());
-        if (isFirstMisplacedOfThisLetter) {
-            return LETTER_MISPLACED_POINTS;
-        } else {
+        const alreadyMarkedAsMisplacedBefore = previouslyGuessedMisplacedLetters.some(l => l.toUpperCase() == letter.toUpperCase());
+        if (alreadyMarkedAsMisplacedBefore) {
             return 0;
+        } else {
+            return LETTER_MISPLACED_POINTS;
         }
     }
 

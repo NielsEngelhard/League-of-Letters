@@ -55,7 +55,12 @@ export class WordValidator {
             // The letter is misplaced, because there are still guessed=false letters in the wordState
             if (wordStateContainsUnguessedLettersOfThisVariant) {
                 evaluatedGuess[i].state = LetterState.Misplaced;
-                score += ScoreCalculator.calculateScoreForMisplacedLetter(wrongLetter, requestData.previouslyGuessedMisplacedLetters);                
+                score += ScoreCalculator.calculateScoreForMisplacedLetter(wrongLetter, requestData.previouslyGuessedMisplacedLetters);        
+                
+                // Add to misplaced letters if not already
+                if (requestData.previouslyGuessedMisplacedLetters.some(l => l == wrongLetter) == false) {
+                    requestData.previouslyGuessedMisplacedLetters.push(wrongLetter);
+                }
             }
         }
 

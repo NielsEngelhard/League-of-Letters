@@ -1,4 +1,4 @@
-import { LETTER_CORRECTLY_GUESSED_WITHOUT_MISPLACE_POINTS, WORD_GUESSED_FIRST_TRY_BONUS_POINTS, WORD_GUESSED_POINTS } from "../../../../../../features/score/score-constants";
+import { LETTER_CORRECT_AFTER_MISPLACED_POINTS, LETTER_CORRECTLY_GUESSED_WITHOUT_MISPLACE_POINTS, LETTER_MISPLACED_POINTS, WORD_GUESSED_FIRST_TRY_BONUS_POINTS, WORD_GUESSED_POINTS } from "../../../../../../features/score/score-constants";
 import { WordStateFactory } from "../../../factories/word-state-factory";
 import { WordValidator } from "../../word-validator";
 
@@ -17,5 +17,67 @@ describe('WordValidator should assign the correct score for correct and misplace
             WORD_GUESSED_FIRST_TRY_BONUS_POINTS // bonus points for correct on 1st try
     
         expect(result.score).toBe(expectedScore);    
-    }); 
+    });
+
+    it('should assign no score when all letters are wrong', () => {
+        const result = WordValidator.validate({
+            actualWordState: WordStateFactory.create("kaas", false),
+            guess: "leun",
+            previouslyGuessedMisplacedLetters: [],
+            currentGuessIndex: 1
+        });
+    
+        expect(result.score).toBe(0);    
+    });   
+
+    it('should assign no score when all letters are wrong, except the first already known hint (thus no points)', () => {
+        const result = WordValidator.validate({
+            actualWordState: WordStateFactory.create("kaas"),
+            guess: "keep", // first is correct but already guessed (hint) so no points assigned
+            previouslyGuessedMisplacedLetters: [],
+            currentGuessIndex: 1
+        });
+    
+        expect(result.score).toBe(0);    
+    });
+
+    it('should assign misplaced score for misplaced letter once, when the misplaced letter occurs twice', () => {
+        const result = WordValidator.validate({
+            actualWordState: WordStateFactory.create("kaas", false),
+            guess: "abba", // a is misplaced twice, but should assign points once
+            previouslyGuessedMisplacedLetters: [],
+            currentGuessIndex: 1
+        });
+
+        const expectedScore = LETTER_MISPLACED_POINTS * 1;
+    
+        expect(result.score).toBe(expectedScore);    
+    });    
+
+    it('should assign misplaced and correct score combined when the guess is partially correct with some misplaced', () => {
+        const result = WordValidator.validate({
+            actualWordState: WordStateFactory.create("koukleunen", false),
+            guess: "kookleunen",
+            previouslyGuessedMisplacedLetters: ['N'],
+            currentGuessIndex: 1
+        });
+
+        const expectedScore = (LETTER_MISPLACED_POINTS * 1) + // Misplaced;
+                              (LETTER_CORRECT_AFTER_MISPLACED_POINTS * 1) + // correct AFTER misplaced
+                              (LETTER_CORRECTLY_GUESSED_WITHOUT_MISPLACE_POINTS * 7); // correct without misplaced
+        expect(result.score).toBe(expectedScore);    
+    });        
+
+    it('should assign misplaced after correct points correctly', () => {
+        const result = WordValidator.validate({
+            actualWordState: WordStateFactory.create("maken", false),
+            guess: "moken", // k and m = correct but previously misplaced so not full points should be assigned
+            previouslyGuessedMisplacedLetters: ['K', 'M'],
+            currentGuessIndex: 1
+        });
+
+        const expectedScore = (LETTER_CORRECT_AFTER_MISPLACED_POINTS * 2) + // correct AFTER misplaced
+                              (LETTER_CORRECTLY_GUESSED_WITHOUT_MISPLACE_POINTS * 2); // correct without misplaced
+        expect(result.score).toBe(expectedScore);    
+    });            
 });
