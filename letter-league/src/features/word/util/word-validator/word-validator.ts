@@ -1,127 +1,68 @@
+import { LETTER_CORRECTLY_GUESSED_WITHOUT_MISPLACE } from "../../../../features/score/score-constants";
 import { EvaluatedLetter, LetterState, WordState } from "../../word-models";
 
 export interface DetailedValidationResult {
-    validatedWord: EvaluatedLetter[];
-    newLetters: EvaluatedLetter[];
+    evaluatedGuess: EvaluatedLetter[];
+    score: number;
     allCorrect: boolean;
 }
 
+// SUPPORTED SCENARIOS
+// 1: LETTER CORRECT WITHOUT MISPLACE
 
 export class WordValidator {
-    static validateAndFilter(guess: string, wordState: WordState, previouslyGuessedLetters: EvaluatedLetter[] ): DetailedValidationResult {
-        const validatedWord = this.validate(guess, wordState.word);
-        const newLetters = this.filterNewLetters(validatedWord, previouslyGuessedLetters);
+    // guess = the current guess
+    // wordState = the actual word and the state the word is in (which letters are already guessed)
+    // wrongAndMisplacedLetters = the previously guessed letters that were wrong or misplaced
+    static validate(guess: string, wordState: WordState, previouslyGuessedWrongAndMisplacedLetters: EvaluatedLetter[] ): DetailedValidationResult {
+        let evaluatedGuess: EvaluatedLetter[] = new Array(guess.length);
+        let scoreForThisGuess: number = 0;
         
-        this.updateWordStateAndFilterMisplaced(wordState, newLetters, previouslyGuessedLetters);
+        // First define the correct letters and the wrong letters
+        for (let i = 0; i < guess.length; i++) {
+            // Define the guessed letter and define the actual letter
+            const guessedLetter = guess[i].toUpperCase();
+            const actualLetter = wordState.word[i].toUpperCase();   
+            
+            // CORRECT
+            if (guessedLetter == actualLetter) {
+                const newCorrectLetterGuessed = wordState.letterStates[i].guessed == false;
+
+                // CORRECT GUESS WITHOUT MISPLACE
+                if (newCorrectLetterGuessed) {
+                    scoreForThisGuess += LETTER_CORRECTLY_GUESSED_WITHOUT_MISPLACE;
+                }
+
+                wordState.letterStates[i].guessed = true;
+                evaluatedGuess[i] = { letter: guessedLetter, position: i + 1, state: LetterState.Correct }
+            } 
+            // NOT CORRECT (WRONG or MISPLACED)
+            else {
+                // Not correct, so wrong - later determine if misplaced
+                evaluatedGuess[i] = { letter: guessedLetter, position: i + 1, state: LetterState.Wrong }
+            }
+        }
+
+        // After defining the correct letters, another iteration is needed to handle misplaced scenarios
+        for (let i = 0; i < wordState.letterStates.length; i++) {
+            // If correct, it is for sure not misplaced
+            if (wordState.letterStates[i].guessed == true) continue;
+            
+            const wrongLetter = guess[i].toUpperCase();
+            const wordStateContainsUnguessedLettersOfThisVariant = wordState.letterStates.some(l => l.guessed == false && l.letter.toUpperCase() == wrongLetter);
+            
+            // The letter is misplaced, because there are still guessed=false letters in the wordState
+            if (wordStateContainsUnguessedLettersOfThisVariant) {
+                evaluatedGuess[i].state = LetterState.Misplaced;
+
+                // TODO: add score if it is the first misplace
+            }
+        }
 
         return {
-            validatedWord: validatedWord,
-            newLetters: newLetters,
-            allCorrect: !validatedWord.some(l => l.state != LetterState.Correct)
+            evaluatedGuess: evaluatedGuess,
+            score: scoreForThisGuess,
+            allCorrect: evaluatedGuess.some(evaluatedLetter => evaluatedLetter.state != LetterState.Correct) == false
         }
     }
-
-    static updateWordStateAndFilterMisplaced(wordState: WordState, newLetters: EvaluatedLetter[], previouslyGuessedLetters: EvaluatedLetter[]) {
-        // Count occurrences of each letter in the target word
-        const targetLetterCounts = new Map<string, number>();
-        for (const char of wordState.word.toUpperCase()) {
-            targetLetterCounts.set(char, (targetLetterCounts.get(char) || 0) + 1);
-        }
-
-        // Check misplaced letters and convert to wrong if no remaining positions available
-        for (const evaluatedLetter of newLetters) {
-            if (evaluatedLetter.state === LetterState.Misplaced) {
-                const letter = evaluatedLetter.letter.toUpperCase();
-                const nOccurrencesInActualWord = wordState.letterStates.filter(ls => ls.letter == letter);
-                const nAlreadyCorrect = nOccurrencesInActualWord.filter(ls => ls.guessed == true)
-                
-                // If all occurrences of this letter are already correctly placed,
-                // then this misplaced letter should actually be marked as wrong
-                if (nAlreadyCorrect >= nOccurrencesInActualWord) {
-                    evaluatedLetter.state = LetterState.Wrong;
-                }
-            }
-        }
-    }
-
-    static validate(guess: string, word: string): EvaluatedLetter[] {
-        var evaluatedLetters: EvaluatedLetter[] = new Array(guess.length);
-
-        for(var i=0; i<guess.length; i++) {
-            const guessedLetter = guess[i].toUpperCase();
-            const actualLetter = word[i].toUpperCase();            
-
-            const letterData: EvaluatedLetter = {
-                letter: guessedLetter,                
-                state: LetterState.Wrong,
-                position: -1
-            }
-
-            const guessIsCorrect = guessedLetter == actualLetter;
-            if (guessIsCorrect) {
-                letterData.position = i + 1;
-                letterData.state = LetterState.Correct;
-            } else if (word.toUpperCase().includes(guessedLetter)) {
-                letterData.state = LetterState.Misplaced;
-            };
-
-            evaluatedLetters[i] = letterData;            
-        }
-
-        return evaluatedLetters;
-    }
-
-    // Filter only the newly guessed letters
-    static filterNewLetters(validatedWord: EvaluatedLetter[], previouslyGuessedLetters: EvaluatedLetter[]): EvaluatedLetter[] {
-        var newLetters: EvaluatedLetter[] = [];
-
-        for(var i=0; i<validatedWord.length; i++) {
-            const currentLetter = validatedWord[i];
-
-            if (currentLetter.state == LetterState.Correct) {
-                addCorrectGuessIfNotAlreadyExists(currentLetter, previouslyGuessedLetters, newLetters);
-            } else if (currentLetter.state == LetterState.Wrong) {
-                addWrongGuessIfNotAlreadyExists(currentLetter, previouslyGuessedLetters, newLetters);
-            } else if (currentLetter.state == LetterState.Misplaced) {
-                addMisplacedIfNotAlreadyExists(currentLetter, previouslyGuessedLetters, newLetters);
-            }
-        }
-
-        return newLetters;        
-    }    
-}
-
-function addCorrectGuessIfNotAlreadyExists(evaluatedLetter: EvaluatedLetter, previouslyGuessedLetters: EvaluatedLetter[], newLetters: EvaluatedLetter[]) {
-    if (!letterAndStateAndPositionAlreadyExist(evaluatedLetter, previouslyGuessedLetters)) {
-        newLetters.push(evaluatedLetter);
-    }
-}
-
-function addWrongGuessIfNotAlreadyExists(evaluatedLetter: EvaluatedLetter, previouslyGuessedLetters: EvaluatedLetter[], newLetters: EvaluatedLetter[]) {  
-    if (!letterAndStateAlreadyExist(evaluatedLetter, previouslyGuessedLetters)) {
-        
-        if (!letterAndStateAlreadyExist(evaluatedLetter, newLetters)) {
-            newLetters.push(evaluatedLetter);
-        }
-    }
-}
-
-function addMisplacedIfNotAlreadyExists(evaluatedLetter: EvaluatedLetter, previouslyGuessedLetters: EvaluatedLetter[], newLetters: EvaluatedLetter[]) {  
-    const letterPreviouslyMarkedAsWrong = previouslyGuessedLetters.some(pgl => pgl.letter == evaluatedLetter.letter && pgl.state == LetterState.Wrong);    
-    if (letterPreviouslyMarkedAsWrong) return;
-    
-    if (!letterAndStateAlreadyExist(evaluatedLetter, previouslyGuessedLetters)) {
-        
-        if (!letterAndStateAlreadyExist(evaluatedLetter, newLetters)) {
-            newLetters.push(evaluatedLetter);
-        }
-    }
-}
-
-function letterAndStateAlreadyExist(letter: EvaluatedLetter, letters: EvaluatedLetter[]): boolean {
-    return letters.some(l => l.letter == letter.letter && l.state == letter.state);
-}
-
-function letterAndStateAndPositionAlreadyExist(letter: EvaluatedLetter, letters: EvaluatedLetter[]): boolean {
-    return letters.some(l => l.letter == letter.letter && l.state == letter.state && l.position == letter.position);
 }

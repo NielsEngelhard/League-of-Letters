@@ -1,5 +1,5 @@
 import { EvaluatedLetter, LetterState } from "../../../features/word/word-models";
-import { CALCULATE_STREAK_POINTS, CORRECT_AFTER_MISPLACED_POINTS, INSTANT_CORRECT_POINTS, INSTANT_GUESS_BONUS, JUST_A_GUESS_BONUS, MISPLACED_POINTS, SECOND_GUESS_BONUS, STREAK_THRESHOLD } from "../score-constants";
+import { CALCULATE_STREAK_POINTS, CORRECT_AFTER_MISPLACED_POINTS, LETTER_CORRECTLY_GUESSED_WITHOUT_MISPLACE, INSTANT_GUESS_BONUS, JUST_A_GUESS_BONUS, MISPLACED_POINTS, SECOND_GUESS_BONUS, STREAK_THRESHOLD } from "../score-constants";
 import { CalculateScoreCommand, CalculateScoreResult } from "../score-models";
 import { StreakFinder } from "../streak-finder";
 
@@ -40,8 +40,8 @@ function assignLetterStateScore(letter: EvaluatedLetter, command: CalculateScore
             result.letterStateScore += CORRECT_AFTER_MISPLACED_POINTS;
             result.totalScore += CORRECT_AFTER_MISPLACED_POINTS;
         } else {
-            result.letterStateScore += INSTANT_CORRECT_POINTS;
-            result.totalScore += INSTANT_CORRECT_POINTS;
+            result.letterStateScore += LETTER_CORRECTLY_GUESSED_WITHOUT_MISPLACE;
+            result.totalScore += LETTER_CORRECTLY_GUESSED_WITHOUT_MISPLACE;
         }
     } else if (letter.state == LetterState.Misplaced) {
         result.letterStateScore += MISPLACED_POINTS;

@@ -1,5 +1,5 @@
 // BASE
-export const INSTANT_CORRECT_POINTS: number = 5;
+export const LETTER_CORRECTLY_GUESSED_WITHOUT_MISPLACE: number = 5;
 export const MISPLACED_POINTS: number = 2;
 export const CORRECT_AFTER_MISPLACED_POINTS: number = 2;
 

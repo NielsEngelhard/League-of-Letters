@@ -1,12 +1,12 @@
-import { WordStateFactory } from "../../factories/word-state-factory";
-import { WordValidator } from "../word-validator";
+import { WordStateFactory } from "../../../factories/word-state-factory";
+import { WordValidator } from "../../word-validator";
 
 describe("allCorrect in response", () => {
     it("should return allCorrect=TRUE when the word is guessed", () => {
         const actualWord = "banaan";
         const guess      = "banaan";
 
-        const result = WordValidator.validateAndFilter(guess, WordStateFactory.create(actualWord), []);
+        const result = WordValidator.validate(guess, WordStateFactory.create(actualWord), []);
 
         expect(result.allCorrect).toBe(true);    
     });
@@ -15,7 +15,7 @@ describe("allCorrect in response", () => {
         const actualWord = "banaan";
         const guess      = "banaen";
 
-        const result = WordValidator.validateAndFilter(guess, WordStateFactory.create(actualWord), []);
+        const result = WordValidator.validate(guess, WordStateFactory.create(actualWord), []);
 
         expect(result.allCorrect).toBe(false);    
     });    

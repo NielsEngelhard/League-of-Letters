@@ -1,4 +1,4 @@
-import { CORRECT_AFTER_MISPLACED_POINTS, INSTANT_CORRECT_POINTS, MISPLACED_POINTS } from "../../score-constants";
+import { CORRECT_AFTER_MISPLACED_POINTS, LETTER_CORRECTLY_GUESSED_WITHOUT_MISPLACE, MISPLACED_POINTS } from "../../score-constants";
 import { EvaluatedLetter, LetterState } from "../../../word/word-models";
 import { ScoreCalculator } from "../score-calculator";
 
@@ -15,7 +15,7 @@ describe("calculate score correct", () => {
             currentGuessIndex: 4
         });
 
-        expect(score.letterStateScore).toEqual(INSTANT_CORRECT_POINTS);
+        expect(score.letterStateScore).toEqual(LETTER_CORRECTLY_GUESSED_WITHOUT_MISPLACE);
     });
 
     it("should assign correct letter state points with multiple correct", () => {
@@ -32,7 +32,7 @@ describe("calculate score correct", () => {
             currentGuessIndex: 4
         });
 
-        expect(score.letterStateScore).toEqual(INSTANT_CORRECT_POINTS * newCorrectLetters.length);
+        expect(score.letterStateScore).toEqual(LETTER_CORRECTLY_GUESSED_WITHOUT_MISPLACE * newCorrectLetters.length);
     });
 
     it("should assign the points for a misplaced letter only once per letter", () => {
@@ -49,7 +49,7 @@ describe("calculate score correct", () => {
             currentGuessIndex: 4
         });
 
-        expect(score.letterStateScore).toEqual(INSTANT_CORRECT_POINTS * newCorrectLetters.length);
+        expect(score.letterStateScore).toEqual(LETTER_CORRECTLY_GUESSED_WITHOUT_MISPLACE * newCorrectLetters.length);
     });    
     
     it("should assign less points when a already misplaced letter becomes correct", () => {
@@ -90,7 +90,7 @@ describe("calculate score correct", () => {
             currentGuessIndex: 4
         });
 
-        expect(score.letterStateScore).toEqual((CORRECT_AFTER_MISPLACED_POINTS * 2) + INSTANT_CORRECT_POINTS);
+        expect(score.letterStateScore).toEqual((CORRECT_AFTER_MISPLACED_POINTS * 2) + LETTER_CORRECTLY_GUESSED_WITHOUT_MISPLACE);
     });        
 
     it("should ignore casing when determining if a letter is correct 1", () => {
@@ -105,7 +105,7 @@ describe("calculate score correct", () => {
             currentGuessIndex: 4
         });
 
-        expect(score.letterStateScore).toEqual(INSTANT_CORRECT_POINTS);
+        expect(score.letterStateScore).toEqual(LETTER_CORRECTLY_GUESSED_WITHOUT_MISPLACE);
     });   
     
     it("should ignore casing when determining if a letter is correct 2", () => {
@@ -120,7 +120,7 @@ describe("calculate score correct", () => {
             currentGuessIndex: 4
         });
         
-        expect(score.letterStateScore).toEqual(INSTANT_CORRECT_POINTS);
+        expect(score.letterStateScore).toEqual(LETTER_CORRECTLY_GUESSED_WITHOUT_MISPLACE);
     });      
     
     it("should ignore casing when determining if a letter is correct after being misplaced 1", () => {

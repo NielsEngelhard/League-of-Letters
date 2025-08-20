@@ -1,5 +1,5 @@
 
-import { CALCULATE_STREAK_POINTS, INSTANT_CORRECT_POINTS, INSTANT_GUESS_BONUS, MISPLACED_POINTS, CORRECT_AFTER_MISPLACED_POINTS } from "../../score-constants";
+import { CALCULATE_STREAK_POINTS, LETTER_CORRECTLY_GUESSED_WITHOUT_MISPLACE, INSTANT_GUESS_BONUS, MISPLACED_POINTS, CORRECT_AFTER_MISPLACED_POINTS } from "../../score-constants";
 import { EvaluatedLetter, LetterState } from "../../../word/word-models";
 import { ScoreCalculator } from "../score-calculator";
 
@@ -13,7 +13,7 @@ describe("calculate total score", () => {
         ];
 
         const expectedScore = 
-            newCorrectLetters.length * INSTANT_CORRECT_POINTS    // FOR NEW CORRECT LETTER STATES
+            newCorrectLetters.length * LETTER_CORRECTLY_GUESSED_WITHOUT_MISPLACE    // FOR NEW CORRECT LETTER STATES
             + INSTANT_GUESS_BONUS                                // FOR FIRST TRY GUESSING THE WORD 
             + CALCULATE_STREAK_POINTS(newCorrectLetters.length); // FOR STREAK OF
 
@@ -36,7 +36,7 @@ describe("calculate total score", () => {
         ];
 
         const expectedScore = 
-            1 * INSTANT_CORRECT_POINTS // CORRECT LETTERSTATE
+            1 * LETTER_CORRECTLY_GUESSED_WITHOUT_MISPLACE // CORRECT LETTERSTATE
             + 2 * MISPLACED_POINTS;    // MISPLACED LETTERSTATE
 
         const score = ScoreCalculator.calculate({
@@ -62,7 +62,7 @@ describe("calculate total score", () => {
         ];
 
         const expectedScore = 
-            2 * INSTANT_CORRECT_POINTS           // INSTANT CORRECT LETTERSTATE
+            2 * LETTER_CORRECTLY_GUESSED_WITHOUT_MISPLACE           // INSTANT CORRECT LETTERSTATE
             + 2 * MISPLACED_POINTS               // MISPLACED LETTERSTATE
             + 2 * CORRECT_AFTER_MISPLACED_POINTS // CORRECT AFTER MISPLACED LETTERSTATE
             + CALCULATE_STREAK_POINTS(4);        // STREAK BONUS

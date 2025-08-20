@@ -1,14 +1,16 @@
-import { LetterState } from "../../../../word/word-models";
-import { WordValidator } from "../word-validator";
+import { LetterState } from "../../../../word-models";
+import { WordStateFactory } from "../../../factories/word-state-factory";
+import { WordValidator } from "../../word-validator";
 
 describe("validate casing", () => {
     it("should ignore casing 1", () => {
         const actualWord = "A";
         const guess      = "a";
 
-        const result = WordValidator.validate(guess, actualWord);
+        const result = WordValidator.validate(guess, WordStateFactory.create(actualWord), []);
 
-        expect(result).toEqual(
+        debugger;
+        expect(result.evaluatedGuess).toEqual(
             expect.arrayContaining([
                 expect.objectContaining({ letter: "A", state: LetterState.Correct, position: 1 }),
             ])
@@ -19,9 +21,9 @@ describe("validate casing", () => {
         const actualWord = "a";
         const guess      = "A";
 
-        const result = WordValidator.validate(guess, actualWord);
+        const result = WordValidator.validate(guess, WordStateFactory.create(actualWord), []);
 
-        expect(result).toEqual(
+        expect(result.evaluatedGuess).toEqual(
             expect.arrayContaining([
                 expect.objectContaining({ letter: "A", state: LetterState.Correct, position: 1 }),
             ])

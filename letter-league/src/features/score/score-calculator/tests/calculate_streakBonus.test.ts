@@ -1,4 +1,4 @@
-import { CALCULATE_STREAK_POINTS, INSTANT_CORRECT_POINTS, POINTS_PER_STREAK_ITEM } from "../../score-constants";
+import { CALCULATE_STREAK_POINTS, LETTER_CORRECTLY_GUESSED_WITHOUT_MISPLACE, POINTS_PER_STREAK_ITEM } from "../../score-constants";
 import { ScoreCalculator } from "../score-calculator";
 import { EvaluatedLetter, LetterState } from "../../../word/word-models";
 
