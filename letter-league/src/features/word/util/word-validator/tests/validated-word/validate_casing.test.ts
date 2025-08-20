@@ -7,9 +7,13 @@ describe("validate casing", () => {
         const actualWord = "A";
         const guess      = "a";
 
-        const result = WordValidator.validate(guess, WordStateFactory.create(actualWord), []);
+        const result = WordValidator.validate({
+            actualWordState: WordStateFactory.create(actualWord),
+            guess: guess,
+            currentGuessIndex: 1,
+            previouslyGuessedMisplacedLetters: []
+        });
 
-        debugger;
         expect(result.evaluatedGuess).toEqual(
             expect.arrayContaining([
                 expect.objectContaining({ letter: "A", state: LetterState.Correct, position: 1 }),
@@ -21,7 +25,12 @@ describe("validate casing", () => {
         const actualWord = "a";
         const guess      = "A";
 
-        const result = WordValidator.validate(guess, WordStateFactory.create(actualWord), []);
+        const result = WordValidator.validate({
+            actualWordState: WordStateFactory.create(actualWord),
+            guess: guess,
+            currentGuessIndex: 1,
+            previouslyGuessedMisplacedLetters: []
+        });
 
         expect(result.evaluatedGuess).toEqual(
             expect.arrayContaining([

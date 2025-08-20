@@ -45,8 +45,13 @@ describe("WordValidator - mixed letter states", () => {
   test.each(testCases)(
     "should validate mixed guess correctly - $description",
     ({ actualWord, guess, expected }) => {
-      const actualWordState = WordStateFactory.create(actualWord);
-      const result = WordValidator.validate(guess, actualWordState, []);
+      
+      const result = WordValidator.validate({
+          actualWordState: WordStateFactory.create(actualWord),
+          guess: guess,
+          currentGuessIndex: 1,
+          previouslyGuessedMisplacedLetters: []
+      });
 
       expected.forEach((expectedItem, index) => {
           expect(result.evaluatedGuess[index]).toEqual(expect.objectContaining(expectedItem));

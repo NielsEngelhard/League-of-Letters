@@ -5,10 +5,15 @@ import { WordValidator } from "../../word-validator";
 
 describe("validate wrong evaluated letters", () => {
     it("should validate totally incorrect guess correctly", () => {
-        const actualWord = WordStateFactory.create("henk");
+        const actualWord = "henk";
         const guess      = "sjos";
 
-        const result = WordValidator.validate(guess, actualWord, []);
+        const result = WordValidator.validate({
+            actualWordState: WordStateFactory.create(actualWord),
+            guess: guess,
+            currentGuessIndex: 1,
+            previouslyGuessedMisplacedLetters: []
+        });
 
         expect(result.evaluatedGuess).toEqual(
             expect.arrayContaining([

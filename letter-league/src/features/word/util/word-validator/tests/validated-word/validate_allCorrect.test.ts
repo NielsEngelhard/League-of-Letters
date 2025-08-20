@@ -6,7 +6,12 @@ describe("allCorrect in response", () => {
         const actualWord = "banaan";
         const guess      = "banaan";
 
-        const result = WordValidator.validate(guess, WordStateFactory.create(actualWord), []);
+        const result = WordValidator.validate({
+            actualWordState: WordStateFactory.create(actualWord),
+            guess: guess,
+            currentGuessIndex: 1,
+            previouslyGuessedMisplacedLetters: []
+        });
 
         expect(result.allCorrect).toBe(true);    
     });
@@ -15,7 +20,12 @@ describe("allCorrect in response", () => {
         const actualWord = "banaan";
         const guess      = "banaen";
 
-        const result = WordValidator.validate(guess, WordStateFactory.create(actualWord), []);
+        const result = WordValidator.validate({
+            actualWordState: WordStateFactory.create(actualWord),
+            guess: guess,
+            currentGuessIndex: 1,
+            previouslyGuessedMisplacedLetters: []
+        });
 
         expect(result.allCorrect).toBe(false);    
     });    
