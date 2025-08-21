@@ -1,3 +1,8 @@
+export interface EvaluatedWord {
+    position: number;
+    evaluatedLetters: EvaluatedLetter[];
+}
+
 export type EvaluatedLetter = {
     position: number;
     letter: string;    
@@ -10,11 +15,6 @@ export enum LetterState {
   Wrong = "wrong",
   Misplaced = "misplaced",
   Unguessed = "unguessed",  
-}
-
-export interface EvaluatedWord {
-    position: number;
-    evaluatedLetters: EvaluatedLetter[];
 }
 
 export interface WordState {

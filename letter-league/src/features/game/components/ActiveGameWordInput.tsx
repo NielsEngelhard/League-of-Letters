@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { useActiveGame } from "./active-game-context";
 import { LetterState } from "@/features/word/word-models";
 import { mapLetterColors } from "@/features/word/util/letter-color-map";
+import { preFillWordFinder } from "@/features/word/util/prefill-word-finder";
 
 interface Props {
     disabled?: boolean;
@@ -77,10 +78,16 @@ export default function WordInput({ onEnter, onChange, disabled = false }: Props
     }
 
     function preFillGuess() {
-        const value = "testje";
+        if (!currentRound) return;
 
-        setCurrentGuess(value);
-        setPrefilledGuess(value);
+        var prefilledWord = preFillWordFinder(currentRound?.guesses);
+
+        if (!prefilledWord || prefilledWord.length <= 0) {
+            prefilledWord = currentRound?.startingLetter ?? "";
+        }
+
+        setCurrentGuess(prefilledWord);
+        setPrefilledGuess(prefilledWord);
     }
 
     if (disabled) {
