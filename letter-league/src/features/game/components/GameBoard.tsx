@@ -51,7 +51,7 @@ export default function GameBoard({}: Props) {
         {(game && currentRound) ? (
             <div className="w-full flex flex-col items-center gap-6 max-w-2xl mx-auto">
                 <GameProgressionBar
-                    currentRoundIndex={game.currentRoundIndex}
+                    currentRound={currentRound}
                     totalRounds={game.totalRounds}
                 />
 

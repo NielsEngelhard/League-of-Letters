@@ -13,7 +13,8 @@ const variants = cva(
         variants: {
             variant: {
                 default: "w-12 h-12 border-2 border-border text-lg",
-                small: "w-8 h-8 text-sm"
+                small: "w-8 h-8 text-sm",
+                extraSmall: "w-5 h-5 text-xs"
             }
         }
     }
