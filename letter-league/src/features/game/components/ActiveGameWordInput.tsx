@@ -110,6 +110,7 @@ export default function WordInput({ onEnter, onChange, disabled = false }: Props
                     placeholder="Type here ..."
                     centerText={true}
                     initialValue={settings.preFillGuess ? prefilledGuess : ""}
+                    autoFocus={true}
                 />
                 <Button className="mt-2 w-full" variant="secondary" size="sm" onClick={onEnter}>
                     Guess
