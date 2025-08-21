@@ -18,7 +18,8 @@ export const createGameSchema = z.object({
     players: z.array(createGamePlayerSchema).optional(),
     gameMode: z.enum(gameModes),
     nSecondsPerGuess: z.number().max(300).optional(),
-    gameId: z.string().optional()
+    gameId: z.string().optional(),
+    withStartingLetter: z.boolean().optional()
 }).refine((data) => {
     if (data.gameMode == "online") {
         return data.players && data.players.length >= 2;

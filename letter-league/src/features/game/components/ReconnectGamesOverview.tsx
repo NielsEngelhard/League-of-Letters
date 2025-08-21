@@ -39,7 +39,7 @@ export default function ReconnectGamesOverview() {
                     games.length == 0 ? (
                         <span>No active games at the moment</span>
                     ) : (
-                        <div className="w-full">
+                        <div className="w-full flex flex-col gap-2">
                             {games.map((teaser, i) => <GameTeaserCard key={i} teaser={teaser} />)}
                         </div>                        
                     )

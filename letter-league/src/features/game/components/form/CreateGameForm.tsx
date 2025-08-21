@@ -6,9 +6,10 @@ import Seperator from "@/components/ui/Seperator"
 import SelectDropdown from "@/components/ui/form/SelectInput"
 import Button from "@/components/ui/Button"
 import Icon from "@/components/ui/Icon"
-import { Play } from "lucide-react"
+import { LetterText, Play } from "lucide-react"
 import ErrorText from "@/components/ui/text/ErrorText"
 import { useEffect } from "react"
+import SwitchInput from "@/components/ui/form/SwitchInput"
 
 interface Props {
     onSubmit: (data: CreateGameSchema) => void;
@@ -29,6 +30,7 @@ export default function CreateGameForm({ onSubmit, onLeaveGame, submitDisabled =
         totalRounds: 4,
         gameMode: gameMode,
         gameId: gameId,
+        withStartingLetter: true,
         nSecondsPerGuess: gameMode == "online" ? 40 : undefined
       }
     })    
@@ -91,7 +93,14 @@ export default function CreateGameForm({ onSubmit, onLeaveGame, submitDisabled =
                         { value: 100, label: "100s" },
                     ]}
                 />                      
-            )}                  
+            )}         
+
+            <SwitchInput
+                control={form.control}
+                name="withStartingLetter"
+                label="With starting letter"
+                Icon={LetterText}
+            />         
 
             <Seperator />
 
