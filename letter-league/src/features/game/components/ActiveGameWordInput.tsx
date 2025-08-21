@@ -9,18 +9,16 @@ import { useActiveGame } from "./active-game-context";
 import { LetterState } from "@/features/word/word-models";
 
 interface Props {
-    currentGuess: string;
     disabled?: boolean;
-    wordLength: number;
     onChange: (value: string) => void;
     onEnter: () => void;
 }
 
-export default function WordInput({ currentGuess, onEnter, onChange, wordLength, disabled = false }: Props) {
+export default function WordInput({ onEnter, onChange, disabled = false }: Props) {
     const [keyStates, setKeyStates] = useState<Map<string, LetterState>>(new Map());
     
     const { settings } = useAuth();
-    const { currentRound } = useActiveGame();
+    const { currentRound, currentGuess } = useActiveGame();
 
     // Reset when keyboard input methods changes
     useEffect(() => {
@@ -33,14 +31,14 @@ export default function WordInput({ currentGuess, onEnter, onChange, wordLength,
         const keyStates = createKeyboardLetterStatesMapBasedOnPreviousGuesses();
         setKeyStates(keyStates);
         
-    }, [settings.keyboardInput, currentRound?.guesses]);    
+    }, [settings.keyboardInput, currentRound]);    
 
     function onInputChange(event: React.ChangeEvent<HTMLInputElement>) {
         onChange(event.target.value);
     }
 
     function onKeyPress(keyboardKey: string) {
-        if (currentGuess.length >= wordLength) return;
+        if (currentGuess.length >= (currentRound?.wordLength ?? 1)) return;
 
         onChange(currentGuess + keyboardKey);
     }
@@ -116,7 +114,7 @@ function createKeyboardLetterStatesMapBasedOnPreviousGuesses(): Map<string, Lett
                 <TextInput
                     className="text-center"
                     onChange={onInputChange}
-                    maxLength={wordLength}
+                    maxLength={currentRound?.wordLength ?? 0}
                     placeholder="Type here ..."
                     centerText={true}
                 />

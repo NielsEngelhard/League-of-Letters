@@ -1,7 +1,6 @@
 import LetterRowGrid from "@/features/word/components/LetterRowGrid";
 import ActiveGameWordInput from "./ActiveGameWordInput";
 import { useActiveGame } from "./active-game-context";
-import { useAuth } from "@/features/auth/AuthContext";
 import InGamePlayerBar from "./in-game/InGamePlayersBar";
 import GameProgressionBar from "./in-game/InGameProgressionBar";
 import LoadingSpinner from "@/components/ui/animation/LoadingSpinner";
@@ -17,7 +16,6 @@ interface Props {}
 export default function GameBoard({}: Props) {
     const { game, players, setCurrentGuess, submitGuess, currentGuess, currentRound, isThisPlayersTurn, isAnimating, theWord, currentPlayerId, recalculateCurrentPlayer } = useActiveGame();
     const [initialTimeLeftForThisTurn, setInitialTimeLeftForThisTurn] = useState<number | null>(null);
-    const { settings } = useAuth();
 
     async function onSubmitGuess() {
         submitGuess()
@@ -86,8 +84,6 @@ export default function GameBoard({}: Props) {
                 <div className="w-full max-w-md">
                     {!theWord ? (
                         <ActiveGameWordInput
-                            currentGuess={currentGuess}
-                            wordLength={currentRound.wordLength}
                             onChange={onChangeInput}
                             onEnter={onSubmitGuess}
                             disabled={!isThisPlayersTurn || isAnimating}
