@@ -10,11 +10,11 @@ interface InputProps extends React.ComponentProps<"input"> {
     centerText?: boolean;
     onChange?: React.ChangeEventHandler<HTMLInputElement>;
     supportedSymbols?: RegExp;
-
+    initialValue?: string;
 }
 
 const TextInput = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, label, subText, centerText, required = false, errorMsg, id, supportedSymbols, onChange, ...props }, ref) => {
+  ({ className, type, label, subText, centerText, required = false, errorMsg, id, initialValue, supportedSymbols, onChange, ...props }, ref) => {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       if (supportedSymbols) {
@@ -43,6 +43,7 @@ const TextInput = React.forwardRef<HTMLInputElement, InputProps>(
                 onChange={handleChange}
                 required={required}
                 {...props}
+                defaultValue={initialValue}
             />
             {subText && (
               <div className="text-xs text-foreground-muted">

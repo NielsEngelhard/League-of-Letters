@@ -2,7 +2,7 @@ import Card from "@/components/ui/card/Card";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card/card-children";
 import SelectDropdown from "@/components/ui/form/SelectInput";
 import { zodResolver } from "@hookform/resolvers/zod"
-import { CaseUpper, Dock, KeyboardMusic, LetterText, Music, Palette, Settings, Volume2 } from "lucide-react";
+import { CaseUpper, CheckCheck, Dock, KeyboardMusic, LetterText, Music, Palette, Settings, Volume2 } from "lucide-react";
 import { useForm } from "react-hook-form"
 import { settingsSchema, SettingsSchema } from "../account-schemas";
 import SwitchInput from "@/components/ui/form/SwitchInput";
@@ -121,12 +121,12 @@ export default function SettingsCard() {
                             />
 
                             <SwitchInput
-                                label="Show guessed letters bar"
-                                description="Display a bar showing all previously guessed letters"
-                                Icon={Dock}
+                                label="Highlight 'Complete Correct' letters"
+                                description="Highlight letters that are correct and do not occur anymore with special styling"
+                                Icon={CheckCheck}
                                 control={form.control}
-                                name="showGuessedLettersBar"                                     
-                            />
+                                name="showCompleteCorrect"
+                            />                         
 
                             <SwitchInput
                                 label="Pre-fill guess"

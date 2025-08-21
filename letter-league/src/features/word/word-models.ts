@@ -6,17 +6,11 @@ export type EvaluatedLetter = {
 
 export enum LetterState {
   Correct = "correct",
+  CompleteCorrect = "complete-correct", // Only used in client to indicate that it is sure that there are no more misplaced letters of this letter
   Wrong = "wrong",
   Misplaced = "misplaced",
-  Unguessed = "unguessed",
+  Unguessed = "unguessed",  
 }
-
-export const LetterStateSortOrder = {
-  [LetterState.Correct]: 0,
-  [LetterState.Misplaced]: 1,
-  [LetterState.Wrong]: 2,
-  [LetterState.Unguessed]: 3
-};
 
 export interface EvaluatedWord {
     position: number;

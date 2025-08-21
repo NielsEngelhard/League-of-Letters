@@ -9,6 +9,7 @@ export const AccountSettingsTable = pgTable("account_settings", {
     theme: themeEnum().notNull(),
     enableSoundEffects: boolean().notNull().default(true),
     showKeyboardHints: boolean().notNull().default(true),
+    showCompleteCorrect: boolean().notNull().default(false),
     enableBackgroundMusic: boolean().notNull().default(true),
     preFillGuess: boolean().notNull().default(false),
 });

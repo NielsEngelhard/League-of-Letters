@@ -7,6 +7,7 @@ export const settingsSchema = z.object({
     // Keyboard
     keyboardInput: z.enum(wordInputOptions).default("on-screen-keyboard").optional(),
     showKeyboardHints: z.boolean().default(true).optional(),
+    showCompleteCorrect: z.boolean().default(false).optional(),
 
     // Display
     preFillGuess: z.boolean().default(false).optional(),

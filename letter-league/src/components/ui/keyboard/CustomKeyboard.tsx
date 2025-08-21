@@ -20,23 +20,6 @@ interface Props {
 export default function CustomKeyboard({ onKeyPress, onDelete, onEnter, keyStates }: Props) {
     const { settings } = useAuth();
 
-    function determineKeyVariant(keyboardKey: string): "neutral" | "success" | "warning" | "error" | null | undefined {
-        const keyState = keyStates ? keyStates.get(keyboardKey.toUpperCase()) : undefined;
-        
-        if (!keyState) return "neutral";
-
-        switch(keyState) {
-            case LetterState.Correct:
-                return "success"; 
-            case LetterState.Wrong:
-                return "error"; 
-            case LetterState.Misplaced:
-                return "warning"; 
-            default:
-                return "neutral";                                                 
-        }        
-    }   
-
     return (
     <>
         <div className="flex flex-col gap-1.5 lg:gap-2.5 items-center w-full">
@@ -61,7 +44,7 @@ export default function CustomKeyboard({ onKeyPress, onDelete, onEnter, keyState
                         <KeyboardKey
                             key={`kb-key-${index}`}
                             onClick={() => onKeyPress(keyboardKey)}
-                            variant={determineKeyVariant(keyboardKey)}>           
+                            letterState={keyStates?.get(keyboardKey.toUpperCase())}>
                             <>{keyboardKey}</>
                         </KeyboardKey>             
                     ))}     

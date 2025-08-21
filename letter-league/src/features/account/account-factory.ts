@@ -31,6 +31,7 @@ export default class AccountFactory {
             theme: "light",
             wordInput: "on-screen-keyboard",
             showKeyboardHints: true,
+            showCompleteCorrect: false,
             preFillGuess: true
         }
     }

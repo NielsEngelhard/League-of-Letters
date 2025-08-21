@@ -7,6 +7,7 @@ import { useAuth } from "@/features/auth/AuthContext";
 import { useEffect, useState } from "react";
 import { useActiveGame } from "./active-game-context";
 import { LetterState } from "@/features/word/word-models";
+import { mapLetterColors } from "@/features/word/util/letter-color-map";
 
 interface Props {
     disabled?: boolean;
@@ -18,7 +19,8 @@ export default function WordInput({ onEnter, onChange, disabled = false }: Props
     const [keyStates, setKeyStates] = useState<Map<string, LetterState>>(new Map());
     
     const { settings } = useAuth();
-    const { currentRound, currentGuess } = useActiveGame();
+    const { currentRound, currentGuess, setCurrentGuess } = useActiveGame();
+    const [prefilledGuess, setPrefilledGuess] = useState<string>("");
 
     // Reset when keyboard input methods changes
     useEffect(() => {
@@ -26,12 +28,21 @@ export default function WordInput({ onEnter, onChange, disabled = false }: Props
     }, [settings.keyboardInput]);
 
     useEffect(() => {
+        if (settings.preFillGuess && settings.preFillGuess == true) {
+            preFillGuess();
+        } else {
+            setCurrentGuess("");
+            setPrefilledGuess("");
+        }
+    }, [settings.preFillGuess]);
+
+    useEffect(() => {
         if (settings.keyboardInput != "on-screen-keyboard" || !currentRound) return;
 
-        const keyStates = createKeyboardLetterStatesMapBasedOnPreviousGuesses();
+        const keyStates = mapLetterColors(currentRound.guesses, currentRound.unguessedMisplacedLetters, currentRound.startingLetter, !settings.showCompleteCorrect);
         setKeyStates(keyStates);
         
-    }, [settings.keyboardInput, currentRound]);    
+    }, [settings.keyboardInput, settings.showCompleteCorrect, currentRound]);    
 
     function onInputChange(event: React.ChangeEvent<HTMLInputElement>) {
         onChange(event.target.value);
@@ -65,6 +76,13 @@ export default function WordInput({ onEnter, onChange, disabled = false }: Props
         }
     }
 
+    function preFillGuess() {
+        const value = "testje";
+
+        setCurrentGuess(value);
+        setPrefilledGuess(value);
+    }
+
     if (disabled) {
         return (
             <div className="w-full flex justify-center">
@@ -73,50 +91,18 @@ export default function WordInput({ onEnter, onChange, disabled = false }: Props
         )
     }
 
-function createKeyboardLetterStatesMapBasedOnPreviousGuesses(): Map<string, LetterState> {
-    const previousGuess = currentRound?.guesses;
-    const startingLetter = currentRound?.startingLetter?.toUpperCase();
-
-    const letterStateMap = new Map<string, LetterState>();
-
-    if (startingLetter) {
-        letterStateMap.set(startingLetter, LetterState.Correct);
-    }
-
-    previousGuess?.forEach((previousGuess) => {
-        previousGuess.evaluatedLetters.forEach((evaluatedLetter => {
-            const currentLetter = evaluatedLetter.letter.toUpperCase();
-            const currentState = letterStateMap.get(currentLetter);
-
-            if (evaluatedLetter.state == LetterState.Correct) {
-                // Correct always takes priority over any existing state
-                letterStateMap.set(currentLetter, LetterState.Correct);
-            } else if (evaluatedLetter.state == LetterState.Wrong) {
-                // Only set to Wrong if no existing state (lowest priority)
-                if (!currentState) {
-                    letterStateMap.set(currentLetter, LetterState.Wrong);
-                }
-            }            
-        }));
-
-        currentRound?.unguessedMisplacedLetters.forEach(unguessedMisplacedLetter => {
-            letterStateMap.set(unguessedMisplacedLetter, LetterState.Misplaced);
-        });
-    });
-
-    return letterStateMap;
-}
-
     // Return correct input option
     if (settings.keyboardInput == "html-input") {
         return (
             <div className="w-full flex flex-col items-center">
                 <TextInput
+                    key={`ti-${settings.preFillGuess}`}
                     className="text-center"
                     onChange={onInputChange}
                     maxLength={currentRound?.wordLength ?? 0}
                     placeholder="Type here ..."
                     centerText={true}
+                    initialValue={settings.preFillGuess ? prefilledGuess : ""}
                 />
                 <Button className="mt-2 w-full" variant="secondary" size="sm" onClick={onEnter}>
                     Guess
