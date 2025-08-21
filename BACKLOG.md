@@ -1,19 +1,17 @@
 MUST
-- in front-end 2 states for correct
-    - CORRECT and does not occur anymore
-    - CORRECT and may occur more
-
 - multiple languages
-- Option when creating game 'with starting letter' <-- laten zien of niet
 - Scan the guess. If it is not in the list with official words, try to check if it is weird like xxxaa. Maybe some sort of latin vibe validator?
 - JWT refresh flow
 - Automatic cleanup (cronjob?) for guest accounts and "old games"
 - statistics regarding games played
 - Landing page with explanation
-- bring your own word mode
+
+
+
 
 
 SHOULD
+- bring your own word mode
 - Support multiple languages English, French and Deutsch at first
 - Score explanation
 - Sound effects

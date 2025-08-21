@@ -17,6 +17,7 @@ export const ActiveGameTable = pgTable("active_game", {
       .references(() => AccountTable.id, { onDelete: "cascade" })
       .notNull(),
     createdAt,
+    withStartingLetter: boolean().notNull().default(true),
 });
 export type DbActiveGame = InferSelectModel<typeof ActiveGameTable>;
 

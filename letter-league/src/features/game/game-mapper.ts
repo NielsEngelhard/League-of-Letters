@@ -15,7 +15,7 @@ export class GameMapper {
             hostAccountId: game.hostAccountId,
             nSecondsPerGuess: game.nSecondsPerGuess,
             rounds: game.rounds.map((round) => {
-                return GameMapper.GameRoundToModel(round);
+                return GameMapper.GameRoundToModel(round, game.withStartingLetter);
             }),
             players: game.players.map((player) => {
                 return GameMapper.GamePlayerToModel(player, game.hostAccountId);
@@ -44,7 +44,7 @@ export class GameMapper {
         }
     }
 
-    static GameRoundToModel(round: DbGameRound): GameRoundModel {
+    static GameRoundToModel(round: DbGameRound, showFirstLetter: boolean = true): GameRoundModel {
         return {
             id: round.id,
             roundNumber: round.roundNumber,
@@ -52,7 +52,7 @@ export class GameMapper {
             guesses: round.guesses,
             wordLength: round.wordLength,
             lastGuessUnixUtcTimestamp_InSeconds: round.lastGuessUnixUtcTimestamp_InSeconds ?? undefined,
-            startingLetter: round.word.word[0],
+            startingLetter: showFirstLetter ? round.word.word[0] : undefined,
             unguessedMisplacedLetters: this.FilterMisplacedLettersForCurrentWord(round.previouslyMisplacedLetters, round.word)
         }
     }

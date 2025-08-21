@@ -38,7 +38,8 @@ export default async function CreateGameCommand(schema: CreateGameSchema, gameId
             currentRoundIndex: 1,
             nGuessesPerRound: schema.guessesPerRound,
             hostAccountId: currentUser.accountId,
-            nSecondsPerGuess: determineSecondsPerGuess(schema.nSecondsPerGuess)
+            nSecondsPerGuess: determineSecondsPerGuess(schema.nSecondsPerGuess),
+            withStartingLetter: schema.withStartingLetter            
         }).returning({
             gameId: ActiveGameTable.id
         });
