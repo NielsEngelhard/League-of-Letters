@@ -31,6 +31,8 @@ export interface GuessWordResponse {
 }
 
 export async function GuessWordCommand(command: GuessWordCommandInput): Promise<ServerResponse<GuessWordResponse>> {    
+    const guessIsValidWord = GuessIsValidWord(command.word);
+    
     const game = await getGame(command.gameId);
     
     let currentRound = game.rounds.find(g => g.roundNumber == game.currentRoundIndex);
@@ -214,3 +216,5 @@ async function addScoreForPlayer(player: DbGamePlayer, score: number, tx: DbOrTr
       )
     );
 }
+
+async function GuessIsValidWord // MORGEN VERDER
