@@ -35,7 +35,7 @@ export default function WordInput({ onEnter, onChange, disabled = false }: Props
             setCurrentGuess("");
             setPrefilledGuess("");
         }
-    }, [settings.preFillGuess]);
+    }, [settings.preFillGuess, currentRound?.currentGuessIndex]);
 
     useEffect(() => {
         if (settings.keyboardInput != "on-screen-keyboard" || !currentRound) return;
