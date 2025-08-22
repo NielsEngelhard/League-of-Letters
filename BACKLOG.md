@@ -1,5 +1,8 @@
 - Scan the guess. If it is not in the list with official words, try to check if it is weird like xxxaa. Maybe some sort of latin vibe validator?
-
+    // TODO: rommel zit er bijvoorbeeld niet in... moet wel kunnen. 
+    // Haal door linter "lijkt op valide woord"
+    // Ja -> OK Nee -> kijk in database
+    Er missen toch wat woorden
 
 
 

@@ -227,5 +227,9 @@ async function GuessIsValidWord(word: string, language: SupportedLanguage): Prom
         return true;
     }
 
+    // TODO: rommel zit er bijvoorbeeld niet in... moet wel kunnen. 
+    // Haal door linter "lijkt op valide woord"
+    // Ja -> OK Nee -> kijk in database
+
     return await IsOfficialWordRequestOptimized({ word: word, language: language });
 }
