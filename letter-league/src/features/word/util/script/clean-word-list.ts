@@ -1,7 +1,8 @@
 import * as fs from 'fs';
 import * as readline from 'readline';
+import { WordFormatValidator } from '../word-format-validator/word-format-validator';
 
-export async function cleanWordList(inputPath: string, outputPath: string, wordLength: number): Promise<void> {
+export async function cleanWordList(inputPath: string, outputPath: string): Promise<void> {
   try {
     // Create a readable stream from the input file
     const fileStream = fs.createReadStream(inputPath);
@@ -17,28 +18,19 @@ export async function cleanWordList(inputPath: string, outputPath: string, wordL
     
     // Process each line
     for await (const line of rl) {
-      // Trim the line to remove leading/trailing whitespace
-      const trimmedLine = line.trim();
+      const validateWordResponse = WordFormatValidator.validateFormat(line);
       
-      // Skip empty lines or lines with only whitespace
-      if (trimmedLine === '') {
-        continue;
-      }
-      
-      // Check the length of the line
-      const length = trimmedLine.length;
-      
-      if (length === wordLength + 1) {
-        console.log(`${trimmedLine}`);
-      } else if (length === wordLength) {
-        filteredLines.push(trimmedLine);
-      }
+      if (validateWordResponse.isValid == true) {
+        filteredLines.push(validateWordResponse.word);
+      } else {
+        // Invalid word format
+      }; 
     }
     
     // Write the filtered content back to the output file
     fs.writeFileSync(outputPath, filteredLines.join('\n'));
     
-    console.log(`Processing complete. Results written to ${outputPath}`);
+    console.log(`Processing complete. Results written to ${outputPath} length ${filteredLines.length}`);
   } catch (error) {
     console.error('Error processing file:', error);
   }

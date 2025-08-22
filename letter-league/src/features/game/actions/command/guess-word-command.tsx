@@ -1,7 +1,7 @@
 "use server";
 
 import { db } from "@/drizzle/db";
-import { EvaluatedWord, WordState } from "@/features/word/word-models";
+import { EvaluatedWord } from "@/features/word/word-models";
 import { RoundTransitionData } from "../../game-models";
 import { GamePlayerTable, GameRoundTable, ActiveGameTable, DbActiveGame, DbGamePlayer, DbGameRound, DbActiveGameWithRoundsAndPlayers, GameMode } from "@/drizzle/schema";
 import { DetailedValidationResult, WordValidator } from "@/features/word/util/word-validator/word-validator";
@@ -15,6 +15,8 @@ import { getCurrentUserOrCrash } from "@/features/auth/current-user";
 import { getCurrentUtcUnixTimestamp_Seconds, getSecondsBetweenNowAndUnixTimestampInSeconds } from "@/lib/time-util";
 import { DbOrTransaction } from "@/drizzle/util/transaction-util";
 import { GameMapper } from "../../game-mapper";
+import { SupportedLanguage } from "@/features/i18n/languages";
+import { IsOfficialWordRequestOptimized } from "@/features/word/actions/query/is-offical-word-request";
 
 export interface GuessWordCommandInput {
     gameId: string;
@@ -31,7 +33,10 @@ export interface GuessWordResponse {
 }
 
 export async function GuessWordCommand(command: GuessWordCommandInput): Promise<ServerResponse<GuessWordResponse>> {    
-    const guessIsValidWord = GuessIsValidWord(command.word);
+    const guessIsValidWord = await GuessIsValidWord(command.word, "nl");// TODO: real language
+    if (!guessIsValidWord) {
+        return ServerResponseFactory.error("Invalid word");
+    }
     
     const game = await getGame(command.gameId);
     
@@ -217,4 +222,10 @@ async function addScoreForPlayer(player: DbGamePlayer, score: number, tx: DbOrTr
     );
 }
 
-async function GuessIsValidWord // MORGEN VERDER
+async function GuessIsValidWord(word: string, language: SupportedLanguage): Promise<boolean> {
+    if (process.env.GUESSED_WORD_SHOULD_OCCUR_IN_OFFICAL_WORDS != "true") {
+        return true;
+    }
+
+    return await IsOfficialWordRequestOptimized({ word: word, language: language });
+}

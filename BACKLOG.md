@@ -1,6 +1,12 @@
 - Scan the guess. If it is not in the list with official words, try to check if it is weird like xxxaa. Maybe some sort of latin vibe validator?
 
 
+
+
+
+
+- loading states voor button (zet database uit en er komt nergens iets van een response)
+
 MUST
 - multiple languages
 - JWT refresh flow
