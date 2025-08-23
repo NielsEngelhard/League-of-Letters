@@ -8,45 +8,10 @@ import { useSocket } from "@/features/realtime/socket-context";
 import Button from "../ui/Button";
 import LoginModal from "@/features/account/components/LoginModal";
 import { RefreshCw, Clock } from "lucide-react";
-import { useEffect, useState } from "react";
 
 export default function Header() {
-    const { isLoggedIn, account, setShowLoginModal, showLoginModal } = useAuth();
+    const { isLoggedIn, account, setShowLoginModal, showLoginModal, guestSessionTimeRemaining } = useAuth();
     const { connectionStatus } = useSocket();
-    const [timeRemaining, setTimeRemaining] = useState<string>("");
-    const [tokenIsExpired, setTokenIsExpired] = useState(false);
-
-    // Calculate time remaining for token expiration
-    useEffect(() => {
-        if (!account?.tokenExpireUtcDate) return;
-
-        const updateTimeRemaining = () => {
-            if (!account.tokenExpireUtcDate) return;
-
-            const now = new Date();
-            const diffMs = new Date(account.tokenExpireUtcDate).getTime() - now.getTime();
-
-            if (diffMs <= 0) {
-                setTimeRemaining("Expired");
-                setTokenIsExpired(true);
-                return;
-            }
-
-            const hours = Math.floor(diffMs / (1000 * 60 * 60));
-            const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
-
-            if (hours > 0) {
-                setTimeRemaining(`${hours}h ${minutes}m`);
-            } else {
-                setTimeRemaining(`${minutes}m`);
-            }
-        };
-
-        updateTimeRemaining();
-        const interval = setInterval(updateTimeRemaining, 60000 * 5); // Update every 5 minutes
-
-        return () => clearInterval(interval);
-    }, [account?.tokenExpireUtcDate]);
 
     return (
         <header className="w-full h-[60px] fixed top-0 z-50 bg-background-secondary/95 backdrop-blur-sm border-b border-border/50 shadow-sm">
@@ -115,7 +80,7 @@ export default function Header() {
                                             <div className="flex items-center gap-1">
                                                 <Clock className="w-3 h-3" />
                                                 <span className={`font-medium transition-colors duration-200 text-foreground-muted`}>
-                                                    {timeRemaining}
+                                                    {guestSessionTimeRemaining}
                                                 </span>
                                             </div>
                                             <span className="text-foreground-muted/60">•</span>
@@ -133,7 +98,7 @@ export default function Header() {
                             <div className="md:hidden flex items-center gap-1 px-2 py-1 rounded-md bg-background/50">
                                 <Clock className="w-3 h-3" />
                                 <span className={`text-xs font-medium transition-colors duration-200 text-foreground-muted`}>
-                                    {timeRemaining}
+                                    {guestSessionTimeRemaining}
                                 </span>
                             </div>
                         )}

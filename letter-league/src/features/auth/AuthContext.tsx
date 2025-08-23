@@ -27,6 +27,8 @@ type AuthContextType = {
   isLoading: boolean;  
   showLoginModal: boolean;
 
+  guestSessionTimeRemaining: string | null;
+
   logout: () => void;
   login: (data: z.infer<typeof loginSchema>) => Promise<string | undefined>;
   loginWithGuestAccount: () => Promise<string | undefined>;
@@ -40,6 +42,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [account, setAccount] = useState<PublicAccountModel | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [showLoginModal, setShowLoginModal] = useState(false);
+
+    const [guestSessionTimeRemaining, setGuestSessionTimeRemaining] = useState<string | null>(null);
 
   // Initialize account from localStorage on mount
   useEffect(() => {
@@ -56,6 +60,39 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setIsLoading(false);
     }
   }, []);
+
+  // For guest accounts check every 5 minutes if the auth token is still valid and otherwise set guestSessionStillValid to false
+    useEffect(() => {
+        if (account?.isGuest == false || !account?.tokenExpireUtcDate) return;
+
+        const updateTimeRemaining = () => {
+            if (!account.tokenExpireUtcDate) return;
+
+            const now = new Date();
+            const diffMs = new Date(account.tokenExpireUtcDate).getTime() - now.getTime();
+
+            const isExpired: boolean = diffMs <= 0;
+            if (isExpired) {
+                setGuestSessionTimeRemaining("Expired");
+                logout();
+                return;
+            }
+
+            const hours = Math.floor(diffMs / (1000 * 60 * 60));
+            const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+
+            if (hours > 0) {
+                setGuestSessionTimeRemaining(`${hours}h ${minutes}m`);
+            } else {
+                setGuestSessionTimeRemaining(`${minutes}m`);
+            }
+        };
+
+        updateTimeRemaining();
+        const interval = setInterval(updateTimeRemaining, 60000 * 5); // Update every 5 minutes
+
+        return () => clearInterval(interval);
+    }, [account?.tokenExpireUtcDate]);  
 
   const logout = async (): Promise<void> => {
     setIsLoading(true);
@@ -142,7 +179,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       showLoginModal,
       settings: account?.settings ?? DEFAULT_SETTINGS,
       loginWithGuestAccount,
-      setSettingsOnClient
+      setSettingsOnClient,
+      guestSessionTimeRemaining,
     }}>
       {children}
     </AuthContext.Provider>

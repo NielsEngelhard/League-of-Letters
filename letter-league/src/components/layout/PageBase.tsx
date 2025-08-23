@@ -45,7 +45,7 @@ export default function PageBase({ children, size, loadingMessage, requiresAuh =
   return (
         <div className="px-2 my-4 w-full flex flex-col gap-3 items-center mt-[15px] h-full">
             <div className={`flex flex-col w-full gap-2 md:gap-4 ${cn(pageBaseVariants({ size }))}`}>
-                {(!requiresAuh || isLoggedIn) ? (
+                {((!requiresAuh || isLoggedIn))  ? (
                   <>
                     {children}
                   </>
