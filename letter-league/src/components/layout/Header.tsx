@@ -14,7 +14,7 @@ export default function Header() {
     const { isLoggedIn, account, setShowLoginModal, showLoginModal } = useAuth();
     const { connectionStatus } = useSocket();
     const [timeRemaining, setTimeRemaining] = useState<string>("");
-    const [isExpiringSoon, setIsExpiringSoon] = useState(false);
+    const [tokenIsExpired, setTokenIsExpired] = useState(false);
 
     // Calculate time remaining for token expiration
     useEffect(() => {
@@ -28,7 +28,7 @@ export default function Header() {
 
             if (diffMs <= 0) {
                 setTimeRemaining("Expired");
-                setIsExpiringSoon(true);
+                setTokenIsExpired(true);
                 return;
             }
 
@@ -40,9 +40,6 @@ export default function Header() {
             } else {
                 setTimeRemaining(`${minutes}m`);
             }
-
-            // Mark as expiring soon if less than 2 hours
-            setIsExpiringSoon(diffMs < 2 * 60 * 60 * 1000);
         };
 
         updateTimeRemaining();
@@ -117,11 +114,7 @@ export default function Header() {
                                         <>
                                             <div className="flex items-center gap-1">
                                                 <Clock className="w-3 h-3" />
-                                                <span className={`font-medium transition-colors duration-200 ${
-                                                    isExpiringSoon 
-                                                        ? 'text-orange-500 dark:text-orange-400' 
-                                                        : 'text-foreground-muted'
-                                                }`}>
+                                                <span className={`font-medium transition-colors duration-200 text-foreground-muted`}>
                                                     {timeRemaining}
                                                 </span>
                                             </div>
@@ -139,11 +132,7 @@ export default function Header() {
                         {account.isGuest && (
                             <div className="md:hidden flex items-center gap-1 px-2 py-1 rounded-md bg-background/50">
                                 <Clock className="w-3 h-3" />
-                                <span className={`text-xs font-medium transition-colors duration-200 ${
-                                    isExpiringSoon 
-                                        ? 'text-orange-500 dark:text-orange-400' 
-                                        : 'text-foreground-muted'
-                                }`}>
+                                <span className={`text-xs font-medium transition-colors duration-200 text-foreground-muted`}>
                                     {timeRemaining}
                                 </span>
                             </div>

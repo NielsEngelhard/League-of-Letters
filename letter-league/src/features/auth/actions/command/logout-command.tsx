@@ -10,5 +10,5 @@ export async function LogoutCommand(): Promise<void> {
     console.log("REMOVE GUEST USER");
   }
 
-  await JWTService.clearAuthCookie();
+  await JWTService.clearAuthCookies();
 }

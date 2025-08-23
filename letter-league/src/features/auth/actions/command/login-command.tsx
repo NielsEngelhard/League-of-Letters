@@ -28,7 +28,8 @@ export default async function LoginCommand(unsafeData: z.infer<typeof loginSchem
 
     if (!isCorrectPassword) ServerResponseFactory.error("Could not login");
 
-    await JWTService.setAuthCookie({
+    // Set both access token and refresh token cookies
+    await JWTService.setAuthCookies({
       accountId: account.id,
       email: account.email,
       username: account.username,
