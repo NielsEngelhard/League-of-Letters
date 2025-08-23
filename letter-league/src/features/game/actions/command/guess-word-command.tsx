@@ -17,6 +17,7 @@ import { DbOrTransaction } from "@/drizzle/util/transaction-util";
 import { GameMapper } from "../../game-mapper";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import { IsOfficialWordRequestOptimized } from "@/features/word/actions/query/is-offical-word-request";
+import { WordFormatValidator } from "@/features/word/util/word-format-validator/word-format-validator";
 
 export interface GuessWordCommandInput {
     gameId: string;
@@ -223,13 +224,14 @@ async function addScoreForPlayer(player: DbGamePlayer, score: number, tx: DbOrTr
 }
 
 async function GuessIsValidWord(word: string, language: SupportedLanguage): Promise<boolean> {
-    if (process.env.GUESSED_WORD_SHOULD_OCCUR_IN_OFFICAL_WORDS != "true") {
+    if (process.env.VALIDATE_GUESS_INPUTS != "true") {
         return true;
     }
 
-    // TODO: rommel zit er bijvoorbeeld niet in... moet wel kunnen. 
-    // Haal door linter "lijkt op valide woord"
-    // Ja -> OK Nee -> kijk in database
+    // Does it look like a word? Then mark as OK for now because we might not have all words in existence in our database (yet)
+    // const containsToManyVowels = WordFormatValidator.hasTooManyVowels(word);
+    // if (containsToManyVowels == false) return true;
 
+    // Check if word is in the database (last retry if it looks like a 'false word')
     return await IsOfficialWordRequestOptimized({ word: word, language: language });
 }

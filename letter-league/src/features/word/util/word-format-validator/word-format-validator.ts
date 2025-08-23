@@ -23,6 +23,29 @@ export class WordFormatValidator {
         }
 
         return WordFormatResponseFactory.VALID(trimmedWord);
+    }
+
+    /**
+     * Checks if more than 50% of the letters in a word are vowels
+     * @param word - The word to check
+     * @returns true if more than 50% of letters are vowels, false otherwise
+     */
+    static hasTooManyVowels(word: string): boolean {
+    if (!word || word.length === 0) {
+        return false;
+    }
+
+    const vowels = new Set(['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U']);
+    let vowelCount = 0;
+
+    for (const letter of word) {
+        if (vowels.has(letter)) {
+        vowelCount++;
+        }
+    }
+
+    const vowelPercentage = vowelCount / word.length;
+    return vowelPercentage > 0.5;
     }    
 }
 
