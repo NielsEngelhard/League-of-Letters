@@ -2,7 +2,6 @@
 
 MUST
 - multiple languages
-- Automatic cleanup (cronjob?) for guest accounts and "old games"
 - Landing page with explanation
 
 SHOULD

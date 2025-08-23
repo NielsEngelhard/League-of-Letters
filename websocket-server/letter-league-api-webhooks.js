@@ -26,9 +26,14 @@ async function CallWebhook_UpdatePlayerConnectionStatus(gameId, accountId, conne
       accountId: accountId,
       connectionStatus: connectionStatus      
     }); 
-} 
+}
+
+async function CallWebhook_RemoveExpiredRecords() {
+  await CallWebhook("remove-expired-records", {});   
+}
 
 // Export using CommonJS
 module.exports = {
-  CallWebhook_UpdatePlayerConnectionStatus
+  CallWebhook_UpdatePlayerConnectionStatus,
+  CallWebhook_RemoveExpiredRecords
 };

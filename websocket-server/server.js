@@ -1,4 +1,5 @@
 require('dotenv').config();
+const { initializeScheduler } = require('./schedules/removeExpiredDataScheduler');
 
 const express = require('express');
 const { createServer } = require('http');
@@ -35,6 +36,9 @@ app.use('/', httpRoutes);
 io.on('connection', (socket) => {
   socketHandlers(io, socket);
 });
+
+// Schedules (cronjobs)
+initializeScheduler();
 
 // Error handling for the server
 server.on('error', (error) => {

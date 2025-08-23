@@ -17,7 +17,6 @@ import { DbOrTransaction } from "@/drizzle/util/transaction-util";
 import { GameMapper } from "../../game-mapper";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import { IsOfficialWordRequestOptimized } from "@/features/word/actions/query/is-offical-word-request";
-import { WordFormatValidator } from "@/features/word/util/word-format-validator/word-format-validator";
 
 export interface GuessWordCommandInput {
     gameId: string;
