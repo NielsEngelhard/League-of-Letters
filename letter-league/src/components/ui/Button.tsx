@@ -43,14 +43,14 @@ export default function Button({ children, className, variant, size, disable, hr
   
   const classes: string = `${cn(buttonVariants({ variant, size }), className)} ${disable && "!bg-gray-500/50 !cursor-not-allowed"}`;  
   
-  function handleOnClick(): void {
+  async function handleOnClick(): Promise<void> {
     setIsLoading(true);
 
     // Wait for navigation to other page
     if (isNavigationButton) return; 
 
     try {
-      if (onClick) onClick();
+      if (onClick) await onClick();
     } finally {
       setIsLoading(false);
     }

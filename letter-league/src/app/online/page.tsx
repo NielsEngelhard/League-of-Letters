@@ -17,7 +17,7 @@ export default function OnlinePage() {
   const [joinCode, setJoinCode] = useState<string>("");
 
 
-  function onJoinGame() {
+  async function onJoinGame() {
     if (!isValidJoinCode) return;
     router.push(JOIN_GAME_ROUTE(joinCode));
   }
