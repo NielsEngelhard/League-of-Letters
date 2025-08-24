@@ -8,11 +8,11 @@ import Button from "@/components/ui/Button"
 import Icon from "@/components/ui/Icon"
 import { LetterText, Play } from "lucide-react"
 import ErrorText from "@/components/ui/text/ErrorText"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import SwitchInput from "@/components/ui/form/SwitchInput"
 
 interface Props {
-    onSubmit: (data: CreateGameSchema) => void;
+    onSubmit: (data: CreateGameSchema) => Promise<void> | void;
     submitDisabled?: boolean;
     onLeaveGame?: () => void;
     players?: CreateGamePlayerSchema[];
@@ -21,6 +21,7 @@ interface Props {
 }
 
 export default function CreateGameForm({ onSubmit, onLeaveGame, submitDisabled = false, players, gameMode = "solo", gameId }: Props) {
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const form = useForm<CreateGameSchema>({
       resolver: zodResolver(createGameSchema),
@@ -41,8 +42,18 @@ export default function CreateGameForm({ onSubmit, onLeaveGame, submitDisabled =
         form.setValue("players", players);
     }, [players, form]);
 
+    const handleFormSubmit = async (data: CreateGameSchema) => {
+        setIsSubmitting(true);
+
+        try {
+            await onSubmit(data);
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
+
     return (
-        <form className="flex flex-col gap-3" onSubmit={form.handleSubmit(onSubmit)}>
+        <form className="flex flex-col gap-3" onSubmit={form.handleSubmit(handleFormSubmit)}>
             <SelectDropdown
                 name="wordLength"
                 control={form.control}
@@ -109,7 +120,13 @@ export default function CreateGameForm({ onSubmit, onLeaveGame, submitDisabled =
             </div>
 
             <div>
-                <Button variant="primary" type="submit" disable={submitDisabled} className="w-full">
+                <Button 
+                    variant="primary" 
+                    type="submit" 
+                    disable={submitDisabled} 
+                    isLoadingExternal={isSubmitting}
+                    className="w-full"
+                >
                     <div className="flex items-center gap-1">
                         <Icon LucideIcon={Play} size="sm" /> Start Game
                     </div>

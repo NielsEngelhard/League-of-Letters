@@ -7,10 +7,12 @@ import LoadingSpinner from "./animation/LoadingSpinner";
 export interface Props extends VariantProps<typeof buttonVariants> {
     children: React.ReactNode;
     href?: string;
-    onClick?: () => void;
+    onClick?: () => void | Promise<void>; // Allow async onClick
+    onSubmit?: (e: React.FormEvent) => void | Promise<void>; // For submit buttons
     className?: string;
     disable?: boolean;
     soundOnClick?: boolean;
+    isLoadingExternal?: boolean;
     type?: "button" | "reset" | "submit";
 }
 
@@ -37,56 +39,63 @@ const buttonVariants = cva(
   }
 )
 
-export default function Button({ children, className, variant, size, disable, href, onClick, type = "button" }: Props) {
+export default function Button({ 
+  children, 
+  className, 
+  variant, 
+  size, 
+  disable, 
+  href, 
+  onClick, 
+  type = "button",
+  isLoadingExternal = false 
+}: Props) {
   const isNavigationButton: boolean = (href != null && href != undefined && href != "");
   const [isLoading, setIsLoading] = useState(false);
-  
-  const classes: string = `${cn(buttonVariants({ variant, size }), className)} ${disable && "!bg-gray-500/50 !cursor-not-allowed"}`;  
-  
+     
+  const classes: string = `${cn(buttonVariants({ variant, size }), className)} ${disable && "!bg-gray-500/50 !cursor-not-allowed"}`;
+       
   async function handleOnClick(): Promise<void> {
+    // Don't handle loading for navigation buttons
+    if (isNavigationButton) return;
+    
     setIsLoading(true);
-
-    // Wait for navigation to other page
-    if (isNavigationButton) return; 
-
+      
     try {
-      if (onClick) await onClick();
+      if (onClick) {
+        await onClick(); // Wait for onClick to complete (whether sync or async)
+      }
     } finally {
       setIsLoading(false);
     }
   }
-
-  if (isLoading) {
-    return (
-      <button className={classes} disabled={true}>
-        <LoadingSpinner color="background" />
-      </button>
-    )
-  }
-
+   
   // Button that is route to another page
   if (href && isNavigationButton) {
     return (
-      <Link href={href} type="button" className="w-full">
-          <button className={classes} disabled={disable}>
-            {isLoading ? (
-              <><LoadingSpinner color="background" /></>
-            ) : (
-              <>{children}</>
-            )}
-          </button>
-      </Link>      
+      <Link href={href} className="w-full">
+        <button className={classes} disabled={disable} type="button">
+          {children}
+        </button>
+      </Link>
     )
   }
-
+   
   // Button with javascript action on click
   return (
-        <button className={classes} disabled={disable || isLoading} type={type} onClick={handleOnClick}>
-            {isLoading ? (
-              <><LoadingSpinner color="background" /></>
-            ) : (
-              <>{children}</>
-            )}
-        </button>
-    )
+    <button 
+      className={classes} 
+      disabled={disable || isLoading} 
+      type={type} 
+      onClick={handleOnClick}
+    >
+      <div className="flex items-center justify-center min-w-0 min-h-[1lh]">
+        {(isLoading || isLoadingExternal) ? (
+          <LoadingSpinner color="background" />
+        ) : (
+          children
+        )}
+      </div>
+    </button>
+  )
 }
