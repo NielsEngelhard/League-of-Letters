@@ -1,54 +1,72 @@
 import { APP_NAME } from "@/app/global-constants";
-import Card from "../ui/card/Card";
-import { CardContent, CardHeader, CardTitle } from "../ui/card/card-children";
 
 export default function WhatIsBlock() {
+    const uspCards = [
+        {
+            title: "Strategic Gameplay",
+            description: "Think beyond guessing. Every move is a calculated decision in this mind-bending word challenge.",
+            icon: "🧠",
+            gradient: "from-primary to-primary/60"
+        },
+        {
+            title: "Social Competition",
+            description: "Battle friends or climb global leaderboards. Turn vocabulary into victory.",
+            icon: "⚡",
+            gradient: "from-secondary to-secondary/60"
+        },
+        {
+            title: "Endless Challenge",
+            description: "Push your linguistic limits with puzzles that adapt and evolve with your skills.",
+            icon: "🎯",
+            gradient: "from-accent to-accent/60"
+        }
+    ];
+
     return (
-        <div className="text-center space-y-12">
-            <Card className="group hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border-border shadow-xl bg-gradient-to-br from-background to-background-secondary">
-                <CardHeader className="pb-6">
-                    <CardTitle className="text-3xl font-black bg-gradient-to-r from-foreground to-foreground-muted bg-clip-text text-transparent">
-                        What is {APP_NAME}?
-                    </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-6 text-lg leading-relaxed">
-                    <p className="text-2xl font-bold bg-gradient-to-r from-secondary to-primary bg-clip-text text-transparent">
-                        The word-guessing game that'll crack your brain before you crack the code
-                    </p>
-                    
-                    <div className="grid md:grid-cols-2 gap-8 pt-6">
-                        <div className="space-y-4">
-                            <div className="flex items-center gap-3">
-                                <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
-                                <p className="text-foreground">
-                                    Modern word-guessing experience with strategic thinking
-                                </p>
-                            </div>
-                            <div className="flex items-center gap-3">
-                                <div className="w-2 h-2 bg-secondary rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
-                                <p className="text-foreground">
-                                    Challenge yourself with linguistic intuition puzzles
-                                </p>
-                            </div>
-                        </div>
+        <div className="space-y-12">
+            {/* Header */}
+            <div className="text-center space-y-4">
+                <h2 className="text-3xl md:text-4xl font-black bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
+                    Why {APP_NAME}?
+                </h2>
+                <p className="text-lg text-foreground/70 max-w-2xl mx-auto">
+                    The word-guessing game that'll crack your brain before you crack the code
+                </p>
+            </div>
+
+            {/* USP Cards Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {uspCards.map((card, index) => (
+                    <div 
+                        key={index}
+                        className="group relative p-8 rounded-2xl border border-border/50 hover:border-primary/30 bg-gradient-to-br from-background to-background-secondary hover:shadow-2xl hover:-translate-y-2 transition-all duration-500"
+                    >
+                        {/* Background glow effect */}
+                        <div className={`absolute inset-0 bg-gradient-to-br ${card.gradient} opacity-0 group-hover:opacity-5 rounded-2xl transition-opacity duration-500`} />
                         
-                        <div className="space-y-4">
-                            <div className="flex items-center gap-3">
-                                <div className="w-2 h-2 bg-accent rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
-                                <p className="text-foreground">
-                                    Play solo or battle friends online
-                                </p>
+                        {/* Content */}
+                        <div className="relative z-10 text-center space-y-4">
+                            {/* Icon */}
+                            <div className="text-4xl mb-4 transform group-hover:scale-110 transition-transform duration-300">
+                                {card.icon}
                             </div>
-                            <div className="flex items-center gap-3">
-                                <div className="w-2 h-2 bg-success rounded-full animate-pulse" style={{ animationDelay: '1.5s' }}></div>
-                                <p className="text-foreground">
-                                    Push your vocabulary to its absolute limits
-                                </p>
-                            </div>
+                            
+                            {/* Title */}
+                            <h3 className={`text-xl font-bold bg-gradient-to-r ${card.gradient} bg-clip-text text-transparent`}>
+                                {card.title}
+                            </h3>
+                            
+                            {/* Description */}
+                            <p className="text-foreground/80 leading-relaxed text-sm">
+                                {card.description}
+                            </p>
                         </div>
+
+                        {/* Subtle bottom accent */}
+                        <div className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 w-12 h-px bg-gradient-to-r ${card.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
                     </div>
-                </CardContent>
-            </Card>
+                ))}
+            </div>
         </div>        
     )
 }
