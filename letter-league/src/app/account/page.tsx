@@ -4,7 +4,7 @@ import PageBase from "@/components/layout/PageBase";
 import Button from "@/components/ui/Button";
 import { useAuth } from "@/features/auth/AuthContext"
 import { useRouter } from "next/navigation";
-import { PICK_GAME_MODE_ROUTE } from "../routes";
+import { HOME_ROUTE, PICK_GAME_MODE_ROUTE } from "../routes";
 import AccountCard from "@/features/account/components/AccountCard";
 import SettingsCard from "@/features/account/components/SettingsCard";
 import { LogOut } from "lucide-react";
@@ -15,7 +15,7 @@ export default function AccountPage() {
 
     function onLogout() {
         logout();
-        router.push(PICK_GAME_MODE_ROUTE);
+        router.push(HOME_ROUTE);
     }
 
     return (

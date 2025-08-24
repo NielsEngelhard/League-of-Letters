@@ -1,5 +1,5 @@
 "use client"
-import { PICK_GAME_MODE_ROUTE, PROFILE_ROUTE, RECONNECT_ROUTE } from "@/app/routes";
+import { HOME_ROUTE, PICK_GAME_MODE_ROUTE, PROFILE_ROUTE, RECONNECT_ROUTE } from "@/app/routes";
 import { useAuth } from "@/features/auth/AuthContext"
 import Link from "next/link";
 import WebSocketStatusIndicator from "./WebSocketStatusIndicator";
@@ -19,7 +19,7 @@ export default function Header() {
                 {/* Left - Logo & Status */}
                 <div className="flex flex-row items-center gap-3">
                     <Link 
-                        href={PICK_GAME_MODE_ROUTE}
+                        href={account ? PICK_GAME_MODE_ROUTE : HOME_ROUTE}
                         className="group flex items-center transition-all duration-200"
                     >
                         <div className="relative">

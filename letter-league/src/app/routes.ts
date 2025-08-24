@@ -1,4 +1,5 @@
-export const PICK_GAME_MODE_ROUTE = "/";
+export const HOME_ROUTE = "/";
+export const PICK_GAME_MODE_ROUTE = "/game-mode";
 export const SOLO_GAME_ROUTE = "/solo";
 export const MULTIPLAYER_GAME_ROUTE = "/online";
 export const CREATE_MULTIPLAYER_GAME_ROUTE = "/online/create";

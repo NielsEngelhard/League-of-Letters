@@ -1,48 +1,49 @@
 "use client"
 
-import PageBase from "@/components/layout/PageBase";
-import PageIntro from "@/components/ui/block/PageIntro";
-import GameModeCard from "@/features/game/components/GameModeCard";
-import { User, Users } from "lucide-react";
-import { MULTIPLAYER_GAME_ROUTE, SOLO_GAME_ROUTE } from "./routes";
-import ReconnectGamesOverview from "@/features/game/components/ReconnectGamesOverview";
+import PageBase from "@/components/layout/PageBase"
+import { APP_NAME } from "./global-constants"
+import Card from "@/components/ui/card/Card";
+import { CardContent } from "@/components/ui/card/card-children";
+import Button from "@/components/ui/Button";
+import { supportedLanguages } from "@/features/i18n/languages";
+import HeroBlock from "@/components/ui/block/HeroBlock";
+import WhatIsBlock from "@/components/general/WhatIsBlock";
+import WordsPlayingBlock from "@/components/general/WordsPlayingBlock";
+import WordCountPerLanguageBlock from "@/components/general/WordCountPerLanguageBlock";
+import { PICK_GAME_MODE_ROUTE } from "./routes";
 
-export default function HomePage() {
-  return (
-    <PageBase requiresAuh={false}>
-      <PageIntro
-        title="Letter-League"
-        subText="A cheeky game of wordplay"
-        titleColor="gradient"
-        titleSize="lg">
-      </PageIntro>
+export default function AboutPage() {
+    return (
+        <PageBase requiresAuh={false}>
+            <div className="flex flex-col gap-16 items-center pt-20 px-4 text-center">
 
-      <ReconnectGamesOverview />
+                <HeroBlock title={APP_NAME}>
+                    <div className="space-y-2">
+                        <p className="text-2xl md:text-3xl font-bold text-foreground tracking-tight">
+                            Come play a cheeky game of 
+                            <span className="bg-gradient-to-r from-secondary to-primary bg-clip-text text-transparent"> word play!</span>
+                        </p>
+                        <p className="text-lg md:text-xl text-foreground-muted font-medium">
+                            Ready to <span className="line-through opacity-60">destroy your confidence</span> 
+                            <span className="text-success font-bold"> level up your skills?</span>
+                        </p>
+                    </div>
+                </HeroBlock>
 
-      <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
-        <GameModeCard
-          title="Solo Mode"
-          subTxt="Play a peacefull game at your own pace"
-          btnTxt="Play Solo"
-          href={SOLO_GAME_ROUTE}
-          Icon={User}
-          variant="primaryGradient"
-        />
-        
-        <GameModeCard
-          title="Multiplayer"
-          subTxt="Prove you’re the sharpest mind in the room" 
-          btnTxt="Play Online"
-          href={MULTIPLAYER_GAME_ROUTE}
-          Icon={Users}
-          variant="secondaryGradient"
-        />        
-      </div>
+                <div className="flex justify-center">
+                    <Button variant="primaryFade" size="lg" href={PICK_GAME_MODE_ROUTE}>
+                        <span className="">
+                            🎮 Play Now!
+                        </span>
+                    </Button>                    
+                </div>
 
-      <div className="text-center text-sm text-foreground-muted">
-        Choose a game mode. Do you want to play with other players, or alone?
-      </div>
+                <WordsPlayingBlock />
 
-    </PageBase>
-  )
+                <WhatIsBlock />
+
+                <WordCountPerLanguageBlock />
+            </div>
+        </PageBase>
+    )
 }
