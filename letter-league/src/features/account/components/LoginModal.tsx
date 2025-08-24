@@ -7,6 +7,8 @@ import { useState } from "react";
 import LoginForm from "./LoginForm";
 import SignUpForm from "./SignUpForm";
 import { useAuth } from "@/features/auth/AuthContext";
+import { useRouter } from "next/navigation";
+import { PICK_GAME_MODE_ROUTE } from "@/app/routes";
 
 interface Props {
 
@@ -15,9 +17,11 @@ interface Props {
 export default function LoginModal({}: Props) {
     const [onLoginSection, setOnLoginSection] = useState(true);
     const { setShowLoginModal, loginWithGuestAccount } = useAuth();
+    const router = useRouter();
 
     async function onContinueAsGuest () {
         await loginWithGuestAccount();
+        router.push(PICK_GAME_MODE_ROUTE);
     }
 
     return (

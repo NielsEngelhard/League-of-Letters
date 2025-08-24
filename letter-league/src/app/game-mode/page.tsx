@@ -4,8 +4,9 @@ import PageBase from "@/components/layout/PageBase";
 import PageIntro from "@/components/ui/block/PageIntro";
 import GameModeCard from "@/features/game/components/GameModeCard";
 import { User, Users } from "lucide-react";
-import { MULTIPLAYER_GAME_ROUTE, SOLO_GAME_ROUTE } from "../routes";
+import { HOME_ROUTE, MULTIPLAYER_GAME_ROUTE, SCORE_ROUTE, SOLO_GAME_ROUTE } from "../routes";
 import ReconnectGamesOverview from "@/features/game/components/ReconnectGamesOverview";
+import Link from "next/link";
 
 export default function HomePage() {
   return (
@@ -40,7 +41,7 @@ export default function HomePage() {
       </div>
 
       <div className="text-center text-sm text-foreground-muted">
-        Choose a game mode. Do you want to play with other players, or alone?
+        Curious about how the <span className="font-bold underline">score system</span> works? <Link href={SCORE_ROUTE} className="font-bold underline text-primary">Click here!</Link>
       </div>
 
     </PageBase>

@@ -1,6 +1,6 @@
 MUST
+feedback login flow
 - multiple languages
-- Landing page with explanation
 
 SHOULD
 - Support words with umlauts, but should parse them as normale words Ä = A (when cleaning and adding to database) - maybe save them with the umlaut and treat them the same when validating

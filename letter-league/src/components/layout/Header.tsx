@@ -7,7 +7,7 @@ import RealtimeStatusIndicator from "@/features/realtime/RealtimeStatusIndicator
 import { useSocket } from "@/features/realtime/socket-context";
 import Button from "../ui/Button";
 import LoginModal from "@/features/account/components/LoginModal";
-import { RefreshCw, Clock } from "lucide-react";
+import { RefreshCw, Clock, User } from "lucide-react";
 
 export default function Header() {
     const { isLoggedIn, account, setShowLoginModal, showLoginModal, guestSessionTimeRemaining } = useAuth();
@@ -36,75 +36,68 @@ export default function Header() {
 
                 {/* Right - User Section */}
                 {isLoggedIn && account ? (
-                    <div className="flex flex-row items-center gap-3">
-                        {/* Reconnect Button */}
-                        <Button
+                    <div className="flex items-center gap-2">
+                        {/* Reconnect Button - Minimized */}
+                        <Link
                             href={RECONNECT_ROUTE}
-                            variant="skeleton" 
-                            size="sm" 
-                            className="flex items-center gap-2 text-foreground-muted hover:text-foreground transition-colors duration-200"
+                            className="group relative flex items-center justify-center w-8 h-8 rounded-full hover:bg-background/60 transition-all duration-200"
+                            title="Reconnect"
                         >
-                            <RefreshCw className="w-4 h-4" />
-                            <span className="hidden sm:inline">Reconnect</span>
-                        </Button>
+                            <RefreshCw className="w-4 h-4 text-foreground-muted group-hover:text-foreground transition-colors duration-200" />
+                        </Link>
 
-                        {/* Profile Section */}
+                        {/* Guest Session Timer - Compact */}
+                        {account.isGuest && (
+                            <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-background/40 border border-border/30">
+                                <Clock className="w-3 h-3 text-foreground-muted" />
+                                <span className="text-xs font-medium text-foreground-muted">
+                                    {guestSessionTimeRemaining}
+                                </span>
+                            </div>
+                        )}
+
+                        {/* Profile Section - Redesigned */}
                         <Link 
                             href={PROFILE_ROUTE} 
-                            className="group flex items-center gap-3 p-2 rounded-lg hover:bg-background/50 transition-all duration-200"
+                            className="group flex items-center gap-2.5 pl-2 pr-3 py-1.5 rounded-full hover:bg-background/50 transition-all duration-200 border border-transparent hover:border-border/30"
                         >
-                            {/* User Avatar */}
+                            {/* User Avatar with Status */}
                             <div className="relative">
-                                <div className="w-9 h-9 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center shadow-sm group-hover:shadow-md transition-all duration-200">
-                                    <span className="text-foreground text-sm font-bold">
+                                <div className="w-7 h-7 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center shadow-sm group-hover:shadow-md transition-all duration-200 group-hover:scale-105">
+                                    <span className="text-background text-xs font-bold">
                                         {account.username.charAt(0).toUpperCase()}
                                     </span>
                                 </div>
-                                {/* Online indicator */}
+                                {/* Minimal status indicator */}
                                 {connectionStatus !== "empty" && (
-                                    <div className="absolute -bottom-0.5 -right-0.5 border-background border-2 rounded-full">
+                                    <div className="absolute -bottom-0.5 -right-0.5">
                                         <RealtimeStatusIndicator status={connectionStatus} showDot={true} showIcon={false} showLabel={false} />
                                     </div>                                
                                 )}
                             </div>
 
-                            {/* User Info - Hidden on mobile */}
-                            <div className="hidden md:flex flex-col">
-                                <div className="text-sm font-semibold text-foreground/90 group-hover:text-foreground transition-colors duration-200">
+                            {/* User Info - Clean Layout */}
+                            <div className="hidden sm:flex flex-col min-w-0">
+                                <div className="text-sm font-medium text-foreground/90 group-hover:text-foreground transition-colors duration-200 truncate">
                                     {account.username}
                                 </div>
-                                <div className="flex items-center gap-1.5 text-xs">
-                                    {account.isGuest ? (
-                                        <>
-                                            <div className="flex items-center gap-1">
-                                                <Clock className="w-3 h-3" />
-                                                <span className={`font-medium transition-colors duration-200 text-foreground-muted`}>
-                                                    {guestSessionTimeRemaining}
-                                                </span>
-                                            </div>
-                                            <span className="text-foreground-muted/60">•</span>
-                                            <span className="text-foreground-muted font-medium">Guest</span>
-                                        </>
-                                    ) : (
-                                        <span className="text-foreground-muted font-medium">User</span>
-                                    )}
-                                </div>
+                      
+                                {account.isGuest && (
+                                    <div className="flex items-center gap-1">
+                                        <span className="text-xs text-foreground-muted/80">Guest Session</span>
+                                    </div>
+                                )}
                             </div>
                         </Link>
-
-                        {/* Mobile Token Expiration Indicator */}
-                        {account.isGuest && (
-                            <div className="md:hidden flex items-center gap-1 px-2 py-1 rounded-md bg-background/50">
-                                <Clock className="w-3 h-3" />
-                                <span className={`text-xs font-medium transition-colors duration-200 text-foreground-muted`}>
-                                    {guestSessionTimeRemaining}
-                                </span>
-                            </div>
-                        )}
                     </div>
                 ) : (
-                    /* When unauthenticated */
-                    <Button variant="primary" size="sm" onClick={() => setShowLoginModal(true)}>
+                    /* When unauthenticated - Enhanced */
+                    <Button 
+                        variant="primary" 
+                        size="sm" 
+                        onClick={() => setShowLoginModal(true)}
+                        className="px-6 py-2 font-medium shadow-sm hover:shadow-md transition-all duration-200"
+                    >
                         Play
                     </Button>
                 )}

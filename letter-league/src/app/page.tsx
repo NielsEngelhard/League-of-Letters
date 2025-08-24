@@ -11,6 +11,7 @@ import WhatIsBlock from "@/components/general/WhatIsBlock";
 import WordsPlayingBlock from "@/components/general/WordsPlayingBlock";
 import WordCountPerLanguageBlock from "@/components/general/WordCountPerLanguageBlock";
 import { PICK_GAME_MODE_ROUTE } from "./routes";
+import ScoreBlock from "@/features/score/ScoreBlock";
 
 export default function AboutPage() {
     return (
@@ -43,6 +44,8 @@ export default function AboutPage() {
                 <WhatIsBlock />
 
                 <WordCountPerLanguageBlock />
+
+                <ScoreBlock></ScoreBlock>
             </div>
         </PageBase>
     )

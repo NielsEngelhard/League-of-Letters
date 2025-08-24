@@ -1,7 +1,7 @@
 "use client"
 
 import { APP_NAME } from "@/app/global-constants";
-import { HEALTH_CHECK_ROUTE, PICK_GAME_MODE_ROUTE, PRIVACY_POLICY_ROUTE, TERMS_OF_SERVICE_ROUTE } from "@/app/routes";
+import { HEALTH_CHECK_ROUTE, HOME_ROUTE, PICK_GAME_MODE_ROUTE, PRIVACY_POLICY_ROUTE, TERMS_OF_SERVICE_ROUTE } from "@/app/routes";
 import Link from "next/link";
 
 export default function Footer() {
@@ -57,6 +57,12 @@ export default function Footer() {
                         by Niels Engelhard
                     </div>
                     <div className="flex items-center gap-4">
+                        <Link 
+                            href={HOME_ROUTE} 
+                            className="text-xs text-foreground-muted transition-colors duration-200"
+                        >
+                            Home
+                        </Link>                          
                         <Link 
                             href={HEALTH_CHECK_ROUTE} 
                             className="text-xs text-foreground-muted transition-colors duration-200"
