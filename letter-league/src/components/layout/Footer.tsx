@@ -1,11 +1,10 @@
 "use client"
 
 import { APP_NAME } from "@/app/global-constants";
-import { PICK_GAME_MODE_ROUTE, PRIVACY_POLICY_ROUTE, TERMS_OF_SERVICE_ROUTE } from "@/app/routes";
+import { HEALTH_CHECK_ROUTE, PICK_GAME_MODE_ROUTE, PRIVACY_POLICY_ROUTE, TERMS_OF_SERVICE_ROUTE } from "@/app/routes";
 import Link from "next/link";
 
 export default function Footer() {
-    const currentYear = new Date().getFullYear();
 
     return (
         <footer className="w-full bg-background-secondary border-t-2 border-border mt-auto">
@@ -55,18 +54,24 @@ export default function Footer() {
                 {/* Bottom - Copyright & Legal */}
                 <div className="flex flex-col sm:flex-row items-center justify-between gap-2 pt-4 mt-4 border-t border-gray-200">
                     <div className="text-xs text-gray-500">
-                        {currentYear} by Turing Solutions 
+                        by Niels Engelhard
                     </div>
                     <div className="flex items-center gap-4">
                         <Link 
+                            href={HEALTH_CHECK_ROUTE} 
+                            className="text-xs text-foreground-muted transition-colors duration-200"
+                        >
+                            Health Check
+                        </Link>                        
+                        <Link 
                             href={PRIVACY_POLICY_ROUTE} 
-                            className="text-xs text-gray-500 hover:text-gray-700 transition-colors duration-200"
+                            className="text-xs text-foreground-muted transition-colors duration-200"
                         >
                             Privacy Policy
                         </Link>
                         <Link 
                             href={TERMS_OF_SERVICE_ROUTE}
-                            className="text-xs text-gray-500 hover:text-gray-700 transition-colors duration-200"
+                            className="text-xs text-foreground-muted transition-colors duration-200"
                         >
                             Terms of Service
                         </Link>

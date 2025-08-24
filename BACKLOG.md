@@ -1,5 +1,3 @@
-- loading states voor button (zet database uit en er komt nergens iets van een response)
-
 MUST
 - multiple languages
 - Landing page with explanation

@@ -3,7 +3,7 @@
 import { db } from "@/drizzle/db";
 import { EvaluatedWord } from "@/features/word/word-models";
 import { RoundTransitionData } from "../../game-models";
-import { GamePlayerTable, GameRoundTable, ActiveGameTable, DbActiveGame, DbGamePlayer, DbGameRound, DbActiveGameWithRoundsAndPlayers, GameMode } from "@/drizzle/schema";
+import { GamePlayerTable, GameRoundTable, ActiveGameTable, DbActiveGame, DbGamePlayer, DbGameRound, DbActiveGameWithRoundsAndPlayers } from "@/drizzle/schema";
 import { DetailedValidationResult, WordValidator } from "@/features/word/util/word-validator/word-validator";
 import DeleteGameByIdCommand from "./delete-game-by-id-command";
 import { and, eq } from "drizzle-orm";
@@ -227,10 +227,5 @@ async function GuessIsValidWord(word: string, language: SupportedLanguage): Prom
         return true;
     }
 
-    // Does it look like a word? Then mark as OK for now because we might not have all words in existence in our database (yet)
-    // const containsToManyVowels = WordFormatValidator.hasTooManyVowels(word);
-    // if (containsToManyVowels == false) return true;
-
-    // Check if word is in the database (last retry if it looks like a 'false word')
     return await IsOfficialWordRequestOptimized({ word: word, language: language });
 }

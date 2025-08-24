@@ -7,6 +7,7 @@ export const RECONNECT_ROUTE = "/reconnect";
 
 export const PRIVACY_POLICY_ROUTE = "/privacy-policy";
 export const TERMS_OF_SERVICE_ROUTE = "/terms-of-service";
+export const HEALTH_CHECK_ROUTE = "/healthcheck";
 
 export const PLAY_GAME_ROUTE = (gameId: string): string => {
     return `/game/${gameId}`;
