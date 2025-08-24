@@ -7,6 +7,7 @@ import { Providers } from "@/components/layout/GlobalProviders";
 import { APP_NAME } from "./global-constants";
 import Footer from "@/components/layout/Footer";
 import HeaderMessageBar from "@/components/layout/HeaderMessageBar";
+import GlobalLoadingIndicator from "@/components/layout/GlobalLoadingIndicator";
 
 const inter = localFont({
   src: [
@@ -137,6 +138,7 @@ export default function RootLayout({
         className={`${inter.variable} antialiased min-h-screen justify-between flex flex-col`}
       >
         <Providers>
+          <GlobalLoadingIndicator />
           <Header />
           <div className="mt-[60px]">
             <HeaderMessageBar />
