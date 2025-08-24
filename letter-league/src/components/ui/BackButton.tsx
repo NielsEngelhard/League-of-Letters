@@ -9,15 +9,14 @@ interface Props {
 
 export default function BackButton({ href, text = "Back" }: Props) {
     return (
-        <Link href={href}>
-            <Button
-                size="sm"
-                variant="skeleton">
-                <div className="flex gap-1 items-center">
-                    <ArrowBigLeft size={16} />
-                    {text}
-                </div>
-            </Button>                    
-        </Link>        
+        <Button
+            href={href}
+            size="sm"
+            variant="skeleton">
+            <div className="flex gap-1 items-center">
+                <ArrowBigLeft size={16} />
+                {text}
+            </div>
+        </Button>        
     )
 }

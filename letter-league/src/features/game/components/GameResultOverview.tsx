@@ -81,11 +81,9 @@ export default function GameResultOverview({ players }: Props) {
 
                     {/* Action buttons with enhanced styling */}
                     <div className="flex flex-col sm:flex-row gap-3 w-full mt-4">
-                        <Link href={PICK_GAME_MODE_ROUTE} className="flex-1">
-                            <Button variant='skeleton' className="w-full">
-                                Leave Game
-                            </Button>                    
-                        </Link>
+                        <Button variant='skeleton' className="w-full flex-1" href={PICK_GAME_MODE_ROUTE}>
+                            Leave Game
+                        </Button>  
                         <Button className="flex-1" variant='primary' onClick={onPlayAgain}>
                             Play Again
                         </Button>

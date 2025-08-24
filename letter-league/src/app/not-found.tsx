@@ -25,11 +25,9 @@ export default function NotFound() {
 
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <Link href={PICK_GAME_MODE_ROUTE} className='w-full'>
-            <Button size="lg">
-                PLAY
-            </Button>
-          </Link>
+            <Button size="lg" href={PICK_GAME_MODE_ROUTE}>
+                Take me back
+            </Button>          
         </div>
       </div>
     </PageBase>

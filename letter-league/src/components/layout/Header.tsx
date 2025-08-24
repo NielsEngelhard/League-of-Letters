@@ -38,16 +38,15 @@ export default function Header() {
                 {isLoggedIn && account ? (
                     <div className="flex flex-row items-center gap-3">
                         {/* Reconnect Button */}
-                        <Link href={RECONNECT_ROUTE}>
-                            <Button 
-                                variant="skeleton" 
-                                size="sm" 
-                                className="flex items-center gap-2 text-foreground-muted hover:text-foreground transition-colors duration-200"
-                            >
-                                <RefreshCw className="w-4 h-4" />
-                                <span className="hidden sm:inline">Reconnect</span>
-                            </Button>
-                        </Link>
+                        <Button
+                            href={RECONNECT_ROUTE}
+                            variant="skeleton" 
+                            size="sm" 
+                            className="flex items-center gap-2 text-foreground-muted hover:text-foreground transition-colors duration-200"
+                        >
+                            <RefreshCw className="w-4 h-4" />
+                            <span className="hidden sm:inline">Reconnect</span>
+                        </Button>
 
                         {/* Profile Section */}
                         <Link 

@@ -47,12 +47,10 @@ export default function GameTeaserCard({ teaser }: Props) {
                         {timeAgo(teaser.createdAt)} ago
                     </span>
 
-                    <Link href={PLAY_GAME_ROUTE(teaser.id)}>
-                        <Button variant="secondary" size="sm">
-                            <Play className="w-4 h-4" />
-                            Reconnect
-                        </Button>                    
-                    </Link>
+                    <Button variant="secondary" size="sm" href={PLAY_GAME_ROUTE(teaser.id)}>
+                        <Play className="w-4 h-4" />
+                        Reconnect
+                    </Button>                    
                 </div>
             </div>
         </Card>
