@@ -22,8 +22,20 @@ export class WordFormatValidator {
            return WordFormatResponseFactory.INVALID(trimmedWord)
         }
 
+        // Is not a roman number
+        const isRomanNumber = this.isRomanNumeral(trimmedWord);
+        if (isRomanNumber) {
+            return WordFormatResponseFactory.INVALID(trimmedWord)
+        }
+
         return WordFormatResponseFactory.VALID(trimmedWord);
     }
+
+    static isRomanNumeral(str: string): boolean {
+        // Regex for valid Roman numerals (up to 3999)
+        const romanRegex = /^(M{0,3})(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$/i;
+        return romanRegex.test(str);
+    }    
 
     /**
      * Checks if more than 50% of the letters in a word are vowels

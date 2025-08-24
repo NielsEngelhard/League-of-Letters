@@ -1,7 +1,7 @@
 import { cleanWordList } from "./clean-word-list";
 
-const FILE_INPUT_PATH = "./public/word-lists/nl/temp/set6.txt";
-const FILE_OUTPUT_PATH = "./public/word-lists/nl/cleaned-set6.txt";
+const FILE_INPUT_PATH = "./public/word-lists/nl/unclean-list.txt";
+const FILE_OUTPUT_PATH = "./public/word-lists/nl/nl-clean-words-complete.txt";
 
 // Clean a txt file with words on each row (create new file with words that are valid)
 async function cleanWordLists() {
