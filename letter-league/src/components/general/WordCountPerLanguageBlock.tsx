@@ -4,10 +4,6 @@ import { CardContent } from "../ui/card/card-children";
 import { GetLanguageStyle } from "@/features/language/LanguageStyles";
 
 export default function WordCountPerLanguageBlock() {
-    const wordsPerLanguage: Map<SupportedLanguage, string> = new Map();
-    
-    wordsPerLanguage.set("nl", "400.000+");
-
     function LanguageCard(language: SupportedLanguage) {
         const languageData = GetLanguageStyle(language);
         
@@ -24,7 +20,7 @@ export default function WordCountPerLanguageBlock() {
 
                         <div className="space-y-2 text-center">
                             <div className="text-2xl text-primary font-bold">
-                                {wordsPerLanguage.get(language)}
+                                {languageData.uniqueWords}
                             </div>
                             <div className="text-sm font-semibold text-foreground-muted tracking-wide uppercase">
                                 Unique Words

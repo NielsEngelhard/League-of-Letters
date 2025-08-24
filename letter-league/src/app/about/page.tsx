@@ -10,6 +10,7 @@ import HeroBlock from "@/components/ui/block/HeroBlock";
 import WhatIsBlock from "@/components/general/WhatIsBlock";
 import WordsPlayingBlock from "@/components/general/WordsPlayingBlock";
 import WordCountPerLanguageBlock from "@/components/general/WordCountPerLanguageBlock";
+import { PICK_GAME_MODE_ROUTE } from "../routes";
 
 export default function AboutPage() {
     return (
@@ -29,11 +30,13 @@ export default function AboutPage() {
                     </div>
                 </HeroBlock>
 
-                <Button variant="primaryFade" size="lg">
-                    <span className="">
-                        🎮 Play for Free!
-                    </span>
-                </Button>
+                <div className="flex justify-center">
+                    <Button variant="primaryFade" size="lg" href={PICK_GAME_MODE_ROUTE}>
+                        <span className="">
+                            🎮 Play Now!
+                        </span>
+                    </Button>                    
+                </div>
 
                 <WordsPlayingBlock />
 

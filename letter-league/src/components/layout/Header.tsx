@@ -105,7 +105,7 @@ export default function Header() {
                 ) : (
                     /* When unauthenticated */
                     <Button variant="primary" size="sm" onClick={() => setShowLoginModal(true)}>
-                        Login
+                        Play
                     </Button>
                 )}
             </div>

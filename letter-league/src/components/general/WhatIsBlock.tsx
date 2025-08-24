@@ -3,21 +3,21 @@ import { APP_NAME } from "@/app/global-constants";
 export default function WhatIsBlock() {
     const uspCards = [
         {
-            title: "Strategic Gameplay",
-            description: "Think beyond guessing. Every move is a calculated decision in this mind-bending word challenge.",
-            icon: "🧠",
+            title: "Play with Anyone, Anywhere",
+            description: "Jump into multiplayer matches instantly. Challenge friends or compete with players worldwide in real-time word battles.",
+            icon: "🌐",
             gradient: "from-primary to-primary/60"
         },
         {
-            title: "Social Competition",
-            description: "Battle friends or climb global leaderboards. Turn vocabulary into victory.",
-            icon: "⚡",
+            title: "Completely Free to Play",
+            description: "No paywalls, no premium tiers, no hidden costs. Full access to all features and game modes at zero cost.",
+            icon: "🎁",
             gradient: "from-secondary to-secondary/60"
         },
         {
-            title: "Endless Challenge",
-            description: "Push your linguistic limits with puzzles that adapt and evolve with your skills.",
-            icon: "🎯",
+            title: "Start Playing in Seconds",
+            description: "No lengthy signups or account creation. Click once to generate a guest account and dive straight into the action.",
+            icon: "⚡",
             gradient: "from-accent to-accent/60"
         }
     ];
@@ -57,7 +57,7 @@ export default function WhatIsBlock() {
                             </h3>
                             
                             {/* Description */}
-                            <p className="text-foreground/80 leading-relaxed text-sm">
+                            <p className="text-foreground-muted text-sm">
                                 {card.description}
                             </p>
                         </div>
