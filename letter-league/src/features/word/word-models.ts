@@ -1,3 +1,5 @@
+import { SupportedLanguage } from "../i18n/languages";
+
 export interface EvaluatedWord {
     position: number;
     evaluatedLetters: EvaluatedLetter[];
@@ -25,4 +27,9 @@ export interface WordState {
 export interface WordLetterState {
     letter: string;
     guessed: boolean;
+}
+
+export interface LanguageWordCount {
+    language: SupportedLanguage;
+    wordCount: number;
 }

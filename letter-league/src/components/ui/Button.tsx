@@ -17,11 +17,12 @@ export interface Props extends VariantProps<typeof buttonVariants> {
 }
 
 const buttonVariants = cva(
-  "border-2 rounded-md font-medium text-lg !cursor-pointer hover:opacity-95 justify-center flex items-center gap-1",
+  "border-2 rounded-2xl font-medium text-lg !cursor-pointer hover:opacity-95 justify-center flex items-center gap-1 transform hover:scale-105 transition-all duration-300 hover:shadow-primary/25",
   {
     variants: {
       variant: {
         primary: "bg-primary text-white",
+        primaryFade: "bg-gradient-to-r from-primary to-secondary text-background",
         secondary: "bg-secondary text-white",
         skeleton: "border-border text-foreground hover:border-primary/20",
         error: "bg-error text-white"
@@ -29,7 +30,7 @@ const buttonVariants = cva(
       size: {
         sm: "px-2 py-1 md:px-5 md:py-2 text-sm font-semibold",
         md: "px-2 py-2 lg:px-4 lg:py-3",
-        lg: "px-4 py-4 lg:px-10 lg:py-4"
+        lg: "px-12 py-4 text-xl font-bold",
       }
     },
     defaultVariants: {
