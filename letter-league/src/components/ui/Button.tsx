@@ -1,12 +1,17 @@
 import cn from "@/lib/cn";
 import { cva, VariantProps } from "class-variance-authority";
-import React from "react";
+import React, { useState } from "react";
+import Link from "next/link";
+import LoadingSpinner from "./animation/LoadingSpinner";
 
-export interface Props extends VariantProps<typeof buttonVariants>, Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'className'> {
+export interface Props extends VariantProps<typeof buttonVariants> {
     children: React.ReactNode;
+    href?: string;
+    onClick?: () => void;
     className?: string;
     disable?: boolean;
     soundOnClick?: boolean;
+    type?: "button" | "reset" | "submit";
 }
 
 const buttonVariants = cva(
@@ -32,10 +37,56 @@ const buttonVariants = cva(
   }
 )
 
-export default function Button({ children, className, variant, size, disable, ...props }: Props) {
+export default function Button({ children, className, variant, size, disable, href, onClick, type = "button" }: Props) {
+  const isNavigationButton: boolean = (href != null && href != undefined && href != "");
+  const [isLoading, setIsLoading] = useState(false);
+  
+  const classes: string = `${cn(buttonVariants({ variant, size }), className)} ${disable && "!bg-gray-500/50 !cursor-not-allowed"}`;  
+  
+  function handleOnClick(): void {
+    setIsLoading(true);
+
+    // Wait for navigation to other page
+    if (isNavigationButton) return; 
+
+    try {
+      if (onClick) onClick();
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  if (isLoading) {
     return (
-        <button className={`${cn(buttonVariants({ variant, size }), className)} ${disable && "!bg-gray-500/50 !cursor-not-allowed"}`} {...props} disabled={disable}>
-            {children}
+      <button className={classes} disabled={true}>
+        <LoadingSpinner color="background" />
+      </button>
+    )
+  }
+
+  // Button that is route to another page
+  if (href && isNavigationButton) {
+    return (
+      <Link href={href} type="button" className="w-full">
+          <button className={classes} disabled={disable}>
+            {isLoading ? (
+              <><LoadingSpinner color="background" /></>
+            ) : (
+              <>{children}</>
+            )}
+          </button>
+      </Link>      
+    )
+  }
+
+  // Button with javascript action on click
+  return (
+        <button className={classes} disabled={disable || isLoading} type={type} onClick={handleOnClick}>
+            {isLoading ? (
+              <><LoadingSpinner color="background" /></>
+            ) : (
+              <>{children}</>
+            )}
         </button>
     )
 }

@@ -1,8 +1,9 @@
+import Button from "@/components/ui/Button";
 import Card from "@/components/ui/card/Card";
 import { CardContent, CardHeader } from "@/components/ui/card/card-children";
 import cn from "@/lib/cn";
 import { cva, VariantProps } from "class-variance-authority";
-import EnhancedButton from "@/components/ui/EnhancedButton";
+import Link from "next/link";
 
 export interface Props extends VariantProps<typeof buttonVariants> {
     title: string;
@@ -54,14 +55,14 @@ export default function GameModeCard({
             <div className="w-full flex flex-col gap-3 items-center text-center justify-between h-full">
               <div className="text-foreground-muted">{subTxt}</div>
                {children}
-               {href && (
-                 <EnhancedButton 
-                   href={href}
-                   className={`w-full ${cn(buttonVariants({ variant }), className)}`}
-                 >
-                   {btnTxt}
-                 </EnhancedButton>
-               )}
+              {href && (
+                <Button   
+                  href={href}                  
+                  className={`w-full ${cn(buttonVariants({ variant }), className)}`}
+                >
+                  {btnTxt}
+                </Button>           
+              )}
             </div>
           </CardContent>
         </Card>

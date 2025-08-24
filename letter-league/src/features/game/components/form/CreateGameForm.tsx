@@ -124,7 +124,7 @@ export default function CreateGameForm({ onSubmit, onLeaveGame, submitDisabled =
                     <div className="flex items-center gap-1">
                         Leave Game
                     </div>
-                </Button>                  
+                </Button>                              
             )}            
         </form>
     )

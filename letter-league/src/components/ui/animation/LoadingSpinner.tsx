@@ -17,7 +17,8 @@ const loadingSpinnerVariants = cva(
       },
       color: {
         text: "border-foreground",
-        success: "border-success"
+        success: "border-success",
+        background: "border-background"
       }
     },
     defaultVariants: {
