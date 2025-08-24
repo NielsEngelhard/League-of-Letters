@@ -12,8 +12,6 @@ import WordsPlayingBlock from "@/components/general/WordsPlayingBlock";
 import WordCountPerLanguageBlock from "@/components/general/WordCountPerLanguageBlock";
 
 export default function AboutPage() {
-    
-    
     return (
         <PageBase requiresAuh={false}>
             <div className="flex flex-col gap-16 items-center pt-20 px-4 text-center">
