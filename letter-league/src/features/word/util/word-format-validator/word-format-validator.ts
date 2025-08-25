@@ -1,4 +1,4 @@
-import { ALLOWED_WORD_CHARACTERS, MAX_WORD_LENGTH, MIN_WORD_LENGTH } from "@/features/game/game-constants";
+import { ALLOWED_WORD_CHARACTERS, MAX_WORD_LENGTH, MIN_WORD_LENGTH } from "../../../../features/game/game-constants";
 
 export interface ValidateWordFormatResponse {
     word: string;
@@ -6,7 +6,7 @@ export interface ValidateWordFormatResponse {
 }
 
 export class WordFormatValidator {
-    static validateFormat(word: string): ValidateWordFormatResponse {
+    static validateFormat(word: string, allowDiacriticLetters: boolean): ValidateWordFormatResponse {
         const trimmedWord = word.trim().toUpperCase();
 
         // Valid word length/size
@@ -36,6 +36,17 @@ export class WordFormatValidator {
         const romanRegex = /^(M{0,3})(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$/i;
         return romanRegex.test(str);
     }    
+
+static removeDiacritics(input: string): string {
+    return input
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "") // remove combining marks
+        .replace(/ø/g, "o")              // handle special cases
+        .replace(/Ø/g, "O")
+        .replace(/æ/g, "ae")
+        .replace(/Æ/g, "Ae")
+        .replace(/ß/g, "ss");
+} 
 
     /**
      * Checks if more than 50% of the letters in a word are vowels
