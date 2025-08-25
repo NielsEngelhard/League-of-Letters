@@ -11,7 +11,7 @@ describe("Validate normal letters are not changed", () => {
   test.each(testCases)(
     "should keep normal letters unchanged: $input",
     ({ input, expected }) => {
-      const result = WordFormatValidator.removeDiacritics(input);
+      const result = WordFormatValidator.replaceSpecialCharacters(input);
       expect(result).toBe(expected);
     }
   );
@@ -56,7 +56,7 @@ describe("Validate diacritic letters are changed", () => {
   test.each(testCases)(
     "should normalize diacritics: $input -> $expected",
     ({ input, expected }) => {
-      const result = WordFormatValidator.removeDiacritics(input);
+      const result = WordFormatValidator.replaceSpecialCharacters(input);
       expect(result).toBe(expected);
     }
   );

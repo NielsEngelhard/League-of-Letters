@@ -1,4 +1,4 @@
-import { ALLOWED_WORD_CHARACTERS, MAX_WORD_LENGTH, MIN_WORD_LENGTH } from "../../../../features/game/game-constants";
+import { ALLOWED_NORMAL_CHARACTERS, MAX_WORD_LENGTH, MIN_WORD_LENGTH } from "../../../../features/game/game-constants";
 
 export interface ValidateWordFormatResponse {
     word: string;
@@ -6,7 +6,9 @@ export interface ValidateWordFormatResponse {
 }
 
 export class WordFormatValidator {
-    static validateFormat(word: string, allowDiacriticLetters: boolean): ValidateWordFormatResponse {
+    static validateFormat(word: string, allowedCharacters: string[] = ALLOWED_NORMAL_CHARACTERS): ValidateWordFormatResponse {
+       
+       
         const trimmedWord = word.trim().toUpperCase();
 
         // Valid word length/size
@@ -16,7 +18,7 @@ export class WordFormatValidator {
 
         // Valid characters
         const containsInvalidChar = [...trimmedWord].some(
-            letter => !ALLOWED_WORD_CHARACTERS.includes(letter)
+            letter => !allowedCharacters.includes(letter)
         );        
         if (containsInvalidChar) {
            return WordFormatResponseFactory.INVALID(trimmedWord)
@@ -37,7 +39,7 @@ export class WordFormatValidator {
         return romanRegex.test(str);
     }    
 
-static removeDiacritics(input: string): string {
+static replaceSpecialCharacters(input: string): string {
     return input
         .normalize("NFD")
         .replace(/[\u0300-\u036f]/g, "") // remove combining marks
