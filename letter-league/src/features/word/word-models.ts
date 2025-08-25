@@ -20,7 +20,8 @@ export enum LetterState {
 }
 
 export interface WordState {
-    word: string;
+    originalWord: string;
+    strippedWord: string;
     letterStates: WordLetterState[];
 }
 

@@ -124,8 +124,8 @@ async function updateCurrentGameState(game: DbActiveGameWithRoundsAndPlayers, cu
         unixTimestampInSeconds: unixTimestampInSeconds,
         roundTransitionData: endCurrentRound ? {
             isEndOfGame: endGame,
-            currentWord: currentRound.word.word,
-            nextRoundFirstLetter: nextRound?.word.word[0],
+            currentWord: currentRound.word.originalWord,
+            nextRoundFirstLetter: nextRound?.word.strippedWord[0],
             lastGuessUnixUtcTimestamp_InSeconds: unixTimestampInSeconds
         } : undefined,
         unguessedMisplacedLetters: GameMapper.FilterMisplacedLettersForCurrentWord(validationResult.previouslyGuessedMisplacedLetters, currentRound.word)

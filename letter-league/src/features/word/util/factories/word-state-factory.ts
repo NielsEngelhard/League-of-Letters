@@ -1,10 +1,14 @@
 import { WordState } from "../../word-models";
+import { WordFormatValidator } from "../word-format-validator/word-format-validator";
 
 export class WordStateFactory {
     static create(word: string, firstLetterIsGuessed = true): WordState {
+        const strippedWord = WordFormatValidator.replaceSpecialCharacters(word);
+        
         return {
-            word: word,
-            letterStates: word.split('').map((letter, index) => {
+            originalWord: word,
+            strippedWord: strippedWord,
+            letterStates: strippedWord.split('').map((letter, index) => {
                 return {
                     guessed: firstLetterIsGuessed ? index == 0 : false,
                     letter: letter

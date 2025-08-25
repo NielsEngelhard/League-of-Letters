@@ -52,7 +52,7 @@ export class GameMapper {
             guesses: round.guesses,
             wordLength: round.wordLength,
             lastGuessUnixUtcTimestamp_InSeconds: round.lastGuessUnixUtcTimestamp_InSeconds ?? undefined,
-            startingLetter: showFirstLetter ? round.word.word[0] : undefined,
+            startingLetter: showFirstLetter ? round.word.strippedWord[0] : undefined,
             unguessedMisplacedLetters: this.FilterMisplacedLettersForCurrentWord(round.previouslyMisplacedLetters, round.word)
         }
     }
