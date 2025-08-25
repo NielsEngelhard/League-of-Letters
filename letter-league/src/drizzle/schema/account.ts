@@ -2,6 +2,7 @@ import { integer, pgTable, text, boolean } from "drizzle-orm/pg-core";
 import { createdAt, id } from "../schema-helpers";
 import { InferSelectModel } from "drizzle-orm";
 import { DbAccountSettings } from "./account-settings";
+import { supportedLanguageEnum } from "./enum/supported-language";
 
 export const AccountTable = pgTable("account", {
     id,
@@ -14,6 +15,7 @@ export const AccountTable = pgTable("account", {
     highestScoreAchieved: integer().notNull().default(0),
     colorHex: text().notNull(),
     isGuestAccount: boolean().notNull().default(false),
+    language: supportedLanguageEnum().notNull().default("nl"),
     createdAt,
 });
 

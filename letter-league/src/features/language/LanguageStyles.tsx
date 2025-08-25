@@ -1,4 +1,4 @@
-import { NL } from "country-flag-icons/react/3x2";
+import { NL, GB } from "country-flag-icons/react/3x2";
 import { SupportedLanguage } from "../i18n/languages";
 
 interface LanguageData {
@@ -17,5 +17,12 @@ export function GetLanguageStyle(language: SupportedLanguage): LanguageData {
                 flag: <NL title="Netherlands" className="w-8 h-6" />,
                 uniqueWords: "413.937"
             }
+        case "en":
+            return {
+                shortName: "en",
+                fullName: "English",
+                flag: <GB title="English" className="w-8 h-6" />,
+                uniqueWords: "671.023"
+            }            
     }
 }
