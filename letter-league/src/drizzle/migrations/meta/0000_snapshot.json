@@ -1,5 +1,5 @@
 {
-  "id": "bce81e1b-4544-425f-b053-84eedbb6fb20",
+  "id": "bf35bcdb-f0a0-47e5-abba-3a5e2c5c54dc",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -126,12 +126,12 @@
           "notNull": true,
           "default": true
         },
-        "showLettersOnTopOfScreen": {
-          "name": "showLettersOnTopOfScreen",
+        "showCompleteCorrect": {
+          "name": "showCompleteCorrect",
           "type": "boolean",
           "primaryKey": false,
           "notNull": true,
-          "default": true
+          "default": false
         },
         "enableBackgroundMusic": {
           "name": "enableBackgroundMusic",
@@ -139,13 +139,6 @@
           "primaryKey": false,
           "notNull": true,
           "default": true
-        },
-        "showGuessedLettersBar": {
-          "name": "showGuessedLettersBar",
-          "type": "boolean",
-          "primaryKey": false,
-          "notNull": true,
-          "default": false
         },
         "preFillGuess": {
           "name": "preFillGuess",
@@ -239,6 +232,13 @@
           "primaryKey": false,
           "notNull": true,
           "default": "now()"
+        },
+        "withStartingLetter": {
+          "name": "withStartingLetter",
+          "type": "boolean",
+          "primaryKey": false,
+          "notNull": true,
+          "default": true
         }
       },
       "indexes": {},

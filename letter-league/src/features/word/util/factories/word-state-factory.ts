@@ -3,10 +3,10 @@ import { WordFormatValidator } from "../word-format-validator/word-format-valida
 
 export class WordStateFactory {
     static create(word: string, firstLetterIsGuessed = true): WordState {
-        const strippedWord = WordFormatValidator.replaceSpecialCharacters(word);
+        const strippedWord = WordFormatValidator.replaceSpecialCharacters(word).toUpperCase();
         
         return {
-            originalWord: word,
+            originalWord: word.toUpperCase(),
             strippedWord: strippedWord,
             letterStates: strippedWord.split('').map((letter, index) => {
                 return {

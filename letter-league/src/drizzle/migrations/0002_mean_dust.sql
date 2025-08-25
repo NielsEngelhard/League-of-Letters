@@ -1,1 +1,0 @@
-ALTER TABLE "active_game" ADD COLUMN "withStartingLetter" boolean DEFAULT true NOT NULL;
