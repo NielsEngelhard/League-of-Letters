@@ -3,6 +3,7 @@ import { PrivateAccountModel, PublicAccountModel } from "./account-models";
 
 export class AccountMapper {
     static DbAccountToPublicModel(account: DbAccount, tokenExpireUtcDate?: Date): PublicAccountModel {
+        console.log(account);
         return {
             id: account.id,
             colorHex: account.colorHex,
@@ -13,6 +14,7 @@ export class AccountMapper {
             username: account.username,
             isGuest: account.isGuestAccount,
             tokenExpireUtcDate: tokenExpireUtcDate,
+            language: account.language,
         }
     } 
 

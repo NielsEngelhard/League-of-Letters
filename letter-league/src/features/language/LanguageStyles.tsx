@@ -8,7 +8,9 @@ interface LanguageData {
     flag: React.ReactNode;
 }
 
-export function GetLanguageStyle(language: SupportedLanguage): LanguageData {
+export function GetLanguageStyle(language?: SupportedLanguage): LanguageData | null {    
+    if (!language) return null;
+
     switch(language) {
         case "nl":
             return {
