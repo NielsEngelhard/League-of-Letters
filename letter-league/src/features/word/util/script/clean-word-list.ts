@@ -1,6 +1,7 @@
 import * as fs from 'fs';
 import * as readline from 'readline';
 import { WordFormatValidator } from '../word-format-validator/word-format-validator';
+import { ALLOWED_NORMAL_AND_SPECIAL_CHARACTERS } from '@/features/game/game-constants';
 
 export async function cleanWordList(inputPath: string, outputPath: string): Promise<void> {
   try {
@@ -18,7 +19,7 @@ export async function cleanWordList(inputPath: string, outputPath: string): Prom
     
     // Process each line
     for await (const line of rl) {
-      const validateWordResponse = WordFormatValidator.validateFormat(line);
+      const validateWordResponse = WordFormatValidator.validateFormat(line, ALLOWED_NORMAL_AND_SPECIAL_CHARACTERS);
       
       if (validateWordResponse.isValid == true) {
         filteredLines.push(validateWordResponse.word);

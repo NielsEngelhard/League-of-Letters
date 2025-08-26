@@ -2,7 +2,7 @@ import React from "react";
 import { Controller, Control, FieldPath, FieldValues } from "react-hook-form";
 import Label from "./Label";
 
-interface Option<T = string | number> {
+export interface Option<T = string | number> {
   value: T;
   label: string;
 }

@@ -22,9 +22,8 @@ CREATE TABLE "account_settings" (
 	"theme" "theme_setting" NOT NULL,
 	"enableSoundEffects" boolean DEFAULT true NOT NULL,
 	"showKeyboardHints" boolean DEFAULT true NOT NULL,
-	"showLettersOnTopOfScreen" boolean DEFAULT true NOT NULL,
+	"showCompleteCorrect" boolean DEFAULT false NOT NULL,
 	"enableBackgroundMusic" boolean DEFAULT true NOT NULL,
-	"showGuessedLettersBar" boolean DEFAULT false NOT NULL,
 	"preFillGuess" boolean DEFAULT false NOT NULL
 );
 --> statement-breakpoint
@@ -37,7 +36,8 @@ CREATE TABLE "active_game" (
 	"gameIsOver" boolean DEFAULT false NOT NULL,
 	"nSecondsPerGuess" integer,
 	"hostAccountId" uuid NOT NULL,
-	"createdAt" timestamp with time zone DEFAULT now() NOT NULL
+	"createdAt" timestamp with time zone DEFAULT now() NOT NULL,
+	"withStartingLetter" boolean DEFAULT true NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "game_player" (

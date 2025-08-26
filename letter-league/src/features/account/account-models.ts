@@ -1,3 +1,4 @@
+import { SupportedLanguage } from "../i18n/languages";
 import { SettingsSchema } from "./account-schemas";
 
 export const wordInputOptions = ['on-screen-keyboard', 'html-input', 'keystroke'] as const;
@@ -14,6 +15,7 @@ export interface PublicAccountModel {
     highestScoreAchieved: number;
     colorHex: string;
     createdAt: Date;
+    language: SupportedLanguage;
     isGuest?: boolean;
     settings?: SettingsSchema;
     tokenExpireUtcDate?: Date;

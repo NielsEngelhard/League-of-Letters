@@ -25,7 +25,7 @@ export class WordValidator {
         for (let i = 0; i < requestData.guess.length; i++) {
             // Define the guessed letter and define the actual letter
             const guessedLetter = requestData.guess[i].toUpperCase();
-            const actualLetter = requestData.actualWordState.word[i].toUpperCase();   
+            const actualLetter = requestData.actualWordState.strippedWord[i].toUpperCase();   
             
             // CORRECT
             if (guessedLetter == actualLetter) {

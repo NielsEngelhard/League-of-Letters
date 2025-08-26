@@ -8,10 +8,15 @@ import { db } from "@/drizzle/db";
 import GenerateRandomUsername from "@/features/account/actions/command/generate-random-username";
 import { PublicAccountModel } from "@/features/account/account-models";
 import { AccountMapper } from "@/features/account/account-mapper";
+import { SupportedLanguage } from "@/features/i18n/languages";
 
-export default async function CreateGuestSessionCommand(): Promise<ServerResponse<PublicAccountModel>> {
+interface CreateGuestSessionData {
+    language: SupportedLanguage;
+}
+
+export default async function CreateGuestSessionCommand(data: CreateGuestSessionData): Promise<ServerResponse<PublicAccountModel>> {
     try {
-        const guestAccount = await createTempGuestAccount(); 
+        const guestAccount = await createTempGuestAccount(data.language); 
 
         const expireDateUtc = await JWTService.setAuthCookie({
             accountId: guestAccount.id,
@@ -27,13 +32,13 @@ export default async function CreateGuestSessionCommand(): Promise<ServerRespons
     }
 }
 
-async function createTempGuestAccount(): Promise<DbAccount> {
+async function createTempGuestAccount(language: SupportedLanguage): Promise<DbAccount> {
     const isGuestAccount: boolean = true;
     const guestAccountUsername: string = GenerateRandomUsername(isGuestAccount);
     const guestAccountEmail: string = `${guestAccountUsername}@guest_account`;
     const guestAccountPassword: string = "GuestyGuest69";
 
-    const guestAccount = await AccountFactory.createDbAccount(guestAccountEmail, guestAccountUsername, guestAccountPassword, isGuestAccount);
+    const guestAccount = await AccountFactory.createDbAccount(guestAccountEmail, guestAccountUsername, guestAccountPassword, isGuestAccount, language);
 
     await db.transaction(async (tx) => {
         await tx

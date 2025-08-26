@@ -1,13 +1,14 @@
 'use client';
 
+import { z } from 'zod';
 import { createContext, useState, ReactNode, useContext, useEffect } from 'react';
 import { loginSchema, SettingsSchema } from '../account/account-schemas';
-import { z } from 'zod';
 import LoginCommand from './actions/command/login-command';
 import { PublicAccountModel } from '../account/account-models';
 import { LogoutCommand } from './actions/command/logout-command';
 import CreateGuestSessionCommand from './actions/command/create-guest-session-command';
 import { ServerResponse } from '@/lib/response-handling/response-factory';
+import { SupportedLanguage } from '../i18n/languages';
 
 const DEFAULT_SETTINGS: SettingsSchema = {
   keyboardInput: "on-screen-keyboard",
@@ -31,7 +32,7 @@ type AuthContextType = {
 
   logout: () => void;
   login: (data: z.infer<typeof loginSchema>) => Promise<string | undefined>;
-  loginWithGuestAccount: () => Promise<string | undefined>;
+  loginWithGuestAccount: (language: SupportedLanguage) => Promise<string | undefined>;
   setShowLoginModal: (newValue: boolean) => void;
   setSettingsOnClient: (s: SettingsSchema) => void;
 };
@@ -43,7 +44,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const [showLoginModal, setShowLoginModal] = useState(false);
 
-    const [guestSessionTimeRemaining, setGuestSessionTimeRemaining] = useState<string | null>(null);
+  const [guestSessionTimeRemaining, setGuestSessionTimeRemaining] = useState<string | null>(null);
 
   // Initialize account from localStorage on mount
   useEffect(() => {
@@ -136,10 +137,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setShowLoginModal(false);    
   }
 
-  const loginWithGuestAccount = async () => {
+  const loginWithGuestAccount = async (language: SupportedLanguage) => {
     setIsLoading(true);
     try {
-      const guestLoginResponse = await CreateGuestSessionCommand();
+      const guestLoginResponse = await CreateGuestSessionCommand({ language: language });
       handleLoginResponse(guestLoginResponse);      
       return undefined; // Success, no error message
     } catch (error) {

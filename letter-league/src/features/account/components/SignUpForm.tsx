@@ -7,10 +7,8 @@ import ErrorText from "@/components/ui/text/ErrorText";
 import { IdCard } from "lucide-react";
 import { useAuth } from "@/features/auth/AuthContext";
 import CreateAccountCommand from "../../auth/actions/command/create-account-command";
-import { useRouter } from "next/navigation";
 
 export default function SignUpForm() {
-    const router = useRouter();
     const authContext = useAuth();
 
     const form = useForm<SignUpSchema>({

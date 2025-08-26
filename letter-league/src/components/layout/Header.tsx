@@ -1,4 +1,5 @@
 "use client"
+
 import { HOME_ROUTE, PICK_GAME_MODE_ROUTE, PROFILE_ROUTE, RECONNECT_ROUTE } from "@/app/routes";
 import { useAuth } from "@/features/auth/AuthContext"
 import Link from "next/link";
@@ -6,12 +7,17 @@ import WebSocketStatusIndicator from "./WebSocketStatusIndicator";
 import RealtimeStatusIndicator from "@/features/realtime/RealtimeStatusIndicator";
 import { useSocket } from "@/features/realtime/socket-context";
 import Button from "../ui/Button";
-import LoginModal from "@/features/account/components/LoginModal";
-import { RefreshCw, Clock, User } from "lucide-react";
+import LoginModal from "@/features/account/components/login-modal/LoginModal";
+import { RefreshCw, Clock } from "lucide-react";
+import { GetLanguageStyle } from "@/features/language/LanguageStyles";
 
 export default function Header() {
     const { isLoggedIn, account, setShowLoginModal, showLoginModal, guestSessionTimeRemaining } = useAuth();
     const { connectionStatus } = useSocket();
+
+    const languageStyle = GetLanguageStyle(account?.language);
+
+    console.log("language: " + account?.language);
 
     return (
         <header className="w-full h-[60px] fixed top-0 z-50 bg-background-secondary/95 backdrop-blur-sm border-b border-border/50 shadow-sm">
@@ -51,8 +57,8 @@ export default function Header() {
                             <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-background/40 border border-border/30">
                                 <Clock className="w-3 h-3 text-foreground-muted" />
                                 <span className="text-xs font-medium text-foreground-muted">
-                                    {guestSessionTimeRemaining}
-                                </span>
+                                    {guestSessionTimeRemaining}                                    
+                                </span> 
                             </div>
                         )}
 
@@ -80,6 +86,7 @@ export default function Header() {
                             <div className="hidden sm:flex flex-col min-w-0">
                                 <div className="text-sm font-medium text-foreground/90 group-hover:text-foreground transition-colors duration-200 truncate">
                                     {account.username}
+                                    {languageStyle?.flag}
                                 </div>
                       
                                 {account.isGuest && (

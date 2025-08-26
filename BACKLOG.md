@@ -3,8 +3,9 @@ feedback login flow
 - Realtime connection not on all pages, maybe fix in page base?
 - multiple languages
 
+- bugfix, zet console log in de header en zie dat deze 10x wordt aangeroepen?? Hzo? Is dit een bug?
+
 SHOULD
-- Support words with umlauts, but should parse them as normale words Ä = A (when cleaning and adding to database) - maybe save them with the umlaut and treat them the same when validating
 - Support multiple languages English, French and Deutsch at first
 - statistics regarding games played
 - bring your own word mode
