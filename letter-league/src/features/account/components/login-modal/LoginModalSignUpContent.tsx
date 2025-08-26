@@ -1,8 +1,8 @@
-import { CardContent, CardHeader, CardTitle } from "@/components/ui/card/card-children";
-import SubText from "@/components/ui/text/SubText";
+import { CardContent } from "@/components/ui/card/card-children";
 import { LogIn, Users } from "lucide-react";
 import SignUpForm from "../SignUpForm";
 import Button from "@/components/ui/Button";
+import DefaultCardHeader from "@/components/ui/card/DefaultCardHeader";
 
 interface Props {
     onBackToLogin: () => void;
@@ -11,13 +11,11 @@ interface Props {
 export default function LoginModalSignUpContent({ onBackToLogin }: Props) {
     return (
         <>
-        <CardHeader>
-            <CardTitle className="text-base sm:text-lg flex items-center gap-2">
-                <Users className="w-4 h-4" />
-                Sign up
-            </CardTitle>
-            <SubText text="Join the club and create an account for free!" /> 
-        </CardHeader>
+        <DefaultCardHeader
+            Icon={Users}
+            title="Sign up"
+            description="Join the club and create an account for free!"
+        />        
 
         <CardContent>
             <SignUpForm />

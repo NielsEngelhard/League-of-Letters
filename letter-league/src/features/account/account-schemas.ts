@@ -30,6 +30,7 @@ export const signUpSchema = z.object({
     email: z.string().min(1, "Required"),
     password: z.string().min(1, "Required"),    
     username: z.string().optional(),
+    language: z.enum(supportedLanguages),
 });
 export type SignUpSchema = z.infer<typeof signUpSchema>;
 

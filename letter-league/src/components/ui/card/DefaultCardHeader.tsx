@@ -18,8 +18,8 @@ export default function DefaultCardHeader({ Icon, title, description }: Props) {
                     {title}
                 </h2>
                 {description && (
-                    <p className="text-foreground-muted">
-                        Jump in quickly with a temporary account
+                    <p className="text-foreground-muted px-12">
+                        {description}
                     </p>                    
                 )}
             </div>

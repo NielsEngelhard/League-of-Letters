@@ -3,7 +3,7 @@ import LetterRow from "@/features/word/components/LetterRow";
 import { EvaluatedLetter, LetterState } from "@/features/word/word-models";
 import { useEffect, useState } from "react";
 
-const teaserWords: string[] = ["cheese", "poppycock", "come_play_now!", "banger"];    
+const teaserWords: string[] = ["cheese", "nice", "banger", "whistle"];    
 
 export default function WordsPlayingBlock() {
     const [currentWord, setCurrentWord] = useState(teaserWords[0]);

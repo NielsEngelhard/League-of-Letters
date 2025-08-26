@@ -7,6 +7,7 @@ import ErrorText from "@/components/ui/text/ErrorText";
 import { IdCard } from "lucide-react";
 import { useAuth } from "@/features/auth/AuthContext";
 import CreateAccountCommand from "../../auth/actions/command/create-account-command";
+import SelectLanguageGrid from "@/features/language/component/SelectLanguageGrid";
 
 export default function SignUpForm() {
     const authContext = useAuth();
@@ -39,6 +40,8 @@ export default function SignUpForm() {
             <TextInput label="Password" placeholder="Enter your password" type="password" {...form.register("password")} errorMsg={form.formState.errors.password?.message} required />
 
             <TextInput label="Username" placeholder="Your username" {...form.register("username")} errorMsg={form.formState.errors.username?.message} />
+
+            <SelectLanguageGrid name="language" control={form.control} />
 
             <Button type="submit">
                 <IdCard className="w-6 h-6" />

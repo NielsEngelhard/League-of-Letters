@@ -3,6 +3,7 @@ import SubText from "@/components/ui/text/SubText";
 import { HatGlasses, LogIn } from "lucide-react";
 import Button from "@/components/ui/Button";
 import LoginForm from "../LoginForm";
+import DefaultCardHeader from "@/components/ui/card/DefaultCardHeader";
 
 interface Props {
     onShowSignUp: () => void;
@@ -12,13 +13,11 @@ interface Props {
 export default function LoginModalLoginContent({ onShowSignUp, onShowContinueAsGuest }: Props) {
     return (
         <>
-        <CardHeader>
-            <CardTitle className="text-base sm:text-lg flex items-center gap-2">
-                <LogIn className="w-4 h-4" />
-                Login
-            </CardTitle>
-            <SubText text="Login to proceed. You can also continue as a guest and create a temporarily session." /> 
-        </CardHeader>
+        <DefaultCardHeader
+            Icon={LogIn}
+            title="Login to proceed."
+            description="You can also continue as a guest and create a temporarily session."
+        />
 
         <CardContent>
             <LoginForm onNavToSignUp={onShowSignUp} />
@@ -28,7 +27,7 @@ export default function LoginModalLoginContent({ onShowSignUp, onShowContinueAsG
                     <HatGlasses className="w-4 h-4" />
                     Continue as Guest
                 </Button>         
-                <span className="text-sm font-medium text-foreground-muted">
+                <span className="text-xs font-medium text-foreground-muted">
                     24-hour guest session. Progress won’t be saved, and reconnecting will be limited.    
                 </span>            
             </div>                 
