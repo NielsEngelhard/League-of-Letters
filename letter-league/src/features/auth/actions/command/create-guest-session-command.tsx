@@ -9,12 +9,11 @@ import GenerateRandomUsername from "@/features/account/actions/command/generate-
 import { PublicAccountModel } from "@/features/account/account-models";
 import { AccountMapper } from "@/features/account/account-mapper";
 import { SupportedLanguage } from "@/features/i18n/languages";
+import { GuestLoginSchema } from "@/features/account/account-schemas";
 
-interface CreateGuestSessionData {
-    language: SupportedLanguage;
-}
-
-export default async function CreateGuestSessionCommand(data: CreateGuestSessionData): Promise<ServerResponse<PublicAccountModel>> {
+export default async function CreateGuestSessionCommand(data: GuestLoginSchema): Promise<ServerResponse<PublicAccountModel>> {
+    
+    console.log(data);
     try {
         const guestAccount = await createTempGuestAccount(data.language); 
 

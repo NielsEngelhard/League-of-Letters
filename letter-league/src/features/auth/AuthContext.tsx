@@ -2,7 +2,7 @@
 
 import { z } from 'zod';
 import { createContext, useState, ReactNode, useContext, useEffect } from 'react';
-import { loginSchema, SettingsSchema } from '../account/account-schemas';
+import { GuestLoginSchema, loginSchema, SettingsSchema } from '../account/account-schemas';
 import LoginCommand from './actions/command/login-command';
 import { PublicAccountModel } from '../account/account-models';
 import { LogoutCommand } from './actions/command/logout-command';
@@ -32,7 +32,7 @@ type AuthContextType = {
 
   logout: () => void;
   login: (data: z.infer<typeof loginSchema>) => Promise<string | undefined>;
-  loginWithGuestAccount: (language: SupportedLanguage) => Promise<string | undefined>;
+  loginWithGuestAccount: (schema: GuestLoginSchema) => Promise<string | undefined>;
   setShowLoginModal: (newValue: boolean) => void;
   setSettingsOnClient: (s: SettingsSchema) => void;
 };
@@ -137,10 +137,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setShowLoginModal(false);    
   }
 
-  const loginWithGuestAccount = async (language: SupportedLanguage) => {
+  const loginWithGuestAccount = async (schema: GuestLoginSchema) => {
     setIsLoading(true);
     try {
-      const guestLoginResponse = await CreateGuestSessionCommand({ language: language });
+      const guestLoginResponse = await CreateGuestSessionCommand(schema);
       handleLoginResponse(guestLoginResponse);      
       return undefined; // Success, no error message
     } catch (error) {

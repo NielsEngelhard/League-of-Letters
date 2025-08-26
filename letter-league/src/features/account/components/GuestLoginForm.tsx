@@ -5,9 +5,8 @@ import Button from "@/components/ui/Button";
 import ErrorText from "@/components/ui/text/ErrorText";
 import { IdCard } from "lucide-react";
 import { useAuth } from "@/features/auth/AuthContext";
-import SelectDropdown from "@/components/ui/form/SelectInput";
-import { supportedLanguages } from "@/features/i18n/languages";
 import SelectLanguageGrid from "@/features/language/component/SelectLanguageGrid";
+import CreateGuestSessionCommand from "@/features/auth/actions/command/create-guest-session-command";
 
 export default function GuestLoginForm() {
     const authContext = useAuth();
@@ -20,20 +19,31 @@ export default function GuestLoginForm() {
     })
 
     async function onSubmit(data: GuestLoginSchema) {
-        // const error = await CreateAccountCommand(data);
-        // if (!error) {
-        //     await authContext.login({ username: data.email, password: data.password });
-        // } 
-
-        // form.setError("root", {
-        //     type: "manual",
-        //     message: error
-        // });
+        try {
+            const account = await authContext.loginWithGuestAccount(data);
+        } catch (err) {
+            form.setError("root", {
+                type: "manual",
+                message: "Something went wrong, try again later"
+            });
+        }
     }
 
     return (
         <form className="flex flex-col gap-3" onSubmit={form.handleSubmit(onSubmit)}>
-            <SelectLanguageGrid />
+            
+            <div className="space-y-4">
+            <div className="text-center space-y-2">
+                <h3 className="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                    Select Language
+                </h3>
+                <p className="text-foreground-muted text-sm">
+                    Choose your preferred language
+                </p>
+            </div>
+
+                <SelectLanguageGrid name="language" control={form.control} />
+            </div>
 
             <Button type="submit">
                 <IdCard className="w-6 h-6" />
