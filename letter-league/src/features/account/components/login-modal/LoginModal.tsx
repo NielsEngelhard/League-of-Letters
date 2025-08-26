@@ -21,17 +21,11 @@ export default function LoginModal({}: Props) {
 
 
     const [modalState, setModalState] = useState(LoginModalState.Login);
-    const { setShowLoginModal, loginWithGuestAccount } = useAuth();
-    const router = useRouter();
-
-    async function onContinueAsGuest () {
-        // await loginWithGuestAccount();
-        // router.push(PICK_GAME_MODE_ROUTE);
-    }
+    const { setShowLoginModal } = useAuth();
 
     return (
         <div className="fixed top-0 left-0 w-screen h-screen bg-background-secondary/80 flex items-center justify-center">
-            <Card className="w-full mx-2 max-w-[500px] shadow-2xl relative">
+            <Card className="w-full mx-2 max-w-[500px] shadow-2xl relative" includeSpacing={true}>
                 {modalState == LoginModalState.Login && (
                     <LoginModalLoginContent
                         onShowContinueAsGuest={() => setModalState(LoginModalState.ContinueAsGuest)}

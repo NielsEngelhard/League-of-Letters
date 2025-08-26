@@ -5,6 +5,7 @@ import React from "react";
 export interface Props extends VariantProps<typeof cardVariants> {
     children: React.ReactNode;
     className?: string;
+    includeSpacing?: boolean;
 }
 
 const cardVariants = cva(
@@ -24,9 +25,9 @@ const cardVariants = cva(
   }
 )
 
-export default function Card({ children, className, variant }: Props) {
+export default function Card({ children, className, variant, includeSpacing = false }: Props) {
     return (
-        <div className={cn(cardVariants({ variant }), className)}>
+        <div className={cn(cardVariants({ variant }), className, includeSpacing && "space-y-6 py-6")}>
             {children}
         </div>
     )

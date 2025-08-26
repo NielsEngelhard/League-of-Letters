@@ -37,31 +37,16 @@ export default function SelectLanguageGrid({
         selectedValue?: SupportedLanguage; 
         onSelect: (language: SupportedLanguage) => void;
     }) => (
-        <div className="space-y-4">
-            {/* Header */}
-
-
-            {/* Language Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-                {languageOptions.map((languageOption) => (
-                    <LanguageCard 
-                        key={languageOption.value}
-                        language={languageOption.value} 
-                        onClick={() => onSelect(languageOption.value)}
-                        isSelected={selectedValue === languageOption.value}
-                        disabled={disabled}
-                    />
-                ))}
-            </div>
-
-            {/* Selected Language Display */}
-            {selectedValue && (
-                <div className="text-center pt-3 border-t border-border/30">
-                    <p className="text-sm text-foreground-muted">
-                        Selected: <span className="font-semibold text-primary">{selectedValue}</span>
-                    </p>
-                </div>
-            )}
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 w-full">
+            {languageOptions.map((languageOption) => (
+                <LanguageCard 
+                    key={languageOption.value}
+                    language={languageOption.value} 
+                    onClick={() => onSelect(languageOption.value)}
+                    isSelected={selectedValue === languageOption.value}
+                    disabled={disabled}
+                />
+            ))}
         </div>
     );
 

@@ -90,7 +90,7 @@ export default function Button({
       type={type} 
       onClick={handleOnClick}
     >
-      <div className="flex items-center justify-center min-w-0 min-h-[1lh]">
+      <div className="flex items-center justify-center min-w-0 min-h-[1lh] gap-1">
         {(isLoading || isLoadingExternal) ? (
           <LoadingSpinner color="background" />
         ) : (

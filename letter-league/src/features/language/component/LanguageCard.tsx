@@ -14,6 +14,7 @@ export default function LanguageCard({ onClick, language, isSelected = false, di
         
     return (
         <button 
+            type="button"
             onClick={onClick}
             disabled={disabled}
             className={`
