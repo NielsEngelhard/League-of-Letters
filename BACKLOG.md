@@ -1,5 +1,6 @@
 MUST
 feedback login flow
+- Realtime connection not on all pages, maybe fix in page base?
 - multiple languages
 
 SHOULD
@@ -7,7 +8,6 @@ SHOULD
 - Support multiple languages English, French and Deutsch at first
 - statistics regarding games played
 - bring your own word mode
-- Score explanation
 - Sound effects
 
 COULD
