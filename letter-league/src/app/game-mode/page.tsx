@@ -16,20 +16,9 @@ export default function HomePage() {
         subText="A cheeky game of wordplay"
         titleColor="gradient"
         titleSize="lg">
-      </PageIntro>
-
-      <ReconnectGamesOverview />
+      </PageIntro>      
 
       <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
-        <GameModeCard
-          title="Solo Mode"
-          subTxt="Play a peacefull game at your own pace"
-          btnTxt="Play Solo"
-          href={SOLO_GAME_ROUTE}
-          Icon={User}
-          variant="primaryGradient"
-        />
-        
         <GameModeCard
           title="Multiplayer"
           subTxt="Prove you’re the sharpest mind in the room" 
@@ -37,8 +26,19 @@ export default function HomePage() {
           href={MULTIPLAYER_GAME_ROUTE}
           Icon={Users}
           variant="secondaryGradient"
-        />        
+        />           
+        
+        <GameModeCard
+          title="Solo Mode"
+          subTxt="Play a peacefull game at your own pace"
+          btnTxt="Play Solo"
+          href={SOLO_GAME_ROUTE}
+          Icon={User}
+          variant="primaryGradient"
+        />           
       </div>
+
+      <ReconnectGamesOverview />
 
       <div className="text-center text-sm text-foreground-muted">
         Curious about how the <span className="font-bold underline">score system</span> works? <Link href={SCORE_ROUTE} className="font-bold underline text-primary">Click here!</Link>
