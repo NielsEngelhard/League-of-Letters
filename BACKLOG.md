@@ -1,8 +1,10 @@
+- show language for current game and reconnect games etc.
+
 MUST
 feedback login flow
 - Realtime connection not on all pages, maybe fix in page base?
 - multiple languages
-
+-
 - bugfix, zet console log in de header en zie dat deze 10x wordt aangeroepen?? Hzo? Is dit een bug?
 
 SHOULD
