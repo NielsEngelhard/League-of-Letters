@@ -11,7 +11,7 @@ import { SupportedLanguage } from "@/features/i18n/languages";
 import { use } from "react";
 import { useRouteToPage } from "@/app/useRouteToPage";
 
-export default function HomePage({
+export default function GameModePage({
   params
 }: {
   params: Promise<{ lang: SupportedLanguage }>
