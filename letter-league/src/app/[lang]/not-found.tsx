@@ -3,8 +3,11 @@
 import PageBase from '@/components/layout/PageBase';
 import { PICK_GAME_MODE_ROUTE } from '../routes';
 import Button from '@/components/ui/Button';
+import { useRouteToPage } from '../useRouteToPage';
 
 export default function NotFound() {
+  const route = useRouteToPage();
+
   return (
     <PageBase requiresAuh={false}>
       <div className="text-center space-y-8 flex flex-col items-center justify-center w-full">
@@ -24,7 +27,7 @@ export default function NotFound() {
 
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Button size="lg" href={PICK_GAME_MODE_ROUTE}>
+            <Button size="lg" href={route(PICK_GAME_MODE_ROUTE)}>
                 Take me back
             </Button>          
         </div>

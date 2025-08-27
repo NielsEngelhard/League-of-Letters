@@ -9,10 +9,6 @@ import { use } from "react";
 import { SupportedLanguage, supportedLanguages } from "@/features/i18n/languages";
 import { redirect } from "next/navigation";
 
-// export async function generateStaticParams() {
-//   return supportedLanguages.map((locale) => ({ lang: locale }))
-// }
-
 export default function LangRootLayout({
   children,
   params,

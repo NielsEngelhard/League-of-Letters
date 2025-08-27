@@ -10,10 +10,12 @@ import Button from "../ui/Button";
 import LoginModal from "@/features/account/components/login-modal/LoginModal";
 import { RefreshCw, Clock } from "lucide-react";
 import { GetLanguageStyle } from "@/features/language/LanguageStyles";
+import { useRouteToPage } from "@/app/useRouteToPage";
 
 export default function Header() {
     const { isLoggedIn, account, setShowLoginModal, showLoginModal, guestSessionTimeRemaining } = useAuth();
     const { connectionStatus } = useSocket();
+    const route = useRouteToPage();
 
     const languageStyle = GetLanguageStyle(account?.language);
 
@@ -23,7 +25,7 @@ export default function Header() {
                 {/* Left - Logo & Status */}
                 <div className="flex items-center gap-4">
                     <Link 
-                        href={account ? PICK_GAME_MODE_ROUTE : HOME_ROUTE}
+                        href={account ? route(PICK_GAME_MODE_ROUTE) : route(HOME_ROUTE)}
                         className="group flex items-center transition-all duration-200"
                     >
                         <div className="relative">
@@ -62,7 +64,7 @@ export default function Header() {
 
                         {/* Reconnect Button */}
                         <Link
-                            href={RECONNECT_ROUTE}
+                            href={route(RECONNECT_ROUTE)}
                             className="group relative flex items-center justify-center w-9 h-9 rounded-full bg-background/40 hover:bg-background/60 border border-border/20 hover:border-border/40 transition-all duration-200"
                             title="Reconnect to game"
                         >
@@ -71,7 +73,7 @@ export default function Header() {
 
                         {/* Profile Section */}
                         <Link 
-                            href={PROFILE_ROUTE} 
+                            href={route(PROFILE_ROUTE)} 
                             className="group flex items-center gap-3 pl-2 pr-4 py-2 rounded-2xl bg-background/30 hover:bg-background/50 border border-border/20 hover:border-primary/30 transition-all duration-200 hover:shadow-lg hover:shadow-primary/5"
                         >
                             {/* Avatar with gradient border */}

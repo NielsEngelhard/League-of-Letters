@@ -8,8 +8,11 @@ import WhatIsBlock from "@/components/general/WhatIsBlock";
 import WordsPlayingBlock from "@/components/general/WordsPlayingBlock";
 import WordCountPerLanguageBlock from "@/components/general/WordCountPerLanguageBlock";
 import { PICK_GAME_MODE_ROUTE } from "../routes";
+import { useRouteToPage } from "../useRouteToPage";
 
-export default function AboutPage() {
+export default function HomePage() {
+    const route = useRouteToPage();
+
     return (
         <PageBase requiresAuh={false}>
             <div className="flex flex-col gap-16 items-center pt-20 px-4 text-center">
@@ -28,7 +31,7 @@ export default function AboutPage() {
                 </HeroBlock>
 
                 <div className="flex justify-center">
-                    <Button variant="primaryFade" size="lg" href={PICK_GAME_MODE_ROUTE}>
+                    <Button variant="primaryFade" size="lg" href={route(PICK_GAME_MODE_ROUTE)}>
                         <span className="">
                             🎮 Play Now!
                         </span>

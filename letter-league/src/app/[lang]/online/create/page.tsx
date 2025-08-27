@@ -27,12 +27,14 @@ import DeleteOnlineLobbyById from "@/features/lobby/actions/command/delete-onlin
 import { useActiveGame } from "@/features/game/components/active-game-context";
 import { GamePlayerModel } from "@/features/game/game-models";
 import CopyTextBlock from "@/components/ui/CopyTextBlock";
+import { useRouteToPage } from "@/app/useRouteToPage";
 
 export default function CreateOnlineGamePage() {
   const { initializeConnection, emitJoinGame, connectionStatus } = useSocket();
   const { players, setInitialPlayers, clearGameState } = useActiveGame();
   const { pushSuccessMsg, pushLoadingMsg, pushErrorMsg } = useMessageBar();
   const { account } = useAuth();
+  const route = useRouteToPage();
 
   const [lobby, setLobby] = useState<OnlineLobbyModel | null>(null);
   const [copiedGameId, setCopiedGameId] = useState(false);
@@ -120,7 +122,7 @@ export default function CreateOnlineGamePage() {
 
   return (
     <PageBase size="lg">
-      <PageIntro title="Create Online Game" subText="Join Code:" backHref={MULTIPLAYER_GAME_ROUTE} options={lobbyOptions}>
+      <PageIntro title="Create Online Game" subText="Join Code:" backHref={route(MULTIPLAYER_GAME_ROUTE)} options={lobbyOptions}>
         <div className="text-3xl font-bold">
           {lobby ? (
             <div className="flex flex-col items-center">
@@ -135,7 +137,7 @@ export default function CreateOnlineGamePage() {
               </button>
 
               {/* Join Url */}
-              <CopyTextBlock label="Game link" value={`${window.location.origin}/${JOIN_GAME_ROUTE(lobby.id)}`} />
+              <CopyTextBlock label="Game link" value={`${window.location.origin}/${route(JOIN_GAME_ROUTE(lobby.id))}`} />
             </div>
           ) : "Loading..."}
         </div>

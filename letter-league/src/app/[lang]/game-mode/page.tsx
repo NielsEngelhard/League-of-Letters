@@ -9,6 +9,7 @@ import ReconnectGamesOverview from "@/features/game/components/ReconnectGamesOve
 import Link from "next/link";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import { use } from "react";
+import { useRouteToPage } from "@/app/useRouteToPage";
 
 export default function HomePage({
   params
@@ -16,6 +17,7 @@ export default function HomePage({
   params: Promise<{ lang: SupportedLanguage }>
 }) {
   const { lang } = use(params);
+  const route = useRouteToPage();
 
   return (
     <PageBase requiresAuh={false}>
@@ -31,7 +33,7 @@ export default function HomePage({
           title="Multiplayer"
           subTxt="Prove you’re the sharpest mind in the room" 
           btnTxt="Play Online"
-          href={MULTIPLAYER_GAME_ROUTE}
+          href={route(MULTIPLAYER_GAME_ROUTE)}
           Icon={Users}
           variant="secondaryGradient"
         />           
@@ -40,7 +42,7 @@ export default function HomePage({
           title="Solo Mode"
           subTxt="Play a peacefull game at your own pace"
           btnTxt="Play Solo"
-          href={SOLO_GAME_ROUTE}
+          href={route(SOLO_GAME_ROUTE)}
           Icon={User}
           variant="primaryGradient"
         />           
@@ -49,7 +51,7 @@ export default function HomePage({
       <ReconnectGamesOverview />
 
       <div className="text-center text-sm text-foreground-muted">
-        Curious about how the <span className="font-bold underline">score system</span> works? <Link href={SCORE_ROUTE} className="font-bold underline text-primary">Click here!</Link>
+        Curious about how the <span className="font-bold underline">score system</span> works? <Link href={route(SCORE_ROUTE)} className="font-bold underline text-primary">Click here!</Link>
       </div>
 
     </PageBase>

@@ -1,9 +1,11 @@
 "use client"
 
-import { redirect } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { HOME_ROUTE } from "./routes"
-import { DefaultLanguage } from "@/features/i18n/languages"
+import { useRouteToPage } from "./useRouteToPage";
 
 export default function HomePageWithoutLocale() {
-    redirect(`/${DefaultLanguage}/${HOME_ROUTE}`)
+    const router = useRouter();
+    const route = useRouteToPage();
+    router.push(route(HOME_ROUTE));
 }

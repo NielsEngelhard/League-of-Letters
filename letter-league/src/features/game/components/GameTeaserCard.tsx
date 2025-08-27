@@ -1,17 +1,18 @@
 import Card from "@/components/ui/card/Card";
 import { ActiveGameTeaserModel } from "../game-models";
-import { CardHeader } from "@/components/ui/card/card-children";
 import Button from "@/components/ui/Button";
 import { Clock, Play, User, Users } from "lucide-react";
 import { timeAgo } from "@/lib/time-util";
-import Link from "next/link";
 import { PLAY_GAME_ROUTE } from "@/app/routes";
+import { useRouteToPage } from "@/app/useRouteToPage";
 
 interface Props {
     teaser: ActiveGameTeaserModel;
 }
 
 export default function GameTeaserCard({ teaser }: Props) {
+    const route = useRouteToPage();
+
     return (
         <Card>
             <div className="p-2 flex flex-row justify-between">
@@ -47,7 +48,7 @@ export default function GameTeaserCard({ teaser }: Props) {
                         {timeAgo(teaser.createdAt)} ago
                     </span>
 
-                    <Button variant="secondary" size="sm" href={PLAY_GAME_ROUTE(teaser.id)}>
+                    <Button variant="secondary" size="sm" href={route(PLAY_GAME_ROUTE(teaser.id))}>
                         <Play className="w-4 h-4" />
                         Reconnect
                     </Button>                    

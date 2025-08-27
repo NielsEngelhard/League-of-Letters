@@ -1,6 +1,7 @@
 "use client"
 
 import { PICK_GAME_MODE_ROUTE } from "@/app/routes";
+import { useRouteToPage } from "@/app/useRouteToPage";
 import PageBase from "@/components/layout/PageBase";
 import LoadingSpinner from "@/components/ui/animation/LoadingSpinner";
 import { useAuth } from "@/features/auth/AuthContext";
@@ -16,6 +17,7 @@ export default function GamePage() {
     const { initializeGameState, game, clearGameState } = useActiveGame();    
     const { initializeConnection, emitJoinGame, connectionStatus } = useSocket();
     const router = useRouter();
+    const route = useRouteToPage();
 
     const params = useParams();
     const gameId = params.gameId;
@@ -29,14 +31,14 @@ export default function GamePage() {
             try {
                 var resp = await GetActiveGameByIdRequest(gameId.toString());
                 if (!resp) {
-                    router.push(PICK_GAME_MODE_ROUTE)
+                    router.push(route(PICK_GAME_MODE_ROUTE))
                     return;
                 };
                 
                 initializeGameState(resp, account.id);               
             } catch(err) {
                 console.log(err);
-                router.push(PICK_GAME_MODE_ROUTE);
+                router.push(route(PICK_GAME_MODE_ROUTE));
             }
         }
 

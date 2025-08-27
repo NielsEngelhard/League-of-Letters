@@ -17,13 +17,15 @@ import LoadingSpinner from "@/components/ui/animation/LoadingSpinner";
 import LoadingDots from "@/components/ui/animation/LoadingDots";
 import { useActiveGame } from "@/features/game/components/active-game-context";
 import { MULTIPLAYER_GAME_ROUTE } from "@/app/routes";
+import { useRouteToPage } from "@/app/useRouteToPage";
 
 export default function JoinOnlineGamePage() {
     const [lobby, setLobby] = useState<OnlineLobbyModel | null>(null);
     const { initializeConnection, emitJoinGame, connectionStatus } = useSocket();
     const { players, setInitialPlayers, clearGameState } = useActiveGame();
     const { pushSuccessMsg, pushLoadingMsg, pushErrorMsg } = useMessageBar();
-
+    
+    const route = useRouteToPage();
     const { account } = useAuth();
     const router = useRouter();
 
@@ -48,7 +50,7 @@ export default function JoinOnlineGamePage() {
 
             if (!serverResponse.ok || !serverResponse.data) {
                 pushErrorMsg(serverResponse.errorMsg);
-                router.push(MULTIPLAYER_GAME_ROUTE);
+                router.push(route(MULTIPLAYER_GAME_ROUTE));
                 return;
             }
 

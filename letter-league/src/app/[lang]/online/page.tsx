@@ -4,22 +4,23 @@ import PageBase from "@/components/layout/PageBase";
 import PageIntro from "@/components/ui/block/PageIntro";
 import GameModeCard from "@/features/game/components/GameModeCard";
 import { Gamepad, Plus } from "lucide-react";
-import { CREATE_MULTIPLAYER_GAME_ROUTE, JOIN_GAME_ROUTE, PICK_GAME_MODE_ROUTE, SOLO_GAME_ROUTE } from "../../routes";
+import { CREATE_MULTIPLAYER_GAME_ROUTE, JOIN_GAME_ROUTE, PICK_GAME_MODE_ROUTE } from "../../routes";
 import TextInput from "@/components/ui/form/TextInput";
 import { useEffect, useState } from "react";
 import Button from "@/components/ui/Button";
 import { GAME_ID_LENGTH, isValidGameId } from "@/features/game/util/game-id-generator";
 import { useRouter } from "next/navigation";
+import { useRouteToPage } from "@/app/useRouteToPage";
 
 export default function OnlinePage() {  
   const router = useRouter();
   const [isValidJoinCode, setIsValidJoinCode] = useState<boolean>(false);
   const [joinCode, setJoinCode] = useState<string>("");
-
+  const route = useRouteToPage();
 
   async function onJoinGame() {
     if (!isValidJoinCode) return;
-    router.push(JOIN_GAME_ROUTE(joinCode));
+    router.push(route(JOIN_GAME_ROUTE(joinCode)));
   }
 
   useEffect(() => {
@@ -29,7 +30,7 @@ export default function OnlinePage() {
 
   return (
     <PageBase>
-      <PageIntro title="Online Game" subText="Play with other people" backHref={PICK_GAME_MODE_ROUTE}>
+      <PageIntro title="Online Game" subText="Play with other people" backHref={route(PICK_GAME_MODE_ROUTE)}>
 
       </PageIntro>
 
@@ -58,7 +59,7 @@ export default function OnlinePage() {
           title="Create Game"
           subTxt="Start a new game and invite friends / (or foes)"
           btnTxt="Play Online"
-          href={CREATE_MULTIPLAYER_GAME_ROUTE}
+          href={route(CREATE_MULTIPLAYER_GAME_ROUTE)}
           Icon={Plus}
           variant="accent"
         >
