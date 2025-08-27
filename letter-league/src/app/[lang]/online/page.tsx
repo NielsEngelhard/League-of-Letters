@@ -4,7 +4,7 @@ import PageBase from "@/components/layout/PageBase";
 import PageIntro from "@/components/ui/block/PageIntro";
 import GameModeCard from "@/features/game/components/GameModeCard";
 import { Gamepad, Plus } from "lucide-react";
-import { CREATE_MULTIPLAYER_GAME_ROUTE, JOIN_GAME_ROUTE, PICK_GAME_MODE_ROUTE, SOLO_GAME_ROUTE } from "../routes";
+import { CREATE_MULTIPLAYER_GAME_ROUTE, JOIN_GAME_ROUTE, PICK_GAME_MODE_ROUTE, SOLO_GAME_ROUTE } from "../../routes";
 import TextInput from "@/components/ui/form/TextInput";
 import { useEffect, useState } from "react";
 import Button from "@/components/ui/Button";

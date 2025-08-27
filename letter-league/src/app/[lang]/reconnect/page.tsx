@@ -2,7 +2,7 @@
 
 import PageBase from "@/components/layout/PageBase";
 import PageIntro from "@/components/ui/block/PageIntro";
-import { MULTIPLAYER_GAME_ROUTE } from "../routes";
+import { MULTIPLAYER_GAME_ROUTE } from "../../routes";
 import ReconnectGamesOverview from "@/features/game/components/ReconnectGamesOverview";
 
 export default function ReconnectPage() {

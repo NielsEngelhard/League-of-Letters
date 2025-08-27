@@ -4,11 +4,19 @@ import PageBase from "@/components/layout/PageBase";
 import PageIntro from "@/components/ui/block/PageIntro";
 import GameModeCard from "@/features/game/components/GameModeCard";
 import { User, Users } from "lucide-react";
-import { HOME_ROUTE, MULTIPLAYER_GAME_ROUTE, SCORE_ROUTE, SOLO_GAME_ROUTE } from "../routes";
+import { MULTIPLAYER_GAME_ROUTE, SCORE_ROUTE, SOLO_GAME_ROUTE } from "../../routes";
 import ReconnectGamesOverview from "@/features/game/components/ReconnectGamesOverview";
 import Link from "next/link";
+import { SupportedLanguage } from "@/features/i18n/languages";
+import { use } from "react";
 
-export default function HomePage() {
+export default function HomePage({
+  params
+}: {
+  params: Promise<{ lang: SupportedLanguage }>
+}) {
+  const { lang } = use(params);
+
   return (
     <PageBase requiresAuh={false}>
       <PageIntro
@@ -17,7 +25,7 @@ export default function HomePage() {
         titleColor="gradient"
         titleSize="lg">
       </PageIntro>      
-
+      <span>temp: {lang}</span>
       <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-4">
         <GameModeCard
           title="Multiplayer"

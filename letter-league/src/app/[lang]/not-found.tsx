@@ -1,8 +1,7 @@
 "use client"
 
 import PageBase from '@/components/layout/PageBase';
-import Link from 'next/link';
-import { PICK_GAME_MODE_ROUTE } from './routes';
+import { PICK_GAME_MODE_ROUTE } from '../routes';
 import Button from '@/components/ui/Button';
 
 export default function NotFound() {
