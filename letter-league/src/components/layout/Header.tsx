@@ -11,14 +11,12 @@ import LoginModal from "@/features/account/components/login-modal/LoginModal";
 import { RefreshCw, Clock } from "lucide-react";
 import { GetLanguageStyle } from "@/features/language/LanguageStyles";
 import { useRouteToPage } from "@/app/useRouteToPage";
-import { useTranslations } from "@/features/i18n/useTranslations";
 import { SupportedLanguage } from "@/features/i18n/languages";
 
 export default function Header({lang}: {lang: SupportedLanguage}) {
     const { isLoggedIn, account, setShowLoginModal, showLoginModal, guestSessionTimeRemaining } = useAuth();
     const { connectionStatus } = useSocket();
     const route = useRouteToPage();
-    const { t } = useTranslations(lang);
 
     const languageStyle = GetLanguageStyle(account?.language);
 
@@ -123,7 +121,7 @@ export default function Header({lang}: {lang: SupportedLanguage}) {
                             className="px-6 py-2.5 font-semibold transition-all duration-300 hover:scale-105"
                         >
                             <span className="flex items-center gap-2">
-                                {t?.header.startButton}
+                                {/* {t?.header.startButton} */}
                             </span>
                         </Button>
                     </div>
