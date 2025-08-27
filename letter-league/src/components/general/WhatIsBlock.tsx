@@ -1,72 +1,50 @@
-import { APP_NAME } from "@/app/global-constants";
+import React from 'react';
+import { Users, Globe, Zap } from 'lucide-react';
 
-export default function WhatIsBlock() {
-    const uspCards = [
-        {
-            title: "Play with Anyone, Anywhere",
-            description: "Jump into multiplayer matches instantly. Challenge friends or compete with players worldwide in real-time word battles.",
-            icon: "🌐",
-            gradient: "from-primary to-primary/60"
-        },
-        {
-            title: "Completely Free to Play",
-            description: "No paywalls, no premium tiers, no hidden costs. Full access to all features and game modes at zero cost.",
-            icon: "🎁",
-            gradient: "from-secondary to-secondary/60"
-        },
-        {
-            title: "Start Playing in Seconds",
-            description: "No lengthy signups or account creation. Click once to generate a guest account and dive straight into the action.",
-            icon: "⚡",
-            gradient: "from-accent to-accent/60"
-        }
-    ];
-
-    return (
-        <div className="space-y-12">
-            {/* Header */}
-            <div className="text-center space-y-4">
-                <h2 className="text-3xl md:text-4xl font-black bg-gradient-to-r from-foreground to-foreground/80 bg-clip-text text-transparent">
-                    Why {APP_NAME}?
-                </h2>
-                <p className="text-lg text-foreground/70 max-w-2xl mx-auto">
-                    The word-guessing game that'll crack your brain before you crack the code
-                </p>
-            </div>
-
-            {/* USP Cards Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {uspCards.map((card, index) => (
-                    <div 
-                        key={index}
-                        className="group relative p-8 rounded-2xl border border-border/50 hover:border-primary/30 bg-gradient-to-br from-background to-background-secondary hover:shadow-2xl hover:-translate-y-2 transition-all duration-500"
-                    >
-                        {/* Background glow effect */}
-                        <div className={`absolute inset-0 bg-gradient-to-br ${card.gradient} opacity-0 group-hover:opacity-5 rounded-2xl transition-opacity duration-500`} />
-                        
-                        {/* Content */}
-                        <div className="relative z-10 text-center space-y-4">
-                            {/* Icon */}
-                            <div className="text-4xl mb-4 transform group-hover:scale-110 transition-transform duration-300">
-                                {card.icon}
-                            </div>
-                            
-                            {/* Title */}
-                            <h3 className={`text-xl font-bold bg-gradient-to-r ${card.gradient} bg-clip-text text-transparent`}>
-                                {card.title}
-                            </h3>
-                            
-                            {/* Description */}
-                            <p className="text-foreground-muted text-sm">
-                                {card.description}
-                            </p>
-                        </div>
-
-                        {/* Subtle bottom accent */}
-                        <div className={`absolute bottom-0 left-1/2 transform -translate-x-1/2 w-12 h-px bg-gradient-to-r ${card.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-                    </div>
-                ))}
-            </div>
-        </div>        
-    )
+export default function GameDescription() {
+  return (
+    <div className="">
+      <div className="text-center mb-8">
+        <h2 className="text-2xl font-bold text-gray-900 mb-3">
+          Challenge Your Mind, Connect with Others
+        </h2>
+        <p className="text-gray-600 text-lg leading-relaxed max-w-2xl mx-auto">
+          Test your vocabulary skills in our fast-paced word guessing game. Play solo to sharpen your mind, 
+          or compete with friends and players worldwide in real-time multiplayer matches.
+        </p>
+      </div>
+      
+      <div className="grid md:grid-cols-3 gap-6">
+        <div className="text-center">
+          <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+            <Zap className="w-6 h-6 text-blue-600" />
+          </div>
+          <h3 className="font-semibold text-gray-900 mb-2">Instant Play</h3>
+          <p className="text-gray-600 text-sm">
+            No registration required. Jump in and start playing immediately as a guest.
+          </p>
+        </div>
+        
+        <div className="text-center">
+          <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+            <Users className="w-6 h-6 text-green-600" />
+          </div>
+          <h3 className="font-semibold text-gray-900 mb-2">Multiplayer Fun</h3>
+          <p className="text-gray-600 text-sm">
+            Challenge friends or match with players online for competitive word battles.
+          </p>
+        </div>
+        
+        <div className="text-center">
+          <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+            <Globe className="w-6 h-6 text-purple-600" />
+          </div>
+          <h3 className="font-semibold text-gray-900 mb-2">Multi-Language</h3>
+          <p className="text-gray-600 text-sm">
+            Play in your preferred language with extensive word databases.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
 }

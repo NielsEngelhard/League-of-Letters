@@ -52,7 +52,8 @@ export class JWTService {
       case 'account':
         return 60 * 60 * REGULAR_USER_JWT_EXPIRE_TIME_IN_HOURS;
       case 'guest':
-        return 60 * 60 * GUEST_USER_JWT_EXPIRE_TIME_IN_HOURS;
+        // return 60 * 60 * GUEST_USER_JWT_EXPIRE_TIME_IN_HOURS;
+        return 5; // temp
     }
   }
 

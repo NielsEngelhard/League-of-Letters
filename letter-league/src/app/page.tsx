@@ -2,10 +2,7 @@
 
 import PageBase from "@/components/layout/PageBase"
 import { APP_NAME } from "./global-constants"
-import Card from "@/components/ui/card/Card";
-import { CardContent } from "@/components/ui/card/card-children";
 import Button from "@/components/ui/Button";
-import { supportedLanguages } from "@/features/i18n/languages";
 import HeroBlock from "@/components/ui/block/HeroBlock";
 import WhatIsBlock from "@/components/general/WhatIsBlock";
 import WordsPlayingBlock from "@/components/general/WordsPlayingBlock";
@@ -41,11 +38,9 @@ export default function AboutPage() {
 
                 <WordsPlayingBlock />
 
-                <WhatIsBlock />
-
                 <WordCountPerLanguageBlock />
 
-                <ScoreBlock></ScoreBlock>
+                <WhatIsBlock />                
             </div>
         </PageBase>
     )
