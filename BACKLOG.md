@@ -1,5 +1,5 @@
 - show language for current game and reconnect games etc.
-
+- dark mode mag wel donkerder
 MUST
 feedback login flow
 - Realtime connection not on all pages, maybe fix in page base?
