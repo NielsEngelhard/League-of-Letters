@@ -25,7 +25,7 @@ export default function LangRootLayout({
   return (
     <Providers>
       <GlobalLoadingIndicator />
-      <Header />
+      <Header lang={lang} />
       <div className="mt-[60px]">
         <HeaderMessageBar />
         <div className="flex justify-center bg-background h-full">

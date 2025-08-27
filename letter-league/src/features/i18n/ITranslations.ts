@@ -16,5 +16,9 @@ export interface Translations {
     uniqueWordsSlogan: string;
     uniqueWordsSloganHightlight: string;
     uniqueWords: string;    
+  };
+
+  header: {
+    startButton: string;
   }
 }

@@ -48,7 +48,7 @@ export default function HomePage({
 
                 <WordsPlayingBlock words={t?.home.words ?? []} />
 
-                <WordCountPerLanguageBlock />
+                <WordCountPerLanguageBlock lang={lang} />
 
                 {/* <WhatIsBlock />                 */}
             </div>

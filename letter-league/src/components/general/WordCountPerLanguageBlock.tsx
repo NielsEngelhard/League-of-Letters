@@ -4,7 +4,9 @@ import { CardContent } from "../ui/card/card-children";
 import { GetLanguageStyle } from "@/features/language/LanguageStyles";
 import { useTranslations } from "@/features/i18n/useTranslations";
 
-export default function WordCountPerLanguageBlock() {
+export default function WordCountPerLanguageBlock({lang}: {lang: SupportedLanguage}) {
+    const { t } = useTranslations(lang);
+
     function LanguageCard(language: SupportedLanguage) {
         const languageData = GetLanguageStyle(language);
         const { t } = useTranslations(language);
@@ -43,8 +45,8 @@ export default function WordCountPerLanguageBlock() {
                         Word Arsenal
                     </h2> */}
                     <p className="text-xl text-foreground-muted font-medium">
-                        Hundreds of thousands of words across 
-                        <span className="text-success font-bold"> multiple languages</span>
+                        {t?.words.uniqueWordsSlogan}
+                        <span className="text-success font-bold"> {t?.words.uniqueWordsSloganHightlight}</span>
                     </p>
                 </div>
 
