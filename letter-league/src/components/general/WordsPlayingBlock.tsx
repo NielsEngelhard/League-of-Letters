@@ -3,10 +3,8 @@ import LetterRow from "@/features/word/components/LetterRow";
 import { EvaluatedLetter, LetterState } from "@/features/word/word-models";
 import { useEffect, useState } from "react";
 
-const teaserWords: string[] = ["cheese", "nice", "banger", "whistle"];    
-
-export default function WordsPlayingBlock() {
-    const [currentWord, setCurrentWord] = useState(teaserWords[0]);
+export default function WordsPlayingBlock({ words }: { words: string[] }) {
+    const [currentWord, setCurrentWord] = useState(words[0]);
     const [currentWordIndex, setCurrentWordIndex] = useState(0);
     const [key, setKey] = useState(0); // Force re-render for animation
 
@@ -21,9 +19,9 @@ export default function WordsPlayingBlock() {
     }, [currentWord]);
 
     function nextWord() {
-        const nextIndex = (currentWordIndex + 1) % teaserWords.length;
+        const nextIndex = (currentWordIndex + 1) % words.length;
         setCurrentWordIndex(nextIndex);
-        setCurrentWord(teaserWords[nextIndex]);
+        setCurrentWord(words[nextIndex]);
         setKey(prev => prev + 1);
     }
 

@@ -2,11 +2,13 @@ import { SupportedLanguage, supportedLanguages } from "@/features/i18n/languages
 import Card from "../ui/card/Card";
 import { CardContent } from "../ui/card/card-children";
 import { GetLanguageStyle } from "@/features/language/LanguageStyles";
+import { useTranslations } from "@/features/i18n/useTranslations";
 
 export default function WordCountPerLanguageBlock() {
     function LanguageCard(language: SupportedLanguage) {
         const languageData = GetLanguageStyle(language);
-        
+        const { t } = useTranslations(language);
+
         return (
             <Card 
                 key={language}
@@ -23,7 +25,7 @@ export default function WordCountPerLanguageBlock() {
                                 {languageData?.uniqueWords}
                             </div>
                             <div className="text-sm font-semibold text-foreground-muted tracking-wide uppercase">
-                                Unique Words
+                                {t?.words.uniqueWords}
                             </div>
                         </div>
                     </div>

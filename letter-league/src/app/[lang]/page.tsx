@@ -23,7 +23,7 @@ export default function HomePage({
     const route = useRouteToPage();
 
     return (
-        <PageBase requiresAuh={false}>
+        <PageBase requiresAuh={false} isLoadingPage={loading}>
             <div className="flex flex-col gap-16 items-center pt-20 px-4 text-center">
                 <HeroBlock title={APP_NAME}>
                     <div className="space-y-2">
@@ -46,11 +46,11 @@ export default function HomePage({
                     </Button>                    
                 </div>
 
-                <WordsPlayingBlock />
+                <WordsPlayingBlock words={t?.home.words ?? []} />
 
                 <WordCountPerLanguageBlock />
 
-                <WhatIsBlock />                
+                {/* <WhatIsBlock />                 */}
             </div>
         </PageBase>
     )

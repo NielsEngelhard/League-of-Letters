@@ -1,15 +1,15 @@
-import { useAuth, useIsLoggedIn } from "@/features/auth/AuthContext";
+import { useAuth } from "@/features/auth/AuthContext";
 import cn from "@/lib/cn";
 import { cva, VariantProps } from "class-variance-authority";
 import React, { useEffect } from "react";
-import Button from "../ui/Button";
 import AuthenticationRequiredBlock from "./AuthenticationRequiredBlock";
-import LoadingDots from "../ui/animation/LoadingDots";
+import FullScreenLoading from "../ui/animation/FullScreenLoading";
 
 interface Props extends VariantProps<typeof pageBaseVariants> {
     children: React.ReactNode;
     loadingMessage?: string;
     requiresAuh?: boolean;    
+    isLoadingPage?: boolean;
 }
 
 const pageBaseVariants = cva(
@@ -28,7 +28,7 @@ const pageBaseVariants = cva(
   }
 )
 
-export default function PageBase({ children, size, loadingMessage, requiresAuh = true }: Props) {
+export default function PageBase({ children, size, requiresAuh = true, isLoadingPage = false }: Props) {
   const { isLoggedIn, setShowLoginModal, isLoading } = useAuth();
 
   // If page requires auth and not logged in, enforce login modal
@@ -45,17 +45,17 @@ export default function PageBase({ children, size, loadingMessage, requiresAuh =
   return (
         <div className="px-2 my-4 w-full flex flex-col gap-3 items-center mt-[15px] h-full">
             <div className={`flex flex-col w-full gap-2 md:gap-4 ${cn(pageBaseVariants({ size }))}`}>
-                {((!requiresAuh || isLoggedIn))  ? (
-                  <>
-                    {children}
-                  </>
-                ) : (
-                  isLoading ? (
+                {/* Page is loading */}
+                {(isLoadingPage || isLoading) ? (
                     <div className="w-full flex justify-center mt-10">
-                      <LoadingDots />
+                      <FullScreenLoading />
                     </div>
+                ) : (
+                  // Not loading anymore
+                  (!requiresAuh || isLoggedIn) ? (
+                    <>{children}</>
                   ) : (
-                    <AuthenticationRequiredBlock />                    
+                    <AuthenticationRequiredBlock />      
                   )
                 )}
             </div>

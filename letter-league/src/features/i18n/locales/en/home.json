@@ -6,5 +6,6 @@
         "teaserStripedThrough": "destroy your confidence",
         "teaserActual": "level up your skills?",
         "playButton": "🎮 Play Now!"
-    }
+    },
+    "words": ["cheese", "stick", "ball", "violin", "zebra"]
 }

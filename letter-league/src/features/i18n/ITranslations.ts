@@ -8,5 +8,13 @@ export interface Translations {
       teaserActual: string;
       playButton: string;
     };
+
+    words: string[];
   };
+
+  words: {
+    uniqueWordsSlogan: string;
+    uniqueWordsSloganHightlight: string;
+    uniqueWords: string;    
+  }
 }
