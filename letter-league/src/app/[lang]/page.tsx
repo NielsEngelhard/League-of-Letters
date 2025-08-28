@@ -7,9 +7,9 @@ import ClientHome from "@/components/individual-pages/ClientHome";
 export default async function HomePage({
   params,
 }: {
-  params: { lang: SupportedLanguage };
+  params: Promise<{ lang: SupportedLanguage }>;
 }) {
-  const { lang } = params;
+  const { lang } = await params;
   const t = await loadTranslations(lang, ["home"]);
 
   return (
