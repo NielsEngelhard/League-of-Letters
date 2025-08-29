@@ -19,7 +19,7 @@ export default async function HomePage({
   const t = await loadTranslations(lang, ["home"]);
 
   return (
-    <PageBase requiresAuh={false}>
+    <PageBase requiresAuh={false} lang={lang}>
         <div className="flex flex-col gap-16 items-center pt-20 px-4 text-center">
             <HeroBlock title={APP_NAME}>
                 <div className="space-y-2">

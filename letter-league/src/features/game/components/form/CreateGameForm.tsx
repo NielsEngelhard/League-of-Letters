@@ -1,3 +1,5 @@
+"use client"
+
 import { useForm } from "react-hook-form"
 import { CreateGamePlayerSchema, createGameSchema, CreateGameSchema } from "../../game-schemas"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -10,18 +12,32 @@ import { LetterText, Play } from "lucide-react"
 import ErrorText from "@/components/ui/text/ErrorText"
 import { useEffect, useState } from "react"
 import SwitchInput from "@/components/ui/form/SwitchInput"
+import CreateGameCommand from "../../actions/command/create-game-command"
+import { useRouter } from "next/navigation"
+import { LANGUAGE_ROUTE, PLAY_GAME_ROUTE } from "@/app/routes"
+import { SupportedLanguage } from "@/features/i18n/languages"
+import BeforeGameTranslations from "@/features/i18n/translation-file-interfaces/BeforeGameTranslations"
 
 interface Props {
-    onSubmit: (data: CreateGameSchema) => Promise<void> | void;
     submitDisabled?: boolean;
     onLeaveGame?: () => void;
     players?: CreateGamePlayerSchema[];
     gameMode?: GameMode;
     gameId?: string;
+    lang: SupportedLanguage;
+    t: BeforeGameTranslations;
 }
 
-export default function CreateGameForm({ onSubmit, onLeaveGame, submitDisabled = false, players, gameMode = "solo", gameId }: Props) {
+export default function CreateGameForm({ onLeaveGame, submitDisabled = false, players, gameMode = "solo", gameId, lang, t }: Props) {
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const router = useRouter();
+
+    function onSubmit(data: CreateGameSchema) {
+        CreateGameCommand(data)
+        .then((gameId) => {
+        router.push(LANGUAGE_ROUTE(lang, PLAY_GAME_ROUTE(gameId)));
+        });
+    }
 
     const form = useForm<CreateGameSchema>({
       resolver: zodResolver(createGameSchema),
@@ -57,7 +73,7 @@ export default function CreateGameForm({ onSubmit, onLeaveGame, submitDisabled =
             <SelectDropdown
                 name="wordLength"
                 control={form.control}
-                label="Word length"
+                label={t.createGameForm.wordLengthLabel}
                 placeholder="Length of each word"
                 required
                 options={[
@@ -76,7 +92,7 @@ export default function CreateGameForm({ onSubmit, onLeaveGame, submitDisabled =
             <SelectDropdown
                 name="totalRounds"
                 control={form.control}
-                label="Total Rounds"
+                label={t.createGameForm.totalRoundsLabel}
                 placeholder="Number of rounds"
                 required
                 options={[
@@ -91,7 +107,7 @@ export default function CreateGameForm({ onSubmit, onLeaveGame, submitDisabled =
                 <SelectDropdown
                     name="nSecondsPerGuess"
                     control={form.control}
-                    label="Seconds per guess"
+                    label={t.createGameForm.secondsPerGuessLabel}
                     placeholder="Seconds per guess"
                     required
                     options={[
@@ -109,14 +125,14 @@ export default function CreateGameForm({ onSubmit, onLeaveGame, submitDisabled =
             <SwitchInput
                 control={form.control}
                 name="withStartingLetter"
-                label="With starting letter"
+                label={t.createGameForm.withStartingLetterLabel}
                 Icon={LetterText}
             />         
 
             <Seperator />
 
             <div className="text text-foreground-muted font-medium">
-                More settings coming soon...
+                {t.createGameForm.moreSettingsSoon}
             </div>
 
             <div>
@@ -128,7 +144,7 @@ export default function CreateGameForm({ onSubmit, onLeaveGame, submitDisabled =
                     className="w-full"
                 >
                     <div className="flex items-center gap-1">
-                        <Icon LucideIcon={Play} size="sm" /> Start Game
+                        <Icon LucideIcon={Play} size="sm" /> {t.createGameForm.startButton}
                     </div>
                 </Button>   
                 <ErrorText>

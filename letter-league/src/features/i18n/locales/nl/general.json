@@ -1,0 +1,8 @@
+{
+    "startButton": "Speel nu",
+    "continueButton": "Go back",
+    "authRequired": {
+        "title": "Authentication Required",
+        "description": "You must login or create a guest session to access this page."
+    }
+}

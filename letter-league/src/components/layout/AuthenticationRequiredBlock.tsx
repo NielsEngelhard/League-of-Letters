@@ -1,11 +1,12 @@
 import React from 'react';
-import { Lock, ArrowRight } from 'lucide-react';
-import Button from '../ui/Button';
-import { useAuth } from '@/features/auth/AuthContext';
+import { Lock } from 'lucide-react';
+import { SupportedLanguage } from '@/features/i18n/languages';
+import { loadTranslations } from '@/features/i18n/utils';
+import GoBackButton from './GoBackButton';
 
-export default function AuthenticationRequiredBlock() {
-  const { setShowLoginModal } = useAuth();
-
+export default async function AuthenticationRequiredBlock({ lang }: { lang: SupportedLanguage }) {
+  const t = await loadTranslations(lang, ["general"]);
+  
   return (
     <div className="flex flex-col gap-6 items-center justify-center text-center max-w-md mx-auto p-8">
       {/* Icon */}
@@ -16,18 +17,14 @@ export default function AuthenticationRequiredBlock() {
       {/* Text */}
       <div className="space-y-2">
         <h2 className="text-xl font-bold text-foreground">
-          Authentication Required
+          {t.general.authRequired.title}
         </h2>
         <p className="text-foreground-muted leading-relaxed">
-          You must login or create a guest session to access this page.
+          {t.general.authRequired.description}
         </p>
       </div>
       
-      {/* Button */}
-      <Button onClick={() => setShowLoginModal(true)} size="lg">
-        Continue
-        <ArrowRight className="w-4 h-4" />
-      </Button>
+      <GoBackButton btnText={t.general.continueButton} />
   </div>
   );
 }

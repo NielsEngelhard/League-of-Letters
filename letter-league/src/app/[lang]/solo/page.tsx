@@ -1,40 +1,38 @@
 import PageBase from "@/components/layout/PageBase";
-import PageIntro from "@/components/ui/block/PageIntro";
 import Card from "@/components/ui/card/Card";
 import SubText from "@/components/ui/text/SubText";
-import { PICK_GAME_MODE_ROUTE, PLAY_GAME_ROUTE } from "../../routes";
 import CreateGameForm from "@/features/game/components/form/CreateGameForm";
-import { CreateGameSchema } from "@/features/game/game-schemas";
-import CreateGameCommand from "@/features/game/actions/command/create-game-command";
-import { useRouter } from 'next/navigation'
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card/card-children";
+import { SupportedLanguage } from "@/features/i18n/languages";
+import { loadTranslations } from "@/features/i18n/utils";
+import { LANGUAGE_ROUTE, PICK_GAME_MODE_ROUTE } from "@/app/routes";
+import PageIntro from "@/components/ui/block/PageIntro";
 
-export default function SoloPage() {
-  // const router = useRouter()
-
-    async function onSubmit(data: CreateGameSchema) {
-      CreateGameCommand(data)
-      .then((gameId) => {
-        // router.push(route(PLAY_GAME_ROUTE(gameId)));
-      });
-    }
+export default async function SoloPage({
+  params
+}: {
+  params: Promise<{ lang: SupportedLanguage }>
+}) {
+  const { lang } = await params;
+  const t = await loadTranslations(lang, ["beforeGame"]);
 
   return (
-    <PageBase size="sm">
+    <PageBase size="sm" lang={lang}>
   
-      {/* <PageIntro title="Solo Game" subText="Start a new game on your own" backHref={route(PICK_GAME_MODE_ROUTE)}>
+      <PageIntro title={t.beforeGame.gameMode.solo.title} subText={t.beforeGame.gameMode.solo.description} backHref={LANGUAGE_ROUTE(lang, PICK_GAME_MODE_ROUTE)}>
 
-      </PageIntro> */}
+      </PageIntro>
 
       <Card>
         <CardHeader>
-          <CardTitle>Game Settings</CardTitle>
-          <SubText text="Customize your game" /> 
+          <CardTitle>{t.beforeGame.createGameForm.title}</CardTitle>
+          <SubText text={t.beforeGame.createGameForm.description} /> 
         </CardHeader>
         <CardContent>          
           <CreateGameForm
-            onSubmit={onSubmit}
             gameMode="solo"
+            lang={lang}
+            t={t.beforeGame}
           />          
         </CardContent>
       </Card>

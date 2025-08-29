@@ -2,9 +2,9 @@
 
 import Button from "@/components/ui/Button"
 import { useAuth } from "@/features/auth/AuthContext"
-import { HeaderTranslations } from "@/features/i18n/translation-file-interfaces/HeaderTranslations"
+import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations"
 
-export default function UnauthenticatedHeaderSection({ t }: { t: HeaderTranslations }) {
+export default function UnauthenticatedHeaderSection({ t }: { t: GeneralTranslations }) {
     const { setShowLoginModal } = useAuth();
 
     return (

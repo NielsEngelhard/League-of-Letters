@@ -9,13 +9,12 @@ import HeaderConnectionStatus from "./HeaderConnectionStatus";
 import { getAuthenticatedUser_Server } from "@/features/auth/utils/auth-server-utils";
 import UnauthenticatedHeaderSection from "./UnAuthenticatedHeaderSection";
 import { loadTranslations } from "@/features/i18n/utils";
+import GuestSessionTimeRemaining from "./GuestSessionTimeRemaining";
 
 export default async function Header({ lang } : {lang: SupportedLanguage }) {
-    const t = await loadTranslations(lang, ["header"]);
+    const t = await loadTranslations(lang, ["general"]);
     const authPayload = await getAuthenticatedUser_Server();
     const languageStyle = GetLanguageStyle(authPayload?.language);
-
-    const guestSessionTimeRemaining = 30;
 
     return (
         <header className="w-full h-16 fixed top-0 z-50 bg-background-secondary/80 backdrop-blur-xl border-b border-border/20 shadow-sm">
@@ -52,12 +51,7 @@ export default async function Header({ lang } : {lang: SupportedLanguage }) {
 
                         {/* Guest Session Timer */}
                         {authPayload.isGuest && (
-                            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20">
-                                <Clock className="w-3.5 h-3.5 text-amber-600" />
-                                <span className="text-xs font-semibold text-amber-700">
-                                    {guestSessionTimeRemaining}
-                                </span>
-                            </div>
+                            <GuestSessionTimeRemaining />
                         )}
 
                         {/* Reconnect Button */}
@@ -105,7 +99,7 @@ export default async function Header({ lang } : {lang: SupportedLanguage }) {
                         </Link>
                     </div>
                 ) : (
-                    <UnauthenticatedHeaderSection t={t.header} />
+                    <UnauthenticatedHeaderSection t={t.general} />
                 )}
             </div>
             

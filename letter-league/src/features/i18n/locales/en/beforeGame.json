@@ -15,5 +15,15 @@
             "sentence": "Curious about how the score system works?",
             "clickHere": "Click here!"
         }
-    }
+    },
+    "createGameForm": {
+        "title": "Game Settings",
+        "description": "Customize your settings",
+        "wordLengthLabel": "Word length",
+        "totalRoundsLabel": "Total rounds",
+        "withStartingLetterLabel": "With starting letter",
+        "moreSettingsSoon": "More settings coming soon...",
+        "startButton": "Start Game",
+        "secondsPerGuessLabel": "Seconds per guess"            
+    }    
 }

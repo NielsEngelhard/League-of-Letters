@@ -4,18 +4,18 @@ import Title from "@/components/ui/text/Title";
 import SubText from "@/components/ui/text/SubText";
 import GameResultOverviewPlayerCard from "./GameResultOverviewPlayerCard";
 import Button from "@/components/ui/Button";
-import { PICK_GAME_MODE_ROUTE, SOLO_GAME_ROUTE } from "@/app/routes";
+import { LANGUAGE_ROUTE, PICK_GAME_MODE_ROUTE, SOLO_GAME_ROUTE } from "@/app/routes";
 import { useRouter } from "next/navigation";
 import { CardContent, CardHeader } from "@/components/ui/card/card-children";
-import { useRouteToPage } from "@/app/useRouteToPage";
+import { SupportedLanguage } from "@/features/i18n/languages";
 
 interface Props {
     players: GamePlayerModel[];
+    lang: SupportedLanguage;
 }
 
-export default function GameResultOverview({ players }: Props) {
+export default function GameResultOverview({ players, lang }: Props) {
     const router = useRouter();
-    const route = useRouteToPage();
     
     const sortedPlayers = players.sort((a, b) => b.score - a.score);
     const isSoloGame = players.length === 1;
@@ -29,7 +29,7 @@ export default function GameResultOverview({ players }: Props) {
 
     function onPlayAgain() {
         if (isSoloGame) {
-            router.push(route(SOLO_GAME_ROUTE));
+            router.push(LANGUAGE_ROUTE(lang, SOLO_GAME_ROUTE));
         }
     }
 
@@ -82,7 +82,7 @@ export default function GameResultOverview({ players }: Props) {
 
                     {/* Action buttons with enhanced styling */}
                     <div className="flex flex-col sm:flex-row gap-3 w-full mt-4">
-                        <Button variant='skeleton' className="w-full flex-1" href={route(PICK_GAME_MODE_ROUTE)}>
+                        <Button variant='skeleton' className="w-full flex-1" href={LANGUAGE_ROUTE(lang, PICK_GAME_MODE_ROUTE)}>
                             Leave Game
                         </Button>  
                         <Button className="flex-1" variant='primary' onClick={onPlayAgain}>

@@ -15,5 +15,15 @@ export default interface BeforeGameTranslations {
       sentence: string;
       clickHere: string;
     };
-  };
+  }
+  createGameForm: {
+    title: string,
+    description: string,
+    wordLengthLabel: string,
+    totalRoundsLabel: string,
+    withStartingLetterLabel: string,
+    moreSettingsSoon: string,
+    startButton: string;
+    secondsPerGuessLabel: string;
+  }
 }
