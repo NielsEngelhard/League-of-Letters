@@ -3,6 +3,7 @@ import KeyboardKey from "./KeyboardKey";
 import KeyboardColorExplanation from "./KeyboardColorExplanation";
 import { useAuth } from "@/features/auth/AuthContext";
 import { LetterState } from "@/features/word/word-models";
+import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 
 const keyboardRows = [
     ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
@@ -15,9 +16,10 @@ interface Props {
     onDelete?: () => void;
     onEnter?: () => void;
     keyStates?: Map<string, LetterState>;
+    t: GeneralTranslations;
 }
 
-export default function CustomKeyboard({ onKeyPress, onDelete, onEnter, keyStates }: Props) {
+export default function CustomKeyboard({ onKeyPress, onDelete, onEnter, keyStates, t }: Props) {
     const { settings } = useAuth();
 
     return (
@@ -65,7 +67,7 @@ export default function CustomKeyboard({ onKeyPress, onDelete, onEnter, keyState
                 </div>
             ))}
         </div>
-        {settings.showKeyboardHints == true && <KeyboardColorExplanation />}
+        {settings.showKeyboardHints == true && <KeyboardColorExplanation t={t} />}
     </>
     )
 }

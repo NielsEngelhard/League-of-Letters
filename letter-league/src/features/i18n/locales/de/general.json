@@ -6,6 +6,11 @@
         "title": "Anmeldung Erforderlich",
         "description": "Du musst dich einloggen oder eine Gastsitzung erstellen, um auf diese Seite zuzugreifen."
     },
+    "letterState": {
+        "correct": "richtig!",
+        "close": "knapp dran",
+        "wrong": "falsch"
+    },    
     "login": {
         "login": {
             "title": "Einloggen um fortzufahren.",

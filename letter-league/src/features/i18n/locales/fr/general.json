@@ -6,6 +6,11 @@
         "title": "Authentification Requise",
         "description": "Tu dois te connecter ou créer une session invité pour accéder à cette page."
     },
+    "letterState": {
+        "correct": "correct",
+        "close": "presque",
+        "wrong": "faux"
+    },    
     "login": {
         "login": {
             "title": "Connecte-toi pour continuer.",

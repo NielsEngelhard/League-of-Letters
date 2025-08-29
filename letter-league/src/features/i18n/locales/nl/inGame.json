@@ -2,11 +2,6 @@
   "round": "Ronde",
   "time": "Tijd",
   "theWordWas": "Het woord was",
-  "letterState": {
-    "correct": "goed!",
-    "close": "bijna",
-    "wrong": "foutje"
-  },
   "overview": {
     "title": "Speloverzicht",
     "points": "punten",

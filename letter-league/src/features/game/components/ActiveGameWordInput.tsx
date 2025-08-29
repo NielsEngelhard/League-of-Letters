@@ -9,14 +9,16 @@ import { useActiveGame } from "./active-game-context";
 import { LetterState } from "@/features/word/word-models";
 import { mapLetterColors } from "@/features/word/util/letter-color-map";
 import { preFillWordFinder } from "@/features/word/util/prefill-word-finder";
+import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 
 interface Props {
     disabled?: boolean;
     onChange: (value: string) => void;
     onEnter: () => void;
+    t: GeneralTranslations;
 }
 
-export default function WordInput({ onEnter, onChange, disabled = false }: Props) {
+export default function WordInput({ onEnter, onChange, t, disabled = false }: Props) {
     const [keyStates, setKeyStates] = useState<Map<string, LetterState>>(new Map());
     
     const { settings } = useAuth();
@@ -133,6 +135,7 @@ export default function WordInput({ onEnter, onChange, disabled = false }: Props
                 onDelete={onKeyDelete}
                 onEnter={onEnter}
                 keyStates={keyStates}
+                t={t}
             />                        
         )
     }

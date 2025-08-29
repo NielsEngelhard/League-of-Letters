@@ -2,11 +2,6 @@
   "round": "Runde",
   "time": "Zeit",
   "theWordWas": "Das Wort war",
-  "letterState": {
-    "correct": "richtig!",
-    "close": "knapp dran",
-    "wrong": "falsch"
-  },
   "overview": {
     "title": "Spielübersicht",
     "points": "Punkte",

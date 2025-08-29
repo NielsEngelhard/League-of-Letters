@@ -6,6 +6,11 @@
         "title": "Authentication Required",
         "description": "You must login or create a guest session to access this page."
     },
+    "letterState": {
+        "correct": "correct",
+        "close": "close",
+        "wrong": "wrong"
+    },    
     "login": {
         "login": {
             "title": "Login to proceed.",

@@ -2,11 +2,6 @@
     "round": "Round",
     "time": "Time",
     "theWordWas": "The word was",
-    "letterState": {
-        "correct": "correct",
-        "close": "close",
-        "wrong": "wrong"
-    },
     "overview": {
         "title": "Game Overview",
         "points": "points",

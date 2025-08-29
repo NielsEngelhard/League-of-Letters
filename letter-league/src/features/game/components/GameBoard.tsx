@@ -90,6 +90,7 @@ export default function GameBoard({lang, generalTranslations}: Props) {
                             onChange={onChangeInput}
                             onEnter={onSubmitGuess}
                             disabled={!isThisPlayersTurn || isAnimating}
+                            t={generalTranslations}
                         />
                     ) : (
                         <div className="w-full flex flex-col items-center">

@@ -1,32 +1,27 @@
 export default interface InGameTranslations {
-    round: "Round",
-    time: "Time",
-    theWordWas: "The word was",
-    letterState: {
-        correct: "correct",
-        close: "close",
-        wrong: "wrong"
-    },
+    round: string;
+    time: string;
+    theWordWas: string;
     overview: {
-        title: "Game Overview",
-        points: "points",
-        leaveBtn: "Leave Game",
-        playAgainBtn: "Play Again",
+        title: string;
+        points: string;
+        leaveBtn: string;
+        playAgainBtn: string;
         scenarios: {
             solo: {
-                subTxt: "Results"
+                subTxt: string;
             },
             duo: {
-                subTxt: "Duel Results",
-                winner: "WINNER",
-                loser: "LOSER"
+                subTxt: string;
+                winner: string;
+                loser: string;
             },
             online: {
-                subTxt: "Game Results",
-                firstPlace: "Champion",
-                secondPlace: "Runner-up",
-                thirdPlace: "Third place",
-                otherPlace: "Tried"
+                subTxt: string;
+                firstPlace: string;
+                secondPlace: string;
+                thirdPlace: string;
+                otherPlace: string;
             }
         }
     }

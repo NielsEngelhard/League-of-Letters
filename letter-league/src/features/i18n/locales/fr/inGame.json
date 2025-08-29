@@ -2,11 +2,6 @@
   "round": "Manche",
   "time": "Temps",
   "theWordWas": "Le mot était",
-  "letterState": {
-    "correct": "correct!",
-    "close": "presque",
-    "wrong": "faux"
-  },
   "overview": {
     "title": "Aperçu du jeu",
     "points": "points",

@@ -6,6 +6,11 @@
         "title": "Authenticatie Vereist",
         "description": "Je moet inloggen of een gastsessie aanmaken om deze pagina te bezoeken."
     },
+    "letterState": {
+        "correct": "goed",
+        "close": "verkeerde plek",
+        "wrong": "foutje"
+    },    
     "login": {
         "login": {
             "title": "Log in om door te gaan.",

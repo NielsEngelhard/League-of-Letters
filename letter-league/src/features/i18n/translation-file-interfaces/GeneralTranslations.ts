@@ -6,6 +6,11 @@ export interface GeneralTranslations {
     title: string;
     description: string;
   },
+  letterState: {
+      correct: string;
+      close: string;
+      wrong: string;
+  },  
   login: {
     login: {
       title: string;
