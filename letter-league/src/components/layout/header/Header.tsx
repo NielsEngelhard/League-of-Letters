@@ -15,7 +15,6 @@ export default async function Header({ lang } : {lang: SupportedLanguage }) {
     const t = await loadTranslations(lang, ["general"]);
     const authPayload = await getAuthenticatedUser_Server();
 
-    debugger;
     const languageStyle = GetLanguageStyle(authPayload?.language);
 
     return (
@@ -47,9 +46,7 @@ export default async function Header({ lang } : {lang: SupportedLanguage }) {
                 {authPayload ? (
                     <div className="flex items-center gap-3">
                         {/* Language Flag */}
-                        <div className="flex items-center justify-center w-8 h-8 text-lg rounded-full bg-background/40 border border-border/30">
-                            {languageStyle?.flag}
-                        </div>
+                        {languageStyle?.flag}
 
                         {/* Guest Session Timer */}
                         {authPayload.isGuest && (
