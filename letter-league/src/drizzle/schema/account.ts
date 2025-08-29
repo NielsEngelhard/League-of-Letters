@@ -15,7 +15,7 @@ export const AccountTable = pgTable("account", {
     highestScoreAchieved: integer().notNull().default(0),
     colorHex: text().notNull(),
     isGuestAccount: boolean().notNull().default(false),
-    language: supportedLanguageEnum().notNull().default("nl"),
+    language: supportedLanguageEnum().notNull(),
     createdAt,
 });
 

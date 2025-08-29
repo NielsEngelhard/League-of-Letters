@@ -14,6 +14,7 @@ export class GameMapper {
             gameIsOver: game.gameIsOver,
             hostAccountId: game.hostAccountId,
             nSecondsPerGuess: game.nSecondsPerGuess,
+            language: game.language,
             rounds: game.rounds.map((round) => {
                 return GameMapper.GameRoundToModel(round, game.withStartingLetter);
             }),

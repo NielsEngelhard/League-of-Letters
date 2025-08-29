@@ -21,7 +21,7 @@ export default async function CreateGameCommand(schema: CreateGameSchema, gameId
         AddCallerAsOnlyPlayer(schema, currentUser);
     }
 
-    const words = await GetWordsCommand(schema.wordLength, schema.totalRounds, "nl");
+    const words = await GetWordsCommand(schema.wordLength, schema.totalRounds, schema.language);
 
     if (!gameId) gameId = generateGameId();
 
@@ -39,7 +39,8 @@ export default async function CreateGameCommand(schema: CreateGameSchema, gameId
             nGuessesPerRound: schema.guessesPerRound,
             hostAccountId: currentUser.accountId,
             nSecondsPerGuess: determineSecondsPerGuess(schema.nSecondsPerGuess),
-            withStartingLetter: schema.withStartingLetter            
+            withStartingLetter: schema.withStartingLetter,
+            language: schema.language
         }).returning({
             gameId: ActiveGameTable.id
         });

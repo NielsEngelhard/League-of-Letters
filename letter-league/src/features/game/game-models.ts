@@ -1,9 +1,11 @@
 import { GameMode } from "@/drizzle/schema";
 import { EvaluatedWord } from "../word/word-models";
 import { ConnectionStatus } from "../realtime/realtime-models";
+import { SupportedLanguage } from "../i18n/languages";
 
 export interface ActiveGameModel {
     id: string;    
+    language: SupportedLanguage;
     totalRounds: number;
     currentRoundIndex: number;
     nGuessesPerRound: number;

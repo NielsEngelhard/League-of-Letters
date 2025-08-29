@@ -3,6 +3,7 @@ import { z } from "zod";
 import { MAX_GUESSES_PER_ROUND, MAX_TOTAL_ROUNDS, MAX_WORD_LENGTH, MIN_GUESSES_PER_ROUND, MIN_TOTAL_ROUNDS, MIN_WORD_LENGTH } from "./game-constants";
 import { isValidGameId } from "./util/game-id-generator";
 import { connectionStatusses } from "../realtime/realtime-models";
+import { supportedLanguages } from "../i18n/languages";
 
 export const createGamePlayerSchema = z.object({
     accountId: z.string().nonempty(),
@@ -19,7 +20,8 @@ export const createGameSchema = z.object({
     gameMode: z.enum(gameModes),
     nSecondsPerGuess: z.number().max(300).optional(),
     gameId: z.string().optional(),
-    withStartingLetter: z.boolean().optional()
+    withStartingLetter: z.boolean().optional(),
+    language: z.enum(supportedLanguages)
 }).refine((data) => {
     if (data.gameMode == "online") {
         return data.players && data.players.length >= 2;

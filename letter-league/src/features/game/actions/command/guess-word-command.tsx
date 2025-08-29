@@ -21,6 +21,7 @@ import { IsOfficialWordRequestOptimized } from "@/features/word/actions/query/is
 export interface GuessWordCommandInput {
     gameId: string;
     word: string;
+    language: SupportedLanguage;
 }
 
 export interface GuessWordResponse {
@@ -33,7 +34,7 @@ export interface GuessWordResponse {
 }
 
 export async function GuessWordCommand(command: GuessWordCommandInput): Promise<ServerResponse<GuessWordResponse>> {    
-    const guessIsValidWord = await GuessIsValidWord(command.word, "nl");// TODO: real language
+    const guessIsValidWord = await GuessIsValidWord(command.word, command.language);
     if (!guessIsValidWord) {
         return ServerResponseFactory.error("Invalid word");
     }

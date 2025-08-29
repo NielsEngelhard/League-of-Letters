@@ -76,7 +76,8 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
 
     const serverResponse = await GuessWordCommand({
         gameId: game.id,
-        word: currentGuess
+        word: currentGuess,
+        language: game.language
     });
 
     if (!serverResponse.ok || !serverResponse.data) {
