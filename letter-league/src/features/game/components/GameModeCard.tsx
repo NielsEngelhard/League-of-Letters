@@ -51,8 +51,8 @@ export default function GameModeCard({
               </div>
               <div className="font-semibold text-2xl tracking-tight">{title}</div>
           </CardHeader>
-          <CardContent>
-            <div className="w-full flex flex-col gap-3 items-center text-center justify-between h-full">
+          <CardContent className="h-full">
+            <div className="w-full flex flex-col gap-3 items-center text-center justify-between h-full ">
               <div className="text-foreground-muted">{subTxt}</div>
                {children}
               {href && (

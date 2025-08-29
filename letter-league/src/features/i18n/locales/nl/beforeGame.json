@@ -32,14 +32,14 @@
         "subDescription": "Doe mee aan een spel met een code, of maak een nieuwe aan.",
         "joinGame": {
             "title": "Doe Mee",
-            "description": "Voer een spel-ID in om mee te doen aan een bestaand gevecht",
+            "description": "Voer een spel-ID in om mee te doen aan een bestaand spel",
             "btnText": "Doe Mee",
             "inputLabel": "Spel ID"
         },
         "createGame": {
             "title": "Maak Spel",
             "description": "Start een nieuw spel en nodig vrienden uit / (of vijanden)",
-            "extraDescription": "Maak een lobby en deel de spel-ID met vrienden",
+            "extraDescription": "Maak een lobby en nodig je vrienden uit",
             "btnText": "Speel Online"
         }
     },
