@@ -1,3 +1,4 @@
+CREATE TYPE "public"."supported_language" AS ENUM('nl', 'en', 'de', 'fr');--> statement-breakpoint
 CREATE TYPE "public"."game_mode" AS ENUM('solo', 'online');--> statement-breakpoint
 CREATE TYPE "public"."connection_status" AS ENUM('empty', 'connecting', 'connected', 'disconnected', 'error');--> statement-breakpoint
 CREATE TYPE "public"."theme_setting" AS ENUM('light', 'dark', 'candy', 'hackerman');--> statement-breakpoint
@@ -13,6 +14,7 @@ CREATE TABLE "account" (
 	"highestScoreAchieved" integer DEFAULT 0 NOT NULL,
 	"colorHex" text NOT NULL,
 	"isGuestAccount" boolean DEFAULT false NOT NULL,
+	"language" "supported_language" NOT NULL,
 	"createdAt" timestamp with time zone DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
@@ -37,7 +39,8 @@ CREATE TABLE "active_game" (
 	"nSecondsPerGuess" integer,
 	"hostAccountId" uuid NOT NULL,
 	"createdAt" timestamp with time zone DEFAULT now() NOT NULL,
-	"withStartingLetter" boolean DEFAULT true NOT NULL
+	"withStartingLetter" boolean DEFAULT true NOT NULL,
+	"language" "supported_language" NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE "game_player" (

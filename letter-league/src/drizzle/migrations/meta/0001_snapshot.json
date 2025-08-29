@@ -1,6 +1,6 @@
 {
-  "id": "0769eb50-6bdc-479b-ba27-277a097c77b1",
-  "prevId": "bf35bcdb-f0a0-47e5-abba-3a5e2c5c54dc",
+  "id": "0c1d5770-b4cd-4e5f-bf88-2dfd2e19cb34",
+  "prevId": "1c1c7269-0b40-4282-aa53-884a84ca1590",
   "version": "7",
   "dialect": "postgresql",
   "tables": {
@@ -77,8 +77,7 @@
           "type": "supported_language",
           "typeSchema": "public",
           "primaryKey": false,
-          "notNull": true,
-          "default": "'nl'"
+          "notNull": true
         },
         "createdAt": {
           "name": "createdAt",
@@ -247,6 +246,13 @@
           "primaryKey": false,
           "notNull": true,
           "default": true
+        },
+        "language": {
+          "name": "language",
+          "type": "supported_language",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
         }
       },
       "indexes": {},
@@ -608,6 +614,105 @@
       "checkConstraints": {},
       "isRLSEnabled": false
     },
+    "public.de_words": {
+      "name": "de_words",
+      "schema": "",
+      "columns": {
+        "word": {
+          "name": "word",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "length": {
+          "name": "length",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "de_words_word_unique": {
+          "name": "de_words_word_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "word"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.en_words": {
+      "name": "en_words",
+      "schema": "",
+      "columns": {
+        "word": {
+          "name": "word",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "length": {
+          "name": "length",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "en_words_word_unique": {
+          "name": "en_words_word_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "word"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
+    "public.fr_words": {
+      "name": "fr_words",
+      "schema": "",
+      "columns": {
+        "word": {
+          "name": "word",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true
+        },
+        "length": {
+          "name": "length",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {
+        "fr_words_word_unique": {
+          "name": "fr_words_word_unique",
+          "nullsNotDistinct": false,
+          "columns": [
+            "word"
+          ]
+        }
+      },
+      "policies": {},
+      "checkConstraints": {},
+      "isRLSEnabled": false
+    },
     "public.nl_words": {
       "name": "nl_words",
       "schema": "",
@@ -648,7 +753,9 @@
       "schema": "public",
       "values": [
         "nl",
-        "en"
+        "en",
+        "de",
+        "fr"
       ]
     },
     "public.game_mode": {

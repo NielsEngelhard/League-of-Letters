@@ -1,5 +1,5 @@
 {
-  "id": "bf35bcdb-f0a0-47e5-abba-3a5e2c5c54dc",
+  "id": "1c1c7269-0b40-4282-aa53-884a84ca1590",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -71,6 +71,13 @@
           "primaryKey": false,
           "notNull": true,
           "default": false
+        },
+        "language": {
+          "name": "language",
+          "type": "supported_language",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
         },
         "createdAt": {
           "name": "createdAt",
@@ -239,6 +246,13 @@
           "primaryKey": false,
           "notNull": true,
           "default": true
+        },
+        "language": {
+          "name": "language",
+          "type": "supported_language",
+          "typeSchema": "public",
+          "primaryKey": false,
+          "notNull": true
         }
       },
       "indexes": {},
@@ -635,6 +649,16 @@
     }
   },
   "enums": {
+    "public.supported_language": {
+      "name": "supported_language",
+      "schema": "public",
+      "values": [
+        "nl",
+        "en",
+        "de",
+        "fr"
+      ]
+    },
     "public.game_mode": {
       "name": "game_mode",
       "schema": "public",

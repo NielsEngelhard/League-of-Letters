@@ -1,5 +1,4 @@
 import { SupportedLanguage } from "@/features/i18n/languages";
-import { InferSelectModel } from "drizzle-orm";
 import { pgTable, text, integer } from "drizzle-orm/pg-core";
 
 export function OfficialWordsTable(language: SupportedLanguage) {
@@ -11,12 +10,13 @@ export function OfficialWordsTable(language: SupportedLanguage) {
 
 // Tables
 export const NlWordsTable = OfficialWordsTable("nl");
-// export const EnWordsTable = createOfficialWordsTable("en");
+export const EnWordsTable = OfficialWordsTable("en");
+export const DeWordsTable = OfficialWordsTable("de");
+export const FrWordsTable = OfficialWordsTable("fr");
 
 export const officialWordsLanguageTableMap = {
   "nl": NlWordsTable,
-//   "en": EnWordsTable,
+  "en": EnWordsTable,
+  "de": DeWordsTable,
+  "fr": FrWordsTable,
 };
-
-export type DbOfficialWordsTable = InferSelectModel<ReturnType<typeof OfficialWordsTable>>;
-export type NlWordsTableType = InferSelectModel<typeof NlWordsTable>;
