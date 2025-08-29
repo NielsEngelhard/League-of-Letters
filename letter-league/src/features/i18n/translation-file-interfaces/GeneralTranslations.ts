@@ -54,6 +54,10 @@ export interface GeneralTranslations {
       winsLabel: string;
       leftGamesLabel: string;
       favouriteWordLabel: string;
+    },
+    accountSettings: {
+      title: string;
+      updateDescription: string;
     }
   },
   settings: {

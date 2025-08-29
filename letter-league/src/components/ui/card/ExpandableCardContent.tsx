@@ -9,10 +9,11 @@ interface Props {
     description?: string;
     children: React.ReactNode;
     t: GeneralTranslations;
+    initiallyExpaned?: boolean;
 }
 
-export default function ExpandableCardContent({ Icon, title, children, description, t}: Props) {
-    const [expand, setExpand] = useState<boolean>(false);
+export default function ExpandableCardContent({ Icon, title, children, description, t, initiallyExpaned = false}: Props) {
+    const [expand, setExpand] = useState<boolean>(initiallyExpaned);
 
     return (
         <>

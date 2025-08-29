@@ -19,10 +19,10 @@ export async function IsOfficialWordRequestOptimized(data: IsOfficalWordRequestD
     }
 
     // Use count for better performance on large tables
-    const [{ count }] = await db
-      .select({ count: sql<number>`count(*)` })
-      .from(languageTable)
-      .where(eq(languageTable.word, data.word.toLowerCase()));
+  const [{ count }] = await db
+    .select({ count: sql<number>`count(*)` })
+    .from(languageTable)
+    .where(sql`${languageTable.word} ILIKE ${data.word}`);
 
     return count > 0;
   } catch (error) {

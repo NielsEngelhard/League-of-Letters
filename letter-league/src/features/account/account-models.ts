@@ -23,11 +23,13 @@ export interface PublicAccountModel {
 
 export interface PrivateAccountModel {
     id: string;
-    username: string;
     email: string;
+    username: string;
     favouriteWord: string;
     nGamesPlayed: number;
     highestScoreAchieved: number;
     colorHex: string;
     createdAt: Date;
+    language: SupportedLanguage;
+    isGuest?: boolean;
 }

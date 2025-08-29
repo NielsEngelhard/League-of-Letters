@@ -54,6 +54,10 @@
             "winsLabel": "Overwinningen",
             "leftGamesLabel": "Online spellen waar je uit geknipt bent",
             "favouriteWordLabel": "Favoriete Woord"
+        },
+        "accountSettings": {
+            "title":"Account updaten",
+            "updateDescription": "Update je account"
         }
     },
     "settings": {
