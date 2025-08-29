@@ -25,8 +25,12 @@ export class WordFormatValidator {
         }
 
         // Is not a roman number
-        const isRomanNumber = this.isRomanNumeral(trimmedWord);
-        if (isRomanNumber) {
+        if (this.isRomanNumeral(trimmedWord)) {
+            return WordFormatResponseFactory.INVALID(trimmedWord)
+        }
+
+        // If all characters are the same
+        if (this.allSameChars(trimmedWord)) {
             return WordFormatResponseFactory.INVALID(trimmedWord)
         }
 
@@ -39,16 +43,22 @@ export class WordFormatValidator {
         return romanRegex.test(str);
     }    
 
-static replaceSpecialCharacters(input: string): string {
-    return input
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "") // remove combining marks
-        .replace(/ø/g, "o")              // handle special cases
-        .replace(/Ø/g, "O")
-        .replace(/æ/g, "ae")
-        .replace(/Æ/g, "Ae")
-        .replace(/ß/g, "ss");
-} 
+    static replaceSpecialCharacters(input: string): string {
+        return input
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "") // remove combining marks
+            .replace(/ø/g, "o")              // handle special cases
+            .replace(/Ø/g, "O")
+            .replace(/æ/g, "ae")
+            .replace(/Æ/g, "Ae")
+            .replace(/ß/g, "ss");
+    } 
+
+    static allSameChars(str: string): boolean {
+        if (str.length === 0) return false; // or true, depending on your needs
+
+        return str.split('').every(char => char === str[0]);
+    }
 
     /**
      * Checks if more than 50% of the letters in a word are vowels

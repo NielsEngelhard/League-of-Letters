@@ -1,23 +1,23 @@
 import { DbOrTransaction } from "@/drizzle/util/transaction-util";
-import { SupportedLanguage } from "@/features/i18n/languages";
+import { supportedLanguages } from "@/features/i18n/languages";
 import { seedWordListInDb } from "@/features/word/util/script/archive/seed-word-list-in-db";
 import { drizzle } from "drizzle-orm/node-postgres";
 
-export async function seedWordsInDatabase(smallSubset: boolean) { // Small subset for dev/tst or full word lists (all)
-    console.log(`🌱 Start seeding word lists smallSubset=${smallSubset}`);
+export async function seedWordsInDatabase(onlySeedSmallDutchSubset: boolean) { // Small subset for dev/tst or full word lists (all)
+    console.log(`🌱 Start seeding word lists onlySeedSmallDutchSubset=${onlySeedSmallDutchSubset}`);
 
     const dbConnectionString: string = "postgresql://postgres:kaas@localhost:5432/letter-league";
 
     const db = drizzle(dbConnectionString) as DbOrTransaction;
 
-    const languagesToSeed: SupportedLanguage[] = [
-        "nl"
-    ]
+    for(var i=0; i<supportedLanguages.length; i++) {
+        var languageToSeed = supportedLanguages[i];
 
-    for(var i=0; i<languagesToSeed.length; i++) {
-        const languageToSeed = languagesToSeed[i];
+        if (onlySeedSmallDutchSubset && languageToSeed != "nl") {
+            continue;
+        }
 
-        const fileName = smallSubset ? `${languageToSeed}-clean-words-small.txt` : `${languageToSeed}-clean-words-full.txt`; 
+        const fileName = onlySeedSmallDutchSubset ? `${languageToSeed}-clean-words-small.txt` : `${languageToSeed}-clean-words-full.txt`; 
 
         console.log(`🌱 Seeding list for language '${languageToSeed}' with file name '${fileName}'`);
         try {                                    
