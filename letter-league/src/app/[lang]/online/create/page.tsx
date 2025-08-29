@@ -4,29 +4,15 @@ import PageBase from "@/components/layout/PageBase";
 import PageIntro from "@/components/ui/block/PageIntro";
 import Card from "@/components/ui/card/Card";
 import SubText from "@/components/ui/text/SubText";
-import CreateGameForm from "@/features/game/components/form/CreateGameForm";
-import { CreateGameSchema } from "@/features/game/game-schemas";
-import { useAuth } from "@/features/auth/AuthContext";
-import { useEffect, useState } from "react";
-import { JOIN_GAME_ROUTE, LANGUAGE_ROUTE, MULTIPLAYER_GAME_ROUTE } from "@/app/routes";
-import { useSocket } from "@/features/realtime/socket-context";
-import { splitStringInMiddle } from "@/lib/string-util";
+import { LANGUAGE_ROUTE, MULTIPLAYER_GAME_ROUTE } from "@/app/routes";
 import PlayersList from "@/features/lobby/components/OnlineLobbyPlayerList";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card/card-children";
-import { Check, Copy, User } from "lucide-react";
+import { User } from "lucide-react";
 import { MAX_ONLINE_GAME_PLAYERS } from "@/features/game/game-constants";
-import { useMessageBar } from "@/components/layout/MessageBarContext";
-import Icon from "@/components/ui/Icon";
-import { copyToClipboard } from "@/lib/clipboard-util";
-import { OnlineLobbyModel } from "@/features/lobby/lobby-models";
 import CreateOnlineLobbyCommand from "@/features/lobby/actions/command/create-online-lobby-command";
 import LoadingDots from "@/components/ui/animation/LoadingDots";
-import CreateOnlineGameBasedOnLobbyCommand from "@/features/lobby/actions/command/create-online-game-based-on-lobby-command";
 import { OptionItem } from "@/components/ui/OptionsMenu";
 import DeleteOnlineLobbyById from "@/features/lobby/actions/command/delete-online-lobby";
-import { useActiveGame } from "@/features/game/components/active-game-context";
-import { GamePlayerModel } from "@/features/game/game-models";
-import CopyTextBlock from "@/components/ui/CopyTextBlock";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import { loadTranslations } from "@/features/i18n/utils";
 import { redirect } from "next/navigation";
@@ -71,14 +57,14 @@ export default async function CreateOnlineGamePage({
 
   return (
     <PageBase size="lg" lang={lang} requiresAuh={true}>
-      <PageIntro title="Create Online Game" subText="Join Code:" backHref={LANGUAGE_ROUTE(lang, MULTIPLAYER_GAME_ROUTE)} >
+      <PageIntro title={t.beforeGame.lobby.create.title} subText={`${t.beforeGame.lobby.create.joinCode}:`} backHref={LANGUAGE_ROUTE(lang, MULTIPLAYER_GAME_ROUTE)} >
         <div className="text-3xl font-bold">
             <div className="flex flex-col items-center">
               {/* Join Code */}
               <LobbyJoinCode joinCode={lobby.id} />
 
               {/* Join Url */}
-              <LobbyJoinLink lang={lang} label="Join Link" joinCode={lobby.id} />
+              <LobbyJoinLink lang={lang} label={t.beforeGame.lobby.create.joinLink} joinCode={lobby.id} />
             </div>
         </div>
       </PageIntro>
@@ -87,9 +73,9 @@ export default async function CreateOnlineGamePage({
           <Card className="col-span-1">
             <CardHeader>
               <CardTitle>
-                Game Settings
+                {t.beforeGame.createGameForm.title}
               </CardTitle>
-              <SubText text="Customize your game" />    
+              <SubText text={t.beforeGame.createGameForm.description} />    
             </CardHeader>
             <CardContent>
               <CreateLobbyClient

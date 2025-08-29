@@ -41,12 +41,12 @@ export default async function JoinOnlineGamePage({
             <Card variant={lobby ? "success" : "default"} className="animate-pulse-subtle">
             <CardHeader>
                 <CardTitle className="text-success flex items-center gap-3">
-                    {lobby ? "Joined Game" : ""}
+                    {lobby ? t.beforeGame.lobby.join.title : ""}
                     <LoadingDots size="md" color={lobby ? "success" : "text"} />
                 </CardTitle>
                 <span className="text-foreground font-medium flex items-center gap-2">
                     <LoadingSpinner size="sm" color="success" />
-                    Waiting for host to start...
+                    {t.beforeGame.lobby.join.wating}
                 </span>
             </CardHeader>
 

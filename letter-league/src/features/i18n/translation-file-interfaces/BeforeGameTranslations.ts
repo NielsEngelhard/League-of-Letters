@@ -43,4 +43,16 @@ export default interface BeforeGameTranslations {
       btnText: string;
     };
   };  
+  lobby: {
+    create: {
+      title: string;
+      joinCode: string;
+      joinLink: string;
+    },
+    join: {
+      title: string;
+      wating: string;
+      players: string;      
+    }
+  }
 }

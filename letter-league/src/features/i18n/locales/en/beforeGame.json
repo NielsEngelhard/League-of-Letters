@@ -42,5 +42,17 @@
             "extraDescription": "Create a lobby and share the game ID with friends",
             "btnText": "Play Online"
         }        
+    },
+    "lobby": {
+        "create": {
+            "title": "Create Online Game",
+            "joinCode": "Join Code",
+            "joinLink": "Join Link"
+        },
+        "join": {
+            "title": "Joined Game",
+            "wating": "Waiting for host to start...",
+            "players": "players"
+        }
     }
 }
