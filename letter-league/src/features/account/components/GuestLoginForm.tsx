@@ -17,7 +17,7 @@ export default function GuestLoginForm({ lang }: { lang: SupportedLanguage }) {
     const form = useForm<GuestLoginSchema>({
         resolver: zodResolver(guestLoginSchema),
         defaultValues: {
-            language: "nl"
+            language: lang
         }
     })
 

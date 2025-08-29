@@ -22,6 +22,7 @@ export default interface BeforeGameTranslations {
     wordLengthLabel: string,
     totalRoundsLabel: string,
     withStartingLetterLabel: string,
+    languageLabel: string,
     moreSettingsSoon: string,
     startButton: string;
     secondsPerGuessLabel: string;

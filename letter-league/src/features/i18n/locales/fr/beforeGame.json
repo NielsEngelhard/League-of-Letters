@@ -22,6 +22,7 @@
         "wordLengthLabel": "Longueur du mot",
         "totalRoundsLabel": "Nombre total de tours",
         "withStartingLetterLabel": "Avec lettre de départ",
+        "languageLabel": "Langue",
         "moreSettingsSoon": "Plus de paramètres bientôt...",
         "startButton": "Commencer le Jeu",
         "secondsPerGuessLabel": "Secondes par tentative"

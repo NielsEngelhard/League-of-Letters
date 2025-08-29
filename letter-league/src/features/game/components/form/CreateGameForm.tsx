@@ -18,6 +18,8 @@ import { LANGUAGE_ROUTE, PLAY_GAME_ROUTE } from "@/app/routes"
 import { SupportedLanguage } from "@/features/i18n/languages"
 import BeforeGameTranslations from "@/features/i18n/translation-file-interfaces/BeforeGameTranslations"
 import CreateOnlineGameBasedOnLobbyCommand from "@/features/lobby/actions/command/create-online-game-based-on-lobby-command"
+import { GetLanguageStyle } from "@/features/language/LanguageStyles"
+import Label from "@/components/ui/form/Label"
 
 interface Props {
     submitDisabled?: boolean;
@@ -32,6 +34,8 @@ interface Props {
 export default function CreateGameForm({ onLeaveGame, submitDisabled = false, players, gameMode = "solo", gameId, lang, t }: Props) {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const router = useRouter();
+
+    const languageStyle = GetLanguageStyle(lang);
 
     function onSubmit(data: CreateGameSchema) {
         if (gameMode == "online") {
@@ -54,7 +58,8 @@ export default function CreateGameForm({ onLeaveGame, submitDisabled = false, pl
         gameMode: gameMode,
         gameId: gameId,
         withStartingLetter: true,
-        nSecondsPerGuess: gameMode == "online" ? 40 : undefined
+        nSecondsPerGuess: gameMode == "online" ? 40 : undefined,
+        language: lang
       }
     })    
 
@@ -75,7 +80,7 @@ export default function CreateGameForm({ onLeaveGame, submitDisabled = false, pl
     };
 
     return (
-        <form className="flex flex-col gap-3" onSubmit={form.handleSubmit(handleFormSubmit)}>
+        <form className="flex flex-col gap-3" onSubmit={form.handleSubmit(handleFormSubmit)}>            
             <SelectDropdown
                 name="wordLength"
                 control={form.control}
@@ -134,6 +139,11 @@ export default function CreateGameForm({ onLeaveGame, submitDisabled = false, pl
                 label={t.createGameForm.withStartingLetterLabel}
                 Icon={LetterText}
             />         
+
+            <div className="flex flex-row justify-between">
+                <Label text={t.createGameForm.languageLabel} />
+                {languageStyle?.flag}
+            </div>
 
             <Seperator />
 

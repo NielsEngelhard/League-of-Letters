@@ -22,6 +22,7 @@
         "wordLengthLabel": "Word length",
         "totalRoundsLabel": "Total rounds",
         "withStartingLetterLabel": "With starting letter",
+        "languageLabel": "Language",
         "moreSettingsSoon": "More settings coming soon...",
         "startButton": "Start Game",
         "secondsPerGuessLabel": "Seconds per guess"            

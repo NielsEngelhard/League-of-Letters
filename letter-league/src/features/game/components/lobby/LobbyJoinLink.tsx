@@ -9,7 +9,7 @@ export default function LobbyJoinLink({ joinCode, lang, label }: { joinCode: str
     const [joinLink, setJoinLink] = useState("");
 
     useEffect(() => {
-        setJoinLink(`${window.location.origin}/${LANGUAGE_ROUTE(lang, JOIN_GAME_ROUTE(joinCode))}`);
+        setJoinLink(`${window.location.origin}${LANGUAGE_ROUTE(lang, JOIN_GAME_ROUTE(joinCode))}`);
     }, []);
     
     return (

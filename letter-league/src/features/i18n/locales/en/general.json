@@ -37,7 +37,7 @@
         },
         "guest": {
             "title": "Continue as Guest",
-            "description": "Jump in quickly with a temporary account",
+            "description": "In which language do you want your words?",
             "createGuestSessionButton": "Create guest session",
             "guestDisclaimer": "24-hour guest session. Progress won’t be saved, and reconnecting will be limited."
         }

@@ -1,7 +1,7 @@
 import { SupportedLanguage } from "@/features/i18n/languages";
 
 export function LANGUAGE_ROUTE(language: SupportedLanguage, route: string): string {
-    return `/${language}/${route}`;
+    return `/${language}${route}`;
 }
 
 export const HOME_ROUTE = "/";
