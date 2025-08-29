@@ -2,18 +2,18 @@ import { SupportedLanguage, supportedLanguages } from "@/features/i18n/languages
 import Card from "../ui/card/Card";
 import { CardContent } from "../ui/card/card-children";
 import { GetLanguageStyle } from "@/features/language/LanguageStyles";
-import { useTranslations } from "@/features/i18n/useTranslations";
+import { loadTranslations } from "@/features/i18n/utils";
 
-export default function WordCountPerLanguageBlock({lang}: {lang: SupportedLanguage}) {
-    const { t } = useTranslations(lang);
+export default async function WordCountPerLanguageBlock({lang}: {lang: SupportedLanguage}) {
+    const t = await loadTranslations(lang, ["words"]);
 
-    function LanguageCard(language: SupportedLanguage) {
-        const languageData = GetLanguageStyle(language);
-        const { t } = useTranslations(language);
+    async function LanguageCard(languageOfCard: SupportedLanguage) {
+        const languageData = GetLanguageStyle(languageOfCard);
+        const specificLanguage = await loadTranslations(languageOfCard, ["words"]);
 
         return (
             <Card 
-                key={language}
+                key={languageOfCard}
                 className=""
             >
                 <CardContent>
@@ -24,10 +24,10 @@ export default function WordCountPerLanguageBlock({lang}: {lang: SupportedLangua
 
                         <div className="space-y-2 text-center">
                             <div className="text-2xl text-primary font-bold">
-                                {languageData?.uniqueWords}
+                                {specificLanguage.words.uniqueWordsCount}
                             </div>
                             <div className="text-sm font-semibold text-foreground-muted tracking-wide uppercase">
-                                {t?.words.uniqueWords}
+                                {specificLanguage.words.uniqueWordsLabel}
                             </div>
                         </div>
                     </div>
@@ -45,7 +45,7 @@ export default function WordCountPerLanguageBlock({lang}: {lang: SupportedLangua
                         Word Arsenal
                     </h2> */}
                     <p className="text-xl text-foreground-muted font-medium">
-                        {t?.words.uniqueWordsSlogan}
+                        {t.words.uniqueWordsSlogan}
                         <span className="text-success font-bold"> {t?.words.uniqueWordsSloganHightlight}</span>
                     </p>
                 </div>

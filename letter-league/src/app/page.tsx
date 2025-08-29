@@ -1,11 +1,15 @@
-"use client"
 
-import { useRouter } from "next/navigation"
+
 import { HOME_ROUTE } from "./routes"
-import { useRouteToPage } from "./useRouteToPage";
 
 export default function HomePageWithoutLocale() {
-    const router = useRouter();
-    const route = useRouteToPage();
-    router.push(route(HOME_ROUTE));
+    // Check if logged in
+
+    // Check if language is set (header?)
+    // router.push(route(HOME_ROUTE));
+    return (
+        <div>
+            temp
+        </div>
+    )
 }

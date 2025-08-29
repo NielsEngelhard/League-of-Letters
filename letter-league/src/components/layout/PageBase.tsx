@@ -1,15 +1,16 @@
-import { useAuth } from "@/features/auth/AuthContext";
+"use server";
+
 import cn from "@/lib/cn";
 import { cva, VariantProps } from "class-variance-authority";
-import React, { useEffect } from "react";
+import React from "react";
 import AuthenticationRequiredBlock from "./AuthenticationRequiredBlock";
-import FullScreenLoading from "../ui/animation/FullScreenLoading";
+import { JWTService } from "@/features/auth/jwt-service";
+import { cookies } from "next/headers";
+import { AUTH_TOKEN_COOKIE_NAME } from "@/features/auth/auth-constants";
 
 interface Props extends VariantProps<typeof pageBaseVariants> {
     children: React.ReactNode;
-    loadingMessage?: string;
     requiresAuh?: boolean;    
-    isLoadingPage?: boolean;
 }
 
 const pageBaseVariants = cva(
@@ -28,36 +29,29 @@ const pageBaseVariants = cva(
   }
 )
 
-export default function PageBase({ children, size, requiresAuh = true, isLoadingPage = false }: Props) {
-  const { isLoggedIn, setShowLoginModal, isLoading } = useAuth();
+async function isAuthenticated(): Promise<boolean> {
+  const cookieStore = await cookies();
+  const authTokenCookie = cookieStore.get(AUTH_TOKEN_COOKIE_NAME);
+  if (!authTokenCookie) return false;
 
-  // If page requires auth and not logged in, enforce login modal
-  useEffect(() => {
-    const pageRequiresAuthAndUserIsNotLoggedIn: boolean = isLoggedIn || !requiresAuh;
+  const verifiedToken = JWTService.verifyToken(authTokenCookie.value);
+  return verifiedToken != null;
+}
 
-    if (pageRequiresAuthAndUserIsNotLoggedIn) {
-      setShowLoginModal(false);
-    } else {
-      setShowLoginModal(true);
-    }    
-  }, [isLoggedIn, requiresAuh]);
+export default async function PageBase({ children, size, requiresAuh = true }: Props) {
+  
+  // Check authentication if requires auth
+  if (requiresAuh) {
+    if (await isAuthenticated() == false) {
+      return <AuthenticationRequiredBlock />
+    }
+  }
 
+  // Return content
   return (
         <div className="px-2 my-4 w-full flex flex-col gap-3 items-center mt-[15px] h-full">
             <div className={`flex flex-col w-full gap-2 md:gap-4 ${cn(pageBaseVariants({ size }))}`}>
-                {/* Page is loading */}
-                {(isLoadingPage || isLoading) ? (
-                    <div className="w-full flex justify-center mt-10">
-                      <FullScreenLoading />
-                    </div>
-                ) : (
-                  // Not loading anymore
-                  (!requiresAuh || isLoggedIn) ? (
-                    <>{children}</>
-                  ) : (
-                    <AuthenticationRequiredBlock />      
-                  )
-                )}
+                {children}
             </div>
         </div>        
     )

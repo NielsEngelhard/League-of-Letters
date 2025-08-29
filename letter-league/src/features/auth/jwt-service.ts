@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { cookies } from 'next/headers';
 import { 
-  COOKIE_NAME, 
+  AUTH_TOKEN_COOKIE_NAME, 
   REFRESH_COOKIE_NAME,
   GUEST_USER_JWT_EXPIRE_TIME_IN_HOURS, 
   REGULAR_USER_JWT_EXPIRE_TIME_IN_HOURS,
@@ -90,7 +90,7 @@ export class JWTService {
     const refreshTokenMaxAge = this.getRefreshTokenExpiresInSeconds();
 
     // Set access token cookie
-    cookieStore.set(COOKIE_NAME, accessToken, {
+    cookieStore.set(AUTH_TOKEN_COOKIE_NAME, accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
@@ -126,7 +126,7 @@ export class JWTService {
     
   static async getAuthCookie(): Promise<string | null> {
     const cookieStore = await cookies();
-    const cookie = cookieStore.get(COOKIE_NAME);
+    const cookie = cookieStore.get(AUTH_TOKEN_COOKIE_NAME);
     return cookie?.value || null;
   }
 
@@ -138,7 +138,7 @@ export class JWTService {
 
   static async clearAuthCookies(): Promise<void> {
     const cookieStore = await cookies();
-    cookieStore.delete(COOKIE_NAME);
+    cookieStore.delete(AUTH_TOKEN_COOKIE_NAME);
     cookieStore.delete(REFRESH_COOKIE_NAME);
   }
 
@@ -176,7 +176,7 @@ export class JWTService {
     const accessTokenMaxAge = this.getExpiresInSeconds(accountType);
 
     // Update only the access token cookie
-    cookieStore.set(COOKIE_NAME, newAccessToken, {
+    cookieStore.set(AUTH_TOKEN_COOKIE_NAME, newAccessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',

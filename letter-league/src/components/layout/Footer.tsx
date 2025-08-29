@@ -1,13 +1,11 @@
 "use client"
 
 import { APP_NAME } from "@/app/global-constants";
-import { HEALTH_CHECK_ROUTE, HOME_ROUTE, PICK_GAME_MODE_ROUTE, PRIVACY_POLICY_ROUTE, TERMS_OF_SERVICE_ROUTE } from "@/app/routes";
-import { useRouteToPage } from "@/app/useRouteToPage";
+import { HEALTH_CHECK_ROUTE, HOME_ROUTE, LANGUAGE_ROUTE, PICK_GAME_MODE_ROUTE, PRIVACY_POLICY_ROUTE, TERMS_OF_SERVICE_ROUTE } from "@/app/routes";
+import { SupportedLanguage } from "@/features/i18n/languages";
 import Link from "next/link";
 
-export default function Footer() {
-    const route = useRouteToPage();
-
+export default function Footer({ lang }: { lang: SupportedLanguage}) {
     return (
         <footer className="w-full bg-background-secondary border-t-2 border-border mt-auto">
             <div className="max-w-4xl mx-auto px-2 md:px-0 py-6">
@@ -16,7 +14,7 @@ export default function Footer() {
                     {/* Left - Logo & Branding */}
                     <div className="flex items-center gap-3">
                         <Link 
-                            href={route(PICK_GAME_MODE_ROUTE)}
+                            href={LANGUAGE_ROUTE(lang, PICK_GAME_MODE_ROUTE)}
                             className="group flex items-center transition-all duration-200"
                         >
                             <div className="relative">
@@ -60,25 +58,25 @@ export default function Footer() {
                     </div>
                     <div className="flex items-center gap-4">
                         <Link 
-                            href={route(HOME_ROUTE)} 
+                            href={LANGUAGE_ROUTE(lang, HOME_ROUTE)} 
                             className="text-xs text-foreground-muted transition-colors duration-200"
                         >
                             Home
                         </Link>                          
                         <Link 
-                            href={route(HEALTH_CHECK_ROUTE)} 
+                            href={LANGUAGE_ROUTE(lang, HEALTH_CHECK_ROUTE)} 
                             className="text-xs text-foreground-muted transition-colors duration-200"
                         >
                             Health Check
                         </Link>                        
                         <Link 
-                            href={route(PRIVACY_POLICY_ROUTE)} 
+                            href={LANGUAGE_ROUTE(lang, PRIVACY_POLICY_ROUTE)} 
                             className="text-xs text-foreground-muted transition-colors duration-200"
                         >
                             Privacy Policy
                         </Link>
                         <Link 
-                            href={route(TERMS_OF_SERVICE_ROUTE)}
+                            href={LANGUAGE_ROUTE(lang, TERMS_OF_SERVICE_ROUTE)}
                             className="text-xs text-foreground-muted transition-colors duration-200"
                         >
                             Terms of Service

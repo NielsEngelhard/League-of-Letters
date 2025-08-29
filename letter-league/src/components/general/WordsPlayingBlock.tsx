@@ -1,3 +1,5 @@
+"use client"
+
 import { LETTER_ANIMATION_TIME_MS } from "@/features/game/game-constants";
 import LetterRow from "@/features/word/components/LetterRow";
 import { EvaluatedLetter, LetterState } from "@/features/word/word-models";

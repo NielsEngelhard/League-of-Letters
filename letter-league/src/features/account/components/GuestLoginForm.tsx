@@ -7,13 +7,12 @@ import { IdCard } from "lucide-react";
 import { useAuth } from "@/features/auth/AuthContext";
 import SelectLanguageGrid from "@/features/language/component/SelectLanguageGrid";
 import { useRouter } from "next/navigation";
-import { PICK_GAME_MODE_ROUTE } from "@/app/routes";
-import { useRouteToPage } from "@/app/useRouteToPage";
+import { LANGUAGE_ROUTE, PICK_GAME_MODE_ROUTE } from "@/app/routes";
+import { SupportedLanguage } from "@/features/i18n/languages";
 
-export default function GuestLoginForm() {
+export default function GuestLoginForm({ lang }: { lang: SupportedLanguage }) {
     const authContext = useAuth();
     const router = useRouter();
-    const route = useRouteToPage();
 
     const form = useForm<GuestLoginSchema>({
         resolver: zodResolver(guestLoginSchema),
@@ -27,7 +26,7 @@ export default function GuestLoginForm() {
             const account = await authContext.loginWithGuestAccount(data);
             if (!account) throw Error("Something went wrong");
 
-            router.push(route(PICK_GAME_MODE_ROUTE));
+            router.push(LANGUAGE_ROUTE(lang, PICK_GAME_MODE_ROUTE));
         } catch (err) {
             form.setError("root", {
                 type: "manual",

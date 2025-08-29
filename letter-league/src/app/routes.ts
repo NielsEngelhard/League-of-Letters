@@ -1,3 +1,9 @@
+import { SupportedLanguage } from "@/features/i18n/languages";
+
+export function LANGUAGE_ROUTE(language: SupportedLanguage, route: string): string {
+    return `/${language}/${route}`;
+}
+
 export const HOME_ROUTE = "/";
 export const PICK_GAME_MODE_ROUTE = "/game-mode";
 export const SOLO_GAME_ROUTE = "/solo";

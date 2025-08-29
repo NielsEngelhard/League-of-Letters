@@ -1,6 +1,6 @@
 "use client"
 
-import { HOME_ROUTE, PICK_GAME_MODE_ROUTE, PROFILE_ROUTE, RECONNECT_ROUTE } from "@/app/routes";
+import { HOME_ROUTE, LANGUAGE_ROUTE, PICK_GAME_MODE_ROUTE, PROFILE_ROUTE, RECONNECT_ROUTE } from "@/app/routes";
 import { useAuth } from "@/features/auth/AuthContext"
 import Link from "next/link";
 import WebSocketStatusIndicator from "./WebSocketStatusIndicator";
@@ -10,13 +10,11 @@ import Button from "../ui/Button";
 import LoginModal from "@/features/account/components/login-modal/LoginModal";
 import { RefreshCw, Clock } from "lucide-react";
 import { GetLanguageStyle } from "@/features/language/LanguageStyles";
-import { useRouteToPage } from "@/app/useRouteToPage";
 import { SupportedLanguage } from "@/features/i18n/languages";
 
-export default function Header({lang}: {lang: SupportedLanguage}) {
+export default function Header({ lang } : {lang: SupportedLanguage}) {
     const { isLoggedIn, account, setShowLoginModal, showLoginModal, guestSessionTimeRemaining } = useAuth();
     const { connectionStatus } = useSocket();
-    const route = useRouteToPage();
 
     const languageStyle = GetLanguageStyle(account?.language);
 
@@ -26,7 +24,7 @@ export default function Header({lang}: {lang: SupportedLanguage}) {
                 {/* Left - Logo & Status */}
                 <div className="flex items-center gap-4">
                     <Link 
-                        href={account ? route(PICK_GAME_MODE_ROUTE) : route(HOME_ROUTE)}
+                        href={account ? LANGUAGE_ROUTE(lang, PICK_GAME_MODE_ROUTE) : LANGUAGE_ROUTE(lang, HOME_ROUTE)}
                         className="group flex items-center transition-all duration-200"
                     >
                         <div className="relative">
@@ -65,7 +63,7 @@ export default function Header({lang}: {lang: SupportedLanguage}) {
 
                         {/* Reconnect Button */}
                         <Link
-                            href={route(RECONNECT_ROUTE)}
+                            href={LANGUAGE_ROUTE(lang, RECONNECT_ROUTE)}
                             className="group relative flex items-center justify-center w-9 h-9 rounded-full bg-background/40 hover:bg-background/60 border border-border/20 hover:border-border/40 transition-all duration-200"
                             title="Reconnect to game"
                         >
@@ -74,7 +72,7 @@ export default function Header({lang}: {lang: SupportedLanguage}) {
 
                         {/* Profile Section */}
                         <Link 
-                            href={route(PROFILE_ROUTE)} 
+                            href={LANGUAGE_ROUTE(lang, PROFILE_ROUTE)} 
                             className="group flex items-center gap-3 pl-2 pr-4 py-2 rounded-2xl bg-background/30 hover:bg-background/50 border border-border/20 hover:border-primary/30 transition-all duration-200 hover:shadow-lg hover:shadow-primary/5"
                         >
                             {/* Avatar with gradient border */}

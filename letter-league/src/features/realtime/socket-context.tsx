@@ -4,14 +4,14 @@ import React, { createContext, useContext, useRef, useState, ReactNode, useEffec
 import { io, Socket } from 'socket.io-client';
 import { ConnectionStatus, JoinGameRealtimeModel } from './realtime-models';
 import { useRouter } from 'next/navigation';
-import { MULTIPLAYER_GAME_ROUTE, PLAY_GAME_ROUTE } from '@/app/routes';
+import { LANGUAGE_ROUTE, MULTIPLAYER_GAME_ROUTE, PLAY_GAME_ROUTE } from '@/app/routes';
 import { useMessageBar } from '@/components/layout/MessageBarContext';
 import { useActiveGame } from '../game/components/active-game-context';
 import { GuessWordResponse } from '../game/actions/command/guess-word-command';
 import { useAuth } from '../auth/AuthContext';
 import { GamePlayerModel } from '../game/game-models';
 import { RealtimeLogger } from './realtime-logger';
-import { useRouteToPage } from '@/app/useRouteToPage';
+import { SupportedLanguage } from '../i18n/languages';
 
 interface SocketContextType {
   socket: Socket | null;
@@ -27,18 +27,19 @@ interface SocketContextType {
 const SocketContext = createContext<SocketContextType | undefined>(undefined);
 
 interface SocketProviderProps {
+  lang: SupportedLanguage;
   children: ReactNode;
   serverUrl?: string;
 }
 
 export const SocketProvider: React.FC<SocketProviderProps> = ({ 
   children, 
-  serverUrl = process.env.NEXT_PUBLIC_WEBSOCKET_SERVER_BASE_ADDRESS 
+  serverUrl = process.env.NEXT_PUBLIC_WEBSOCKET_SERVER_BASE_ADDRESS,
+  lang
 }) => {
   const { pushMessage } = useMessageBar();
   const activeGameContext = useActiveGame();
   const { account } = useAuth();
-  const route = useRouteToPage();
 
   const router = useRouter();
   const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>("empty");
@@ -88,7 +89,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
     
     socket.on('start-game-transition', (gameId: string) => {
       RealtimeLogger.Log(`start-game-transition ${gameId}`);
-      router.push(route(PLAY_GAME_ROUTE(gameId)));
+      router.push(LANGUAGE_ROUTE(lang, PLAY_GAME_ROUTE(gameId)));
     });
 
     socket.on('guess-word', (response: GuessWordResponse) => {
@@ -106,7 +107,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
 
       if (youAreTheKickedPlayer) {
         activeGameContext.clearGameState();
-        router.push(route(MULTIPLAYER_GAME_ROUTE));
+        router.push(LANGUAGE_ROUTE(lang, MULTIPLAYER_GAME_ROUTE));
         return;
       }
     });        
@@ -116,7 +117,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
         msg: "Game abandoned",
         type: "information"
       });
-      router.push(route(MULTIPLAYER_GAME_ROUTE));
+      router.push(LANGUAGE_ROUTE(lang, MULTIPLAYER_GAME_ROUTE));
     });
     
     socket.on('player-guess-changed', (guess: string) => {
