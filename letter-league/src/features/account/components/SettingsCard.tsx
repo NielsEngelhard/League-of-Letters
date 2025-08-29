@@ -1,5 +1,6 @@
+"use client"
+
 import Card from "@/components/ui/card/Card";
-import { CardContent, CardHeader, CardTitle } from "@/components/ui/card/card-children";
 import SelectDropdown from "@/components/ui/form/SelectInput";
 import { zodResolver } from "@hookform/resolvers/zod"
 import { CaseUpper, CheckCheck, Dock, KeyboardMusic, LetterText, Music, Palette, Settings, Volume2 } from "lucide-react";

@@ -1,3 +1,5 @@
+"use client"
+
 import Card from "@/components/ui/card/Card";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card/card-children";
 import Seperator from "@/components/ui/Seperator";

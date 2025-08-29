@@ -1,8 +1,40 @@
 {
     "startButton": "Start Playing",
+    "logoutButton": "Sign Out",
     "continueButton": "Continue",
     "authRequired": {
         "title": "Authentication Required",
         "description": "You must login or create a guest session to access this page."
-    }
+    },
+    "login": {
+        "login": {
+            "title": "Login to proceed.",
+            "description": "You can also continue as a guest and create a temporarily session.",
+            "usernameLabel": "Email/Username",
+            "usernamePlaceholder": "Your login",
+            "passwordLabel": "Password",
+            "passwordPlaceholder": "Enter your password",
+            "guestButton": "Continue as guest",
+            "loginButton": "Login",
+            "signUpButton": "Sign Up",
+            "backToLoginButton": "Back to login"
+        },
+        "signUp": {
+            "title": "Sign up",
+            "description": "Join the club and create an account for free!",
+            "emailLabel": "Email",
+            "emailPlaceholder": "Your email address",
+            "usernameLabel": "Username",
+            "usernamePlaceholder": "Your username",
+            "passwordLabel": "Password",
+            "passwordPlaceholder": "Your password",
+            "signUpButton": "Create Account"
+        },
+        "guest": {
+            "title": "Continue as Guest",
+            "description": "Jump in quickly with a temporary account",
+            "createGuestSessionButton": "Create guest session",
+            "guestDisclaimer": "24-hour guest session. Progress won’t be saved, and reconnecting will be limited."
+        }
+    }    
 }

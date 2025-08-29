@@ -4,19 +4,21 @@ import { HatGlasses, LogIn } from "lucide-react";
 import Button from "@/components/ui/Button";
 import LoginForm from "../LoginForm";
 import DefaultCardHeader from "@/components/ui/card/DefaultCardHeader";
+import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 
 interface Props {
     onShowSignUp: () => void;
     onShowContinueAsGuest: () => void;
+    t: GeneralTranslations;
 }
 
-export default function LoginModalLoginContent({ onShowSignUp, onShowContinueAsGuest }: Props) {
+export default function LoginModalLoginContent({ onShowSignUp, onShowContinueAsGuest, t }: Props) {
     return (
         <>
         <DefaultCardHeader
             Icon={LogIn}
-            title="Login to proceed."
-            description="You can also continue as a guest and create a temporarily session."
+            title={t.login.login.title}
+            description={t.login.login.description}
         />
 
         <CardContent>
@@ -25,10 +27,10 @@ export default function LoginModalLoginContent({ onShowSignUp, onShowContinueAsG
             <div>
                 <Button variant="skeleton" className="w-full mt-4" onClick={onShowContinueAsGuest}>
                     <HatGlasses className="w-4 h-4" />
-                    Continue as Guest
+                    {t.login.login.guestButton}
                 </Button>         
                 <span className="text-xs font-medium text-foreground-muted">
-                    24-hour guest session. Progress won’t be saved, and reconnecting will be limited.    
+                    {t.login.guest.guestDisclaimer}
                 </span>            
             </div>                 
         </CardContent>

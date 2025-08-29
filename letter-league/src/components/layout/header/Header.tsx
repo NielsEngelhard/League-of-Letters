@@ -2,7 +2,7 @@ import { HOME_ROUTE, LANGUAGE_ROUTE, PICK_GAME_MODE_ROUTE, PROFILE_ROUTE, RECONN
 import Link from "next/link";
 import WebSocketStatusIndicator from "../WebSocketStatusIndicator";
 import LoginModal from "@/features/account/components/login-modal/LoginModal";
-import { RefreshCw, Clock } from "lucide-react";
+import { RefreshCw } from "lucide-react";
 import { GetLanguageStyle } from "@/features/language/LanguageStyles";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import HeaderConnectionStatus from "./HeaderConnectionStatus";
@@ -103,7 +103,7 @@ export default async function Header({ lang } : {lang: SupportedLanguage }) {
                 )}
             </div>
             
-            <LoginModal />
+            <LoginModal t={t.general} lang={lang} />
         </header>
     )
 }

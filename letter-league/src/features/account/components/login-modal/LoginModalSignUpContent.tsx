@@ -3,25 +3,27 @@ import { LogIn, Users } from "lucide-react";
 import SignUpForm from "../SignUpForm";
 import Button from "@/components/ui/Button";
 import DefaultCardHeader from "@/components/ui/card/DefaultCardHeader";
+import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 
 interface Props {
     onBackToLogin: () => void;
+    t: GeneralTranslations;
 }
 
-export default function LoginModalSignUpContent({ onBackToLogin }: Props) {
+export default function LoginModalSignUpContent({ onBackToLogin, t }: Props) {
     return (
         <>
         <DefaultCardHeader
             Icon={Users}
-            title="Sign up"
-            description="Join the club and create an account for free!"
+            title={t.login.signUp.title}
+            description={t.login.signUp.description}
         />        
 
         <CardContent>
             <SignUpForm />
             <Button variant="skeleton" className="w-full" onClick={onBackToLogin}>
                 <LogIn className="w-4 h-4" />
-                back to Login
+                {t.login.login.backToLoginButton}
             </Button>                
         </CardContent>
         </>

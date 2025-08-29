@@ -7,9 +7,12 @@ import { useAuth } from "@/features/auth/AuthContext";
 import LoginModalLoginContent from "./LoginModalLoginContent";
 import LoginModalContinueAsGuestContent from "./LoginModalContinueAsGuestContent";
 import LoginModalSignUpContent from "./LoginModalSignUpContent";
+import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
+import { SupportedLanguage } from "@/features/i18n/languages";
 
 interface Props {
-
+    lang: SupportedLanguage;
+    t: GeneralTranslations;
 }
 
 enum LoginModalState {
@@ -18,7 +21,7 @@ enum LoginModalState {
     ContinueAsGuest
 }
 
-export default function LoginModal({}: Props) {
+export default function LoginModal({ t }: Props) {
     const [modalState, setModalState] = useState(LoginModalState.Login);
     const { setShowLoginModal, showLoginModal } = useAuth();
 
@@ -31,17 +34,18 @@ export default function LoginModal({}: Props) {
             <Card className="w-full mx-2 max-w-[500px] shadow-2xl relative" includeSpacing={true}>
                 {modalState == LoginModalState.Login && (
                     <LoginModalLoginContent
+                        t={t}
                         onShowContinueAsGuest={() => setModalState(LoginModalState.ContinueAsGuest)}
                         onShowSignUp={() => setModalState(LoginModalState.Signup)}
                     />
                 )}
 
                 {modalState == LoginModalState.Signup && (
-                    <LoginModalSignUpContent onBackToLogin={() => setModalState(LoginModalState.Login)} />
+                    <LoginModalSignUpContent onBackToLogin={() => setModalState(LoginModalState.Login)} t={t} />
                 )}
 
                 {modalState == LoginModalState.ContinueAsGuest && (
-                    <LoginModalContinueAsGuestContent onBackToLogin={() => setModalState(LoginModalState.Login)} />
+                    <LoginModalContinueAsGuestContent onBackToLogin={() => setModalState(LoginModalState.Login)} t={t} lang={lang} />
                 )}                                
 
                 <div className="absolute right-2 top-2">
