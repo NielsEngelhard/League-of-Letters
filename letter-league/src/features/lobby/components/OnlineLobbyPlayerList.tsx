@@ -1,3 +1,5 @@
+"use client"
+
 import Avatar from "@/components/ui/Avatar";
 import { Crown, UserX } from "lucide-react";
 import Seperator from "@/components/ui/Seperator";
@@ -6,20 +8,17 @@ import RealtimeStatusIndicator from "@/features/realtime/RealtimeStatusIndicator
 import { GamePlayerModel } from "@/features/game/game-models";
 import KickPlayerFromLobbyCommand from "../actions/command/kick-player-from-lobby-command";
 import { useEffect, useState } from "react";
+import { useActiveGame } from "@/features/game/components/active-game-context";
 
 interface Props {
-    players?: GamePlayerModel[];
     hostAccountId?: string;
     lobbyId?: string;
 }
 
-export default function OnlineLobbyPlayerList({ 
-    players = [], 
-    hostAccountId,
-    lobbyId 
-}: Props) {
+export default function OnlineLobbyPlayerList({ hostAccountId, lobbyId }: Props) {
     const { account } = useAuth();
     const [isHost, setIsHost] = useState(false);
+    const { players } = useActiveGame();
     
     useEffect(() => {
         setIsHost(account?.id == hostAccountId);

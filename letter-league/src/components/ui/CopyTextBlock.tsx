@@ -1,4 +1,6 @@
-import { Check, Copy, ExternalLink } from "lucide-react";
+"use client"
+
+import { Check, Copy } from "lucide-react";
 import { useState } from "react";
 
 interface Props {

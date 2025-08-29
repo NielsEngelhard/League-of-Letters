@@ -1,6 +1,5 @@
 "use server"
 
-import { CreateOnlineLobbySchema } from "../../lobby-schemas";
 import { OnlineLobbyModel } from "../../lobby-models";
 import { OnlineLobbyMapper } from "../../lobby-mapper";
 import { generateGameId } from "@/features/game/util/game-id-generator";
@@ -10,7 +9,7 @@ import { db } from "@/drizzle/db";
 import { CurrentUserData, getCurrentUserOrCrash } from "@/features/auth/current-user";
 
 
-export default async function CreateOnlineLobbyCommand(command: CreateOnlineLobbySchema): Promise<ServerResponse<OnlineLobbyModel>> {
+export default async function CreateOnlineLobbyCommand(): Promise<ServerResponse<OnlineLobbyModel>> {
     const currentUser = await getCurrentUserOrCrash();
 
     // CHECK EXISTING GAME

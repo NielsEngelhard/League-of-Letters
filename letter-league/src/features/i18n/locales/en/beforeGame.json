@@ -25,5 +25,22 @@
         "moreSettingsSoon": "More settings coming soon...",
         "startButton": "Start Game",
         "secondsPerGuessLabel": "Seconds per guess"            
-    }    
+    },
+    "online": {
+        "title": "Online Game",
+        "description": "Play with other people",
+        "subDescription": "Join a game with a code, or create a new one.",
+        "joinGame": {
+            "title": "Join Game",
+            "description": "Enter a game ID to join an existing match",
+            "btnText": "Join",
+            "inputLabel": "Game ID"
+        },
+        "createGame": {
+            "title": "Create Game",
+            "description": "Start a new game and invite friends / (or foes)",
+            "extraDescription": "Create a lobby and share the game ID with friends",
+            "btnText": "Play Online"
+        }        
+    }
 }

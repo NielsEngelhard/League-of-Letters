@@ -25,5 +25,22 @@ export default interface BeforeGameTranslations {
     moreSettingsSoon: string,
     startButton: string;
     secondsPerGuessLabel: string;
-  }
+  },
+  online: {
+    title: string;
+    description: string;
+    subDescription: string;
+    joinGame: {
+      title: string;
+      description: string;
+      inputLabel: string;
+      btnText: string;
+    };
+    createGame: {
+      title: string;
+      description: string;
+      extraDescription: string;
+      btnText: string;
+    };
+  };  
 }

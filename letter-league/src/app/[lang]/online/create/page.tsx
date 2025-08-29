@@ -1,4 +1,4 @@
-"use client"
+"use server"
 
 import PageBase from "@/components/layout/PageBase";
 import PageIntro from "@/components/ui/block/PageIntro";
@@ -8,7 +8,7 @@ import CreateGameForm from "@/features/game/components/form/CreateGameForm";
 import { CreateGameSchema } from "@/features/game/game-schemas";
 import { useAuth } from "@/features/auth/AuthContext";
 import { useEffect, useState } from "react";
-import { JOIN_GAME_ROUTE, MULTIPLAYER_GAME_ROUTE } from "@/app/routes";
+import { JOIN_GAME_ROUTE, LANGUAGE_ROUTE, MULTIPLAYER_GAME_ROUTE } from "@/app/routes";
 import { useSocket } from "@/features/realtime/socket-context";
 import { splitStringInMiddle } from "@/lib/string-util";
 import PlayersList from "@/features/lobby/components/OnlineLobbyPlayerList";
@@ -27,81 +27,100 @@ import DeleteOnlineLobbyById from "@/features/lobby/actions/command/delete-onlin
 import { useActiveGame } from "@/features/game/components/active-game-context";
 import { GamePlayerModel } from "@/features/game/game-models";
 import CopyTextBlock from "@/components/ui/CopyTextBlock";
-import { useRouteToPage } from "@/app/useRouteToPage";
+import { SupportedLanguage } from "@/features/i18n/languages";
+import { loadTranslations } from "@/features/i18n/utils";
+import { redirect } from "next/navigation";
+import LobbyJoinCode from "@/features/game/components/lobby/LobbyJoinCode";
+import LobbyJoinLink from "@/features/game/components/lobby/LobbyJoinLink";
+import CreateLobbyClient from "@/features/game/components/lobby/CreateLobbyClient";
+import { isAuthenticated_Server } from "@/features/auth/utils/auth-server-utils";
+import AuthenticationRequiredBlock from "@/components/layout/AuthenticationRequiredBlock";
 
-export default function CreateOnlineGamePage() {
-  const { initializeConnection, emitJoinGame, connectionStatus } = useSocket();
-  const { players, setInitialPlayers, clearGameState } = useActiveGame();
-  const { pushSuccessMsg, pushLoadingMsg, pushErrorMsg } = useMessageBar();
-  const { account } = useAuth();
-  const route = useRouteToPage();
+export default async function CreateOnlineGamePage({
+  params
+}: {
+  params: Promise<{ lang: SupportedLanguage }>
+}) {
+    const { lang } = await params;
+    const t = await loadTranslations(lang, ["beforeGame"]);
 
-  const [lobby, setLobby] = useState<OnlineLobbyModel | null>(null);
-  const [copiedGameId, setCopiedGameId] = useState(false);
-
-  // On initial load, connect with the websocket server
-  useEffect(() => {
-      if (!account) return;
-
-      clearGameState();
-      pushLoadingMsg("Connecting with the realtime server");
-      initializeConnection();
-  }, [account]);
-
-  useEffect(() => {
-    async function CreateOrGetLobby() {
-      if (players?.length != 0) return;
-      if (connectionStatus != "connected" || lobby || !account) return;
-
-      pushLoadingMsg("Connecting to lobby");
-
-      const lobbyResponse = await GetOrCreateLobbyFromServer();
-      addInitialPlayers(lobbyResponse.players);
-      setLobby(lobbyResponse);    
+    const isAuthenticated = await isAuthenticated_Server();
+    if (!isAuthenticated) {
+        return <AuthenticationRequiredBlock lang={lang} />
     }
 
-    CreateOrGetLobby();
-  }, [connectionStatus, players]);
+    const response = await CreateOnlineLobbyCommand();
+    if (!response || !response.ok || response.data == null) {
+      redirect(LANGUAGE_ROUTE(lang, MULTIPLAYER_GAME_ROUTE));
+    }
 
-  useEffect(() => {
-    if (!lobby || !account) return;
-      emitJoinGame({
-        gameId: lobby.id,
-        accountId: account.id,
-        username: account.username,
-        isHost: true
-      });
+    const lobby = response.data;
 
-      pushSuccessMsg("Connected");      
-  }, [lobby, account]);
+  // const { initializeConnection, emitJoinGame, connectionStatus } = useSocket();
+  // const { players, setInitialPlayers, clearGameState } = useActiveGame();
+  // const { pushSuccessMsg, pushLoadingMsg, pushErrorMsg } = useMessageBar();
+  // const { account } = useAuth();
 
-  function addInitialPlayers(players: GamePlayerModel[]) {
-    setInitialPlayers(players);
-  }
+  // On initial load, connect with the websocket server
+  // useEffect(() => {
+  //     if (!account) return;
 
-  async function GetOrCreateLobbyFromServer(): Promise<OnlineLobbyModel> {
-      if (!account) throw Error("NOT LOGGED IN");
+  //     clearGameState();
+  //     pushLoadingMsg("Connecting with the realtime server");
+  //     initializeConnection();
+  // }, [account]);
 
-      const response = await CreateOnlineLobbyCommand({
-        hostUserId: account.id
-      });
+  // useEffect(() => {
+  //   async function CreateOrGetLobby() {
+  //     if (players?.length != 0) return;
+  //     if (connectionStatus != "connected" || lobby || !account) return;
 
-      if (!response.ok || !response.data) {
-        pushErrorMsg(response.errorMsg);        
-        throw Error("Something went wrong");
-      }
+  //     pushLoadingMsg("Connecting to lobby");
 
-      return response.data;
-  }
+  //     const lobbyResponse = await GetOrCreateLobbyFromServer();
+  //     addInitialPlayers(lobbyResponse.players);
+  //     setLobby(lobbyResponse);    
+  //   }
 
-  async function copyJoinCodeToClipboard() {
-    await copyToClipboard(lobby?.id);
-    setCopiedGameId(true);
-  }
+  //   CreateOrGetLobby();
+  // }, [connectionStatus, players]);
+
+  // useEffect(() => {
+  //   if (!lobby || !account) return;
+  //     emitJoinGame({
+  //       gameId: lobby.id,
+  //       accountId: account.id,
+  //       username: account.username,
+  //       isHost: true
+  //     });
+
+  //     pushSuccessMsg("Connected");      
+  // }, [lobby, account]);
+
+  // function addInitialPlayers(players: GamePlayerModel[]) {
+  //   setInitialPlayers(players);
+  // }
+
+  // async function GetOrCreateLobbyFromServer(): Promise<OnlineLobbyModel> {
+  //     if (!account) throw Error("NOT LOGGED IN");
+
+  //     const response = await CreateOnlineLobbyCommand({
+  //       hostUserId: account.id
+  //     });
+
+  //     if (!response.ok || !response.data) {
+  //       pushErrorMsg(response.errorMsg);        
+  //       throw Error("Something went wrong");
+  //     }
+
+  //     return response.data;
+  // }
+
+
   
-  async function onSubmit(data: CreateGameSchema) {
-    await CreateOnlineGameBasedOnLobbyCommand(data);
-  }  
+  // async function onSubmit(data: CreateGameSchema) {
+  //   await CreateOnlineGameBasedOnLobbyCommand(data);
+  // }  
 
   async function abandonLobby() {
     if (!lobby) return;
@@ -116,74 +135,58 @@ export default function CreateOnlineGamePage() {
     }
   ]
 
-  useEffect(() => {
-    clearGameState();
-  }, []);
+  // useEffect(() => {
+  //   clearGameState();
+  // }, []);
 
   return (
-    <PageBase size="lg">
-      <PageIntro title="Create Online Game" subText="Join Code:" backHref={route(MULTIPLAYER_GAME_ROUTE)} options={lobbyOptions}>
+    <PageBase size="lg" lang={lang} requiresAuh={true}>
+      <PageIntro title="Create Online Game" subText="Join Code:" backHref={LANGUAGE_ROUTE(lang, MULTIPLAYER_GAME_ROUTE)} >
         <div className="text-3xl font-bold">
-          {lobby ? (
             <div className="flex flex-col items-center">
               {/* Join Code */}
-              <button className="flex flex-row cursor-pointer" onClick={copyJoinCodeToClipboard}>
-                {splitStringInMiddle(lobby.id ?? "")}
-                {copiedGameId ? (
-                  <div className="text-success"><Icon LucideIcon={Check} size="xs" /></div>
-                ) : (
-                  <Icon LucideIcon={Copy} size="xs" />
-                )}
-              </button>
+              <LobbyJoinCode joinCode={lobby.id} />
 
               {/* Join Url */}
-              <CopyTextBlock label="Game link" value={`${window.location.origin}/${route(JOIN_GAME_ROUTE(lobby.id))}`} />
+              <LobbyJoinLink lang={lang} label="Join Link" joinCode={lobby.id} />
             </div>
-          ) : "Loading..."}
         </div>
       </PageIntro>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10">
-            <Card className="col-span-1">
-              <CardHeader>
-                <CardTitle>
-                  Game Settings
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10">
+          <Card className="col-span-1">
+            <CardHeader>
+              <CardTitle>
+                Game Settings
+              </CardTitle>
+              <SubText text="Customize your game" />    
+            </CardHeader>
+            <CardContent>
+              <CreateLobbyClient
+                lang={lang}
+                t={t.beforeGame}
+                initialLobby={lobby}
+              />            
+            </CardContent>
+          </Card>       
+          <Card>
+            <CardHeader className="pb-3 sm:pb-4 justify-between flex flex-row">
+                <CardTitle className="text-base sm:text-lg flex items-center gap-2">
+                  <User className="w-4 h-4" />
+                  {/* Players ({players.length}) */}
+                  <sup className="italic text-xs font-normal">max {MAX_ONLINE_GAME_PLAYERS}</sup>
                 </CardTitle>
-                <SubText text="Customize your game" />    
-              </CardHeader>
-              <CardContent>
-                {lobby ? (
-                  <CreateGameForm
-                    gameId={lobby?.id}
-                    onSubmit={onSubmit}
-                    submitDisabled={!lobby?.id}
-                    gameMode="online" 
-                    players={players.map((p) => ({ accountId: p.accountId, username: p.username }))}
-                  />
-                ) : (
-                  <LoadingDots />
-                )}                
-              </CardContent>
-            </Card>       
-            <Card>
-              <CardHeader className="pb-3 sm:pb-4 justify-between flex flex-row">
-                  <CardTitle className="text-base sm:text-lg flex items-center gap-2">
-                    <User className="w-4 h-4" />
-                    Players ({players.length})
-                    <sup className="italic text-xs font-normal">max {MAX_ONLINE_GAME_PLAYERS}</sup>
-                  </CardTitle>
 
-                  <LoadingDots color="success" size="md" />
-              </CardHeader>
-              <CardContent className="space-y-2 sm:space-y-3">
-                  <PlayersList
-                    players={players}
-                    hostAccountId={lobby?.hostAccountId}
-                    lobbyId={lobby?.id}
-                  />
-              </CardContent>
-            </Card>
-        </div>
+                <LoadingDots color="success" size="md" />
+            </CardHeader>
+            <CardContent className="space-y-2 sm:space-y-3">
+                <PlayersList
+                  hostAccountId={lobby?.hostAccountId}
+                  lobbyId={lobby?.id}
+                />
+            </CardContent>
+          </Card>
+      </div>
     </PageBase>
   )
 }
