@@ -1,0 +1,19 @@
+{
+    "gameMode": {
+        "description": "Een ondeugend spelletje met woorden",
+        "solo": {
+            "title": "Solo",
+            "description": "Speel een rustig spel in je eigen tempo",
+            "btn": "Speel Solo"
+        },
+        "multiplayer": {
+            "title": "Online",
+            "description": "Bewijs dat jij het scherpste brein in de kamer hebt",
+            "btn": "Naar de arena!"
+        },
+        "scoreRedirect": {
+            "sentence": "Benieuwd hoe het scoresysteem werkt?",
+            "clickHere": "Klik hier!"
+        }
+    }
+}

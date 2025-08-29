@@ -1,0 +1,19 @@
+{
+    "gameMode": {
+        "description": "A cheeky game of wordplay",
+        "solo": {
+            "title": "Solo",
+            "description": "Play a peacefull game at your own pace",
+            "btn": "Play Solo"
+        },
+        "multiplayer": {
+            "title": "Online",
+            "description": "Prove you’re the sharpest mind in the room",
+            "btn": "To the arena!"
+        },
+        "scoreRedirect": {
+            "sentence": "Curious about how the score system works?",
+            "clickHere": "Click here!"
+        }
+    }
+}

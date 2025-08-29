@@ -1,33 +1,35 @@
-import { Target, Zap, Trophy, Star } from "lucide-react";
+import { Target, Trophy, Star } from "lucide-react";
 import {     LETTER_CORRECTLY_GUESSED_WITHOUT_MISPLACE_POINTS,
     LETTER_MISPLACED_POINTS,
     LETTER_CORRECT_AFTER_MISPLACED_POINTS,
     WORD_GUESSED_POINTS,
     WORD_GUESSED_FIRST_TRY_BONUS_POINTS,
     WORD_GUESSED_SECOND_TRY_BONUS_POINTS } from "./score-constants";
+import ScoreTranslations from "../i18n/translation-file-interfaces/ScoreTranslations";
 
 interface Props {
+    t: ScoreTranslations;
     variant?: 'default' | 'compact';
 }
 
-export default function ScoreBlock({ variant = 'default' }: Props) {
+export default function ScoreBlock({ variant = 'default', t }: Props) {
     const scoringRules = [
         {
             icon: Target,
-            category: "Letter Scoring",
+            category: t.letterScores.title,
             rules: [
                 {
-                    description: "Correct letter in correct position",
+                    description: t.letterScores.allCorrect,
                     points: LETTER_CORRECTLY_GUESSED_WITHOUT_MISPLACE_POINTS,
                     color: "text-green-500"
                 },
                 {
-                    description: "Letter in word, wrong position",
+                    description: t.letterScores.wrongPosition,
                     points: LETTER_MISPLACED_POINTS,
                     color: "text-amber-500"
                 },
                 {
-                    description: "Correct position after misplacement",
+                    description: t.letterScores.correctAfterMisplaced,
                     points: LETTER_CORRECT_AFTER_MISPLACED_POINTS,
                     color: "text-blue-500"
                 }
@@ -35,20 +37,20 @@ export default function ScoreBlock({ variant = 'default' }: Props) {
         },
         {
             icon: Trophy,
-            category: "Word Completion",
+            category: t.wordGuessedScores.title,
             rules: [
                 {
-                    description: "Word guessed correctly",
+                    description: t.wordGuessedScores.correctGuess,
                     points: WORD_GUESSED_POINTS,
                     color: "text-primary"
                 },
                 {
-                    description: "Correct in first guess bonus",
+                    description: t.wordGuessedScores.correctInFirstGuessBonus,
                     points: WORD_GUESSED_FIRST_TRY_BONUS_POINTS,
                     color: "text-yellow-500"
                 },
                 {
-                    description: "Correct in second guess bonus",
+                    description: t.wordGuessedScores.correctInSecondGuessBonus,
                     points: WORD_GUESSED_SECOND_TRY_BONUS_POINTS,
                     color: "text-orange-500"
                 }
@@ -91,15 +93,12 @@ export default function ScoreBlock({ variant = 'default' }: Props) {
         <div className="bg-background/30 border border-border/30 rounded-3xl p-8 space-y-6 backdrop-blur-sm">
             <div className="text-center space-y-2">
                 <div className="flex items-center justify-center gap-3">
-                    <Zap className="w-8 h-8 text-primary" />
                     <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                        Scoring System
+                        {t.title}
                     </h2>
-                    <Zap className="w-8 h-8 text-secondary" />
                 </div>
                 <p className="text-lg text-foreground-muted font-medium">
-                    Master the art of 
-                    <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent font-bold"> strategic guessing</span>
+                    {t.description} 
                 </p>
             </div>
 
@@ -138,9 +137,7 @@ export default function ScoreBlock({ variant = 'default' }: Props) {
 
             <div className="text-center pt-4 border-t border-border/30">
                 <p className="text-sm text-foreground-muted">
-                    <span className="font-semibold text-foreground/80">Pro tip: </span> 
-                    <span>Strategic guessing can maximize your score – </span>
-                    <span className="text-success font-medium">every letter matters!</span>
+                    {t.proTip}
                 </p>
             </div>
         </div>

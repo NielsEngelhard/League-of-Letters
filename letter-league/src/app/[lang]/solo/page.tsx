@@ -1,5 +1,3 @@
-"use client"
-
 import PageBase from "@/components/layout/PageBase";
 import PageIntro from "@/components/ui/block/PageIntro";
 import Card from "@/components/ui/card/Card";
@@ -10,25 +8,23 @@ import { CreateGameSchema } from "@/features/game/game-schemas";
 import CreateGameCommand from "@/features/game/actions/command/create-game-command";
 import { useRouter } from 'next/navigation'
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card/card-children";
-import { useRouteToPage } from "@/app/useRouteToPage";
 
 export default function SoloPage() {
-  const router = useRouter()
-  const route = useRouteToPage();
+  // const router = useRouter()
 
     async function onSubmit(data: CreateGameSchema) {
       CreateGameCommand(data)
       .then((gameId) => {
-        router.push(route(PLAY_GAME_ROUTE(gameId)));
+        // router.push(route(PLAY_GAME_ROUTE(gameId)));
       });
     }
 
   return (
     <PageBase size="sm">
   
-      <PageIntro title="Solo Game" subText="Start a new game on your own" backHref={route(PICK_GAME_MODE_ROUTE)}>
+      {/* <PageIntro title="Solo Game" subText="Start a new game on your own" backHref={route(PICK_GAME_MODE_ROUTE)}>
 
-      </PageIntro>
+      </PageIntro> */}
 
       <Card>
         <CardHeader>

@@ -1,0 +1,17 @@
+{
+    "title": "Scoring System",
+    "description": "Master the art of strategic guessing",
+    "letterScores": {
+        "title": "Letter Scoring",
+        "allCorrect": "Correct letter in correct position",
+        "wrongPosition": "Letter in word, wrong position",
+        "correctAfterMisplaced": "Correct position after misplacement"
+    },
+    "wordGuessedScores": {
+        "title": "Word Completion",
+        "correctGuess": "Word guessed correctly",
+        "correctInFirstGuessBonus": "Correct in first guess bonus",
+        "correctInSecondGuessBonus": "Correct in second guess bonus"
+    },
+    "proTip": "Pro tip: Strategic guessing can maximize your score – every letter matters!"
+}

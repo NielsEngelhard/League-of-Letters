@@ -1,0 +1,17 @@
+{
+    "title": "Scoresysteem",
+    "description": "Beheers de kunst van strategisch raden",
+    "letterScores": {
+        "title": "Letterwaardering",
+        "allCorrect": "Juiste letter op de juiste positie",
+        "wrongPosition": "Letter in het woord, verkeerde positie",
+        "correctAfterMisplaced": "Juiste positie na verkeerde plaatsing"
+    },
+    "wordGuessedScores": {
+        "title": "Woordvoltooiing",
+        "correctGuess": "Woord correct geraden",
+        "correctInFirstGuessBonus": "Bonus voor correct bij de eerste poging",
+        "correctInSecondGuessBonus": "Bonus voor correct bij de tweede poging"
+    },
+    "proTip": "Pro tip: Strategisch raden kan je score maximaliseren – elke letter telt!"
+}
