@@ -10,13 +10,17 @@ import LoadingSpinner from "@/components/ui/animation/LoadingSpinner";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import { useSocket } from "@/features/realtime/socket-context";
 import { useMessageBar } from "@/components/layout/MessageBarContext";
+import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
+import InGameTranslations from "@/features/i18n/translation-file-interfaces/InGameTranslations";
 
 interface Props {
     initialGameState: ActiveGameModel;
     lang: SupportedLanguage;
+    generalTranslations: GeneralTranslations;
+    inGameTranslations: InGameTranslations;
 }
 
-export default function IngameClient({ initialGameState, lang }: Props) {
+export default function IngameClient({ initialGameState, lang, generalTranslations, inGameTranslations }: Props) {
     const { initializeGameState, game, clearGameState, players } = useActiveGame();    
     const { initializeConnection, emitJoinGame, connectionStatus } = useSocket(); 
     const { clearMessage, pushLoadingMsg } = useMessageBar();
@@ -66,11 +70,12 @@ export default function IngameClient({ initialGameState, lang }: Props) {
         <>
             {game?.gameIsOver ? (
                 <GameResultOverview
+                    t={inGameTranslations}
                     lang={lang}
                     players={players}
                 />
             ) : (
-                <GameBoard />
+                <GameBoard lang={lang} generalTranslations={generalTranslations} />
             )}
         </>
     )

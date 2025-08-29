@@ -1,5 +1,6 @@
 import Card from "@/components/ui/card/Card";
 import { GamePlayerModel } from "../game-models";
+import InGameTranslations from "@/features/i18n/translation-file-interfaces/InGameTranslations";
 
 interface Props {
     player: GamePlayerModel;
@@ -9,10 +10,12 @@ interface Props {
     isPodium?: boolean;
     isSoloGame?: boolean;
     isDuel?: boolean;
+    t: InGameTranslations;
 }
 
 export default function GameResultOverviewPlayerCard({ 
     player, 
+    t,
     position, 
     isWinner = false,
     isLoser = false,
@@ -75,14 +78,14 @@ export default function GameResultOverviewPlayerCard({
     const getPlayerTitle = () => {
         if (isSoloGame) return "";
         if (isDuel) {
-            if (isWinner) return "WINNER";
-            if (isLoser) return "LOSER";
+            if (isWinner) return t.overview.scenarios.duo.winner;
+            if (isLoser) return t.overview.scenarios.duo.loser;
         }
         if (isPodium) {
-            if (position === 1) return "Champion";
-            if (position === 2) return "Runner-up";
-            if (position === 3) return "Third Place";
-            else return "Tried";
+            if (position === 1) return t.overview.scenarios.online.firstPlace;
+            if (position === 2) return t.overview.scenarios.online.secondPlace;
+            if (position === 3) return t.overview.scenarios.online.thirdPlace;
+            else return t.overview.scenarios.online.otherPlace;
         }
         return null;
     };
@@ -152,7 +155,7 @@ export default function GameResultOverviewPlayerCard({
                                 {player.score}
                             </div>
                             <div className="text-xs text-foreground font-medium">
-                                points
+                                {t.overview.points}
                             </div>
                         </div>
                     </div>

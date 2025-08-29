@@ -14,8 +14,15 @@ import { useAuth } from "@/features/auth/AuthContext";
 import { useMessageBar } from "@/components/layout/MessageBarContext";
 import UpdateCurrentUserSettingsCommand from "../actions/command/update-current-user-settings";
 import ExpandableCardContent from "@/components/ui/card/ExpandableCardContent";
+import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
+import { SupportedLanguage } from "@/features/i18n/languages";
 
-export default function SettingsCard() {
+interface Props {
+    t: GeneralTranslations;
+    lang: SupportedLanguage;
+}
+
+export default function SettingsCard({ t, lang }: Props) {
     const { settings, setSettingsOnClient } = useAuth();
     const [atLeastOneSettingChanged, setAtLeastOneSettingChanged] = useState(false);
     const { pushMessage } = useMessageBar();
@@ -59,21 +66,22 @@ export default function SettingsCard() {
 
     return (
         <Card className="w-full">
-            <ExpandableCardContent Icon={Settings} title="Settings"
-                description="Click to customize the settings to your liking">
+            <ExpandableCardContent Icon={Settings} title={t.settings.title} t={t}
+                description={t.settings.description}>
                 <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>    
+
                     {/* Appearance Section */}
                     <div className="space-y-4">
                         <div className="flex items-center gap-2 pb-2 border-b border-border/50">
                             <Palette className="w-4 h-4 text-muted-foreground" />
-                            <Label text="Appearance" />
+                            <Label text={t.settings.featureGroups.appearanceLabel} />
                         </div>
                         <div className="pl-6 space-y-3">
                             <SelectDropdown
                                 name="theme"
                                 control={form.control}
-                                label="Theme"
-                                placeholder="Choose your theme"
+                                label={t.settings.features.theme.title}
+                                placeholder={t.settings.features.theme.title}
                                 required
                                 options={[
                                     { value: "light", label: "Light" },
@@ -83,7 +91,7 @@ export default function SettingsCard() {
                                 ]}
                             />
                             <p className="text-xs text-muted-foreground">
-                                Select your preferred visual theme for the application
+                                {t.settings.features.theme.description}
                             </p>
                         </div>
                     </div>
@@ -92,15 +100,15 @@ export default function SettingsCard() {
                     <div className="space-y-4">
                         <div className="flex items-center gap-2 pb-2 border-b border-border/50">
                             <KeyboardMusic className="w-4 h-4 text-muted-foreground" />
-                            <Label text="Keyboard & Input" />
+                            <Label text={t.settings.featureGroups.keyboardInputLabel} />
                         </div>
                         <div className="pl-6 space-y-6">
                             <div className="space-y-3">
                                 <SelectDropdown
                                     name="keyboardInput"
                                     control={form.control}
-                                    label="Input Method"
-                                    placeholder="Select input type"
+                                    label={t.settings.features.keyboardInput.title}
+                                    placeholder={t.settings.features.keyboardInput.title}
                                     required
                                     options={[
                                         { value: "on-screen-keyboard", label: "On-screen Keyboard" },
@@ -109,29 +117,29 @@ export default function SettingsCard() {
                                     ]}
                                 />
                                 <p className="text-xs text-muted-foreground">
-                                    Choose how you want to input letters during the game
+                                    {t.settings.features.keyboardInput.description}
                                 </p>
                             </div>
 
                             <SwitchInput
-                                label="Show keyboard hints"
-                                description="Display helpful hints and shortcuts on the keyboard"
+                                label={t.settings.features.showKeyboardHints.title}
+                                description={t.settings.features.showKeyboardHints.description}
                                 Icon={KeyboardMusic}
                                 control={form.control}
                                 name="showKeyboardHints"                                     
                             />
 
                             <SwitchInput
-                                label="Highlight 'Complete Correct' letters"
-                                description="Highlight letters that are correct and do not occur anymore with special styling"
+                                label={t.settings.features.highlightCompleteLetters.title}
+                                description={t.settings.features.highlightCompleteLetters.description}
                                 Icon={CheckCheck}
                                 control={form.control}
                                 name="showCompleteCorrect"
                             />                         
 
                             <SwitchInput
-                                label="Pre-fill guess"
-                                description="Automatically populate your guess as you type"
+                                label={t.settings.features.preFill.title}
+                                description={t.settings.features.preFill.description}
                                 Icon={CaseUpper}
                                 control={form.control}
                                 name="preFillGuess"
@@ -143,23 +151,23 @@ export default function SettingsCard() {
                     <div className="space-y-4">
                         <div className="flex items-center gap-2 pb-2 border-b border-border/50">
                             <Volume2 className="w-4 h-4 text-muted-foreground" />
-                            <Label text="Audio Settings" />
+                            <Label text={t.settings.featureGroups.audioLabel} />
                             <span className="text-xs text-muted-foreground bg-muted px-2 py-1 rounded-full">
                                 Coming Soon
                             </span>
                         </div>
                         <div className="pl-6 space-y-6">
                             <SwitchInput
-                                label="Enable sound effects"
-                                description="Play audio feedback for game actions and events"
+                                label={t.settings.features.enableSoundEffects.title}
+                                description={t.settings.features.enableSoundEffects.description}
                                 Icon={Volume2}
                                 control={form.control}
                                 name="playSoundEffects"                                     
                             />
 
                             <SwitchInput
-                                label="Enable background music"
-                                description="Play ambient music while playing the game"
+                                label={t.settings.features.enableBackgroundMusic.title}
+                                description={t.settings.features.enableBackgroundMusic.description}
                                 Icon={Music}
                                 control={form.control}
                                 name="playBackgroundMusic"                                     
@@ -173,7 +181,7 @@ export default function SettingsCard() {
                             className="w-full sm:w-auto px-8" 
                             disable={!atLeastOneSettingChanged}
                         >
-                            Save Settings
+                            {t.settings.saveButton}
                         </Button>
                     </div>
                 </form>                

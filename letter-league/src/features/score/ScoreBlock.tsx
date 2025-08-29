@@ -125,7 +125,7 @@ export default function ScoreBlock({ variant = 'default', t }: Props) {
                                             +{rule.points}
                                         </span>
                                         <span className="text-xs text-foreground-muted/60">
-                                            pts
+                                            pt
                                         </span>
                                     </div>
                                 </div>

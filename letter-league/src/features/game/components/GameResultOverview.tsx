@@ -8,13 +8,15 @@ import { LANGUAGE_ROUTE, PICK_GAME_MODE_ROUTE, SOLO_GAME_ROUTE } from "@/app/rou
 import { useRouter } from "next/navigation";
 import { CardContent, CardHeader } from "@/components/ui/card/card-children";
 import { SupportedLanguage } from "@/features/i18n/languages";
+import InGameTranslations from "@/features/i18n/translation-file-interfaces/InGameTranslations";
 
 interface Props {
     players: GamePlayerModel[];
     lang: SupportedLanguage;
+    t: InGameTranslations;
 }
 
-export default function GameResultOverview({ players, lang }: Props) {
+export default function GameResultOverview({ players, lang, t }: Props) {
     const router = useRouter();
     
     const sortedPlayers = players.sort((a, b) => b.score - a.score);
@@ -22,9 +24,9 @@ export default function GameResultOverview({ players, lang }: Props) {
     const isDuel = players.length === 2;
 
     const getSubtitle = () => {
-        if (isSoloGame) return "Results";
-        if (isDuel) return "Duel Results";
-        return "Game Results";
+        if (isSoloGame) return t.overview.scenarios.solo.subTxt;
+        if (isDuel) return t.overview.scenarios.duo.subTxt;
+        return t.overview.scenarios.online.subTxt;
     };
 
     function onPlayAgain() {
@@ -74,6 +76,7 @@ export default function GameResultOverview({ players, lang }: Props) {
                                         isPodium={isPodium}
                                         isSoloGame={isSoloGame}
                                         isDuel={isDuel}
+                                        t={t}
                                     />
                                 </div>
                             );
@@ -83,10 +86,10 @@ export default function GameResultOverview({ players, lang }: Props) {
                     {/* Action buttons with enhanced styling */}
                     <div className="flex flex-col sm:flex-row gap-3 w-full mt-4">
                         <Button variant='skeleton' className="w-full flex-1" href={LANGUAGE_ROUTE(lang, PICK_GAME_MODE_ROUTE)}>
-                            Leave Game
+                            {t.overview.leaveBtn}
                         </Button>  
                         <Button className="flex-1" variant='primary' onClick={onPlayAgain}>
-                            Play Again
+                            {t.overview.playAgainBtn}
                         </Button>
                     </div>                    
                 </CardContent>

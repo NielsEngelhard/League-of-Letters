@@ -21,7 +21,7 @@ enum LoginModalState {
     ContinueAsGuest
 }
 
-export default function LoginModal({ t }: Props) {
+export default function LoginModal({ t, lang }: Props) {
     const [modalState, setModalState] = useState(LoginModalState.Login);
     const { setShowLoginModal, showLoginModal } = useAuth();
 

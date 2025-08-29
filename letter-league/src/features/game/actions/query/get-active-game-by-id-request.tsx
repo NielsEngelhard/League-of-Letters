@@ -6,8 +6,12 @@ import { DbActiveGameWithRoundsAndPlayers } from "@/drizzle/schema";
 import { GameMapper } from "../../game-mapper";
 
 export async function GetActiveGameByIdRequest(gameId: string): Promise<ActiveGameModel | null> {
-    const game = await getGame(gameId);
-    return GameMapper.ActiveGameToModel(game);
+    try {
+        const game = await getGame(gameId);
+        return GameMapper.ActiveGameToModel(game);        
+    } catch {
+        return null;
+    }
 }
 
 async function getGame(gameId: string): Promise<DbActiveGameWithRoundsAndPlayers> {

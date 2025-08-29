@@ -36,5 +36,61 @@
             "createGuestSessionButton": "Create guest session",
             "guestDisclaimer": "24-hour guest session. Progress won’t be saved, and reconnecting will be limited."
         }
-    }    
+    },
+    "account": {
+        "title": "Account Information",
+        "guestDisclaimerTitle": "Guest Account:",
+        "guestDisclaimerDescription": "Your progress is not saved. Consider creating a full account to preserve your statistics and have better reconnection possibilities!",
+        "memberSince": "member since",
+        "guestIndicator": "guest",
+        "memberIndicator": "member",
+        "gameStatistics": {
+            "title": "Game Statistics",
+            "winsLabel": "Wins",
+            "leftGamesLabel": "Chickened out online games",
+            "favouriteWordLabel": "Favorite Word"
+        }
+    },
+    "settings": {
+        "title": "Settings",
+        "description": "Click to customize the settings to your liking",
+        "minimize": "Minimize",
+        "maximize": "Maximize",
+        "saveButton": "Save Settings",
+        "featureGroups": {
+            "appearanceLabel": "Appearance",
+            "keyboardInputLabel": "Keyboard & Input",
+            "audioLabel": "Audio Settings"
+        },
+        "features": {
+            "theme": {
+                "title": "Theme",
+                "description": "Select your preferred visual theme for the application"
+            },
+            "keyboardInput": {
+                "title": "Input Method",
+                "description": "Choose how you want to input letters during the game"
+            },
+            "showKeyboardHints": {
+                "title": "Show keyboard hints",
+                "description": "Display helpful hints and shortcuts on the keyboard"
+            },
+            "highlightCompleteLetters": {
+                "title": "Highlight 'Complete Correct' letters",
+                "description": "Highlight letters that are correct and do not occur anymore with special styling"
+            },
+            "preFill": {
+                "title": "Pre-fill guess",
+                "description": "Automatically populate your guess when it is your turn"
+            },
+            "enableSoundEffects": {
+                "title": "Enable sound effects",
+                "description": "Play audio feedback for game actions and events"
+            },
+            "enableBackgroundMusic": {
+                "title": "Enable background music",
+                "description": "Play ambient music while playing the game"
+            }
+        }
+    }        
 }

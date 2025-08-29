@@ -18,9 +18,9 @@ export default async function AccountPage({
     return (
         <PageBase lang={lang}>
             <div className="space-y-6 max-w-4xl mx-auto">
-                <AccountCard />
+                <AccountCard t={t.general} lang={lang} />
                 
-                <SettingsCard />
+                <SettingsCard t={t.general} lang={lang} />
                 
                 <div className="pt-4 border-t border-border/50">
                     <LogoutButton lang={lang} label={t.general.logoutButton} />

@@ -8,12 +8,15 @@ import SettingsCard from "@/features/account/components/SettingsCard";
 import { useEffect, useState } from "react";
 import InGameTimer from "./in-game/InGameTimer";
 import { getCurrentUtcUnixTimestamp_Seconds } from "@/lib/time-util";
+import { SupportedLanguage } from "@/features/i18n/languages";
+import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 
-interface Props {}
+interface Props {
+    lang: SupportedLanguage;
+    generalTranslations: GeneralTranslations;
+}
 
-
-
-export default function GameBoard({}: Props) {
+export default function GameBoard({lang, generalTranslations}: Props) {
     const { game, players, setCurrentGuess, submitGuess, currentGuess, currentRound, isThisPlayersTurn, isAnimating, theWord, currentPlayerId, recalculateCurrentPlayer } = useActiveGame();
     const [initialTimeLeftForThisTurn, setInitialTimeLeftForThisTurn] = useState<number | null>(null);
 
@@ -97,7 +100,7 @@ export default function GameBoard({}: Props) {
                 </div>
 
                 {/* Settings */}
-                <SettingsCard />
+                <SettingsCard lang={lang} t={generalTranslations} />
             </div>
             ): (
                 <LoadingSpinner size="md" />

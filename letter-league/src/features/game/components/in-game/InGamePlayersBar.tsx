@@ -32,7 +32,7 @@ export default function InGamePlayerBar({ players, currentPlayerId }: Props) {
                     </h3>
                     <div className="flex flex-col gap-1 text-end">
                         {isSoloGame ? (
-                            <span className="text-primary/50">{players[0].score}pts</span>
+                            <span className="text-primary/50">{players[0].score}pt</span>
                         ) : (
                             <InGameConnectionStatusIndicator players={players} />
                         )}                        
