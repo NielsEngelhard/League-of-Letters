@@ -33,7 +33,8 @@ export default async function LoginCommand(unsafeData: z.infer<typeof loginSchem
       accountId: account.id,
       email: account.email,
       username: account.username,
-      isGuest: false
+      isGuest: false,
+      language: account.language
     }, 'account');
 
     return ServerResponseFactory.success(AccountMapper.DbAccountToPublicModel(account));

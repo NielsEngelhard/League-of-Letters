@@ -1,0 +1,33 @@
+{
+  "round": "Ronde",
+  "time": "Tijd",
+  "theWordWas": "Het woord was",
+  "letterState": {
+    "correct": "goed!",
+    "close": "bijna",
+    "wrong": "foutje"
+  },
+  "overview": {
+    "title": "Speloverzicht",
+    "points": "punten",
+    "leaveBtn": "Spel verlaten",
+    "playAgainBtn": "Nog een potje",
+    "scenarios": {
+      "solo": {
+        "subTxt": "Resultaten"
+      },
+      "duo": {
+        "subTxt": "Duelresultaten",
+        "winner": "WINNAAR 🎉",
+        "loser": "VERLIEZER 😅"
+      },
+      "online": {
+        "subTxt": "Spelresultaten",
+        "firstPlace": "Kampioen",
+        "secondPlace": "Tweede plek",
+        "thirdPlace": "Derde plek",
+        "otherPlace": "In ieder geval geprobeerd"
+      }
+    }
+  }
+}

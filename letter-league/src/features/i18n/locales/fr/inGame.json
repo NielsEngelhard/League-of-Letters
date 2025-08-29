@@ -1,0 +1,33 @@
+{
+  "round": "Manche",
+  "time": "Temps",
+  "theWordWas": "Le mot était",
+  "letterState": {
+    "correct": "correct!",
+    "close": "presque",
+    "wrong": "faux"
+  },
+  "overview": {
+    "title": "Aperçu du jeu",
+    "points": "points",
+    "leaveBtn": "Quitter la partie",
+    "playAgainBtn": "Rejouer",
+    "scenarios": {
+      "solo": {
+        "subTxt": "Résultats"
+      },
+      "duo": {
+        "subTxt": "Résultats du duel",
+        "winner": "GAGNANT 🏆",
+        "loser": "PERDANT 😬"
+      },
+      "online": {
+        "subTxt": "Résultats de la partie",
+        "firstPlace": "Champion",
+        "secondPlace": "Deuxième place",
+        "thirdPlace": "Troisième place",
+        "otherPlace": "Au moins essayé"
+      }
+    }
+  }
+}

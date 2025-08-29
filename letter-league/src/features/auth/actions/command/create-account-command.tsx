@@ -1,13 +1,14 @@
 "use server";
 
 import z from "zod";
-import { signUpSchema } from "../../../account/account-schemas";
+import { SignUpSchema, signUpSchema } from "../../../account/account-schemas";
 import { AccountSettingsTable, AccountTable, DbAccount, DbAccountSettings } from "@/drizzle/schema";
 import { eq, or } from "drizzle-orm";
 import { db } from "@/drizzle/db";
 import GenerateRandomUsername from "../../../account/actions/command/generate-random-username";
 import { generateSalt, hashPassword } from "@/features/auth/password-hasher";
 import AccountFactory from "../../../account/account-factory";
+import { SupportedLanguage } from "@/features/i18n/languages";
 
 export default async function CreateAccountCommand(unsafeData: z.infer<typeof signUpSchema>) {
     const { success, data } = signUpSchema.safeParse(unsafeData);
@@ -31,7 +32,7 @@ export default async function CreateAccountCommand(unsafeData: z.infer<typeof si
     try {
  
     
-        const account = await createDatabaseRecords(data.email, data.password, data.username!);        
+        const account = await createDatabaseRecords(data);        
         if (!account) return "Unable to create account"; 
     } catch (ex) {
         console.log(ex);
@@ -41,8 +42,8 @@ export default async function CreateAccountCommand(unsafeData: z.infer<typeof si
     return undefined;    
 }
 
-async function createDatabaseRecords(email: string, password: string, username: string): Promise<DbAccount> {
-    const accountRecord: DbAccount = await AccountFactory.createDbAccount(email, username, password, false);
+async function createDatabaseRecords(data: SignUpSchema): Promise<DbAccount> {
+    const accountRecord: DbAccount = await AccountFactory.createDbAccount(data.email, data.username!, data.password, false, data.language);
     const settingsRecord: DbAccountSettings = AccountFactory.createDbAccountSettings(accountRecord.id);
 
     await db.transaction(async (tx) => {

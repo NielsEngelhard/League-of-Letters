@@ -58,12 +58,6 @@ export default function SettingsCard({ t, lang }: Props) {
             });
     }
 
-    useEffect(() => {
-        if (!settings.theme) return;
-
-        document.documentElement.setAttribute('data-theme', settings.theme);
-    }, [settings.theme]);
-
     return (
         <Card className="w-full">
             <ExpandableCardContent Icon={Settings} title={t.settings.title} t={t}

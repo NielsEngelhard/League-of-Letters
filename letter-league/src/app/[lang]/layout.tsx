@@ -6,9 +6,10 @@ import Footer from "@/components/layout/Footer";
 import HeaderMessageBar from "@/components/layout/HeaderMessageBar";
 import GlobalLoadingIndicator from "@/components/layout/GlobalLoadingIndicator";
 import { use } from "react";
-import { SupportedLanguage, supportedLanguages } from "@/features/i18n/languages";
+import { DefaultLanguage, SupportedLanguage, supportedLanguages } from "@/features/i18n/languages";
 import { redirect } from "next/navigation";
-import { loadTranslations } from "@/features/i18n/utils";
+import { HOME_ROUTE, LANGUAGE_ROUTE } from "../routes";
+import LayoutClient from "@/components/layout/LayoutClient";
 
 export default function LangRootLayout({
   children,
@@ -20,12 +21,15 @@ export default function LangRootLayout({
   const { lang } = use(params);
 
   if (!supportedLanguages.includes(lang)) {
-    redirect("/en");
+    redirect(LANGUAGE_ROUTE(DefaultLanguage, HOME_ROUTE));
   }
 
   return (
     <Providers lang={lang}>
+      
       <GlobalLoadingIndicator />
+      <LayoutClient />
+
       <Header lang={lang} />
       <div className="mt-[60px]">
         <HeaderMessageBar />

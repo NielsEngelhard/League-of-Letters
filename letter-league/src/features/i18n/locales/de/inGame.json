@@ -1,0 +1,33 @@
+{
+  "round": "Runde",
+  "time": "Zeit",
+  "theWordWas": "Das Wort war",
+  "letterState": {
+    "correct": "richtig!",
+    "close": "knapp dran",
+    "wrong": "falsch"
+  },
+  "overview": {
+    "title": "Spielübersicht",
+    "points": "Punkte",
+    "leaveBtn": "Spiel verlassen",
+    "playAgainBtn": "Nochmal spielen",
+    "scenarios": {
+      "solo": {
+        "subTxt": "Ergebnisse"
+      },
+      "duo": {
+        "subTxt": "Duellergebnisse",
+        "winner": "GEWINNER 🎉",
+        "loser": "VERLIERER 😅"
+      },
+      "online": {
+        "subTxt": "Spielergebnisse",
+        "firstPlace": "Champion",
+        "secondPlace": "Zweiter Platz",
+        "thirdPlace": "Dritter Platz",
+        "otherPlace": "Zumindest versucht"
+      }
+    }
+  }
+}

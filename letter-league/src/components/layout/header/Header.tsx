@@ -14,6 +14,8 @@ import GuestSessionTimeRemaining from "./GuestSessionTimeRemaining";
 export default async function Header({ lang } : {lang: SupportedLanguage }) {
     const t = await loadTranslations(lang, ["general"]);
     const authPayload = await getAuthenticatedUser_Server();
+
+    debugger;
     const languageStyle = GetLanguageStyle(authPayload?.language);
 
     return (

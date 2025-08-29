@@ -21,7 +21,8 @@ export default async function CreateGuestSessionCommand(data: GuestLoginSchema):
             accountId: guestAccount.id,
             email: guestAccount.email,
             username: guestAccount.username,
-            isGuest: true
+            isGuest: true,
+            language: guestAccount.language
         }, 'guest');
         
         return ServerResponseFactory.success(AccountMapper.DbAccountToPublicModel(guestAccount, expireDateUtc));

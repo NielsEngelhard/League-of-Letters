@@ -1,15 +1,16 @@
+"use server"
 
+import { getAuthenticatedUser_Server } from "@/features/auth/utils/auth-server-utils"
+import { LANGUAGE_ROUTE, PICK_GAME_MODE_ROUTE } from "./routes"
+import { redirect } from "next/navigation";
+import HomePageClient from "@/components/layout/HomePageClient";
 
-import { HOME_ROUTE } from "./routes"
-
-export default function HomePageWithoutLocale() {
+export default async function HomePageWithoutLocale() {
     // Check if logged in
-
-    // Check if language is set (header?)
-    // router.push(route(HOME_ROUTE));
-    return (
-        <div>
-            temp
-        </div>
-    )
+    const loggedInUser = await getAuthenticatedUser_Server();
+    if (loggedInUser && loggedInUser.language) {
+        redirect(LANGUAGE_ROUTE(loggedInUser.language, PICK_GAME_MODE_ROUTE));
+    }
+    
+    return <HomePageClient />
 }
