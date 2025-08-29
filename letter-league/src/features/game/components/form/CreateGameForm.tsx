@@ -17,6 +17,7 @@ import { useRouter } from "next/navigation"
 import { LANGUAGE_ROUTE, PLAY_GAME_ROUTE } from "@/app/routes"
 import { SupportedLanguage } from "@/features/i18n/languages"
 import BeforeGameTranslations from "@/features/i18n/translation-file-interfaces/BeforeGameTranslations"
+import CreateOnlineGameBasedOnLobbyCommand from "@/features/lobby/actions/command/create-online-game-based-on-lobby-command"
 
 interface Props {
     submitDisabled?: boolean;
@@ -33,10 +34,15 @@ export default function CreateGameForm({ onLeaveGame, submitDisabled = false, pl
     const router = useRouter();
 
     function onSubmit(data: CreateGameSchema) {
-        CreateGameCommand(data)
-        .then((gameId) => {
-        router.push(LANGUAGE_ROUTE(lang, PLAY_GAME_ROUTE(gameId)));
-        });
+        if (gameMode == "online") {
+            CreateOnlineGameBasedOnLobbyCommand(data);        
+        } else {
+            // Solo game
+            CreateGameCommand(data)
+            .then((gameId) => {
+                router.push(LANGUAGE_ROUTE(lang, PLAY_GAME_ROUTE(gameId)));
+            });
+        }
     }
 
     const form = useForm<CreateGameSchema>({

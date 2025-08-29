@@ -56,72 +56,6 @@ export default async function CreateOnlineGamePage({
 
     const lobby = response.data;
 
-  // const { initializeConnection, emitJoinGame, connectionStatus } = useSocket();
-  // const { players, setInitialPlayers, clearGameState } = useActiveGame();
-  // const { pushSuccessMsg, pushLoadingMsg, pushErrorMsg } = useMessageBar();
-  // const { account } = useAuth();
-
-  // On initial load, connect with the websocket server
-  // useEffect(() => {
-  //     if (!account) return;
-
-  //     clearGameState();
-  //     pushLoadingMsg("Connecting with the realtime server");
-  //     initializeConnection();
-  // }, [account]);
-
-  // useEffect(() => {
-  //   async function CreateOrGetLobby() {
-  //     if (players?.length != 0) return;
-  //     if (connectionStatus != "connected" || lobby || !account) return;
-
-  //     pushLoadingMsg("Connecting to lobby");
-
-  //     const lobbyResponse = await GetOrCreateLobbyFromServer();
-  //     addInitialPlayers(lobbyResponse.players);
-  //     setLobby(lobbyResponse);    
-  //   }
-
-  //   CreateOrGetLobby();
-  // }, [connectionStatus, players]);
-
-  // useEffect(() => {
-  //   if (!lobby || !account) return;
-  //     emitJoinGame({
-  //       gameId: lobby.id,
-  //       accountId: account.id,
-  //       username: account.username,
-  //       isHost: true
-  //     });
-
-  //     pushSuccessMsg("Connected");      
-  // }, [lobby, account]);
-
-  // function addInitialPlayers(players: GamePlayerModel[]) {
-  //   setInitialPlayers(players);
-  // }
-
-  // async function GetOrCreateLobbyFromServer(): Promise<OnlineLobbyModel> {
-  //     if (!account) throw Error("NOT LOGGED IN");
-
-  //     const response = await CreateOnlineLobbyCommand({
-  //       hostUserId: account.id
-  //     });
-
-  //     if (!response.ok || !response.data) {
-  //       pushErrorMsg(response.errorMsg);        
-  //       throw Error("Something went wrong");
-  //     }
-
-  //     return response.data;
-  // }
-
-
-  
-  // async function onSubmit(data: CreateGameSchema) {
-  //   await CreateOnlineGameBasedOnLobbyCommand(data);
-  // }  
-
   async function abandonLobby() {
     if (!lobby) return;
     await DeleteOnlineLobbyById(lobby.id, undefined, true);
@@ -134,10 +68,6 @@ export default async function CreateOnlineGamePage({
       destructive: true
     }
   ]
-
-  // useEffect(() => {
-  //   clearGameState();
-  // }, []);
 
   return (
     <PageBase size="lg" lang={lang} requiresAuh={true}>
