@@ -1,8 +1,13 @@
 import PageBase from '@/components/layout/PageBase';
-import { PICK_GAME_MODE_ROUTE } from '../routes';
+import { LANGUAGE_ROUTE, PICK_GAME_MODE_ROUTE } from '../routes';
 import Button from '@/components/ui/Button';
+import { SupportedLanguage } from '@/features/i18n/languages';
+import { loadTranslations } from '@/features/i18n/utils';
 
-export default function NotFound() {
+export default async function NotFound({ params }: { params: Promise<{ lang: SupportedLanguage }> }) {
+  const { lang } = await params;
+  const t = await loadTranslations(lang, ["home"]);
+
   return (
     <PageBase requiresAuh={false}>
       <div className="text-center space-y-8 flex flex-col items-center justify-center w-full">
@@ -13,18 +18,17 @@ export default function NotFound() {
 
         {/* Error Message */}
         <div className="space-y-4">
-          <h2 className="text-2xl font-semibold text-gray-700">Page Not Found</h2>
+          <h2 className="text-2xl font-semibold text-gray-700">{t.home.notFound.title}</h2>
           <p className="text-gray-500 leading-relaxed">
-            Sorry, we couldn't find the page you're looking for. 
-            The page might have been moved, deleted, or you entered the wrong URL.
+            {t.home.notFound.description}
           </p>
         </div>
 
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            {/* <Button size="lg" href={route(PICK_GAME_MODE_ROUTE)}>
-                Take me back
-            </Button>           */}
+            <Button size="lg" href={LANGUAGE_ROUTE(lang, PICK_GAME_MODE_ROUTE)}>
+                {t.home.notFound.btnText}
+            </Button>          
         </div>
       </div>
     </PageBase>

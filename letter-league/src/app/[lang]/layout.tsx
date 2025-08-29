@@ -1,6 +1,6 @@
 import "../globals.css";
 import "../animations.css";
-import Header from "@/components/layout/Header";
+import Header from "@/components/layout/header/Header";
 import { Providers } from "@/components/layout/GlobalProviders";
 import Footer from "@/components/layout/Footer";
 import HeaderMessageBar from "@/components/layout/HeaderMessageBar";
@@ -8,6 +8,7 @@ import GlobalLoadingIndicator from "@/components/layout/GlobalLoadingIndicator";
 import { use } from "react";
 import { SupportedLanguage, supportedLanguages } from "@/features/i18n/languages";
 import { redirect } from "next/navigation";
+import { loadTranslations } from "@/features/i18n/utils";
 
 export default function LangRootLayout({
   children,
@@ -23,7 +24,7 @@ export default function LangRootLayout({
   }
 
   return (
-    <Providers>
+    <Providers lang={lang}>
       <GlobalLoadingIndicator />
       <Header lang={lang} />
       <div className="mt-[60px]">
@@ -32,7 +33,7 @@ export default function LangRootLayout({
           {children}
         </div>
       </div>
-      <Footer />
+      <Footer lang={lang} />
     </Providers>
   );
 }

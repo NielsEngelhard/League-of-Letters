@@ -4,9 +4,7 @@ import cn from "@/lib/cn";
 import { cva, VariantProps } from "class-variance-authority";
 import React from "react";
 import AuthenticationRequiredBlock from "./AuthenticationRequiredBlock";
-import { JWTService } from "@/features/auth/jwt-service";
-import { cookies } from "next/headers";
-import { AUTH_TOKEN_COOKIE_NAME } from "@/features/auth/auth-constants";
+import { isAuthenticated_Server } from "@/features/auth/utils/auth-server-utils";
 
 interface Props extends VariantProps<typeof pageBaseVariants> {
     children: React.ReactNode;
@@ -29,20 +27,11 @@ const pageBaseVariants = cva(
   }
 )
 
-async function isAuthenticated(): Promise<boolean> {
-  const cookieStore = await cookies();
-  const authTokenCookie = cookieStore.get(AUTH_TOKEN_COOKIE_NAME);
-  if (!authTokenCookie) return false;
-
-  const verifiedToken = JWTService.verifyToken(authTokenCookie.value);
-  return verifiedToken != null;
-}
-
 export default async function PageBase({ children, size, requiresAuh = true }: Props) {
   
   // Check authentication if requires auth
   if (requiresAuh) {
-    if (await isAuthenticated() == false) {
+    if (await isAuthenticated_Server() == false) {
       return <AuthenticationRequiredBlock />
     }
   }

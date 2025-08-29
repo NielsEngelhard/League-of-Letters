@@ -1,22 +1,21 @@
-"use client"
-
 import { HOME_ROUTE, LANGUAGE_ROUTE, PICK_GAME_MODE_ROUTE, PROFILE_ROUTE, RECONNECT_ROUTE } from "@/app/routes";
-import { useAuth } from "@/features/auth/AuthContext"
 import Link from "next/link";
-import WebSocketStatusIndicator from "./WebSocketStatusIndicator";
-import RealtimeStatusIndicator from "@/features/realtime/RealtimeStatusIndicator";
-import { useSocket } from "@/features/realtime/socket-context";
-import Button from "../ui/Button";
+import WebSocketStatusIndicator from "../WebSocketStatusIndicator";
 import LoginModal from "@/features/account/components/login-modal/LoginModal";
 import { RefreshCw, Clock } from "lucide-react";
 import { GetLanguageStyle } from "@/features/language/LanguageStyles";
 import { SupportedLanguage } from "@/features/i18n/languages";
+import HeaderConnectionStatus from "./HeaderConnectionStatus";
+import { getAuthenticatedUser_Server } from "@/features/auth/utils/auth-server-utils";
+import UnauthenticatedHeaderSection from "./UnAuthenticatedHeaderSection";
+import { loadTranslations } from "@/features/i18n/utils";
 
-export default function Header({ lang } : {lang: SupportedLanguage}) {
-    const { isLoggedIn, account, setShowLoginModal, showLoginModal, guestSessionTimeRemaining } = useAuth();
-    const { connectionStatus } = useSocket();
+export default async function Header({ lang } : {lang: SupportedLanguage }) {
+    const t = await loadTranslations(lang, ["header"]);
+    const authPayload = await getAuthenticatedUser_Server();
+    const languageStyle = GetLanguageStyle(authPayload?.language);
 
-    const languageStyle = GetLanguageStyle(account?.language);
+    const guestSessionTimeRemaining = 30;
 
     return (
         <header className="w-full h-16 fixed top-0 z-50 bg-background-secondary/80 backdrop-blur-xl border-b border-border/20 shadow-sm">
@@ -24,7 +23,7 @@ export default function Header({ lang } : {lang: SupportedLanguage}) {
                 {/* Left - Logo & Status */}
                 <div className="flex items-center gap-4">
                     <Link 
-                        href={account ? LANGUAGE_ROUTE(lang, PICK_GAME_MODE_ROUTE) : LANGUAGE_ROUTE(lang, HOME_ROUTE)}
+                        href={authPayload ? LANGUAGE_ROUTE(lang, PICK_GAME_MODE_ROUTE) : LANGUAGE_ROUTE(lang, HOME_ROUTE)}
                         className="group flex items-center transition-all duration-200"
                     >
                         <div className="relative">
@@ -44,7 +43,7 @@ export default function Header({ lang } : {lang: SupportedLanguage}) {
                 </div>
 
                 {/* Right - User Section */}
-                {isLoggedIn && account ? (
+                {authPayload ? (
                     <div className="flex items-center gap-3">
                         {/* Language Flag */}
                         <div className="flex items-center justify-center w-8 h-8 text-lg rounded-full bg-background/40 border border-border/30">
@@ -52,7 +51,7 @@ export default function Header({ lang } : {lang: SupportedLanguage}) {
                         </div>
 
                         {/* Guest Session Timer */}
-                        {account.isGuest && (
+                        {authPayload.isGuest && (
                             <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-amber-500/10 border border-amber-500/20">
                                 <Clock className="w-3.5 h-3.5 text-amber-600" />
                                 <span className="text-xs font-semibold text-amber-700">
@@ -80,53 +79,37 @@ export default function Header({ lang } : {lang: SupportedLanguage}) {
                                 <div className="w-8 h-8 rounded-full p-0.5 bg-gradient-to-br from-primary to-secondary">
                                     <div className="w-full h-full rounded-full bg-background flex items-center justify-center">
                                         <span className="text-sm font-bold bg-gradient-to-br from-primary to-secondary bg-clip-text text-transparent">
-                                            {account.username.charAt(0).toUpperCase()}
+                                            {authPayload.username.charAt(0).toUpperCase()}
                                         </span>
                                     </div>
                                 </div>
                                 
                                 {/* Status dot */}
-                                {connectionStatus !== "empty" && (
-                                    <div className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-background">
-                                        <RealtimeStatusIndicator status={connectionStatus} showDot={true} showIcon={false} showLabel={false} />
-                                    </div>
-                                )}
+                                <HeaderConnectionStatus />
                             </div>
 
                             {/* User Info */}
                             <div className="hidden sm:flex flex-col min-w-0">
                                 <div className="flex items-center gap-1.5">
                                     <span className="text-sm font-semibold text-foreground/90 group-hover:text-foreground transition-colors duration-200 truncate">
-                                        {account.username}
+                                        {authPayload.username}
                                     </span>
                                 </div>
                                 
                                 <div className="flex items-center gap-1">
                                     <span className="text-xs text-foreground-muted/80 font-medium">
-                                        {account.isGuest ? 'Guest' : 'Member'}
+                                        {authPayload.isGuest ? 'Guest' : 'Member'}
                                     </span>
                                 </div>
                             </div>
                         </Link>
                     </div>
                 ) : (
-                    /* Unauthenticated State */
-                    <div className="flex items-center gap-3">
-                        <Button 
-                            variant="primary" 
-                            size="sm" 
-                            onClick={() => setShowLoginModal(true)}
-                            className="px-6 py-2.5 font-semibold transition-all duration-300 hover:scale-105"
-                        >
-                            <span className="flex items-center gap-2">
-                                {/* {t?.header.startButton} */}
-                            </span>
-                        </Button>
-                    </div>
+                    <UnauthenticatedHeaderSection t={t.header} />
                 )}
             </div>
             
-            {showLoginModal && <LoginModal />}
+            <LoginModal />
         </header>
     )
 }

@@ -8,4 +8,9 @@ export default interface HomePageTranslations {
     playButton: string;
   };
   words: string[];
+  notFound: {
+    title: string;
+    description: string;
+    btnText: string;
+  }
 }

@@ -7,6 +7,7 @@ import {
   REGULAR_USER_JWT_EXPIRE_TIME_IN_HOURS,
   REFRESH_TOKEN_EXPIRE_TIME_IN_DAYS
 } from './auth-constants';
+import { SupportedLanguage } from '../i18n/languages';
 
 const JWT_SECRET = process.env.JWT_SECRET!;
 const REFRESH_TOKEN_SECRET = process.env.REFRESH_TOKEN_SECRET!;
@@ -16,6 +17,8 @@ export interface JWTPayload {
   email: string;
   username: string;
   isGuest: boolean;
+  language: SupportedLanguage;
+
   iat?: number;
   exp?: number;
 }
