@@ -14,6 +14,7 @@ import { loadTranslations } from "@/features/i18n/utils";
 import { isAuthenticated_Server } from "@/features/auth/utils/auth-server-utils";
 import AuthenticationRequiredBlock from "@/components/layout/AuthenticationRequiredBlock";
 import JoinedLobbyClient from "@/features/game/components/lobby/JoinedLobbyClient";
+import { GetLanguageStyle } from "@/features/language/LanguageStyles";
 
 export default async function JoinOnlineGamePage({
   params
@@ -35,6 +36,8 @@ export default async function JoinOnlineGamePage({
 
     const lobby = serverResponse.data;
 
+    const lobbyLanguageStyle = GetLanguageStyle(lobby.language);
+
     return (
         <PageBase lang={lang}>
         <>
@@ -52,6 +55,7 @@ export default async function JoinOnlineGamePage({
 
             <CardContent>
                 <ul className="text-sm text-foreground-muted">
+                    <li>{lobbyLanguageStyle?.flag}</li>
                     <li>Game ID: {joinCode}</li>
                 </ul>
             </CardContent>

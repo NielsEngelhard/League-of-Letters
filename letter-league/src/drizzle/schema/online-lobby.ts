@@ -3,10 +3,12 @@ import { createdAt } from "../schema-helpers";
 import { InferSelectModel, relations } from "drizzle-orm";
 import { DbOnlineLobbyPlayer, OnlineLobbyPlayerTable } from "./online-lobby-player";
 import { AccountTable } from "./account";
+import { supportedLanguageEnum } from "../schema";
 
 export const OnlineLobbyTable = pgTable("online_lobby", {
     id: text().primaryKey(),
     hostAccountId: uuid().references(() => AccountTable.id, { onDelete: 'cascade' }).notNull(),
+    language: supportedLanguageEnum().notNull(),
     createdAt,
 });
 export type DbOnlineLobby = InferSelectModel<typeof OnlineLobbyTable>;

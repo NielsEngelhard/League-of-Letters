@@ -24,6 +24,7 @@ export interface ActiveGameTeaserModel {
     currentRoundIndex: number;
     gameMode: GameMode;
     createdAt: Date;
+    language: SupportedLanguage;
 }
 
 // Data that is send when the current round has ended

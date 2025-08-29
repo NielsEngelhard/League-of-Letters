@@ -5,6 +5,7 @@ import { Clock, Play, User, Users } from "lucide-react";
 import { timeAgo } from "@/lib/time-util";
 import { LANGUAGE_ROUTE, PLAY_GAME_ROUTE } from "@/app/routes";
 import { SupportedLanguage } from "@/features/i18n/languages";
+import { GetLanguageStyle } from "@/features/language/LanguageStyles";
 
 interface Props {
     teaser: ActiveGameTeaserModel;
@@ -12,6 +13,8 @@ interface Props {
 }
 
 export default function GameTeaserCard({ teaser, lang }: Props) {
+    const languageStyle = GetLanguageStyle(teaser.language);
+
     return (
         <Card>
             <div className="p-2 flex flex-row justify-between">
@@ -36,16 +39,24 @@ export default function GameTeaserCard({ teaser, lang }: Props) {
                                 <>Solo Game</>
                             )}                            
                         </span>
-                        <span className="font-medium text-foreground-muted text-xs">Round {teaser.currentRoundIndex}/{teaser.totalRounds}</span>
+                        <span className="font-medium text-foreground-muted text-xs">
+                            Round {teaser.currentRoundIndex}/{teaser.totalRounds}
+                            &nbsp;
+                            Language: {languageStyle?.fullName}
+                        </span>
                     </div>
                 </div>
 
                 {/* Right */}
                 <div className="flex gap-1 items-center">
-                    <span className="text-foreground-muted text-xs flex items-center gap-0.5">
+                    <span className="text-foreground-muted text-xs flex items-center gap-0.5 w-full">
                         <Clock className="w-3 h-3" />
                         {timeAgo(teaser.createdAt)} ago
                     </span>
+
+                    <div>
+                        {languageStyle?.flag}
+                    </div>
 
                     <Button variant="secondary" size="sm" href={LANGUAGE_ROUTE(lang, PLAY_GAME_ROUTE(teaser.id))}>
                         <Play className="w-4 h-4" />

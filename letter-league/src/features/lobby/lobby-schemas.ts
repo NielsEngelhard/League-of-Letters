@@ -1,7 +1,9 @@
 import z from "zod";
+import { supportedLanguages } from "../i18n/languages";
 
 export const createOnlineLobbySchema = z.object({
-    hostUserId: z.string()
+    hostUserId: z.string(),
+    language: z.enum(supportedLanguages),
 });
 export type CreateOnlineLobbySchema = z.infer<typeof createOnlineLobbySchema>;
 

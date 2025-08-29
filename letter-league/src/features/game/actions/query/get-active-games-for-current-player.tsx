@@ -16,6 +16,7 @@ export default async function GetActiveGamesForCurrentPlayerRequest(): Promise<A
         currentRoundIndex: ActiveGameTable.currentRoundIndex,
         totalRounds: ActiveGameTable.nRounds,
         createdAt: ActiveGameTable.createdAt,
+        language: ActiveGameTable.language
     })
     .from(ActiveGameTable)
     .innerJoin(GamePlayerTable, eq(GamePlayerTable.gameId, ActiveGameTable.id))

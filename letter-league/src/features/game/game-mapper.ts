@@ -31,6 +31,7 @@ export class GameMapper {
             totalRounds: game.nRounds,
             gameMode: game.gameMode,
             createdAt: game.createdAt,
+            language: game.language
         }        
     }
 

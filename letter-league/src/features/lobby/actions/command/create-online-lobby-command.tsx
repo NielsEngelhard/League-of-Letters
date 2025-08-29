@@ -34,6 +34,7 @@ async function CreateNewGame(currentUser: CurrentUserData): Promise<ServerRespon
         const lobby = await tx.insert(OnlineLobbyTable).values({
             id: gameId,
             hostAccountId: currentUser.accountId,
+            language: currentUser.language
         }).returning();
 
         const hostLobbyPlayer: DbOnlineLobbyPlayer = OnlineLobbyMapper.CurrentUserToLobbyPlayer(currentUser, gameId);

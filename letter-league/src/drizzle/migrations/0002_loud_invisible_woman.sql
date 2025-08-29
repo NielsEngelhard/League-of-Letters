@@ -1,0 +1,1 @@
+ALTER TABLE "online_lobby" ADD COLUMN "language" "supported_language" NOT NULL;

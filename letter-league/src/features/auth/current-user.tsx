@@ -4,12 +4,14 @@ import { JWTService } from "./jwt-service";
 import { AccountTable } from "@/drizzle/schema";
 import { db } from "@/drizzle/db";
 import { eq } from "drizzle-orm";
+import { SupportedLanguage } from "../i18n/languages";
 
 export interface CurrentUserData {
   accountId: string;
   email: string;
   username: string;
   isGuest: boolean;
+  language: SupportedLanguage;
 }
 
 // Helper function for database lookup (only called during refresh)
@@ -21,7 +23,8 @@ async function getUserFromDatabase(accountId: string): Promise<CurrentUserData |
     accountId: account.id,
     email: account.email,
     username: account.username,
-    isGuest: account.isGuestAccount
+    isGuest: account.isGuestAccount,
+    language: account.language
   };
 }
 

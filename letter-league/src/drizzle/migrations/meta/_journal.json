@@ -15,6 +15,13 @@
       "when": 1756481232449,
       "tag": "0001_volatile_shooting_star",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1756483903497,
+      "tag": "0002_loud_invisible_woman",
+      "breakpoints": true
     }
   ]
 }
