@@ -1,0 +1,16 @@
+{
+    "intro": {
+        "sloganPre": "Viens jouer un petit jeu coquin de",
+        "sloganPost": "mots !",
+        "teaserPre": "Prêt à",
+        "teaserStripedThrough": "détruire ta confiance",
+        "teaserActual": "améliorer tes compétences ?",
+        "playButton": "🎮 Jouer Maintenant !"
+    },
+    "words": ["fromage", "bâton", "balle", "violon", "zèbre"],
+    "notFound": {
+        "title": "Page Introuvable",
+        "description": "Désolé, nous n'avons pas pu trouver la page que tu cherches. La page a peut-être été déplacée, supprimée, ou tu as saisi la mauvaise URL.",
+        "btnText": "Ramène-moi"
+    }
+}

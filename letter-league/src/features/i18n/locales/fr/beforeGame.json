@@ -1,0 +1,58 @@
+{
+    "gameMode": {
+        "description": "Un jeu de mots coquin",
+        "solo": {
+            "title": "Solo",
+            "description": "Joue tranquillement à ton rythme",
+            "btn": "Jouer Solo"
+        },
+        "multiplayer": {
+            "title": "En ligne",
+            "description": "Prouve que tu es le plus malin de la bande",
+            "btn": "À l'arène !"
+        },
+        "scoreRedirect": {
+            "sentence": "Curieux de savoir comment marche le système de points ?",
+            "clickHere": "Clique ici !"
+        }
+    },
+    "createGameForm": {
+        "title": "Paramètres du Jeu",
+        "description": "Personnalise tes paramètres",
+        "wordLengthLabel": "Longueur du mot",
+        "totalRoundsLabel": "Nombre total de tours",
+        "withStartingLetterLabel": "Avec lettre de départ",
+        "moreSettingsSoon": "Plus de paramètres bientôt...",
+        "startButton": "Commencer le Jeu",
+        "secondsPerGuessLabel": "Secondes par tentative"
+    },
+    "online": {
+        "title": "Jeu en Ligne",
+        "description": "Joue avec d'autres personnes",
+        "subDescription": "Rejoins un jeu avec un code, ou crée-en un nouveau.",
+        "joinGame": {
+            "title": "Rejoindre",
+            "description": "Entre un ID de jeu pour rejoindre un match existant",
+            "btnText": "Rejoindre",
+            "inputLabel": "ID du Jeu"
+        },
+        "createGame": {
+            "title": "Créer un Jeu",
+            "description": "Lance un nouveau jeu et invite tes amis / (ou ennemis)",
+            "extraDescription": "Crée un lobby et partage l'ID du jeu avec tes amis",
+            "btnText": "Jouer en Ligne"
+        }
+    },
+    "lobby": {
+        "create": {
+            "title": "Créer un Jeu en Ligne",
+            "joinCode": "Code de Participation",
+            "joinLink": "Lien de Participation"
+        },
+        "join": {
+            "title": "Jeu Rejoint",
+            "wating": "En attente que l'hôte démarre...",
+            "players": "joueurs"
+        }
+    }
+}

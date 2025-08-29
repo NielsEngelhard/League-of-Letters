@@ -1,16 +1,16 @@
 {
   "intro": {
-    "sloganPre": "Kom, speel een brutaal spelletje",
-    "sloganPost": "woordspeling!",
-    "teaserPre": "Klaar om",
-    "teaserStripedThrough": "je zelfvertrouwen te vernietigen",
-    "teaserActual": "je vaardigheden te verbeteren?",
-    "playButton": "🎮 Speel Nu!"
+      "sloganPre": "Kom speel een brutaal spelletje",
+      "sloganPost": "woordspeling!",
+      "teaserPre": "Klaar om je",
+      "teaserStripedThrough": "zelfvertrouwen te vernietigen",
+      "teaserActual": "skills naar een hoger level te tillen?",
+      "playButton": "🎮 Speel Nu!"
   },
-   "words": ["kaas", "klompen", "eieren", "viool", "boter"],
-    "notFound": {
-        "title": "Pagina niet gevonden",
-        "description": "Deze pagina bestaat niet.",
-        "btnText": "Terug naar de app"
-    }   
+  "words": ["kaas", "stok", "bal", "viool", "zebra"],
+  "notFound": {
+      "title": "Pagina Niet Gevonden",
+      "description": "Sorry, we konden de pagina die je zoekt niet vinden. De pagina is misschien verplaatst, verwijderd, of je hebt de verkeerde URL ingevoerd.",
+      "btnText": "Breng me terug"
+  }
 }

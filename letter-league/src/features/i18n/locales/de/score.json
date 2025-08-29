@@ -1,0 +1,17 @@
+{
+  "title": "Punktesystem",
+  "description": "Werde Meister des strategischen Ratens",
+  "letterScores": {
+    "title": "Buchstabenpunkte",
+    "allCorrect": "Richtiger Buchstabe am richtigen Platz – zack!",
+    "wrongPosition": "Buchstabe drin, aber völlig daneben",
+    "correctAfterMisplaced": "Endlich korrekt nach dem Umherirren"
+  },
+  "wordGuessedScores": {
+    "title": "Wort-Volltreffer",
+    "correctGuess": "Wort erraten – Jubel!",
+    "correctInFirstGuessBonus": "Erster Versuch Treffer – Bonus!",
+    "correctInSecondGuessBonus": "Zweiter Versuch sitzt – Extrapunkte!"
+  },
+  "proTip": "Profi-Tipp: Clever raten bringt Punkte ohne Ende – jeder Buchstabe zählt!"
+}

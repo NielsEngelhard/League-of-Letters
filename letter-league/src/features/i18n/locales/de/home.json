@@ -1,0 +1,16 @@
+{
+    "intro": {
+        "sloganPre": "Komm spiel ein freches",
+        "sloganPost": "Wortspiel!",
+        "teaserPre": "Bereit dein",
+        "teaserStripedThrough": "Selbstvertrauen zu zerstören",
+        "teaserActual": "Können zu verbessern?",
+        "playButton": "🎮 Jetzt Spielen!"
+    },
+    "words": ["Käse", "Stock", "Ball", "Geige", "Zebra"],
+    "notFound": {
+        "title": "Seite Nicht Gefunden",
+        "description": "Entschuldigung, wir konnten die Seite, die du suchst, nicht finden. Die Seite wurde möglicherweise verschoben, gelöscht, oder du hast die falsche URL eingegeben.",
+        "btnText": "Bring mich zurück"
+    }
+}

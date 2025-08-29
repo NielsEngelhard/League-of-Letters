@@ -1,0 +1,96 @@
+{
+    "startButton": "Loslegen",
+    "logoutButton": "Abmelden",
+    "continueButton": "Weiter",
+    "authRequired": {
+        "title": "Anmeldung Erforderlich",
+        "description": "Du musst dich einloggen oder eine Gastsitzung erstellen, um auf diese Seite zuzugreifen."
+    },
+    "login": {
+        "login": {
+            "title": "Einloggen um fortzufahren.",
+            "description": "Du kannst auch als Gast fortfahren und eine temporäre Sitzung erstellen.",
+            "usernameLabel": "Email/Benutzername",
+            "usernamePlaceholder": "Deine Anmeldedaten",
+            "passwordLabel": "Passwort",
+            "passwordPlaceholder": "Gib dein Passwort ein",
+            "guestButton": "Als Gast fortfahren",
+            "loginButton": "Einloggen",
+            "signUpButton": "Registrieren",
+            "backToLoginButton": "Zurück zum Login"
+        },
+        "signUp": {
+            "title": "Registrieren",
+            "description": "Tritt dem Club bei und erstelle kostenlos ein Konto!",
+            "emailLabel": "Email",
+            "emailPlaceholder": "Deine Email-Adresse",
+            "usernameLabel": "Benutzername",
+            "usernamePlaceholder": "Dein Benutzername",
+            "passwordLabel": "Passwort",
+            "passwordPlaceholder": "Dein Passwort",
+            "signUpButton": "Konto Erstellen"
+        },
+        "guest": {
+            "title": "Als Gast Fortfahren",
+            "description": "Spring schnell rein mit einem temporären Konto",
+            "createGuestSessionButton": "Gastsitzung erstellen",
+            "guestDisclaimer": "24-Stunden Gastsitzung. Fortschritt wird nicht gespeichert, und Wiederverbindung ist begrenzt."
+        }
+    },
+    "account": {
+        "title": "Kontoinformationen",
+        "guestDisclaimerTitle": "Gastkonto:",
+        "guestDisclaimerDescription": "Dein Fortschritt wird nicht gespeichert. Überlege dir, ein vollständiges Konto zu erstellen, um deine Statistiken zu behalten und bessere Wiederverbindungsmöglichkeiten zu haben!",
+        "memberSince": "Mitglied seit",
+        "guestIndicator": "Gast",
+        "memberIndicator": "Mitglied",
+        "gameStatistics": {
+            "title": "Spielstatistiken",
+            "winsLabel": "Siege",
+            "leftGamesLabel": "Feige verlassene Online-Spiele",
+            "favouriteWordLabel": "Lieblingswort"
+        }
+    },
+    "settings": {
+        "title": "Einstellungen",
+        "description": "Klicke um die Einstellungen nach deinem Geschmack anzupassen",
+        "minimize": "Minimieren",
+        "maximize": "Maximieren",
+        "saveButton": "Einstellungen Speichern",
+        "featureGroups": {
+            "appearanceLabel": "Erscheinungsbild",
+            "keyboardInputLabel": "Tastatur & Eingabe",
+            "audioLabel": "Audio-Einstellungen"
+        },
+        "features": {
+            "theme": {
+                "title": "Design",
+                "description": "Wähle dein bevorzugtes visuelles Design für die Anwendung"
+            },
+            "keyboardInput": {
+                "title": "Eingabemethode",
+                "description": "Wähle, wie du Buchstaben während des Spiels eingeben möchtest"
+            },
+            "showKeyboardHints": {
+                "title": "Tastatur-Hinweise anzeigen",
+                "description": "Zeige hilfreiche Tipps und Tastenkombinationen auf der Tastatur"
+            },
+            "highlightCompleteLetters": {
+                "title": "'Vollständig Korrekte' Buchstaben hervorheben",
+                "description": "Hebe Buchstaben hervor, die korrekt sind und nicht mehr vorkommen mit speziellem Styling"
+            },
+            "preFill": {
+                "title": "Versuch vorausfüllen",
+                "description": "Fülle automatisch deinen Versuch aus, wenn du dran bist"
+            },
+            "enableSoundEffects": {
+                "title": "Soundeffekte aktivieren",
+                "description": "Spiele Audio-Feedback für Spielaktionen und Ereignisse ab"
+            },
+            "enableBackgroundMusic": {
+                "title": "Hintergrundmusik aktivieren",
+                "description": "Spiele Ambient-Musik während des Spielens ab"
+            }
+        }
+    }
+}

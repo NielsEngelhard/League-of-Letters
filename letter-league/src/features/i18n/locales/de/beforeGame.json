@@ -1,0 +1,58 @@
+{
+    "gameMode": {
+        "description": "Ein freches Wortspielchen",
+        "solo": {
+            "title": "Solo",
+            "description": "Spiel entspannt in deinem eigenen Tempo",
+            "btn": "Solo Spielen"
+        },
+        "multiplayer": {
+            "title": "Online",
+            "description": "Beweise, dass du der Schlaueste im Raum bist",
+            "btn": "In die Arena!"
+        },
+        "scoreRedirect": {
+            "sentence": "Neugierig, wie das Punktesystem funktioniert?",
+            "clickHere": "Hier klicken!"
+        }
+    },
+    "createGameForm": {
+        "title": "Spieleinstellungen",
+        "description": "Passe deine Einstellungen an",
+        "wordLengthLabel": "Wortlänge",
+        "totalRoundsLabel": "Gesamtrunden",
+        "withStartingLetterLabel": "Mit Startbuchstabe",
+        "moreSettingsSoon": "Mehr Einstellungen kommen bald...",
+        "startButton": "Spiel Starten",
+        "secondsPerGuessLabel": "Sekunden pro Versuch"
+    },
+    "online": {
+        "title": "Online Spiel",
+        "description": "Spiele mit anderen Leuten",
+        "subDescription": "Tritt einem Spiel mit einem Code bei, oder erstelle ein neues.",
+        "joinGame": {
+            "title": "Spiel Beitreten",
+            "description": "Gib eine Spiel-ID ein, um einem bestehenden Match beizutreten",
+            "btnText": "Beitreten",
+            "inputLabel": "Spiel ID"
+        },
+        "createGame": {
+            "title": "Spiel Erstellen",
+            "description": "Starte ein neues Spiel und lade Freunde ein / (oder Feinde)",
+            "extraDescription": "Erstelle eine Lobby und teile die Spiel-ID mit Freunden",
+            "btnText": "Online Spielen"
+        }
+    },
+    "lobby": {
+        "create": {
+            "title": "Online Spiel Erstellen",
+            "joinCode": "Beitrittscode",
+            "joinLink": "Beitrittslink"
+        },
+        "join": {
+            "title": "Beigetretenes Spiel",
+            "wating": "Warten darauf, dass der Host startet...",
+            "players": "Spieler"
+        }
+    }
+}

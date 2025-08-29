@@ -1,0 +1,96 @@
+{
+    "startButton": "Commencer à Jouer",
+    "logoutButton": "Se Déconnecter",
+    "continueButton": "Continuer",
+    "authRequired": {
+        "title": "Authentification Requise",
+        "description": "Tu dois te connecter ou créer une session invité pour accéder à cette page."
+    },
+    "login": {
+        "login": {
+            "title": "Connecte-toi pour continuer.",
+            "description": "Tu peux aussi continuer en tant qu'invité et créer une session temporaire.",
+            "usernameLabel": "Email/Nom d'utilisateur",
+            "usernamePlaceholder": "Tes identifiants",
+            "passwordLabel": "Mot de passe",
+            "passwordPlaceholder": "Saisis ton mot de passe",
+            "guestButton": "Continuer en tant qu'invité",
+            "loginButton": "Se Connecter",
+            "signUpButton": "S'inscrire",
+            "backToLoginButton": "Retour à la connexion"
+        },
+        "signUp": {
+            "title": "S'inscrire",
+            "description": "Rejoins le club et crée un compte gratuitement !",
+            "emailLabel": "Email",
+            "emailPlaceholder": "Ton adresse email",
+            "usernameLabel": "Nom d'utilisateur",
+            "usernamePlaceholder": "Ton nom d'utilisateur",
+            "passwordLabel": "Mot de passe",
+            "passwordPlaceholder": "Ton mot de passe",
+            "signUpButton": "Créer un Compte"
+        },
+        "guest": {
+            "title": "Continuer en Tant qu'Invité",
+            "description": "Plonge rapidement avec un compte temporaire",
+            "createGuestSessionButton": "Créer une session invité",
+            "guestDisclaimer": "Session invité de 24 heures. Les progrès ne seront pas sauvegardés, et la reconnexion sera limitée."
+        }
+    },
+    "account": {
+        "title": "Informations du Compte",
+        "guestDisclaimerTitle": "Compte Invité :",
+        "guestDisclaimerDescription": "Tes progrès ne sont pas sauvegardés. Pense à créer un compte complet pour préserver tes statistiques et avoir de meilleures possibilités de reconnexion !",
+        "memberSince": "membre depuis",
+        "guestIndicator": "invité",
+        "memberIndicator": "membre",
+        "gameStatistics": {
+            "title": "Statistiques de Jeu",
+            "winsLabel": "Victoires",
+            "leftGamesLabel": "Parties en ligne abandonnées comme un lâche",
+            "favouriteWordLabel": "Mot Favori"
+        }
+    },
+    "settings": {
+        "title": "Paramètres",
+        "description": "Clique pour personnaliser les paramètres à ton goût",
+        "minimize": "Réduire",
+        "maximize": "Agrandir",
+        "saveButton": "Sauvegarder les Paramètres",
+        "featureGroups": {
+            "appearanceLabel": "Apparence",
+            "keyboardInputLabel": "Clavier & Saisie",
+            "audioLabel": "Paramètres Audio"
+        },
+        "features": {
+            "theme": {
+                "title": "Thème",
+                "description": "Sélectionne ton thème visuel préféré pour l'application"
+            },
+            "keyboardInput": {
+                "title": "Méthode de Saisie",
+                "description": "Choisis comment tu veux saisir les lettres pendant le jeu"
+            },
+            "showKeyboardHints": {
+                "title": "Afficher les astuces clavier",
+                "description": "Affiche des conseils utiles et des raccourcis sur le clavier"
+            },
+            "highlightCompleteLetters": {
+                "title": "Surligner les lettres 'Complètement Correctes'",
+                "description": "Surligne les lettres qui sont correctes et n'apparaissent plus avec un style spécial"
+            },
+            "preFill": {
+                "title": "Pré-remplir la tentative",
+                "description": "Remplis automatiquement ta tentative quand c'est ton tour"
+            },
+            "enableSoundEffects": {
+                "title": "Activer les effets sonores",
+                "description": "Joue des retours audio pour les actions et événements du jeu"
+            },
+            "enableBackgroundMusic": {
+                "title": "Activer la musique de fond",
+                "description": "Joue de la musique ambiante pendant que tu joues"
+            }
+        }
+    }
+}

@@ -1,8 +1,96 @@
 {
-    "startButton": "Speel nu",
-    "continueButton": "Go back",
+    "startButton": "Start",
+    "logoutButton": "Uitloggen",
+    "continueButton": "Doorgaan",
     "authRequired": {
-        "title": "Authentication Required",
-        "description": "You must login or create a guest session to access this page."
+        "title": "Authenticatie Vereist",
+        "description": "Je moet inloggen of een gastsessie aanmaken om deze pagina te bezoeken."
+    },
+    "login": {
+        "login": {
+            "title": "Log in om door te gaan.",
+            "description": "Je kunt ook doorgaan als gast en een tijdelijke sessie aanmaken.",
+            "usernameLabel": "Email/Gebruikersnaam",
+            "usernamePlaceholder": "Je inloggegevens",
+            "passwordLabel": "Wachtwoord",
+            "passwordPlaceholder": "Voer je wachtwoord in",
+            "guestButton": "Doorgaan als gast",
+            "loginButton": "Inloggen",
+            "signUpButton": "Aanmelden",
+            "backToLoginButton": "Terug naar inloggen"
+        },
+        "signUp": {
+            "title": "Aanmelden",
+            "description": "Word lid van de club en maak gratis een account aan!",
+            "emailLabel": "Email",
+            "emailPlaceholder": "Je emailadres",
+            "usernameLabel": "Gebruikersnaam",
+            "usernamePlaceholder": "Je gebruikersnaam",
+            "passwordLabel": "Wachtwoord",
+            "passwordPlaceholder": "Je wachtwoord",
+            "signUpButton": "Account Aanmaken"
+        },
+        "guest": {
+            "title": "Doorgaan als Gast",
+            "description": "Spring er snel in met een tijdelijk account",
+            "createGuestSessionButton": "Gastsessie aanmaken",
+            "guestDisclaimer": "24-uurs gastsessie. Voortgang wordt niet opgeslagen, en herverbinden is beperkt."
+        }
+    },
+    "account": {
+        "title": "Accountinformatie",
+        "guestDisclaimerTitle": "Gastaccount:",
+        "guestDisclaimerDescription": "Je voortgang wordt niet opgeslagen. Overweeg een volledig account aan te maken om je statistieken te behouden en betere herverbindingsmogelijkheden te hebben!",
+        "memberSince": "lid sinds",
+        "guestIndicator": "gast",
+        "memberIndicator": "lid",
+        "gameStatistics": {
+            "title": "Spelstatistieken",
+            "winsLabel": "Overwinningen",
+            "leftGamesLabel": "Online spellen waar je uit geknipt bent",
+            "favouriteWordLabel": "Favoriete Woord"
+        }
+    },
+    "settings": {
+        "title": "Instellingen",
+        "description": "Klik om de instellingen naar je zin aan te passen",
+        "minimize": "Minimaliseren",
+        "maximize": "Maximaliseren",
+        "saveButton": "Instellingen Opslaan",
+        "featureGroups": {
+            "appearanceLabel": "Uiterlijk",
+            "keyboardInputLabel": "Toetsenbord & Invoer",
+            "audioLabel": "Audio-instellingen"
+        },
+        "features": {
+            "theme": {
+                "title": "Thema",
+                "description": "Selecteer je favoriete visuele thema voor de applicatie"
+            },
+            "keyboardInput": {
+                "title": "Invoermethode",
+                "description": "Kies hoe je letters wilt invoeren tijdens het spel"
+            },
+            "showKeyboardHints": {
+                "title": "Toon toetsenbord hints",
+                "description": "Toon handige tips en sneltoetsen op het toetsenbord"
+            },
+            "highlightCompleteLetters": {
+                "title": "Markeer 'Volledig Correcte' letters",
+                "description": "Markeer letters die correct zijn en niet meer voorkomen met speciale styling"
+            },
+            "preFill": {
+                "title": "Gok vooraf invullen",
+                "description": "Vul automatisch je gok in wanneer jij aan de beurt bent"
+            },
+            "enableSoundEffects": {
+                "title": "Geluidseffecten inschakelen",
+                "description": "Speel audio-feedback af voor spelacties en gebeurtenissen"
+            },
+            "enableBackgroundMusic": {
+                "title": "Achtergrondmuziek inschakelen",
+                "description": "Speel ambient muziek af tijdens het spelen"
+            }
+        }
     }
 }

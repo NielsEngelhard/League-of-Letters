@@ -1,19 +1,58 @@
 {
     "gameMode": {
-        "description": "Een ondeugend spelletje met woorden",
+        "description": "Een brutaal spelletje woordspeling",
         "solo": {
             "title": "Solo",
-            "description": "Speel een rustig spel in je eigen tempo",
+            "description": "Speel een rustig spelletje op je eigen tempo",
             "btn": "Speel Solo"
         },
         "multiplayer": {
             "title": "Online",
-            "description": "Bewijs dat jij het scherpste brein in de kamer hebt",
+            "description": "Bewijs dat jij de slimste van de kamer bent",
             "btn": "Naar de arena!"
         },
         "scoreRedirect": {
-            "sentence": "Benieuwd hoe het scoresysteem werkt?",
+            "sentence": "Nieuwsgierig hoe het puntensysteem werkt?",
             "clickHere": "Klik hier!"
+        }
+    },
+    "createGameForm": {
+        "title": "Spelinstellingen",
+        "description": "Pas je instellingen aan",
+        "wordLengthLabel": "Woordlengte",
+        "totalRoundsLabel": "Totaal aantal rondes",
+        "withStartingLetterLabel": "Met beginletter",
+        "moreSettingsSoon": "Meer instellingen komen eraan...",
+        "startButton": "Start Spel",
+        "secondsPerGuessLabel": "Seconden per gok"
+    },
+    "online": {
+        "title": "Online Spel",
+        "description": "Speel met andere mensen",
+        "subDescription": "Doe mee aan een spel met een code, of maak een nieuwe aan.",
+        "joinGame": {
+            "title": "Doe Mee",
+            "description": "Voer een spel-ID in om mee te doen aan een bestaand gevecht",
+            "btnText": "Doe Mee",
+            "inputLabel": "Spel ID"
+        },
+        "createGame": {
+            "title": "Maak Spel",
+            "description": "Start een nieuw spel en nodig vrienden uit / (of vijanden)",
+            "extraDescription": "Maak een lobby en deel de spel-ID met vrienden",
+            "btnText": "Speel Online"
+        }
+    },
+    "lobby": {
+        "create": {
+            "title": "Maak Online Spel",
+            "joinCode": "Code",
+            "joinLink": "Link"
+        },
+        "join": {
+            "title": "Verbonden",
+            "wating": "Wachten tot de host begint...",
+            "players": "spelers"
         }
     }
 }

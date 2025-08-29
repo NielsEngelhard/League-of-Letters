@@ -3,12 +3,15 @@
 import Button from "@/components/ui/Button"
 import { useAuth } from "@/features/auth/AuthContext"
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations"
+import HeaderLanguagePicker from "./HeaderLanguagePicker";
 
 export default function UnauthenticatedHeaderSection({ t }: { t: GeneralTranslations }) {
     const { setShowLoginModal } = useAuth();
 
     return (
         <div className="flex items-center gap-3">
+            <HeaderLanguagePicker />
+            
             <Button
                 variant="primary" 
                 size="sm" 

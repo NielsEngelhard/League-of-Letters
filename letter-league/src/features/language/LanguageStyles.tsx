@@ -1,4 +1,4 @@
-import { NL, GB } from "country-flag-icons/react/3x2";
+import { NL, GB, DE, FR } from "country-flag-icons/react/3x2";
 import { SupportedLanguage } from "../i18n/languages";
 
 interface LanguageData {
@@ -27,6 +27,20 @@ export function GetLanguageStyle(language?: SupportedLanguage): LanguageData | n
                 fullName: "English",
                 flag: <GB title="English" className={flagClasses} />,
                 uniqueWords: "671.023"
-            }            
+            }
+        case "de":
+            return {
+                shortName: "de",
+                fullName: "Deutsch",
+                flag: <DE title="Deutsch" className={flagClasses} />,
+                uniqueWords: "671.023"
+            }     
+        case "fr":
+            return {
+                shortName: "fr",
+                fullName: "Français",
+                flag: <FR title="Français" className={flagClasses} />,
+                uniqueWords: "671.023"
+            }                                    
     }
 }

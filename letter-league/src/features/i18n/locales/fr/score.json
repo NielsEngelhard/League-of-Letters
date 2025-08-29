@@ -1,0 +1,17 @@
+{
+  "title": "Système de score",
+  "description": "Deviens maître du devinage stratégique",
+  "letterScores": {
+    "title": "Points de lettres",
+    "allCorrect": "Bonne lettre, bonne place – royal!",
+    "wrongPosition": "La lettre est là, mais elle s’est paumée",
+    "correctAfterMisplaced": "Enfin bien placée après sa balade"
+  },
+  "wordGuessedScores": {
+    "title": "Complétion de mot",
+    "correctGuess": "Mot trouvé – champagne!",
+    "correctInFirstGuessBonus": "Carton plein au premier essai, bonus!",
+    "correctInSecondGuessBonus": "Deuxième essai gagnant, points bonus!"
+  },
+  "proTip": "Astuce de pro : un peu de stratégie et hop, score max – chaque lettre compte!"
+}
