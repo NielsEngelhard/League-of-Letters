@@ -174,7 +174,6 @@ async function getGame(gameId: string): Promise<DbActiveGameWithRoundsAndPlayers
 }
 
 async function isPlayersTurn(currentPlayer: DbGamePlayer): Promise<boolean> {
-    debugger;
     const currentUser = await getCurrentUserOrRedirect();
     
     return currentUser.accountId == currentPlayer.accountId;

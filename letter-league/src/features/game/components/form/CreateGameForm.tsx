@@ -33,7 +33,7 @@ interface Props {
 
 export default function CreateGameForm({ onLeaveGame, submitDisabled = false, players, gameMode = "solo", gameId, lang, t }: Props) {
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const router = useRouter();
+    const router = useRouter();    
 
     const languageStyle = GetLanguageStyle(lang);
 
@@ -58,7 +58,7 @@ export default function CreateGameForm({ onLeaveGame, submitDisabled = false, pl
         gameMode: gameMode,
         gameId: gameId,
         withStartingLetter: true,
-        nSecondsPerGuess: gameMode == "online" ? 40 : undefined,
+        nSecondsPerGuess: gameMode == "online" ? 60 : undefined,
         language: lang
       }
     })    

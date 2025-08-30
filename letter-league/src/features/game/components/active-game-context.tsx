@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useState, ReactNode, useContext, useEffect } from 'react';
+import { createContext, useState, ReactNode, useContext, useEffect, useRef } from 'react';
 import { ActiveGameModel, GamePlayerModel, GameRoundModel, RoundTransitionData } from '../game-models';
 import { GuessWordCommand, GuessWordResponse } from '../actions/command/guess-word-command';
 import { TIME_BETWEEN_ROUNDS_MS } from '../game-constants';
@@ -51,8 +51,12 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
   const [isAnimating, setIsAnimating] = useState(false);
   const [recalculateCurrentPlayerTrigger, setRecalculateCurrentPlayerTrigger] = useState(false);
 
+  const gameRef = useRef<ActiveGameModel | undefined>(undefined);
+  const currentRoundRef = useRef<GameRoundModel | undefined>(undefined);
+
   // Always call this first
   function initializeGameState(_game: ActiveGameModel, _thisPlayersUserId: string) {
+    debugger;
     setGame(_game);
     setPlayers(_game.players);
 
@@ -69,6 +73,16 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     setPlayers([]); 
     setTheWord(undefined);
   }
+
+
+  // Keep refs in sync with state
+  useEffect(() => {
+    gameRef.current = game;
+  }, [game]);
+
+  useEffect(() => {
+    currentRoundRef.current = currentRound;
+  }, [currentRound]);  
 
   async function submitGuess(): Promise<void> {
     if (!game || !currentRound) return;
@@ -151,9 +165,9 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
   }
 
   function handleEndOfCurrentRound(roundTransitionData: RoundTransitionData) {
-    if (!game || !currentRound) return;
+    if (!gameRef.current || !currentRoundRef.current) return;
 
-    const letterAnimationLength = GetLetterAnimationDurationInMs(currentRound.wordLength);
+    const letterAnimationLength = GetLetterAnimationDurationInMs(currentRoundRef.current.wordLength);
 
     setTimeout(() => {
       setTheWord(roundTransitionData.currentWord);
@@ -185,8 +199,8 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
   }  
 
   function triggerNextRound(guessStartUnixTimestampInSeconds?: number) {
-    if (!game) return;
-    const nextRoundIndex: number = game.currentRoundIndex + 1;
+    if (!gameRef.current) return;
+    const nextRoundIndex: number = gameRef.current.currentRoundIndex + 1;
 
     setGame(g => {
       if (!g) return;      
@@ -197,14 +211,13 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     });
 
     setCurrentRound({
-      ...getRound(game, nextRoundIndex),
+      ...getRound(gameRef.current, nextRoundIndex),
       lastGuessUnixUtcTimestamp_InSeconds: guessStartUnixTimestampInSeconds
     });
     setTheWord(undefined);
     setIsAnimating(false);
   }
 
-  // TODO: this can be a static method somewhere else
   function getRound(_game: ActiveGameModel, index?: number): GameRoundModel {
     if (!index) index = _game.currentRoundIndex; 
 

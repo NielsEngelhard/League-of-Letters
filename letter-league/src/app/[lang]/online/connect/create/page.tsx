@@ -70,7 +70,7 @@ export default async function CreateOnlineGamePage({
             </CardHeader>
             <CardContent>
               <CreateLobbyClient
-                lang={lang}
+                lang={authenticatedUser.language}
                 t={t.beforeGame}
                 initialLobby={lobby}
                 accountId={authenticatedUser.accountId}

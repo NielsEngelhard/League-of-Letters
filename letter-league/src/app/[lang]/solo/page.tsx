@@ -5,8 +5,10 @@ import CreateGameForm from "@/features/game/components/form/CreateGameForm";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card/card-children";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import { loadTranslations } from "@/features/i18n/utils";
-import { LANGUAGE_ROUTE, PICK_GAME_MODE_ROUTE } from "@/app/routes";
+import { HOME_ROUTE, LANGUAGE_ROUTE, PICK_GAME_MODE_ROUTE } from "@/app/routes";
 import PageIntro from "@/components/ui/block/PageIntro";
+import { getAuthenticatedUser_Server } from "@/features/auth/utils/auth-server-utils";
+import { redirect } from "next/navigation";
 
 export default async function SoloPage({
   params
@@ -15,6 +17,9 @@ export default async function SoloPage({
 }) {
   const { lang } = await params;
   const t = await loadTranslations(lang, ["beforeGame"]);
+
+  const account = await getAuthenticatedUser_Server();
+  if (!account) redirect(HOME_ROUTE);
 
   return (
     <PageBase size="sm" lang={lang}>
@@ -31,7 +36,7 @@ export default async function SoloPage({
         <CardContent>          
           <CreateGameForm
             gameMode="solo"
-            lang={lang}
+            lang={account.language}
             t={t.beforeGame}
           />          
         </CardContent>
