@@ -4,7 +4,7 @@ import React, { createContext, useContext, useRef, useState, ReactNode, useEffec
 import { io, Socket } from 'socket.io-client';
 import { ConnectionStatus, JoinGameRealtimeModel } from './realtime-models';
 import { useRouter } from 'next/navigation';
-import { LANGUAGE_ROUTE, MULTIPLAYER_GAME_ROUTE, PLAY_GAME_ROUTE } from '@/app/routes';
+import { LANGUAGE_ROUTE, MULTIPLAYER_GAME_ROUTE, PLAY_ONLINE_GAME_ROUTE } from '@/app/routes';
 import { useMessageBar } from '@/components/layout/MessageBarContext';
 import { useActiveGame } from '../game/components/active-game-context';
 import { GuessWordResponse } from '../game/actions/command/guess-word-command';
@@ -89,7 +89,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
     
     socket.on('start-game-transition', (gameId: string) => {
       RealtimeLogger.Log(`start-game-transition ${gameId}`);
-      router.push(LANGUAGE_ROUTE(lang, PLAY_GAME_ROUTE(gameId)));
+      router.push(LANGUAGE_ROUTE(lang, PLAY_ONLINE_GAME_ROUTE(gameId)));
     });
 
     socket.on('guess-word', (response: GuessWordResponse) => {

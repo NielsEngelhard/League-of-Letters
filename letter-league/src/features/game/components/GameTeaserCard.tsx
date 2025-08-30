@@ -3,7 +3,7 @@ import { ActiveGameTeaserModel } from "../game-models";
 import Button from "@/components/ui/Button";
 import { Clock, Play, User, Users } from "lucide-react";
 import { timeAgo } from "@/lib/time-util";
-import { LANGUAGE_ROUTE, PLAY_GAME_ROUTE } from "@/app/routes";
+import { LANGUAGE_ROUTE, PLAY_ONLINE_GAME_ROUTE, PLAY_SOLO_GAME_ROUTE } from "@/app/routes";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import { GetLanguageStyle } from "@/features/language/LanguageStyles";
 
@@ -14,6 +14,8 @@ interface Props {
 
 export default function GameTeaserCard({ teaser, lang }: Props) {
     const languageStyle = GetLanguageStyle(teaser.language);
+
+    const playGameRoute = teaser.gameMode == "solo" ? PLAY_SOLO_GAME_ROUTE(teaser.id) : PLAY_ONLINE_GAME_ROUTE(teaser.id);
 
     return (
         <Card>
@@ -58,7 +60,7 @@ export default function GameTeaserCard({ teaser, lang }: Props) {
                         {languageStyle?.flag}
                     </div>
 
-                    <Button variant="secondary" size="sm" href={LANGUAGE_ROUTE(lang, PLAY_GAME_ROUTE(teaser.id))}>
+                    <Button variant="secondary" size="sm" href={LANGUAGE_ROUTE(lang, playGameRoute)}>
                         <Play className="w-4 h-4" />
                         Reconnect
                     </Button>                    

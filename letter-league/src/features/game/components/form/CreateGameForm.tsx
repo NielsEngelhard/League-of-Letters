@@ -14,7 +14,7 @@ import { useEffect, useState } from "react"
 import SwitchInput from "@/components/ui/form/SwitchInput"
 import CreateGameCommand from "../../actions/command/create-game-command"
 import { useRouter } from "next/navigation"
-import { LANGUAGE_ROUTE, PLAY_GAME_ROUTE } from "@/app/routes"
+import { LANGUAGE_ROUTE, PLAY_SOLO_GAME_ROUTE } from "@/app/routes"
 import { SupportedLanguage } from "@/features/i18n/languages"
 import BeforeGameTranslations from "@/features/i18n/translation-file-interfaces/BeforeGameTranslations"
 import CreateOnlineGameBasedOnLobbyCommand from "@/features/lobby/actions/command/create-online-game-based-on-lobby-command"
@@ -44,7 +44,7 @@ export default function CreateGameForm({ onLeaveGame, submitDisabled = false, pl
             // Solo game
             CreateGameCommand(data)
             .then((gameId) => {
-                router.push(LANGUAGE_ROUTE(lang, PLAY_GAME_ROUTE(gameId)));
+                router.push(LANGUAGE_ROUTE(lang, PLAY_SOLO_GAME_ROUTE(gameId)));
             });
         }
     }
