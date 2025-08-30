@@ -7,19 +7,20 @@ import { DbOnlineLobbyPlayer, DbOnlineLobbyWithPlayers, OnlineLobbyPlayerTable, 
 import { ServerResponse, ServerResponseFactory } from "@/lib/response-handling/response-factory";
 import { db } from "@/drizzle/db";
 import { CurrentUserData, getCurrentUserOrRedirect } from "@/features/auth/current-user";
+import { DbOrTransaction } from "@/drizzle/util/transaction-util";
 
 
-export default async function CreateOnlineLobbyCommand(): Promise<ServerResponse<OnlineLobbyModel>> {
+export default async function CreateOnlineLobbyCommand(preDefinedGameId?: string): Promise<ServerResponse<OnlineLobbyModel>> {
     const currentUser = await getCurrentUserOrRedirect();
 
-    // CHECK EXISTING GAME
-    const existingLobby = await GetExistingLobbyIfExists(currentUser);
+    // Check if the user already has an existing lobby
+    const existingLobby = await GetExistingLobbyForUserIfExists(currentUser);
 
     if (existingLobby) {
         return ReJoinExistingLobby(existingLobby);
     }
 
-    return await CreateNewGame(currentUser);
+    return await CreateNewGame(currentUser, preDefinedGameId);
 }
 
 async function ReJoinExistingLobby(existingLobby: DbOnlineLobbyWithPlayers): Promise<ServerResponse<OnlineLobbyModel>> {
@@ -27,8 +28,8 @@ async function ReJoinExistingLobby(existingLobby: DbOnlineLobbyWithPlayers): Pro
     return ServerResponseFactory.success<OnlineLobbyModel>(lobbyModel);    
 }
 
-async function CreateNewGame(currentUser: CurrentUserData): Promise<ServerResponse<OnlineLobbyModel>> {
-    const gameId = generateGameId();    
+async function CreateNewGame(currentUser: CurrentUserData, preDefinedGameId?: string): Promise<ServerResponse<OnlineLobbyModel>> {
+    const gameId = await determineGameId(preDefinedGameId);
 
     const lobby = await db.transaction(async (tx) => {
         const lobby = await tx.insert(OnlineLobbyTable).values({
@@ -54,7 +55,7 @@ async function CreateNewGame(currentUser: CurrentUserData): Promise<ServerRespon
     return ServerResponseFactory.success<OnlineLobbyModel>(lobbyModel);
 }
 
-async function GetExistingLobbyIfExists(currentUser: CurrentUserData): Promise<DbOnlineLobbyWithPlayers | undefined> {
+async function GetExistingLobbyForUserIfExists(currentUser: CurrentUserData): Promise<DbOnlineLobbyWithPlayers | undefined> {
     const lobby = await db.query.OnlineLobbyTable.findFirst({
         where: (l, { eq }) => eq(l.hostAccountId, currentUser.accountId),
         with: {
@@ -63,4 +64,47 @@ async function GetExistingLobbyIfExists(currentUser: CurrentUserData): Promise<D
     });
     
     return lobby;
+}
+
+async function determineGameId(preDefinedGameId?: string): Promise<string> {
+    const gameIdGenerationTries = 5; // Try 5 times, otherwise throw error if id still causes conflicts
+    const tryNumber = 0;
+    var gameId: string = preDefinedGameId || generateGameId();
+
+    for(var i=0; i<5; i++) {
+        const causesConflicts: boolean = await GameIdConflictsWithExistingGame(gameId);
+        if (!causesConflicts) return gameId;
+        gameId = generateGameId();
+    }
+
+    throw Error(`After trying to generate a gameid for ${gameIdGenerationTries} times, it caused conflicts all the time`);
+} 
+
+async function GameIdConflictsWithExistingGame(gameId: string): Promise<boolean> {
+    return await db.transaction(async (tx) => {
+        const gameExists = await ActiveGameWithIdAlreadyExists(gameId, tx);
+        const lobbyExists = await LobbyWithIdAlreadyExists(gameId, tx);
+
+        return gameExists || lobbyExists;
+    });    
+}
+
+async function ActiveGameWithIdAlreadyExists(gameId: string, tx: DbOrTransaction): Promise<boolean> {
+    const game = await db.query.ActiveGameTable.findFirst({
+        where: (game, { eq, and }) =>
+            eq(game.id, gameId),
+            columns: { id: true },
+        });
+
+    return game != undefined && game != null;
+}
+
+async function LobbyWithIdAlreadyExists(gameId: string, tx: DbOrTransaction): Promise<boolean> {
+    const lobby = await db.query.OnlineLobbyTable.findFirst({
+        where: (lobby, { eq, and }) =>
+            eq(lobby.id, gameId),
+            columns: { id: true },
+        });
+
+    return lobby != undefined && lobby != null;
 }

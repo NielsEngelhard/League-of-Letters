@@ -4,14 +4,14 @@ import React, { createContext, useContext, useRef, useState, ReactNode, useEffec
 import { io, Socket } from 'socket.io-client';
 import { ConnectionStatus, JoinGameRealtimeModel } from './realtime-models';
 import { useRouter } from 'next/navigation';
-import { LANGUAGE_ROUTE, MULTIPLAYER_GAME_ROUTE, PLAY_ONLINE_GAME_ROUTE } from '@/app/routes';
+import { JOIN_GAME_ROUTE, LANGUAGE_ROUTE, MULTIPLAYER_GAME_ROUTE, PLAY_ONLINE_GAME_ROUTE } from '@/app/routes';
 import { useMessageBar } from '@/components/layout/MessageBarContext';
 import { useActiveGame } from '../game/components/active-game-context';
 import { GuessWordResponse } from '../game/actions/command/guess-word-command';
 import { useAuth } from '../auth/AuthContext';
 import { GamePlayerModel } from '../game/game-models';
 import { RealtimeLogger } from './realtime-logger';
-import { SupportedLanguage } from '../i18n/languages';
+import { DefaultLanguage, SupportedLanguage } from '../i18n/languages';
 
 interface SocketContextType {
   socket: Socket | null;
@@ -23,6 +23,7 @@ interface SocketContextType {
 
   emitJoinGame: (data: JoinGameRealtimeModel) => void;
   emitTestEvent: (gameId: string) => void;
+  emitHostCreatedNewLobby: (oldGameId: string, newLobbyId: string) => void;
 }
 
 const SocketContext = createContext<SocketContextType | undefined>(undefined);
@@ -99,19 +100,16 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
       activeGameContext.handleWordGuess(response);
     });
 
-    socket.on('kick-player', ({ accountId, gameId }) => {
-      RealtimeLogger.Log(`kick-player ${accountId}`);
-      
-      const youAreTheKickedPlayer: boolean = account?.id == accountId;
-      
-      activeGameContext.kickPlayer(accountId);
+    socket.on('guess-word', (response: GuessWordResponse) => {
+      RealtimeLogger.Log(`guess-word ${response.guessResult.evaluatedLetters.map(el => el.letter)}`);
+      if (response.accountId == account?.id) return;
+      activeGameContext.handleWordGuess(response);
+    });    
 
-      if (youAreTheKickedPlayer) {
-        activeGameContext.clearGameState();
-        router.push(LANGUAGE_ROUTE(lang, MULTIPLAYER_GAME_ROUTE));
-        return;
-      }
-    });        
+    socket.on('host-created-new-lobby', (newLobbyId) => {
+      RealtimeLogger.Log(`host-created-new-lobby ${newLobbyId}`);
+      router.push(LANGUAGE_ROUTE(account?.language ?? DefaultLanguage, JOIN_GAME_ROUTE(newLobbyId)));
+    });
 
     socket.on('delete-game', (gameId: string) => {
       pushMessage({
@@ -155,6 +153,13 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
     socketRef.current?.emit('player-guess-changed', guess);
   };
 
+  const emitHostCreatedNewLobby = (oldGameId: string, newLobbyId: string) => {
+    socketRef.current?.emit('host-created-new-lobby', {
+      oldGameId: oldGameId,
+      newLobbyId: newLobbyId,
+    });
+  };  
+
   // When the user's currentGuess changes "locally", other players should see that
   useEffect(() => {    
     // Prevent infinite loop by only doing this for the person who's turn it is
@@ -171,6 +176,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
       transport,
       emitJoinGame,
       emitTestEvent,
+      emitHostCreatedNewLobby,
 	    initializeConnection,
       disconnectConnection
     }}>

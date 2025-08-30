@@ -1,6 +1,6 @@
 "use server"
 
-import { LANGUAGE_ROUTE, PICK_GAME_MODE_ROUTE } from "@/app/routes";
+import { JOIN_GAME_ROUTE, LANGUAGE_ROUTE } from "@/app/routes";
 import PageBase from "@/components/layout/PageBase";
 import { GetActiveGameByIdRequest } from "@/features/game/actions/query/get-active-game-by-id-request";
 import IngameClient from "@/features/game/components/InGameClient";
@@ -19,7 +19,7 @@ export default async function PlayOnlineGamePage({
     // Game does not exist
     const game = await GetActiveGameByIdRequest(gameId);
     if (!game) {
-        redirect(LANGUAGE_ROUTE(lang, PICK_GAME_MODE_ROUTE));
+       redirect(LANGUAGE_ROUTE(lang, JOIN_GAME_ROUTE(gameId)));
     }
 
     return (

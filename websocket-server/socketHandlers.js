@@ -6,13 +6,25 @@ module.exports = (io, socket) => {
 
   // USER ACTIONS --------------------------------------------------------------------
   socket.on('join-game', ({ gameId, username, accountId, isHost }) => {
-    // TODO: check in back-end if this lobby does exist
+    const userIsAlreadySubscribedToAGame = socket.gameId != null && socket.gameId != undefined;
+    const userIsSubscribedToThisGame = (userIsAlreadySubscribedToAGame && socket.gameId == gameId);
+
+    if (userIsSubscribedToThisGame) {
+      Logger.LogWebsocketTrigger("join-room", `User'${username}' is already subscribed so dont join again for Room/gameid: '${gameId}'`);
+      return;
+    }
+
+    if (userIsAlreadySubscribedToAGame) {
+      socket.leave(socket.gameId); // Leave old game
+    }
 
     // Set user specific data
     socket.accountId = accountId;
     socket.gameId = gameId;
 
+    // Join this game
     socket.join(gameId);
+    
     Logger.LogWebsocketTrigger("join-room", `User: '${username}' Room/gameid: '${gameId}'`);
 
     CallWebhook_UpdatePlayerConnectionStatus(socket.gameId, socket.accountId, "connected")
@@ -40,6 +52,11 @@ module.exports = (io, socket) => {
     Logger.LogWebsocketTrigger("guess-word", `GameId/Room: '${socket.gameId}'`);  
     socket.broadcast.to(socket.gameId).emit('guess-word', guessWordResponse);
   });
+
+  socket.on('host-created-new-lobby', ({oldGameId, newLobbyId}) => {
+    Logger.LogWebsocketTrigger("host-created-new-lobby", `oldGameId: '${oldGameId}' newLobbyId: ${newLobbyId}'`);  
+    socket.broadcast.to(oldGameId).emit('host-created-new-lobby', newLobbyId);
+  });  
 
   socket.on('kick-player', ({ accountId, gameId }) => {
     Logger.LogWebsocketTrigger("kick-player", `GameId/Room: '${gameId}' AccountId: '${accountId}'`);

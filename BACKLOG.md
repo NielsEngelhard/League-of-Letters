@@ -1,15 +1,11 @@
-- bring your own word mode
-- Fix play gain en score overview. Nu heel lelijk
 MUST
-
-
+- statistics regarding games played (and disclaimer that it can bla)
 SHOULD
-- statistics regarding games played
+- GAME MODE: bring your own word
 - Sound effects
-- bugfix, zet console log in de header en zie dat deze 10x wordt aangeroepen?? Hzo? Is dit een bug?
+- Favourite color is displayed as your color everywhere
 
 COULD
-- Favourite color is displayed as your color everywhere
 - Timer also determines the score (bonus system extended)
 - See which player guessed which word
 - Online game mode "challenge each other by picking your own words at the beginning of the game"

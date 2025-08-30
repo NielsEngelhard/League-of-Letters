@@ -2,23 +2,28 @@ import Card from "@/components/ui/card/Card";
 import { GamePlayerModel } from "../game-models";
 import GameResultOverviewPlayerCard from "./GameResultOverviewPlayerCard";
 import Button from "@/components/ui/Button";
-import { LANGUAGE_ROUTE, PICK_GAME_MODE_ROUTE, SOLO_GAME_ROUTE } from "@/app/routes";
-import { useRouter } from "next/navigation";
+import { CREATE_MULTIPLAYER_GAME_ROUTE, LANGUAGE_ROUTE, MULTIPLAYER_GAME_ROUTE, PICK_GAME_MODE_ROUTE, SOLO_GAME_ROUTE } from "@/app/routes";
+import { redirect, useRouter } from "next/navigation";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import InGameTranslations from "@/features/i18n/translation-file-interfaces/InGameTranslations";
 import DefaultCardHeader from "@/components/ui/card/DefaultCardHeader";
 import { Repeat, Trophy } from "lucide-react";
 import InfoBanner from "@/components/ui/InfoBanner";
+import CreateNewLobbyBasedOnEndedGame from "@/features/lobby/actions/command/create-new-lobby-based-on-ended-game";
+import { waitDelay } from "@/lib/debug-util";
+import { useSocket } from "@/features/realtime/socket-context";
 
 interface Props {
     players: GamePlayerModel[];
     lang: SupportedLanguage;
     t: InGameTranslations;
     thisPlayerIsHost?: boolean;
+    gameId: string;
 }
 
-export default function GameResultOverview({ players, lang, t, thisPlayerIsHost = false }: Props) {
+export default function GameResultOverview({ players, lang, t, gameId, thisPlayerIsHost = false }: Props) {
     const router = useRouter();
+    const { emitHostCreatedNewLobby } = useSocket();
         
     const sortedPlayersByScore = players.sort((a, b) => b.score - a.score);
     const isSoloGame = players.length === 1;
@@ -30,9 +35,27 @@ export default function GameResultOverview({ players, lang, t, thisPlayerIsHost 
         return t.overview.scenarios.online.subTxt;
     };
 
-    function onPlayAgain() {
+    async function onPlayAgain() {
         if (isSoloGame) {
             router.push(LANGUAGE_ROUTE(lang, SOLO_GAME_ROUTE));
+        } else {
+            await createNewLobbyAndBringPlayersWhoAreStillConnected();
+        }
+    }
+
+    async function createNewLobbyAndBringPlayersWhoAreStillConnected() {
+        const oldGameId = gameId;
+
+        try {
+            const newLobbyId = await CreateNewLobbyBasedOnEndedGame(gameId);
+
+            // Notify other players about new lobby and bring them in
+            emitHostCreatedNewLobby(oldGameId, newLobbyId);
+
+            // Navigate yourself
+            router.push(LANGUAGE_ROUTE(lang, CREATE_MULTIPLAYER_GAME_ROUTE));
+        } catch (err) {
+            redirect(LANGUAGE_ROUTE(lang, MULTIPLAYER_GAME_ROUTE));
         }
     }
 

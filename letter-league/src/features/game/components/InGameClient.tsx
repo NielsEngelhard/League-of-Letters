@@ -74,6 +74,7 @@ export default function IngameClient({ initialGameState, lang, generalTranslatio
                     lang={lang}
                     players={players}
                     thisPlayerIsHost={account.id == game.hostAccountId}
+                    gameId={game.id}
                 />
             ) : (
                 <GameBoard lang={lang} generalTranslations={generalTranslations} inGameTranslations={inGameTranslations} />
