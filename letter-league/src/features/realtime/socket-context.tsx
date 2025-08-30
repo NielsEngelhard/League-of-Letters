@@ -19,6 +19,7 @@ interface SocketContextType {
   transport: string;
 
   initializeConnection: () => void;
+  disconnectConnection: () => void;
 
   emitJoinGame: (data: JoinGameRealtimeModel) => void;
   emitTestEvent: (gameId: string) => void;
@@ -131,6 +132,17 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
     };
   };
 
+  const disconnectConnection = () => {
+    if (socketRef.current) {
+      RealtimeLogger.Log("manually disconnecting socket");
+      socketRef.current.disconnect();
+      socketRef.current = null;
+      setConnectionStatus("empty");
+      setTransport('N/A');
+      RealtimeLogger.Log("manually disconnected socket");
+    }
+  };
+
   const emitJoinGame = (data: JoinGameRealtimeModel) => {
     socketRef.current?.emit('join-game', data);
   };
@@ -160,6 +172,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
       emitJoinGame,
       emitTestEvent,
 	    initializeConnection,
+      disconnectConnection
     }}>
       {children}
     </SocketContext.Provider>

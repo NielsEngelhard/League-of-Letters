@@ -1,3 +1,4 @@
+import React from "react";
 import BackButton from "../BackButton";
 import { OptionItem, OptionsMenu } from "../OptionsMenu";
 import Title from "../text/Title";
@@ -9,10 +10,10 @@ interface Props {
     titleColor?: "primary" | "text" | "gradient";    
     backHref?: string;
     children?: React.ReactElement;
-    options?: OptionItem[];
+    rightUpperCorner?: React.ReactElement;
 }
 
-export default function PageIntro({ title, subText, titleSize = "md", titleColor = "primary", backHref, children, options }: Props) {
+export default function PageIntro({ title, subText, titleSize = "md", titleColor = "primary", backHref, children, rightUpperCorner }: Props) {
     return (
         <div className="w-full flex flex-col items-center text-center md:space-y-3">
             <div className="relative flex flex-row w-full justify-center">
@@ -25,7 +26,7 @@ export default function PageIntro({ title, subText, titleSize = "md", titleColor
                 <Title title={title} size={titleSize} color={titleColor} />
 
                 <div className="absolute right-0">
-                    {options && <OptionsMenu options={options} />}
+                    {rightUpperCorner && rightUpperCorner}
                 </div>             
             </div>
 

@@ -25,6 +25,12 @@ export const PLAY_ONLINE_GAME_ROUTE = (gameId: string): string => {
     return `/online/connect/play/${gameId}`;
 }
 
+// Join game but we dont know if authenticated
 export const JOIN_GAME_ROUTE = (gameId: string): string => {
-    return `/online/connect/join/${gameId}`;
+    return `/join/${gameId}`;
+}
+
+// Join game, we know that authenticated
+export const JOINED_GAME_ROUTE = (gameId: string): string => {
+    return `/online/connect/joined/${gameId}`;
 }

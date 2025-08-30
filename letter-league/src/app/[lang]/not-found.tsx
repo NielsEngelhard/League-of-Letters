@@ -4,12 +4,12 @@ import Button from '@/components/ui/Button';
 import { SupportedLanguage } from '@/features/i18n/languages';
 import { loadTranslations } from '@/features/i18n/utils';
 
-export default async function NotFound({ params }: { params: Promise<{ lang: SupportedLanguage }> }) {
+export default async function NotFound({ params }: { params: Promise<{ lang: SupportedLanguage }> }) {  
   const { lang } = await params;
   const t = await loadTranslations(lang, ["home"]);
 
   return (
-    <PageBase requiresAuh={false}>
+    <PageBase requiresAuh={false} lang={lang}>
       <div className="text-center space-y-8 flex flex-col items-center justify-center w-full">
         {/* 404 Number */}
         <div className="relative">

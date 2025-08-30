@@ -11,16 +11,15 @@ import { User } from "lucide-react";
 import { MAX_ONLINE_GAME_PLAYERS } from "@/features/game/game-constants";
 import CreateOnlineLobbyCommand from "@/features/lobby/actions/command/create-online-lobby-command";
 import LoadingDots from "@/components/ui/animation/LoadingDots";
-import { OptionItem } from "@/components/ui/OptionsMenu";
-import DeleteOnlineLobbyById from "@/features/lobby/actions/command/delete-online-lobby";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import { loadTranslations } from "@/features/i18n/utils";
 import { redirect } from "next/navigation";
 import LobbyJoinCode from "@/features/game/components/lobby/LobbyJoinCode";
 import LobbyJoinLink from "@/features/game/components/lobby/LobbyJoinLink";
 import CreateLobbyClient from "@/features/game/components/lobby/CreateLobbyClient";
-import { isAuthenticated_Server } from "@/features/auth/utils/auth-server-utils";
+import { getAuthenticatedUser_Server } from "@/features/auth/utils/auth-server-utils";
 import AuthenticationRequiredBlock from "@/components/layout/AuthenticationRequiredBlock";
+import LobbyOptions from "@/features/game/components/lobby/LobbyOptions";
 
 export default async function CreateOnlineGamePage({
   params
@@ -30,8 +29,8 @@ export default async function CreateOnlineGamePage({
     const { lang } = await params;
     const t = await loadTranslations(lang, ["beforeGame"]);
 
-    const isAuthenticated = await isAuthenticated_Server();
-    if (!isAuthenticated) {
+    const authenticatedUser = await getAuthenticatedUser_Server();
+    if (!authenticatedUser) {
         return <AuthenticationRequiredBlock lang={lang} />
     }
 
@@ -42,31 +41,23 @@ export default async function CreateOnlineGamePage({
 
     const lobby = response.data;
 
-  async function abandonLobby() {
-    if (!lobby) return;
-    await DeleteOnlineLobbyById(lobby.id, undefined, true);
-  }
-
-  const lobbyOptions: OptionItem[] = [
-    {
-      label: "Abandon",
-      onClick: abandonLobby,
-      destructive: true
-    }
-  ]
-
   return (
     <PageBase size="lg" lang={lang} requiresAuh={true}>
-      <PageIntro title={t.beforeGame.lobby.create.title} subText={`${t.beforeGame.lobby.create.joinCode}:`} backHref={LANGUAGE_ROUTE(lang, MULTIPLAYER_GAME_ROUTE)} >
+      <PageIntro
+        title={t.beforeGame.lobby.create.title}
+        subText={`${t.beforeGame.lobby.create.joinCode}:`}
+        backHref={LANGUAGE_ROUTE(lang, MULTIPLAYER_GAME_ROUTE)}
+        rightUpperCorner={<LobbyOptions lobbyId={lobby.id} />}
+      >
         <div className="text-3xl font-bold">
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-center">              
               {/* Join Code */}
               <LobbyJoinCode joinCode={lobby.id} />
 
               {/* Join Url */}
               <LobbyJoinLink lang={lang} label={t.beforeGame.lobby.create.joinLink} joinCode={lobby.id} />
             </div>
-        </div>
+        </div>        
       </PageIntro>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10">
@@ -82,6 +73,8 @@ export default async function CreateOnlineGamePage({
                 lang={lang}
                 t={t.beforeGame}
                 initialLobby={lobby}
+                accountId={authenticatedUser.accountId}
+                username={authenticatedUser.username}
               />            
             </CardContent>
           </Card>       

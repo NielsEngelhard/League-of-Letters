@@ -9,53 +9,39 @@ import OnlineLobbyPlayerList from "@/features/lobby/components/OnlineLobbyPlayer
 import { useEffect } from "react"
 import { useSocket } from "@/features/realtime/socket-context"
 import { OnlineLobbyModel } from "@/features/lobby/lobby-models"
-import { useMessageBar } from "@/components/layout/MessageBarContext"
 import { useAuth } from "@/features/auth/AuthContext"
+import { LANGUAGE_ROUTE, MULTIPLAYER_GAME_ROUTE } from "@/app/routes"
+import { redirect } from "next/navigation"
+import { SupportedLanguage } from "@/features/i18n/languages"
 
 interface Props {
     hostAccountId: string;
     initialLobby: OnlineLobbyModel;
+    lang: SupportedLanguage;
+    accountId: string;
+    username: string;
 }
 
-export default function JoinedLobbyClient({ hostAccountId, initialLobby }: Props) {
-    const { players, setInitialPlayers, clearGameState, game } = useActiveGame();
-    const { initializeConnection, emitJoinGame, connectionStatus } = useSocket();
-    const { pushSuccessMsg, pushLoadingMsg } = useMessageBar();
+export default function JoinedLobbyClient({ hostAccountId, initialLobby, lang, accountId, username }: Props) {
+    const { players, setInitialPlayers } = useActiveGame();
+    const { emitJoinGame, connectionStatus } = useSocket();
     const { account } = useAuth();
     
-    // Clear game state when discarding the client
+    // Join the websocket room
     useEffect(() => {
-        return () => {
-            clearGameState();
-        }
-    }, []);
-
-    // Initialize game
-    useEffect(() => {
-      if (!account) return;
-
-      setInitialPlayers(initialLobby.players);
-    }, [account]);        
-
-    // When lobby set, initialize realtime connection
-    useEffect(() => {
-      if (!players || players.length < 1 || connectionStatus == "connected") return;
-      pushLoadingMsg("Connecting with the realtime server");
-      initializeConnection();
-    }, [players]);
-
-    // Handle realtime connection connected
-    useEffect(() => {
-        if (connectionStatus != "connected" || !account) return; 
+        if (connectionStatus != "connected" || !initialLobby || !accountId) {
+          redirect(LANGUAGE_ROUTE(lang, MULTIPLAYER_GAME_ROUTE));
+        }; 
         
+        setInitialPlayers(initialLobby.players);
+
         emitJoinGame({
             gameId: initialLobby.id,
-            accountId: account.id,
-            username: account.username,
+            accountId: accountId,
+            username: username,
             isHost: false
         });
 
-        pushSuccessMsg("Connected");
     }, [connectionStatus, account]);
 
     return (

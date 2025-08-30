@@ -5,7 +5,7 @@ import TextInput from "@/components/ui/form/TextInput"
 import { GAME_ID_LENGTH, isValidGameId } from "../util/game-id-generator"
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { JOIN_GAME_ROUTE, LANGUAGE_ROUTE } from "@/app/routes";
+import { JOINED_GAME_ROUTE, LANGUAGE_ROUTE } from "@/app/routes";
 import { SupportedLanguage } from "@/features/i18n/languages";
 
 interface Props {
@@ -21,7 +21,7 @@ export default function JoinGameForm({ lang, label, btnTxt }: Props) {
 
     async function onJoinGame() {
         if (!isValidJoinCode) return;
-        router.push(LANGUAGE_ROUTE(lang, JOIN_GAME_ROUTE(joinCode)));
+        router.push(LANGUAGE_ROUTE(lang, JOINED_GAME_ROUTE(joinCode)));
     }
 
     useEffect(() => {

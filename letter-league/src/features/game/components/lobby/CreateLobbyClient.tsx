@@ -7,55 +7,36 @@ import { useEffect } from "react";
 import { useSocket } from "@/features/realtime/socket-context";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import BeforeGameTranslations from "@/features/i18n/translation-file-interfaces/BeforeGameTranslations";
-import { useMessageBar } from "@/components/layout/MessageBarContext";
-import { useAuth } from "@/features/auth/AuthContext";
+import { redirect } from "next/navigation";
+import { LANGUAGE_ROUTE, MULTIPLAYER_GAME_ROUTE } from "@/app/routes";
 
 interface Props {
   lang: SupportedLanguage;
   initialLobby: OnlineLobbyModel;
-  t: BeforeGameTranslations;  
+  t: BeforeGameTranslations;
+  accountId: string;
+  username: string;
 }
 
-export default function CreateLobbyClient({ initialLobby, lang, t }: Props) {
-    const { players, setInitialPlayers, clearGameState, game } = useActiveGame();
-    const { initializeConnection, emitJoinGame, connectionStatus } = useSocket();
-    const { pushSuccessMsg, pushLoadingMsg } = useMessageBar();
-    const { account } = useAuth();
+export default function CreateLobbyClient({ initialLobby, lang, t, accountId, username }: Props) {
+    const { players, setInitialPlayers } = useActiveGame();
+    const { emitJoinGame, connectionStatus } = useSocket();
 
-    // Clear game state when discarding the client
+    // Join the websocket room
     useEffect(() => {
-        return () => {
-            clearGameState();
-        }
-    }, []);
+        if (connectionStatus != "connected" || !initialLobby || !accountId) {
+          redirect(LANGUAGE_ROUTE(lang, MULTIPLAYER_GAME_ROUTE));
+        }; 
 
-    // Initialize game
-    useEffect(() => {
-      if (!account) return;
-
-      setInitialPlayers(initialLobby.players);
-    }, [account]);
-
-    // When lobby set, initialize realtime connection
-    useEffect(() => {
-      if (!players || players.length < 1 || connectionStatus == "connected") return;
-      pushLoadingMsg("Connecting with the realtime server");
-      initializeConnection();
-    }, [players]);
-
-    // Handle realtime connection connected
-    useEffect(() => {
-        if (connectionStatus != "connected" || !account) return; 
+        setInitialPlayers(initialLobby.players);
 
         emitJoinGame({
             gameId: initialLobby.id,
-            accountId: account.id,
-            username: account.username,
+            accountId: accountId,
+            username: username,
             isHost: false
         });
-
-        pushSuccessMsg("Connected");
-    }, [connectionStatus]);    
+    }, []);    
 
     return (
       <CreateGameForm

@@ -11,12 +11,12 @@ import LoadingDots from "@/components/ui/animation/LoadingDots";
 import { LANGUAGE_ROUTE, MULTIPLAYER_GAME_ROUTE } from "@/app/routes";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import { loadTranslations } from "@/features/i18n/utils";
-import { isAuthenticated_Server } from "@/features/auth/utils/auth-server-utils";
+import { getAuthenticatedUser_Server } from "@/features/auth/utils/auth-server-utils";
 import AuthenticationRequiredBlock from "@/components/layout/AuthenticationRequiredBlock";
 import JoinedLobbyClient from "@/features/game/components/lobby/JoinedLobbyClient";
 import { GetLanguageStyle } from "@/features/language/LanguageStyles";
 
-export default async function JoinOnlineGamePage({
+export default async function JoinedOnlineGamePage({
   params
 }: {
   params: Promise<{ lang: SupportedLanguage, joinCode: string }>
@@ -24,8 +24,8 @@ export default async function JoinOnlineGamePage({
     const { lang, joinCode } = await params;
     const t = await loadTranslations(lang, ["beforeGame"]);
 
-    const isAuthenticated = await isAuthenticated_Server();
-    if (!isAuthenticated) {
+    const authenticatedUser = await getAuthenticatedUser_Server();
+    if (!authenticatedUser) {
         return <AuthenticationRequiredBlock lang={lang} />
     }
 
@@ -61,7 +61,13 @@ export default async function JoinOnlineGamePage({
             </CardContent>
             </Card>
 
-            <JoinedLobbyClient hostAccountId={lobby.hostAccountId} initialLobby={lobby} />
+            <JoinedLobbyClient
+                hostAccountId={lobby.hostAccountId}
+                initialLobby={lobby}
+                accountId={authenticatedUser.accountId}
+                username={authenticatedUser.username}
+                lang={lang}
+            />
 
             {/* Game Settings Overview */}
             {lobby && (
