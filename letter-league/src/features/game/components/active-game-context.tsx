@@ -103,6 +103,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
   }
 
   function handleWordGuess(response: GuessWordResponse) {    
+    debugger;
     setCurrentGuess("");
 
     addGuessToCurrentRound(response);
@@ -123,6 +124,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
   }
 
   function updatePlayerScores(response: GuessWordResponse) {
+    debugger;
     setPlayers(prevPlayers =>
       prevPlayers.map(player =>
         player.accountId === response.accountId

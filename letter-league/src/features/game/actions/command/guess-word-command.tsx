@@ -110,7 +110,6 @@ async function updateCurrentGameState(game: DbActiveGameWithRoundsAndPlayers, cu
         await triggerNextGuess(currentRound, validationResult, currentPlayer, unixTimestampInSeconds);
     }
 
-    debugger;
     return {
         accountId: currentPlayer.accountId,
         guessResult: currentGuess,

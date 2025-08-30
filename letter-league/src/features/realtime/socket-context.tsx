@@ -100,12 +100,6 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
       activeGameContext.handleWordGuess(response);
     });
 
-    socket.on('guess-word', (response: GuessWordResponse) => {
-      RealtimeLogger.Log(`guess-word ${response.guessResult.evaluatedLetters.map(el => el.letter)}`);
-      if (response.accountId == account?.id) return;
-      activeGameContext.handleWordGuess(response);
-    });    
-
     socket.on('host-created-new-lobby', (newLobbyId) => {
       RealtimeLogger.Log(`host-created-new-lobby ${newLobbyId}`);
       router.push(LANGUAGE_ROUTE(account?.language ?? DefaultLanguage, JOIN_GAME_ROUTE(newLobbyId)));
