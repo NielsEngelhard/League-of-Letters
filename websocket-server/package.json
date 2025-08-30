@@ -1,5 +1,5 @@
 {
-  "name": "websocket-server",
+  "name": "actions-server",
   "version": "1.0.0",
   "description": "Socket.io WebSocket server",
   "main": "server.js",
