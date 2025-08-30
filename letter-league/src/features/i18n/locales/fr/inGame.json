@@ -2,6 +2,11 @@
   "round": "Manche",
   "time": "Temps",
   "theWordWas": "Le mot était",
+  "board": {
+    "players": "Joueurs",
+    "time": "Temps",
+    "round": "Manche"
+  },  
   "overview": {
     "title": "Aperçu du jeu",
     "points": "points",

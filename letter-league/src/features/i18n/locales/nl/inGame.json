@@ -2,6 +2,11 @@
   "round": "Ronde",
   "time": "Tijd",
   "theWordWas": "Het woord was",
+  "board": {
+    "players": "Spelers",
+    "time": "Tijd",
+    "round": "Ronde"
+  },    
   "overview": {
     "title": "Speloverzicht",
     "points": "punten",

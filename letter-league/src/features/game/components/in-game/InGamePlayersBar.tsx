@@ -6,9 +6,10 @@ import InGamePlayerCard from "./InGamePlayerCard";
 interface Props {
     players: GamePlayerModel[];
     currentPlayerId?: string;
+    playersLabel: string;
 }
 
-export default function InGamePlayerBar({ players, currentPlayerId }: Props) {
+export default function InGamePlayerBar({ players, currentPlayerId, playersLabel }: Props) {
 
     const disconnectedPlayers: GamePlayerModel[] = players.filter(p => p.connectionStatus != "connected");
     const isSoloGame: boolean = players.length == 1;
@@ -25,7 +26,7 @@ export default function InGamePlayerBar({ players, currentPlayerId }: Props) {
                             <>
                             <RealtimeStatusIndicator status={disconnectedPlayers.length == 0 ? "connected" : "disconnected"} />
                             <span>
-                                Players ({players.length - disconnectedPlayers.length}/{players.length})
+                                {playersLabel} ({players.length - disconnectedPlayers.length}/{players.length})
                             </span>                            
                             </>
                         )}

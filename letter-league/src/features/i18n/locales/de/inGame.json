@@ -2,6 +2,11 @@
   "round": "Runde",
   "time": "Zeit",
   "theWordWas": "Das Wort war",
+  "board": {
+    "players": "Spieler",
+    "time": "Zeit",
+    "round": "Runde"
+  },
   "overview": {
     "title": "Spielübersicht",
     "points": "Punkte",

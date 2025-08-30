@@ -75,7 +75,7 @@ export default function IngameClient({ initialGameState, lang, generalTranslatio
                     players={players}
                 />
             ) : (
-                <GameBoard lang={lang} generalTranslations={generalTranslations} />
+                <GameBoard lang={lang} generalTranslations={generalTranslations} inGameTranslations={inGameTranslations} />
             )}
         </>
     )

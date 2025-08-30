@@ -2,6 +2,11 @@ export default interface InGameTranslations {
     round: string;
     time: string;
     theWordWas: string;
+    board: {
+        players: string;
+        time: string;
+        round: string;        
+    }    
     overview: {
         title: string;
         points: string;

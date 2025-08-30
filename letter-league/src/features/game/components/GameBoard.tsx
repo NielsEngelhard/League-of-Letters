@@ -2,7 +2,7 @@ import LetterRowGrid from "@/features/word/components/LetterRowGrid";
 import ActiveGameWordInput from "./ActiveGameWordInput";
 import { useActiveGame } from "./active-game-context";
 import InGamePlayerBar from "./in-game/InGamePlayersBar";
-import GameProgressionBar from "./in-game/InGameProgressionBar";
+import InGameProgressionBar from "./in-game/InGameProgressionBar";
 import LoadingSpinner from "@/components/ui/animation/LoadingSpinner";
 import SettingsCard from "@/features/account/components/SettingsCard";
 import { useEffect, useState } from "react";
@@ -10,13 +10,15 @@ import InGameTimer from "./in-game/InGameTimer";
 import { getCurrentUtcUnixTimestamp_Seconds } from "@/lib/time-util";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
+import InGameTranslations from "@/features/i18n/translation-file-interfaces/InGameTranslations";
 
 interface Props {
     lang: SupportedLanguage;
     generalTranslations: GeneralTranslations;
+    inGameTranslations: InGameTranslations;
 }
 
-export default function GameBoard({lang, generalTranslations}: Props) {
+export default function GameBoard({lang, generalTranslations, inGameTranslations}: Props) {
     const { game, players, setCurrentGuess, submitGuess, currentGuess, currentRound, isThisPlayersTurn, isAnimating, theWord, currentPlayerId, recalculateCurrentPlayer } = useActiveGame();
     const [initialTimeLeftForThisTurn, setInitialTimeLeftForThisTurn] = useState<number | null>(null);
 
@@ -51,15 +53,18 @@ export default function GameBoard({lang, generalTranslations}: Props) {
         <>
         {(game && currentRound) ? (
             <div className="w-full flex flex-col items-center gap-6 max-w-2xl mx-auto">
-                <GameProgressionBar
+                <InGameProgressionBar
                     currentRound={currentRound}
                     totalRounds={game.totalRounds}
+                    timePerGuess={game.nSecondsPerGuess?.toString() ?? "∞"}
+                    inGameTranslations={inGameTranslations}
                 />
 
                 {/* Player bar */}
                 <InGamePlayerBar
                     players={players}
-                    currentPlayerId={currentPlayerId}               
+                    currentPlayerId={currentPlayerId}  
+                    playersLabel={inGameTranslations.board.players}             
                 />
 
                 {/* Game Grid */}

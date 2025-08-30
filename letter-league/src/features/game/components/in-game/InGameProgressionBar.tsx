@@ -2,13 +2,16 @@ import PopupCard from "@/components/ui/card/PopupCard";
 import { GameRoundModel } from "../../game-models";
 import LetterTile from "@/features/word/components/LetterTile";
 import { LetterState } from "@/features/word/word-models";
+import InGameTranslations from "@/features/i18n/translation-file-interfaces/InGameTranslations";
 
 interface Props {
     currentRound: GameRoundModel;
     totalRounds: number;
+    timePerGuess: string;
+    inGameTranslations: InGameTranslations;
 }
 
-export default function InGameProgressionBar({ currentRound, totalRounds }: Props) {
+export default function InGameProgressionBar({ currentRound, totalRounds, timePerGuess, inGameTranslations }: Props) {
     return (
         <PopupCard>
             <>
@@ -19,14 +22,14 @@ export default function InGameProgressionBar({ currentRound, totalRounds }: Prop
                             <div className="flex items-center gap-2">
                                 <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
                                 <span className="text-sm font-semibold text-foreground">
-                                    Round {currentRound.roundNumber}/{totalRounds}
+                                    {inGameTranslations.board.round} {currentRound.roundNumber}/{totalRounds}
                                 </span>
                             </div>
                         </div>
                         
-                        <div className="flex items-center gap-2">
-                            <span className="text-xs text-foreground-muted">Time:</span>
-                            <span className="text-sm font-mono text-bold">∞</span>
+                        <div className="flex items-center gap-1">
+                            <span className="text-xs text-foreground-muted">{inGameTranslations.board.time}:</span>
+                            <span className="text-sm font-mono font-medium">{timePerGuess}</span>
                         </div>
                     </div>
 

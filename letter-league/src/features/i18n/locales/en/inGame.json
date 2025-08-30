@@ -2,6 +2,11 @@
     "round": "Round",
     "time": "Time",
     "theWordWas": "The word was",
+    "board": {
+        "players": "Players",
+        "time": "Time",
+        "round": "Round"
+    },
     "overview": {
         "title": "Game Overview",
         "points": "points",
