@@ -23,11 +23,11 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        primary: "bg-primary text-white",
-        primaryFade: "bg-gradient-to-r from-primary to-secondary text-background",
-        secondary: "bg-secondary text-white",
+        primary: "bg-primary text-white border-border",
+        primaryFade: "bg-gradient-to-r from-primary to-secondary text-background border-border",
+        secondary: "bg-secondary text-white border-border",
         skeleton: "border-border text-foreground hover:border-primary/20",
-        error: "bg-error text-white"
+        error: "bg-error text-white border-border"
       },
       size: {
         sm: "px-2 py-1 md:px-5 md:py-2 text-sm font-semibold",

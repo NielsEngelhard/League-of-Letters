@@ -60,7 +60,7 @@ export default function SettingsCard({ t, lang }: Props) {
 
     return (
         <Card className="w-full">
-            <ExpandableCardContent Icon={Settings} title={t.settings.title} t={t}
+            <ExpandableCardContent Icon={Settings} title={t.settings.title}
                 description={t.settings.description}>
                 <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>    
 
@@ -80,8 +80,9 @@ export default function SettingsCard({ t, lang }: Props) {
                                 options={[
                                     { value: "light", label: "Light" },
                                     { value: "dark", label: "Dark" },
+                                    { value: "ultradark", label: "Ultra Dark" },
                                     { value: "candy", label: "Candy" },
-                                    { value: "hackerman", label: "Hacker" }
+                                    { value: "hackerman", label: "Hacker" },                                    
                                 ]}
                             />
                             <p className="text-xs text-muted-foreground">

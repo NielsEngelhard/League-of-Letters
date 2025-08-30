@@ -1,7 +1,9 @@
 "use server"
 
 import PageBase from "@/components/layout/PageBase";
+import BackButton from "@/components/ui/BackButton";
 import HealthCheckClient from "@/lib/healthcheck/components/HealthCheckClient";
+import { HOME_ROUTE } from "../routes";
 
     const healthChecks: HealthCheckData[] = [
         {
@@ -27,6 +29,8 @@ import HealthCheckClient from "@/lib/healthcheck/components/HealthCheckClient";
 export default async function HealthCheckPage() {
     return (
         <PageBase requiresAuh={false} lang="en">
+            <BackButton href={HOME_ROUTE} />
+
             {/* Header Section */}
             <div className="space-y-2">
                 <div className="flex items-center justify-between">

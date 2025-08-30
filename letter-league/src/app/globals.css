@@ -46,6 +46,21 @@
   --success: #34D399;
 }
 
+/* Ultra dark theme */
+[data-theme="ultradark"] {
+  --background: #000000;
+  --background-secondary: #050505;
+  --foreground: #FFFFFF;
+  --foreground-muted: #666666;
+  --primary: #4F9FFF;
+  --secondary: #7C7CFF;
+  --accent: #00CCFF;
+  --border: #111111;
+  --error: #FF4444;
+  --warning: #FFB300;
+  --success: #00CC66;
+}
+
 /* Candy theme */
 [data-theme="candy"] {
   --background: #FEF7FF;

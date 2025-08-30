@@ -1,9 +1,6 @@
 - cache account wanneer server meerdere keren call doet voor "get current user in server lmz bijv in page base"
 - bring your own word mode
 - kleur laten zien in games bij je speler oid?
-
-- show language for current game and reconnect games etc.
-- dark mode mag wel donkerder
 MUST
 feedback login flow
 - Realtime connection not on all pages, maybe fix in page base?
