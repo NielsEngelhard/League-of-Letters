@@ -40,11 +40,17 @@ export const guestLoginSchema = z.object({
 export type GuestLoginSchema = z.infer<typeof guestLoginSchema>;
 
 export const updateAccountSchema = z.object({
-    email: z.string().max(100).optional(),
     username: z.string().max(25).optional(),
     favouriteWord: z.string().max(20).optional(),
     language: z.enum(supportedLanguages),    
     favouriteColor: z.string().optional(),
-    password: z.string().optional(), // Only when updating from guest account
 });
 export type UpdateAccountSchema = z.infer<typeof updateAccountSchema>;
+
+export const upgradeGuestAccountSchema = z.object({
+    username: z.string().max(25),
+    email: z.email().max(100),
+    language: z.enum(supportedLanguages),    
+    password: z.string()
+});
+export type UpgradeGuestAccountSchema = z.infer<typeof upgradeGuestAccountSchema>;

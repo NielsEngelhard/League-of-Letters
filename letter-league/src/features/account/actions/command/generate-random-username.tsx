@@ -1,3 +1,5 @@
+export const GUEST_ACCOUNT_POSTFIX = "_GUEST";
+
 const adjectives = [
     "Swift", "Brave", "Clever", "Mighty", "Silent", "Golden", "Shadow", "Frost",
     "Thunder", "Crimson", "Azure", "Ember", "Storm", "Mystic", "Rogue", "Noble",
@@ -39,10 +41,10 @@ export default function GenerateRandomUsername(isGuest: boolean = false): string
     let postFix: string = "";
 
     if (isGuest == true) {
-        postFix = "GUEST";
+        postFix = GUEST_ACCOUNT_POSTFIX;
     } else {
-        postFix = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+        postFix = `-${Math.floor(Math.random() * 1000).toString().padStart(3, '0')}`;
     }
     
-    return `${randomAdjective}${randomNoun}_${postFix}`;
+    return `${randomAdjective}${randomNoun}${postFix}`;
 }

@@ -1,0 +1,8 @@
+{
+    "upgradeGuestAccount": {
+        "title": "Passer au Compte Membre",
+        "description": "Convertissez votre compte invité en compte permanent pour conserver votre progression et éviter de perdre l'accès lorsque la session invité expire.",
+        "btn": "Devenir Membre",
+        "success": "Bienvenue ! Vous êtes maintenant membre !"
+    }
+}

@@ -15,6 +15,10 @@ import ExpandableCardContent from "@/components/ui/card/ExpandableCardContent";
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 import ColorInput from "@/components/ui/form/ColorInput";
 import { PrivateAccountModel } from "../account-models";
+import UpdateCurrentAccountInfo from "../actions/command/update-current-account-info";
+import { useMessageBar } from "@/components/layout/MessageBarContext";
+import { useState } from "react";
+import { waitDelay } from "@/lib/debug-util";
 
 interface Props {
     account: PrivateAccountModel;
@@ -22,6 +26,10 @@ interface Props {
 }
 
 export default function UpdateAccountForm({ generalTranslations, account }: Props) {
+    const { pushSuccessMsg, pushErrorMsg } = useMessageBar();
+    const { updateAccount } = useAuth();
+    const [loading, setLoading] = useState(false);
+
     if (!account) {
         return <LoadingDots />
     }    
@@ -33,25 +41,26 @@ export default function UpdateAccountForm({ generalTranslations, account }: Prop
             username: account.username,
             favouriteWord: account.favouriteWord,
             favouriteColor: account.colorHex,
-            email: account.email,            
         }
     })
 
     async function onSubmit(data: UpdateAccountSchema) {
-        if (account?.isGuest == true) {
-            // Convert guest account to normal account
-        } else {
-            // Just update the account
-        }
-        // const error = await CreateAccountCommand(data);
-        // if (!error) {
-        //     await authContext.login({ username: data.email, password: data.password });
-        // } 
+        setLoading(true);
+        
+        try {
+        const response = await UpdateCurrentAccountInfo(data);
 
-        // form.setError("root", {
-        //     type: "manual",
-        //     message: error
-        // });
+        if (response.ok && response.data) {
+            updateAccount(response.data);
+            pushSuccessMsg("success");
+        } else {
+            pushErrorMsg("error");
+        }          
+        } catch (err) {
+            pushErrorMsg();
+        } finally {
+            setLoading(false);
+        }        
     }
 
     return (
@@ -59,20 +68,13 @@ export default function UpdateAccountForm({ generalTranslations, account }: Prop
             <ExpandableCardContent
                 Icon={User}
                 title={generalTranslations.account.accountSettings.title}
-                t={generalTranslations}
                 description={generalTranslations.account.accountSettings.updateDescription}
-                initiallyExpaned={true}
+                initiallyExpaned={false}
             >
                 <form className="flex flex-col gap-3" onSubmit={form.handleSubmit(onSubmit)}>
-                    <TextInput label="Email" placeholder="Your email" {...form.register("email")} errorMsg={form.formState.errors.email?.message} />
-
                     <TextInput label="Username" placeholder="Your username" {...form.register("username")} errorMsg={form.formState.errors.username?.message} />
 
                     <TextInput label="Favourite word" placeholder="Your username" {...form.register("favouriteWord")} errorMsg={form.formState.errors.favouriteWord?.message} />
-
-                    {(account.isGuest == true) && (
-                        <TextInput label="Password" placeholder="Your password" {...form.register("password")} errorMsg={form.formState.errors.password?.message} />
-                    )}
 
                     <Controller
                         name="favouriteColor"
@@ -92,6 +94,7 @@ export default function UpdateAccountForm({ generalTranslations, account }: Prop
                             required
                             {...field}
                             disableHexInput={true}
+                            initialValue={account.colorHex}
                         />
                         )}
                     />
@@ -99,8 +102,9 @@ export default function UpdateAccountForm({ generalTranslations, account }: Prop
                     <SelectLanguageGrid
                         name="language"
                         control={form.control}
+                        value={account.language}
                     />
-                    <Button type="submit">
+                    <Button type="submit" isLoadingExternal={loading}>
                         <Save className="w-6 h-6" />
                         Update account info
                     </Button>

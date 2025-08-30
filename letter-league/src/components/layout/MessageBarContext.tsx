@@ -23,7 +23,7 @@ const MessageBarContext = createContext<MessageBarContextType | undefined>(undef
 export function MessageBarProvider({ children }: { children: ReactNode }) {
   const [currentMessage, setCurrentMessage] = useState<MessageBarMessage | null>(null);
 
-  function pushMessage(msg: MessageBarMessage, durationInSeconds: number | null = 6) {
+  function pushMessage(msg: MessageBarMessage, durationInSeconds: number | null = 3) {
     if (!msg.type) msg.type = "information";
     setCurrentMessage(msg);
 

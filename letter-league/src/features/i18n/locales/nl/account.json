@@ -1,0 +1,8 @@
+{
+    "upgradeGuestAccount": {
+        "title": "Upgraden naar Member",
+        "description": "Zet je gastaccount om naar een permanent account om je voortgang te behouden en te voorkomen dat je toegang verliest wanneer de gastsessie verloopt.",
+        "btn": "Lid Worden",
+        "success": "Je bent nu een volwaardig lid!"
+    }
+}

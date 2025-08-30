@@ -29,10 +29,10 @@ export default function LangRootLayout({
       
       <GlobalLoadingIndicator />
       <LayoutClient />
+      <HeaderMessageBar />
 
       <Header lang={lang} />
-      <div className="mt-[60px]">
-        <HeaderMessageBar />
+      <div className="mt-[60px]">        
         <div className="flex justify-center bg-background h-full">
           {children}
         </div>

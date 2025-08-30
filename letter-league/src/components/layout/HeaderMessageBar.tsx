@@ -29,7 +29,7 @@ const getConfig = (status: GlobalMsgType) => {
             };
         case 'live-connected':
             return {
-                bg: 'bg-success/10',
+                bg: 'bg-success',
                 color: 'text-success',
                 Icon: Router,
                 text: 'Connected'
@@ -73,7 +73,7 @@ export default function HeaderMessageBar() {
 
     return (
         <div 
-            className={`w-full overflow-hidden transition-all duration-300 ease-in-out ${
+            className={`w-full overflow-hidden transition-all duration-300 ease-in-out fixed top-[60px] z-50 bg-background ${
                 isOpen ? 'max-h-16 opacity-100' : 'max-h-0 opacity-0'
             }`}
         >

@@ -52,7 +52,7 @@
         "gameStatistics": {
             "title": "Spelstatistieken",
             "winsLabel": "Overwinningen",
-            "leftGamesLabel": "Online spellen waar je uit geknipt bent",
+            "leftGamesLabel": "Verlaten spellen (loser)",
             "favouriteWordLabel": "Favoriete Woord"
         },
         "accountSettings": {

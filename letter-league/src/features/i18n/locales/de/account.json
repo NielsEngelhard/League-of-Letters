@@ -1,0 +1,8 @@
+{
+    "upgradeGuestAccount": {
+        "title": "Zu Mitgliedskonto Upgraden",
+        "description": "Wandeln Sie Ihr Gastkonto in ein permanentes Konto um, um Ihren Fortschritt zu bewahren und den Verlust des Zugangs nach Ablauf der Gastsitzung zu verhindern.",
+        "btn": "Mitglied Werden",
+        "success": "Willkommen! Sie sind jetzt Mitglied!"
+    }
+}

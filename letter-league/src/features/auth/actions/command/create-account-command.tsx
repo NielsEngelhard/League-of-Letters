@@ -6,9 +6,7 @@ import { AccountSettingsTable, AccountTable, DbAccount, DbAccountSettings } from
 import { eq, or } from "drizzle-orm";
 import { db } from "@/drizzle/db";
 import GenerateRandomUsername from "../../../account/actions/command/generate-random-username";
-import { generateSalt, hashPassword } from "@/features/auth/password-hasher";
 import AccountFactory from "../../../account/account-factory";
-import { SupportedLanguage } from "@/features/i18n/languages";
 
 export default async function CreateAccountCommand(unsafeData: z.infer<typeof signUpSchema>) {
     const { success, data } = signUpSchema.safeParse(unsafeData);

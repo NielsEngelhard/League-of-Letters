@@ -1,0 +1,8 @@
+{
+    "upgradeGuestAccount": {
+        "title": "Upgrade to Member Account",
+        "description": "Convert your guest account to a permanent account to preserve your progress and prevent losing access when the guest session expires.",
+        "btn": "Become a Member",
+        "success": "Welcome! Your are now a member!"
+    }
+}

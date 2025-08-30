@@ -1,18 +1,16 @@
 import { useState } from "react";
 import { CardContent, CardHeader, CardTitle } from "./card-children";
 import { ChevronDown, ChevronUp } from "lucide-react";
-import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 
 interface Props {
     Icon: React.ElementType;
     title: string;
     description?: string;
     children: React.ReactNode;
-    t: GeneralTranslations;
     initiallyExpaned?: boolean;
 }
 
-export default function ExpandableCardContent({ Icon, title, children, description, t, initiallyExpaned = false}: Props) {
+export default function ExpandableCardContent({ Icon, title, children, description, initiallyExpaned = false}: Props) {
     const [expand, setExpand] = useState<boolean>(initiallyExpaned);
 
     return (
@@ -24,7 +22,6 @@ export default function ExpandableCardContent({ Icon, title, children, descripti
                         {title}                        
                     </div>
                     <div className="flex items-center gap-1 text-sm font-medium text-foreground-muted">
-                        {expand ? t.settings.minimize : t.settings.maximize}
                         {expand ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
                     </div>                    
                 </CardTitle>

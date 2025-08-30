@@ -1,3 +1,4 @@
+import AccountTranslations from "./translation-file-interfaces/AccountTranslations";
 import BeforeGameTranslations from "./translation-file-interfaces/BeforeGameTranslations";
 import { GeneralTranslations } from "./translation-file-interfaces/GeneralTranslations";
 import HomePageTranslations from "./translation-file-interfaces/HomePageTranslations";
@@ -12,4 +13,5 @@ export interface TranslationNamespaces {
   score: ScoreTranslations;
   beforeGame: BeforeGameTranslations;
   inGame: InGameTranslations;
+  account: AccountTranslations;
 }

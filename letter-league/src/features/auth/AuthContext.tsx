@@ -8,7 +8,6 @@ import { PublicAccountModel } from '../account/account-models';
 import { LogoutCommand } from './actions/command/logout-command';
 import CreateGuestSessionCommand from './actions/command/create-guest-session-command';
 import { ServerResponse } from '@/lib/response-handling/response-factory';
-import { SupportedLanguage } from '../i18n/languages';
 
 const DEFAULT_SETTINGS: SettingsSchema = {
   keyboardInput: "on-screen-keyboard",
@@ -35,6 +34,7 @@ type AuthContextType = {
   loginWithGuestAccount: (schema: GuestLoginSchema) => Promise<string | undefined>;
   setShowLoginModal: (newValue: boolean) => void;
   setSettingsOnClient: (s: SettingsSchema) => void;
+  updateAccount: (data: PublicAccountModel) => void;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -125,6 +125,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  async function updateAccount(data: PublicAccountModel) {
+    setAccount(data);
+    localStorage.setItem(ACCOUNT_LOCALSTORAGE_KEY, JSON.stringify(data));
+  }  
+
   function handleLoginResponse(loginResponse: ServerResponse<PublicAccountModel>) {
       if (!loginResponse.ok) {
         return loginResponse.errorMsg;
@@ -182,6 +187,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       loginWithGuestAccount,
       setSettingsOnClient,
       guestSessionTimeRemaining,
+      updateAccount
     }}>
       {children}
     </AuthContext.Provider>

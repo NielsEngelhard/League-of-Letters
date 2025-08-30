@@ -27,7 +27,8 @@ export class AccountMapper {
             highestScoreAchieved: account.highestScoreAchieved,
             nGamesPlayed: account.highestScoreAchieved,
             username: account.username,
-
+            language: account.language,
+            isGuest: account.isGuestAccount,
             email: account.email
         }
     }     
