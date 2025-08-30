@@ -64,7 +64,7 @@ export default function Footer({ lang }: { lang: SupportedLanguage}) {
                             Home
                         </Link>                          
                         <Link 
-                            href={LANGUAGE_ROUTE(lang, HEALTH_CHECK_ROUTE)} 
+                            href={HEALTH_CHECK_ROUTE} 
                             className="text-xs text-foreground-muted transition-colors duration-200"
                         >
                             Health Check
