@@ -22,10 +22,6 @@ export default async function PlayOnlineGamePage({
         redirect(LANGUAGE_ROUTE(lang, PICK_GAME_MODE_ROUTE));
     }
 
-    if (game.gameIsOver == true) {
-      // TODO implement flow?
-    }
-
     return (
         <PageBase lang={lang} requiresAuh={true}>
             <IngameClient initialGameState={game} lang={lang} generalTranslations={t.general} inGameTranslations={t.inGame} />

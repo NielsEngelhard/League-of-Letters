@@ -12,6 +12,10 @@
     "points": "points",
     "leaveBtn": "Quitter la partie",
     "playAgainBtn": "Rejouer",
+    "infoBanner": {
+      "participantStayMsg": "Si tu restes ici, l’hôte peut t’emmener dans une nouvelle partie.",
+      "hostPlayAgainMsg": "Tu peux lancer une nouvelle partie avec les mêmes personnes (si elles le veulent) !"
+    },    
     "scenarios": {
       "solo": {
         "subTxt": "Résultats"

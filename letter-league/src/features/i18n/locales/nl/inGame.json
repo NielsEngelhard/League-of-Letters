@@ -12,6 +12,10 @@
     "points": "punten",
     "leaveBtn": "Spel verlaten",
     "playAgainBtn": "Nog een potje",
+    "infoBanner": {
+        "participantStayMsg": "Als je hier blijft, kan de host je meenemen naar een nieuwe pot.",
+        "hostPlayAgainMsg": "Je kunt een nieuwe pot starten met dezelfde mensen (als ze willen)!"
+    },      
     "scenarios": {
       "solo": {
         "subTxt": "Resultaten"

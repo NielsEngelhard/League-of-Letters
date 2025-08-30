@@ -12,6 +12,10 @@
         "points": "points",
         "leaveBtn": "Leave Game",
         "playAgainBtn": "Play Again",
+        "infoBanner": {
+            "participantStayMsg": "If you stay here, the host can take you to a new game.",
+            "hostPlayAgainMsg": "You can start a new game with the same people (if they want)!"
+        },
         "scenarios": {
             "solo": {
                 "subTxt": "Results"

@@ -12,6 +12,10 @@
     "points": "Punkte",
     "leaveBtn": "Spiel verlassen",
     "playAgainBtn": "Nochmal spielen",
+    "infoBanner": {
+      "participantStayMsg": "Wenn du hier bleibst, kann der Gastgeber dich in ein neues Spiel mitnehmen.",
+      "hostPlayAgainMsg": "Du kannst ein neues Spiel mit denselben Leuten starten (wenn sie wollen)!"
+    },    
     "scenarios": {
       "solo": {
         "subTxt": "Ergebnisse"

@@ -6,12 +6,16 @@ export default interface InGameTranslations {
         players: string;
         time: string;
         round: string;        
-    }    
+    }   
     overview: {
         title: string;
         points: string;
         leaveBtn: string;
         playAgainBtn: string;
+        infoBanner: {
+            participantStayMsg: string;
+            hostPlayAgainMsg: string;
+        }
         scenarios: {
             solo: {
                 subTxt: string;
@@ -28,6 +32,6 @@ export default interface InGameTranslations {
                 thirdPlace: string;
                 otherPlace: string;
             }
-        }
+        },        
     }
 }
