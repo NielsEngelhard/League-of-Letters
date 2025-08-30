@@ -23,13 +23,23 @@ export default function LoginForm({ onNavToSignUp }: Props) {
     })
 
     async function onSubmit(data: LoginSchema) {
-        var error = await authContext.login(data);
-
-        form.setError("root", {
-            type: "manual",
-            message: error
-        });        
-    }    
+        try {
+            const error = await authContext.login(data);
+  
+            if (error) {
+                form.setError("root", {
+                    type: "manual",
+                    message: error
+                });
+            }
+            // If no error, the login was successful
+        } catch (err) {
+            form.setError("root", {
+                type: "manual",
+                message: "An unexpected error occurred"
+            });
+        }
+    }
 
     return (
         <form className="flex flex-col gap-3" onSubmit={form.handleSubmit(onSubmit)}>
@@ -38,11 +48,11 @@ export default function LoginForm({ onNavToSignUp }: Props) {
             <TextInput label="Password" placeholder="Enter your password" type="password" {...form.register("password")} errorMsg={form.formState.errors.password?.message} required />
 
             <div className="flex flex-col md:flex-row gap-4">
-                <Button variant="primary" className="w-full">
+                <Button variant="primary" className="w-full" type="submit" isLoadingExternal={authContext.isLoading}>
                     <LogIn className="w-4 h-4" />
                     Login
                 </Button>
-                <Button variant="secondary" className="w-full" onClick={onNavToSignUp}>
+                <Button variant="secondary" className="w-full" onClick={onNavToSignUp} isLoadingExternal={authContext.isLoading}>
                     <IdCard className="w-4 h-4" />
                     Sign Up
                 </Button>                        

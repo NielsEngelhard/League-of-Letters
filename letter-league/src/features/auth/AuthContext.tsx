@@ -115,8 +115,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsLoading(true);
     try {
       const loginResponse = await LoginCommand(data);
+      debugger;
       handleLoginResponse(loginResponse);      
-      return undefined; // Success, no error message
+      return loginResponse.errorMsg; // Success, no error message
     } catch (error) {
       console.error('Login failed:', error);
       return 'Login failed due to an unexpected error';

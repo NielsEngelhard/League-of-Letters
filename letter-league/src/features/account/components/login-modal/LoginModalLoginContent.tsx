@@ -1,10 +1,10 @@
-import { CardContent, CardHeader, CardTitle } from "@/components/ui/card/card-children";
-import SubText from "@/components/ui/text/SubText";
+import { CardContent } from "@/components/ui/card/card-children";
 import { HatGlasses, LogIn } from "lucide-react";
 import Button from "@/components/ui/Button";
 import LoginForm from "../LoginForm";
 import DefaultCardHeader from "@/components/ui/card/DefaultCardHeader";
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
+import { useAuth } from "@/features/auth/AuthContext";
 
 interface Props {
     onShowSignUp: () => void;
@@ -13,6 +13,8 @@ interface Props {
 }
 
 export default function LoginModalLoginContent({ onShowSignUp, onShowContinueAsGuest, t }: Props) {
+    const authContext = useAuth();
+    
     return (
         <>
         <DefaultCardHeader
@@ -25,7 +27,7 @@ export default function LoginModalLoginContent({ onShowSignUp, onShowContinueAsG
             <LoginForm onNavToSignUp={onShowSignUp} />
       
             <div>
-                <Button variant="skeleton" className="w-full mt-4" onClick={onShowContinueAsGuest}>
+                <Button variant="skeleton" className="w-full mt-4" onClick={onShowContinueAsGuest} isLoadingExternal={authContext.isLoading}>
                     <HatGlasses className="w-4 h-4" />
                     {t.login.login.guestButton}
                 </Button>         

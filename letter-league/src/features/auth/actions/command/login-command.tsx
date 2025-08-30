@@ -17,7 +17,7 @@ export default async function LoginCommand(unsafeData: z.infer<typeof loginSchem
     
     const account = await findAccountByEmailOrUsername(data.username);
     
-    if (!account) return ServerResponseFactory.error("Could not login");
+    if (!account) return ServerResponseFactory.error("Invalid credentials");
     if (account.isGuestAccount) return ServerResponseFactory.error("Can't login to a GUEST_SESSION");
 
     const isCorrectPassword = await comparePasswords({
@@ -26,7 +26,7 @@ export default async function LoginCommand(unsafeData: z.infer<typeof loginSchem
         password: data.password,        
     });
 
-    if (!isCorrectPassword) ServerResponseFactory.error("Could not login");
+    if (!isCorrectPassword) ServerResponseFactory.error("Invalid credentials");
 
     // Set both access token and refresh token cookies
     await JWTService.setAuthCookies({

@@ -54,7 +54,11 @@
             "winsLabel": "Victoires",
             "leftGamesLabel": "Parties en ligne abandonnées comme un lâche",
             "favouriteWordLabel": "Mot Favori"
-        }
+        },
+        "accountSettings": {
+            "title": "Mettre à jour le compte",
+            "updateDescription": "Mettez à jour vos informations de compte"
+        }        
     },
     "settings": {
         "title": "Paramètres",

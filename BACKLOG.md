@@ -1,7 +1,7 @@
 - bring your own word mode
 - Fix play gain en score overview. Nu heel lelijk
 MUST
-feedback login flow
+
 
 SHOULD
 - statistics regarding games played

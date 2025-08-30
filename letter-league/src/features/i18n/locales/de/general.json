@@ -54,7 +54,11 @@
             "winsLabel": "Siege",
             "leftGamesLabel": "Feige verlassene Online-Spiele",
             "favouriteWordLabel": "Lieblingswort"
-        }
+        },
+        "accountSettings": {
+            "title": "Konto aktualisieren",
+            "updateDescription": "Aktualisiere deine Kontodaten"
+        }        
     },
     "settings": {
         "title": "Einstellungen",

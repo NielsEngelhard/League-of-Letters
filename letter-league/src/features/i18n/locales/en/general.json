@@ -54,7 +54,11 @@
             "winsLabel": "Wins",
             "leftGamesLabel": "Chickened out online games",
             "favouriteWordLabel": "Favorite Word"
-        }
+        },
+        "accountSettings": {
+            "title":"Update account",
+            "updateDescription": "Update your account data"
+        }        
     },
     "settings": {
         "title": "Settings",
