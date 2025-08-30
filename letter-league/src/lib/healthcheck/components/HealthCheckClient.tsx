@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import HealthCheckCard from "./HealthCheckCard";
+import { HealthCheckData } from "../healthcheck-models";
 
 interface Props {
     data: HealthCheckData[]

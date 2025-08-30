@@ -2,6 +2,7 @@
 
 import Card from "@/components/ui/card/Card";
 import { CardContent } from "@/components/ui/card/card-children";
+import { HealthCheckData } from "../healthcheck-models";
 
 interface Props {
     healthcheck: HealthCheckData;

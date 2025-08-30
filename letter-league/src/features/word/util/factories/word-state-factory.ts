@@ -18,7 +18,7 @@ export class WordStateFactory {
     }
 
     static createFromArray(words: string[]): WordState[] {
-        return words.map((word, index) => {
+        return words.map((word) => {
             return this.create(word);
         });
     }

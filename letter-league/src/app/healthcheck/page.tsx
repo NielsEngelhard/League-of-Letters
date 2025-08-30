@@ -4,6 +4,7 @@ import PageBase from "@/components/layout/PageBase";
 import BackButton from "@/components/ui/BackButton";
 import HealthCheckClient from "@/lib/healthcheck/components/HealthCheckClient";
 import { HOME_ROUTE } from "../routes";
+import { HealthCheckData } from "@/lib/healthcheck/healthcheck-models";
 
     const healthChecks: HealthCheckData[] = [
         {

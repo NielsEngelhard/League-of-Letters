@@ -1,4 +1,4 @@
-interface HealthCheckData {
+export interface HealthCheckData {
     name: string;
     description: string;
     endpoint: string;
