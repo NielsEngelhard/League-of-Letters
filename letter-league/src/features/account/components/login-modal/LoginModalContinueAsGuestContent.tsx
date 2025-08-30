@@ -22,7 +22,7 @@ export default function LoginModalContinueAsGuestContent({ onBackToLogin, t, lan
         </DefaultCardHeader>
 
         <CardContent>
-            <GuestLoginForm lang={lang} />
+            <GuestLoginForm lang={lang} t={t} />
             <Button variant="skeleton" className="w-full" onClick={onBackToLogin}>
                 <LogIn className="w-4 h-4" />
                 {t.login.login.backToLoginButton}

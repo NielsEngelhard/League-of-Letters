@@ -9,10 +9,10 @@ import { OnlineLobbyModel } from "@/features/lobby/lobby-models";
 import { OnlineLobbyMapper } from "@/features/lobby/lobby-mapper";
 import GetOnlineLobbyAndPlayersByIdRequest from "../query/get-lobby-and-players-by-id-command";
 import ReconnectOnlineLobbyPlayer from "./reconnect-online-lobby-player";
-import { CurrentUserData, getCurrentUserOrCrash } from "@/features/auth/current-user";
+import { CurrentUserData, getCurrentUserOrRedirect } from "@/features/auth/current-user";
 
 export default async function JoinGameLobbyCommand(command: JoinOnlineLobbySchema): Promise<ServerResponse<OnlineLobbyModel | null>> {
-    const currentUser = await getCurrentUserOrCrash();
+    const currentUser = await getCurrentUserOrRedirect();
     
     const lobby = await GetOnlineLobbyAndPlayersByIdRequest(command.gameId);
     if (!lobby) {

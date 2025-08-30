@@ -4,7 +4,7 @@ import { db } from "@/drizzle/db";
 import { updateAccountSchema, UpdateAccountSchema } from "../../account-schemas";
 import { AccountTable } from "@/drizzle/schema";
 import { eq } from "drizzle-orm";
-import { getCurrentUserOrCrash } from "@/features/auth/current-user";
+import { getCurrentUserOrRedirect } from "@/features/auth/current-user";
 import { ServerResponse, ServerResponseFactory } from "@/lib/response-handling/response-factory";
 import { PublicAccountModel } from "../../account-models";
 import { AccountMapper } from "../../account-mapper";
@@ -13,7 +13,7 @@ export default async function UpdateCurrentAccountInfo(unsafeData: UpdateAccount
     const { success, data } = updateAccountSchema.safeParse(unsafeData);
     if (!success) return ServerResponseFactory.error("Invalid data");
 
-    const currentAccount = await getCurrentUserOrCrash();
+    const currentAccount = await getCurrentUserOrRedirect();
 
     const result = await db.update(AccountTable)
         .set({

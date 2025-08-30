@@ -5,6 +5,8 @@ import { AccountTable } from "@/drizzle/schema";
 import { db } from "@/drizzle/db";
 import { eq } from "drizzle-orm";
 import { SupportedLanguage } from "../i18n/languages";
+import { redirect } from "next/navigation";
+import { HOME_ROUTE } from "@/app/routes";
 
 export interface CurrentUserData {
   accountId: string;
@@ -38,7 +40,7 @@ export async function isLoggedInServerCheck(): Promise<boolean> {
   return refreshedUser !== null;
 }
 
-export async function getCurrentUserOrCrash(): Promise<CurrentUserData> {
+export async function getCurrentUserOrRedirect(): Promise<CurrentUserData> {
   // First try with current access token (no DB call)
   let user = await JWTService.getCurrentUser();
   
@@ -47,7 +49,9 @@ export async function getCurrentUserOrCrash(): Promise<CurrentUserData> {
     user = await JWTService.getCurrentUserWithRefresh(getUserFromDatabase);
   }
 
-  if (!user) throw Error("AUTH ERROR: not logged in");
+  if (!user) {
+    redirect(HOME_ROUTE)
+  };
   
   return user;
 }

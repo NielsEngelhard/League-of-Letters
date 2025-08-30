@@ -7,10 +7,10 @@ import { db } from "@/drizzle/db";
 import DeleteOnlineLobbyById from "./delete-online-lobby";
 import { EmitStartGameRealtimeEvent } from "@/features/realtime/realtime-api-adapter";
 import { DbOnlineLobbyPlayer } from "@/drizzle/schema";
-import { getCurrentUserOrCrash } from "@/features/auth/current-user";
+import { getCurrentUserOrRedirect } from "@/features/auth/current-user";
 
 export default async function CreateOnlineGameBasedOnLobbyCommand(schema: CreateGameSchema): Promise<void> {
-    const currentUser = await getCurrentUserOrCrash();       
+    const currentUser = await getCurrentUserOrRedirect();       
 
     const lobby = await GetOnlineLobbyAndPlayersByIdRequest(schema.gameId!);
     if (lobby?.hostAccountId != currentUser.accountId) {

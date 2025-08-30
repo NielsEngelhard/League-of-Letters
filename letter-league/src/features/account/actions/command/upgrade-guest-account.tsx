@@ -4,18 +4,19 @@ import { db } from "@/drizzle/db";
 import { upgradeGuestAccountSchema, UpgradeGuestAccountSchema } from "../../account-schemas";
 import { AccountTable } from "@/drizzle/schema";
 import { eq } from "drizzle-orm";
-import { getCurrentUserOrCrash } from "@/features/auth/current-user";
+import { getCurrentUserOrRedirect } from "@/features/auth/current-user";
 import { ServerResponse, ServerResponseFactory } from "@/lib/response-handling/response-factory";
 import { generateSalt, hashPassword } from "@/features/auth/password-hasher";
 import UsernameAlreadyExistsRequest from "../request/username-or-email-already-exists-request";
 import { PublicAccountModel } from "../../account-models";
 import { AccountMapper } from "../../account-mapper";
+import LoginCommand from "@/features/auth/actions/command/login-command";
 
 export default async function UpgradeGuestAccountCommand(unsafeData: UpgradeGuestAccountSchema): Promise<ServerResponse<PublicAccountModel>> {
     const { success, data } = upgradeGuestAccountSchema.safeParse(unsafeData);
     if (!success) return ServerResponseFactory.error("Invalid data");
 
-    const currentAccount = await getCurrentUserOrCrash();
+    const currentAccount = await getCurrentUserOrRedirect();
 
     const usernameOrEmailAlreadyExists = await UsernameAlreadyExistsRequest({ email: data.email, username: data.username });
     if (usernameOrEmailAlreadyExists != undefined) {
@@ -36,6 +37,12 @@ export default async function UpgradeGuestAccountCommand(unsafeData: UpgradeGues
         })
         .where(eq(AccountTable.id, currentAccount.accountId))
         .returning();
+
+    // Login again to replace the current cookie (with your new data)
+    await LoginCommand({
+        username: data.username,
+        password: data.password
+    });
 
     return ServerResponseFactory.success(AccountMapper.DbAccountToPublicModel(updatedAccount[0]));
 }

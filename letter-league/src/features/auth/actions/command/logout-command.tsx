@@ -1,11 +1,11 @@
 "use server";
 
-import { getCurrentUserOrCrash } from "../../current-user";
+import { getCurrentUserOrRedirect } from "../../current-user";
 import { JWTService } from "../../jwt-service";
 import DeleteAccountById from "./delete-account-by-id-command";
 
 export async function LogoutCommand(): Promise<void> {
-  const currentUser = await getCurrentUserOrCrash();
+  const currentUser = await getCurrentUserOrRedirect();
 
   if (currentUser.isGuest) {
     console.log("REMOVE GUEST USER");

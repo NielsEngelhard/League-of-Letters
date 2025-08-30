@@ -2,7 +2,7 @@
 
 import { db } from "@/drizzle/db";
 import { ActiveGameTable, GamePlayerTable, OnlineLobbyPlayerTable, OnlineLobbyTable } from "@/drizzle/schema";
-import { getCurrentUserOrCrash } from "@/features/auth/current-user";
+import { getCurrentUserOrRedirect } from "@/features/auth/current-user";
 import { EmitPlayerKickedRealtimeEvent } from "@/features/realtime/realtime-api-adapter";
 import { and, eq, inArray } from "drizzle-orm";
 
@@ -12,7 +12,7 @@ interface KickPlayerData {
 }
 
 export default async function KickPlayerFromLobbyCommand(data: KickPlayerData) {
-    const currentUser = await getCurrentUserOrCrash();
+    const currentUser = await getCurrentUserOrRedirect();
 
     const result = await db
     .delete(OnlineLobbyPlayerTable)

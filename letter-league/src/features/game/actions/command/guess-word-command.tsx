@@ -11,7 +11,7 @@ import { TurnTrackerAlgorithm } from "../../util/algorithm/turn-tracker-algorith
 import { ServerResponse, ServerResponseFactory } from "@/lib/response-handling/response-factory";
 import { EmitGuessWordRealtimeEvent } from "@/features/realtime/realtime-api-adapter";
 import { sortDbPlayerOnPositionAndGetUserIds } from "../../util/player-sorting";
-import { getCurrentUserOrCrash } from "@/features/auth/current-user";
+import { getCurrentUserOrRedirect } from "@/features/auth/current-user";
 import { getCurrentUtcUnixTimestamp_Seconds, getSecondsBetweenNowAndUnixTimestampInSeconds } from "@/lib/time-util";
 import { DbOrTransaction } from "@/drizzle/util/transaction-util";
 import { GameMapper } from "../../game-mapper";
@@ -175,7 +175,7 @@ async function getGame(gameId: string): Promise<DbActiveGameWithRoundsAndPlayers
 
 async function isPlayersTurn(currentPlayer: DbGamePlayer): Promise<boolean> {
     debugger;
-    const currentUser = await getCurrentUserOrCrash();
+    const currentUser = await getCurrentUserOrRedirect();
     
     return currentUser.accountId == currentPlayer.accountId;
 }

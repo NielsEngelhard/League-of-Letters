@@ -6,11 +6,11 @@ import { generateGameId } from "@/features/game/util/game-id-generator";
 import { DbOnlineLobbyPlayer, DbOnlineLobbyWithPlayers, OnlineLobbyPlayerTable, OnlineLobbyTable } from "@/drizzle/schema";
 import { ServerResponse, ServerResponseFactory } from "@/lib/response-handling/response-factory";
 import { db } from "@/drizzle/db";
-import { CurrentUserData, getCurrentUserOrCrash } from "@/features/auth/current-user";
+import { CurrentUserData, getCurrentUserOrRedirect } from "@/features/auth/current-user";
 
 
 export default async function CreateOnlineLobbyCommand(): Promise<ServerResponse<OnlineLobbyModel>> {
-    const currentUser = await getCurrentUserOrCrash();
+    const currentUser = await getCurrentUserOrRedirect();
 
     // CHECK EXISTING GAME
     const existingLobby = await GetExistingLobbyIfExists(currentUser);

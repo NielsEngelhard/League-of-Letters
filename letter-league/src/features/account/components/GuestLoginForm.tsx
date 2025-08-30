@@ -9,8 +9,9 @@ import SelectLanguageGrid from "@/features/language/component/SelectLanguageGrid
 import { useRouter } from "next/navigation";
 import { LANGUAGE_ROUTE, PICK_GAME_MODE_ROUTE } from "@/app/routes";
 import { SupportedLanguage } from "@/features/i18n/languages";
+import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 
-export default function GuestLoginForm({ lang }: { lang: SupportedLanguage }) {
+export default function GuestLoginForm({ lang, t }: { lang: SupportedLanguage, t: GeneralTranslations }) {
     const authContext = useAuth();
     const router = useRouter();
 
@@ -41,7 +42,7 @@ export default function GuestLoginForm({ lang }: { lang: SupportedLanguage }) {
 
             <Button type="submit">
                 <IdCard className="w-6 h-6" />
-                Create guest session
+                {t.login.guest.createGuestSessionButton}
             </Button>
 
             <ErrorText>
