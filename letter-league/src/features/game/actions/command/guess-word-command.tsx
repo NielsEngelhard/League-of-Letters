@@ -5,7 +5,6 @@ import { EvaluatedWord } from "@/features/word/word-models";
 import { RoundTransitionData } from "../../game-models";
 import { GamePlayerTable, GameRoundTable, ActiveGameTable, DbActiveGame, DbGamePlayer, DbGameRound, DbActiveGameWithRoundsAndPlayers } from "@/drizzle/schema";
 import { DetailedValidationResult, WordValidator } from "@/features/word/util/word-validator/word-validator";
-import DeleteGameByIdCommand from "./delete-game-by-id-command";
 import { and, eq } from "drizzle-orm";
 import { TurnTrackerAlgorithm } from "../../util/algorithm/turn-tracker-algorithm/turn-tracker";
 import { ServerResponse, ServerResponseFactory } from "@/lib/response-handling/response-factory";
@@ -154,9 +153,10 @@ async function triggerNextRound(currentRound: DbGameRound, nextRound: DbGameRoun
 }
 
 async function triggerEndGame(game: DbActiveGameWithRoundsAndPlayers): Promise<void> {
-    await db.transaction(async (tx) => {
-        await DeleteGameByIdCommand(game.id, tx);
-    });
+    // Set game is over so it can be found back for a while    
+    await db.update(ActiveGameTable).set({
+        gameIsOver: true
+    }).where(eq(ActiveGameTable.id, game.id));
 }
 
 async function getGame(gameId: string): Promise<DbActiveGameWithRoundsAndPlayers> {

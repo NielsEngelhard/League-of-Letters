@@ -3,7 +3,7 @@
 import { db } from "@/drizzle/db";
 import { ActiveGameTable } from "@/drizzle/schema";
 import { DbOrTransaction } from "@/drizzle/util/transaction-util";
-import { lt } from "drizzle-orm";
+import { eq, lt, or } from "drizzle-orm";
 
 export default async function RemoveExpiredGames(
   hours: number, 
@@ -16,7 +16,10 @@ export default async function RemoveExpiredGames(
   cutoffDate.setHours(cutoffDate.getHours() - hours);
   
   const result = await dbInstance.delete(ActiveGameTable)
-    .where(lt(ActiveGameTable.createdAt, cutoffDate));
+    .where(or(
+      lt(ActiveGameTable.createdAt, cutoffDate), // Game is older than cutoff date (expired regarding created time)
+      eq(ActiveGameTable.gameIsOver, true)       // Game is over
+    ));
   
   return (result.rowCount ?? 0) > 0;
 }
