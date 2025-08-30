@@ -59,8 +59,6 @@ export async function GuessWordCommand(command: GuessWordCommandInput): Promise<
         previouslyGuessedMisplacedLetters: previouslyMisplacedLetters
     });
 
-    addScoreToPlayer(validationResult.score, currentPlayer);
-
     const currentGuess = await updateCurrentGameState(game, currentRound, validationResult, currentPlayer);
 
     if (game.gameMode == "online") {
@@ -68,10 +66,6 @@ export async function GuessWordCommand(command: GuessWordCommandInput): Promise<
     }
 
     return ServerResponseFactory.success(currentGuess);
-}
-
-function addScoreToPlayer(score: number, player: DbGamePlayer) {
-    player.score += score;
 }
 
 function getPlayerWhosTurnItIs(game: DbActiveGameWithRoundsAndPlayers, currentRound: DbGameRound): DbGamePlayer {
@@ -108,15 +102,15 @@ async function updateCurrentGameState(game: DbActiveGameWithRoundsAndPlayers, cu
         : undefined;
 
     if (endGame) {
-        currentPlayer.score += validationResult.score;
         currentRound.guesses.push(currentGuess);
-        await triggerEndGame(game);
+        await triggerEndGame(game, currentPlayer, validationResult.score);
     } else if (endCurrentRound) {        
         await triggerNextRound(currentRound, nextRound!, validationResult, currentPlayer, game, unixTimestampInSeconds);
     } else {
         await triggerNextGuess(currentRound, validationResult, currentPlayer, unixTimestampInSeconds);
     }
 
+    debugger;
     return {
         accountId: currentPlayer.accountId,
         guessResult: currentGuess,
@@ -152,11 +146,16 @@ async function triggerNextRound(currentRound: DbGameRound, nextRound: DbGameRoun
     });          
 }
 
-async function triggerEndGame(game: DbActiveGameWithRoundsAndPlayers): Promise<void> {
+async function triggerEndGame(game: DbActiveGameWithRoundsAndPlayers, currentPlayer: DbGamePlayer, score: number): Promise<void> {
     // Set game is over so it can be found back for a while    
-    await db.update(ActiveGameTable).set({
-        gameIsOver: true
-    }).where(eq(ActiveGameTable.id, game.id));
+    await db.transaction(async (tx) => {   
+        // Set game to game over  
+        await tx.update(ActiveGameTable).set({
+            gameIsOver: true
+        }).where(eq(ActiveGameTable.id, game.id));
+
+        await addScoreForPlayer(currentPlayer, score, tx);
+    });
 }
 
 async function getGame(gameId: string): Promise<DbActiveGameWithRoundsAndPlayers> {
