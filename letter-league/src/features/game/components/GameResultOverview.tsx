@@ -7,16 +7,17 @@ import { useRouter } from "next/navigation";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import InGameTranslations from "@/features/i18n/translation-file-interfaces/InGameTranslations";
 import DefaultCardHeader from "@/components/ui/card/DefaultCardHeader";
-import { Info, Repeat, Trophy, Users } from "lucide-react";
+import { Repeat, Trophy } from "lucide-react";
 import InfoBanner from "@/components/ui/InfoBanner";
 
 interface Props {
     players: GamePlayerModel[];
     lang: SupportedLanguage;
     t: InGameTranslations;
+    thisPlayerIsHost?: boolean;
 }
 
-export default function GameResultOverview({ players, lang, t }: Props) {
+export default function GameResultOverview({ players, lang, t, thisPlayerIsHost = false }: Props) {
     const router = useRouter();
         
     const sortedPlayersByScore = players.sort((a, b) => b.score - a.score);
@@ -40,7 +41,7 @@ export default function GameResultOverview({ players, lang, t }: Props) {
             <DefaultCardHeader Icon={Trophy} title="Game Results" description={getSubtitle()} />
             
             {/* Prominent message for multiplayer games so participants can stay and play another game easily */}
-            {!isSoloGame && (
+            {(!isSoloGame && !thisPlayerIsHost) && (
                 <InfoBanner
                     icon={Repeat}
                     text={t.overview.infoBanner.participantStayMsg}
@@ -48,11 +49,11 @@ export default function GameResultOverview({ players, lang, t }: Props) {
             )}
 
             {/* Prominent host message for multiplayer games so host knows he can bring all other players to a new lobby */}
-            {!isSoloGame && (
+            {(!isSoloGame && thisPlayerIsHost == true) && (
                 <InfoBanner
                     icon={Repeat}
                     text={t.overview.infoBanner.hostPlayAgainMsg}
-                />
+                />  
             )}            
 
             <div className="flex flex-col gap-4">
@@ -63,13 +64,15 @@ export default function GameResultOverview({ players, lang, t }: Props) {
 
             {/* Action buttons */}
             <div className="flex flex-col-reverse md:flex-row gap-2 w-full">
+                {thisPlayerIsHost && (
+                    <Button className="w-full" variant='primary' onClick={onPlayAgain}>
+                        {t.overview.playAgainBtn}
+                    </Button>                        
+                )}
+
                 <Button variant='skeleton' className="w-full" href={LANGUAGE_ROUTE(lang, PICK_GAME_MODE_ROUTE)}>
                     {t.overview.leaveBtn}
-                </Button>
-                
-                <Button className="w-full" variant='primary' onClick={onPlayAgain}>
-                    {t.overview.playAgainBtn}
-                </Button>
+                </Button>            
             </div>
         </Card>
     );

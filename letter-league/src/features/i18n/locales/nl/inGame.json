@@ -13,7 +13,7 @@
     "leaveBtn": "Spel verlaten",
     "playAgainBtn": "Nog een potje",
     "infoBanner": {
-        "participantStayMsg": "Als je hier blijft, kan de host je meenemen naar een nieuwe pot.",
+        "participantStayMsg": "Als je hier blijft, kan de host je meenemen naar een nieuwe pot (tenminste, als je wilt).",
         "hostPlayAgainMsg": "Je kunt een nieuwe pot starten met dezelfde mensen (als ze willen)!"
     },      
     "scenarios": {

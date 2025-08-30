@@ -62,7 +62,7 @@ export default function IngameClient({ initialGameState, lang, generalTranslatio
         });                      
     }, [connectionStatus]);    
 
-    if (!game) {
+    if (!game || !account) {
         return <LoadingSpinner size="lg" center={true} />;
     }
 
@@ -73,6 +73,7 @@ export default function IngameClient({ initialGameState, lang, generalTranslatio
                     t={inGameTranslations}
                     lang={lang}
                     players={players}
+                    thisPlayerIsHost={account.id == game.hostAccountId}
                 />
             ) : (
                 <GameBoard lang={lang} generalTranslations={generalTranslations} inGameTranslations={inGameTranslations} />
