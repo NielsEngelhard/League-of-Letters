@@ -52,8 +52,9 @@
         "gameStatistics": {
             "title": "Statistiques de Jeu",
             "winsLabel": "Victoires",
-            "leftGamesLabel": "Parties en ligne abandonnées comme un lâche",
-            "favouriteWordLabel": "Mot Favori"
+            "highestScoreLabel": "score le plus élevé",
+            "favouriteWordLabel": "Mot Favori",
+            "updateDisclaimer": "La mise à jour des statistiques peut prendre jusqu'à 24 heures"
         },
         "accountSettings": {
             "title": "Mettre à jour le compte",

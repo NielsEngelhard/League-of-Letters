@@ -2,13 +2,14 @@
 
 import Card from "@/components/ui/card/Card";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card/card-children";
+import InfoBanner from "@/components/ui/InfoBanner";
 import Seperator from "@/components/ui/Seperator";
 import StatisticHighlight from "@/components/ui/StatisticHighlight";
 import { useAuth } from "@/features/auth/AuthContext";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 import { GetLanguageStyle } from "@/features/language/LanguageStyles";
-import { Calendar1, User, Crown, UserCheck, BarChart3 } from "lucide-react";
+import { Calendar1, User, Crown, UserCheck, BarChart3, FileWarning, Clock } from "lucide-react";
 
 interface Props {
     t: GeneralTranslations;
@@ -120,7 +121,7 @@ export default function AccountCard({ t, lang }: Props) {
                             <div className="text-center p-4 bg-muted/30 rounded-lg border border-border/50">
                                 <StatisticHighlight
                                     title={account.isGuest ? 'n/a' : account.highestScoreAchieved.toString()}
-                                    text={t.account.gameStatistics.leftGamesLabel}
+                                    text={t.account.gameStatistics.highestScoreLabel}
                                 />
                             </div>
                             
@@ -131,6 +132,8 @@ export default function AccountCard({ t, lang }: Props) {
                                 />
                             </div>
                         </div>
+
+                        <InfoBanner icon={Clock} colorVariant="secondary" text={t.account.gameStatistics.updateDisclaimer} />
                     </div>
                 </CardContent>
             </Card>

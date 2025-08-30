@@ -52,8 +52,9 @@
         "gameStatistics": {
             "title": "Game Statistics",
             "winsLabel": "Wins",
-            "leftGamesLabel": "Chickened out online games",
-            "favouriteWordLabel": "Favorite Word"
+            "highestScoreLabel": "Highest score",
+            "favouriteWordLabel": "Favorite Word",
+            "updateDisclaimer": "It may take up to 24 hours for the statistics to be updated"
         },
         "accountSettings": {
             "title":"Update account",

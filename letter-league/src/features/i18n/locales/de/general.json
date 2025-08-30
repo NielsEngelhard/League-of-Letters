@@ -52,8 +52,9 @@
         "gameStatistics": {
             "title": "Spielstatistiken",
             "winsLabel": "Siege",
-            "leftGamesLabel": "Feige verlassene Online-Spiele",
-            "favouriteWordLabel": "Lieblingswort"
+            "highestScoreLabel": "Höchste Punktzahl",
+            "favouriteWordLabel": "Lieblingswort",
+            "updateDisclaimer": "Es kann bis zu 24 Stunden dauern, bis die Statistiken aktualisiert sind"
         },
         "accountSettings": {
             "title": "Konto aktualisieren",

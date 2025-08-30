@@ -52,8 +52,9 @@ export interface GeneralTranslations {
     gameStatistics: {
       title: string;
       winsLabel: string;
-      leftGamesLabel: string;
+      highestScoreLabel: string;
       favouriteWordLabel: string;
+      updateDisclaimer: string;
     },
     accountSettings: {
       title: string;

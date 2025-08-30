@@ -52,8 +52,9 @@
         "gameStatistics": {
             "title": "Spelstatistieken",
             "winsLabel": "Overwinningen",
-            "leftGamesLabel": "Verlaten spellen (loser)",
-            "favouriteWordLabel": "Favoriete Woord"
+            "highestScoreLabel": "Hoogste score",
+            "favouriteWordLabel": "Favoriete Woord",
+            "updateDisclaimer": "Het kan tot 24 uur duren voordat de statistieken zijn bijgewerkt"
         },
         "accountSettings": {
             "title":"Account updaten",
