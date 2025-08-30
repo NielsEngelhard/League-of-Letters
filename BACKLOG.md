@@ -1,5 +1,6 @@
 MUST
-- statistics regarding games played (and disclaimer that it can bla)
+
+
 SHOULD
 - GAME MODE: bring your own word
 - Sound effects
