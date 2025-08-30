@@ -18,7 +18,8 @@ export const GamePlayerTable = pgTable(
     connectionStatus: connectionStatusEnum().notNull().default("empty"),
     score: integer().notNull().default(0),
     position: integer().notNull().default(1),
-    playerLeft: boolean().notNull().default(false)
+    playerLeft: boolean().notNull().default(false),
+    colorHex: text()
   },
   (table) => ({
     gameId_position_unique: uniqueIndex("game_player_gameId_position_unique").on(

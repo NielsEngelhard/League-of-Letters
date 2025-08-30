@@ -73,7 +73,8 @@ function AddCallerAsOnlyPlayer(schema: CreateGameSchema, currentUser: CurrentUse
     schema.players = [
         {
             accountId: currentUser.accountId,
-            username: currentUser.username
+            username: currentUser.username,
+            color: "#FF0000"
         }
     ];
 }

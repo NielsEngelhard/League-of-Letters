@@ -8,6 +8,7 @@ import { supportedLanguages } from "../i18n/languages";
 export const createGamePlayerSchema = z.object({
     accountId: z.string().nonempty(),
     username: z.string().nonempty(),
+    color: z.string(),
     connectionStatus: z.enum(connectionStatusses).optional(),
 });
 export type CreateGamePlayerSchema = z.infer<typeof createGamePlayerSchema>;
