@@ -51,7 +51,7 @@
         "memberIndicator": "member",
         "gameStatistics": {
             "title": "Game Statistics",
-            "winsLabel": "Wins",
+            "winsLabel": "Played",
             "highestScoreLabel": "Highest score",
             "favouriteWordLabel": "Favorite Word",
             "updateDisclaimer": "It may take up to 24 hours for the statistics to be updated"

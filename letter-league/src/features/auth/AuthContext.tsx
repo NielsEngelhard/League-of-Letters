@@ -115,7 +115,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setIsLoading(true);
     try {
       const loginResponse = await LoginCommand(data);
-      debugger;
       handleLoginResponse(loginResponse);      
       return loginResponse.errorMsg; // Success, no error message
     } catch (error) {

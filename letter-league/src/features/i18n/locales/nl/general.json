@@ -51,7 +51,7 @@
         "memberIndicator": "lid",
         "gameStatistics": {
             "title": "Spelstatistieken",
-            "winsLabel": "Overwinningen",
+            "winsLabel": "Gespeeld",
             "highestScoreLabel": "Hoogste score",
             "favouriteWordLabel": "Favoriete Woord",
             "updateDisclaimer": "Het kan tot 24 uur duren voordat de statistieken zijn bijgewerkt"

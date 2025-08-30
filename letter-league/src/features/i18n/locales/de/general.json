@@ -51,7 +51,7 @@
         "memberIndicator": "Mitglied",
         "gameStatistics": {
             "title": "Spielstatistiken",
-            "winsLabel": "Siege",
+            "winsLabel": "Gespielt",
             "highestScoreLabel": "Höchste Punktzahl",
             "favouriteWordLabel": "Lieblingswort",
             "updateDisclaimer": "Es kann bis zu 24 Stunden dauern, bis die Statistiken aktualisiert sind"

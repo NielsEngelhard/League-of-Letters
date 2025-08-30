@@ -10,15 +10,15 @@ import { SupportedLanguage } from "@/features/i18n/languages";
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 import { GetLanguageStyle } from "@/features/language/LanguageStyles";
 import { Calendar1, User, Crown, UserCheck, BarChart3, FileWarning, Clock } from "lucide-react";
+import { PrivateAccountModel } from "../account-models";
 
 interface Props {
     t: GeneralTranslations;
     lang: SupportedLanguage;
+    account: PrivateAccountModel;
 }
 
-export default function AccountCard({ t, lang }: Props) {
-    const { account } = useAuth();
-
+export default function AccountCard({ t, lang, account }: Props) {
     const getInitials = (name: string) => {
         return name?.charAt(0).toUpperCase() || "?";
     };

@@ -56,7 +56,6 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
 
   // Always call this first
   function initializeGameState(_game: ActiveGameModel, _thisPlayersUserId: string) {
-    debugger;
     setGame(_game);
     setPlayers(_game.players);
 
@@ -103,7 +102,6 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
   }
 
   function handleWordGuess(response: GuessWordResponse) {    
-    debugger;
     setCurrentGuess("");
 
     addGuessToCurrentRound(response);
@@ -124,7 +122,6 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
   }
 
   function updatePlayerScores(response: GuessWordResponse) {
-    debugger;
     setPlayers(prevPlayers =>
       prevPlayers.map(player =>
         player.accountId === response.accountId

@@ -1,7 +1,6 @@
 import { EvaluatedWord, LetterState } from "../word-models";
 
 export function preFillWordFinder(words: EvaluatedWord[]): string {
-    debugger;
   if (words.length === 0) return '';
   
   let maxConsecutiveCorrect = 0;

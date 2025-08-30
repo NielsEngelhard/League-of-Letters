@@ -28,7 +28,7 @@ export default async function AccountPage({
                     <UpgradeGuestAccount account={privateAccount} accountTranslations={t.account} />
                 )}
 
-                <AccountCard t={t.general} lang={lang} />
+                <AccountCard t={t.general} lang={lang} account={privateAccount} />
                 
                 {(privateAccount.isGuest == false) && (
                     <UpdateAccountForm generalTranslations={t.general} account={privateAccount} />
