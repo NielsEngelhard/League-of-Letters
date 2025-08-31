@@ -3,10 +3,8 @@ import { supportedLanguages } from "@/features/i18n/languages";
 import { seedWordListInDb } from "@/features/word/util/script/archive/seed-word-list-in-db";
 import { drizzle } from "drizzle-orm/node-postgres";
 
-export async function seedWordsInDatabase(onlySeedSmallDutchSubset: boolean) { // Small subset for dev/tst or full word lists (all)
+export async function seedWordsInDatabase(dbConnectionString: string, onlySeedSmallDutchSubset: boolean) { // Small subset for dev/tst or full word lists (all)
     console.log(`🌱 Start seeding word lists onlySeedSmallDutchSubset=${onlySeedSmallDutchSubset}`);
-
-    const dbConnectionString: string = "postgresql://postgres:kaas@localhost:5432/letter-league";
 
     const db = drizzle(dbConnectionString) as DbOrTransaction;
 

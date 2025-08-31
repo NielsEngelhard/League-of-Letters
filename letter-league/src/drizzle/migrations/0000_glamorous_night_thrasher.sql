@@ -51,7 +51,8 @@ CREATE TABLE "game_player" (
 	"connectionStatus" "connection_status" DEFAULT 'empty' NOT NULL,
 	"score" integer DEFAULT 0 NOT NULL,
 	"position" integer DEFAULT 1 NOT NULL,
-	"playerLeft" boolean DEFAULT false NOT NULL
+	"playerLeft" boolean DEFAULT false NOT NULL,
+	"colorHex" text
 );
 --> statement-breakpoint
 CREATE TABLE "game_round" (
@@ -70,6 +71,7 @@ CREATE TABLE "game_round" (
 CREATE TABLE "online_lobby" (
 	"id" text PRIMARY KEY NOT NULL,
 	"hostAccountId" uuid NOT NULL,
+	"language" "supported_language" NOT NULL,
 	"createdAt" timestamp with time zone DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
@@ -80,6 +82,24 @@ CREATE TABLE "online_lobby_player" (
 	"username" text DEFAULT 'anonymous' NOT NULL,
 	"connectionStatus" "connection_status" DEFAULT 'empty' NOT NULL,
 	"createdAt" timestamp with time zone DEFAULT now() NOT NULL
+);
+--> statement-breakpoint
+CREATE TABLE "de_words" (
+	"word" text PRIMARY KEY NOT NULL,
+	"length" integer NOT NULL,
+	CONSTRAINT "de_words_word_unique" UNIQUE("word")
+);
+--> statement-breakpoint
+CREATE TABLE "en_words" (
+	"word" text PRIMARY KEY NOT NULL,
+	"length" integer NOT NULL,
+	CONSTRAINT "en_words_word_unique" UNIQUE("word")
+);
+--> statement-breakpoint
+CREATE TABLE "fr_words" (
+	"word" text PRIMARY KEY NOT NULL,
+	"length" integer NOT NULL,
+	CONSTRAINT "fr_words_word_unique" UNIQUE("word")
 );
 --> statement-breakpoint
 CREATE TABLE "nl_words" (
