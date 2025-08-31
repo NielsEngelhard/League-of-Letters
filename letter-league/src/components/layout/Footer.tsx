@@ -23,8 +23,8 @@ export default function Footer({ lang }: { lang: SupportedLanguage}) {
                                     src="/logo.png"
                                     className="object-contain transition-all duration-200 group-hover:brightness-110"
                                     alt="Logo"
-                                    width={26}
-                                    height={28}
+                                    width={50}
+                                    height={50}
                                 />
                                 {/* Subtle glow effect on hover */}
                                 <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-primary/0 to-secondary/0 group-hover:from-primary/10 group-hover:to-secondary/10 transition-all duration-300 blur-sm" />

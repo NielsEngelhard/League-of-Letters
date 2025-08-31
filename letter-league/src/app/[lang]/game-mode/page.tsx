@@ -18,7 +18,7 @@ export default async function GameModePage({
   const t = await loadTranslations(lang, ["beforeGame"]);
 
   return (
-    <PageBase requiresAuh={false}>
+    <PageBase requiresAuh={false} lang={lang}>
       <PageIntro
         title={APP_NAME}
         subText={t.beforeGame.gameMode.description}

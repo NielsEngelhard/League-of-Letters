@@ -10,6 +10,7 @@ import { getAuthenticatedUser_Server } from "@/features/auth/utils/auth-server-u
 import UnauthenticatedHeaderSection from "./UnAuthenticatedHeaderSection";
 import { loadTranslations } from "@/features/i18n/utils";
 import GuestSessionTimeRemaining from "./GuestSessionTimeRemaining";
+import Image from "next/image";
 
 export default async function Header({ lang } : {lang: SupportedLanguage }) {
     const t = await loadTranslations(lang, ["general"]);
@@ -27,11 +28,13 @@ export default async function Header({ lang } : {lang: SupportedLanguage }) {
                         className="group flex items-center transition-all duration-200"
                     >
                         <div className="relative">
-                            <img
-                                src="/logo.png"
-                                className="h-[36px] w-auto object-contain transition-all duration-200 group-hover:brightness-110"
-                                alt="Logo"
-                            />
+                                <Image
+                                    src="/logo.png"
+                                    className="object-contain transition-all duration-200 group-hover:brightness-110"
+                                    alt="Logo"
+                                    width={50}
+                                    height={50}
+                                />                            
                             <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-primary/0 to-secondary/0 group-hover:from-primary/10 group-hover:to-secondary/10 transition-all duration-300 blur-sm" />
                         </div>
                     </Link>                     

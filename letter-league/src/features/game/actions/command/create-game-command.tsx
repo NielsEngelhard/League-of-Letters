@@ -74,7 +74,6 @@ function AddCallerAsOnlyPlayer(schema: CreateGameSchema, currentUser: CurrentUse
         {
             accountId: currentUser.accountId,
             username: currentUser.username,
-            color: "#FF0000"
         }
     ];
 }
