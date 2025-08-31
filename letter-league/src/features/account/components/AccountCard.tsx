@@ -5,11 +5,10 @@ import { CardContent, CardHeader, CardTitle } from "@/components/ui/card/card-ch
 import InfoBanner from "@/components/ui/InfoBanner";
 import Seperator from "@/components/ui/Seperator";
 import StatisticHighlight from "@/components/ui/StatisticHighlight";
-import { useAuth } from "@/features/auth/AuthContext";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 import { GetLanguageStyle } from "@/features/language/LanguageStyles";
-import { Calendar1, User, Crown, UserCheck, BarChart3, FileWarning, Clock } from "lucide-react";
+import { Calendar1, User, Crown, UserCheck, BarChart3, Clock } from "lucide-react";
 import { PrivateAccountModel } from "../account-models";
 
 interface Props {

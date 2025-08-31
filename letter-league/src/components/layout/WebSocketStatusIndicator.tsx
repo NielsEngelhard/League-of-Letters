@@ -4,10 +4,6 @@ import { ConnectionStatus } from "@/features/realtime/realtime-models";
 import { useSocket } from "@/features/realtime/socket-context";
 import { useEffect } from "react";
 
-interface Props {
-
-}
-
 const getStatusConfig = (status: ConnectionStatus) => {
     switch (status) {
         case 'connected':
@@ -48,7 +44,7 @@ const getStatusConfig = (status: ConnectionStatus) => {
     }
 }
 
-export default function WebSocketStatusIndicator({}: Props) {
+export default function WebSocketStatusIndicator() {
     const { connectionStatus } = useSocket();
 
     useEffect(() => {

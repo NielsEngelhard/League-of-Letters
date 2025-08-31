@@ -2,7 +2,7 @@ import { bigint, integer, jsonb, pgTable, text, unique } from "drizzle-orm/pg-co
 import { InferSelectModel, relations } from "drizzle-orm";
 import { id } from "../schema-helpers";
 import { ActiveGameTable } from "./active-game";
-import { EvaluatedLetter, EvaluatedWord, WordState } from "@/features/word/word-models";
+import { EvaluatedWord, WordState } from "@/features/word/word-models";
 
 export const GameRoundTable = pgTable("game_round", {
     id,

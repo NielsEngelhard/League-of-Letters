@@ -3,6 +3,7 @@
 import { APP_NAME } from "@/app/global-constants";
 import { HEALTH_CHECK_ROUTE, HOME_ROUTE, LANGUAGE_ROUTE, PICK_GAME_MODE_ROUTE, PRIVACY_POLICY_ROUTE, TERMS_OF_SERVICE_ROUTE } from "@/app/routes";
 import { SupportedLanguage } from "@/features/i18n/languages";
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Footer({ lang }: { lang: SupportedLanguage}) {
@@ -18,10 +19,12 @@ export default function Footer({ lang }: { lang: SupportedLanguage}) {
                             className="group flex items-center transition-all duration-200"
                         >
                             <div className="relative">
-                                <img
+                                <Image
                                     src="/logo.png"
-                                    className="h-[28px] w-auto object-contain transition-all duration-200 group-hover:brightness-110"
+                                    className="object-contain transition-all duration-200 group-hover:brightness-110"
                                     alt="Logo"
+                                    width={26}
+                                    height={28}
                                 />
                                 {/* Subtle glow effect on hover */}
                                 <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-primary/0 to-secondary/0 group-hover:from-primary/10 group-hover:to-secondary/10 transition-all duration-300 blur-sm" />

@@ -1,7 +1,7 @@
 "use server"
 
 import { db } from "@/drizzle/db";
-import { ActiveGameTable, GamePlayerTable, OnlineLobbyPlayerTable, OnlineLobbyTable } from "@/drizzle/schema";
+import { OnlineLobbyPlayerTable, OnlineLobbyTable } from "@/drizzle/schema";
 import { getCurrentUserOrRedirect } from "@/features/auth/current-user";
 import { EmitPlayerKickedRealtimeEvent } from "@/features/realtime/realtime-api-adapter";
 import { and, eq, inArray } from "drizzle-orm";

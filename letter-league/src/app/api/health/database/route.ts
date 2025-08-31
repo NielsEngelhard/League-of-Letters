@@ -1,8 +1,8 @@
 import { db } from '@/drizzle/db';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 
 // Healthcheck for the database
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
     await db.execute('SELECT 1');
 

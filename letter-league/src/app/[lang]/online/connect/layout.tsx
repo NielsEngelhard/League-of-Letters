@@ -8,7 +8,7 @@ import { ReactNode, useEffect } from "react";
 
 // Game layout for managing websocket connection lifecycle over multiple pages (not discard when switching between pages)
 export default function GameLayout({children}: {children: ReactNode}) {
-    const { initializeConnection, emitJoinGame, connectionStatus, disconnectConnection } = useSocket();
+    const { initializeConnection, connectionStatus, disconnectConnection } = useSocket();
     const { clearGameState } = useActiveGame();
     const { account } = useAuth();
 

@@ -30,10 +30,6 @@ export default function UpgradeGuestAccount({ accountTranslations, account }: Pr
     const { updateAccount } = useAuth();
     const [loading, setLoading] = useState(false);
 
-    if (!account) {
-        return <LoadingDots />
-    }    
-
     const form = useForm<UpgradeGuestAccountSchema>({
         resolver: zodResolver(upgradeGuestAccountSchema),
         defaultValues: {
@@ -43,6 +39,10 @@ export default function UpgradeGuestAccount({ accountTranslations, account }: Pr
             password: ""
         }
     })
+
+    if (!account) {
+        return <LoadingDots />
+    }    
 
     async function onSubmit(data: UpgradeGuestAccountSchema) {
         setLoading(true);
@@ -58,7 +58,7 @@ export default function UpgradeGuestAccount({ accountTranslations, account }: Pr
             }            
 
             location.reload();
-        } catch (err) {
+        } catch {
             pushErrorMsg();
         } finally {
             setLoading(false);

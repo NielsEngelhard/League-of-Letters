@@ -28,7 +28,6 @@ const TextInput = React.forwardRef<HTMLInputElement, InputProps>(
     errorMsg, 
     success = false,
     icon,
-    id, 
     initialValue, 
     supportedSymbols, 
     onChange, 

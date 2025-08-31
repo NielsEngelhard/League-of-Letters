@@ -18,7 +18,6 @@ import { PrivateAccountModel } from "../account-models";
 import UpdateCurrentAccountInfo from "../actions/command/update-current-account-info";
 import { useMessageBar } from "@/components/layout/MessageBarContext";
 import { useState } from "react";
-import { waitDelay } from "@/lib/debug-util";
 
 interface Props {
     account: PrivateAccountModel;
@@ -30,10 +29,6 @@ export default function UpdateAccountForm({ generalTranslations, account }: Prop
     const { updateAccount } = useAuth();
     const [loading, setLoading] = useState(false);
 
-    if (!account) {
-        return <LoadingDots />
-    }    
-
     const form = useForm<UpdateAccountSchema>({
         resolver: zodResolver(updateAccountSchema),
         defaultValues: {
@@ -43,6 +38,10 @@ export default function UpdateAccountForm({ generalTranslations, account }: Prop
             favouriteColor: account.colorHex,
         }
     })
+
+    if (!account) {
+        return <LoadingDots />
+    }   
 
     async function onSubmit(data: UpdateAccountSchema) {
         setLoading(true);
@@ -56,7 +55,7 @@ export default function UpdateAccountForm({ generalTranslations, account }: Prop
         } else {
             pushErrorMsg("error");
         }          
-        } catch (err) {
+        } catch  {
             pushErrorMsg();
         } finally {
             setLoading(false);

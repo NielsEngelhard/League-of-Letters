@@ -68,10 +68,9 @@ async function GetExistingLobbyForUserIfExists(currentUser: CurrentUserData): Pr
 
 async function determineGameId(preDefinedGameId?: string): Promise<string> {
     const gameIdGenerationTries = 5; // Try 5 times, otherwise throw error if id still causes conflicts
-    const tryNumber = 0;
-    var gameId: string = preDefinedGameId || generateGameId();
+    let gameId: string = preDefinedGameId || generateGameId();
 
-    for(var i=0; i<5; i++) {
+    for(let i=0; i<5; i++) {
         const causesConflicts: boolean = await GameIdConflictsWithExistingGame(gameId);
         if (!causesConflicts) return gameId;
         gameId = generateGameId();
@@ -90,8 +89,8 @@ async function GameIdConflictsWithExistingGame(gameId: string): Promise<boolean>
 }
 
 async function ActiveGameWithIdAlreadyExists(gameId: string, tx: DbOrTransaction): Promise<boolean> {
-    const game = await db.query.ActiveGameTable.findFirst({
-        where: (game, { eq, and }) =>
+    const game = await tx.query.ActiveGameTable.findFirst({
+        where: (game, { eq }) =>
             eq(game.id, gameId),
             columns: { id: true },
         });
@@ -100,8 +99,8 @@ async function ActiveGameWithIdAlreadyExists(gameId: string, tx: DbOrTransaction
 }
 
 async function LobbyWithIdAlreadyExists(gameId: string, tx: DbOrTransaction): Promise<boolean> {
-    const lobby = await db.query.OnlineLobbyTable.findFirst({
-        where: (lobby, { eq, and }) =>
+    const lobby = await tx.query.OnlineLobbyTable.findFirst({
+        where: (lobby, { eq }) =>
             eq(lobby.id, gameId),
             columns: { id: true },
         });

@@ -34,7 +34,7 @@ export default function LetterRow({ letters, animate = false }: Props) {
                 }
             }, index * 300);
         });
-    }, [animate, letters.length]);
+    }, [animate, letters, allCorrect]);
 
     function triggerAllCorrectAnimation() {
         setTimeout(() => {

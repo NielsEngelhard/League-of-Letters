@@ -82,7 +82,7 @@ export default function WordInput({ onEnter, onChange, t, disabled = false }: Pr
     function preFillGuess() {
         if (!currentRound) return;
 
-        var prefilledWord = preFillWordFinder(currentRound?.guesses);
+        let prefilledWord = preFillWordFinder(currentRound?.guesses);
 
         if (!prefilledWord || prefilledWord.length <= 0) {
             prefilledWord = currentRound?.startingLetter ?? "";

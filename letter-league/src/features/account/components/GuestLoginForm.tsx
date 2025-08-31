@@ -28,7 +28,7 @@ export default function GuestLoginForm({ lang, t }: { lang: SupportedLanguage, t
             if (!account) throw Error("Something went wrong");
 
             router.push(LANGUAGE_ROUTE(lang, PICK_GAME_MODE_ROUTE));
-        } catch (err) {
+        } catch {
             form.setError("root", {
                 type: "manual",
                 message: "Something went wrong, try again later"

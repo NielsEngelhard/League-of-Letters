@@ -1,12 +1,12 @@
 import { GuessWordResponse } from "../game/actions/command/guess-word-command";
 
-interface TriggerRealtimeEvent {
+interface TriggerRealtimeEvent<T> {
     room: string;
     event: string;
-    data: any;
+    data: T;
 }
 
-async function TriggerRealtimeEventOnSocketServer(request: TriggerRealtimeEvent): Promise<boolean> {
+async function TriggerRealtimeEventOnSocketServer<T>(request: TriggerRealtimeEvent<T>): Promise<boolean> {
   try {
     const response = await fetch(`${process.env.NEXT_PUBLIC_WEBSOCKET_SERVER_BASE_ADDRESS}/emit-to-room`, {
       method: 'POST',
@@ -17,7 +17,7 @@ async function TriggerRealtimeEventOnSocketServer(request: TriggerRealtimeEvent)
     });
     
     return response.ok;
-  } catch (error) {
+  } catch {
     return false;
   }
 }

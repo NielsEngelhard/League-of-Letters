@@ -20,7 +20,7 @@ export class ScoreCalculator {
     }
 
     static calculateScoreForWordGuessed(currentGuessIndex: number): number {
-        var bonusPoints = 0;
+        let bonusPoints = 0;
         
         switch(currentGuessIndex) {
             case 1:

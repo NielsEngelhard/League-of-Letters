@@ -1,6 +1,6 @@
 "use client"
 
-import { Book, Check, CircleX, Router, Settings, Wifi } from "lucide-react";
+import { Book, Check, CircleX, Router, Settings } from "lucide-react";
 import { GlobalMsgType, MessageBarMessage, useMessageBar } from "./MessageBarContext";
 import { useEffect, useState } from "react";
 

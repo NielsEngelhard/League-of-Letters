@@ -1,4 +1,4 @@
-import crypto, { hash } from "crypto";
+import crypto from "crypto";
 
 export function hashPassword(password: string, salt: string): Promise<string> {
     return new Promise((resolve, reject) => {

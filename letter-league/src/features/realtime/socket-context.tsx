@@ -4,8 +4,7 @@ import React, { createContext, useContext, useRef, useState, ReactNode, useEffec
 import { io, Socket } from 'socket.io-client';
 import { ConnectionStatus, JoinGameRealtimeModel } from './realtime-models';
 import { useRouter } from 'next/navigation';
-import { JOIN_GAME_ROUTE, LANGUAGE_ROUTE, MULTIPLAYER_GAME_ROUTE, PLAY_ONLINE_GAME_ROUTE } from '@/app/routes';
-import { useMessageBar } from '@/components/layout/MessageBarContext';
+import { JOIN_GAME_ROUTE, LANGUAGE_ROUTE, PLAY_ONLINE_GAME_ROUTE } from '@/app/routes';
 import { useActiveGame } from '../game/components/active-game-context';
 import { GuessWordResponse } from '../game/actions/command/guess-word-command';
 import { useAuth } from '../auth/AuthContext';
@@ -39,7 +38,6 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
   serverUrl = process.env.NEXT_PUBLIC_WEBSOCKET_SERVER_BASE_ADDRESS,
   lang
 }) => {
-  const { pushMessage } = useMessageBar();
   const activeGameContext = useActiveGame();
   const { account } = useAuth();
 
@@ -104,14 +102,6 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
       RealtimeLogger.Log(`host-created-new-lobby ${newLobbyId}`);
       router.push(LANGUAGE_ROUTE(account?.language ?? DefaultLanguage, JOIN_GAME_ROUTE(newLobbyId)));
     });
-
-    socket.on('delete-game', (gameId: string) => {
-      pushMessage({
-        msg: "Game abandoned",
-        type: "information"
-      });
-      router.push(LANGUAGE_ROUTE(lang, MULTIPLAYER_GAME_ROUTE));
-    });
     
     socket.on('player-guess-changed', (guess: string) => {
       RealtimeLogger.Log(`player-guess-changed ${guess}`);
@@ -161,7 +151,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
       return;
     }
     emitGuessChangedEvent(activeGameContext.currentGuess);    
-  }, [activeGameContext.currentGuess]);
+  }, [activeGameContext.currentGuess, activeGameContext.isThisPlayersTurn]);
 
   return (
     <SocketContext.Provider value={{

@@ -19,7 +19,6 @@ interface ColorInputProps extends Omit<React.ComponentProps<"input">, 'type'> {
 
 const ColorInput = React.forwardRef<HTMLInputElement, ColorInputProps>(
   ({ 
-    className, 
     label, 
     subText, 
     required = false, 
@@ -28,7 +27,6 @@ const ColorInput = React.forwardRef<HTMLInputElement, ColorInputProps>(
     showColorPreview = true,
     showHexInput = true,
     disableHexInput = false,
-    id, 
     initialValue, 
     onChange, 
     autoFocus = false,

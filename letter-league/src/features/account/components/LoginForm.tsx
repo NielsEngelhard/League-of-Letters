@@ -33,7 +33,7 @@ export default function LoginForm({ onNavToSignUp }: Props) {
                 });
             }
             // If no error, the login was successful
-        } catch (err) {
+        } catch {
             form.setError("root", {
                 type: "manual",
                 message: "An unexpected error occurred"

@@ -6,7 +6,7 @@ describe("validate should update the acutal word state", () => {
         const actualWordState = WordStateFactory.create("banaan");
         const guess      = "banaan";
 
-        const result = WordValidator.validate({
+        WordValidator.validate({
             actualWordState: actualWordState,
             guess: guess,
             currentGuessIndex: 1,
@@ -25,7 +25,7 @@ describe("validate should update the acutal word state", () => {
         const actualWordState = WordStateFactory.create("banaan");
         const guess      = "beneen";
 
-        const result = WordValidator.validate({
+        WordValidator.validate({
             actualWordState: actualWordState,
             guess: guess,
             currentGuessIndex: 1,
@@ -44,7 +44,7 @@ describe("validate should update the acutal word state", () => {
         const actualWordState = WordStateFactory.create("banaan", false);
         const guess      = "koekje";
 
-        const result = WordValidator.validate({
+        WordValidator.validate({
             actualWordState: actualWordState,
             guess: guess,
             currentGuessIndex: 1,

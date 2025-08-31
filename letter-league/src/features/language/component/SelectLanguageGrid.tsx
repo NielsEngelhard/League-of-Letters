@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { SupportedLanguage, supportedLanguages } from "@/features/i18n/languages";
 import LanguageCard from "./LanguageCard";
 import { Controller, Control } from "react-hook-form";

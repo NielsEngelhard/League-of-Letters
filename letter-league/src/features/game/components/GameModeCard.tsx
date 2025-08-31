@@ -3,7 +3,6 @@ import Card from "@/components/ui/card/Card";
 import { CardContent, CardHeader } from "@/components/ui/card/card-children";
 import cn from "@/lib/cn";
 import { cva, VariantProps } from "class-variance-authority";
-import Link from "next/link";
 
 export interface Props extends VariantProps<typeof buttonVariants> {
     title: string;

@@ -25,7 +25,7 @@ export default function LetterRowGrid({ preFilledRows, maxNGuesses, wordLength, 
     function displayCurrentGuess() {
         let letters: EvaluatedLetter[] = [];
         
-        for(var i=0; i<wordLength; i++) {
+        for(let i=0; i<wordLength; i++) {
             const position = i+1;
             // Empty
             if (currentGuess.length < position) {

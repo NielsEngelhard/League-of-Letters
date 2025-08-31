@@ -60,7 +60,7 @@ export default function HealthCheckClient({data}: Props) {
         };
 
         runHealthChecks();
-    }, []); // Empty dependency array means this runs once on mount
+    }, [data]);
 
     return (
         <div className="grid gap-4">

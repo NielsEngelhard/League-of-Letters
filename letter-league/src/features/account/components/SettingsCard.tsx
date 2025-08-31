@@ -3,7 +3,7 @@
 import Card from "@/components/ui/card/Card";
 import SelectDropdown from "@/components/ui/form/SelectInput";
 import { zodResolver } from "@hookform/resolvers/zod"
-import { CaseUpper, CheckCheck, Dock, KeyboardMusic, LetterText, Music, Palette, Settings, Volume2 } from "lucide-react";
+import { CaseUpper, CheckCheck, KeyboardMusic, Music, Palette, Settings, Volume2 } from "lucide-react";
 import { useForm } from "react-hook-form"
 import { settingsSchema, SettingsSchema } from "../account-schemas";
 import SwitchInput from "@/components/ui/form/SwitchInput";
@@ -15,14 +15,12 @@ import { useMessageBar } from "@/components/layout/MessageBarContext";
 import UpdateCurrentUserSettingsCommand from "../actions/command/update-current-user-settings";
 import ExpandableCardContent from "@/components/ui/card/ExpandableCardContent";
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
-import { SupportedLanguage } from "@/features/i18n/languages";
 
 interface Props {
     t: GeneralTranslations;
-    lang: SupportedLanguage;
 }
 
-export default function SettingsCard({ t, lang }: Props) {
+export default function SettingsCard({ t }: Props) {
     const { settings, setSettingsOnClient } = useAuth();
     const [atLeastOneSettingChanged, setAtLeastOneSettingChanged] = useState(false);
     const { pushMessage } = useMessageBar();

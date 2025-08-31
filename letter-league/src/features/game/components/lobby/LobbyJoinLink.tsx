@@ -10,7 +10,7 @@ export default function LobbyJoinLink({ joinCode, lang, label }: { joinCode: str
 
     useEffect(() => {
         setJoinLink(`${window.location.origin}${LANGUAGE_ROUTE(lang, JOIN_GAME_ROUTE(joinCode))}`);
-    }, []);
+    }, [lang, joinCode]);
     
     return (
         <CopyTextBlock label={label} value={joinLink} />

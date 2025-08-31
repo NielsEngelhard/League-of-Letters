@@ -18,7 +18,7 @@ interface Props {
     inGameTranslations: InGameTranslations;
 }
 
-export default function GameBoard({lang, generalTranslations, inGameTranslations}: Props) {
+export default function GameBoard({generalTranslations, inGameTranslations}: Props) {
     const { game, players, setCurrentGuess, submitGuess, currentGuess, currentRound, isThisPlayersTurn, isAnimating, theWord, currentPlayerId, recalculateCurrentPlayer } = useActiveGame();
     const [initialTimeLeftForThisTurn, setInitialTimeLeftForThisTurn] = useState<number | null>(null);
 
@@ -106,7 +106,7 @@ export default function GameBoard({lang, generalTranslations, inGameTranslations
                 </div>
 
                 {/* Settings */}
-                <SettingsCard lang={lang} t={generalTranslations} />
+                <SettingsCard t={generalTranslations} />
             </div>
             ): (
                 <LoadingSpinner size="md" />

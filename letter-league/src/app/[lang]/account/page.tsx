@@ -34,7 +34,7 @@ export default async function AccountPage({
                     <UpdateAccountForm generalTranslations={t.general} account={privateAccount} />
                 )}
 
-                <SettingsCard t={t.general} lang={lang} />
+                <SettingsCard t={t.general} />
                 
                 <div className="pt-4 border-t border-border/50">
                     <LogoutButton lang={lang} label={t.general.logoutButton} />

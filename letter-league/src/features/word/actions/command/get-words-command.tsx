@@ -6,8 +6,6 @@ import { SupportedLanguage } from "@/features/i18n/languages";
 import { eq, sql } from "drizzle-orm";
 
 export default async function GetWordsCommand(wordLength: number, amount: number, language: SupportedLanguage): Promise<string[]> {
-    var list: string[] = [];
-
     const languageTable = officialWordsLanguageTableMap[language]; 
 
     const dbResult = await db

@@ -18,7 +18,7 @@ export default async function UsernameAlreadyExistsRequest(data: UsernameOrEmail
         ))
         .then(rows => rows[0]);    
 
-    if (!accountRecord) undefined;
+    if (!accountRecord) return undefined;
 
     if (accountRecord) {
         if (accountRecord.email == data.email) return "Email address is already in use";

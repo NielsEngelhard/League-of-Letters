@@ -40,10 +40,10 @@ export async function GuessWordCommand(command: GuessWordCommandInput): Promise<
     
     const game = await getGame(command.gameId);
     
-    let currentRound = game.rounds.find(g => g.roundNumber == game.currentRoundIndex);
+    const currentRound = game.rounds.find(g => g.roundNumber == game.currentRoundIndex);
     if (!currentRound) throw Error(`GUESS WORD: INVALID STATE could not find round`);
 
-    let currentPlayer = getPlayerWhosTurnItIs(game, currentRound);
+    const currentPlayer = getPlayerWhosTurnItIs(game, currentRound);
 
     const isThisPlayersTurn = await isPlayersTurn(currentPlayer);
     if (!isThisPlayersTurn) {

@@ -3,7 +3,7 @@
 import { db } from "@/drizzle/db";
 import { officialWordsLanguageTableMap } from "@/drizzle/schema";
 import { SupportedLanguage } from "@/features/i18n/languages";
-import { eq, sql } from "drizzle-orm";
+import { sql } from "drizzle-orm";
 
 interface IsOfficalWordRequestData {
     word: string;

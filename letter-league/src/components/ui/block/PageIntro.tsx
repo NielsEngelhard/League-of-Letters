@@ -1,6 +1,5 @@
 import React from "react";
 import BackButton from "../BackButton";
-import { OptionItem, OptionsMenu } from "../OptionsMenu";
 import Title from "../text/Title";
 
 interface Props {

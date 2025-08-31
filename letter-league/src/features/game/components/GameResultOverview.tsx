@@ -10,7 +10,6 @@ import DefaultCardHeader from "@/components/ui/card/DefaultCardHeader";
 import { Repeat, Trophy } from "lucide-react";
 import InfoBanner from "@/components/ui/InfoBanner";
 import CreateNewLobbyBasedOnEndedGame from "@/features/lobby/actions/command/create-new-lobby-based-on-ended-game";
-import { waitDelay } from "@/lib/debug-util";
 import { useSocket } from "@/features/realtime/socket-context";
 
 interface Props {
@@ -54,7 +53,7 @@ export default function GameResultOverview({ players, lang, t, gameId, thisPlaye
 
             // Navigate yourself
             router.push(LANGUAGE_ROUTE(lang, CREATE_MULTIPLAYER_GAME_ROUTE));
-        } catch (err) {
+        } catch {
             redirect(LANGUAGE_ROUTE(lang, MULTIPLAYER_GAME_ROUTE));
         }
     }

@@ -10,8 +10,8 @@ export async function seedWordsInDatabase(onlySeedSmallDutchSubset: boolean) { /
 
     const db = drizzle(dbConnectionString) as DbOrTransaction;
 
-    for(var i=0; i<supportedLanguages.length; i++) {
-        var languageToSeed = supportedLanguages[i];
+    for(let i=0; i<supportedLanguages.length; i++) {
+        const languageToSeed = supportedLanguages[i];
 
         if (onlySeedSmallDutchSubset && languageToSeed != "nl") {
             continue;

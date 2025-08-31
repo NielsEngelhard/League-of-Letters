@@ -45,7 +45,7 @@ export default async function CreateGameCommand(schema: CreateGameSchema, gameId
             gameId: ActiveGameTable.id
         });
 
-        var rounds = GameRoundFactory.createDbRounds({
+        const rounds = GameRoundFactory.createDbRounds({
             gameId: gameId,
             hasTimePerGuess: (schema.nSecondsPerGuess != undefined || schema.nSecondsPerGuess != null),
             words: words,
@@ -53,7 +53,7 @@ export default async function CreateGameCommand(schema: CreateGameSchema, gameId
         });
         await tx.insert(GameRoundTable).values(rounds);
 
-        var players = createPlayers(schema, gameId);
+        const players = createPlayers(schema, gameId);
         await tx.insert(GamePlayerTable).values(players);                
     });
 

@@ -9,7 +9,7 @@ const FILE_OUTPUT_PATH_WITH_PLACEHOLDER = `./public/word-lists/${LANGUAGE_PLACEH
 async function cleanWordLists() {
     console.log('START cleaning word lists');
 
-    for(var i=0; i<supportedLanguages.length; i++) {
+    for(let i=0; i<supportedLanguages.length; i++) {
         const language = supportedLanguages[i];
 
         console.log(`🧼🫧🧺🧽🧹 cleaning word list for '${language}'`);

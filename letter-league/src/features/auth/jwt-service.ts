@@ -67,7 +67,7 @@ export class JWTService {
   static verifyToken(token: string): JWTPayload | null {
     try {
       return jwt.verify(token, JWT_SECRET) as JWTPayload;
-    } catch (error) {
+    } catch {
       return null;
     }
   }
@@ -75,7 +75,7 @@ export class JWTService {
   static verifyRefreshToken(token: string): RefreshTokenPayload | null {
     try {
       return jwt.verify(token, REFRESH_TOKEN_SECRET) as RefreshTokenPayload;
-    } catch (error) {
+    } catch {
       return null;
     }
   }
@@ -198,7 +198,7 @@ export class JWTService {
     getUserData: (accountId: string) => Promise<Omit<JWTPayload, 'iat' | 'exp'> | null>
   ): Promise<JWTPayload | null> {
     // Try to get current user with existing token
-    let user = await this.getCurrentUser();
+    const user = await this.getCurrentUser();
     if (user) return user;
 
     // If no valid access token, try to refresh

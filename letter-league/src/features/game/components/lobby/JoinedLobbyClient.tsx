@@ -9,7 +9,6 @@ import OnlineLobbyPlayerList from "@/features/lobby/components/OnlineLobbyPlayer
 import { useEffect } from "react"
 import { useSocket } from "@/features/realtime/socket-context"
 import { OnlineLobbyModel } from "@/features/lobby/lobby-models"
-import { useAuth } from "@/features/auth/AuthContext"
 import { LANGUAGE_ROUTE, MULTIPLAYER_GAME_ROUTE } from "@/app/routes"
 import { redirect } from "next/navigation"
 import { SupportedLanguage } from "@/features/i18n/languages"
@@ -25,7 +24,6 @@ interface Props {
 export default function JoinedLobbyClient({ hostAccountId, initialLobby, lang, accountId, username }: Props) {
     const { players, setInitialPlayers } = useActiveGame();
     const { emitJoinGame, connectionStatus } = useSocket();
-    const { account } = useAuth();
     
     // Join the websocket room
     useEffect(() => {
@@ -42,7 +40,7 @@ export default function JoinedLobbyClient({ hostAccountId, initialLobby, lang, a
             isHost: false
         });
 
-    }, [connectionStatus, account]);
+    }, [connectionStatus, initialLobby, accountId, lang]);
 
     return (
         <Card>

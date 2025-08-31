@@ -18,7 +18,7 @@ export interface ValidateWordRequestData {
 
 export class WordValidator {
     static validate(requestData: ValidateWordRequestData): DetailedValidationResult {
-        let evaluatedGuess: EvaluatedLetter[] = new Array(requestData.guess.length);
+        const evaluatedGuess: EvaluatedLetter[] = new Array(requestData.guess.length);
         let score: number = 0;
         
         // First define the correct letters and the wrong letters
