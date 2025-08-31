@@ -1,5 +1,5 @@
 services:
-  letter-league-core-app:
+  letter_league_core_app:
     build:
       context: ../../letter-league
       dockerfile: Dockerfile
@@ -15,7 +15,7 @@ services:
       - PORT=3000
     restart: unless-stopped
 
-  actions-server:
+  actions_server:
     build:
       context: ../../actions-server
       dockerfile: Dockerfile

@@ -39,3 +39,4 @@ cypress/
 # Storybook
 .storybook/
 storybook-static/
+*.env

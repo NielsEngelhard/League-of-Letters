@@ -8,16 +8,16 @@ import { SupportedLanguage } from "@/features/i18n/languages";
 
 type Props = {
     lang: SupportedLanguage;
+    actionsServerUrl: string;
     children: React.ReactNode;
 }
 
-
-export function Providers({ children, lang }: Props) {
+export function Providers({ children, lang, actionsServerUrl }: Props) {
   return (
     <MessageBarProvider>
       <AuthProvider>
         <ActiveGameProvider>
-          <SocketProvider lang={lang}>
+          <SocketProvider lang={lang} serverUrl={actionsServerUrl}>
               {children}
           </SocketProvider>              
         </ActiveGameProvider>

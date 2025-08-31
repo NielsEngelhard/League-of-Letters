@@ -35,7 +35,7 @@ interface SocketProviderProps {
 
 export const SocketProvider: React.FC<SocketProviderProps> = ({ 
   children, 
-  serverUrl = process.env.NEXT_PUBLIC_ACTIONS_SERVER_BASE_ADDRESS,
+  serverUrl,
   lang
 }) => {
   const activeGameContext = useActiveGame();
@@ -48,7 +48,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
 
   const initializeConnection = () => {
     if (socketRef.current != null) {
-      console.log(`Can't initializeConnection: already initialized. Status: ${connectionStatus}`);
+      console.log(`SOCKET: Can't initializeConnection: already initialized. Status: ${connectionStatus}`);
       return;
     }
 

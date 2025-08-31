@@ -1,3 +1,5 @@
+"use server"
+
 import { GuessWordResponse } from "../game/actions/command/guess-word-command";
 
 interface TriggerRealtimeEvent<T> {

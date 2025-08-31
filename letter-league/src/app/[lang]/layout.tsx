@@ -25,7 +25,7 @@ export default function LangRootLayout({
   }
 
   return (
-    <Providers lang={lang}>
+    <Providers lang={lang} actionsServerUrl={process.env.NEXT_PUBLIC_ACTIONS_SERVER_BASE_ADDRESS ?? ""}>
       
       <GlobalLoadingIndicator />
       <LayoutClient />

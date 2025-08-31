@@ -143,11 +143,6 @@ temp/
 # PM2 ecosystem file (process manager)
 ecosystem.config.js
 
-# Docker
-Dockerfile
-docker-compose.yml
-.dockerignore
-
 # Build artifacts
 build/
 dist/
