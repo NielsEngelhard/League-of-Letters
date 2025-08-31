@@ -8,22 +8,28 @@ import { HealthCheckData } from "@/lib/healthcheck/healthcheck-models";
 
     const healthChecks: HealthCheckData[] = [
         {
-            name: "Realtime server",
-            description: "Server for websocket connections and timed jobs",
+            name: "Actions server public",
+            description: "For websocket connections",
             status: "checking",
-            endpoint: `${process.env.NEXT_PUBLIC_WEBSOCKET_SERVER_BASE_ADDRESS}/health`        
+            endpoint: `${process.env.NEXT_PUBLIC_ACTIONS_SERVER_BASE_ADDRESS}/health`        
         },
+        {
+            name: "Actions server internal",
+            description: "For back-end integrations",
+            status: "checking",
+            endpoint: `${process.env.ACTIONS_SERVER_BASE_ADDRESS_INTERNAL}/health`        
+        },        
         {
             name: "Core api",
             description: "Server actions",
             status: "checking",        
-            endpoint: `${process.env.NEXT_PUBLIC_ACTIONS_SERVER_BASE_ADDRESS}/api/health/core-api`
+            endpoint: `${process.env.NEXT_PUBLIC_CORE_SERVER_BASE_ADDRESS}/api/health/core-api`
         },
         {
             name: "Database",
             description: "Connection with the database",
             status: "checking",
-            endpoint: `${process.env.NEXT_PUBLIC_ACTIONS_SERVER_BASE_ADDRESS}/api/health/database`
+            endpoint: `${process.env.NEXT_PUBLIC_CORE_SERVER_BASE_ADDRESS}/api/health/database`
         }        
     ];
 

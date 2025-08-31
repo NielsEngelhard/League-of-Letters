@@ -8,7 +8,8 @@ export async function GET() {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Healthcheck endpoint error:', error);
+    console.log("DATABASE HEALTHCHECK ERROR");
+    console.log(error);
     return NextResponse.json(
       { success: false, error: 'Database connection failed' },
       { status: 500 }

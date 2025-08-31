@@ -35,7 +35,7 @@ interface SocketProviderProps {
 
 export const SocketProvider: React.FC<SocketProviderProps> = ({ 
   children, 
-  serverUrl = process.env.NEXT_PUBLIC_WEBSOCKET_SERVER_BASE_ADDRESS,
+  serverUrl = process.env.NEXT_PUBLIC_ACTIONS_SERVER_BASE_ADDRESS,
   lang
 }) => {
   const activeGameContext = useActiveGame();

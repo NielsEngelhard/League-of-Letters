@@ -1,5 +1,10 @@
-MUST
+BUGS NA LAUNCH
+- Login/SignUp geeft geen feedback lijkt het
+- Geen woorden in database -> start solo game -> geen feedback oid
+- Na uitloggen lijk je nogsteeds ingelogd lmz totdat je weer refreshsed
 
+
+MUST
 
 SHOULD
 - GAME MODE: bring your own word
