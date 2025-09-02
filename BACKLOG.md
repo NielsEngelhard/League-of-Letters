@@ -3,7 +3,8 @@ BUGS NA LAUNCH
 - Geen woorden in database -> start solo game -> geen feedback oid
 - Na uitloggen lijk je nogsteeds ingelogd lmz totdat je weer refreshsed
 - na retry 5x socketcontext navigeer weg
-
+- kick player werkt niet
+- rename alles naar league of letters (gedoe wss maarja)
 MUST
 
 SHOULD
