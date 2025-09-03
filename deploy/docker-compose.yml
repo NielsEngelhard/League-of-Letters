@@ -1,6 +1,10 @@
 services:
   lol_core:
     image: ${CORE_IMAGE_NAME:-lol-core:latest}
+    build:
+      context: ../core-server
+      dockerfile: Dockerfile
+    pull_policy: never
     env_file:
       - ./${DOCKER_COMPOSE_ENVIRONMENT}/lol-core.env
     ports:
@@ -14,17 +18,18 @@ services:
       - PORT=3000
     restart: unless-stopped
 
-  lol_actions:
-    image: ${ACTIONS_IMAGE_NAME:-lol-actions:latest}
-    ports:
-      - "8081:8080"
-    env_file:
-      - ./${DOCKER_COMPOSE_ENVIRONMENT}/lol-actions.env
-    environment:
-      - NODE_ENV=${NODE_ENV}
-      - PORT=8080
-    networks:
-      - app-network
+  # lol_actions:
+  #   image: ${ACTIONS_IMAGE_NAME:-lol-actions:latest}
+  #   pull_policy: never
+  #   ports:
+  #     - "8081:8080"
+  #   env_file:
+  #     - ./${DOCKER_COMPOSE_ENVIRONMENT}/lol-actions.env
+  #   environment:
+  #     - NODE_ENV=${NODE_ENV}
+  #     - PORT=8080
+  #   networks:
+  #     - app-network
 
   # internal_dockerized_postgres:
   #   image: postgres:15-alpine

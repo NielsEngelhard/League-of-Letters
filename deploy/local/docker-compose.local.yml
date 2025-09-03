@@ -1,58 +1,52 @@
 services:
   lol_core:
     build:
-      context: ../../league-of-letters
+      context: ../core-server
       dockerfile: Dockerfile
     env_file:
-      - ./.env.lol-core
+      - ./env/lol-core.env
     ports:
       - "8080:3000"
     networks:
-      - app-network    
-    depends_on:
-      - internal_dockerized_postgres
+      - app-network
+    # depends_on:
+    #   - internal_dockerized_postgres
     environment:
+      - NODE_ENV=Development
       - PORT=3000
     restart: unless-stopped
 
-  league_of_letters_actions:
-    build:
-      context: ../../actions-server
-      dockerfile: Dockerfile
-    ports:
-      - "8081:8080"
-    env_file:
-      - ./.env.actions-server
-    environment:
-      - NODE_ENV=production
-      - PORT=8080
-    networks:
-      - app-network
+  # lol_actions:
+  #   image: ${ACTIONS_IMAGE_NAME:-lol-actions:latest}
+  #   ports:
+  #     - "8081:8080"
+  #   env_file:
+  #     - ./${DOCKER_COMPOSE_ENVIRONMENT}/lol-actions.env
+  #   environment:
+  #     - NODE_ENV=${NODE_ENV}
+  #     - PORT=8080
+  #   networks:
+  #     - app-network
 
-  internal_dockerized_postgres:
-    image: postgres:15-alpine
-    environment:
-      POSTGRES_DB: league-of-letters
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-kaas}
-      POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256"
-    ports:
-      - "8082:5432"
-    volumes:
-      - postgres_dev_data:/var/lib/postgresql/data
-      - ./init-scripts:/docker-entrypoint-initdb.d
-      - ./postgres-backup:/backup
-    networks:
-      - app-network
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d league-of-letters"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
+  # internal_dockerized_postgres:
+  #   image: postgres:15-alpine
+  #   environment:
+  #     POSTGRES_DB: ${PG_DATABASE_NAME}
+  #     POSTGRES_USER: ${PG_USER}
+  #     POSTGRES_PASSWORD: ${PG_PASSWORD}
+  #     POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256"
+  #   ports:
+  #     - "8082:5432"
+  #   volumes:
+  #     - postgres_dev_data:/var/lib/postgresql/data
+  #     - ./init-scripts:/docker-entrypoint-initdb.d
+  #     - ./postgres-backup:/backup
+  #   networks:
+  #     - app-network
+  #   restart: unless-stopped
 
-volumes:
-  postgres_dev_data:
+# volumes:
+#   postgres_dev_data:
 
 networks:
   app-network:

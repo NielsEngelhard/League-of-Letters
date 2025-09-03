@@ -2,4 +2,4 @@
 *.env
 
 # But do not ignore the one(s) in the local folder (because it is for local config)
-!/local/*.env
+!/local/env/*.env
