@@ -1,4 +1,4 @@
-const { CallWebhook_RemoveExpiredRecords } = require("../league-of-letters-api-webhooks");
+const { CallWebhook_RemoveExpiredRecords } = require("../core-api-webhooks");
 
 const cron = require('node-cron');
 

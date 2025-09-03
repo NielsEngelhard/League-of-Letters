@@ -1,4 +1,4 @@
-const { CallWebhook_UpdatePlayerConnectionStatus } = require("./league-of-letters-api-webhooks");
+const { CallWebhook_UpdatePlayerConnectionStatus } = require("./core-api-webhooks");
 const { Logger } = require("./logger");
 
 module.exports = (io, socket) => {

@@ -1,1 +1,1 @@
-export const APP_NAME: string = "Letter-League";
+export const APP_NAME: string = "League of Letters";

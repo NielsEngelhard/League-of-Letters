@@ -1,0 +1,55 @@
+services:
+  lol_core:
+    build:
+      context: ../../core-server
+      dockerfile: Dockerfile
+    env_file:
+      - ./env/core.env
+    ports:
+      - "8080:3000"
+    networks:
+      - app-network
+    depends_on:
+      - internal_dockerized_postgres
+    environment:
+      - NODE_ENV=Development
+      - PORT=3000
+    restart: unless-stopped
+
+  lol_actions:
+    build:
+      context: ../../actions-server
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8080"
+    env_file:
+      - ./env/actions.env
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - PORT=8080
+    networks:
+      - app-network
+
+  internal_dockerized_postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: ${PG_DATABASE_NAME}
+      POSTGRES_USER: ${PG_USER}
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+      POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256"
+    ports:
+      - "8082:5432"
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+      - ./postgres-backup:/backup
+    networks:
+      - app-network
+    restart: unless-stopped
+
+volumes:
+  postgres_dev_data:
+
+networks:
+  app-network:
+    driver: bridge
