@@ -1,4 +1,4 @@
-import { ScoreCalculator } from "../../../../features/score/score-calculator/score-calculator";
+import { ScoreCalculator } from "../../../score/score-calculator/score-calculator";
 import { EvaluatedLetter, LetterState, WordState } from "../../word-models";
 
 export interface DetailedValidationResult {

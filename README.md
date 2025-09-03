@@ -16,7 +16,7 @@ For local development you need to have postgres installed and you have to (per a
 The actions server is used for websocket connections and cronjobs. It runs e.g. a cronjob every 24h to remove all expired games and guest accounts. It uses the websocket connection for the online/multiplayer game mode (realtime actions with websocket).
 
 # Database
-Drizzle ORM is used to migrate and generate the database. See letter-league/src/drizzle for the schemes and sql files to generate the database. Locally you can run ```npm run db:migrate``` to apply the migration.
+Drizzle ORM is used to migrate and generate the database. See league-of-letters/src/drizzle for the schemes and sql files to generate the database. Locally you can run ```npm run db:migrate``` to apply the migration.
 
 # Eslint fix issues 
 ```npx eslint . --fix```
@@ -54,7 +54,7 @@ There is a dedicated DigitalOcean server (droplet) that uses this docker-compose
 # Seeding
 
 ## Seeding Words
-The file ```letter-league\src\drizzle\seed\data-seed-full.ts``` contains the logic for seeding all words for all languages initially. In this file you can set the connection string of the database.
+The file ```league-of-letters\src\drizzle\seed\data-seed-full.ts``` contains the logic for seeding all words for all languages initially. In this file you can set the connection string of the database.
 
 # Backlog
 There is a BACKLOG.md for features

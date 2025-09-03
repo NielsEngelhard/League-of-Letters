@@ -1,4 +1,4 @@
-import { LetterState } from "../../../../../../features/word/word-models";
+import { LetterState } from "../../../../word-models";
 import { WordStateFactory } from "../../../factories/word-state-factory";
 import { WordValidator } from "../../word-validator";
 

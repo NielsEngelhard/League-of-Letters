@@ -33,7 +33,7 @@ echo ""
 
 if [ "$BUILD_CORE" = "true" ]; then
   echo "📦 Building lol-core..."
-  docker build -t $DOCKER_HUB_USERNAME/$LETTER_LEAGUE_IMAGE:$VERSION_TAG ../../letter-league
+  docker build -t $DOCKER_HUB_USERNAME/$LETTER_LEAGUE_IMAGE:$VERSION_TAG ../../league-of-letters
 
   echo "⬆️  Pushing lol-core..."
   docker push $DOCKER_HUB_USERNAME/$LETTER_LEAGUE_IMAGE:$VERSION_TAG

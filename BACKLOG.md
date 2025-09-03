@@ -5,6 +5,7 @@ BUGS NA LAUNCH
 - na retry 5x socketcontext navigeer weg
 - kick player werkt niet
 - rename alles naar league of letters (gedoe wss maarja)
+- Op de homepage een knop -> create guest account -> gelijk door naar play game lmz -> heel snel in game zonder tussenscherm
 MUST
 
 SHOULD

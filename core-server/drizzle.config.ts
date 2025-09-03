@@ -9,7 +9,7 @@ export default defineConfig({
     dbCredentials: {
         host: 'localhost',
         port: 5432,
-        database: 'letter-league',
+        database: 'league-of-letters',
         user: 'postgres',
         password: 'kaas',
         ssl: false

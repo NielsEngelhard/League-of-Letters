@@ -1,4 +1,4 @@
-import { ALLOWED_NORMAL_CHARACTERS, MAX_WORD_LENGTH, MIN_WORD_LENGTH } from "../../../../features/game/game-constants";
+import { ALLOWED_NORMAL_CHARACTERS, MAX_WORD_LENGTH, MIN_WORD_LENGTH } from "../../../game/game-constants";
 
 export interface ValidateWordFormatResponse {
     word: string;

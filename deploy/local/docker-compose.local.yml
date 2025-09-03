@@ -1,7 +1,7 @@
 services:
   lol_core:
     build:
-      context: ../../letter-league
+      context: ../../league-of-letters
       dockerfile: Dockerfile
     env_file:
       - ./.env.lol-core
@@ -15,7 +15,7 @@ services:
       - PORT=3000
     restart: unless-stopped
 
-  letter_league_actions:
+  league_of_letters_actions:
     build:
       context: ../../actions-server
       dockerfile: Dockerfile
@@ -32,7 +32,7 @@ services:
   internal_dockerized_postgres:
     image: postgres:15-alpine
     environment:
-      POSTGRES_DB: letter-league
+      POSTGRES_DB: league-of-letters
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: ${DB_PASSWORD:-kaas}
       POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256"
@@ -46,7 +46,7 @@ services:
       - app-network
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d letter-league"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d league-of-letters"]
       interval: 5s
       timeout: 5s
       retries: 5

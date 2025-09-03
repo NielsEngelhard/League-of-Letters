@@ -1,4 +1,4 @@
-import { LETTER_CORRECT_AFTER_MISPLACED_POINTS, LETTER_CORRECTLY_GUESSED_WITHOUT_MISPLACE_POINTS, LETTER_MISPLACED_POINTS, WORD_GUESSED_FIRST_TRY_BONUS_POINTS, WORD_GUESSED_POINTS } from "../../../../../../features/score/score-constants";
+import { LETTER_CORRECT_AFTER_MISPLACED_POINTS, LETTER_CORRECTLY_GUESSED_WITHOUT_MISPLACE_POINTS, LETTER_MISPLACED_POINTS, WORD_GUESSED_FIRST_TRY_BONUS_POINTS, WORD_GUESSED_POINTS } from "../../../../../score/score-constants";
 import { WordStateFactory } from "../../../factories/word-state-factory";
 import { WordValidator } from "../../word-validator";
 
