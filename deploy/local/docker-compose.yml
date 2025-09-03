@@ -13,6 +13,7 @@ services:
       - internal_dockerized_postgres
     environment:
       - NODE_ENV=Development
+      - NEXT_PUBLIC_ENVIRONMENT=Development
       - PORT=3000
     restart: unless-stopped
 

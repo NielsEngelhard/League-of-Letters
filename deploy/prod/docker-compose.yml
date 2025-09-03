@@ -1,6 +1,6 @@
 services:
   lol_core:
-    image: 
+    image: nielsts/lol-core:0.1
     env_file:
       - ./env/core.env
     ports:
@@ -10,20 +10,19 @@ services:
     depends_on:
       - internal_dockerized_postgres
     environment:
-      - NODE_ENV=Development
+      - NEXT_PUBLIC_ENVIRONMENT=Production
+      - NODE_ENV=Production
       - PORT=3000
     restart: unless-stopped
 
   lol_actions:
-    build:
-      context: ../../actions-server
-      dockerfile: Dockerfile
+    image: nielsts/lol-actions:0.1
     ports:
       - "8081:8080"
     env_file:
       - ./env/actions.env
     environment:
-      - NODE_ENV=${NODE_ENV}
+      - NODE_ENV=Production
       - PORT=8080
     networks:
       - app-network
@@ -31,9 +30,9 @@ services:
   internal_dockerized_postgres:
     image: postgres:15-alpine
     environment:
-      POSTGRES_DB: ${PG_DATABASE_NAME}
-      POSTGRES_USER: ${PG_USER}
-      POSTGRES_PASSWORD: ${PG_PASSWORD}
+      POSTGRES_DB: league_of_letters
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256"
     ports:
       - "8082:5432"

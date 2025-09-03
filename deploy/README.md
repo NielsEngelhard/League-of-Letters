@@ -4,7 +4,12 @@
 cd to ./local and run ```docker compose up --build``` everything for local development is already filled in
 
 ## Prod
-Create a ```lol-actions.env``` and ```lol-core.env``` in the prod folder. 
+cd to ./prod
+
+Create a ```lol-actions.env``` and ```lol-core.env``` in the prod folder. See local folder for format
 
 Run command:
-```docker-compose -f docker-compose.prod.yml --env-file ./env/.env up```
+```docker-compose --env-file ./env/.env up```
+
+## Login to digital ocean droplet
+```ssh root@159.223.228.197```
