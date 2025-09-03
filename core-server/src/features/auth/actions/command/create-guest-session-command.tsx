@@ -12,8 +12,6 @@ import { SupportedLanguage } from "@/features/i18n/languages";
 import { GuestLoginSchema } from "@/features/account/account-schemas";
 
 export default async function CreateGuestSessionCommand(data: GuestLoginSchema): Promise<ServerResponse<PublicAccountModel>> {
-    
-    console.log(data);
     try {
         const guestAccount = await createTempGuestAccount(data.language); 
 

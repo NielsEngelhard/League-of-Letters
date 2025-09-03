@@ -11,5 +11,12 @@ Create a ```lol-actions.env``` and ```lol-core.env``` in the prod folder. See lo
 Run command:
 ```docker-compose --env-file ./env/.env up```
 
+## Deploy script
+The droplet-prod-deploy.bash script does some automated steps:
+- Deploy docker-compose.yml (copy)
+- Deploy env directory (copy)
+- Install docker and docker compose if not already
+- Apply Docker Compose changes
+
 ## Login to digital ocean droplet
 ```ssh root@159.223.228.197```
