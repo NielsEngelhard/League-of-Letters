@@ -1,7 +1,7 @@
 # Deploying with docker compose
 
 ## Local
-All files are present ...
+cd to ./local and run ```docker compose up --build``` everything for local development is already filled in
 
 ## Prod
 Create a ```lol-actions.env``` and ```lol-core.env``` in the prod folder. 
