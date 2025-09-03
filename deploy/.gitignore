@@ -1,3 +1,5 @@
+# Ignore all .env files
 *.env
-.env.lol-core-prod
-.env.lol-actions-prod
+
+# But do not ignore the one(s) in the local folder (because it is for local config)
+!/local/*.env
