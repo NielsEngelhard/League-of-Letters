@@ -4,13 +4,14 @@ import React, { createContext, useContext, useRef, useState, ReactNode, useEffec
 import { io, Socket } from 'socket.io-client';
 import { ConnectionStatus, JoinGameRealtimeModel } from './realtime-models';
 import { useRouter } from 'next/navigation';
-import { JOIN_GAME_ROUTE, LANGUAGE_ROUTE, PLAY_ONLINE_GAME_ROUTE } from '@/app/routes';
+import { JOIN_GAME_ROUTE, LANGUAGE_ROUTE, MULTIPLAYER_GAME_ROUTE, PLAY_ONLINE_GAME_ROUTE } from '@/app/routes';
 import { useActiveGame } from '../game/components/active-game-context';
 import { GuessWordResponse } from '../game/actions/command/guess-word-command';
 import { useAuth } from '../auth/AuthContext';
 import { GamePlayerModel } from '../game/game-models';
 import { RealtimeLogger } from './realtime-logger';
 import { DefaultLanguage, SupportedLanguage } from '../i18n/languages';
+import { useMessageBar } from '@/components/layout/MessageBarContext';
 
 interface SocketContextType {
   socket: Socket | null;
@@ -40,24 +41,37 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
 }) => {
   const activeGameContext = useActiveGame();
   const { account } = useAuth();
+  const { pushErrorMsg } = useMessageBar();
 
   const router = useRouter();
   const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>("empty");
   const [transport, setTransport] = useState('N/A');
   const socketRef = useRef<Socket | null>(null);
+  const retryCountRef = useRef(0);
+  const retryTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const maxRetries = 3;
+  const retryDelay = 2000;
 
-  const initializeConnection = () => {
+  const handleConnectionFailure = () => {
+    pushErrorMsg("Realtime error");
+    router.push(LANGUAGE_ROUTE(lang, MULTIPLAYER_GAME_ROUTE));
+  };
+
+  const attemptConnection = () => {
     if (socketRef.current != null) {
-      console.log(`SOCKET: Can't initializeConnection: already initialized. Status: ${connectionStatus}`);
-      return;
+      socketRef.current.disconnect();
+      socketRef.current = null;
     }
 
     setConnectionStatus("connecting");
 
-    // Initialize connection on mount
+    RealtimeLogger.Log(`Connection attempt ${retryCountRef.current + 1}/${maxRetries}`);
+
+    // Initialize connection
     socketRef.current = io(serverUrl, {
       withCredentials: true,
-      transports: ['websocket', 'polling']
+      transports: ['websocket', 'polling'],
+      timeout: 4000,
     });
 
     const socket = socketRef.current;
@@ -68,13 +82,61 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
       setConnectionStatus("connected");      
       setTransport(socket.io.engine.transport.name);
       console.log('Connected to WebSocket server');
+      
+      // Reset retry count on successful connection
+      retryCountRef.current = 0;
+      
+      // Clear any pending retry timeout
+      if (retryTimeoutRef.current) {
+        clearTimeout(retryTimeoutRef.current);
+        retryTimeoutRef.current = null;
+      }
     });
 
-    socket.on('disconnect', () => {
-      RealtimeLogger.Log("disconnect");
+    socket.on('connect_error', (error) => {
+      RealtimeLogger.Log(`Connection error: ${error.message}`);
+      console.log('Connection error:', error);
+      
+      if (retryCountRef.current < maxRetries) {
+        retryCountRef.current++;
+        RealtimeLogger.Log(`Retrying in ${retryDelay}ms... (attempt ${retryCountRef.current}/${maxRetries})`);
+        
+        retryTimeoutRef.current = setTimeout(() => {
+          attemptConnection();
+        }, retryDelay);
+      } else {
+        RealtimeLogger.Log(`Max retries (${maxRetries}) reached. Connection failed.`);
+        setConnectionStatus("disconnected");
+        handleConnectionFailure();
+        
+        // Clean up the socket
+        if (socketRef.current) {
+          socketRef.current.disconnect();
+          socketRef.current = null;
+        }
+      }
+    });
+
+    socket.on('disconnect', (reason) => {
+      RealtimeLogger.Log(`disconnect: ${reason}`);
       setConnectionStatus("disconnected");
       setTransport('N/A');      
       activeGameContext.clearGameState();
+      
+      // Only retry if it was an unexpected disconnection and we haven't exceeded max retries
+      if (reason === 'io server disconnect' || reason === 'transport close' || reason === 'transport error') {
+        if (retryCountRef.current < maxRetries) {
+          retryCountRef.current++;
+          RealtimeLogger.Log(`Unexpected disconnect. Retrying in ${retryDelay}ms... (attempt ${retryCountRef.current}/${maxRetries})`);
+          
+          retryTimeoutRef.current = setTimeout(() => {
+            attemptConnection();
+          }, retryDelay);
+        } else {
+          RealtimeLogger.Log(`Max retries (${maxRetries}) reached after disconnect.`);
+          handleConnectionFailure();
+        }
+      }
     });
 
     socket.on('user-joined', (player: GamePlayerModel) => {
@@ -106,15 +168,37 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
     socket.on('player-guess-changed', (guess: string) => {
       RealtimeLogger.Log(`player-guess-changed ${guess}`);
       activeGameContext.setCurrentGuess(guess);
-    });         
+    });
+  };
 
-    // Cleanup on unmount
-    return () => {
-      socket.disconnect();
-    };
+  const initializeConnection = () => {
+    if (socketRef.current != null) {
+      console.log(`SOCKET: Can't initializeConnection: already initialized. Status: ${connectionStatus}`);
+      return;
+    }
+
+    // Reset retry count when manually initializing
+    retryCountRef.current = 0;
+    
+    // Clear any existing retry timeout
+    if (retryTimeoutRef.current) {
+      clearTimeout(retryTimeoutRef.current);
+      retryTimeoutRef.current = null;
+    }
+
+    attemptConnection();
   };
 
   const disconnectConnection = () => {
+    // Clear any pending retry
+    if (retryTimeoutRef.current) {
+      clearTimeout(retryTimeoutRef.current);
+      retryTimeoutRef.current = null;
+    }
+    
+    // Reset retry count
+    retryCountRef.current = 0;
+    
     if (socketRef.current) {
       RealtimeLogger.Log("manually disconnecting socket");
       socketRef.current.disconnect();
@@ -152,6 +236,18 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
     }
     emitGuessChangedEvent(activeGameContext.currentGuess);    
   }, [activeGameContext.currentGuess, activeGameContext.isThisPlayersTurn]);
+
+  // Cleanup on component unmount
+  useEffect(() => {
+    return () => {
+      if (retryTimeoutRef.current) {
+        clearTimeout(retryTimeoutRef.current);
+      }
+      if (socketRef.current) {
+        socketRef.current.disconnect();
+      }
+    };
+  }, []);
 
   return (
     <SocketContext.Provider value={{

@@ -18,7 +18,7 @@ export default function LogoutButton({ lang, label }: Props) {
 
     function onLogout() {
         logout();
-        router.push(LANGUAGE_ROUTE(lang, HOME_ROUTE));
+        window.location.href = (LANGUAGE_ROUTE(lang, HOME_ROUTE));
     }
 
     return (
