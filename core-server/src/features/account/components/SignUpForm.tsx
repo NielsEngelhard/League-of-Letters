@@ -41,7 +41,10 @@ export default function SignUpForm() {
 
             <TextInput label="Username" placeholder="Your username" {...form.register("username")} errorMsg={form.formState.errors.username?.message} />
 
-            <SelectLanguageGrid name="language" control={form.control} />
+            <div className="flex flex-col gap-0.5">
+                <SelectLanguageGrid name="language" control={form.control} />
+                <p className="text-xs font-bold text-foreground-muted text-center">The language you choose is the language your words will be in!</p>
+            </div>
 
             <Button type="submit">
                 <IdCard className="w-6 h-6" />

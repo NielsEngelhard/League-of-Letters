@@ -1,11 +1,10 @@
 BUGS NA LAUNCH
 - Login/SignUp geeft geen feedback lijkt het
 - Geen woorden in database -> start solo game -> geen feedback oid
-- Na uitloggen lijk je nogsteeds ingelogd lmz totdat je weer refreshsed
-- na retry 5x socketcontext navigeer weg
 - kick player werkt niet
-- rename alles naar league of letters (gedoe wss maarja)
-- Op de homepage een knop -> create guest account -> gelijk door naar play game lmz -> heel snel in game zonder tussenscherm
+
+
+- Maak meer gebruik van de account.lang ipv alles steeds doorpasen, kan makkelijk en scheelt heel veel gedoe. Miss ook met de languages ff kijken hoe en wat. 
 MUST
 
 SHOULD
