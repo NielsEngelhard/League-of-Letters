@@ -29,9 +29,10 @@ interface Props {
     gameId?: string;
     lang: SupportedLanguage;
     t: BeforeGameTranslations;
+    instaStart?: boolean;
 }
 
-export default function CreateGameForm({ onLeaveGame, submitDisabled = false, players, gameMode = "solo", gameId, lang, t }: Props) {
+export default function CreateGameForm({ onLeaveGame, submitDisabled = false, players, gameMode = "solo", gameId, lang, t, instaStart = false }: Props) {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const router = useRouter();    
 
@@ -62,6 +63,15 @@ export default function CreateGameForm({ onLeaveGame, submitDisabled = false, pl
         language: lang
       }
     })    
+
+    // Insta play (demo game) if applicable
+    useEffect(() => {
+        if (instaStart) {
+        const values = form.getValues();
+        handleFormSubmit(values);
+        }
+        
+    }, [instaStart]);    
 
     useEffect(() => {
         if (!players || players.length == 0 || !form) return;        
@@ -163,9 +173,9 @@ export default function CreateGameForm({ onLeaveGame, submitDisabled = false, pl
                         <Icon LucideIcon={Play} size="sm" /> {t.createGameForm.startButton}
                     </div>
                 </Button>   
-                <ErrorText>
+                {/* <ErrorText>
                     <>{Object.values(form.formState.errors)[0]?.message}</>
-                </ErrorText>  
+                </ErrorText>   */}
             </div>
 
             {onLeaveGame && (

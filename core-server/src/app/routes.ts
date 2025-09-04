@@ -34,3 +34,7 @@ export const JOIN_GAME_ROUTE = (gameId: string): string => {
 export const JOINED_GAME_ROUTE = (gameId: string): string => {
     return `/online/connect/joined/${gameId}`;
 }
+
+export const PLAY_SOLO_GAME_DEMO_ROUTE = (): string => {
+    return `${SOLO_GAME_ROUTE}?playDemoGame=true`;
+}

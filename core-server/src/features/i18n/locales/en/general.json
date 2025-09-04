@@ -22,7 +22,7 @@
             "guestButton": "Continue as guest",
             "loginButton": "Login",
             "signUpButton": "Sign Up",
-            "backToLoginButton": "Back to login"
+            "backToLoginButton": "Account login"
         },
         "signUp": {
             "title": "Sign up",

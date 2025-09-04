@@ -6,9 +6,12 @@ import PageBase from "@/components/layout/PageBase";
 import HeroBlock from "@/components/ui/block/HeroBlock";
 import { APP_NAME } from "../global-constants";
 import Button from "@/components/ui/Button";
-import { LANGUAGE_ROUTE, PICK_GAME_MODE_ROUTE } from "../routes";
+import { LANGUAGE_ROUTE, PICK_GAME_MODE_ROUTE, SOLO_GAME_ROUTE } from "../routes";
 import WordsPlayingBlock from "@/components/general/WordsPlayingBlock";
 import WordCountPerLanguageBlock from "@/components/general/WordCountPerLanguageBlock";
+import { isLoggedInServerCheck } from "@/features/auth/current-user";
+import { redirect } from "next/navigation";
+import PlayNowCtaButton from "@/components/general/PlayNowCtaButton";
 
 export default async function HomePage({
   params,
@@ -17,6 +20,8 @@ export default async function HomePage({
 }) {
   const { lang } = await params;
   const t = await loadTranslations(lang, ["home"]);
+
+  const isLoggedIn = await isLoggedInServerCheck();
 
   return (
     <PageBase requiresAuh={false} lang={lang}>
@@ -35,11 +40,11 @@ export default async function HomePage({
             </HeroBlock>
 
             <div className="flex justify-center">
-                <Button variant="primaryFade" size="lg" href={LANGUAGE_ROUTE(lang, PICK_GAME_MODE_ROUTE)}>
-                    <span className="">
-                        {t?.home.intro.playButton}
-                    </span>
-                </Button>                    
+                <PlayNowCtaButton
+                    lang={lang}
+                    userIsAuthenticated={isLoggedIn}
+                    label={t?.home.intro.playButton}
+                />                 
             </div>
 
             <WordsPlayingBlock words={t.home.words ?? []} />

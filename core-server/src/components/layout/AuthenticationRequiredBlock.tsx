@@ -2,7 +2,7 @@ import React from 'react';
 import { Lock } from 'lucide-react';
 import { SupportedLanguage } from '@/features/i18n/languages';
 import { loadTranslations } from '@/features/i18n/utils';
-import GoBackButton from './GoBackButton';
+import AuthProceedButton from './AuthProceedButton';
 
 export default async function AuthenticationRequiredBlock({ lang }: { lang: SupportedLanguage }) {
   const t = await loadTranslations(lang, ["general"]);
@@ -24,7 +24,7 @@ export default async function AuthenticationRequiredBlock({ lang }: { lang: Supp
         </p>
       </div>
       
-      <GoBackButton btnText={t.general.continueButton} />
+      <AuthProceedButton btnText={t.general.continueButton} />
   </div>
   );
 }

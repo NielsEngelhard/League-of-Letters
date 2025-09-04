@@ -14,7 +14,6 @@ import { GuestLoginSchema } from "@/features/account/account-schemas";
 export default async function CreateGuestSessionCommand(data: GuestLoginSchema): Promise<ServerResponse<PublicAccountModel>> {
     try {
         const guestAccount = await createTempGuestAccount(data.language); 
-
         const expireDateUtc = await JWTService.setAuthCookie({
             accountId: guestAccount.id,
             email: guestAccount.email,
