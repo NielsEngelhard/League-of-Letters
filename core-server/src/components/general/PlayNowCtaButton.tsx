@@ -1,6 +1,6 @@
 "use client"
 
-import { LANGUAGE_ROUTE, PICK_GAME_MODE_ROUTE, SOLO_GAME_ROUTE } from "@/app/routes";
+import { LANGUAGE_ROUTE, PICK_GAME_MODE_ROUTE, PLAY_SOLO_GAME_DEMO_ROUTE, SOLO_GAME_ROUTE } from "@/app/routes";
 import { SupportedLanguage } from "@/features/i18n/languages"
 import { useRouter } from "next/navigation";
 import Button from "../ui/Button";
@@ -18,7 +18,7 @@ export default function PlayNowCtaButton({ userIsAuthenticated, lang, label }: P
         if (userIsAuthenticated) {
             router.push(LANGUAGE_ROUTE(lang, PICK_GAME_MODE_ROUTE));
         } else {
-            router.push(LANGUAGE_ROUTE(lang, SOLO_GAME_ROUTE));
+            router.push(LANGUAGE_ROUTE(lang, PLAY_SOLO_GAME_DEMO_ROUTE()));
         }
       }
 
