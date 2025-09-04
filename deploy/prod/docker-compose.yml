@@ -1,29 +1,32 @@
 services:
   lol_core:
-    image: nielsts/lol-core:0.1
+    image: nielsts/lol-core:0.2
+    hostname: league-of-letters.online
     env_file:
       - ./env/core.env
     ports:
-      - "80:3000"
+      - "8080:8080"
     networks:
       - app-network
     depends_on:
       - internal_dockerized_postgres
     environment:
       - NEXT_PUBLIC_ENVIRONMENT=Production
+      - HOST=0.0.0.0
+      - HOSTNAME=league-of-letters.online
       - NODE_ENV=Production
-      - PORT=3000
+      - PORT=8080
     restart: unless-stopped
 
   lol_actions:
-    image: nielsts/lol-actions:0.1
+    image: nielsts/lol-actions:0.2
     ports:
-      - "8081:8080"
+      - "8081:8081"
     env_file:
       - ./env/actions.env
     environment:
       - NODE_ENV=Production
-      - PORT=8080
+      - PORT=8081
     networks:
       - app-network
 

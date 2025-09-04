@@ -9,7 +9,7 @@
         "multiplayer": {
             "title": "Online",
             "description": "Bewijs dat jij de slimste van de kamer bent",
-            "btn": "Naar de arena!"
+            "btn": "Speel online!"
         },
         "scoreRedirect": {
             "sentence": "Nieuwsgierig hoe het puntensysteem werkt?",
@@ -34,14 +34,14 @@
         "joinGame": {
             "title": "Doe Mee",
             "description": "Voer een spel-ID in om mee te doen aan een bestaand spel",
-            "btnText": "Doe Mee",
+            "btnText": "Join",
             "inputLabel": "Spel ID"
         },
         "createGame": {
             "title": "Maak Spel",
             "description": "Start een nieuw spel en nodig vrienden uit / (of vijanden)",
             "extraDescription": "Maak een lobby en nodig je vrienden uit",
-            "btnText": "Speel Online"
+            "btnText": "Create"
         }
     },
     "lobby": {

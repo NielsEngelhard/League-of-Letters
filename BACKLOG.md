@@ -1,8 +1,7 @@
 BUGS NA LAUNCH
 - Login/SignUp geeft geen feedback lijkt het
-- Geen woorden in database -> start solo game -> geen feedback oid
 - kick player werkt niet
-
+- message bar is nu echt foei lelijk
 
 - Maak meer gebruik van de account.lang ipv alles steeds doorpasen, kan makkelijk en scheelt heel veel gedoe. Miss ook met de languages ff kijken hoe en wat. 
 MUST

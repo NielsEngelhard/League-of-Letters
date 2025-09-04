@@ -13,7 +13,7 @@ export default async function SoloPage({
   params,
   searchParams
 }: {
-  params: { lang: SupportedLanguage };
+  params: Promise<{ lang: SupportedLanguage }>;
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
   const { lang } = await params;

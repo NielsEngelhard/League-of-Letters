@@ -46,6 +46,12 @@ export default function CreateGameForm({ onLeaveGame, submitDisabled = false, pl
             CreateGameCommand(data)
             .then((gameId) => {
                 router.push(LANGUAGE_ROUTE(lang, PLAY_SOLO_GAME_ROUTE(gameId)));
+            })
+            .catch((error) => {
+                form.setError("root", {
+                type: "manual",
+                message: "Something went wrong while creating the game",
+                });                   
             });
         }
     }
@@ -83,7 +89,7 @@ export default function CreateGameForm({ onLeaveGame, submitDisabled = false, pl
         setIsSubmitting(true);
 
         try {
-            await onSubmit(data);
+            onSubmit(data);
         } finally {
             setIsSubmitting(false);
         }
@@ -173,13 +179,13 @@ export default function CreateGameForm({ onLeaveGame, submitDisabled = false, pl
                         <Icon LucideIcon={Play} size="sm" /> {t.createGameForm.startButton}
                     </div>
                 </Button>   
-                {/* <ErrorText>
+                <ErrorText>
                     <>{Object.values(form.formState.errors)[0]?.message}</>
-                </ErrorText>   */}
+                </ErrorText>
             </div>
 
             {onLeaveGame && (
-                <Button variant="error" type="button" onClick={onLeaveGame} className="w-full">
+                <Button variant="error" type="button" onClick={onLeaveGame} className="w-full" isLoadingExternal={isSubmitting}>
                     <div className="flex items-center gap-1">
                         Leave Game
                     </div>

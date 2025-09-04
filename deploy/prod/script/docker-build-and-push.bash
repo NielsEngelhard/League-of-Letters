@@ -33,7 +33,7 @@ echo ""
 
 if [ "$BUILD_CORE" = "true" ]; then
   echo "📦 Building lol-core..."
-  docker build -t $DOCKER_HUB_USERNAME/$LETTER_LEAGUE_IMAGE:$VERSION_TAG ../../league-of-letters
+  docker build -t $DOCKER_HUB_USERNAME/$LETTER_LEAGUE_IMAGE:$VERSION_TAG ../../../core-server
 
   echo "⬆️  Pushing lol-core..."
   docker push $DOCKER_HUB_USERNAME/$LETTER_LEAGUE_IMAGE:$VERSION_TAG
@@ -41,7 +41,7 @@ fi
 
 if [ "$BUILD_ACTIONS" = "true" ]; then
   echo "📦 Building actions-server..."
-  docker build -t $DOCKER_HUB_USERNAME/$ACTIONS_SERVER_IMAGE:$VERSION_TAG ../../actions-server
+  docker build -t $DOCKER_HUB_USERNAME/$ACTIONS_SERVER_IMAGE:$VERSION_TAG ../../../actions-server
 
   echo "⬆️  Pushing actions-server..."
   docker push $DOCKER_HUB_USERNAME/$ACTIONS_SERVER_IMAGE:$VERSION_TAG
