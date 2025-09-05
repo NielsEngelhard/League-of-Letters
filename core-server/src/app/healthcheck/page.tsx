@@ -14,12 +14,6 @@ import { HealthCheckData } from "@/lib/healthcheck/healthcheck-models";
             endpoint: `${process.env.NEXT_PUBLIC_ACTIONS_SERVER_BASE_ADDRESS}/health`        
         },
         {
-            name: "Actions server internal",
-            description: "For back-end integrations",
-            status: "checking",
-            endpoint: `${process.env.ACTIONS_SERVER_BASE_ADDRESS_INTERNAL}/health`        
-        },        
-        {
             name: "Core api",
             description: "Server actions",
             status: "checking",        

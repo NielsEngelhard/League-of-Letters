@@ -44,20 +44,6 @@ scp_cmd -v ../docker-compose.yml "$DROPLET_USER@$DROPLET_IP:$REMOTE_DIR/"
 echo "- Deploy docker-compose.yml .env file (copy)"
 scp_cmd ../.env "$DROPLET_USER@$DROPLET_IP:$REMOTE_DIR/"
 
-echo "- Deploy nginx configuration"
-scp_cmd ../env/nginx.conf "$DROPLET_USER@$DROPLET_IP:/etc/nginx/sites-available/league-of-letters.online"
-ssh_cmd "
-    ln -sf /etc/nginx/sites-available/league-of-letters.online /etc/nginx/sites-enabled/
-    rm -f /etc/nginx/sites-enabled/default
-    nginx -t
-    if systemctl is-active --quiet nginx; then
-        systemctl reload nginx
-    else
-        systemctl start nginx
-        systemctl enable nginx
-    fi
-"
-
 echo "- Deploy env directory (copy)"
 scp_cmd -r ../env/ "$DROPLET_USER@$DROPLET_IP:$REMOTE_DIR/"
 

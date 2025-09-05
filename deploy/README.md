@@ -37,5 +37,5 @@ Steps:
 
 # CheatSheet
 - Terminal to droplet ```ssh root@159.223.228.197```
-- docker-build-and-push 0.1 false false
+- bash docker-build-and-push.bash 0.2 true false
 - bash deploy.bash

@@ -172,6 +172,8 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
   };
 
   const initializeConnection = () => {
+    console.log("TEMP DEBUG: ServerURL: " + serverUrl);
+
     if (socketRef.current != null) {
       console.log(`SOCKET: Can't initializeConnection: already initialized. Status: ${connectionStatus}`);
       return;

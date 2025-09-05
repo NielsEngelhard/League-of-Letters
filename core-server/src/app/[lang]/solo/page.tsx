@@ -10,14 +10,11 @@ import PageIntro from "@/components/ui/block/PageIntro";
 import { getAuthenticatedUser_Server } from "@/features/auth/utils/auth-server-utils";
 
 export default async function SoloPage({
-  params,
-  searchParams
+  params
 }: {
   params: Promise<{ lang: SupportedLanguage }>;
-  searchParams?: { [key: string]: string | string[] | undefined };
 }) {
   const { lang } = await params;
-  const playDemoGame = (searchParams?.playDemoGame) == "true";
 
   const t = await loadTranslations(lang, ["beforeGame"]);
 
@@ -37,7 +34,6 @@ export default async function SoloPage({
         </CardHeader>
         <CardContent>          
           <CreateGameForm
-            instaStart={playDemoGame}
             gameMode="solo"
             lang={account?.language ?? DefaultLanguage}
             t={t.beforeGame}

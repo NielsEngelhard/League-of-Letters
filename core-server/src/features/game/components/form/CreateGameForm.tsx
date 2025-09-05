@@ -13,7 +13,7 @@ import ErrorText from "@/components/ui/text/ErrorText"
 import { useEffect, useState } from "react"
 import SwitchInput from "@/components/ui/form/SwitchInput"
 import CreateGameCommand from "../../actions/command/create-game-command"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { LANGUAGE_ROUTE, PLAY_SOLO_GAME_ROUTE } from "@/app/routes"
 import { SupportedLanguage } from "@/features/i18n/languages"
 import BeforeGameTranslations from "@/features/i18n/translation-file-interfaces/BeforeGameTranslations"
@@ -29,12 +29,15 @@ interface Props {
     gameId?: string;
     lang: SupportedLanguage;
     t: BeforeGameTranslations;
-    instaStart?: boolean;
 }
 
-export default function CreateGameForm({ onLeaveGame, submitDisabled = false, players, gameMode = "solo", gameId, lang, t, instaStart = false }: Props) {
+export default function CreateGameForm({ onLeaveGame, submitDisabled = false, players, gameMode = "solo", gameId, lang, t }: Props) {
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const router = useRouter();    
+    const router = useRouter(); 
+    
+    const searchParams = useSearchParams();
+    const instaStart = searchParams.get("playDemoGame") == "true";
+
 
     const languageStyle = GetLanguageStyle(lang);
 
