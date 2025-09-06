@@ -9,15 +9,16 @@ import { SupportedLanguage } from "@/features/i18n/languages";
 type Props = {
     lang: SupportedLanguage;
     actionsServerUrl: string;
+    websocketPath: string;
     children: React.ReactNode;
 }
 
-export function Providers({ children, lang, actionsServerUrl }: Props) {
+export function Providers({ children, lang, actionsServerUrl, websocketPath }: Props) {
   return (
     <MessageBarProvider>
       <AuthProvider>
         <ActiveGameProvider>
-          <SocketProvider lang={lang} serverUrl={actionsServerUrl}>
+          <SocketProvider lang={lang} serverUrl={actionsServerUrl} path={websocketPath}>
               {children}
           </SocketProvider>              
         </ActiveGameProvider>

@@ -7,7 +7,7 @@ import { DefaultLanguage, SupportedLanguage } from "@/features/i18n/languages";
 import { loadTranslations } from "@/features/i18n/utils";
 import { LANGUAGE_ROUTE, PICK_GAME_MODE_ROUTE } from "@/app/routes";
 import PageIntro from "@/components/ui/block/PageIntro";
-import { getAuthenticatedUser_Server } from "@/features/auth/utils/auth-server-utils";
+import { getCurrentUserOrNull } from "@/features/auth/current-user";
 
 export default async function SoloPage({
   params
@@ -18,7 +18,7 @@ export default async function SoloPage({
 
   const t = await loadTranslations(lang, ["beforeGame"]);
 
-  const account = await getAuthenticatedUser_Server();
+  const account = await getCurrentUserOrNull();
 
   return (
     <PageBase size="sm" lang={lang} requiresAuh={true}>

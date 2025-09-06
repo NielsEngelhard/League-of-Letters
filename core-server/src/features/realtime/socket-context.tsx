@@ -32,11 +32,13 @@ interface SocketProviderProps {
   lang: SupportedLanguage;
   children: ReactNode;
   serverUrl?: string;
+  path?: string;
 }
 
 export const SocketProvider: React.FC<SocketProviderProps> = ({ 
   children, 
   serverUrl,
+  path,
   lang
 }) => {
   const activeGameContext = useActiveGame();
@@ -72,6 +74,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
       withCredentials: true,
       transports: ['websocket', 'polling'],
       timeout: 4000,
+      path: path
     });
 
     const socket = socketRef.current;
@@ -172,8 +175,6 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
   };
 
   const initializeConnection = () => {
-    console.log("TEMP DEBUG: ServerURL: " + serverUrl);
-
     if (socketRef.current != null) {
       console.log(`SOCKET: Can't initializeConnection: already initialized. Status: ${connectionStatus}`);
       return;

@@ -8,6 +8,13 @@
       "when": 1756657503524,
       "tag": "0000_glamorous_night_thrasher",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1757160396047,
+      "tag": "0001_easy_spitfire",
+      "breakpoints": true
     }
   ]
 }

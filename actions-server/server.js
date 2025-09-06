@@ -11,11 +11,13 @@ const server = createServer(app);
 
 // Configure CORS for Socket.io
 const io = new Server(server, {
+  path: process.env.WEBSOCKET_PATH,
   cors: {
-    origin: process.env.CLIENT_URL || "http://localhost:3000", // Your Next.js app URL
+    origin: process.env.CLIENT_URL, // Your Next.js app URL
     methods: ["GET", "POST"],
-    credentials: true
-  }
+    credentials: true,
+  },
+  proxies: true
 });
 
 const httpRoutes = require('./http-routes')(io);

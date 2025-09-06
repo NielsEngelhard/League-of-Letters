@@ -9,7 +9,8 @@ import { comparePasswords } from "@/features/auth/password-hasher";
 import { ServerResponse, ServerResponseFactory } from "@/lib/response-handling/response-factory";
 import { PublicAccountModel } from "../../../account/account-models";
 import { AccountMapper } from "../../../account/account-mapper";
-import { JWTService } from "../../jwt-service";
+import { JWTService } from "../../jwt/jwt-service";
+import { JwtMapper } from "../../jwt/jwt-mapper";
 
 export default async function LoginCommand(unsafeData: z.infer<typeof loginSchema>): Promise<ServerResponse<PublicAccountModel>> {
     const { success, data } = loginSchema.safeParse(unsafeData);
@@ -28,24 +29,19 @@ export default async function LoginCommand(unsafeData: z.infer<typeof loginSchem
 
     if (!isCorrectPassword) ServerResponseFactory.error("Invalid credentials");
 
-    // Set both access token and refresh token cookies
-    await JWTService.setAuthCookies({
-      accountId: account.id,
-      email: account.email,
-      username: account.username,
-      isGuest: false,
-      language: account.language
-    }, 'account');
+    const jwtService = new JWTService();
+    const jwtPayload = JwtMapper.MapAccountToJwtPayload(account);
+    await jwtService.generateTokensAndSetAuthCookies(jwtPayload);
 
     return ServerResponseFactory.success(AccountMapper.DbAccountToPublicModel(account));
 }
 
 async function findAccountByEmailOrUsername(usernameOrEmail: string): Promise<DbAccount> {
-    const usernameIsEmail = usernameOrEmail.includes("@");
-  
-    const users = usernameIsEmail
-      ? await db.select().from(AccountTable).where(eq(AccountTable.email, usernameOrEmail))
-      : await db.select().from(AccountTable).where(eq(AccountTable.username, usernameOrEmail));
-  
-    return users[0] ?? null;
-  }
+  const usernameIsEmail = usernameOrEmail.includes("@");
+
+  const users = usernameIsEmail
+    ? await db.select().from(AccountTable).where(eq(AccountTable.email, usernameOrEmail))
+    : await db.select().from(AccountTable).where(eq(AccountTable.username, usernameOrEmail));
+
+  return users[0] ?? null;
+}

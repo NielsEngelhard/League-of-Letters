@@ -17,9 +17,9 @@ import { redirect } from "next/navigation";
 import LobbyJoinCode from "@/features/game/components/lobby/LobbyJoinCode";
 import LobbyJoinLink from "@/features/game/components/lobby/LobbyJoinLink";
 import CreateLobbyClient from "@/features/game/components/lobby/CreateLobbyClient";
-import { getAuthenticatedUser_Server } from "@/features/auth/utils/auth-server-utils";
 import AuthenticationRequiredBlock from "@/components/layout/AuthenticationRequiredBlock";
 import LobbyOptions from "@/features/game/components/lobby/LobbyOptions";
+import { getCurrentUserOrNull } from "@/features/auth/current-user";
 
 export default async function CreateOnlineGamePage({
   params
@@ -29,7 +29,7 @@ export default async function CreateOnlineGamePage({
     const { lang } = await params;
     const t = await loadTranslations(lang, ["beforeGame"]);
 
-    const authenticatedUser = await getAuthenticatedUser_Server();
+    const authenticatedUser = await getCurrentUserOrNull();
     if (!authenticatedUser) {
         return <AuthenticationRequiredBlock lang={lang} />
     }

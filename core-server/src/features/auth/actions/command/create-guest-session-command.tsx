@@ -1,7 +1,7 @@
 "use server";
 
 import { ServerResponse, ServerResponseFactory } from "@/lib/response-handling/response-factory";
-import { JWTService } from "../../jwt-service";
+import { JWTService } from "../../jwt/jwt-service";
 import AccountFactory from "@/features/account/account-factory";
 import { AccountTable, DbAccount } from "@/drizzle/schema";
 import { db } from "@/drizzle/db";
@@ -10,19 +10,17 @@ import { PublicAccountModel } from "@/features/account/account-models";
 import { AccountMapper } from "@/features/account/account-mapper";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import { GuestLoginSchema } from "@/features/account/account-schemas";
+import { JwtMapper } from "../../jwt/jwt-mapper";
 
 export default async function CreateGuestSessionCommand(data: GuestLoginSchema): Promise<ServerResponse<PublicAccountModel>> {
     try {
         const guestAccount = await createTempGuestAccount(data.language); 
-        const expireDateUtc = await JWTService.setAuthCookie({
-            accountId: guestAccount.id,
-            email: guestAccount.email,
-            username: guestAccount.username,
-            isGuest: true,
-            language: guestAccount.language
-        }, 'guest');
+
+        const jwtService = new JWTService();
+        const jwtPayload = JwtMapper.MapAccountToJwtPayload(guestAccount);
+        const setTokensResponse = await jwtService.generateTokensAndSetAuthCookies(jwtPayload);        
         
-        return ServerResponseFactory.success(AccountMapper.DbAccountToPublicModel(guestAccount, expireDateUtc));
+        return ServerResponseFactory.success(AccountMapper.DbAccountToPublicModel(guestAccount, setTokensResponse.authTokenExpireDateUtc));
     } catch(err) {
         console.log("Failed to create GUEST auth session. Reason: " + err);
         return ServerResponseFactory.error("Failed to guest session");

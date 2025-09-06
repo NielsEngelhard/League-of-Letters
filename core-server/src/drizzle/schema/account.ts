@@ -16,6 +16,7 @@ export const AccountTable = pgTable("account", {
     colorHex: text().notNull(),
     isGuestAccount: boolean().notNull().default(false),
     language: supportedLanguageEnum().notNull(),
+    refreshToken: text(),
     createdAt,
 });
 

@@ -22,24 +22,25 @@ export default async function AccountPage({
 
     return (
         <PageBase lang={lang} requiresAuh={true}>
-            <div className="space-y-6 max-w-4xl mx-auto">
+            {privateAccount && (
+                <div className="space-y-6 max-w-4xl mx-auto">
+                    {(privateAccount.isGuest == true) && (
+                        <UpgradeGuestAccount account={privateAccount} accountTranslations={t.account} />
+                    )}
 
-                {(privateAccount.isGuest == true) && (
-                    <UpgradeGuestAccount account={privateAccount} accountTranslations={t.account} />
-                )}
+                    <AccountCard t={t.general} lang={lang} account={privateAccount} />
+                    
+                    {(privateAccount.isGuest == false) && (
+                        <UpdateAccountForm generalTranslations={t.general} account={privateAccount} />
+                    )}
 
-                <AccountCard t={t.general} lang={lang} account={privateAccount} />
-                
-                {(privateAccount.isGuest == false) && (
-                    <UpdateAccountForm generalTranslations={t.general} account={privateAccount} />
-                )}
-
-                <SettingsCard t={t.general} />
-                
-                <div className="pt-4 border-t border-border/50">
-                    <LogoutButton lang={lang} label={t.general.logoutButton} />
-                </div>
-            </div>
+                    <SettingsCard t={t.general} />
+                    
+                    <div className="pt-4 border-t border-border/50">
+                        <LogoutButton lang={lang} label={t.general.logoutButton} />
+                    </div>
+                </div>                
+            )}
         </PageBase>
     )
 }
