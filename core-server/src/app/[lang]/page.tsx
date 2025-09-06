@@ -18,7 +18,7 @@ export default async function HomePage({
   const { lang } = await params;
   const t = await loadTranslations(lang, ["home"]);
 
-  const currentUser = await GetCurrentUser_Server();
+  const currentUser = await GetCurrentUser_Server(true);
 
   return (
     <PageBase requiresAuh={false} lang={lang}>

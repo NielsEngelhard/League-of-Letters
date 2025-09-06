@@ -1,15 +1,17 @@
 "use server";
 
 import { JWTService } from "./jwt/jwt-service";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import { AUTH_TOKEN_COOKIE_NAME, REFRESH_COOKIE_NAME } from "./auth-constants";
 import { JwtAccountPayload } from "./jwt/jwt-models";
 import RefreshJwtToken from "./actions/command/refresh-token-command";
 import { cache } from "react";
+import { redirect } from "next/navigation";
+import { AUTH_REFRESH_ROUTE } from "@/app/routes";
 
 // Function with 'cache' to memoize its result per request
-export const GetCurrentUser_Server = cache(async (): Promise<JwtAccountPayload | null> => {
-    debugger;
+// set forInitialPageLoad=true when using in the page.tsx
+export const GetCurrentUser_Server = cache(async (forInitialPageLoad: boolean = false): Promise<JwtAccountPayload | null> => {
     const cookieStore = await cookies();
     const authToken = cookieStore.get(AUTH_TOKEN_COOKIE_NAME);
     const refreshToken = cookieStore.get(REFRESH_COOKIE_NAME);
@@ -20,6 +22,8 @@ export const GetCurrentUser_Server = cache(async (): Promise<JwtAccountPayload |
 
         // If the token is valid but about to expire, try to refresh it
         if (parsedAuthToken?.expiresSoon && refreshToken) {
+            if (forInitialPageLoad) await RouteToAuthRefresh();
+
             const refreshPayload = await RefreshJwtToken(refreshToken.value);
             if (refreshPayload) {
                 return refreshPayload;
@@ -34,6 +38,8 @@ export const GetCurrentUser_Server = cache(async (): Promise<JwtAccountPayload |
 
     // Fallback: If no valid auth token, try to use the refresh token directly
     if (refreshToken) {
+        if (forInitialPageLoad) await RouteToAuthRefresh();
+
         const refreshPayload = await RefreshJwtToken(refreshToken.value);
         if (refreshPayload) {
             return refreshPayload;
@@ -44,47 +50,13 @@ export const GetCurrentUser_Server = cache(async (): Promise<JwtAccountPayload |
     return null;
 });
 
-// export async function GetCurrentUserOrRedirect_Server(): JwtAccountPayload {
+async function RouteToAuthRefresh() {
+    const pagePath = await GetPagePath();
+    redirect(AUTH_REFRESH_ROUTE(pagePath));
+}
 
-// }
-
-// TODO: 2 methods, one for server actions
-// and one for page.tsx
-// because different scenarios. page.tsx needs to do a redirect? That goes to a page saying refreshing token and then redirect if refreshed back to original page?
-
-
-// export async function isLoggedInServerCheck(): Promise<boolean> {
-//   const jwtService = new JWTService();
-//   const user = await jwtService.getCurrentUser();
-//   return user != undefined;
-// }
-
-// export async function getCurrentUserOrNull(): Promise<JWTPayload | null> {
-//   try {
-//     const jwtService = new JWTService();
-//     const user = await jwtService.getCurrentUser();
-
-//     return user;
-//   } catch {
-//     return null;
-//   }
-// }
-
-// export async function getCurrentUserOrRedirect(): Promise<JWTPayload> {
-//   const jwtService = new JWTService();
-//   const user = await jwtService.getCurrentUser();
-
-//   if (!user) {
-//     redirect(HOME_ROUTE)
-//   };
-  
-//   return user;
-// }
-
-// export async function getCurrentUserOrCrashNoRefresh(): Promise<JWTPayload> {
-//   const jwtService = new JWTService();
-//   const user = await jwtService.getCurrentUser();
-
-//   if (!user) throw Error("AUTH ERROR: not logged in");
-//   return user;
-// }
+async function GetPagePath(): Promise<string> {
+  const headersList = await headers();
+  const fullUrl = headersList.get("x-url") || ""; // if you set middleware for absolute url
+  return new URL(fullUrl, "http://dummy").pathname;    
+}

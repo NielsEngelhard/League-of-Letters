@@ -7,7 +7,7 @@ import { GetCurrentUser_Server } from "@/features/auth/current-user";
 
 export default async function HomePageWithoutLocale() {
     // Check if logged in
-    const currentUser = await GetCurrentUser_Server();
+    const currentUser = await GetCurrentUser_Server(true);
     if (currentUser && currentUser.language) {
         redirect(LANGUAGE_ROUTE(currentUser.language, PICK_GAME_MODE_ROUTE));
     }
