@@ -12,6 +12,7 @@ import { changePathLanguagePrefix } from "@/features/language/language-util";
 import { usePathname, useRouter } from "next/navigation";
 import { useMessageBar } from "@/components/layout/MessageBarContext";
 import { waitDelay } from "@/lib/debug-util";
+import FormBase from "@/components/general/form/FormBase";
 
 interface Props {
     currentLanguage: SupportedLanguage;
@@ -57,15 +58,11 @@ export default function ChangeLanguageForm({ currentLanguage }: Props) {
     }
     
     return (
-        <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
+        <FormBase form={form} onSubmit={onSubmit}>
             <SelectLanguageGrid
                 name="language"
                 control={form.control}
-            />
-
-            <Button className="w-full" type="submit" isLoadingExternal={form.formState.isSubmitting}>
-                Change language
-            </Button>            
-        </form>
+            />            
+        </FormBase>
     )
 }
