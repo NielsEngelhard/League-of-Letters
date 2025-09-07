@@ -7,6 +7,7 @@ BUGS NA LAUNCH
 - message bar is nu echt foei lelijk
 - keyboard switch toegankelijker en "enter werkend" en andere keyboard ook
 - Maak meer gebruik van de account.lang ipv alles steeds doorpasen, kan makkelijk en scheelt heel veel gedoe. Miss ook met de languages ff kijken hoe en wat. 
+- zitten nog wel wat bugs op de account page
 MUST
 
 SHOULD
