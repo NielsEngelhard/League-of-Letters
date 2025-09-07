@@ -19,7 +19,7 @@ export interface Props extends VariantProps<typeof buttonVariants> {
 }
 
 const buttonVariants = cva(
-  "border-2 rounded-2xl font-medium text-lg !cursor-pointer hover:opacity-95 justify-center flex items-center gap-1 transform hover:scale-105 transition-all duration-300 hover:shadow-primary/25",
+  "border-2 font-medium text-lg !cursor-pointer hover:opacity-95 justify-center flex items-center gap-1 transform hover:scale-105 transition-all duration-300 hover:shadow-primary/25",
   {
     variants: {
       variant: {
@@ -33,11 +33,16 @@ const buttonVariants = cva(
         sm: "px-2 py-1 md:px-5 md:py-2 text-sm font-semibold",
         md: "px-2 py-2 lg:px-4 lg:py-3",
         lg: "px-12 py-4 text-xl font-bold",
+      },
+      corners: {
+        rounded: "rounded-2xl",
+        square: "rounded-md"
       }
     },
     defaultVariants: {
         variant: "primary",
-        size: "md"
+        size: "md",
+        corners: "rounded"
     }
   }
 )
@@ -48,6 +53,7 @@ export default function Button({
   variant, 
   size, 
   disable, 
+  corners,
   href, 
   onClick, 
   type = "button",
@@ -56,7 +62,7 @@ export default function Button({
   const isNavigationButton: boolean = (href != null && href != undefined && href != "");
   const [isLoading, setIsLoading] = useState(false);
      
-  const classes: string = `${cn(buttonVariants({ variant, size }), className)} ${disable && "!bg-gray-500/50 !cursor-not-allowed"}`;
+  const classes: string = `${cn(buttonVariants({ variant, size, corners }), className)} ${disable && "!bg-gray-500/50 !cursor-not-allowed"}`;
        
   async function handleOnClick(): Promise<void> {
     // Don't handle loading for navigation buttons

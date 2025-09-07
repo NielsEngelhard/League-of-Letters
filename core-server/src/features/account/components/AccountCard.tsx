@@ -1,4 +1,4 @@
-"use client"
+"use server"
 
 import Card from "@/components/ui/card/Card";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card/card-children";
@@ -8,8 +8,9 @@ import StatisticHighlight from "@/components/ui/StatisticHighlight";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 import { GetLanguageStyle } from "@/features/language/LanguageStyles";
-import { Calendar1, User, Crown, UserCheck, BarChart3, Clock } from "lucide-react";
+import { Calendar1, User, Crown, UserCheck, BarChart3, Clock, Settings } from "lucide-react";
 import { PrivateAccountModel } from "../account-models";
+import LogoutButton from "./LogoutButton";
 
 interface Props {
     t: GeneralTranslations;
@@ -17,7 +18,7 @@ interface Props {
     account: PrivateAccountModel;
 }
 
-export default function AccountCard({ t, lang, account }: Props) {
+export default async function AccountCard({ t, lang, account }: Props) {
     const getInitials = (name: string) => {
         return name?.charAt(0).toUpperCase() || "?";
     };
@@ -133,6 +134,10 @@ export default function AccountCard({ t, lang, account }: Props) {
                         </div>
 
                         <InfoBanner icon={Clock} colorVariant="secondary" text={t.account.gameStatistics.updateDisclaimer} />
+
+                        <Seperator />
+
+                        <LogoutButton lang={lang} label={t.logoutButton} />
                     </div>
                 </CardContent>
             </Card>

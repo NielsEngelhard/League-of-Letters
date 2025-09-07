@@ -12,7 +12,6 @@ export default async function Header({ lang } : {lang: SupportedLanguage }) {
     const t = await loadTranslations(lang, ["general"]);
     
     const currentUser = await GetCurrentUser_Server();
-    console.log(currentUser);
 
     return (
         <header className="w-full h-16 fixed top-0 z-50 bg-background-secondary/80 backdrop-blur-xl border-b border-border/20 shadow-sm">
@@ -42,7 +41,7 @@ export default async function Header({ lang } : {lang: SupportedLanguage }) {
                 </div>
 
                 {/* Right - User Section */}
-                <HeaderUserClient t={t.general} lang={lang} />
+                <HeaderUserClient t={t.general} lang={lang} account={currentUser} />
             </div>
             
             <LoginModal t={t.general} lang={lang} />

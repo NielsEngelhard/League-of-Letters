@@ -61,6 +61,9 @@
             "updateDescription": "Update je account"
         }
     },
+    "profileSettings": {
+        "title": "Profiel"
+    },
     "settings": {
         "title": "Instellingen",
         "description": "Klik om de instellingen naar je zin aan te passen",

@@ -11,13 +11,13 @@ import Button from "@/components/ui/Button";
 import { Save, User } from "lucide-react";
 import ErrorText from "@/components/ui/text/ErrorText";
 import Card from "@/components/ui/card/Card";
-import ExpandableCardContent from "@/components/ui/card/ExpandableCardContent";
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 import ColorInput from "@/components/ui/form/ColorInput";
 import { PrivateAccountModel } from "../account-models";
 import UpdateCurrentAccountInfo from "../actions/command/update-current-account-info";
 import { useMessageBar } from "@/components/layout/MessageBarContext";
 import { useState } from "react";
+import { CardContent, CardHeader, CardTitle } from "@/components/ui/card/card-children";
 
 interface Props {
     account: PrivateAccountModel;
@@ -64,12 +64,13 @@ export default function UpdateAccountForm({ generalTranslations, account }: Prop
 
     return (
         <Card className="w-full">
-            <ExpandableCardContent
-                Icon={User}
-                title={generalTranslations.account.accountSettings.title}
-                description={generalTranslations.account.accountSettings.updateDescription}
-                initiallyExpaned={false}
-            >
+            <CardHeader>
+                <CardTitle className="text-base sm:text-lg flex items-center gap-2">
+                    <User className="w-4 h-4" />
+                    {generalTranslations.account.accountSettings.title}
+                </CardTitle>
+            </CardHeader>
+            <CardContent>
                 <form className="flex flex-col gap-3" onSubmit={form.handleSubmit(onSubmit)}>
                     <TextInput label="Username" placeholder="Your username" {...form.register("username")} errorMsg={form.formState.errors.username?.message} />
 
@@ -114,7 +115,7 @@ export default function UpdateAccountForm({ generalTranslations, account }: Prop
                         </span>
                     </ErrorText>
                 </form>    
-            </ExpandableCardContent>
+            </CardContent>
         </Card> 
     )
 }

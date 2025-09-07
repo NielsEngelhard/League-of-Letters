@@ -5,15 +5,14 @@ import UnauthenticatedHeaderSection from "./UnAuthenticatedHeaderSection";
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 import Link from "next/link";
 import { SupportedLanguage } from "@/features/i18n/languages";
-import { LANGUAGE_ROUTE, PROFILE_ROUTE, RECONNECT_ROUTE } from "@/app/routes";
+import { LANGUAGE_ROUTE, PROFILE_ROUTE, PROFILE_SETTINGS_ROUTE, RECONNECT_ROUTE } from "@/app/routes";
 import { GetLanguageStyle } from "@/features/language/LanguageStyles";
 import GuestSessionTimeRemaining from "./GuestSessionTimeRemaining";
 import { RefreshCw } from "lucide-react";
 import HeaderConnectionStatus from "./HeaderConnectionStatus";
+import { JwtAccountPayload } from "@/features/auth/jwt/jwt-models";
 
-export default function HeaderUserClient({t, lang}: { t: GeneralTranslations, lang: SupportedLanguage}) {
-    const { account } = useAuth();
-    
+export default function HeaderUserClient({t, lang, account}: { t: GeneralTranslations, lang: SupportedLanguage, account: JwtAccountPayload | null}) {
     if (!account) {
         return <UnauthenticatedHeaderSection t={t} />
     }    
@@ -23,7 +22,7 @@ export default function HeaderUserClient({t, lang}: { t: GeneralTranslations, la
     return (
     <div className="flex items-center gap-3">
         {/* Language Flag */}
-        <Link className="cursor-pointer" href={LANGUAGE_ROUTE(lang, PROFILE_ROUTE)}>
+        <Link className="cursor-pointer" href={LANGUAGE_ROUTE(lang, PROFILE_SETTINGS_ROUTE)}>
             {languageStyle?.flag}
         </Link>
 

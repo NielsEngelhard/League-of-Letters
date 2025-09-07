@@ -12,6 +12,8 @@ export const CREATE_MULTIPLAYER_GAME_ROUTE = "/online/connect/create";
 export const PROFILE_ROUTE = "/account";
 export const RECONNECT_ROUTE = "/reconnect";
 export const SCORE_ROUTE = "/score";
+export const ACCOUNT_SETTINGS_ROUTE = "/account/settings";
+export const PROFILE_SETTINGS_ROUTE = "/account/profile";
 
 export const PRIVACY_POLICY_ROUTE = "/privacy-policy";
 export const TERMS_OF_SERVICE_ROUTE = "/terms-of-service";

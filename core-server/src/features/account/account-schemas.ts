@@ -54,3 +54,9 @@ export const upgradeGuestAccountSchema = z.object({
     password: z.string()
 });
 export type UpgradeGuestAccountSchema = z.infer<typeof upgradeGuestAccountSchema>;
+
+export const changePasswordSchema = z.object({
+    oldPassword: z.string().min(1, "Required"),
+    newPassword: z.string().min(1, "Required")
+})
+export type ChangePasswordSchema = z.infer<typeof changePasswordSchema>;

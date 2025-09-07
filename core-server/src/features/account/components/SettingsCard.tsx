@@ -13,8 +13,8 @@ import Button from "@/components/ui/Button";
 import { useAuth } from "@/features/auth/AuthContext";
 import { useMessageBar } from "@/components/layout/MessageBarContext";
 import UpdateCurrentUserSettingsCommand from "../actions/command/update-current-user-settings";
-import ExpandableCardContent from "@/components/ui/card/ExpandableCardContent";
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
+import { CardContent, CardHeader, CardTitle } from "@/components/ui/card/card-children";
 
 interface Props {
     t: GeneralTranslations;
@@ -58,8 +58,13 @@ export default function SettingsCard({ t }: Props) {
 
     return (
         <Card className="w-full">
-            <ExpandableCardContent Icon={Settings} title={t.settings.title}
-                description={t.settings.description}>
+            <CardHeader>
+                <CardTitle className="flex flex-row gap-1">
+                    <Settings />
+                    {t.settings.title}
+                </CardTitle>
+            </CardHeader>
+            <CardContent>
                 <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>    
 
                     {/* Appearance Section */}
@@ -178,7 +183,7 @@ export default function SettingsCard({ t }: Props) {
                         </Button>
                     </div>
                 </form>                
-            </ExpandableCardContent>
+            </CardContent>
         </Card>
     )
 }

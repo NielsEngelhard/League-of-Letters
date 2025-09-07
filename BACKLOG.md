@@ -3,6 +3,7 @@ BUGS NA LAUNCH
 - Login/SignUp geeft geen feedback lijkt het
 - Game board op mobiel moet op 1 scherm passen lmz
 - kick player werkt niet
+- rename MessageBarProvider naar GlobalMessageProvider
 - message bar is nu echt foei lelijk
 - keyboard switch toegankelijker en "enter werkend" en andere keyboard ook
 - Maak meer gebruik van de account.lang ipv alles steeds doorpasen, kan makkelijk en scheelt heel veel gedoe. Miss ook met de languages ff kijken hoe en wat. 

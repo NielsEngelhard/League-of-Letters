@@ -61,6 +61,9 @@ export interface GeneralTranslations {
       updateDescription: string;
     }
   },
+  profileSettings: {
+    title: string;
+  },
   settings: {
     title: string;
     description: string;
