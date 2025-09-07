@@ -18,8 +18,8 @@ export default async function ChangePasswordCommand(data: ChangePasswordSchema):
         salt: currentPasswordInfo.salt,
         password: data.oldPassword,        
     });    
-
-    if (!isCorrectPassword) return ServerResponseFactory.error("Invalid");
+    
+    if (!isCorrectPassword) return ServerResponseFactory.error("Incorrect password");
 
     await ChangePassword(currentUser.accountId, data.newPassword);
 
