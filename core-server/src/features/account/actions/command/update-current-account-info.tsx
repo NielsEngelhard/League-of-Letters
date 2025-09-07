@@ -8,6 +8,7 @@ import { ServerResponse, ServerResponseFactory } from "@/lib/response-handling/r
 import { PublicAccountModel } from "../../account-models";
 import { AccountMapper } from "../../account-mapper";
 import { AuthenticateOrRedirect_Server } from "@/features/auth/current-user";
+import RefreshJwtToken from "@/features/auth/actions/command/refresh-token-command";
 
 export default async function UpdateCurrentAccountInfo(unsafeData: UpdateAccountSchema): Promise<ServerResponse<PublicAccountModel>> {
     const { success, data } = updateAccountSchema.safeParse(unsafeData);
@@ -19,12 +20,14 @@ export default async function UpdateCurrentAccountInfo(unsafeData: UpdateAccount
         .set({
             colorHex: data.favouriteColor,
             username: data.username,
-            favouriteWord: data.favouriteWord,
-            language: data.language    
+            favouriteWord: data.favouriteWord
         })
         .where(eq(AccountTable.id, currentAccount.accountId))
         .returning();
         
+
+    // Generate new JWT, because username is included in JWT and must be updated too
+    await RefreshJwtToken();        
 
     return ServerResponseFactory.success(AccountMapper.DbAccountToPublicModel(result[0]));
 }

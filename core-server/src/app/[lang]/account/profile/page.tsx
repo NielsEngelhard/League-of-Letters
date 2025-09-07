@@ -3,14 +3,14 @@
 import { HOME_ROUTE, LANGUAGE_ROUTE, PROFILE_ROUTE } from "@/app/routes";
 import PageBase from "@/components/layout/PageBase";
 import BackButton from "@/components/ui/BackButton";
-import Card from "@/components/ui/card/Card";
-import { CardContent, CardHeader, CardTitle } from "@/components/ui/card/card-children";
+import DefaultCard from "@/components/ui/card/DefaultCard";
 import GetCurrentPrivateAccount from "@/features/account/actions/request/get-current-private-account";
+import ChangeAccountForm from "@/features/account/components/settings/ChangeAccountForm";
+import ChangeLanguageForm from "@/features/account/components/settings/ChangeLanguageForm";
 import ChangePasswordForm from "@/features/account/components/settings/ChangePasswordForm";
-import UpdateAccountForm from "@/features/account/components/UpdateAccountCard";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import { loadTranslations } from "@/features/i18n/utils";
-import { Lock } from "lucide-react";
+import { Languages, Lock } from "lucide-react";
 import { redirect } from "next/navigation";
 
 export default async function ProfileSettingsPage({
@@ -30,33 +30,20 @@ export default async function ProfileSettingsPage({
                 <BackButton href={LANGUAGE_ROUTE(lang, PROFILE_ROUTE)} />                 
                  
                  {/* Change Language */}
-                <Card>
-                    <CardHeader>
-                        <CardTitle className="text-base sm:text-lg flex items-center gap-2">
-                            <Lock className="w-4 h-4" />
-                            Change language
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-
-                    </CardContent>
-                </Card>                 
+                <DefaultCard Icon={Languages} title="Change language">
+                    <ChangeLanguageForm currentLanguage={privateAccount.language} />
+                </DefaultCard>
                  
                 {/* Change profile info */}
-                <UpdateAccountForm generalTranslations={t.general} account={privateAccount} />                
+                <DefaultCard Icon={Lock} title="Update Account">
+                    <ChangeAccountForm generalTranslations={t.general} account={privateAccount} />     
+                </DefaultCard>                
+                           
 
-                 {/* Change Password */}
-                <Card>
-                    <CardHeader>
-                        <CardTitle className="text-base sm:text-lg flex items-center gap-2">
-                            <Lock className="w-4 h-4" />
-                            Change password
-                        </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                        <ChangePasswordForm />
-                    </CardContent>
-                </Card>                 
+                {/* Change Password */}
+                <DefaultCard Icon={Lock} title="Change Password">
+                    <ChangePasswordForm />
+                </DefaultCard>
             </>            
         </PageBase>
     )

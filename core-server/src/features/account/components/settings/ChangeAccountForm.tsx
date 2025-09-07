@@ -1,66 +1,50 @@
 "use client"
 
-import LoadingDots from "@/components/ui/animation/LoadingDots";
 import TextInput from "@/components/ui/form/TextInput"
 import { useAuth } from "@/features/auth/AuthContext";
-import SelectLanguageGrid from "@/features/language/component/SelectLanguageGrid"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
-import { UpdateAccountSchema, updateAccountSchema } from "../account-schemas";
+import { UpdateAccountSchema, updateAccountSchema } from "../../account-schemas";
 import Button from "@/components/ui/Button";
 import { Save, User } from "lucide-react";
 import ErrorText from "@/components/ui/text/ErrorText";
 import Card from "@/components/ui/card/Card";
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 import ColorInput from "@/components/ui/form/ColorInput";
-import { PrivateAccountModel } from "../account-models";
-import UpdateCurrentAccountInfo from "../actions/command/update-current-account-info";
-import { useMessageBar } from "@/components/layout/MessageBarContext";
-import { useState } from "react";
+import { PrivateAccountModel } from "../../account-models";
+import UpdateCurrentAccountInfo from "../../actions/command/update-current-account-info";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card/card-children";
+import { useServerAction } from "@/lib/response-handling/useServerAction";
 
 interface Props {
     account: PrivateAccountModel;
     generalTranslations: GeneralTranslations;
 }
 
-export default function UpdateAccountForm({ generalTranslations, account }: Props) {
-    const { pushSuccessMsg, pushErrorMsg } = useMessageBar();
+export default function ChangeAccountForm({ generalTranslations, account }: Props) {
     const { updateAccount } = useAuth();
-    const [loading, setLoading] = useState(false);
 
     const form = useForm<UpdateAccountSchema>({
         resolver: zodResolver(updateAccountSchema),
         defaultValues: {
-            language: account.language,
             username: account.username,
             favouriteWord: account.favouriteWord,
             favouriteColor: account.colorHex,
         }
     })
 
-    if (!account) {
-        return <LoadingDots />
-    }   
+    const { execute: executeUpdateAccountInfo, isLoading } = useServerAction(
+        {
+            successMessage: "Password updated successfully!",
+            onSuccess: (data) => {
+                updateAccount(data);
+            }
+        }
+    );
 
     async function onSubmit(data: UpdateAccountSchema) {
-        setLoading(true);
-        
-        try {
-        const response = await UpdateCurrentAccountInfo(data);
-
-        if (response.ok && response.data) {
-            updateAccount(response.data);
-            pushSuccessMsg("success");
-        } else {
-            pushErrorMsg("error");
-        }          
-        } catch  {
-            pushErrorMsg();
-        } finally {
-            setLoading(false);
-        }        
-    }
+        await executeUpdateAccountInfo(() => UpdateCurrentAccountInfo(data));
+    }    
 
     return (
         <Card className="w-full">
@@ -99,12 +83,7 @@ export default function UpdateAccountForm({ generalTranslations, account }: Prop
                         )}
                     />
 
-                    <SelectLanguageGrid
-                        name="language"
-                        control={form.control}
-                        value={account.language}
-                    />
-                    <Button type="submit" isLoadingExternal={loading}>
+                    <Button type="submit" isLoadingExternal={isLoading}>
                         <Save className="w-6 h-6" />
                         Update account info
                     </Button>

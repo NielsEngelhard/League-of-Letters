@@ -42,7 +42,6 @@ export type GuestLoginSchema = z.infer<typeof guestLoginSchema>;
 export const updateAccountSchema = z.object({
     username: z.string().max(25).optional(),
     favouriteWord: z.string().max(20).optional(),
-    language: z.enum(supportedLanguages),    
     favouriteColor: z.string().optional(),
 });
 export type UpdateAccountSchema = z.infer<typeof updateAccountSchema>;
@@ -60,3 +59,8 @@ export const changePasswordSchema = z.object({
     newPassword: z.string().min(1, "Required")
 })
 export type ChangePasswordSchema = z.infer<typeof changePasswordSchema>;
+
+export const changeLanguageSchema = z.object({
+    language: z.enum(supportedLanguages)
+})
+export type ChangeLanguageSchema = z.infer<typeof changeLanguageSchema>;
