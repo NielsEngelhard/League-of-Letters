@@ -1,0 +1,85 @@
+{
+  "account": {
+    "title": "Compte",
+    "memberSince": "Membre depuis",
+    "statistics": {
+      "title": "Statistiques",
+      "played": "Joué",
+      "highestScore": "Meilleur score",
+      "favouriteWord": "Mot préféré",
+      "updateDisclaimer": "La mise à jour des statistiques peut prendre jusqu'à 24 heures."
+    },
+    "logoutButton": "Se déconnecter",
+    "profileTab": "Profil",
+    "settingsTab": "Paramètres",
+    "accountType": {
+      "member": "Membre",
+      "guest": "Invité"
+    }
+  },
+  "profile": {
+    "updateLanguage": {
+      "title": "Changer la langue",
+      "button": "Enregistrer"
+    },
+    "updateAccount": {
+      "title": "Mettre à jour le compte",
+      "favWordLabel": "Mot préféré",
+      "button": "Enregistrer"
+    },
+    "updatePassword": {
+      "title": "Changer le mot de passe",
+      "oldLabel": "Mot de passe actuel",
+      "newLabel": "Nouveau mot de passe",
+      "button": "Enregistrer"
+    }
+  },
+    "settings": {
+        "title": "Paramètres",
+        "description": "Clique pour personnaliser les paramètres à ton goût",
+        "minimize": "Réduire",
+        "maximize": "Agrandir",
+        "saveButton": "Sauvegarder les Paramètres",
+        "featureGroups": {
+            "appearanceLabel": "Apparence",
+            "keyboardInputLabel": "Clavier & Saisie",
+            "audioLabel": "Paramètres Audio"
+        },
+        "features": {
+            "theme": {
+                "title": "Thème",
+                "description": "Sélectionne ton thème visuel préféré pour l'application"
+            },
+            "keyboardInput": {
+                "title": "Méthode de Saisie",
+                "description": "Choisis comment tu veux saisir les lettres pendant le jeu"
+            },
+            "showKeyboardHints": {
+                "title": "Afficher les astuces clavier",
+                "description": "Affiche des conseils utiles et des raccourcis sur le clavier"
+            },
+            "highlightCompleteLetters": {
+                "title": "Surligner les lettres 'Complètement Correctes'",
+                "description": "Surligne les lettres qui sont correctes et n'apparaissent plus avec un style spécial"
+            },
+            "preFill": {
+                "title": "Pré-remplir la tentative",
+                "description": "Remplis automatiquement ta tentative quand c'est ton tour"
+            },
+            "enableSoundEffects": {
+                "title": "Activer les effets sonores",
+                "description": "Joue des retours audio pour les actions et événements du jeu"
+            },
+            "enableBackgroundMusic": {
+                "title": "Activer la musique de fond",
+                "description": "Joue de la musique ambiante pendant que tu joues"
+            }
+        }
+    },
+    "upgradeGuestAccount": {
+      "title": "Devenez membre à part entière !",
+      "description": "Inscrivez-vous gratuitement et transformez votre session invité en un vrai compte !",
+      "passwordLabel": "Mot de passe",
+      "buttonText": "Mettre à niveau le compte"
+    }    
+}

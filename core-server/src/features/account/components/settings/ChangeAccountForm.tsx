@@ -5,24 +5,19 @@ import { useAuth } from "@/features/auth/AuthContext";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { UpdateAccountSchema, updateAccountSchema } from "../../account-schemas";
-import Button from "@/components/ui/Button";
-import { Save, User } from "lucide-react";
-import ErrorText from "@/components/ui/text/ErrorText";
-import Card from "@/components/ui/card/Card";
-import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 import ColorInput from "@/components/ui/form/ColorInput";
 import { PrivateAccountModel } from "../../account-models";
 import UpdateCurrentAccountInfo from "../../actions/command/update-current-account-info";
-import { CardContent, CardHeader, CardTitle } from "@/components/ui/card/card-children";
 import { useMessageBar } from "@/components/layout/MessageBarContext";
 import FormBase from "@/components/general/form/FormBase";
+import { SettingsTranslations } from "@/features/i18n/translation-file-interfaces/SettingsTranslations";
 
 interface Props {
     account: PrivateAccountModel;
-    generalTranslations: GeneralTranslations;
+    t: SettingsTranslations;
 }
 
-export default function ChangeAccountForm({ generalTranslations, account }: Props) {
+export default function ChangeAccountForm({ t, account }: Props) {
     const { updateAccount } = useAuth();
     const msgBar = useMessageBar();
 
@@ -36,10 +31,10 @@ export default function ChangeAccountForm({ generalTranslations, account }: Prop
     })
 
     return (
-        <FormBase  form={form}  onSubmit={UpdateCurrentAccountInfo}>
-            <TextInput label="Username" placeholder="Your username" {...form.register("username")} errorMsg={form.formState.errors.username?.message} />
+        <FormBase form={form}  onSubmit={UpdateCurrentAccountInfo} onSuccess={updateAccount}>
+            <TextInput label="Username" {...form.register("username")} errorMsg={form.formState.errors.username?.message} />
 
-            <TextInput label="Favourite word" placeholder="Your username" {...form.register("favouriteWord")} errorMsg={form.formState.errors.favouriteWord?.message} />
+            <TextInput label={t.profile.updateAccount.favWordLabel} {...form.register("favouriteWord")} errorMsg={form.formState.errors.favouriteWord?.message} />
 
             <Controller
                 name="favouriteColor"

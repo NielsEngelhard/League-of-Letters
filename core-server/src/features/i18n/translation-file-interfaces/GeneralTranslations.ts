@@ -60,50 +60,5 @@ export interface GeneralTranslations {
       title: string;
       updateDescription: string;
     }
-  },
-  profileSettings: {
-    title: string;
-  },
-  settings: {
-    title: string;
-    description: string;
-    minimize: string;
-    maximize: string;
-    saveButton: string;
-    featureGroups: {
-      appearanceLabel: string;
-      keyboardInputLabel: string;
-      audioLabel: string;
-    }
-    features: {
-      theme: {
-        title: string;
-        description: string;
-      },
-      keyboardInput: {
-        title: string;
-        description: string;
-      },
-      showKeyboardHints: {
-        title: string;
-        description: string;
-      },
-      highlightCompleteLetters: {
-        title: string;
-        description: string;
-      },
-      preFill: {
-        title: string;
-        description: string;
-      },
-      enableSoundEffects: {
-        title: string;
-        description: string;
-      },
-      enableBackgroundMusic: {
-        title: string;
-        description: string;
-      }
-    }
   }
 }

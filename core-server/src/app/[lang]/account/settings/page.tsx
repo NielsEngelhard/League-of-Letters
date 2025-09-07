@@ -13,13 +13,13 @@ export default async function AccountSettingsPage({
   params: Promise<{ lang: SupportedLanguage }>
 }) {
     const { lang } = await params;
-    const t = await loadTranslations(lang, ["general", "account"]);
+    const t = await loadTranslations(lang, ["settings"]);
 
     return (
         <PageBase lang={lang} requiresAuh={true} size="lg">
             <>
                 <BackButton href={LANGUAGE_ROUTE(lang, PROFILE_ROUTE)} />
-                <SettingsCard t={t.general} />
+                <SettingsCard t={t.settings} />
             </>            
         </PageBase>
     )

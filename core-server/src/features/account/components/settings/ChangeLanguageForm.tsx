@@ -10,12 +10,14 @@ import { useAuth } from "@/features/auth/AuthContext";
 import { changePathLanguagePrefix } from "@/features/language/language-util";
 import { usePathname, useRouter } from "next/navigation";
 import FormBase from "@/components/general/form/FormBase";
+import { SettingsTranslations } from "@/features/i18n/translation-file-interfaces/SettingsTranslations";
 
 interface Props {
     currentLanguage: SupportedLanguage;
+    t: SettingsTranslations;
 }
 
-export default function ChangeLanguageForm({ currentLanguage }: Props) {
+export default function ChangeLanguageForm({ currentLanguage, t }: Props) {
     const { updateAccount, account } = useAuth();
     const currentPath = usePathname();
     const router = useRouter();
@@ -44,9 +46,10 @@ export default function ChangeLanguageForm({ currentLanguage }: Props) {
             form={form} 
             onSubmit={UpdateCurrentUserLanguage}
             onSuccess={onSuccessfullLanguageChange}
+            btnTxt={t.profile.updateLanguage.button}
         >
             <SelectLanguageGrid
-                name="language"
+                name={t.profile.updateLanguage.title}
                 control={form.control}
             />        
         </FormBase>

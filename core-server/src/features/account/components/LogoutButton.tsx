@@ -2,6 +2,7 @@
 
 import { HOME_ROUTE, LANGUAGE_ROUTE } from "@/app/routes";
 import Button from "@/components/ui/Button";
+import { LogoutCommand } from "@/features/auth/actions/command/logout-command";
 import { useAuth } from "@/features/auth/AuthContext";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import { LogOut } from "lucide-react";
@@ -13,12 +14,12 @@ interface Props {
 }
 
 export default function LogoutButton({ lang, label }: Props) {
-    const { logout } = useAuth();
+    const { clearAccountData } = useAuth();
     const router = useRouter();
 
-    function onLogout() {
-        logout();
-        window.location.href = (LANGUAGE_ROUTE(lang, HOME_ROUTE));
+    async function onLogout() {
+        await LogoutCommand();
+        clearAccountData();
     }
 
     return (

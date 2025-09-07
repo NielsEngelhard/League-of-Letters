@@ -6,17 +6,22 @@ import { ChangePasswordSchema, changePasswordSchema } from "../../account-schema
 import TextInput from "@/components/ui/form/TextInput";
 import ChangePasswordCommand from "../../actions/command/change-password-command";
 import FormBase from "@/components/general/form/FormBase";
+import { SettingsTranslations } from "@/features/i18n/translation-file-interfaces/SettingsTranslations";
 
-export default function ChangePasswordForm() {
+export default function ChangePasswordForm({ t }: { t: SettingsTranslations }) {
     const form = useForm<ChangePasswordSchema>({
       resolver: zodResolver(changePasswordSchema)    
     });
 
     return (
-        <FormBase form={form}  onSubmit={ChangePasswordCommand}>
-            <TextInput label="Current" {...form.register("oldPassword")} errorMsg={form.formState.errors.oldPassword?.message} type="password" />
+        <FormBase
+            form={form}
+            onSubmit={ChangePasswordCommand}
+            btnTxt={t.profile.updatePassword.button}
+        >
+            <TextInput label={t.profile.updatePassword.oldLabel} {...form.register("oldPassword")} errorMsg={form.formState.errors.oldPassword?.message} type="password" />
 
-            <TextInput label="New" {...form.register("newPassword")} errorMsg={form.formState.errors.newPassword?.message} type="password" />
+            <TextInput label={t.profile.updatePassword.newLabel} {...form.register("newPassword")} errorMsg={form.formState.errors.newPassword?.message} type="password" />
         </FormBase>        
     )
 }

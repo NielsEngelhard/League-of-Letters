@@ -11,9 +11,10 @@ import { GetLanguageStyle } from "@/features/language/LanguageStyles";
 import { Calendar1, User, Crown, UserCheck, BarChart3, Clock, Settings } from "lucide-react";
 import { PrivateAccountModel } from "../account-models";
 import LogoutButton from "./LogoutButton";
+import { SettingsTranslations } from "@/features/i18n/translation-file-interfaces/SettingsTranslations";
 
 interface Props {
-    t: GeneralTranslations;
+    t: SettingsTranslations;
     lang: SupportedLanguage;
     account: PrivateAccountModel;
 }
@@ -70,14 +71,14 @@ export default async function AccountCard({ t, lang, account }: Props) {
                                         <>
                                             <UserCheck className="w-4 h-4 text-muted-foreground" />
                                             <span className="text-sm text-muted-foreground font-medium">
-                                                {t.account.guestIndicator}
+                                                {t.account.accountType.guest}
                                             </span>
                                         </>
                                     ) : (
                                         <>
                                             <Crown className="w-4 h-4 text-primary" />
                                             <span className="text-sm text-primary font-medium">
-                                                {t.account.memberIndicator}
+                                                {t.account.accountType.member}
                                             </span>
                                         </>
                                     )}                                    
@@ -91,14 +92,6 @@ export default async function AccountCard({ t, lang, account }: Props) {
                                 )}
                             </div>
                         </div>
-                        
-                        {account.isGuest && (
-                            <div className="bg-warning/50 rounded-lg p-3 border border-border/50">
-                                <p className="text-xs text-muted-foreground">
-                                    <strong>{t.account.guestDisclaimerTitle}</strong> {t.account.guestDisclaimerDescription}
-                                </p>
-                            </div>
-                        )}
                     </div>
 
                     <Seperator />
@@ -107,37 +100,37 @@ export default async function AccountCard({ t, lang, account }: Props) {
                     <div className="space-y-4">
                         <div className="flex items-center gap-2 text-sm font-medium text-foreground">
                             <BarChart3 className="w-4 h-4 text-muted-foreground" />
-                            <span>{t.account.gameStatistics.title}</span>
+                            <span>{t.account.statistics.title}</span>
                         </div>
                         
                         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                             <div className="text-center p-4 bg-muted/30 rounded-lg border border-border/50">
                                 <StatisticHighlight
                                     title={account.isGuest ? 'n/a' : account.nGamesPlayed.toString()}
-                                    text={t.account.gameStatistics.winsLabel}
+                                    text={t.account.statistics.played}
                                 />
                             </div>
                             
                             <div className="text-center p-4 bg-muted/30 rounded-lg border border-border/50">
                                 <StatisticHighlight
                                     title={account.isGuest ? 'n/a' : account.highestScoreAchieved.toString()}
-                                    text={t.account.gameStatistics.highestScoreLabel}
+                                    text={t.account.statistics.highestScore}
                                 />
                             </div>
                             
                             <div className="text-center p-4 bg-muted/30 rounded-lg border border-border/50">
                                 <StatisticHighlight
                                     title={account.isGuest ? 'n/a' : account.favouriteWord || "None"}
-                                    text={t.account.gameStatistics.favouriteWordLabel}
+                                    text={t.account.statistics.favouriteWord}
                                 />
                             </div>
                         </div>
 
-                        <InfoBanner icon={Clock} colorVariant="secondary" text={t.account.gameStatistics.updateDisclaimer} />
+                        <InfoBanner icon={Clock} colorVariant="secondary" text={t.account.statistics.updateDisclaimer} />
 
                         <Seperator />
 
-                        <LogoutButton lang={lang} label={t.logoutButton} />
+                        <LogoutButton lang={lang} label={t.account.logoutButton} />
                     </div>
                 </CardContent>
             </Card>

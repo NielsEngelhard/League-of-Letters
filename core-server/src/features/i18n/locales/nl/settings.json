@@ -1,0 +1,85 @@
+{
+  "account": {
+    "title": "Account",
+    "memberSince": "Lid sinds",
+    "statistics": {
+      "title": "Statistieken",
+      "played": "Gespeeld",
+      "highestScore": "Hoogste score",
+      "favouriteWord": "Favoriete woord",
+      "updateDisclaimer": "Het kan tot 24 uur duren voordat de statistieken bijgewerkt zijn."
+    },
+    "logoutButton": "Uitloggen",
+    "profileTab": "Profiel",
+    "settingsTab": "Instellingen",
+    "accountType": {
+      "member": "Lid",
+      "guest": "Gast"
+    }
+  },
+  "profile": {
+    "updateLanguage": {
+      "title": "Taal wijzigen",
+      "button": "Opslaan"
+    },
+    "updateAccount": {
+      "title": "Account bijwerken",
+      "favWordLabel": "Favoriete woord",
+      "button": "Opslaan"
+    },
+    "updatePassword": {
+      "title": "Wachtwoord wijzigen",
+      "oldLabel": "Huidig wachtwoord",
+      "newLabel": "Nieuw wachtwoord",
+      "button": "Opslaan"
+    }
+  },
+    "settings": {
+        "title": "Instellingen",
+        "description": "Klik om de instellingen naar je zin aan te passen",
+        "minimize": "Minimaliseren",
+        "maximize": "Maximaliseren",
+        "saveButton": "Instellingen Opslaan",
+        "featureGroups": {
+            "appearanceLabel": "Uiterlijk",
+            "keyboardInputLabel": "Toetsenbord & Invoer",
+            "audioLabel": "Audio-instellingen"
+        },
+        "features": {
+            "theme": {
+                "title": "Thema",
+                "description": "Selecteer je favoriete visuele thema voor de applicatie"
+            },
+            "keyboardInput": {
+                "title": "Invoermethode",
+                "description": "Kies hoe je letters wilt invoeren tijdens het spel"
+            },
+            "showKeyboardHints": {
+                "title": "Toon toetsenbord hints",
+                "description": "Toon handige tips en sneltoetsen op het toetsenbord"
+            },
+            "highlightCompleteLetters": {
+                "title": "Markeer 'Volledig Correcte' letters",
+                "description": "Markeer letters die correct zijn en niet meer voorkomen met speciale styling"
+            },
+            "preFill": {
+                "title": "Gok vooraf invullen",
+                "description": "Vul automatisch je gok in wanneer jij aan de beurt bent"
+            },
+            "enableSoundEffects": {
+                "title": "Geluidseffecten inschakelen",
+                "description": "Speel audio-feedback af voor spelacties en gebeurtenissen"
+            },
+            "enableBackgroundMusic": {
+                "title": "Achtergrondmuziek inschakelen",
+                "description": "Speel ambient muziek af tijdens het spelen"
+            }
+        }
+    },
+    "upgradeGuestAccount": {
+      "title": "Volwaardig lid worden!",
+      "description": "Wordt gratis lid en zet je gast sessie om naar een echt account!",
+      "passwordLabel": "Wachtwoord",
+      "buttonText": "Account upgraden"
+    }    
+}

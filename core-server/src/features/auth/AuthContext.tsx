@@ -5,9 +5,9 @@ import { createContext, useState, ReactNode, useContext, useEffect } from 'react
 import { GuestLoginSchema, loginSchema, SettingsSchema } from '../account/account-schemas';
 import LoginCommand from './actions/command/login-command';
 import { PublicAccountModel } from '../account/account-models';
-import { LogoutCommand } from './actions/command/logout-command';
 import CreateGuestSessionCommand from './actions/command/create-guest-session-command';
 import { ServerResponse } from '@/lib/response-handling/response-factory';
+import { LogoutCommand } from './actions/command/logout-command';
 
 const DEFAULT_SETTINGS: SettingsSchema = {
   keyboardInput: "on-screen-keyboard",
@@ -29,7 +29,7 @@ type AuthContextType = {
 
   guestSessionTimeRemaining: string | null;
 
-  logout: () => void;
+  clearAccountData: () => void;
   login: (data: z.infer<typeof loginSchema>) => Promise<string | undefined>;
   loginWithGuestAccount: (schema: GuestLoginSchema) => Promise<string | undefined>;
   setShowLoginModal: (newValue: boolean) => void;
@@ -66,7 +66,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     useEffect(() => {
         if (account?.isGuest == false || !account?.tokenExpireUtcDate) return;
 
-        const updateTimeRemaining = () => {
+        const updateTimeRemaining = async () => {
             if (!account.tokenExpireUtcDate) return;
 
             const now = new Date();
@@ -75,7 +75,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             const isExpired: boolean = diffMs <= 0;
             if (isExpired) {
                 setGuestSessionTimeRemaining("Expired");
-                logout();
+                clearAccountData();
+                await LogoutCommand();
                 return;
             }
 
@@ -95,19 +96,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return () => clearInterval(interval);
     }, [account?.tokenExpireUtcDate]);  
 
-  const logout = async (): Promise<void> => {
-    setIsLoading(true);
+  const clearAccountData = async (): Promise<void> => {
     try {
-      await LogoutCommand();
       localStorage.removeItem(ACCOUNT_LOCALSTORAGE_KEY);
       setAccount(null);
     } catch (error) {
       console.error('Logout failed:', error);
-      // Still clear local state even if server call fails
-      localStorage.removeItem(ACCOUNT_LOCALSTORAGE_KEY);
-      setAccount(null);
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -179,7 +173,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       account,
       isLoggedIn: !!account,
       isLoading,
-      logout, 
+      clearAccountData, 
       login,
       setShowLoginModal,
       showLoginModal,

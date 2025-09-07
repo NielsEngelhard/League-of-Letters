@@ -19,7 +19,7 @@ export default async function ProfileSettingsPage({
   params: Promise<{ lang: SupportedLanguage }>
 }) {
     const { lang } = await params;
-    const t = await loadTranslations(lang, ["general", "account"]);
+    const t = await loadTranslations(lang, ["settings"]);
 
     const privateAccount = await GetCurrentPrivateAccount();
     if (!privateAccount) redirect(HOME_ROUTE);
@@ -30,19 +30,18 @@ export default async function ProfileSettingsPage({
                 <BackButton href={LANGUAGE_ROUTE(lang, PROFILE_ROUTE)} />                 
                  
                  {/* Change Language */}
-                <DefaultCard Icon={Languages} title="Change language">
-                    <ChangeLanguageForm currentLanguage={privateAccount.language} />
+                <DefaultCard Icon={Languages} title={t.settings.profile.updateLanguage.title}>
+                    <ChangeLanguageForm currentLanguage={privateAccount.language} t={t.settings} />
                 </DefaultCard>
                  
                 {/* Change profile info */}
-                <DefaultCard Icon={Lock} title="Update Account">
-                    <ChangeAccountForm generalTranslations={t.general} account={privateAccount} />     
-                </DefaultCard>                
-                           
+                <DefaultCard Icon={Lock} title={t.settings.profile.updateAccount.title}>
+                    <ChangeAccountForm t={t.settings} account={privateAccount} />     
+                </DefaultCard>                                           
 
                 {/* Change Password */}
-                <DefaultCard Icon={Lock} title="Change Password">
-                    <ChangePasswordForm />
+                <DefaultCard Icon={Lock} title={t.settings.profile.updatePassword.title}>
+                    <ChangePasswordForm t={t.settings}/>
                 </DefaultCard>
             </>            
         </PageBase>

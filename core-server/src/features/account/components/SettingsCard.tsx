@@ -13,11 +13,11 @@ import Button from "@/components/ui/Button";
 import { useAuth } from "@/features/auth/AuthContext";
 import { useMessageBar } from "@/components/layout/MessageBarContext";
 import UpdateCurrentUserSettingsCommand from "../actions/command/update-current-user-settings";
-import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card/card-children";
+import { SettingsTranslations } from "@/features/i18n/translation-file-interfaces/SettingsTranslations";
 
 interface Props {
-    t: GeneralTranslations;
+    t: SettingsTranslations;
 }
 
 export default function SettingsCard({ t }: Props) {

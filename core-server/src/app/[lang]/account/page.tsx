@@ -19,7 +19,7 @@ export default async function AccountPage({
   params: Promise<{ lang: SupportedLanguage }>
 }) {
     const { lang } = await params;
-    const t = await loadTranslations(lang, ["general", "account"]);
+    const t = await loadTranslations(lang, ["settings"]);
 
     const privateAccount = await GetCurrentPrivateAccount();
     if (!privateAccount) redirect(HOME_ROUTE);
@@ -33,22 +33,21 @@ export default async function AccountPage({
                     <div className="flex flex-row gap-2">
                         <Button size="sm" corners="square" variant="skeleton" href={LANGUAGE_ROUTE(lang, PROFILE_SETTINGS_ROUTE)}>
                             <User size={16} />
-                            {/* {t.general.profileSettings.title} */}
-                            PROFIEL
+                            {t.settings.account.profileTab}
                         </Button>                      
                         <Button size="sm" corners="square" variant="skeleton" href={LANGUAGE_ROUTE(lang, ACCOUNT_SETTINGS_ROUTE)}>
                             <Settings size={16} />
-                            {t.general.settings.title}
+                            {t.settings.account.settingsTab}
                         </Button>                  
                     </div>                    
                 )}
             </div>
             
             {!privateAccount.isGuest ? (
-                <AccountCard t={t.general} lang={lang} account={privateAccount} />
+                <AccountCard t={t.settings} lang={lang} account={privateAccount} />
             ) : (
-                <DefaultCard title="Become a member for FREE" description="TODO description" Icon={Flame}>
-                    <UpgradeGuestAccountForm currentLanguage={privateAccount.language} />
+                <DefaultCard title={t.settings.upgradeGuestAccount.title} description={t.settings.upgradeGuestAccount.title} Icon={Flame}>
+                    <UpgradeGuestAccountForm t={t.settings} currentLanguage={privateAccount.language} />
                 </DefaultCard>
             )}
         </PageBase>
