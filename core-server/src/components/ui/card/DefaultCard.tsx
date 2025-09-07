@@ -1,13 +1,14 @@
 import Card from "./Card";
-import { CardContent, CardHeader, CardTitle } from "./card-children";
+import { CardContent, CardDescription, CardHeader, CardTitle } from "./card-children";
 
 interface Props {
     title: string;
+    description?: string;
     Icon?: React.ElementType;
     children: React.ReactNode;
 }
 
-export default function DefaultCard({ title, Icon, children }: Props) {
+export default function DefaultCard({ title, Icon, children, description }: Props) {
     return (
         <Card>
             <CardHeader>
@@ -15,6 +16,11 @@ export default function DefaultCard({ title, Icon, children }: Props) {
                     {Icon && <Icon className="w-4 h-4" />}
                     {title}
                 </CardTitle>
+                {description && (
+                    <CardDescription>
+                        {description}
+                    </CardDescription>                    
+                )}
             </CardHeader>
             <CardContent>
                 {children}
