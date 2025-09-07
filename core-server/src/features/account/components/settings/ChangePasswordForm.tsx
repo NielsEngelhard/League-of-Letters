@@ -6,25 +6,28 @@ import { ChangePasswordSchema, changePasswordSchema } from "../../account-schema
 import TextInput from "@/components/ui/form/TextInput";
 import Button from "@/components/ui/Button";
 import ChangePasswordCommand from "../../actions/command/change-password-command";
-import { useServerAction } from "@/lib/response-handling/useServerAction";
+import { useMessageBar } from "@/components/layout/MessageBarContext";
 
 export default function ChangePasswordForm() {
+    const msgBar = useMessageBar();
+
     const form = useForm<ChangePasswordSchema>({
       resolver: zodResolver(changePasswordSchema)    
     });
 
-    const { execute: executeChangePassword, isLoading } = useServerAction(
-        {
-            successMessage: "Password updated successfully!",
-            onSuccess: (data) => {
-                
-            }
-        }
-    );
-
     async function onSubmit(data: ChangePasswordSchema) {
-        await executeChangePassword(() => ChangePasswordCommand(data));
-    }
+        ChangePasswordCommand(data)
+        .then((resp) => {
+            if (resp.ok && resp.data) {
+                msgBar.pushSuccessMsg("Updated");
+            } else {
+                throw Error();
+            }
+        })
+        .catch(() => {
+            msgBar.pushServerError();
+        });
+    }    
 
     return (
         <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
@@ -32,7 +35,7 @@ export default function ChangePasswordForm() {
 
             <TextInput label="New" {...form.register("newPassword")} errorMsg={form.formState.errors.newPassword?.message} type="password" />
 
-            <Button className="w-full" type="submit" isLoadingExternal={isLoading}>
+            <Button className="w-full" type="submit" isLoadingExternal={form.formState.isSubmitting}>
                 Change password
             </Button>
         </form>

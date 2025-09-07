@@ -14,7 +14,7 @@ import ColorInput from "@/components/ui/form/ColorInput";
 import { PrivateAccountModel } from "../../account-models";
 import UpdateCurrentAccountInfo from "../../actions/command/update-current-account-info";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card/card-children";
-import { useServerAction } from "@/lib/response-handling/useServerAction";
+import { useMessageBar } from "@/components/layout/MessageBarContext";
 
 interface Props {
     account: PrivateAccountModel;
@@ -23,6 +23,7 @@ interface Props {
 
 export default function ChangeAccountForm({ generalTranslations, account }: Props) {
     const { updateAccount } = useAuth();
+    const msgBar = useMessageBar();
 
     const form = useForm<UpdateAccountSchema>({
         resolver: zodResolver(updateAccountSchema),
@@ -33,17 +34,18 @@ export default function ChangeAccountForm({ generalTranslations, account }: Prop
         }
     })
 
-    const { execute: executeUpdateAccountInfo, isLoading } = useServerAction(
-        {
-            successMessage: "Password updated successfully!",
-            onSuccess: (data) => {
-                updateAccount(data);
-            }
-        }
-    );
-
     async function onSubmit(data: UpdateAccountSchema) {
-        await executeUpdateAccountInfo(() => UpdateCurrentAccountInfo(data));
+        UpdateCurrentAccountInfo(data)
+        .then((resp) => {
+            if (resp.ok && resp.data) {
+                updateAccount(resp.data);
+            } else {
+                throw Error();
+            }
+        })
+        .catch(() => {
+            msgBar.pushServerError();
+        });
     }    
 
     return (
@@ -83,7 +85,7 @@ export default function ChangeAccountForm({ generalTranslations, account }: Prop
                         )}
                     />
 
-                    <Button type="submit" isLoadingExternal={isLoading}>
+                    <Button type="submit" isLoadingExternal={form.formState.isSubmitting}>
                         <Save className="w-6 h-6" />
                         Update account info
                     </Button>

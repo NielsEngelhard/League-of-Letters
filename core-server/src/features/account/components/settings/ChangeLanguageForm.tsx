@@ -11,6 +11,7 @@ import { useAuth } from "@/features/auth/AuthContext";
 import { changePathLanguagePrefix } from "@/features/language/language-util";
 import { usePathname, useRouter } from "next/navigation";
 import { useMessageBar } from "@/components/layout/MessageBarContext";
+import { waitDelay } from "@/lib/debug-util";
 
 interface Props {
     currentLanguage: SupportedLanguage;
@@ -30,8 +31,6 @@ export default function ChangeLanguageForm({ currentLanguage }: Props) {
     });
 
     async function onSubmit(data: ChangeLanguageSchema) {
-        msgBar.setIsLoading(true);
-
         UpdateCurrentUserLanguage(data)
         .then((resp) => {
             if (resp.ok && resp.data) {
@@ -42,9 +41,6 @@ export default function ChangeLanguageForm({ currentLanguage }: Props) {
         })
         .catch(() => {
             msgBar.pushServerError();
-        })
-        .finally(() => {
-            msgBar.setIsLoading(false);
         });
     }
 
@@ -67,7 +63,7 @@ export default function ChangeLanguageForm({ currentLanguage }: Props) {
                 control={form.control}
             />
 
-            <Button className="w-full" type="submit" isLoadingExternal={msgBar.isLoading}>
+            <Button className="w-full" type="submit" isLoadingExternal={form.formState.isSubmitting}>
                 Change language
             </Button>            
         </form>
