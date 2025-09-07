@@ -52,7 +52,7 @@ export const GetCurrentUser_Server = cache(async (forInitialPageLoad: boolean = 
 });
 
 export async function GetCurrentUserOrRedirect_Server(): Promise<JwtAccountPayload> {
-    const currentUser = await GetCurrentUserOrRedirect_Server();
+    const currentUser = await GetCurrentUser_Server();
     if (currentUser) return currentUser;
 
     redirect(HOME_ROUTE);
