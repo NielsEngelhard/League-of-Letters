@@ -22,10 +22,17 @@ export default function ChangePasswordForm() {
         setIsLoading(true);
 
         try {
-            await waitDelay(1000);
             const result = await ChangePasswordCommand(data);
-        } catch {
 
+            if (result.ok == false) {
+                globalMessageProvider.pushErrorMsg(result.errorMsg);
+                return;
+            }
+
+            const resultData = result.data;
+            globalMessageProvider.pushSuccessMsg("Updated");
+        } catch {
+            globalMessageProvider.pushErrorMsg("Server error");
         } finally {
             setIsLoading(false);
         }
