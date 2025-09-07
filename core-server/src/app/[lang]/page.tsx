@@ -8,7 +8,7 @@ import { APP_NAME } from "../global-constants";
 import WordsPlayingBlock from "@/components/general/WordsPlayingBlock";
 import WordCountPerLanguageBlock from "@/components/general/WordCountPerLanguageBlock";
 import PlayNowCtaButton from "@/components/general/PlayNowCtaButton";
-import { GetCurrentUser_Server } from "@/features/auth/current-user";
+import { Authenticate_Server } from "@/features/auth/current-user";
 
 export default async function HomePage({
   params,
@@ -18,7 +18,7 @@ export default async function HomePage({
   const { lang } = await params;
   const t = await loadTranslations(lang, ["home"]);
 
-  const currentUser = await GetCurrentUser_Server(true);
+  const currentUser = await Authenticate_Server(true);
 
   return (
     <PageBase requiresAuh={false} lang={lang}>

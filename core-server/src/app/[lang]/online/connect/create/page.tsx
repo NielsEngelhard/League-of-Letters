@@ -19,7 +19,7 @@ import LobbyJoinLink from "@/features/game/components/lobby/LobbyJoinLink";
 import CreateLobbyClient from "@/features/game/components/lobby/CreateLobbyClient";
 import AuthenticationRequiredBlock from "@/components/layout/AuthenticationRequiredBlock";
 import LobbyOptions from "@/features/game/components/lobby/LobbyOptions";
-import { GetCurrentUser_Server } from "@/features/auth/current-user";
+import { Authenticate_Server } from "@/features/auth/current-user";
 
 export default async function CreateOnlineGamePage({
   params
@@ -29,7 +29,7 @@ export default async function CreateOnlineGamePage({
     const { lang } = await params;
     const t = await loadTranslations(lang, ["beforeGame"]);
 
-    const authenticatedUser = await GetCurrentUser_Server();
+    const authenticatedUser = await Authenticate_Server();
     if (!authenticatedUser) {
         return <AuthenticationRequiredBlock lang={lang} />
     }

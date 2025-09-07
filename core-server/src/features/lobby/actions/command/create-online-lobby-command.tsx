@@ -6,13 +6,13 @@ import { generateGameId } from "@/features/game/util/game-id-generator";
 import { DbOnlineLobbyPlayer, DbOnlineLobbyWithPlayers, OnlineLobbyPlayerTable, OnlineLobbyTable } from "@/drizzle/schema";
 import { ServerResponse, ServerResponseFactory } from "@/lib/response-handling/response-factory";
 import { db } from "@/drizzle/db";
-import { GetCurrentUserOrRedirect_Server } from "@/features/auth/current-user";
+import { AuthenticateOrRedirect_Server } from "@/features/auth/current-user";
 import { DbOrTransaction } from "@/drizzle/util/transaction-util";
 import { JwtAccountPayload } from "@/features/auth/jwt/jwt-models";
 
 
 export default async function CreateOnlineLobbyCommand(preDefinedGameId?: string): Promise<ServerResponse<OnlineLobbyModel>> {
-    const currentUser = await GetCurrentUserOrRedirect_Server();
+    const currentUser = await AuthenticateOrRedirect_Server();
 
     // Check if the user already has an existing lobby
     const existingLobby = await GetExistingLobbyForUserIfExists(currentUser);

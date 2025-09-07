@@ -1,13 +1,13 @@
 "use server"
 
-import { GetCurrentUserOrRedirect_Server } from "@/features/auth/current-user";
+import { AuthenticateOrRedirect_Server } from "@/features/auth/current-user";
 import { ActiveGameTeaserModel } from "../../game-models";
 import { db } from "@/drizzle/db";
 import { and, eq } from "drizzle-orm";
 import { ActiveGameTable, GamePlayerTable } from "@/drizzle/schema";
 
 export default async function GetActiveGamesForCurrentPlayerRequest(): Promise<ActiveGameTeaserModel[]> {
-    const account = await GetCurrentUserOrRedirect_Server();
+    const account = await AuthenticateOrRedirect_Server();
     
     const games = await db
     .select({

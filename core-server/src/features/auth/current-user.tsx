@@ -12,7 +12,7 @@ import { DefaultLanguage, isSupportedLanguage, SupportedLanguage } from "../i18n
 
 // Function with 'cache' to memoize its result per request
 // set forInitialPageLoad=true when using in the page.tsx
-export const GetCurrentUser_Server = cache(async (forInitialPageLoad: boolean = false): Promise<JwtAccountPayload | null> => {
+export const Authenticate_Server = cache(async (forInitialPageLoad: boolean = false): Promise<JwtAccountPayload | null> => {
     const cookieStore = await cookies();
     const authToken = cookieStore.get(AUTH_TOKEN_COOKIE_NAME);
     const refreshToken = cookieStore.get(REFRESH_COOKIE_NAME);
@@ -51,8 +51,8 @@ export const GetCurrentUser_Server = cache(async (forInitialPageLoad: boolean = 
     return null;
 });
 
-export async function GetCurrentUserOrRedirect_Server(): Promise<JwtAccountPayload> {
-    const currentUser = await GetCurrentUser_Server();
+export async function AuthenticateOrRedirect_Server(): Promise<JwtAccountPayload> {
+    const currentUser = await Authenticate_Server();
     if (currentUser) return currentUser;
 
     redirect(HOME_ROUTE);

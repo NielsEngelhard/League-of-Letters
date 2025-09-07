@@ -4,11 +4,11 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { ChangePasswordSchema, changePasswordSchema } from "../../account-schemas"
 import TextInput from "@/components/ui/form/TextInput";
-import { withAuth } from "@/features/auth/wrapper/ServerActionWrapper";
-import ChangePasswordCommand from "../../actions/command/change-password-command";
 import Button from "@/components/ui/Button";
 import { useState } from "react";
 import { useMessageBar } from "@/components/layout/MessageBarContext";
+import { waitDelay } from "@/lib/debug-util";
+import ChangePasswordCommand from "../../actions/command/change-password-command";
 
 export default function ChangePasswordForm() {
     const [isLoading, setIsLoading] = useState(false);
@@ -21,13 +21,14 @@ export default function ChangePasswordForm() {
     async function onSubmit(data: ChangePasswordSchema) {
         setIsLoading(true);
 
-        withAuth(() => ChangePasswordCommand(data))
-        .then((result) => {
-            debugger;
-            globalMessageProvider.pushSuccessMsg("Updated");
-        }).finally(() => {
+        try {
+            await waitDelay(1000);
+            const result = await ChangePasswordCommand(data);
+        } catch {
+
+        } finally {
             setIsLoading(false);
-        })
+        }
     }
 
     return (
@@ -36,7 +37,7 @@ export default function ChangePasswordForm() {
 
             <TextInput label="New" {...form.register("newPassword")} errorMsg={form.formState.errors.newPassword?.message} />
 
-            <Button className="w-full" type="submit">
+            <Button className="w-full" type="submit" isLoadingExternal={isLoading}>
                 Change password
             </Button>
         </form>

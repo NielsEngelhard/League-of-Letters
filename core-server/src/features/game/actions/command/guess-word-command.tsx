@@ -10,7 +10,7 @@ import { TurnTrackerAlgorithm } from "../../util/algorithm/turn-tracker-algorith
 import { ServerResponse, ServerResponseFactory } from "@/lib/response-handling/response-factory";
 import { EmitGuessWordRealtimeEvent } from "@/features/realtime/realtime-api-adapter";
 import { sortDbPlayerOnPositionAndGetUserIds } from "../../util/player-sorting";
-import { GetCurrentUserOrRedirect_Server } from "@/features/auth/current-user";
+import { AuthenticateOrRedirect_Server } from "@/features/auth/current-user";
 import { getCurrentUtcUnixTimestamp_Seconds, getSecondsBetweenNowAndUnixTimestampInSeconds } from "@/lib/time-util";
 import { DbOrTransaction } from "@/drizzle/util/transaction-util";
 import { GameMapper } from "../../game-mapper";
@@ -172,7 +172,7 @@ async function getGame(gameId: string): Promise<DbActiveGameWithRoundsAndPlayers
 }
 
 async function isPlayersTurn(currentPlayer: DbGamePlayer): Promise<boolean> {
-    const currentUser = await GetCurrentUserOrRedirect_Server();
+    const currentUser = await AuthenticateOrRedirect_Server();
     
     return currentUser.accountId == currentPlayer.accountId;
 }

@@ -1,13 +1,13 @@
 "use server";
 
 import { redirect } from "next/navigation";
-import { GetCurrentUser_Server } from "../../current-user";
+import { Authenticate_Server } from "../../current-user";
 import { JWTService } from "../../jwt/jwt-service";
 import DeleteAccountById from "./delete-account-by-id-command";
 import { HOME_ROUTE } from "@/app/routes";
 
 export async function LogoutCommand(): Promise<void> {
-  const currentUser = await GetCurrentUser_Server();
+  const currentUser = await Authenticate_Server();
 
   await JWTService.clearAuthCookies();
 

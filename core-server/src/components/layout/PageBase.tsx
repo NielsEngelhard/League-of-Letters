@@ -5,7 +5,7 @@ import { cva, VariantProps } from "class-variance-authority";
 import React from "react";
 import AuthenticationRequiredBlock from "./AuthenticationRequiredBlock";
 import { SupportedLanguage } from "@/features/i18n/languages";
-import { GetCurrentUser_Server } from "@/features/auth/current-user";
+import { Authenticate_Server } from "@/features/auth/current-user";
 
 interface Props extends VariantProps<typeof pageBaseVariants> {
   lang: SupportedLanguage;
@@ -33,7 +33,7 @@ export default async function PageBase({ children, size, lang, requiresAuh = tru
   
   // Check authentication if requires auth
   if (requiresAuh) {
-    if (await GetCurrentUser_Server() == null) {
+    if (await Authenticate_Server() == null) {
       return <AuthenticationRequiredBlock lang={lang} />
     }
   }

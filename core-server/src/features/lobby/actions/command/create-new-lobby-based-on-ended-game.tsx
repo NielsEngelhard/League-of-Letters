@@ -2,7 +2,7 @@
 
 import { LANGUAGE_ROUTE, MULTIPLAYER_GAME_ROUTE } from "@/app/routes";
 import { db } from "@/drizzle/db";
-import { GetCurrentUserOrRedirect_Server } from "@/features/auth/current-user";
+import { AuthenticateOrRedirect_Server } from "@/features/auth/current-user";
 import DeleteGameByIdCommand from "@/features/game/actions/command/delete-game-by-id-command";
 import { redirect } from "next/navigation";
 import CreateOnlineLobbyCommand from "./create-online-lobby-command";
@@ -10,7 +10,7 @@ import { OnlineLobbyModel } from "../../lobby-models";
 
 // When the active game has ended, play again with everyone who still is connected - take them to new lobby with same gameid
 export default async function CreateNewLobbyBasedOnEndedGame(gameId: string): Promise<string> {
-    const account = await GetCurrentUserOrRedirect_Server();
+    const account = await AuthenticateOrRedirect_Server();
     const endedGameExists = await endedGameExist(gameId, account.accountId);
     if (!endedGameExists) return redirect(LANGUAGE_ROUTE(account.language, MULTIPLAYER_GAME_ROUTE));
 

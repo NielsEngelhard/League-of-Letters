@@ -1,6 +1,6 @@
 "use server"
 
-import { GetCurrentUserOrRedirect_Server } from "@/features/auth/current-user";
+import { AuthenticateOrRedirect_Server } from "@/features/auth/current-user";
 import { ChangePasswordSchema } from "../../account-schemas";
 import { comparePasswords, generateSalt, hashPassword } from "@/features/auth/password-hasher";
 import { db } from "@/drizzle/db";
@@ -9,7 +9,7 @@ import { eq } from "drizzle-orm";
 import { ServerResponse, ServerResponseFactory } from "@/lib/response-handling/response-factory";
 
 export default async function ChangePasswordCommand(data: ChangePasswordSchema): Promise<ServerResponse<void>> {
-    const currentUser = await GetCurrentUserOrRedirect_Server();
+    const currentUser = await AuthenticateOrRedirect_Server();
 
     const currentPasswordInfo = await GetCurrentPasswordAndSalt(currentUser.accountId);
 

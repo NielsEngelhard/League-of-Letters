@@ -6,12 +6,12 @@ import { SupportedLanguage } from "@/features/i18n/languages";
 import { loadTranslations } from "@/features/i18n/utils";
 import Image from "next/image";
 import HeaderUserClient from "./HeaderUserClient";
-import { GetCurrentUser_Server } from "@/features/auth/current-user";
+import { Authenticate_Server } from "@/features/auth/current-user";
 
 export default async function Header({ lang } : {lang: SupportedLanguage }) {
     const t = await loadTranslations(lang, ["general"]);
     
-    const currentUser = await GetCurrentUser_Server();
+    const currentUser = await Authenticate_Server();
 
     return (
         <header className="w-full h-16 fixed top-0 z-50 bg-background-secondary/80 backdrop-blur-xl border-b border-border/20 shadow-sm">

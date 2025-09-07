@@ -3,10 +3,10 @@ import { LANGUAGE_ROUTE, PICK_GAME_MODE_ROUTE } from './routes';
 import Button from '@/components/ui/Button';
 import { DefaultLanguage } from '@/features/i18n/languages';
 import { loadTranslations } from '@/features/i18n/utils';
-import { GetCurrentUser_Server } from '@/features/auth/current-user';
+import { Authenticate_Server } from '@/features/auth/current-user';
 
 export default async function NotFound() {  
-  const authenticatedUser = await GetCurrentUser_Server();  
+  const authenticatedUser = await Authenticate_Server();  
   
   const lang = authenticatedUser?.language ?? DefaultLanguage;
   const t = await loadTranslations(lang, ["home"]);
