@@ -5,10 +5,12 @@ import SelectLanguageGrid from "@/features/language/component/SelectLanguageGrid
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { changeLanguageSchema, ChangeLanguageSchema } from "../../account-schemas";
-import { useServerAction } from "@/lib/response-handling/useServerAction";
 import UpdateCurrentUserLanguage from "../../actions/command/update-current-user-language";
 import Button from "@/components/ui/Button";
 import { useAuth } from "@/features/auth/AuthContext";
+import { changePathLanguagePrefix } from "@/features/language/language-util";
+import { usePathname, useRouter } from "next/navigation";
+import { useMessageBar } from "@/components/layout/MessageBarContext";
 
 interface Props {
     currentLanguage: SupportedLanguage;
@@ -16,6 +18,9 @@ interface Props {
 
 export default function ChangeLanguageForm({ currentLanguage }: Props) {
     const { updateAccount, account } = useAuth();
+    const currentPath = usePathname();
+    const router = useRouter();
+    const msgBar = useMessageBar();
 
     const form = useForm<ChangeLanguageSchema>({
       resolver: zodResolver(changeLanguageSchema),
@@ -24,25 +29,35 @@ export default function ChangeLanguageForm({ currentLanguage }: Props) {
       }
     });
 
-    const { execute: executeChangeLanguage, isLoading } = useServerAction(
-        {
-            successMessage: "Language updated",
-            onSuccess: (data) => {
-                onSuccessfullLanguageChange(data.language);
-            }
-        }
-    );
-
     async function onSubmit(data: ChangeLanguageSchema) {
-        await executeChangeLanguage(() => UpdateCurrentUserLanguage(data));
-    }    
+        msgBar.setIsLoading(true);
+
+        UpdateCurrentUserLanguage(data)
+        .then((resp) => {
+            if (resp.ok && resp.data) {
+                onSuccessfullLanguageChange(resp.data);
+            } else {
+                throw Error();
+            }
+        })
+        .catch(() => {
+            msgBar.pushServerError();
+        })
+        .finally(() => {
+            msgBar.setIsLoading(false);
+        });
+    }
 
     function onSuccessfullLanguageChange(newLanguage: SupportedLanguage) {
         // Update in local storage
         if (account) {
             account.language = newLanguage;
             updateAccount(account);
-        }
+        }        
+
+        // Update url with new language
+        const newPath = changePathLanguagePrefix(currentPath, newLanguage);
+        router.push(newPath);
     }
     
     return (
@@ -52,7 +67,7 @@ export default function ChangeLanguageForm({ currentLanguage }: Props) {
                 control={form.control}
             />
 
-            <Button className="w-full" type="submit" isLoadingExternal={isLoading}>
+            <Button className="w-full" type="submit" isLoadingExternal={msgBar.isLoading}>
                 Change language
             </Button>            
         </form>

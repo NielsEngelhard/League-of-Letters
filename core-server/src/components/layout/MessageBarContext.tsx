@@ -15,16 +15,17 @@ type MessageBarContextType = {
   pushErrorMsg: (msg?: string) => void;
   pushSuccessMsg: (msg?: string) => void;
   pushLoadingMsg: (msg?: string) => void;
+  pushServerError: () => void;
   clearMessage: () => void;
-  isExecutingRequest: boolean;
-  setIsExecutingRequest: (val: boolean) => void;
+  isLoading: boolean;
+  setIsLoading: (val: boolean) => void;
 };
 
 const MessageBarContext = createContext<MessageBarContextType | undefined>(undefined);
 
 export function MessageBarProvider({ children }: { children: ReactNode }) {
   const [currentMessage, setCurrentMessage] = useState<MessageBarMessage | null>(null);
-  const [isExecutingRequest, setIsExecutingRequest] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   function pushMessage(msg: MessageBarMessage, durationInSeconds: number | null = 3) {
     if (!msg.type) msg.type = "information";
@@ -53,8 +54,12 @@ export function MessageBarProvider({ children }: { children: ReactNode }) {
     setCurrentMessage(null);
   }
 
+  function pushServerError() {
+    pushMessage({ msg: "Server error ", type: "error"});
+  }
+
   return (
-    <MessageBarContext.Provider value={{ currentMessage, pushMessage, clearMessage, pushErrorMsg, pushSuccessMsg, pushLoadingMsg, isExecutingRequest, setIsExecutingRequest }}>
+    <MessageBarContext.Provider value={{ currentMessage, pushMessage, clearMessage, pushErrorMsg, pushSuccessMsg, pushLoadingMsg, pushServerError, isLoading, setIsLoading }}>
       {children}
     </MessageBarContext.Provider>
   );
