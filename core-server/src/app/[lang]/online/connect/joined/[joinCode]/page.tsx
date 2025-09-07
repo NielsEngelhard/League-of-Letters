@@ -14,7 +14,7 @@ import { loadTranslations } from "@/features/i18n/utils";
 import AuthenticationRequiredBlock from "@/components/layout/AuthenticationRequiredBlock";
 import JoinedLobbyClient from "@/features/game/components/lobby/JoinedLobbyClient";
 import { GetLanguageStyle } from "@/features/language/LanguageStyles";
-import { getCurrentUserOrNull } from "@/features/auth/current-user";
+import { GetCurrentUser_Server } from "@/features/auth/current-user";
 
 export default async function JoinedOnlineGamePage({
   params
@@ -24,7 +24,7 @@ export default async function JoinedOnlineGamePage({
     const { lang, joinCode } = await params;
     const t = await loadTranslations(lang, ["beforeGame"]);
 
-    const authenticatedUser = await getCurrentUserOrNull();
+    const authenticatedUser = await GetCurrentUser_Server();
     if (!authenticatedUser) {
         return <AuthenticationRequiredBlock lang={lang} />
     }

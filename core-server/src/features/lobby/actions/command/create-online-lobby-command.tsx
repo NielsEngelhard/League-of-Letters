@@ -6,12 +6,13 @@ import { generateGameId } from "@/features/game/util/game-id-generator";
 import { DbOnlineLobbyPlayer, DbOnlineLobbyWithPlayers, OnlineLobbyPlayerTable, OnlineLobbyTable } from "@/drizzle/schema";
 import { ServerResponse, ServerResponseFactory } from "@/lib/response-handling/response-factory";
 import { db } from "@/drizzle/db";
-import { CurrentUserData, getCurrentUserOrRedirect } from "@/features/auth/current-user";
+import { GetCurrentUserOrRedirect_Server } from "@/features/auth/current-user";
 import { DbOrTransaction } from "@/drizzle/util/transaction-util";
+import { JwtAccountPayload } from "@/features/auth/jwt/jwt-models";
 
 
 export default async function CreateOnlineLobbyCommand(preDefinedGameId?: string): Promise<ServerResponse<OnlineLobbyModel>> {
-    const currentUser = await getCurrentUserOrRedirect();
+    const currentUser = await GetCurrentUserOrRedirect_Server();
 
     // Check if the user already has an existing lobby
     const existingLobby = await GetExistingLobbyForUserIfExists(currentUser);
@@ -28,7 +29,7 @@ async function ReJoinExistingLobby(existingLobby: DbOnlineLobbyWithPlayers): Pro
     return ServerResponseFactory.success<OnlineLobbyModel>(lobbyModel);    
 }
 
-async function CreateNewGame(currentUser: CurrentUserData, preDefinedGameId?: string): Promise<ServerResponse<OnlineLobbyModel>> {
+async function CreateNewGame(currentUser: JwtAccountPayload, preDefinedGameId?: string): Promise<ServerResponse<OnlineLobbyModel>> {
     const gameId = await determineGameId(preDefinedGameId);
 
     const lobby = await db.transaction(async (tx) => {
@@ -55,7 +56,7 @@ async function CreateNewGame(currentUser: CurrentUserData, preDefinedGameId?: st
     return ServerResponseFactory.success<OnlineLobbyModel>(lobbyModel);
 }
 
-async function GetExistingLobbyForUserIfExists(currentUser: CurrentUserData): Promise<DbOnlineLobbyWithPlayers | undefined> {
+async function GetExistingLobbyForUserIfExists(currentUser: JwtAccountPayload): Promise<DbOnlineLobbyWithPlayers | undefined> {
     const lobby = await db.query.OnlineLobbyTable.findFirst({
         where: (l, { eq }) => eq(l.hostAccountId, currentUser.accountId),
         with: {

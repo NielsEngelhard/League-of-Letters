@@ -1,6 +1,7 @@
 BUGS NA LAUNCH
 - Account moet beter qua account page. Het is nu een zooitje. Guest ziet allen upgrade. Language moet apart los lmz want big impact. 
 - Login/SignUp geeft geen feedback lijkt het
+- Game board op mobiel moet op 1 scherm passen lmz
 - kick player werkt niet
 - message bar is nu echt foei lelijk
 - keyboard switch toegankelijker en "enter werkend" en andere keyboard ook

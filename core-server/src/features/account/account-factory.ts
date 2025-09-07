@@ -16,12 +16,13 @@ export default class AccountFactory {
             email: email,
             salt: salt,           
             password: hashedPassword,
-            createdAt: new Date(),
-            favouriteWord: "kaas",
+            createdAt: new Date(),            
             highestScoreAchieved: 0,
             nGamesPlayed: 0,
             isGuestAccount: isGuestAccount,
-            language: language
+            language: language,     
+            refreshToken: null,
+            favouriteWord: null,   
         }
     }
 

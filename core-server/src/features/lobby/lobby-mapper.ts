@@ -2,10 +2,10 @@ import { DbOnlineLobbyPlayer, DbOnlineLobbyWithPlayers } from "@/drizzle/schema"
 import { ConnectionStatus } from "../realtime/realtime-models"
 import { OnlineLobbyModel } from "./lobby-models"
 import { GamePlayerModel } from "../game/game-models"
-import { CurrentUserData } from "../auth/current-user"
+import { JwtAccountPayload } from "../auth/jwt/jwt-models"
 
 export class OnlineLobbyMapper {
-    static CurrentUserToLobbyPlayer(currentUser: CurrentUserData, lobbyId: string, connectionStatus: ConnectionStatus = "connected"): DbOnlineLobbyPlayer {
+    static CurrentUserToLobbyPlayer(currentUser: JwtAccountPayload, lobbyId: string, connectionStatus: ConnectionStatus = "connected"): DbOnlineLobbyPlayer {
         return {
             id: undefined!,
             accountId: currentUser.accountId,

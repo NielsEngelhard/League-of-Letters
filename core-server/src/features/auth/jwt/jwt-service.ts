@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import { CreateTokenResponse, GenerateAndSetAuthCookiesResponse, JwtAccountPayload, ParseAndCheckExpireResponse } from './jwt-models';
-import { AUTH_TOKEN_COOKIE_NAME, JWT_EXPIRES_SOON_THRESHOLD_IN_MINUTES, REFRESH_COOKIE_NAME, REFRESH_TOKEN_EXPIRE_TIME_IN_DAYS } from '../auth-constants';
+import { AUTH_TOKEN_COOKIE_NAME, GUEST_USER_JWT_EXPIRE_TIME_IN_HOURS, JWT_EXPIRES_SOON_THRESHOLD_IN_MINUTES, REFRESH_COOKIE_NAME, REFRESH_TOKEN_EXPIRE_TIME_IN_DAYS, REGULAR_USER_JWT_EXPIRE_TIME_IN_HOURS } from '../auth-constants';
 import { cookies } from 'next/headers';
 import UpdateAccountRefreshTokenCommand from '../actions/command/update-account-refresh-token-command';
 
@@ -84,11 +84,9 @@ export class JWTService {
 
   static getAuthTokenExpiresInSeconds(isGuestAccount: boolean) {
     if (isGuestAccount) {
-        return 5;
-        // return 60 * 60 * GUEST_USER_JWT_EXPIRE_TIME_IN_HOURS;
+        return 60 * 60 * GUEST_USER_JWT_EXPIRE_TIME_IN_HOURS;
     } else {
-        // return 60 * 60 * REGULAR_USER_JWT_EXPIRE_TIME_IN_HOURS;
-        return 5;
+        return 60 * 60 * REGULAR_USER_JWT_EXPIRE_TIME_IN_HOURS;
     }
   }
 

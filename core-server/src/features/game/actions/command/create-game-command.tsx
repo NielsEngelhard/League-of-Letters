@@ -8,14 +8,15 @@ import { GamePlayerTable, GameRoundTable, ActiveGameTable, DbGamePlayer, GameMod
 import { GameRoundFactory } from "../../util/factories/game-round-factory";
 import { GamePlayerFactory } from "../../util/factories/game-player-factory";
 import { DbOrTransaction } from "@/drizzle/util/transaction-util";
-import { CurrentUserData, getCurrentUserOrRedirect } from "@/features/auth/current-user";
+import { GetCurrentUserOrRedirect_Server } from "@/features/auth/current-user";
 import { and, eq, inArray } from "drizzle-orm";
+import { JwtAccountPayload } from "@/features/auth/jwt/jwt-models";
 
 
 export default async function CreateGameCommand(schema: CreateGameSchema, gameId?: string, transaction?: DbOrTransaction): Promise<string> {
     const dbInstance = transaction || db;
     
-    const currentUser = await getCurrentUserOrRedirect();
+    const currentUser = await GetCurrentUserOrRedirect_Server();
 
     if (schema.gameMode == "solo") {
         AddCallerAsOnlyPlayer(schema, currentUser);
@@ -69,7 +70,7 @@ function createPlayers(schema: CreateGameSchema, gameId: string): DbGamePlayer[]
     );
 }
 
-function AddCallerAsOnlyPlayer(schema: CreateGameSchema, currentUser: CurrentUserData) {
+function AddCallerAsOnlyPlayer(schema: CreateGameSchema, currentUser: JwtAccountPayload) {
     schema.players = [
         {
             accountId: currentUser.accountId,

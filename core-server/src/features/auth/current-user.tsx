@@ -7,7 +7,8 @@ import { JwtAccountPayload } from "./jwt/jwt-models";
 import RefreshJwtToken from "./actions/command/refresh-token-command";
 import { cache } from "react";
 import { redirect } from "next/navigation";
-import { AUTH_REFRESH_ROUTE } from "@/app/routes";
+import { AUTH_REFRESH_ROUTE, HOME_ROUTE, LANGUAGE_ROUTE } from "@/app/routes";
+import { DefaultLanguage, isSupportedLanguage, SupportedLanguage } from "../i18n/languages";
 
 // Function with 'cache' to memoize its result per request
 // set forInitialPageLoad=true when using in the page.tsx
@@ -50,9 +51,31 @@ export const GetCurrentUser_Server = cache(async (forInitialPageLoad: boolean = 
     return null;
 });
 
+export async function GetCurrentUserOrRedirect_Server(): Promise<JwtAccountPayload> {
+    const currentUser = await GetCurrentUserOrRedirect_Server();
+    if (currentUser) return currentUser;
+
+    redirect(HOME_ROUTE);
+}
+
 async function RouteToAuthRefresh() {
     const pagePath = await GetPagePath();
-    redirect(AUTH_REFRESH_ROUTE(pagePath));
+    const language = getLanguageRouteSegmentOrDefault(pagePath);
+
+    redirect(LANGUAGE_ROUTE(language, AUTH_REFRESH_ROUTE(pagePath)));
+}
+
+function getLanguageRouteSegmentOrDefault(path: string): SupportedLanguage {
+  // Remove leading slashes
+  const normalized = path.replace(/^\/+/, "");
+  // Split into parts
+  const parts = normalized.split("/");
+  // Return first non-empty part if available
+  const firstParth = parts.length > 0 && parts[0] !== "" ? parts[0] : null;
+
+  const validLanguage = isSupportedLanguage(firstParth);
+
+  return validLanguage ? firstParth as SupportedLanguage : DefaultLanguage;
 }
 
 async function GetPagePath(): Promise<string> {
