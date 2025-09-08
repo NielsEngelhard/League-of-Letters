@@ -80,6 +80,7 @@ export default function GameBoard({generalTranslations, inGameTranslations, sett
                             totalRounds={game.totalRounds}
                             timePerGuess={game.nSecondsPerGuess?.toString() ?? "∞"}
                             inGameTranslations={inGameTranslations}
+                            currentPlayerUsername={players.find(p => p.accountId == currentPlayerId)?.username}
                         />
                     </div>
 

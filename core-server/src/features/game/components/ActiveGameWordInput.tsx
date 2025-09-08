@@ -114,7 +114,7 @@ export default function WordInput({ onEnter, onChange, t, disabled = false }: Pr
                     initialValue={settings.preFillGuess ? prefilledGuess : ""}
                     autoFocus={true}
                 />
-                <Button className="mt-2 w-full" variant="secondary" size="sm" onClick={onEnter}>
+                <Button className="mt-2 w-full" variant="secondary" size="md" onClick={onEnter}>
                     Guess
                 </Button>
             </div>                      
