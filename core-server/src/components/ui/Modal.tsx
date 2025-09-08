@@ -13,8 +13,8 @@ export default function Modal({ show, children, onClose }: Props) {
     }
 
     return (
-        <div className="fixed top-10 md:top-0 left-0 w-screen h-screen bg-background-secondary/80 flex items-center justify-center z-50 p-2">
-            <div className="w-full mx-2 max-w-[500px] shadow-2xl relative">
+        <div className="fixed top-0 my-2 left-0 w-screen h-screen bg-background-secondary/80 flex items-center justify-center z-[60] p-2">
+            <div className="w-full mx-2 max-w-[500px] shadow-2xl relative max-h-screen overflow-y-scroll">
                 {children}
 
                 <div className="absolute right-2 top-2">
