@@ -11,14 +11,21 @@ import { getCurrentUtcUnixTimestamp_Seconds } from "@/lib/time-util";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 import InGameTranslations from "@/features/i18n/translation-file-interfaces/InGameTranslations";
+import Button from "@/components/ui/Button";
+import { Settings } from "lucide-react";
+import LoginModal from "@/features/auth/components/LoginModal";
+import Modal from "@/components/ui/Modal";
+import { SettingsTranslations } from "@/features/i18n/translation-file-interfaces/SettingsTranslations";
 
 interface Props {
     lang: SupportedLanguage;
     generalTranslations: GeneralTranslations;
     inGameTranslations: InGameTranslations;
+    settingsTranslations: SettingsTranslations;
 }
 
-export default function GameBoard({generalTranslations, inGameTranslations}: Props) {
+export default function GameBoard({generalTranslations, inGameTranslations, settingsTranslations}: Props) {
+    const [showSettings, setShowSettings] = useState(false);
     const { game, players, setCurrentGuess, submitGuess, currentGuess, currentRound, isThisPlayersTurn, isAnimating, theWord, currentPlayerId, recalculateCurrentPlayer } = useActiveGame();
     const [initialTimeLeftForThisTurn, setInitialTimeLeftForThisTurn] = useState<number | null>(null);
 
@@ -52,56 +59,92 @@ export default function GameBoard({generalTranslations, inGameTranslations}: Pro
     return (
         <>
         {(game && currentRound) ? (
-            <div className="w-full flex flex-col items-center gap-6 max-w-2xl mx-auto">
-                
-                <InGameProgressionBar
-                    currentRound={currentRound}
-                    totalRounds={game.totalRounds}
-                    timePerGuess={game.nSecondsPerGuess?.toString() ?? "∞"}
-                    inGameTranslations={inGameTranslations}
-                />
-
-                {/* Game Grid */}
-                <div className="w-full flex flex-col items-center justify-center gap-2">
-
-                    {(currentRound.lastGuessUnixUtcTimestamp_InSeconds && initialTimeLeftForThisTurn && game.nSecondsPerGuess) && (
-                        <InGameTimer
-                            key={`${currentPlayerId}-${currentRound.currentGuessIndex}`} // Add this line
-                            timePerTurn={game.nSecondsPerGuess}
-                            initialTime={initialTimeLeftForThisTurn}
-                            onTimerEnd={recalculateCurrentPlayer}
-                            isPaused={isAnimating}
-                        />   
-                    )}
-                                    
-                    <LetterRowGrid
-                        currentGuess={currentGuess}
-                        maxNGuesses={game.nGuessesPerRound}
-                        preFilledRows={currentRound.guesses ?? []}
-                        wordLength={currentRound.wordLength}
-                    />
-                </div>
-
-                {/* Word Input OR The Word */}
-                <div className="w-full max-w-md">
-                    {!theWord ? (
-                        <ActiveGameWordInput
-                            onChange={onChangeInput}
-                            onEnter={onSubmitGuess}
-                            disabled={!isThisPlayersTurn || isAnimating}
-                            t={generalTranslations}
+            <div className="w-full flex flex-col items-center px-3 sm:px-4 md:px-6 py-2 sm:py-4 md:py-6">
+                {/* Mobile-optimized container with responsive spacing */}
+                <div className="w-full flex flex-col items-center gap-3 sm:gap-4 md:gap-6 max-w-sm sm:max-w-md md:max-w-2xl mx-auto">
+                    
+                    <div className="fixed md:relative top-2 md:top-0 w-full px-2 md:px-0 z-50">
+                        <InGameProgressionBar
+                            currentRound={currentRound}
+                            totalRounds={game.totalRounds}
+                            timePerGuess={game.nSecondsPerGuess?.toString() ?? "∞"}
+                            inGameTranslations={inGameTranslations}
                         />
-                    ) : (
-                        <div className="w-full flex flex-col items-center">
-                            <span className="text-sm text-foreground-muted">The word was:</span>
-                            <span className="text-4xl text-primary font-bold">{theWord}</span>
+                    </div>
+
+                    {/* Game Grid Section - responsive spacing */}
+                    <div className="w-full flex flex-col items-center justify-center gap-2 sm:gap-3">
+
+                        {/* Timer - smaller on mobile */}
+                        {(currentRound.lastGuessUnixUtcTimestamp_InSeconds && initialTimeLeftForThisTurn && game.nSecondsPerGuess) && (
+                            <div className="scale-90 sm:scale-100">
+                                <InGameTimer
+                                    key={`${currentPlayerId}-${currentRound.currentGuessIndex}`}
+                                    timePerTurn={game.nSecondsPerGuess}
+                                    initialTime={initialTimeLeftForThisTurn}
+                                    onTimerEnd={recalculateCurrentPlayer}
+                                    isPaused={isAnimating}
+                                />   
+                            </div>
+                        )}
+                        
+                        {/* Letter Grid - responsive sizing */}
+                        <div className="w-full flex justify-center">
+                            <div className={`${currentRound.wordLength < 8 ? "scale-80" : "scale-60"} md:scale-100 origin-top`}>
+                                <LetterRowGrid
+                                    currentGuess={currentGuess}
+                                    maxNGuesses={game.nGuessesPerRound}
+                                    preFilledRows={currentRound.guesses ?? []}
+                                    wordLength={currentRound.wordLength}
+                                />
+                            </div>
                         </div>
-                    )}
+                    </div>
+
+                    {/* Word Input Section - responsive sizing and positioning */}
+                    <div className="w-full max-w-xs sm:max-w-sm md:max-w-md mt-2 sm:mt-4">
+                        {!theWord ? (
+                            <ActiveGameWordInput
+                                onChange={onChangeInput}
+                                onEnter={onSubmitGuess}
+                                disabled={!isThisPlayersTurn || isAnimating}
+                                t={generalTranslations}
+                            />
+                        ) : (
+                            <div className="w-full flex flex-col items-center gap-1 sm:gap-2">
+                                <span className="text-xs sm:text-sm text-foreground-muted">The word was:</span>
+                                <span className="text-2xl sm:text-3xl md:text-4xl text-primary font-bold text-center break-all">
+                                    {theWord}
+                                </span>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Action buttons */}
+                    <div className="flex flex-row justify-between w-full">
+                        <div></div>
+
+                        <div className="flex flex-row gap-2">
+                            <Button variant="skeleton" size="sm" corners="square" type="button" onClick={() => setShowSettings(true)}>
+                                <Settings size={16} />
+                                {settingsTranslations.settings.title}
+                            </Button>      
+                        </div>                                          
+                    </div>
+
+                    {/* Spacer to push content up on mobile and prevent keyboard overlap */}
+                    <div className="h-4 sm:h-8 md:h-12 flex-shrink-0" />
                 </div>
             </div>
             ): (
-                <LoadingSpinner size="md" />
+                <div className="min-h-screen flex items-center justify-center">
+                    <LoadingSpinner size="md" />
+                </div>
             )}
+
+            <Modal show={showSettings} onClose={() => setShowSettings(false)}>
+                <SettingsCard t={settingsTranslations} />
+            </Modal>
         </>
     );
 }
