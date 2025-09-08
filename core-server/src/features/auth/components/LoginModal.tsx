@@ -2,7 +2,6 @@
 
 import Card from "@/components/ui/card/Card";
 import { CircleX } from "lucide-react";
-import { useState } from "react";
 import { useAuth } from "@/features/auth/AuthContext";
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 import { SupportedLanguage } from "@/features/i18n/languages";
@@ -23,7 +22,6 @@ export enum LoginModalState {
 }
 
 export default function LoginModal({ t, lang }: Props) {
-    const [modalState, setModalState] = useState(LoginModalState.Login);
     const { loginModalState, setLoginModalState } = useAuth();
 
     if (loginModalState == LoginModalState.Hidden) {
@@ -33,20 +31,16 @@ export default function LoginModal({ t, lang }: Props) {
     return (
         <div className="fixed top-0 left-0 w-screen h-screen bg-background-secondary/80 flex items-center justify-center">
             <Card className="w-full mx-2 max-w-[500px] shadow-2xl relative" includeSpacing={true}>
-                {modalState == LoginModalState.Login && (
-                    <LoginModalLoginContent
-                        t={t}
-                        onShowContinueAsGuest={() => setModalState(LoginModalState.ContinueAsGuest)}
-                        onShowSignUp={() => setModalState(LoginModalState.Signup)}
-                    />
+                {loginModalState == LoginModalState.Login && (
+                    <LoginModalLoginContent t={t} />
                 )}
 
-                {modalState == LoginModalState.Signup && (
-                    <LoginModalSignUpContent onBackToLogin={() => setModalState(LoginModalState.Login)} t={t} defaultLanguage={lang} />
+                {loginModalState == LoginModalState.Signup && (
+                    <LoginModalSignUpContent t={t} defaultLanguage={lang} />
                 )}
 
-                {modalState == LoginModalState.ContinueAsGuest && (
-                    <LoginModalContinueAsGuestContent onBackToLogin={() => setModalState(LoginModalState.Login)} t={t} lang={lang} />
+                {loginModalState == LoginModalState.ContinueAsGuest && (
+                    <LoginModalContinueAsGuestContent t={t} lang={lang} />
                 )}                                
 
                 <div className="absolute right-2 top-2">

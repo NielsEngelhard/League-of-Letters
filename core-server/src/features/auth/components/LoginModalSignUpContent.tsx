@@ -5,14 +5,17 @@ import Button from "@/components/ui/Button";
 import DefaultCardHeader from "@/components/ui/card/DefaultCardHeader";
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 import { SupportedLanguage } from "@/features/i18n/languages";
+import { useAuth } from "../AuthContext";
+import { LoginModalState } from "./LoginModal";
 
 interface Props {
-    onBackToLogin: () => void;
     t: GeneralTranslations;
     defaultLanguage: SupportedLanguage;
 }
 
-export default function LoginModalSignUpContent({ onBackToLogin, t, defaultLanguage }: Props) {
+export default function LoginModalSignUpContent({ t, defaultLanguage }: Props) {
+    const { setLoginModalState } = useAuth();
+
     return (
         <>
         <DefaultCardHeader
@@ -23,7 +26,7 @@ export default function LoginModalSignUpContent({ onBackToLogin, t, defaultLangu
 
         <CardContent>
             <SignUpForm t={t} defaultLanguage={defaultLanguage} />
-            <Button variant="skeleton" className="w-full" onClick={onBackToLogin}>
+            <Button variant="skeleton" className="w-full" onClick={() => setLoginModalState(LoginModalState.Login)}>
                 <LogIn className="w-4 h-4" />
                 {t.login.login.backToLoginButton}
             </Button>                

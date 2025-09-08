@@ -4,14 +4,16 @@ import Button from "@/components/ui/Button";
 import LoginForm from "./form/LoginForm";
 import DefaultCardHeader from "@/components/ui/card/DefaultCardHeader";
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
+import { LoginModalState } from "./LoginModal";
+import { useAuth } from "../AuthContext";
 
 interface Props {
-    onShowSignUp: () => void;
-    onShowContinueAsGuest: () => void;
     t: GeneralTranslations;
 }
 
-export default function LoginModalLoginContent({ onShowSignUp, onShowContinueAsGuest, t }: Props) {
+export default function LoginModalLoginContent({ t }: Props) {
+    const { setLoginModalState } = useAuth();
+
     return (
         <>
             <DefaultCardHeader
@@ -28,7 +30,7 @@ export default function LoginModalLoginContent({ onShowSignUp, onShowContinueAsG
                         <Button 
                             variant="skeleton" 
                             className="w-full flex items-center justify-center gap-2" 
-                            onClick={onShowContinueAsGuest}
+                            onClick={() => setLoginModalState(LoginModalState.ContinueAsGuest)}
                         >
                             <HatGlasses className="w-4 h-4" />
                             {t.login.login.guestButton}
@@ -37,7 +39,7 @@ export default function LoginModalLoginContent({ onShowSignUp, onShowContinueAsG
                         <Button 
                             variant="secondary" 
                             className="w-full flex items-center justify-center gap-2" 
-                            onClick={onShowSignUp}
+                            onClick={() => setLoginModalState(LoginModalState.Signup)}
                         >
                             <UserPlus className="w-4 h-4" />
                             {t.login.login.signUpButton}

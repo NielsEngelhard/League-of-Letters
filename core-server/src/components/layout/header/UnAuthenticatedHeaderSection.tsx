@@ -21,7 +21,7 @@ export default function UnauthenticatedHeaderSection({ t }: { t: GeneralTranslat
                 className="px-6 py-2.5 font-semibold transition-all duration-300 hover:scale-105"
             >
                 <Play className="w-4 h-4" />
-                <span className="flex items-center gap-2">
+                <span className="items-center gap-2 hidden md:flex">
                     {t.startButton}
                 </span>
             </Button>
@@ -33,7 +33,7 @@ export default function UnauthenticatedHeaderSection({ t }: { t: GeneralTranslat
                 className="px-6 py-2.5 font-semibold transition-all duration-300 hover:scale-105"
             >
                 <HatGlasses className="w-4 h-4" />
-                <span className="flex items-center gap-2">
+                <span className="items-center gap-2 hidden md:flex">
                     {t.login.login.guestButton}
                 </span>
             </Button>            

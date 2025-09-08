@@ -5,14 +5,17 @@ import GuestLoginForm from "./form/GuestLoginForm";
 import DefaultCardHeader from "@/components/ui/card/DefaultCardHeader";
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 import { SupportedLanguage } from "@/features/i18n/languages";
+import { useAuth } from "../AuthContext";
+import { LoginModalState } from "./LoginModal";
 
 interface Props {
-    onBackToLogin: () => void;
     t: GeneralTranslations;
     lang: SupportedLanguage;
 }
 
-export default function LoginModalContinueAsGuestContent({ onBackToLogin, t, lang }: Props) {
+export default function LoginModalContinueAsGuestContent({ t, lang }: Props) {
+    const { setLoginModalState } = useAuth();
+
     return (
         <>
         <DefaultCardHeader
@@ -23,7 +26,7 @@ export default function LoginModalContinueAsGuestContent({ onBackToLogin, t, lan
 
         <CardContent>
             <GuestLoginForm lang={lang} t={t} />
-            <Button variant="skeleton" className="w-full" onClick={onBackToLogin}>
+            <Button variant="skeleton" className="w-full" onClick={() => setLoginModalState(LoginModalState.Login)}>
                 <LogIn className="w-4 h-4" />
                 {t.login.login.backToLoginButton}
             </Button>                
