@@ -49,7 +49,8 @@ export default function ChangeLanguageForm({ currentLanguage, t }: Props) {
             btnTxt={t.profile.updateLanguage.button}
         >
             <SelectLanguageGrid
-                name={t.profile.updateLanguage.title}
+
+                name="language"
                 control={form.control}
             />        
         </FormBase>
