@@ -85,7 +85,7 @@ export default function ToastNotification() {
     if (!msg) return null;
 
     return (
-        <div className="fixed top-4 right-4 z-[100] pointer-events-none">
+        <div className="fixed top-4 right-4 z-[200] pointer-events-none">
             <div 
                 className={`
                     pointer-events-auto transform transition-all duration-300 ease-out
