@@ -38,13 +38,19 @@ echo "✅ All files exist locally"
 echo "- Testing SSH connection..."
 ssh_cmd "echo 'SSH connection successful'"
 
-echo "- ../Deploy docker-compose.yml (copy)"
+# Create the required directories on the remote server
+echo "- Creating remote directories for Certbot and Nginx..."
+ssh_cmd "mkdir -p $REMOTE_DIR/certbot/conf"
+ssh_cmd "mkdir -p $REMOTE_DIR/certbot/www"
+echo "✅ Directories created"
+
+echo "- Deploying docker-compose.yml (copy)"
 scp_cmd -v ../docker-compose.yml "$DROPLET_USER@$DROPLET_IP:$REMOTE_DIR/"
 
-echo "- Deploy docker-compose.yml .env file (copy)"
+echo "- Deploying .env file (copy)"
 scp_cmd ../.env "$DROPLET_USER@$DROPLET_IP:$REMOTE_DIR/"
 
-echo "- Deploy env directory (copy)"
+echo "- Deploying env directory (copy)"
 scp_cmd -r ../env/ "$DROPLET_USER@$DROPLET_IP:$REMOTE_DIR/"
 
 echo "- Apply Docker Compose changes"

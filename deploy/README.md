@@ -23,6 +23,9 @@ The droplet-prod-deploy.bash script does some automated steps:
 ### One time setup of server 
 - run init-server.bash. This installs all needed things on the server like nginx and docker (compose).
 
+You need to get the Nginx container running on port 80 to allow Certbot to verify your domain. However, Nginx will fail to start the HTTPS block if the certificate files don't exist. To bypass this, we will use a temporary, self-signed certificate. Generate dummy certificates: From your project directory on the droplet, run this command to generate a temporary certificate.
+``` sudo openssl req -x509 -nodes -newkey rsa:4096 -days 1 -keyout ~/certbot/conf/privkey.pem -out ~/certbot/conf/fullchain.pem -subj "/CN=league-of-letters.online"```
+
 ### Connect to Droplet
 - Create SSH key
 - Add in DigitalOcean the public key you just generated (see article on what and how)
