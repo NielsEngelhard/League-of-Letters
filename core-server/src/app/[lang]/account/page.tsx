@@ -19,7 +19,7 @@ export default async function AccountPage({
   params: Promise<{ lang: SupportedLanguage }>
 }) {
     const { lang } = await params;
-    const t = await loadTranslations(lang, ["settings"]);
+    const t = await loadTranslations(lang, ["settings", "general"]);
 
     const privateAccount = await GetCurrentPrivateAccount();
     if (!privateAccount) redirect(HOME_ROUTE);
@@ -46,8 +46,12 @@ export default async function AccountPage({
             {!privateAccount.isGuest ? (
                 <AccountCard t={t.settings} lang={lang} account={privateAccount} />
             ) : (
-                <DefaultCard title={t.settings.upgradeGuestAccount.title} description={t.settings.upgradeGuestAccount.title} Icon={Flame}>
-                    <UpgradeGuestAccountForm t={t.settings} currentLanguage={privateAccount.language} />
+                <DefaultCard title={t.settings.upgradeGuestAccount.title} description={t.settings.upgradeGuestAccount.description} Icon={Flame}>
+                    <UpgradeGuestAccountForm
+                        generalTranslations={t.general}
+                        settingsTranslations={t.settings}
+                        currentLanguage={privateAccount.language}
+                    />
                 </DefaultCard>
             )}
         </PageBase>

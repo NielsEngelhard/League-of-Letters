@@ -6,12 +6,11 @@ import InfoBanner from "@/components/ui/InfoBanner";
 import Seperator from "@/components/ui/Seperator";
 import StatisticHighlight from "@/components/ui/StatisticHighlight";
 import { SupportedLanguage } from "@/features/i18n/languages";
-import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 import { GetLanguageStyle } from "@/features/language/LanguageStyles";
 import { Calendar1, User, Crown, UserCheck, BarChart3, Clock, Settings } from "lucide-react";
 import { PrivateAccountModel } from "../account-models";
-import LogoutButton from "./LogoutButton";
 import { SettingsTranslations } from "@/features/i18n/translation-file-interfaces/SettingsTranslations";
+import LogoutButton from "@/features/auth/components/LogoutButton";
 
 interface Props {
     t: SettingsTranslations;

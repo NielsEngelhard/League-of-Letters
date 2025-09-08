@@ -4,6 +4,7 @@ import Button from "@/components/ui/Button"
 import { useAuth } from "@/features/auth/AuthContext"
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations"
 import HeaderLanguagePicker from "./HeaderLanguagePicker";
+import { HatGlasses, Play } from "lucide-react";
 
 export default function UnauthenticatedHeaderSection({ t }: { t: GeneralTranslations }) {
     const { setShowLoginModal } = useAuth();
@@ -18,10 +19,23 @@ export default function UnauthenticatedHeaderSection({ t }: { t: GeneralTranslat
                 onClick={() => setShowLoginModal(true)}
                 className="px-6 py-2.5 font-semibold transition-all duration-300 hover:scale-105"
             >
+                <Play className="w-4 h-4" />
                 <span className="flex items-center gap-2">
                     {t.startButton}
                 </span>
             </Button>
+
+            <Button
+                variant="skeleton" 
+                size="sm" 
+                onClick={() => setShowLoginModal(true)}
+                className="px-6 py-2.5 font-semibold transition-all duration-300 hover:scale-105"
+            >
+                <HatGlasses className="w-4 h-4" />
+                <span className="flex items-center gap-2">
+                    {t.login.login.guestButton}
+                </span>
+            </Button>            
         </div>        
     )
 }

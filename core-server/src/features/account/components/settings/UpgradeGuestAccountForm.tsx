@@ -9,11 +9,12 @@ import TextInput from "@/components/ui/form/TextInput";
 import SelectLanguageGrid from "@/features/language/component/SelectLanguageGrid";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import { SettingsTranslations } from "@/features/i18n/translation-file-interfaces/SettingsTranslations";
-import { useRouter } from "next/router";
 import { PublicAccountModel } from "../../account-models";
 import { useAuth } from "@/features/auth/AuthContext";
+import { useRouter } from "next/navigation";
+import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 
-export default function UpgradeGuestAccountForm({ currentLanguage, t }: { currentLanguage: SupportedLanguage, t: SettingsTranslations }) {
+export default function UpgradeGuestAccountForm({ currentLanguage, settingsTranslations, generalTranslations }: { currentLanguage: SupportedLanguage, settingsTranslations: SettingsTranslations, generalTranslations: GeneralTranslations }) {
    const router = useRouter();
    const { updateAccount } = useAuth();
 
@@ -30,12 +31,12 @@ export default function UpgradeGuestAccountForm({ currentLanguage, t }: { curren
     }    
 
     return (
-        <FormBase form={form}  onSubmit={UpgradeGuestAccountCommand} btnTxt={t.upgradeGuestAccount.buttonText} onSuccess={onSuccessfullAccountUpgrade}>
-            <TextInput label="Username" {...form.register("username")} errorMsg={form.formState.errors.username?.message} />
+        <FormBase form={form}  onSubmit={UpgradeGuestAccountCommand} btnTxt={settingsTranslations.upgradeGuestAccount.buttonText} onSuccess={onSuccessfullAccountUpgrade}>
+            <TextInput label={generalTranslations.login.signUp.usernameLabel} {...form.register("username")} errorMsg={form.formState.errors.username?.message} />
 
-            <TextInput label="Email" {...form.register("email")} errorMsg={form.formState.errors.email?.message} />
+            <TextInput label={generalTranslations.login.signUp.emailLabel} {...form.register("email")} errorMsg={form.formState.errors.email?.message} />
 
-            <TextInput label={t.upgradeGuestAccount.passwordLabel} {...form.register("password")} errorMsg={form.formState.errors.password?.message} type="password" />
+            <TextInput label={generalTranslations.login.signUp.passwordLabel} {...form.register("password")} errorMsg={form.formState.errors.password?.message} type="password" />
 
             <SelectLanguageGrid
                 name="language"

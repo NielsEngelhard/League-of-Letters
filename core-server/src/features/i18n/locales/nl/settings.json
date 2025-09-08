@@ -77,7 +77,7 @@
         }
     },
     "upgradeGuestAccount": {
-      "title": "Volwaardig lid worden!",
+      "title": "Volwaardig lid worden",
       "description": "Wordt gratis lid en zet je gast sessie om naar een echt account!",
       "passwordLabel": "Wachtwoord",
       "buttonText": "Account upgraden"

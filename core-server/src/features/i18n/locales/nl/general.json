@@ -37,7 +37,7 @@
         },
         "guest": {
             "title": "Doorgaan als Gast",
-            "description": "Spring er snel in met een tijdelijk account",
+            "description": "Maak een tijdelijke gastsessie",
             "createGuestSessionButton": "Gastsessie aanmaken",
             "guestDisclaimer": "24-uurs gastsessie. Voortgang wordt niet opgeslagen, en herverbinden is beperkt."
         }

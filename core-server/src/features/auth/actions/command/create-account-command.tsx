@@ -1,16 +1,17 @@
 "use server";
 
 import z from "zod";
-import { SignUpSchema, signUpSchema } from "../../../account/account-schemas";
 import { AccountSettingsTable, AccountTable, DbAccount, DbAccountSettings } from "@/drizzle/schema";
 import { eq, or } from "drizzle-orm";
 import { db } from "@/drizzle/db";
 import GenerateRandomUsername from "../../../account/actions/command/generate-random-username";
 import AccountFactory from "../../../account/account-factory";
+import { SignUpSchema, signUpSchema } from "../../auth-schemas";
+import { ServerResponse, ServerResponseFactory } from "@/lib/response-handling/response-factory";
 
-export default async function CreateAccountCommand(unsafeData: z.infer<typeof signUpSchema>) {
+export default async function CreateAccountCommand(unsafeData: z.infer<typeof signUpSchema>): Promise<ServerResponse<void>> {
     const { success, data } = signUpSchema.safeParse(unsafeData);
-    if (!success) return "Login failed";
+    if (!success) return ServerResponseFactory.error("Invalid data");
 
     if (!data.username || data.username == "") data.username = GenerateRandomUsername();
 
@@ -23,21 +24,19 @@ export default async function CreateAccountCommand(unsafeData: z.infer<typeof si
         .then(rows => rows[0]);
 
     if (existingUserByEmail) {
-        if (existingUserByEmail.email == data.email) return "Email address is already in use";
-        if (existingUserByEmail.username != "" && existingUserByEmail.username == data.username) return "Username already taken";
+        if (existingUserByEmail.email == data.email) return ServerResponseFactory.error("Email address is already in use");
+        if (existingUserByEmail.username != "" && existingUserByEmail.username == data.username) return ServerResponseFactory.error("Username is already in use");
     }
     
     try {
- 
-    
         const account = await createDatabaseRecords(data);        
-        if (!account) return "Unable to create account"; 
+        if (!account) return ServerResponseFactory.error("Unable to create account");
     } catch (ex) {
         console.log(ex);
-        return "Something went wrong while creating your account";
+        return ServerResponseFactory.error("Unable to create account");
     }
 
-    return undefined;    
+    return ServerResponseFactory.success(undefined);
 }
 
 async function createDatabaseRecords(data: SignUpSchema): Promise<DbAccount> {

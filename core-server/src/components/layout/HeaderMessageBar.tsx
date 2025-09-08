@@ -11,7 +11,7 @@ const getConfig = (status: GlobalMsgType) => {
                 bg: 'bg-success/10',
                 color: 'text-success',
                 Icon: Check,
-                text: 'Successfully executed!'
+                text: 'Successfully'
             };
         case 'loading':
             return {
@@ -25,7 +25,7 @@ const getConfig = (status: GlobalMsgType) => {
                 bg: 'bg-error/10',
                 color: 'text-error',
                 Icon: CircleX,
-                text: 'Something went wrong...'
+                text: 'Error'
             };
         case 'live-connected':
             return {

@@ -1,7 +1,7 @@
 import { CardContent } from "@/components/ui/card/card-children";
 import { HatGlasses, LogIn } from "lucide-react";
 import Button from "@/components/ui/Button";
-import GuestLoginForm from "../GuestLoginForm";
+import GuestLoginForm from "./form/GuestLoginForm";
 import DefaultCardHeader from "@/components/ui/card/DefaultCardHeader";
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 import { SupportedLanguage } from "@/features/i18n/languages";
@@ -18,7 +18,7 @@ export default function LoginModalContinueAsGuestContent({ onBackToLogin, t, lan
         <DefaultCardHeader
             Icon={HatGlasses}
             title={t.login.guest.title}
-            description={t.login.guest.description}>
+            description={t.login.guest.guestDisclaimer}>
         </DefaultCardHeader>
 
         <CardContent>

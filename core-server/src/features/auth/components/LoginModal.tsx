@@ -4,18 +4,18 @@ import Card from "@/components/ui/card/Card";
 import { CircleX } from "lucide-react";
 import { useState } from "react";
 import { useAuth } from "@/features/auth/AuthContext";
-import LoginModalLoginContent from "./LoginModalLoginContent";
-import LoginModalContinueAsGuestContent from "./LoginModalContinueAsGuestContent";
-import LoginModalSignUpContent from "./LoginModalSignUpContent";
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 import { SupportedLanguage } from "@/features/i18n/languages";
+import LoginModalLoginContent from "./LoginModalLoginContent";
+import LoginModalSignUpContent from "./LoginModalSignUpContent";
+import LoginModalContinueAsGuestContent from "./LoginModalContinueAsGuestContent";
 
 interface Props {
     lang: SupportedLanguage;
     t: GeneralTranslations;
 }
 
-enum LoginModalState {
+export enum LoginModalState {
     Login,
     Signup,
     ContinueAsGuest
@@ -41,7 +41,7 @@ export default function LoginModal({ t, lang }: Props) {
                 )}
 
                 {modalState == LoginModalState.Signup && (
-                    <LoginModalSignUpContent onBackToLogin={() => setModalState(LoginModalState.Login)} t={t} />
+                    <LoginModalSignUpContent onBackToLogin={() => setModalState(LoginModalState.Login)} t={t} defaultLanguage={lang} />
                 )}
 
                 {modalState == LoginModalState.ContinueAsGuest && (

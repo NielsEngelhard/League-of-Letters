@@ -2,12 +2,11 @@
 
 import { z } from 'zod';
 import { createContext, useState, ReactNode, useContext, useEffect } from 'react';
-import { GuestLoginSchema, loginSchema, SettingsSchema } from '../account/account-schemas';
+import { SettingsSchema } from '../account/account-schemas';
 import LoginCommand from './actions/command/login-command';
 import { PublicAccountModel } from '../account/account-models';
-import CreateGuestSessionCommand from './actions/command/create-guest-session-command';
-import { ServerResponse } from '@/lib/response-handling/response-factory';
 import { LogoutCommand } from './actions/command/logout-command';
+import { loginSchema } from './auth-schemas';
 
 const DEFAULT_SETTINGS: SettingsSchema = {
   keyboardInput: "on-screen-keyboard",
@@ -24,14 +23,11 @@ type AuthContextType = {
   account: PublicAccountModel | null;
   settings: SettingsSchema;
   isLoggedIn: boolean;
-  isLoading: boolean;  
   showLoginModal: boolean;
 
   guestSessionTimeRemaining: string | null;
 
   clearAccountData: () => void;
-  login: (data: z.infer<typeof loginSchema>) => Promise<string | undefined>;
-  loginWithGuestAccount: (schema: GuestLoginSchema) => Promise<string | undefined>;
   setShowLoginModal: (newValue: boolean) => void;
   setSettingsOnClient: (s: SettingsSchema) => void;
   updateAccount: (data: PublicAccountModel) => void;
@@ -41,7 +37,6 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [account, setAccount] = useState<PublicAccountModel | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
   const [showLoginModal, setShowLoginModal] = useState(false);
 
   const [guestSessionTimeRemaining, setGuestSessionTimeRemaining] = useState<string | null>(null);
@@ -57,8 +52,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } catch (error) {
       console.error('Failed to parse stored account:', error);
       localStorage.removeItem(ACCOUNT_LOCALSTORAGE_KEY);
-    } finally {
-      setIsLoading(false);
     }
   }, []);
 
@@ -105,50 +98,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const login = async (data: z.infer<typeof loginSchema>): Promise<string | undefined> => {
-    setIsLoading(true);
-    try {
-      const loginResponse = await LoginCommand(data);
-      handleLoginResponse(loginResponse);      
-      return loginResponse.errorMsg; // Success, no error message
-    } catch (error) {
-      console.error('Login failed:', error);
-      return 'Login failed due to an unexpected error';
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   async function updateAccount(data: PublicAccountModel) {
     setAccount(data);
     localStorage.setItem(ACCOUNT_LOCALSTORAGE_KEY, JSON.stringify(data));
-  }  
-
-  function handleLoginResponse(loginResponse: ServerResponse<PublicAccountModel>) {
-      if (!loginResponse.ok) {
-        return loginResponse.errorMsg;
-      }
-
-      const responseData: PublicAccountModel = loginResponse.data!;
-          
-      setAccount(responseData);
-
-      setShowLoginModal(false);    
+    setShowLoginModal(false);     
   }
-
-  const loginWithGuestAccount = async (schema: GuestLoginSchema) => {
-    setIsLoading(true);
-    try {
-      const guestLoginResponse = await CreateGuestSessionCommand(schema);
-      handleLoginResponse(guestLoginResponse);      
-      return undefined; // Success, no error message
-    } catch (error) {
-      console.error('Login failed:', error);
-      return 'Login failed due to an unexpected error';
-    } finally {
-      setIsLoading(false);
-    }
-  } 
 
   const setSettingsOnClient = (updatedSettings: SettingsSchema) => {
     setAccount(prev => {
@@ -172,13 +126,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     <AuthContext.Provider value={{ 
       account,
       isLoggedIn: !!account,
-      isLoading,
       clearAccountData, 
-      login,
       setShowLoginModal,
       showLoginModal,
       settings: account?.settings ?? DEFAULT_SETTINGS,
-      loginWithGuestAccount,
       setSettingsOnClient,
       guestSessionTimeRemaining,
       updateAccount

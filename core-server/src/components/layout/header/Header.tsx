@@ -1,12 +1,12 @@
 import { HOME_ROUTE, LANGUAGE_ROUTE, PICK_GAME_MODE_ROUTE } from "@/app/routes";
 import Link from "next/link";
 import WebSocketStatusIndicator from "../WebSocketStatusIndicator";
-import LoginModal from "@/features/account/components/login-modal/LoginModal";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import { loadTranslations } from "@/features/i18n/utils";
 import Image from "next/image";
 import HeaderUserClient from "./HeaderUserClient";
 import { Authenticate_Server } from "@/features/auth/current-user";
+import LoginModal from "@/features/auth/components/LoginModal";
 
 export default async function Header({ lang } : {lang: SupportedLanguage }) {
     const t = await loadTranslations(lang, ["general"]);

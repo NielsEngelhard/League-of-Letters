@@ -47,7 +47,7 @@ export default function FormBase<TFormData extends FieldValues, TResponseData = 
   };
 
   return (
-    <form className="space-y-8" onSubmit={form.handleSubmit(handleSubmit)}>
+    <form className="space-y-4" onSubmit={form.handleSubmit(handleSubmit)}>
       {children}
       
       <Button
