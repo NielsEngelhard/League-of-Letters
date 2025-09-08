@@ -2,11 +2,12 @@ import React from "react"
 
 interface Props {
     children: React.ReactElement;
+    classes?: string;
 }
 
-export default function PopupCard({ children }: Props) {
+export default function PopupCard({ children, classes }: Props) {
     return (
-        <div className="w-full bg-background-secondary rounded-2xl p-4 border border-gray-100 shadow-sm">
+        <div className={`w-full bg-background-secondary md:rounded-2xl p-4 border-1 border-border shadow-sm ${classes}`}>
             {children}
         </div>        
     )

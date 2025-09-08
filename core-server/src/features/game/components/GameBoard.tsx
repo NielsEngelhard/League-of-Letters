@@ -1,7 +1,6 @@
 import LetterRowGrid from "@/features/word/components/LetterRowGrid";
 import ActiveGameWordInput from "./ActiveGameWordInput";
 import { useActiveGame } from "./active-game-context";
-import InGamePlayerBar from "./in-game/InGamePlayersBar";
 import InGameProgressionBar from "./in-game/InGameProgressionBar";
 import LoadingSpinner from "@/components/ui/animation/LoadingSpinner";
 import SettingsCard from "@/features/account/components/SettingsCard";
@@ -12,8 +11,7 @@ import { SupportedLanguage } from "@/features/i18n/languages";
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 import InGameTranslations from "@/features/i18n/translation-file-interfaces/InGameTranslations";
 import Button from "@/components/ui/Button";
-import { Settings } from "lucide-react";
-import LoginModal from "@/features/auth/components/LoginModal";
+import { Keyboard, Settings } from "lucide-react";
 import Modal from "@/components/ui/Modal";
 import { SettingsTranslations } from "@/features/i18n/translation-file-interfaces/SettingsTranslations";
 
@@ -56,6 +54,21 @@ export default function GameBoard({generalTranslations, inGameTranslations, sett
         return timePerTurn - timePastForThisTurn;
     }
 
+    function onSwitchKeyboard() {
+        
+    }
+
+    function getMobileScale(): string {
+        if (!currentRound) return "scale-100";
+
+        if (currentRound.wordLength >= 10) return "scale-50";
+        if (currentRound.wordLength >= 9) return "scale-60";
+        if (currentRound.wordLength >= 8) return "scale-70";
+        if (currentRound.wordLength >= 7) return "scale-80";
+        if (currentRound.wordLength >= 6) return "scale-90";
+
+        return "scale-100";
+    }
     return (
         <>
         {(game && currentRound) ? (
@@ -63,7 +76,7 @@ export default function GameBoard({generalTranslations, inGameTranslations, sett
                 {/* Mobile-optimized container with responsive spacing */}
                 <div className="w-full flex flex-col items-center gap-3 sm:gap-4 md:gap-6 max-w-sm sm:max-w-md md:max-w-2xl mx-auto">
                     
-                    <div className="fixed md:relative top-2 md:top-0 w-full px-2 md:px-0 z-50">
+                    <div className="fixed md:relative top-0 w-full z-50">
                         <InGameProgressionBar
                             currentRound={currentRound}
                             totalRounds={game.totalRounds}
@@ -73,11 +86,11 @@ export default function GameBoard({generalTranslations, inGameTranslations, sett
                     </div>
 
                     {/* Game Grid Section - responsive spacing */}
-                    <div className="w-full flex flex-col items-center justify-center gap-2 sm:gap-3">
+                    <div className={`w-full flex flex-col items-center justify-center gap-2 sm:gap-3 ${getMobileScale()} md:scale-100 origin-top`}>
 
                         {/* Timer - smaller on mobile */}
                         {(currentRound.lastGuessUnixUtcTimestamp_InSeconds && initialTimeLeftForThisTurn && game.nSecondsPerGuess) && (
-                            <div className="scale-90 sm:scale-100">
+                            <div className="w-full">
                                 <InGameTimer
                                     key={`${currentPlayerId}-${currentRound.currentGuessIndex}`}
                                     timePerTurn={game.nSecondsPerGuess}
@@ -90,7 +103,7 @@ export default function GameBoard({generalTranslations, inGameTranslations, sett
                         
                         {/* Letter Grid - responsive sizing */}
                         <div className="w-full flex justify-center">
-                            <div className={`${currentRound.wordLength < 8 ? "scale-80" : "scale-60"} md:scale-100 origin-top`}>
+                            <div className={``}>
                                 <LetterRowGrid
                                     currentGuess={currentGuess}
                                     maxNGuesses={game.nGuessesPerRound}
@@ -122,14 +135,15 @@ export default function GameBoard({generalTranslations, inGameTranslations, sett
 
                     {/* Action buttons */}
                     <div className="flex flex-row justify-between w-full">
-                        <div></div>
+                        <Button variant="skeleton" size="sm" corners="square" type="button" onClick={onSwitchKeyboard}>
+                            <Keyboard size={16} />
+                            Switch keyboard
+                        </Button>
 
-                        <div className="flex flex-row gap-2">
-                            <Button variant="skeleton" size="sm" corners="square" type="button" onClick={() => setShowSettings(true)}>
-                                <Settings size={16} />
-                                {settingsTranslations.settings.title}
-                            </Button>      
-                        </div>                                          
+                        <Button variant="skeleton" size="sm" corners="square" type="button" onClick={() => setShowSettings(true)}>
+                            <Settings size={16} />
+                            {settingsTranslations.settings.title}
+                        </Button>                                          
                     </div>
 
                     {/* Spacer to push content up on mobile and prevent keyboard overlap */}
