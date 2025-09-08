@@ -21,7 +21,7 @@ export default function WordInput({ t, disabled = false }: Props) {
     const [keyStates, setKeyStates] = useState<Map<string, LetterState>>(new Map());
     
     const { settings } = useAuth();
-    const { currentRound, currentGuess, setCurrentGuess, submitGuess } = useActiveGame();
+    const { currentRound, setCurrentGuess, submitGuess } = useActiveGame();
     const [prefilledGuess, setPrefilledGuess] = useState<string>("");
 
     // Reset when keyboard input methods changes
@@ -52,7 +52,7 @@ export default function WordInput({ t, disabled = false }: Props) {
 
     function onKeyPress(keyboardKey: string) {
         setCurrentGuess(prev => {
-            if (prev.length >= (currentRound?.wordLength ?? 1)) return "";
+            if (prev.length >= (currentRound?.wordLength ?? 1)) return prev;
 
             return prev + keyboardKey;
         });        
@@ -134,12 +134,11 @@ export default function WordInput({ t, disabled = false }: Props) {
         )
     } else if (settings.keyboardInput == "native-mobile") {
         return (
-            <div>
+            <MobileKeyboardLogger onKeyboardEvent={onKeyboardLog}>
                 <div className="p-4 text-foreground/80 bg-background-secondary rounded border-2 border-dashed border-border font-semibold text-center">
                     Mobile Keyboard
-                </div>            
-                <MobileKeyboardLogger onKeyboardEvent={onKeyboardLog} />
-            </div> 
+                </div>
+            </MobileKeyboardLogger>
         )
     } else {
         return (

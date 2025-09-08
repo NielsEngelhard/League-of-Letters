@@ -91,7 +91,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
 
   async function submitGuess(): Promise<void> {
     if (!game || !currentRound) return;
-    if (currentGuessRef.current?.length != currentRound.wordLength) throw Error("GUESS LENGTH DOES NOT MATCH");
+    if (currentGuessRef.current?.length != currentRound.wordLength) return;
 
     const serverResponse = await GuessWordCommand({
         gameId: game.id,

@@ -2,9 +2,10 @@ import { useEffect, useRef } from 'react';
 
 interface Props {
   onKeyboardEvent: (event: KeyboardEvent) => void;
+  children: React.ReactNode;
 }
 
-export default function MobileKeyboardLogger({ onKeyboardEvent }: Props) {
+export default function MobileKeyboardLogger({ onKeyboardEvent, children }: Props) {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -64,23 +65,36 @@ export default function MobileKeyboardLogger({ onKeyboardEvent }: Props) {
     };
   }, [onKeyboardEvent]);
 
+  const handleWrapperClick = () => {
+    const input = inputRef.current;
+    if (input) {
+      input.focus();
+    }
+  };
+
   return (
-    <input
-      ref={inputRef}
-      type="text"
-      style={{
-        position: 'absolute',
-        left: '-9999px',
-        opacity: 0,
-        pointerEvents: 'none',
-        fontSize: '16px', // Prevents zoom on iOS
-      }}
-      autoComplete="off"
-      autoCorrect="off"
-      autoCapitalize="off"
-      spellCheck={false}
-      // Prevent the input from being hidden by mobile browsers
-      inputMode="text"
-    />
+    <div onClick={handleWrapperClick} style={{ cursor: 'pointer' }}>
+      {children}
+      <input
+        ref={inputRef}
+        type="text"
+        style={{
+          position: 'fixed',
+          top: '-9999px',
+          left: '-9999px',
+          width: '1px',
+          height: '1px',
+          opacity: 0,
+          pointerEvents: 'none',
+          fontSize: '16px', // Prevents zoom on iOS
+        }}
+        autoComplete="off"
+        autoCorrect="off"
+        autoCapitalize="off"
+        spellCheck={false}
+        // Prevent the input from being hidden by mobile browsers
+        inputMode="text"
+      />
+    </div>
   );
 }
