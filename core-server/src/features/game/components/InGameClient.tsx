@@ -12,15 +12,17 @@ import { useSocket } from "@/features/realtime/socket-context";
 import { useMessageBar } from "@/components/layout/MessageBarContext";
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 import InGameTranslations from "@/features/i18n/translation-file-interfaces/InGameTranslations";
+import { SettingsTranslations } from "@/features/i18n/translation-file-interfaces/SettingsTranslations";
 
 interface Props {
     initialGameState: ActiveGameModel;
     lang: SupportedLanguage;
     generalTranslations: GeneralTranslations;
     inGameTranslations: InGameTranslations;
+    settingsTranslations: SettingsTranslations;
 }
 
-export default function IngameClient({ initialGameState, lang, generalTranslations, inGameTranslations }: Props) {
+export default function IngameClient({ initialGameState, lang, generalTranslations, inGameTranslations, settingsTranslations }: Props) {
     const { initializeGameState, game, clearGameState, players } = useActiveGame();    
     const { initializeConnection, emitJoinGame, connectionStatus } = useSocket(); 
     const { clearMessage, pushLoadingMsg } = useMessageBar();
@@ -77,7 +79,7 @@ export default function IngameClient({ initialGameState, lang, generalTranslatio
                     gameId={game.id}
                 />
             ) : (
-                <GameBoard lang={lang} generalTranslations={generalTranslations} inGameTranslations={inGameTranslations} />
+                <GameBoard lang={lang} generalTranslations={generalTranslations} inGameTranslations={inGameTranslations} settingsTranslations={settingsTranslations} />
             )}
         </>
     )

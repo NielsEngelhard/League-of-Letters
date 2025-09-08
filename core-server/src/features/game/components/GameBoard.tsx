@@ -11,14 +11,16 @@ import { getCurrentUtcUnixTimestamp_Seconds } from "@/lib/time-util";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 import InGameTranslations from "@/features/i18n/translation-file-interfaces/InGameTranslations";
+import { SettingsTranslations } from "@/features/i18n/translation-file-interfaces/SettingsTranslations";
 
 interface Props {
     lang: SupportedLanguage;
     generalTranslations: GeneralTranslations;
     inGameTranslations: InGameTranslations;
+    settingsTranslations: SettingsTranslations;
 }
 
-export default function GameBoard({generalTranslations, inGameTranslations}: Props) {
+export default function GameBoard({generalTranslations, inGameTranslations, settingsTranslations}: Props) {
     const { game, players, setCurrentGuess, submitGuess, currentGuess, currentRound, isThisPlayersTurn, isAnimating, theWord, currentPlayerId, recalculateCurrentPlayer } = useActiveGame();
     const [initialTimeLeftForThisTurn, setInitialTimeLeftForThisTurn] = useState<number | null>(null);
 
@@ -106,7 +108,7 @@ export default function GameBoard({generalTranslations, inGameTranslations}: Pro
                 </div>
 
                 {/* Settings */}
-                <SettingsCard t={generalTranslations} />
+                <SettingsCard t={settingsTranslations} />
             </div>
             ): (
                 <LoadingSpinner size="md" />
