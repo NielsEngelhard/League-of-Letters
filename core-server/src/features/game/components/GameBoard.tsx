@@ -14,6 +14,7 @@ import Button from "@/components/ui/Button";
 import { Keyboard, Settings } from "lucide-react";
 import Modal from "@/components/ui/Modal";
 import { SettingsTranslations } from "@/features/i18n/translation-file-interfaces/SettingsTranslations";
+import { useAuth } from "@/features/auth/AuthContext";
 
 interface Props {
     lang: SupportedLanguage;
@@ -26,6 +27,7 @@ export default function GameBoard({generalTranslations, inGameTranslations, sett
     const [showSettings, setShowSettings] = useState(false);
     const { game, players, setCurrentGuess, submitGuess, currentGuess, currentRound, isThisPlayersTurn, isAnimating, theWord, currentPlayerId, recalculateCurrentPlayer } = useActiveGame();
     const [initialTimeLeftForThisTurn, setInitialTimeLeftForThisTurn] = useState<number | null>(null);
+    const { onToggleKeyboard } = useAuth();
 
     async function onSubmitGuess() {
         submitGuess()
@@ -52,10 +54,6 @@ export default function GameBoard({generalTranslations, inGameTranslations, sett
         const timePastForThisTurn = diff % timePerTurn;
 
         return timePerTurn - timePastForThisTurn;
-    }
-
-    function onSwitchKeyboard() {
-        
     }
 
     function getMobileScale(): string {
@@ -135,9 +133,9 @@ export default function GameBoard({generalTranslations, inGameTranslations, sett
 
                     {/* Action buttons */}
                     <div className="flex flex-row justify-between w-full">
-                        <Button variant="skeleton" size="sm" corners="square" type="button" onClick={onSwitchKeyboard}>
+                        <Button variant="skeleton" size="sm" corners="square" type="button" onClick={onToggleKeyboard}>
                             <Keyboard size={16} />
-                            Switch keyboard
+                            Toggle keyboard
                         </Button>
 
                         <Button variant="skeleton" size="sm" corners="square" type="button" onClick={() => setShowSettings(true)}>

@@ -2,7 +2,7 @@
 
 import { createContext, useState, ReactNode, useContext, useEffect } from 'react';
 import { SettingsSchema } from '../account/account-schemas';
-import { PublicAccountModel } from '../account/account-models';
+import { PublicAccountModel, WordInputOption, wordInputOptions } from '../account/account-models';
 import { LogoutCommand } from './actions/command/logout-command';
 import { LoginModalState } from './components/LoginModal';
 
@@ -29,6 +29,7 @@ type AuthContextType = {
   setLoginModalState: (loginModalState: LoginModalState) => void;
   setSettingsOnClient: (s: SettingsSchema) => void;
   updateAccount: (data: PublicAccountModel) => void;
+  onToggleKeyboard: () => void;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -120,6 +121,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(ACCOUNT_LOCALSTORAGE_KEY, JSON.stringify(account));
   }, [account]);
 
+function onToggleKeyboard() {
+  const current = account?.settings?.keyboardInput ?? wordInputOptions[0];
+
+  const index = wordInputOptions.indexOf(current as WordInputOption);
+  const nextInputOption =
+    index === -1
+      ? wordInputOptions[0] // fallback if somehow invalid
+      : wordInputOptions[(index + 1) % wordInputOptions.length];
+
+  setSettingsOnClient({
+    ...(account?.settings ?? DEFAULT_SETTINGS),
+    keyboardInput: nextInputOption,
+  });
+}
+
+
   return (
     <AuthContext.Provider value={{ 
       account,
@@ -130,7 +147,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       settings: account?.settings ?? DEFAULT_SETTINGS,
       setSettingsOnClient,
       guestSessionTimeRemaining,
-      updateAccount
+      updateAccount,
+      onToggleKeyboard
     }}>
       {children}
     </AuthContext.Provider>
