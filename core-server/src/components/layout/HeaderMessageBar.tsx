@@ -1,6 +1,6 @@
 "use client"
 
-import { Book, Check, CircleX, Router, Settings } from "lucide-react";
+import { Book, Check, CircleX, Router, Settings, X } from "lucide-react";
 import { GlobalMsgType, MessageBarMessage, useMessageBar } from "./MessageBarContext";
 import { useEffect, useState } from "react";
 
@@ -8,80 +8,132 @@ const getConfig = (status: GlobalMsgType) => {
     switch (status) {
         case 'success':
             return {
-                bg: 'bg-success/10',
-                color: 'text-success',
+                bg: 'bg-green-50 dark:bg-green-950/50 border-green-200 dark:border-green-800',
+                color: 'text-green-800 dark:text-green-200',
+                iconColor: 'text-green-600 dark:text-green-400',
                 Icon: Check,
-                text: 'Successfully'
+                text: 'Success'
             };
         case 'loading':
             return {
-                bg: 'bg-warning/10',
-                color: 'text-warning animate-pulse',
+                bg: 'bg-blue-50 dark:bg-blue-950/50 border-blue-200 dark:border-blue-800',
+                color: 'text-blue-800 dark:text-blue-200',
+                iconColor: 'text-blue-600 dark:text-blue-400',
                 Icon: Settings,
-                text: 'Loading ...'
+                text: 'Loading...'
             };
         case 'error':
             return {
-                bg: 'bg-error/10',
-                color: 'text-error',
+                bg: 'bg-red-50 dark:bg-red-950/50 border-red-200 dark:border-red-800',
+                color: 'text-red-800 dark:text-red-200',
+                iconColor: 'text-red-600 dark:text-red-400',
                 Icon: CircleX,
                 text: 'Error'
             };
         case 'live-connected':
             return {
-                bg: 'bg-success',
-                color: 'text-success',
+                bg: 'bg-emerald-50 dark:bg-emerald-950/50 border-emerald-200 dark:border-emerald-800',
+                color: 'text-emerald-800 dark:text-emerald-200',
+                iconColor: 'text-emerald-600 dark:text-emerald-400',
                 Icon: Router,
                 text: 'Connected'
             };         
         default:
             return {
-                bg: 'bg-primary/10',
-                color: 'text-primary',
+                bg: 'bg-gray-50 dark:bg-gray-950/50 border-gray-200 dark:border-gray-800',
+                color: 'text-gray-800 dark:text-gray-200',
+                iconColor: 'text-gray-600 dark:text-gray-400',
                 Icon: Book,
-                text: '??'
+                text: 'Information'
             };
     }
 }
 
-export default function HeaderMessageBar() {
-    const [isOpen, setIsOpen] = useState(false); // Different bool for smooth animation
+export default function ToastNotification() {
+    const [isVisible, setIsVisible] = useState(false);
     const [msg, setMsg] = useState<MessageBarMessage | null>(null);
 
     const { currentMessage } = useMessageBar();
 
-    // For smooth text animation
+    // Handle message visibility with smooth animations
     useEffect(() => {
         if (currentMessage != null) {
             setMsg(currentMessage);
-            setIsOpen(true);
+            setIsVisible(true);
             return;
         }
 
-        if (!isOpen) {
+        if (!isVisible) {
             return;
         }
 
-        setIsOpen(false);
-        setTimeout(() => {
+        setIsVisible(false);
+        const timeout = setTimeout(() => {
             setMsg(null);
         }, 300);
-    }, [currentMessage]);
+
+        return () => clearTimeout(timeout);
+    }, [currentMessage, isVisible]);
+
+    const handleClose = () => {
+        setIsVisible(false);
+    };
     
     const config = getConfig(msg?.type ?? "information");
     const { Icon } = config;
 
+    if (!msg) return null;
+
     return (
-        <div 
-            className={`w-full overflow-hidden transition-all duration-300 ease-in-out fixed top-[60px] z-50 bg-background ${
-                isOpen ? 'max-h-16 opacity-100' : 'max-h-0 opacity-0'
-            }`}
-        >
-            <div className={`w-full flex items-center justify-center gap-1 ${config.bg}`}>
-                <Icon className={`w-4 h-4 ${config.color} ${msg?.type == "loading" && "animate-spin"}`} />
-                <span className={`text-sm py-3 font-medium ${config.color}`}>
-                    {msg?.msg ?? config.text}
-                </span>
+        <div className="fixed top-4 right-4 z-[100] pointer-events-none">
+            <div 
+                className={`
+                    pointer-events-auto transform transition-all duration-300 ease-out
+                    ${isVisible 
+                        ? 'translate-x-0 opacity-100 scale-100' 
+                        : 'translate-x-full opacity-0 scale-95'
+                    }
+                `}
+            >
+                <div className={`
+                    max-w-sm w-full rounded-lg border shadow-lg backdrop-blur-sm
+                    ${config.bg}
+                `}>
+                    <div className="p-4">
+                        <div className="flex items-start gap-3">
+                            <div className="flex-shrink-0">
+                                <Icon 
+                                    className={`w-5 h-5 ${config.iconColor} ${
+                                        msg.type === "loading" ? "animate-spin" : ""
+                                    }`} 
+                                />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                                <p className={`text-sm font-medium ${config.color}`}>
+                                    {msg.msg || config.text}
+                                </p>
+                            </div>
+                            {msg.type !== 'loading' && (
+                                <button
+                                    onClick={handleClose}
+                                    className={`
+                                        flex-shrink-0 rounded-md p-1 hover:bg-black/5 dark:hover:bg-white/5 
+                                        transition-colors ${config.iconColor}
+                                    `}
+                                >
+                                    <X className="w-4 h-4" />
+                                </button>
+                            )}
+                        </div>
+                    </div>
+                    
+                    {/* Progress bar for loading state */}
+                    {msg.type === 'loading' && (
+                        <div className="h-1 bg-foreground/10 rounded-b-lg overflow-hidden">
+                            <div className="h-full bg-warning opacity-60 animate-pulse rounded-b-lg" />
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );

@@ -1,6 +1,6 @@
 {
     "gameMode": {
-        "description": "Een brutaal spelletje woordspeling",
+        "description": "Een lekker spelletje, met woorden",
         "solo": {
             "title": "Solo",
             "description": "Speel een rustig spelletje op je eigen tempo",
@@ -8,7 +8,7 @@
         },
         "multiplayer": {
             "title": "Online",
-            "description": "Bewijs dat jij de slimste van de kamer bent",
+            "description": "Bewijs dat jij de slimste bent",
             "btn": "Speel online!"
         },
         "scoreRedirect": {
