@@ -36,34 +36,56 @@ export default function FormBase<TFormData extends FieldValues, TResponseData = 
     try {
       const response = await onSubmit(data);
       if (response.ok && response.data) {
-        onSuccess?.(response.data);
-        msgBar.pushSuccessMsg(successMsg);
+        handleSuccess(response.data);
       } else {
-        msgBar.pushErrorMsg(response.errorMsg);
+        handleExpectedError(response.errorMsg);
       }
     } catch (error) {
-      onError?.(error);
+      handleUnexpectedError();
     }
   };
+
+  function handleSuccess(data: TResponseData) {
+    onSuccess?.(data);
+    if (successMsg) msgBar.pushSuccessMsg(successMsg);    
+  }
+
+  function handleExpectedError(errorMsg?: string) {
+    if (!errorMsg) {
+      handleUnexpectedError();
+      return;
+    }
+
+    onError?.(errorMsg);
+    form.setError("root", {
+        message: errorMsg
+    });    
+  }
+
+  function handleUnexpectedError() {
+    form.setError("root", {
+        message: "Server error"
+    });    
+  }
 
   return (
     <form className="space-y-4" onSubmit={form.handleSubmit(handleSubmit)}>
       {children}
       
-      <Button
-        className="w-full"
-        type="submit"
-        isLoadingExternal={form.formState.isSubmitting}
-      >
-        {BtnIcon && <BtnIcon size={16} />}
-        {btnTxt}
-      </Button>
+      <div className="mb-4">
+        <Button
+          className="w-full"
+          type="submit"
+          isLoadingExternal={form.formState.isSubmitting}
+        >
+          {BtnIcon && <BtnIcon size={16} />}
+          {btnTxt}
+        </Button>
 
-      <ErrorText>
-          <span>
-              {form.formState.errors.root?.message}
-          </span>
-      </ErrorText>      
+        <ErrorText>
+            <>{form.formState.errors.root?.message}</>
+        </ErrorText>           
+      </div>
     </form>
   );
 }

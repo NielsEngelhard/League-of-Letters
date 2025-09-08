@@ -40,7 +40,7 @@ export default function SignUpForm({ t, defaultLanguage }: Props) {
     }
 
     return (
-        <FormBase form={form} onSubmit={CreateAccountCommand} btnTxt={t.login.signUp.signUpButton} BtnIcon={Signature} onSuccess={onSuccessfullSignup} successMsg="">
+        <FormBase form={form} onSubmit={CreateAccountCommand} btnTxt={t.login.signUp.signUpButton} BtnIcon={Signature} onSuccess={onSuccessfullSignup}>
             <TextInput label={t.login.signUp.emailLabel} placeholder={t.login.signUp.emailPlaceholder} {...form.register("email")} errorMsg={form.formState.errors.email?.message} required />
 
             <TextInput label={t.login.signUp.passwordLabel} placeholder={t.login.signUp.passwordPlaceholder} type="password" {...form.register("password")} errorMsg={form.formState.errors.password?.message} required />
