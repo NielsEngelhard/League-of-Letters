@@ -54,22 +54,12 @@ export default function GameBoard({generalTranslations, inGameTranslations}: Pro
         {(game && currentRound) ? (
             <div className="w-full flex flex-col items-center gap-6 max-w-2xl mx-auto">
                 
-                {/* On set fixed */}
-                <div className="fixed md:relative w-full top-2 md:top-0 z-50 px-2 md:px-0 gap-2 flex flex-col">
-                    <InGameProgressionBar
-                        currentRound={currentRound}
-                        totalRounds={game.totalRounds}
-                        timePerGuess={game.nSecondsPerGuess?.toString() ?? "∞"}
-                        inGameTranslations={inGameTranslations}
-                    />
-
-                    {/* Player bar */}
-                    {/* <InGamePlayerBar
-                        players={players}
-                        currentPlayerId={currentPlayerId}  
-                        playersLabel={inGameTranslations.board.players}             
-                    />                     */}
-                </div>
+                <InGameProgressionBar
+                    currentRound={currentRound}
+                    totalRounds={game.totalRounds}
+                    timePerGuess={game.nSecondsPerGuess?.toString() ?? "∞"}
+                    inGameTranslations={inGameTranslations}
+                />
 
                 {/* Game Grid */}
                 <div className="w-full flex flex-col items-center justify-center gap-2">
@@ -108,9 +98,6 @@ export default function GameBoard({generalTranslations, inGameTranslations}: Pro
                         </div>
                     )}
                 </div>
-
-                {/* Settings */}
-                {/* <SettingsCard t={settingsTranslations} /> */}
             </div>
             ): (
                 <LoadingSpinner size="md" />

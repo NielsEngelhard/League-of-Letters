@@ -17,31 +17,32 @@ export default function InGameProgressionBar({ currentRound, totalRounds, timePe
             <>
                 <div className="flex items-center justify-between">
                     {/* Game Stats */}
-                    <div className="flex items-center gap-6">
+                    <div className="flex items-center gap-3 sm:gap-6">
                         <div className="relative">
-                            <div className="flex items-center gap-2">
-                                <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
-                                <span className="text-sm font-semibold text-foreground">
-                                    {inGameTranslations.board.round} {currentRound.roundNumber}/{totalRounds}
+                            <div className="flex items-center gap-1 sm:gap-2">
+                                <div className="w-1.5 h-1.5 sm:w-2 sm:h-2 bg-primary rounded-full animate-pulse"></div>
+                                <span className="text-xs sm:text-sm font-semibold text-foreground">
+                                    <span className="hidden sm:inline">{inGameTranslations.board.round} </span>
+                                    {currentRound.roundNumber}/{totalRounds}
                                 </span>
                             </div>
                         </div>
                         
                         <div className="flex items-center gap-1">
-                            <span className="text-xs text-foreground-muted">{inGameTranslations.board.time}:</span>
-                            <span className="text-sm font-mono font-medium">{timePerGuess}</span>
+                            <span className="text-xs text-foreground-muted hidden sm:inline">{inGameTranslations.board.time}:</span>
+                            <span className="text-xs sm:text-sm font-mono font-medium">{timePerGuess}</span>
                         </div>
                     </div>
 
                     {/* Right side */}
-                    <div className="flex flex-row gap-2">
-                        {/* Round Progress Indicator */}
-                        <div className="hidden sm:flex items-center gap-2">
-                            <div className="flex gap-1">
+                    <div className="flex flex-row gap-1 sm:gap-2 items-center">
+                        {/* Round Progress Indicator - Mobile: smaller dots, Desktop: current size */}
+                        <div className="flex items-center gap-1 sm:gap-2">
+                            <div className="flex gap-0.5 sm:gap-1">
                                 {Array.from({ length: totalRounds }, (_, i) => (
                                     <div
                                         key={i}
-                                        className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                                        className={`w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full transition-all duration-300 ${
                                             i + 1 === currentRound.roundNumber
                                                 ? "bg-primary scale-125"
                                                 : i + 1 < currentRound.roundNumber
@@ -51,23 +52,23 @@ export default function InGameProgressionBar({ currentRound, totalRounds, timePe
                                     />
                                 ))}
                             </div>
-                        </div>       
-
+                        </div>
+                        
                         {/* Starting letter */}
                         {currentRound.startingLetter && (
                             <LetterTile letter={currentRound.startingLetter} state={LetterState.Correct} variant="extraSmall" />
-                        )}                                         
+                        )}
                     </div>
                 </div>
 
-                {/* Progress Bar */}
-                <div className="mt-3 w-full bg-gray-200 rounded-full h-1.5 overflow-hidden">
+                {/* Progress Bar - Thinner on mobile */}
+                <div className="mt-2 sm:mt-3 w-full bg-gray-200 rounded-full h-1 sm:h-1.5 overflow-hidden">
                     <div
                         className="h-full bg-gradient-to-r from-primary to-secondary rounded-full transition-all duration-500 ease-out"
                         style={{ width: `${(currentRound.roundNumber / totalRounds) * 100}%` }}
                     />
-                </div>            
+                </div>
             </>
-        </PopupCard>        
-    )
+        </PopupCard>
+    );
 }

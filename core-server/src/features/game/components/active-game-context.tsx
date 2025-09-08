@@ -61,7 +61,6 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
 
     const _currentRound = getRound(_game);
 
-    debugger;
     setCurrentRound(_currentRound);
     setThisPlayersUserId(_thisPlayersUserId);
     }
