@@ -2,14 +2,15 @@ import LoadingDots from "@/components/ui/animation/LoadingDots";
 import Button from "@/components/ui/Button";
 import TextInput from "@/components/ui/form/TextInput";
 import CustomKeyboard from "@/components/ui/keyboard/CustomKeyboard";
-import InvisibleKeyLogger from "@/components/ui/keyboard/InvisibleKeyLogger";
+import DesktopKeyLogger from "@/components/ui/keyboard/DesktopKeyLogger";
 import { useAuth } from "@/features/auth/AuthContext";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useActiveGame } from "./active-game-context";
 import { LetterState } from "@/features/word/word-models";
 import { mapLetterColors } from "@/features/word/util/letter-color-map";
 import { preFillWordFinder } from "@/features/word/util/prefill-word-finder";
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
+import MobileKeyboardLogger from "@/components/ui/keyboard/MobileKeyLogger";
 
 interface Props {
     disabled?: boolean;
@@ -124,12 +125,21 @@ export default function WordInput({ t, disabled = false }: Props) {
         )
     } else if (settings.keyboardInput == "keystroke") {
         return (
-        <div>
-            <div className="p-4 text-foreground/80 bg-background-secondary rounded border-2 border-dashed border-border font-semibold text-center">
-                Type with your keyboard
+            <div>
+                <div className="p-4 text-foreground/80 bg-background-secondary rounded border-2 border-dashed border-border font-semibold text-center">
+                    Desktop keyboard
+                </div>            
+                <DesktopKeyLogger onKeyboardEvent={onKeyboardLog} />
             </div>            
-            <InvisibleKeyLogger onKeyboardEvent={onKeyboardLog} />
-        </div>            
+        )
+    } else if (settings.keyboardInput == "native-mobile") {
+        return (
+            <div>
+                <div className="p-4 text-foreground/80 bg-background-secondary rounded border-2 border-dashed border-border font-semibold text-center">
+                    Mobile Keyboard
+                </div>            
+                <MobileKeyboardLogger onKeyboardEvent={onKeyboardLog} />
+            </div> 
         )
     } else {
         return (

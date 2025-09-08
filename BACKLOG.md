@@ -2,7 +2,6 @@ BUGS NA LAUNCH
 - Game board op mobiel moet op 1 scherm passen lmz
 - rename MessageBarProvider naar Toaster
 - message bar is nu echt foei lelijk
-- keyboard switch toegankelijker en "enter werkend" en andere keyboard ook
 MUST
 
 SHOULD

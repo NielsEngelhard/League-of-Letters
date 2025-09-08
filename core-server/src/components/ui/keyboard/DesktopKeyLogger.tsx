@@ -4,7 +4,7 @@ interface Props {
   onKeyboardEvent: (event: KeyboardEvent) => void;
 }
 
-export default function InvisibleKeyLogger({ onKeyboardEvent }: Props) {
+export default function DesktopKeyLogger({ onKeyboardEvent }: Props) {
   useEffect(() => {
     const handleKeyPress = (event: KeyboardEvent) => {
       // Call the onKeyLog function for any key press
