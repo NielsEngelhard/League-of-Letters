@@ -11,16 +11,14 @@ import { getCurrentUtcUnixTimestamp_Seconds } from "@/lib/time-util";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 import InGameTranslations from "@/features/i18n/translation-file-interfaces/InGameTranslations";
-import { SettingsTranslations } from "@/features/i18n/translation-file-interfaces/SettingsTranslations";
 
 interface Props {
     lang: SupportedLanguage;
     generalTranslations: GeneralTranslations;
     inGameTranslations: InGameTranslations;
-    settingsTranslations: SettingsTranslations;
 }
 
-export default function GameBoard({generalTranslations, inGameTranslations, settingsTranslations}: Props) {
+export default function GameBoard({generalTranslations, inGameTranslations}: Props) {
     const { game, players, setCurrentGuess, submitGuess, currentGuess, currentRound, isThisPlayersTurn, isAnimating, theWord, currentPlayerId, recalculateCurrentPlayer } = useActiveGame();
     const [initialTimeLeftForThisTurn, setInitialTimeLeftForThisTurn] = useState<number | null>(null);
 
@@ -55,19 +53,23 @@ export default function GameBoard({generalTranslations, inGameTranslations, sett
         <>
         {(game && currentRound) ? (
             <div className="w-full flex flex-col items-center gap-6 max-w-2xl mx-auto">
-                <InGameProgressionBar
-                    currentRound={currentRound}
-                    totalRounds={game.totalRounds}
-                    timePerGuess={game.nSecondsPerGuess?.toString() ?? "∞"}
-                    inGameTranslations={inGameTranslations}
-                />
+                
+                {/* On set fixed */}
+                <div className="fixed md:relative w-full top-2 md:top-0 z-50 px-2 md:px-0 gap-2 flex flex-col">
+                    <InGameProgressionBar
+                        currentRound={currentRound}
+                        totalRounds={game.totalRounds}
+                        timePerGuess={game.nSecondsPerGuess?.toString() ?? "∞"}
+                        inGameTranslations={inGameTranslations}
+                    />
 
-                {/* Player bar */}
-                <InGamePlayerBar
-                    players={players}
-                    currentPlayerId={currentPlayerId}  
-                    playersLabel={inGameTranslations.board.players}             
-                />
+                    {/* Player bar */}
+                    {/* <InGamePlayerBar
+                        players={players}
+                        currentPlayerId={currentPlayerId}  
+                        playersLabel={inGameTranslations.board.players}             
+                    />                     */}
+                </div>
 
                 {/* Game Grid */}
                 <div className="w-full flex flex-col items-center justify-center gap-2">
@@ -108,7 +110,7 @@ export default function GameBoard({generalTranslations, inGameTranslations, sett
                 </div>
 
                 {/* Settings */}
-                <SettingsCard t={settingsTranslations} />
+                {/* <SettingsCard t={settingsTranslations} /> */}
             </div>
             ): (
                 <LoadingSpinner size="md" />

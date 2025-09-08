@@ -61,6 +61,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
 
     const _currentRound = getRound(_game);
 
+    debugger;
     setCurrentRound(_currentRound);
     setThisPlayersUserId(_thisPlayersUserId);
     }
@@ -227,6 +228,11 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
 
   function determineCurrentPlayer() {
     if (!game || !currentRound) return;
+
+    if (game.gameMode == "solo") {
+      setIsThisPlayersTurn(true);
+      return;
+    }
 
     const sortedPlayerIds = sortPlayerModelOnPositionAndGetUserIds(game.players);
     const newCurrentPlayerId = TurnTrackerAlgorithm.determineWhosTurnItIs({

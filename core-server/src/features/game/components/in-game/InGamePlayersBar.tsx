@@ -15,45 +15,46 @@ export default function InGamePlayerBar({ players, currentPlayerId, playersLabel
     const isSoloGame: boolean = players.length == 1;
 
     return (
-            <div className="w-full">
-                <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-sm font-semibold flex items-center gap-2">                        
-                        {isSoloGame ? (
-                            <span>
-                                {players[0].username}
-                            </span>
-                        ) : (
-                            <>
-                            <RealtimeStatusIndicator status={disconnectedPlayers.length == 0 ? "connected" : "disconnected"} />
-                            <span>
-                                {playersLabel} ({players.length - disconnectedPlayers.length}/{players.length})
-                            </span>                            
-                            </>
-                        )}
-                    </h3>
-                    <div className="flex flex-col gap-1 text-end">
-                        {isSoloGame ? (
-                            <span className="text-primary/50">{players[0].score}pt</span>
-                        ) : (
-                            <InGameConnectionStatusIndicator players={players} />
-                        )}                        
-                    </div>
-                </div>             
-                
-                {!isSoloGame && (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+        <div className="w-full">
+            <div className="flex items-center justify-between mb-3">
+                <h3 className="text-sm font-semibold flex items-center gap-2">
+                    {isSoloGame ? (
+                        <span>
+                            {players[0].username}
+                        </span>
+                    ) : (
+                        <>
+                        <RealtimeStatusIndicator status={disconnectedPlayers.length == 0 ? "connected" : "disconnected"} />
+                        <span>
+                            {playersLabel} ({players.length - disconnectedPlayers.length}/{players.length})
+                        </span>
+                        </>
+                    )}
+                </h3>
+                <div className="flex flex-col gap-1 text-end">
+                    {isSoloGame ? (
+                        <span className="text-primary/50">{players[0].score}pt</span>
+                    ) : (
+                        <InGameConnectionStatusIndicator players={players} />
+                    )}
+                </div>
+            </div>
+            
+            {!isSoloGame && (
+                <div className="overflow-x-auto">
+                    <div className="flex gap-2 min-w-max">
                         {players.sort((a, b) => b.score - a.score).map((player, index) => (
-                            <InGamePlayerCard
-                                player={player}
-                                scorePosition={index + 1}
-                                isHisTurn={player.accountId == currentPlayerId}
-                                key={index}
-                            />
+                            <div key={index} className="flex-shrink-0">
+                                <InGamePlayerCard
+                                    player={player}
+                                    scorePosition={index + 1}
+                                    isHisTurn={player.accountId == currentPlayerId}
+                                />
+                            </div>
                         ))}
-                    </div>                    
-                )}
-            <div>
+                    </div>
+                </div>
+            )}
         </div>
-    </div>
     )
 }

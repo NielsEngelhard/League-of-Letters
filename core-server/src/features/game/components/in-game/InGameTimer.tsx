@@ -77,7 +77,7 @@ export default function InGameTimer({
   return (
     <div className="w-full flex flex-col items-center">
       {/* Timer Display */}
-      <div className="flex items-center space-x-3">
+      <div className="items-center space-x-3 hidden md:flex">
         <Clock className={`w-5 h-5 ${
           timerState === 'warning' ? 'text-warning' : 
           'text-foreground-muted'
