@@ -43,17 +43,23 @@ export default function CreateGameForm({ onLeaveGame, submitDisabled = false, pl
 
     function onSubmit(data: CreateGameSchema) {
         if (gameMode == "online") {
-            CreateOnlineGameBasedOnLobbyCommand(data);        
+            CreateOnlineGameBasedOnLobbyCommand(data)
+            .catch(() => {
+                form.setError("root", {
+                    type: "manual",
+                    message: "Server error",
+                });
+            });
         } else {
             // Solo game
             CreateGameCommand(data)
             .then((gameId) => {
                 router.push(LANGUAGE_ROUTE(lang, PLAY_SOLO_GAME_ROUTE(gameId)));
             })
-            .catch((error) => {
+            .catch(() => {
                 form.setError("root", {
-                type: "manual",
-                message: "Something went wrong while creating the game",
+                    type: "manual",
+                    message: "Server error",
                 });                   
             });
         }
