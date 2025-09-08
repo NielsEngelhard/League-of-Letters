@@ -23,7 +23,7 @@ export default async function PlayOnlineGamePage({
     }
 
     return (
-        <PageBase lang={lang} requiresAuh={true}>
+        <PageBase lang={lang} requiresAuh={true} size="lg">
             <IngameClient initialGameState={game} lang={lang} generalTranslations={t.general} inGameTranslations={t.inGame} settingsTranslations={t.settings} />
         </PageBase>
     )
