@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { UpdateAccountSchema, updateAccountSchema } from "../../account-schemas";
 import ColorInput from "@/components/ui/form/ColorInput";
-import { PrivateAccountModel } from "../../account-models";
+import { PrivateAccountModel, PublicAccountModel } from "../../account-models";
 import UpdateCurrentAccountInfo from "../../actions/command/update-current-account-info";
 import { useMessageBar } from "@/components/layout/MessageBarContext";
 import FormBase from "@/components/general/form/FormBase";
@@ -28,10 +28,15 @@ export default function ChangeAccountForm({ t, account }: Props) {
             favouriteWord: account.favouriteWord,
             favouriteColor: account.colorHex,
         }
-    })
+    });
+
+    function onSuccess(account: PublicAccountModel) {
+        updateAccount(account);
+        msgBar.pushSuccessMsg("Success");
+    }
 
     return (
-        <FormBase form={form}  onSubmit={UpdateCurrentAccountInfo} onSuccess={updateAccount}>
+        <FormBase form={form}  onSubmit={UpdateCurrentAccountInfo} onSuccess={onSuccess}>
             <TextInput label="Username" {...form.register("username")} errorMsg={form.formState.errors.username?.message} />
 
             <TextInput label={t.profile.updateAccount.favWordLabel} {...form.register("favouriteWord")} errorMsg={form.formState.errors.favouriteWord?.message} />

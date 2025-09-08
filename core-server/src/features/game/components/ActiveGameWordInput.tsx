@@ -10,7 +10,6 @@ import { LetterState } from "@/features/word/word-models";
 import { mapLetterColors } from "@/features/word/util/letter-color-map";
 import { preFillWordFinder } from "@/features/word/util/prefill-word-finder";
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
-import MobileKeyboardLogger from "@/components/ui/keyboard/MobileKeyLogger";
 
 interface Props {
     disabled?: boolean;
@@ -131,14 +130,6 @@ export default function WordInput({ t, disabled = false }: Props) {
                 </div>            
                 <DesktopKeyLogger onKeyboardEvent={onKeyboardLog} />
             </div>            
-        )
-    } else if (settings.keyboardInput == "native-mobile") {
-        return (
-            <MobileKeyboardLogger onKeyboardEvent={onKeyboardLog}>
-                <div className="p-4 text-foreground/80 bg-background-secondary rounded border-2 border-dashed border-border font-semibold text-center">
-                    Mobile Keyboard
-                </div>
-            </MobileKeyboardLogger>
         )
     } else {
         return (

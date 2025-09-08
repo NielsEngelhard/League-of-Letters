@@ -19,12 +19,12 @@ export default function GameTeaserCard({ teaser, lang }: Props) {
 
     return (
         <Card>
-            <div className="p-2 flex flex-row justify-between">
+            <div className="p-3 flex flex-col sm:flex-row sm:justify-between gap-3 sm:gap-2">
                 {/* Left */}
-                <div className="flex flex-row gap-2 items-center justify-center text-start">
+                <div className="flex flex-row gap-3 items-center text-start">
                     
                     {/* Icon */}
-                    <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-background">
+                    <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-background flex-shrink-0">
                         {teaser.gameMode == "online" ? (
                             <Users className="w-4 h-4" />
                         ) : (
@@ -33,8 +33,8 @@ export default function GameTeaserCard({ teaser, lang }: Props) {
                     </div>
 
                     {/* Name */}
-                    <div className="flex flex-col">
-                        <span className="font-bold clear-start text-sm">
+                    <div className="flex flex-col min-w-0 flex-1">
+                        <span className="font-bold text-sm">
                             {teaser.gameMode == "online" ? (
                                 <>Online Game</>
                             ) : (
@@ -43,24 +43,27 @@ export default function GameTeaserCard({ teaser, lang }: Props) {
                         </span>
                         <span className="font-medium text-foreground-muted text-xs">
                             Round {teaser.currentRoundIndex}/{teaser.totalRounds}
-                            &nbsp;
+                        </span>
+                        <span className="font-medium text-foreground-muted text-xs">
                             Language: {languageStyle?.fullName}
                         </span>
                     </div>
                 </div>
 
                 {/* Right */}
-                <div className="flex gap-1 items-center">
-                    <span className="text-foreground-muted text-xs flex items-center gap-0.5 w-full">
-                        <Clock className="w-3 h-3" />
-                        {timeAgo(teaser.createdAt)} ago
-                    </span>
+                <div className="flex flex-col sm:flex-row gap-2 sm:gap-1 sm:items-center">
+                    <div className="flex items-center justify-between sm:justify-start sm:gap-2">
+                        <span className="text-foreground-muted text-xs flex items-center gap-1">
+                            <Clock className="w-3 h-3" />
+                            {timeAgo(teaser.createdAt)} ago
+                        </span>
 
-                    <div>
-                        {languageStyle?.flag}
+                        <div className="sm:order-last">
+                            {languageStyle?.flag}
+                        </div>
                     </div>
 
-                    <Button variant="secondary" size="sm" href={LANGUAGE_ROUTE(lang, playGameRoute)}>
+                    <Button variant="secondary" size="sm" href={LANGUAGE_ROUTE(lang, playGameRoute)} className="w-full sm:w-auto">
                         <Play className="w-4 h-4" />
                         Reconnect
                     </Button>                    
