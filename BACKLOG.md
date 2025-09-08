@@ -1,6 +1,5 @@
 BUGS NA LAUNCH
 - Game board op mobiel moet op 1 scherm passen lmz
-- kick player werkt niet
 - rename MessageBarProvider naar Toaster
 - message bar is nu echt foei lelijk
 - keyboard switch toegankelijker en "enter werkend" en andere keyboard ook
@@ -8,6 +7,7 @@ MUST
 
 SHOULD
 - Spotify radio voor music 
+- kick player werkt niet
 - GAME MODE: bring your own word
 - Sound effects
 - Favourite color is displayed as your color everywhere

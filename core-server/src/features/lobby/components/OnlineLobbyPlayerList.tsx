@@ -66,7 +66,7 @@ export default function OnlineLobbyPlayerList({ hostAccountId, lobbyId }: Props)
                 />
                 
                 {/* Kick button - only show for host and not for themselves */}
-                {(isHost && !player.isHost) == true && (
+                {/* {(isHost && !player.isHost) == true && (
                     <button
                         onClick={() => handleKickPlayer(player.accountId)}
                         className="p-1 rounded-md hover:bg-destructive/10 text-destructive hover:text-destructive transition-colors"
@@ -74,7 +74,7 @@ export default function OnlineLobbyPlayerList({ hostAccountId, lobbyId }: Props)
                     >
                         <span className="text-error font-semibold border border-error p-0.5">kick</span>
                     </button>
-                )}
+                )} */}
             </div>
             </div>
             {index < players.length - 1 && (
