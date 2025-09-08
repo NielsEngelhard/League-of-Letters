@@ -9,6 +9,10 @@ import { loginSchema, LoginSchema } from "../../auth-schemas";
 import FormBase from "@/components/general/form/FormBase";
 import LoginCommand from "../../actions/command/login-command";
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
+import { useRouter } from "next/navigation";
+import { LANGUAGE_ROUTE, PICK_GAME_MODE_ROUTE } from "@/app/routes";
+import { PublicAccountModel } from "@/features/account/account-models";
+import { LoginModalState } from "../LoginModal";
 
 interface Props {
     t: GeneralTranslations;
@@ -16,6 +20,7 @@ interface Props {
 
 export default function LoginForm({ t }: Props) {
     const authContext = useAuth();
+    const router = useRouter();
 
     const form = useForm<LoginSchema>({
         resolver: zodResolver(loginSchema),
@@ -25,8 +30,9 @@ export default function LoginForm({ t }: Props) {
         }
     });
 
-    function onSuccessfullLogin() {
-        authContext.setShowLoginModal(false);
+    function onSuccessfullLogin(account: PublicAccountModel) {
+        authContext.setLoginModalState(LoginModalState.Hidden);
+        router.push(LANGUAGE_ROUTE(account.language, PICK_GAME_MODE_ROUTE));  
     }
 
     return (

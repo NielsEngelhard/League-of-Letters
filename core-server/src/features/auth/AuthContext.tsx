@@ -1,12 +1,10 @@
 'use client';
 
-import { z } from 'zod';
 import { createContext, useState, ReactNode, useContext, useEffect } from 'react';
 import { SettingsSchema } from '../account/account-schemas';
-import LoginCommand from './actions/command/login-command';
 import { PublicAccountModel } from '../account/account-models';
 import { LogoutCommand } from './actions/command/logout-command';
-import { loginSchema } from './auth-schemas';
+import { LoginModalState } from './components/LoginModal';
 
 const DEFAULT_SETTINGS: SettingsSchema = {
   keyboardInput: "on-screen-keyboard",
@@ -23,12 +21,12 @@ type AuthContextType = {
   account: PublicAccountModel | null;
   settings: SettingsSchema;
   isLoggedIn: boolean;
-  showLoginModal: boolean;
+  loginModalState: LoginModalState;
 
   guestSessionTimeRemaining: string | null;
 
   clearAccountData: () => void;
-  setShowLoginModal: (newValue: boolean) => void;
+  setLoginModalState: (loginModalState: LoginModalState) => void;
   setSettingsOnClient: (s: SettingsSchema) => void;
   updateAccount: (data: PublicAccountModel) => void;
 };
@@ -37,7 +35,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [account, setAccount] = useState<PublicAccountModel | null>(null);
-  const [showLoginModal, setShowLoginModal] = useState(false);
+  const [loginModalState, setLoginModalState] = useState<LoginModalState>(LoginModalState.Hidden);
 
   const [guestSessionTimeRemaining, setGuestSessionTimeRemaining] = useState<string | null>(null);
 
@@ -101,7 +99,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   async function updateAccount(data: PublicAccountModel) {
     setAccount(data);
     localStorage.setItem(ACCOUNT_LOCALSTORAGE_KEY, JSON.stringify(data));
-    setShowLoginModal(false);     
+    setLoginModalState(LoginModalState.Hidden);     
   }
 
   const setSettingsOnClient = (updatedSettings: SettingsSchema) => {
@@ -127,8 +125,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       account,
       isLoggedIn: !!account,
       clearAccountData, 
-      setShowLoginModal,
-      showLoginModal,
+      setLoginModalState,
+      loginModalState,
       settings: account?.settings ?? DEFAULT_SETTINGS,
       setSettingsOnClient,
       guestSessionTimeRemaining,

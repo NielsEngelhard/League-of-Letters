@@ -11,6 +11,9 @@ import TextInput from "@/components/ui/form/TextInput";
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import { Signature } from "lucide-react";
+import { LANGUAGE_ROUTE, PICK_GAME_MODE_ROUTE } from "@/app/routes";
+import { useRouter } from "next/navigation";
+import { LoginModalState } from "../LoginModal";
 
 interface Props {
     t: GeneralTranslations;
@@ -19,6 +22,7 @@ interface Props {
 
 export default function SignUpForm({ t, defaultLanguage }: Props) {
     const authContext = useAuth();
+    const router = useRouter();
 
     const form = useForm<SignUpSchema>({
         resolver: zodResolver(signUpSchema),
@@ -31,7 +35,8 @@ export default function SignUpForm({ t, defaultLanguage }: Props) {
     })
 
     function onSuccessfullSignup() {
-        authContext.setShowLoginModal(false);
+        authContext.setLoginModalState(LoginModalState.Hidden);
+        router.push(LANGUAGE_ROUTE(form.getValues("language"), PICK_GAME_MODE_ROUTE));  
     }
 
     return (
@@ -44,28 +49,5 @@ export default function SignUpForm({ t, defaultLanguage }: Props) {
             
             <SelectLanguageGrid name="language" control={form.control} />
         </FormBase>        
-        // <form className="flex flex-col gap-3" onSubmit={form.handleSubmit(onSubmit)}>
-        //     <TextInput label="Email" placeholder="Your Email address" {...form.register("email")} errorMsg={form.formState.errors.email?.message} required />
-
-        //     <TextInput label="Password" placeholder="Enter your password" type="password" {...form.register("password")} errorMsg={form.formState.errors.password?.message} required />
-
-        //     <TextInput label="Username" placeholder="Your username" {...form.register("username")} errorMsg={form.formState.errors.username?.message} />
-
-        //     <div className="flex flex-col gap-0.5">
-        //         <SelectLanguageGrid name="language" control={form.control} />
-        //         <p className="text-xs font-bold text-foreground-muted text-center">The language you choose is the language your words will be in!</p>
-        //     </div>
-
-        //     <Button type="submit">
-        //         <IdCard className="w-6 h-6" />
-        //         Create Account
-        //     </Button>
-
-        //     <ErrorText>
-        //         <span>
-        //             {form.formState.errors.root?.message}
-        //         </span>
-        //     </ErrorText>
-        // </form>     
     )
 }

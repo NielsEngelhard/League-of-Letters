@@ -13,10 +13,9 @@ import FormBase from "@/components/general/form/FormBase";
 import CreateGuestSessionCommand from "../../actions/command/create-guest-session-command";
 import { PublicAccountModel } from "@/features/account/account-models";
 import { HatGlasses } from "lucide-react";
-import { useEffect } from "react";
 
 export default function GuestLoginForm({ lang, t }: { lang: SupportedLanguage, t: GeneralTranslations }) {
-    const { account, updateAccount } = useAuth();
+    const { updateAccount } = useAuth();
     const router = useRouter();
 
     const form = useForm<GuestLoginSchema>({
@@ -27,13 +26,9 @@ export default function GuestLoginForm({ lang, t }: { lang: SupportedLanguage, t
     })
 
     function onSuccessfullGuestLogin(account: PublicAccountModel) {
-        updateAccount(account);        
+        updateAccount(account);      
+        router.push(LANGUAGE_ROUTE(form.getValues("language"), PICK_GAME_MODE_ROUTE));  
     }
-
-    useEffect(() => {
-        if (!account) return;
-        router.push(LANGUAGE_ROUTE(lang, PICK_GAME_MODE_ROUTE));
-    }, [account]);
 
     return (
         <FormBase form={form} onSubmit={CreateGuestSessionCommand} onSuccess={onSuccessfullGuestLogin} btnTxt={t.login.guest.createGuestSessionButton} BtnIcon={HatGlasses}>

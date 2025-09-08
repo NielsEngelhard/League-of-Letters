@@ -12,6 +12,7 @@ import Button from "@/components/ui/Button";
 import { Flame, Settings, User } from "lucide-react";
 import UpgradeGuestAccountForm from "@/features/account/components/settings/UpgradeGuestAccountForm";
 import DefaultCard from "@/components/ui/card/DefaultCard";
+import LogoutButton from "@/features/auth/components/LogoutButton";
 
 export default async function AccountPage({
   params
@@ -52,6 +53,8 @@ export default async function AccountPage({
                         settingsTranslations={t.settings}
                         currentLanguage={privateAccount.language}
                     />
+
+                    <LogoutButton label={t.general.logoutButton} lang={lang} />
                 </DefaultCard>
             )}
         </PageBase>

@@ -16,6 +16,7 @@ interface Props {
 }
 
 export enum LoginModalState {
+    Hidden,
     Login,
     Signup,
     ContinueAsGuest
@@ -23,9 +24,9 @@ export enum LoginModalState {
 
 export default function LoginModal({ t, lang }: Props) {
     const [modalState, setModalState] = useState(LoginModalState.Login);
-    const { setShowLoginModal, showLoginModal } = useAuth();
+    const { loginModalState, setLoginModalState } = useAuth();
 
-    if (!showLoginModal) {
+    if (loginModalState == LoginModalState.Hidden) {
         return;
     }
 
@@ -49,7 +50,7 @@ export default function LoginModal({ t, lang }: Props) {
                 )}                                
 
                 <div className="absolute right-2 top-2">
-                    <button onClick={() => setShowLoginModal(false)} className="hover:cursor-pointer">
+                    <button onClick={() => setLoginModalState(LoginModalState.Hidden)} className="hover:cursor-pointer">
                         <CircleX className="text-foreground-muted" />
                     </button>
                 </div>                

@@ -4,7 +4,6 @@ import Button from "@/components/ui/Button";
 import LoginForm from "./form/LoginForm";
 import DefaultCardHeader from "@/components/ui/card/DefaultCardHeader";
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
-import { useAuth } from "@/features/auth/AuthContext";
 
 interface Props {
     onShowSignUp: () => void;
@@ -13,8 +12,6 @@ interface Props {
 }
 
 export default function LoginModalLoginContent({ onShowSignUp, onShowContinueAsGuest, t }: Props) {
-    const authContext = useAuth();
-    
     return (
         <>
             <DefaultCardHeader
