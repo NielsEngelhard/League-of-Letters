@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useState, ReactNode, useContext, useEffect, useRef } from 'react';
+import { createContext, useState, ReactNode, useContext, useEffect, useRef, Dispatch, SetStateAction } from 'react';
 import { ActiveGameModel, GamePlayerModel, GameRoundModel, RoundTransitionData } from '../game-models';
 import { GuessWordCommand, GuessWordResponse } from '../actions/command/guess-word-command';
 import { TIME_BETWEEN_ROUNDS_MS } from '../game-constants';
@@ -24,7 +24,7 @@ type ActiveGameContextType = {
   // Actions
   initializeGameState: (_game: ActiveGameModel, _thisPlayersUserId: string) => void;
   submitGuess: () => Promise<void>;
-  setCurrentGuess: (guess: string) => void;
+  setCurrentGuess: Dispatch<SetStateAction<string>>;
   handleWordGuess: (response: GuessWordResponse) => void;
   clearGameState: () => void;
   addOrReconnectPlayer: (p: GamePlayerModel) => void;
@@ -53,6 +53,12 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
 
   const gameRef = useRef<ActiveGameModel | undefined>(undefined);
   const currentRoundRef = useRef<GameRoundModel | undefined>(undefined);
+  const currentGuessRef = useRef(currentGuess);
+
+  // keep ref in sync with state
+  useEffect(() => {
+    currentGuessRef.current = currentGuess;
+  }, [currentGuess]);
 
   // Always call this first
   function initializeGameState(_game: ActiveGameModel, _thisPlayersUserId: string) {
@@ -85,11 +91,11 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
 
   async function submitGuess(): Promise<void> {
     if (!game || !currentRound) return;
-    if (currentGuess?.length != currentRound.wordLength) throw Error("GUESS LENGTH DOES NOT MATCH");
+    if (currentGuessRef.current?.length != currentRound.wordLength) throw Error("GUESS LENGTH DOES NOT MATCH");
 
     const serverResponse = await GuessWordCommand({
         gameId: game.id,
-        word: currentGuess,
+        word: currentGuessRef.current,
         language: game.language
     });
 

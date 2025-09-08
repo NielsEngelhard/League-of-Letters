@@ -25,20 +25,9 @@ interface Props {
 
 export default function GameBoard({generalTranslations, inGameTranslations, settingsTranslations}: Props) {
     const [showSettings, setShowSettings] = useState(false);
-    const { game, players, setCurrentGuess, submitGuess, currentGuess, currentRound, isThisPlayersTurn, isAnimating, theWord, currentPlayerId, recalculateCurrentPlayer } = useActiveGame();
+    const { game, players, currentGuess, currentRound, isThisPlayersTurn, isAnimating, theWord, currentPlayerId, recalculateCurrentPlayer } = useActiveGame();
     const [initialTimeLeftForThisTurn, setInitialTimeLeftForThisTurn] = useState<number | null>(null);
     const { onToggleKeyboard } = useAuth();
-
-    async function onSubmitGuess() {
-        submitGuess()
-            .then(() => {
-                setCurrentGuess("");
-            });
-    }
-
-    function onChangeInput (i: string) {
-        setCurrentGuess(i);
-    }
 
     // Update timer if needed
     useEffect(() => {
@@ -117,8 +106,6 @@ export default function GameBoard({generalTranslations, inGameTranslations, sett
                     <div className="w-full max-w-xs sm:max-w-sm md:max-w-md mt-2 sm:mt-4">
                         {!theWord ? (
                             <ActiveGameWordInput
-                                onChange={onChangeInput}
-                                onEnter={onSubmitGuess}
                                 disabled={!isThisPlayersTurn || isAnimating}
                                 t={generalTranslations}
                             />
