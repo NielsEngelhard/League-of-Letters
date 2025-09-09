@@ -16,17 +16,21 @@ export default function JoinCodeCard({ joinCode, lang }: Props) {
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
-            setJoinUrl(`${window.location.origin}${LANGUAGE_ROUTE(lang, JOIN_GAME_ROUTE(joinCode))}sasdadasdasdasdasdassad`);
+            setJoinUrl(`${window.location.origin}${LANGUAGE_ROUTE(lang, JOIN_GAME_ROUTE(joinCode))}`);
         }
     }, [lang, joinCode]);
 
     return (
-      <div className="flex flex-col md:flex-row md:justify-between gap-2 w-full">
+      <div className="flex flex-row gap-2 w-full justify-between">
           {/* Join code */}
-          <CopyTextCard text={splitStringInMiddle(joinCode)} label='Join Code' txt="primary" bg="primary" />
+          <div className="w-fit">
+              <CopyTextCard text={splitStringInMiddle(joinCode)} label='Join Code' txt="primary" bg="primary" />
+          </div>
           
           {/* Join Url */}
-          <CopyTextCard text={joinUrl} label='Join URL' />     
+          <div className="max-w-1/2 flex">
+              <CopyTextCard text={joinUrl} label='Join URL' />
+          </div>
       </div>
     );
 }

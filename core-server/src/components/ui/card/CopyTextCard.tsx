@@ -45,7 +45,7 @@ export default function CopyTextCard({ text, label, bg, txt }: Props) {
     }
 
     return (
-        <div className="flex flex-col justify-end">
+        <div className="w-full flex flex-col justify-end">
             {label && (
                 <label className="text-xs font-medium text-muted-foreground block mb-1 w-full">
                     {label}
@@ -56,16 +56,17 @@ export default function CopyTextCard({ text, label, bg, txt }: Props) {
                 className={cn(variants({ bg, txt }))}
             >
                 <span className={cn(
-                    "truncate pr-2",
+                    "truncate pr-2 min-w-0",
                     txt === "primary" ? "font-bold text-primary text-lg" : "text-sm text-muted-foreground"
                 )}>
                     {text}
                 </span>
-                <div className="flex justify-end flex-shrink-0">
+                <div className="flex justify-end flex-shrink-0 ml-1 sm:ml-2">
                     {copied ? (
-                        <Check size={16} className="text-success" />
+                        <Check size={16} className="text-success sm:w-5 sm:h-5" />
                     ) : (
                         <Copy size={16} className={cn(
+                            "sm:w-5 sm:h-5",
                             txt === "primary" ? "text-primary" : "text-muted-foreground"
                         )} />
                     )}
