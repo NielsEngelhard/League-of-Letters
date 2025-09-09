@@ -29,7 +29,7 @@ import { HealthCheckData } from "@/lib/healthcheck/healthcheck-models";
 
 export default async function HealthCheckPage() {
     return (
-        <PageBase requiresAuh={false} lang="en">
+        <PageBase requiresAuh={false} lang="en" >
             <BackButton href={HOME_ROUTE} />
 
             {/* Header Section */}

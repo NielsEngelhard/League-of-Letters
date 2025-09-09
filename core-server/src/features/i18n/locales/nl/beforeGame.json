@@ -47,7 +47,7 @@
     },
     "lobby": {
         "create": {
-            "title": "Create game",
+            "title": "Lobby",
             "joinCode": "Code",
             "joinLink": "Link"
         },

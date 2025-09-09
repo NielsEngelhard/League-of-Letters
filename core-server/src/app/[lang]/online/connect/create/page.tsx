@@ -14,12 +14,11 @@ import LoadingDots from "@/components/ui/animation/LoadingDots";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import { loadTranslations } from "@/features/i18n/utils";
 import { redirect } from "next/navigation";
-import LobbyJoinCode from "@/features/game/components/lobby/LobbyJoinCode";
-import LobbyJoinLink from "@/features/game/components/lobby/LobbyJoinLink";
 import CreateLobbyClient from "@/features/game/components/lobby/CreateLobbyClient";
 import AuthenticationRequiredBlock from "@/components/layout/AuthenticationRequiredBlock";
 import LobbyOptions from "@/features/game/components/lobby/LobbyOptions";
 import { Authenticate_Server } from "@/features/auth/current-user";
+import JoinCodeCard from "@/features/lobby/components/JoinCodeCard";
 
 export default async function CreateOnlineGamePage({
   params
@@ -50,53 +49,44 @@ export default async function CreateOnlineGamePage({
       >               
       </PageIntro>      
 
-      <div className="">
-        <div className="w-full flex flex-row gap-2 md:gap-6">
-          <div className="inline-block">
-            <LobbyJoinCode joinCode={lobby.id} />   
-          </div>        
-          <div className="w-full flex-1 text-end flex justify-end items-end font-medium text-foreground-muted text-md md:text-xl">
-            <LobbyJoinLink lang={lang} label={t.beforeGame.lobby.create.joinLink} joinCode={lobby.id} />
-          </div>
-        </div>
+      <JoinCodeCard joinCode={lobby.id} lang={lang} />
 
-        <div className="flex flex-col lg:flex-row-reverse gap-4">
-            <Card className="w-full">
-              <CardHeader>
-                <CardTitle>
-                  {t.beforeGame.createGameForm.title}
+      <div className="flex flex-col lg:flex-row-reverse gap-4">
+          <Card className="w-full">
+            <CardHeader>
+              <CardTitle>
+                {t.beforeGame.createGameForm.title}
+              </CardTitle>
+              <SubText text={t.beforeGame.createGameForm.description} />    
+            </CardHeader>
+            <CardContent>
+              <CreateLobbyClient
+                lang={authenticatedUser.language}
+                t={t.beforeGame}
+                initialLobby={lobby}
+                accountId={authenticatedUser.accountId}
+                username={authenticatedUser.username}
+              />            
+            </CardContent>
+          </Card>       
+          <Card className="w-full">
+            <CardHeader className="pb-3 sm:pb-4 justify-between flex flex-row">
+                <CardTitle className="text-base sm:text-lg flex items-center gap-2">
+                  <User className="w-4 h-4" />
+                  {/* Players ({players.length}) */}
+                  <sup className="italic text-xs font-normal">max {MAX_ONLINE_GAME_PLAYERS}</sup>
                 </CardTitle>
-                <SubText text={t.beforeGame.createGameForm.description} />    
-              </CardHeader>
-              <CardContent>
-                <CreateLobbyClient
-                  lang={authenticatedUser.language}
-                  t={t.beforeGame}
-                  initialLobby={lobby}
-                  accountId={authenticatedUser.accountId}
-                  username={authenticatedUser.username}
-                />            
-              </CardContent>
-            </Card>       
-            <Card className="w-full">
-              <CardHeader className="pb-3 sm:pb-4 justify-between flex flex-row">
-                  <CardTitle className="text-base sm:text-lg flex items-center gap-2">
-                    <User className="w-4 h-4" />
-                    {/* Players ({players.length}) */}
-                    <sup className="italic text-xs font-normal">max {MAX_ONLINE_GAME_PLAYERS}</sup>
-                  </CardTitle>
 
-                  <LoadingDots color="success" size="md" />
-              </CardHeader>
-              <CardContent className="space-y-2 sm:space-y-3">
-                  <PlayersList
-                    hostAccountId={lobby?.hostAccountId}
-                    lobbyId={lobby?.id}
-                  />
-              </CardContent>
-            </Card>
-        </div>        
-      </div>
+                <LoadingDots color="success" size="md" />
+            </CardHeader>
+            <CardContent className="space-y-2 sm:space-y-3">
+                <PlayersList
+                  hostAccountId={lobby?.hostAccountId}
+                  lobbyId={lobby?.id}
+                />
+            </CardContent>
+          </Card>
+      </div>        
     </PageBase>
   )
 }

@@ -10,7 +10,7 @@ interface TriggerRealtimeEvent<T> {
 
 async function TriggerRealtimeEventOnSocketServer<T>(request: TriggerRealtimeEvent<T>): Promise<boolean> {
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_ACTIONS_SERVER_BASE_ADDRESS}/emit-to-room`, {
+    const response = await fetch(`${process.env.ACTIONS_SERVER_API_URL}/emit-to-room`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
