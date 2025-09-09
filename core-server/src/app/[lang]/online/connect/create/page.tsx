@@ -45,56 +45,57 @@ export default async function CreateOnlineGamePage({
     <PageBase size="lg" lang={lang} requiresAuh={true}>
       <PageIntro
         title={t.beforeGame.lobby.create.title}
-        subText={`${t.beforeGame.lobby.create.joinCode}:`}
         backHref={LANGUAGE_ROUTE(lang, MULTIPLAYER_GAME_ROUTE)}
         rightUpperCorner={<LobbyOptions lobbyId={lobby.id} />}
-      >
-        <div className="text-3xl font-bold">
-            <div className="flex flex-col items-center">              
-              {/* Join Code */}
-              <LobbyJoinCode joinCode={lobby.id} />
+      >               
+      </PageIntro>      
 
-              {/* Join Url */}
-              <LobbyJoinLink lang={lang} label={t.beforeGame.lobby.create.joinLink} joinCode={lobby.id} />
-            </div>
-        </div>        
-      </PageIntro>
+      <div className="">
+        <div className="w-full flex flex-row gap-2 md:gap-6">
+          <div className="inline-block">
+            <LobbyJoinCode joinCode={lobby.id} />   
+          </div>        
+          <div className="w-full flex-1 text-end flex justify-end items-end font-medium text-foreground-muted text-md md:text-xl">
+            <LobbyJoinLink lang={lang} label={t.beforeGame.lobby.create.joinLink} joinCode={lobby.id} />
+          </div>
+        </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-10">
-          <Card className="col-span-1">
-            <CardHeader>
-              <CardTitle>
-                {t.beforeGame.createGameForm.title}
-              </CardTitle>
-              <SubText text={t.beforeGame.createGameForm.description} />    
-            </CardHeader>
-            <CardContent>
-              <CreateLobbyClient
-                lang={authenticatedUser.language}
-                t={t.beforeGame}
-                initialLobby={lobby}
-                accountId={authenticatedUser.accountId}
-                username={authenticatedUser.username}
-              />            
-            </CardContent>
-          </Card>       
-          <Card>
-            <CardHeader className="pb-3 sm:pb-4 justify-between flex flex-row">
-                <CardTitle className="text-base sm:text-lg flex items-center gap-2">
-                  <User className="w-4 h-4" />
-                  {/* Players ({players.length}) */}
-                  <sup className="italic text-xs font-normal">max {MAX_ONLINE_GAME_PLAYERS}</sup>
+        <div className="flex flex-col lg:flex-row-reverse gap-4">
+            <Card className="w-full">
+              <CardHeader>
+                <CardTitle>
+                  {t.beforeGame.createGameForm.title}
                 </CardTitle>
+                <SubText text={t.beforeGame.createGameForm.description} />    
+              </CardHeader>
+              <CardContent>
+                <CreateLobbyClient
+                  lang={authenticatedUser.language}
+                  t={t.beforeGame}
+                  initialLobby={lobby}
+                  accountId={authenticatedUser.accountId}
+                  username={authenticatedUser.username}
+                />            
+              </CardContent>
+            </Card>       
+            <Card className="w-full">
+              <CardHeader className="pb-3 sm:pb-4 justify-between flex flex-row">
+                  <CardTitle className="text-base sm:text-lg flex items-center gap-2">
+                    <User className="w-4 h-4" />
+                    {/* Players ({players.length}) */}
+                    <sup className="italic text-xs font-normal">max {MAX_ONLINE_GAME_PLAYERS}</sup>
+                  </CardTitle>
 
-                <LoadingDots color="success" size="md" />
-            </CardHeader>
-            <CardContent className="space-y-2 sm:space-y-3">
-                <PlayersList
-                  hostAccountId={lobby?.hostAccountId}
-                  lobbyId={lobby?.id}
-                />
-            </CardContent>
-          </Card>
+                  <LoadingDots color="success" size="md" />
+              </CardHeader>
+              <CardContent className="space-y-2 sm:space-y-3">
+                  <PlayersList
+                    hostAccountId={lobby?.hostAccountId}
+                    lobbyId={lobby?.id}
+                  />
+              </CardContent>
+            </Card>
+        </div>        
       </div>
     </PageBase>
   )

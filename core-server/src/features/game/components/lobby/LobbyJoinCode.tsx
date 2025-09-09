@@ -16,13 +16,13 @@ export default function LobbyJoinCode({ joinCode }: { joinCode: string }) {
     }
 
     return (
-        <button className="flex flex-row cursor-pointer" onClick={copyJoinCodeToClipboard}>
+        <button className="flex flex-row cursor-pointer text-xl md:text-3xl font-bold" onClick={copyJoinCodeToClipboard}>
             {splitStringInMiddle(joinCode ?? "")}
-            {copiedGameId ? (
+            {/* {copiedGameId ? (
                 <div className="text-success"><Icon LucideIcon={Check} size="xs" /></div>
             ) : (
                 <Icon LucideIcon={Copy} size="xs" />
-            )}
+            )} */}
         </button>
     )
 }

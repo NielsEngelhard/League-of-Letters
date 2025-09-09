@@ -47,7 +47,7 @@
     },
     "lobby": {
         "create": {
-            "title": "Maak Online Spel",
+            "title": "Create game",
             "joinCode": "Code",
             "joinLink": "Link"
         },

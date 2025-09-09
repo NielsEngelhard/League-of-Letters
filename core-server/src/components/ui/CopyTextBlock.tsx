@@ -2,6 +2,7 @@
 
 import { Check, Copy } from "lucide-react";
 import { useState } from "react";
+import Card from "./card/Card";
 
 interface Props {
     label: string;
@@ -22,14 +23,14 @@ export default function CopyTextBlock({ label, value }: Props) {
   };
 
     return (
-        <div 
+        <button 
           onClick={copyToClipboard}
-          className="bg-background-secondary border-2 border-dashed border-border rounded-lg p-4 cursor-pointer hover:bg-foreground-muted/10 hover:border-foreground-muted/10 transition-all duration-200 group"
+          className="bg-primary/5 border-2 border-dashed border-border rounded-lg p-4 cursor-pointer hover:bg-foreground-muted/10 hover:border-foreground-muted/10 transition-all duration-200 group w-full"
         >
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between w-full text-start">
             <div className="flex-1 min-w-0">
               <p className="text-xs text-foreground-muted mb-1">{label}</p>
-              <p className="text-sm font-monos text-foreground truncate">
+              <p className="text-sm font text-foreground truncate">
                 {value}
               </p>
             </div>
@@ -41,6 +42,6 @@ export default function CopyTextBlock({ label, value }: Props) {
               )}
             </div>
           </div>
-        </div>
+        </button>
     )
 }
