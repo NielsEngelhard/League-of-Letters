@@ -57,7 +57,7 @@ export default function CopyTextCard({ text, label, bg, txt, classes }: Props) {
                 className={cn(variants({ bg, txt }))}
             >
                 <span className={cn(
-                    "truncate",
+                    "truncate pr-2",
                     txt === "primary" ? "font-bold text-primary text-lg" : "text-sm text-muted-foreground"
                 )}>
                     {text}
