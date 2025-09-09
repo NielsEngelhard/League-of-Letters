@@ -7,7 +7,6 @@ import ReconnectGamesOverview from "@/features/game/components/ReconnectGamesOve
 import Link from "next/link";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import { loadTranslations } from "@/features/i18n/utils";
-import { APP_NAME } from "@/app/global-constants";
 
 export default async function GameModePage({
   params
@@ -20,7 +19,7 @@ export default async function GameModePage({
   return (
     <PageBase requiresAuh={false} lang={lang}>
       <PageIntro
-        title={APP_NAME}
+        title={t.beforeGame.gameMode.title}
         subText={t.beforeGame.gameMode.description}
         titleColor="gradient"
         titleSize="lg">

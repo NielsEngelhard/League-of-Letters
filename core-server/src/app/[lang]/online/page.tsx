@@ -19,7 +19,7 @@ export default async function OnlinePage({
 
   return (
     <PageBase lang={lang}>
-      <PageIntro title="Online Game" subText="Play with other people" backHref={LANGUAGE_ROUTE(lang, PICK_GAME_MODE_ROUTE)}>
+      <PageIntro title="Online Game" subText={t.beforeGame.online.description} backHref={LANGUAGE_ROUTE(lang, PICK_GAME_MODE_ROUTE)}>
 
       </PageIntro>
 

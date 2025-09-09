@@ -73,7 +73,7 @@ const SelectDropdown = <
               className={`
                 ${centerText ? 'text-center' : ''}
                 ${fieldState.error ? "border-error" : "border-border"}
-                border px-3 py-2 text-sm rounded-md font-monos bg-background focus:border-primary/30 outline-none cursor-pointer
+                border px-3 py-2 text-sm rounded-md bg-background focus:border-primary/30 outline-none cursor-pointer font-medium
                 ${className || ''}`}
               ref={field.ref}
               onChange={handleChange}

@@ -1,5 +1,6 @@
 {
     "gameMode": {
+        "title": "Game Mode",
         "description": "Ein freches Wortspielchen",
         "solo": {
             "title": "Solo",

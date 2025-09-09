@@ -1,5 +1,6 @@
 export default interface BeforeGameTranslations {
   gameMode: {
+    title: string;
     description: string;
     solo: {
       title: string;

@@ -106,38 +106,40 @@ export default function CreateGameForm({ onLeaveGame, submitDisabled = false, pl
 
     return (
         <form className="flex flex-col gap-3" onSubmit={form.handleSubmit(handleFormSubmit)}>            
-            <SelectDropdown
-                name="wordLength"
-                control={form.control}
-                label={t.createGameForm.wordLengthLabel}
-                placeholder="Length of each word"
-                required
-                options={[
-                    { value: 4, label: "4 (four)" },
-                    { value: 5, label: "5 (five)" },
-                    { value: 6, label: "6 (six)" },
-                    { value: 7, label: "7 (seven)" },
-                    { value: 8, label: "8 (eight)" },
-                    { value: 9, label: "9 (nine)" },
-                    { value: 10, label: "10 (ten)" },
-                    { value: 11, label: "11 (eleven)" },
-                    { value: 12, label: "12 (twelve)" },
-                ]}
-            />
+            <div className="flex flex-col md:flex-row gap-2">
+                <SelectDropdown
+                    name="wordLength"
+                    control={form.control}
+                    label={t.createGameForm.wordLengthLabel}
+                    placeholder="Length of each word"
+                    required
+                    options={[
+                        { value: 4, label: "4 (four)" },
+                        { value: 5, label: "5 (five)" },
+                        { value: 6, label: "6 (six)" },
+                        { value: 7, label: "7 (seven)" },
+                        { value: 8, label: "8 (eight)" },
+                        { value: 9, label: "9 (nine)" },
+                        { value: 10, label: "10 (ten)" },
+                        { value: 11, label: "11 (eleven)" },
+                        { value: 12, label: "12 (twelve)" },
+                    ]}
+                />
 
-            <SelectDropdown
-                name="totalRounds"
-                control={form.control}
-                label={t.createGameForm.totalRoundsLabel}
-                placeholder="Number of rounds"
-                required
-                options={[
-                    { value: 1, label: "1 (one)" },
-                    { value: 2, label: "2 (two)" },
-                    { value: 3, label: "3 (three)" },
-                    { value: 4, label: "4 (four)" },
-                ]}
-            />
+                <SelectDropdown
+                    name="totalRounds"
+                    control={form.control}
+                    label={t.createGameForm.totalRoundsLabel}
+                    placeholder="Number of rounds"
+                    required
+                    options={[
+                        { value: 1, label: "1 (one)" },
+                        { value: 2, label: "2 (two)" },
+                        { value: 3, label: "3 (three)" },
+                        { value: 4, label: "4 (four)" },
+                    ]}
+                />                
+            </div>
 
             {gameMode == "online" && (
                 <SelectDropdown

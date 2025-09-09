@@ -14,7 +14,7 @@ interface Props {
 
 export default function PageIntro({ title, subText, titleSize = "md", titleColor = "primary", backHref, children, rightUpperCorner }: Props) {
     return (
-        <div className="w-full flex flex-col items-center text-center md:space-y-3">
+        <div className="w-full flex flex-col items-center text-center md:space-y-3 mt-2 gap-2">
             <div className="relative flex flex-row w-full justify-center">
                 {backHref && (
                     <div className="absolute left-0">
@@ -29,15 +29,15 @@ export default function PageIntro({ title, subText, titleSize = "md", titleColor
                 </div>             
             </div>
 
+            {subText && (
+                <div className="text-lg md:text-xl text-foreground-muted" 
+                    style={{ animationDelay: '500ms', animationFillMode: 'forwards' }}>
+                    {subText}
+                </div>
+            )}            
+
             
             <div className="">
-                    {subText && (
-                    <div className="text-lg md:text-xl text-foreground-muted" 
-                        style={{ animationDelay: '500ms', animationFillMode: 'forwards' }}>
-                        {subText}
-                    </div>
-                )}
-                
                 {children}
             </div>
         </div>

@@ -1,6 +1,7 @@
 {
     "gameMode": {
-        "description": "A cheeky game of wordplay",
+        "title": "Game Mode",
+        "description": "Choose a game mode",
         "solo": {
             "title": "Solo",
             "description": "Play a peacefull game at your own pace",

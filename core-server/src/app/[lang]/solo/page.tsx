@@ -21,7 +21,7 @@ export default async function SoloPage({
   const account = await Authenticate_Server();
 
   return (
-    <PageBase size="sm" lang={lang} requiresAuh={true}>
+    <PageBase size="md" lang={lang} requiresAuh={true}>
   
       <PageIntro title={t.beforeGame.gameMode.solo.title} subText={t.beforeGame.gameMode.solo.description} backHref={LANGUAGE_ROUTE(lang, PICK_GAME_MODE_ROUTE)}>
 

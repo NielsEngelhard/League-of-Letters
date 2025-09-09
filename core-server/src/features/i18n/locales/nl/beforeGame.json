@@ -1,6 +1,7 @@
 {
     "gameMode": {
-        "description": "Een lekker spelletje, met woorden",
+        "title": "Game Mode",
+        "description": "Speel een lekker spelletje, met woorden",        
         "solo": {
             "title": "Solo",
             "description": "Speel een rustig spelletje op je eigen tempo",
