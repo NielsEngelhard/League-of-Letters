@@ -9,7 +9,6 @@ import cn from "@/lib/cn";
 interface Props extends VariantProps<typeof variants> {
     text: string;
     label?: string;
-    classes?: string;
 }
 
 const variants = cva(
@@ -32,7 +31,7 @@ const variants = cva(
   }
 )
 
-export default function CopyTextCard({ text, label, bg, txt, classes }: Props) {
+export default function CopyTextCard({ text, label, bg, txt }: Props) {
     const [copied, setCopied] = useState(false);
 
     function copyTextToClipboard() {
@@ -46,7 +45,7 @@ export default function CopyTextCard({ text, label, bg, txt, classes }: Props) {
     }
 
     return (
-        <div className={classes}>
+        <div className="flex flex-col justify-end">
             {label && (
                 <label className="text-xs font-medium text-muted-foreground block mb-1 w-full">
                     {label}
