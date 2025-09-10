@@ -10,7 +10,7 @@
         "playButton": "🎮 Play Now!"
     },
     "playingGuessGrid": {
-        "guesses": ["AMSUSING", "TICKLES", "CHUCKLE", "FOOLISH", "GIGGLES"],
+        "guesses": ["CABAGGE", "TICKLES", "CHUCKLE", "FOOLISH", "GIGGLES"],
         "actualWord": "GIGGLES"
     },
     "notFound": {

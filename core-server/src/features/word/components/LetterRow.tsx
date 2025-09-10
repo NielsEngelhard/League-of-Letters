@@ -60,7 +60,7 @@ export default function LetterRow({ letters, animate = false }: Props) {
                         animate={animate}
                     />
                     :
-                    <LetterTile />               
+                    <LetterTile state={LetterState.Unguessed} />               
                     }
                 </div>
             ))}

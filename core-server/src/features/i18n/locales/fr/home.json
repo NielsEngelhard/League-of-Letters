@@ -10,7 +10,7 @@
         "playButton": "🎮 Jouer Maintenant !"
     },
     "playingGuessGrid": {
-        "guesses": ["BIZARRE", "MARRANT", "AMUSANT", "COMIQUE", "RIGOLO"],
+        "guesses": ["MARRANT", "AMUSANT", "COMIQUE", "BIZARRE"],
         "actualWord": "BIZARRE"
     },
     "notFound": {
