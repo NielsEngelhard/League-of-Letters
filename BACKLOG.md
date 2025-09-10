@@ -1,6 +1,7 @@
 BUGS NA LAUNCH
-- HOME PAGE AANKLEDEN MET PLAYING GAME
 - themas bij aanmaken account want leuk
+- home page infinite load bug bij 2e terugkomst?!!?!
+- Na update guest account geen active game
 MUST
 
 SHOULD

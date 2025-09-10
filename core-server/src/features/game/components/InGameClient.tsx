@@ -9,7 +9,6 @@ import { useAuth } from "@/features/auth/AuthContext";
 import LoadingSpinner from "@/components/ui/animation/LoadingSpinner";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import { useSocket } from "@/features/realtime/socket-context";
-import { useToaster } from "@/components/general/toaster/ToasterContext";
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 import InGameTranslations from "@/features/i18n/translation-file-interfaces/InGameTranslations";
 import { SettingsTranslations } from "@/features/i18n/translation-file-interfaces/SettingsTranslations";
@@ -25,7 +24,6 @@ interface Props {
 export default function IngameClient({ initialGameState, lang, generalTranslations, inGameTranslations, settingsTranslations }: Props) {
     const { initializeGameState, game, clearGameState, players } = useActiveGame();    
     const { initializeConnection, emitJoinGame, connectionStatus } = useSocket(); 
-    const { clearMessage, pushLoadingMsg } = useToaster();
     const { account } = useAuth();
 
     // On client leave, clean game state
@@ -46,7 +44,6 @@ export default function IngameClient({ initialGameState, lang, generalTranslatio
         if (connectionStatus == "connected") return;
 
         if (game && game.gameMode == "online") {
-            pushLoadingMsg("Connecting with the realtime server");
             initializeConnection();
         }
     }, [game]);
@@ -55,7 +52,6 @@ export default function IngameClient({ initialGameState, lang, generalTranslatio
     useEffect(() => {
         if (!account || connectionStatus != "connected") return;
 
-        clearMessage();
         emitJoinGame({
             gameId: initialGameState.id,
             accountId: account.id,

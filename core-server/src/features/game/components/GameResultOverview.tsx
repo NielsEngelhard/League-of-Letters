@@ -65,7 +65,7 @@ export default function GameResultOverview({ players, lang, t, gameId, thisPlaye
             {/* Prominent message for multiplayer games so participants can stay and play another game easily */}
             {(!isSoloGame && !thisPlayerIsHost) && (
                 <NotificationBanner
-                    icon={Repeat}
+                    OverwriteIcon={Repeat}
                     text={t.overview.infoBanner.participantStayMsg}
                 />
             )}
@@ -73,7 +73,7 @@ export default function GameResultOverview({ players, lang, t, gameId, thisPlaye
             {/* Prominent host message for multiplayer games so host knows he can bring all other players to a new lobby */}
             {(!isSoloGame && thisPlayerIsHost == true) && (
                 <NotificationBanner
-                    icon={Repeat}
+                    OverwriteIcon={Repeat}
                     text={t.overview.infoBanner.hostPlayAgainMsg}
                 />  
             )}            

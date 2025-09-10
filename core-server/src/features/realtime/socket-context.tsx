@@ -43,7 +43,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
 }) => {
   const activeGameContext = useActiveGame();
   const { account } = useAuth();
-  const { pushErrorMsg } = useToaster();
+  const { errorToast } = useToaster();
 
   const router = useRouter();
   const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>("empty");
@@ -55,7 +55,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
   const retryDelay = 2000;
 
   const handleConnectionFailure = () => {
-    pushErrorMsg("Realtime error");
+    errorToast("Websocket error");
     router.push(LANGUAGE_ROUTE(lang, MULTIPLAYER_GAME_ROUTE));
   };
 
