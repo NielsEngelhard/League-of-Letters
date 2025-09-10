@@ -7,7 +7,7 @@ interface Props {
     maxNGuesses: number;
     wordLength: number;
     currentGuess: string;
-    label?: string;
+    revealedWordLabel?: string;
     revealedWord?: string;
 }
 
@@ -16,7 +16,7 @@ export default function LetterRowGrid({
     maxNGuesses, 
     wordLength, 
     currentGuess, 
-    label,
+    revealedWordLabel: label,
     revealedWord
 }: Props) {
     const remainingRows = maxNGuesses - preFilledRows.length - 1;

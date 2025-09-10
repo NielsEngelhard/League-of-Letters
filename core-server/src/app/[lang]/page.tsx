@@ -55,7 +55,7 @@ export default async function HomePage({
                 />                 
             </div>
 
-            <WordsPlayingBlock words={t.home.words ?? []} />
+            <WordsPlayingBlock  />
 
             <WordCountPerLanguageBlock lang={lang} />
         </div>      

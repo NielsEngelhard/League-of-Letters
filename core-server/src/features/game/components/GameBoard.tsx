@@ -104,7 +104,7 @@ export default function GameBoard({generalTranslations, inGameTranslations, sett
                             preFilledRows={currentRound.guesses ?? []}
                             wordLength={currentRound.wordLength}
                             revealedWord={revealedWord}
-                            label={inGameTranslations.theWordWas}
+                            revealedWordLabel={inGameTranslations.theWordWas}
                         />
                     </div>
 
