@@ -9,7 +9,10 @@
         "teaserActual": "améliorer tes compétences ?",
         "playButton": "🎮 Jouer Maintenant !"
     },
-    "words": ["fromage", "bâton", "balle", "violon", "zèbre"],
+    "playingGuessGrid": {
+        "guesses": ["BIZARRE", "MARRANT", "AMUSANT", "COMIQUE", "RIGOLO"],
+        "actualWord": "BIZARRE"
+    },
     "notFound": {
         "title": "Page Introuvable",
         "description": "Désolé, nous n'avons pas pu trouver la page que tu cherches. La page a peut-être été déplacée, supprimée, ou tu as saisi la mauvaise URL.",

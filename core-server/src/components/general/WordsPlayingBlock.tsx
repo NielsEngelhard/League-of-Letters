@@ -8,17 +8,16 @@ import { WordValidator } from "@/features/word/util/word-validator/word-validato
 import { EvaluatedLetter, EvaluatedWord, LetterState, WordState } from "@/features/word/word-models";
 import { useEffect, useState } from "react";
 
-export default function WordsPlayingBlock() {
-    // Mock words for demonstration - replace with actual prop when ready
-    const words = ["LEARNING", "BUILDING", "CREATING", "PLAYING", "THINKING"];
-    const actualWord = "THINKING";
+interface Props {
+    guesses: string[];
+    actualWord: string;
+}
 
+export default function WordsPlayingBlock({ guesses, actualWord }: Props) {
     const initialWordState: WordState = WordStateFactory.create(actualWord);
 
-    
     const [wordState, setWordState] = useState<WordState>(initialWordState);
     const [prefilledRows, setPrefilledRows] = useState<EvaluatedWord[]>([]);
-
     const [currentGuessIndex, setCurrentGuessIndex] = useState(0);
 
     // Start the animation cycle
@@ -33,7 +32,7 @@ export default function WordsPlayingBlock() {
 
     // Handle word cycling
     useEffect(() => {
-        const currentWord = words[currentGuessIndex];
+        const currentWord = guesses[currentGuessIndex];
         const duration = (LETTER_ANIMATION_TIME_MS * currentWord.length) + 1500;
                 
         const timeout = setTimeout(() => {
@@ -44,9 +43,8 @@ export default function WordsPlayingBlock() {
     }, [currentGuessIndex]);
 
     function addCurrentWord() {
-        const currentGuess = words[currentGuessIndex];
+        const currentGuess = guesses[currentGuessIndex];
                 
-
         const evaluatedWord = WordValidator.validate({
             actualWordState: wordState,
             currentGuessIndex: currentGuessIndex,
@@ -63,7 +61,7 @@ export default function WordsPlayingBlock() {
     }
 
     function nextWord() {
-        const nextIndex = (currentGuessIndex + 1) % words.length;
+        const nextIndex = (currentGuessIndex + 1) % guesses.length;
         setCurrentGuessIndex(nextIndex);
                 
         // If we've filled all 6 rows, reset

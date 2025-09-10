@@ -9,7 +9,10 @@ export default interface HomePageTranslations {
     teaserActual: string;
     playButton: string;    
   };
-  words: string[];
+  playingGuessGrid: {
+    guesses: string[],
+    actualWord: string,
+  }
   notFound: {
     title: string;
     description: string;

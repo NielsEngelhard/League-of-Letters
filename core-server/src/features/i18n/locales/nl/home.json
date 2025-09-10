@@ -9,7 +9,10 @@
       "teaserActual": "skills naar een hoger level te tillen?",
       "playButton": "🎮 Speel Nu!"
   },
-  "words": ["kaas", "stok", "bal", "viool", "zebra"],
+  "playingGuessGrid": {
+      "guesses": ["LEKKERS", "VROLIJK", "GEINIGE", "KNUFFEL", "GRAPPIG"],
+      "actualWord": "GRAPPIG"
+  },
   "notFound": {
       "title": "Pagina Niet Gevonden",
       "description": "Sorry, we konden de pagina die je zoekt niet vinden. De pagina is misschien verplaatst, verwijderd, of je hebt de verkeerde URL ingevoerd.",

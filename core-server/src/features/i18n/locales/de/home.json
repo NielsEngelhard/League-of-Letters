@@ -9,7 +9,10 @@
         "teaserActual": "Können zu verbessern?",
         "playButton": "🎮 Jetzt Spielen!"
     },
-    "words": ["Käse", "Stock", "Ball", "Geige", "Zebra"],
+    "playingGuessGrid": {
+        "guesses": ["SCHARFE", "FEURIGE", "PAPRIKA", "BRENNEN"],
+        "actualWord": "BRENNEN"
+    },
     "notFound": {
         "title": "Seite Nicht Gefunden",
         "description": "Entschuldigung, wir konnten die Seite, die du suchst, nicht finden. Die Seite wurde möglicherweise verschoben, gelöscht, oder du hast die falsche URL eingegeben.",
