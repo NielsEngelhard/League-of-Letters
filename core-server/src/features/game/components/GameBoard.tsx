@@ -16,6 +16,7 @@ import Modal from "@/components/ui/Modal";
 import { SettingsTranslations } from "@/features/i18n/translation-file-interfaces/SettingsTranslations";
 import { useAuth } from "@/features/auth/AuthContext";
 import { LANGUAGE_ROUTE, PICK_GAME_MODE_ROUTE } from "@/app/routes";
+import InGamePlayerBar from "./in-game/InGamePlayersBar";
 
 interface Props {
     lang: SupportedLanguage;
@@ -60,9 +61,9 @@ export default function GameBoard({generalTranslations, inGameTranslations, sett
     return (
         <>
         {(game && currentRound) ? (
-            <div className="w-full flex flex-col items-center px-3 sm:px-4 md:px-6 py-2 sm:py-4 md:py-6">
+            <div className="">
                 {/* Mobile-optimized container with responsive spacing */}
-                <div className="w-full flex flex-col items-center gap-3 sm:gap-4 md:gap-6 max-w-sm sm:max-w-md md:max-w-2xl mx-auto">
+                <div className="w-full flex flex-col items-center gap-3 sm:gap-4 md:gap-6">
                     
                     <div className="fixed md:relative top-0 w-full z-50">
                         <InGameProgressionBar
@@ -73,6 +74,12 @@ export default function GameBoard({generalTranslations, inGameTranslations, sett
                             currentPlayerUsername={players.find(p => p.accountId == currentPlayerId)?.username}
                         />
                     </div>
+
+                    <InGamePlayerBar
+                        players={players}
+                        playersLabel="Players"
+                        currentPlayerId={currentPlayerId}                        
+                    />
 
                     {/* Game Grid Section - responsive spacing */}
                     <div className={`w-full flex flex-col items-center justify-center gap-2 sm:gap-3 ${getMobileScale()} md:scale-100 origin-top`}>
