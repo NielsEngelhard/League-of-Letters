@@ -1,12 +1,14 @@
 BUGS NA LAUNCH
 - rename MessageBarProvider naar Toaster
 - message bar is nu echt foei lelijk
+- HOME PAGE AANKLEDEN MET PLAYING GAME
+- themas bij aanmaken account want leuk
 MUST
 
 SHOULD
+- GAME MODE: bring your own word
 - Spotify radio voor music 
 - kick player werkt niet
-- GAME MODE: bring your own word
 - Sound effects
 - Favourite color is displayed as your color everywhere
 

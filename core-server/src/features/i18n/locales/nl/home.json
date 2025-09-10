@@ -11,6 +11,6 @@
   "notFound": {
       "title": "Pagina Niet Gevonden",
       "description": "Sorry, we konden de pagina die je zoekt niet vinden. De pagina is misschien verplaatst, verwijderd, of je hebt de verkeerde URL ingevoerd.",
-      "btnText": "Breng me terug"
+      "btnText": "Terug"
   }
 }

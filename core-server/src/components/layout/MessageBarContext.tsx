@@ -5,6 +5,7 @@ import { createContext, useState, ReactNode, useContext } from 'react';
 export type GlobalMsgType = "success" | "warning" | "error" | "information" | "loading" | "live-connected";
 
 export interface MessageBarMessage {
+  title?: string;
   msg?: string;
   type?: GlobalMsgType;
 }
