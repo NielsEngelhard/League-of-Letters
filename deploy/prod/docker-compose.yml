@@ -16,7 +16,7 @@ services:
     restart: unless-stopped
 
   lol_core:
-    image: nielsts/lol-core:0.1-beta
+    image: nielsts/lol-core:0.3-beta
     hostname: league-of-letters.online
     env_file:
       - ./env/core.env

@@ -9,8 +9,13 @@ interface TriggerRealtimeEvent<T> {
 }
 
 async function TriggerRealtimeEventOnSocketServer<T>(request: TriggerRealtimeEvent<T>): Promise<boolean> {
+  const realtimeApiUrl = `${process.env.ACTIONS_SERVER_API_URL}/emit-to-room`;
+  
+  console.log("realtimeApiUrl " + realtimeApiUrl);
+  console.log("Request payload:", JSON.stringify(request, null, 2));
+  
   try {
-    const response = await fetch(`${process.env.ACTIONS_SERVER_API_URL}/emit-to-room`, {
+    const response = await fetch(realtimeApiUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -18,9 +23,31 @@ async function TriggerRealtimeEventOnSocketServer<T>(request: TriggerRealtimeEve
       body: JSON.stringify(request),
     });
     
+    console.log("Response status:", response.status);
+    console.log("Response statusText:", response.statusText);
+    console.log("Response headers:", Object.fromEntries(response.headers.entries()));
+    
+    if (!response.ok) {
+      const errorBody = await response.text();
+      console.log("Response error body:", errorBody);
+    }
+    
     return response.ok;
-  } catch(err) {
-    console.log("TriggerRealtimeEventOnSocketServer failed " + err);
+  } catch(err: any) {
+    console.log("TriggerRealtimeEventOnSocketServer failed");
+    console.log("Error name:", err?.name);
+    console.log("Error message:", err?.message);
+    console.log("Full error:", err);
+    
+    // Additional debugging for network errors
+    if (err instanceof TypeError && err.message === 'fetch failed') {
+      console.log("This is likely a network connectivity issue:");
+      console.log("- Check if the server is running");
+      console.log("- Verify the URL is correct:", realtimeApiUrl);
+      console.log("- Check firewall/network restrictions");
+      console.log("- Verify SSL/TLS configuration if using HTTPS");
+    }
+    
     return false;
   }
 }
