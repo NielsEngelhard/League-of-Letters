@@ -4,6 +4,7 @@ import Button from "./Button";
 interface Props {
     href: string;
     text?: string;
+
 }
 
 export default function BackButton({ href, text = "Back" }: Props) {
@@ -11,6 +12,7 @@ export default function BackButton({ href, text = "Back" }: Props) {
         <Button
             href={href}
             size="sm"
+            className="w-ful"
             variant="skeleton">
             <div className="flex gap-1 items-center">
                 <ArrowBigLeft size={16} />

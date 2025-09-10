@@ -30,7 +30,7 @@ const buttonVariants = cva(
         error: "bg-error text-white border-border"
       },
       size: {
-        sm: "px-2 py-1 md:px-5 md:py-2 text-sm font-semibold",
+        sm: "px-3 py-1.5 md:px-5 md:py-2 text-sm font-semibold",
         md: "px-2 py-2 lg:px-4 lg:py-3",
         lg: "px-12 py-4 text-xl font-bold",
       },

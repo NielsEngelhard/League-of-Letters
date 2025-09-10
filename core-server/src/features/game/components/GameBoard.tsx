@@ -11,10 +11,11 @@ import { SupportedLanguage } from "@/features/i18n/languages";
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 import InGameTranslations from "@/features/i18n/translation-file-interfaces/InGameTranslations";
 import Button from "@/components/ui/Button";
-import { Keyboard, Settings } from "lucide-react";
+import { ArrowBigLeft, Keyboard, Settings } from "lucide-react";
 import Modal from "@/components/ui/Modal";
 import { SettingsTranslations } from "@/features/i18n/translation-file-interfaces/SettingsTranslations";
 import { useAuth } from "@/features/auth/AuthContext";
+import { LANGUAGE_ROUTE, PICK_GAME_MODE_ROUTE } from "@/app/routes";
 
 interface Props {
     lang: SupportedLanguage;
@@ -23,7 +24,7 @@ interface Props {
     settingsTranslations: SettingsTranslations;
 }
 
-export default function GameBoard({generalTranslations, inGameTranslations, settingsTranslations}: Props) {
+export default function GameBoard({generalTranslations, inGameTranslations, settingsTranslations, lang}: Props) {
     const [showSettings, setShowSettings] = useState(false);
     const { game, players, currentGuess, currentRound, isThisPlayersTurn, isAnimating, revealedWord, currentPlayerId, recalculateCurrentPlayer } = useActiveGame();
     const [initialTimeLeftForThisTurn, setInitialTimeLeftForThisTurn] = useState<number | null>(null);
@@ -124,6 +125,19 @@ export default function GameBoard({generalTranslations, inGameTranslations, sett
                     {/* Spacer to push content up on mobile and prevent keyboard overlap */}
                     <div className="h-4 sm:h-8 md:h-12 flex-shrink-0" />
                 </div>
+
+                {/* Back button for mobile */}
+                <Button
+                    href={LANGUAGE_ROUTE(lang, PICK_GAME_MODE_ROUTE)}
+                    size="sm"
+                    className="w-full flex md:hidden"
+                    corners="square"
+                    variant="skeleton">
+                    <div className="flex gap-1 items-center">
+                        <ArrowBigLeft size={16} />
+                        Spel verlaten
+                    </div>
+                </Button>    
             </div>
             ): (
                 <div className="min-h-screen flex items-center justify-center">

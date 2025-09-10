@@ -7,9 +7,9 @@
         "description": "Je moet inloggen of een gastsessie aanmaken om deze pagina te bezoeken."
     },
     "letterState": {
-        "correct": "goed",
+        "correct": "correct",
         "close": "verkeerde plek",
-        "wrong": "foutje"
+        "wrong": "fout"
     },    
     "login": {
         "login": {
