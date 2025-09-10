@@ -4,7 +4,7 @@ import { createContext, useState, ReactNode, useContext, useEffect, useRef, Disp
 import { ActiveGameModel, GamePlayerModel, GameRoundModel, RoundTransitionData } from '../game-models';
 import { GuessWordCommand, GuessWordResponse } from '../actions/command/guess-word-command';
 import { TIME_BETWEEN_ROUNDS_MS } from '../game-constants';
-import { useMessageBar } from '@/components/layout/MessageBarContext';
+import { useToaster } from '@/components/general/toaster/ToasterContext';
 import { TurnTrackerAlgorithm } from '../util/algorithm/turn-tracker-algorithm/turn-tracker';
 import { GetLetterAnimationDurationInMs } from '../util/game-time-calculators';
 import { sortPlayerModelOnPositionAndGetUserIds } from '../util/player-sorting';
@@ -38,7 +38,7 @@ type ActiveGameContextType = {
 const ActiveGameContext = createContext<ActiveGameContextType | undefined>(undefined);
 
 export function ActiveGameProvider({ children }: { children: ReactNode }) {
-  const { pushErrorMsg, pushMessage } = useMessageBar();
+  const { errorToast, pushToast } = useToaster();
   
   const [game, setGame] = useState<ActiveGameModel | undefined>(undefined);
   const [currentRound, setCurrentRound] = useState<GameRoundModel | undefined>(undefined);
@@ -100,7 +100,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     });
 
     if (!serverResponse.ok || !serverResponse.data) {
-      pushErrorMsg(serverResponse.errorMsg);
+      errorToast(serverResponse.errorMsg);
       return;
     } else {
       handleWordGuess(serverResponse.data);
@@ -141,7 +141,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     const playerToRemove = players.find(p => p.accountId == accountId);
     if (!playerToRemove) return;
 
-    pushMessage({ msg: `${playerToRemove.username} kicked`, type: "information" }, 3000);
+    pushToast({ msg: `${playerToRemove.username} kicked`, type: "information" }, 3000);
     removePlayer(accountId);
   }
 

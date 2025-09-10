@@ -11,7 +11,7 @@ import Label from "@/components/ui/form/Label";
 import { useEffect, useState } from "react";
 import Button from "@/components/ui/Button";
 import { useAuth } from "@/features/auth/AuthContext";
-import { useMessageBar } from "@/components/layout/MessageBarContext";
+import { useToaster } from "@/components/general/toaster/ToasterContext";
 import UpdateCurrentUserSettingsCommand from "../actions/command/update-current-user-settings";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card/card-children";
 import { SettingsTranslations } from "@/features/i18n/translation-file-interfaces/SettingsTranslations";
@@ -23,7 +23,7 @@ interface Props {
 export default function SettingsCard({ t }: Props) {
     const { settings, setSettingsOnClient } = useAuth();
     const [atLeastOneSettingChanged, setAtLeastOneSettingChanged] = useState(false);
-    const { pushMessage } = useMessageBar();
+    const { pushToast } = useToaster();
 
     const form = useForm<SettingsSchema>({
       resolver: zodResolver(settingsSchema),
@@ -49,10 +49,10 @@ export default function SettingsCard({ t }: Props) {
     async function saveSettingsOnServer(updatedSettings: SettingsSchema) {
         UpdateCurrentUserSettingsCommand(updatedSettings)
             .then(() => {
-                pushMessage({ msg: "Settings saved", type: "success" }, 3);
+                pushToast({ msg: "Settings saved", type: "success" }, 3);
             })
             .catch(() => {
-                pushMessage({ msg: "Try again later", type: "error" }, 3);
+                pushToast({ msg: "Try again later", type: "error" }, 3);
             });
     }
 

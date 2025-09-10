@@ -1,14 +1,14 @@
 "use client"
 
-import { useMessageBar } from "@/components/layout/MessageBarContext"
+import { useToaster } from "@/components/general/toaster/ToasterContext"
 
 export default function AdminTestPage() {
-    const msgBar = useMessageBar();
+    const toaster = useToaster();
     
     function onTriggerToast() {
         const seconds = 30;
         
-        msgBar.pushMessage({
+        toaster.pushToast({
             msg: "Een test message",
             title: "title",
             type: "information"

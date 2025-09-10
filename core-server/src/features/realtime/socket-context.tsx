@@ -11,7 +11,7 @@ import { useAuth } from '../auth/AuthContext';
 import { GamePlayerModel } from '../game/game-models';
 import { RealtimeLogger } from './realtime-logger';
 import { DefaultLanguage, SupportedLanguage } from '../i18n/languages';
-import { useMessageBar } from '@/components/layout/MessageBarContext';
+import { useToaster } from '@/components/general/toaster/ToasterContext';
 
 interface SocketContextType {
   socket: Socket | null;
@@ -43,7 +43,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
 }) => {
   const activeGameContext = useActiveGame();
   const { account } = useAuth();
-  const { pushErrorMsg } = useMessageBar();
+  const { pushErrorMsg } = useToaster();
 
   const router = useRouter();
   const [connectionStatus, setConnectionStatus] = useState<ConnectionStatus>("empty");

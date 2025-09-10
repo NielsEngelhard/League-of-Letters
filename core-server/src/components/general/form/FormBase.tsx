@@ -1,6 +1,6 @@
 "use client"
 
-import { useMessageBar } from "@/components/layout/MessageBarContext";
+import { useToaster } from "@/components/general/toaster/ToasterContext";
 import Button from "@/components/ui/Button";
 import ErrorText from "@/components/ui/text/ErrorText";
 import { ServerResponse } from "@/lib/response-handling/response-factory";
@@ -30,7 +30,7 @@ interface Props<TFormData extends FieldValues, TResponseData = any> {
 export default function FormBase<TFormData extends FieldValues, TResponseData = any>({
   form, children, onSubmit, onSuccess, onError, successMsg, btnTxt = "Update", BtnIcon = Save
 }: Props<TFormData, TResponseData>) {
-  const msgBar = useMessageBar();
+  const toaster = useToaster();
 
   const handleSubmit = async (data: TFormData) => {
     try {
@@ -47,7 +47,7 @@ export default function FormBase<TFormData extends FieldValues, TResponseData = 
 
   function handleSuccess(data: TResponseData) {
     onSuccess?.(data);
-    if (successMsg) msgBar.pushSuccessMsg(successMsg);    
+    if (successMsg) toaster.successToast(successMsg);
   }
 
   function handleExpectedError(errorMsg?: string) {
@@ -57,12 +57,15 @@ export default function FormBase<TFormData extends FieldValues, TResponseData = 
     }
 
     onError?.(errorMsg);
+    toaster.errorToast(errorMsg);
     form.setError("root", {
         message: errorMsg
     });    
   }
 
   function handleUnexpectedError() {
+    toaster.errorToast("Server error");
+
     form.setError("root", {
         message: "Server error"
     });    

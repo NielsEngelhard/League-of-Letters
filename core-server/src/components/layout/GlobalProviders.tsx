@@ -2,7 +2,7 @@
 
 import { AuthProvider } from "@/features/auth/AuthContext";
 import { SocketProvider } from "@/features/realtime/socket-context";
-import { MessageBarProvider } from "./MessageBarContext";
+import { ToasterProvider } from "../general/toaster/ToasterContext";
 import { ActiveGameProvider } from "@/features/game/components/active-game-context";
 import { SupportedLanguage } from "@/features/i18n/languages";
 
@@ -15,7 +15,7 @@ type Props = {
 
 export function Providers({ children, lang, actionsServerUrl, websocketPath }: Props) {
   return (
-    <MessageBarProvider>
+    <ToasterProvider>
       <AuthProvider>
         <ActiveGameProvider>
           <SocketProvider lang={lang} serverUrl={actionsServerUrl} path={websocketPath}>
@@ -23,6 +23,6 @@ export function Providers({ children, lang, actionsServerUrl, websocketPath }: P
           </SocketProvider>              
         </ActiveGameProvider>
       </AuthProvider>        
-    </MessageBarProvider>
+    </ToasterProvider>
   );
 }

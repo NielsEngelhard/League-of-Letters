@@ -8,7 +8,7 @@ import { UpdateAccountSchema, updateAccountSchema } from "../../account-schemas"
 import ColorInput from "@/components/ui/form/ColorInput";
 import { PrivateAccountModel, PublicAccountModel } from "../../account-models";
 import UpdateCurrentAccountInfo from "../../actions/command/update-current-account-info";
-import { useMessageBar } from "@/components/layout/MessageBarContext";
+import { useToaster } from "@/components/general/toaster/ToasterContext";
 import FormBase from "@/components/general/form/FormBase";
 import { SettingsTranslations } from "@/features/i18n/translation-file-interfaces/SettingsTranslations";
 
@@ -19,7 +19,7 @@ interface Props {
 
 export default function ChangeAccountForm({ t, account }: Props) {
     const { updateAccount } = useAuth();
-    const msgBar = useMessageBar();
+    const toaster = useToaster();
 
     const form = useForm<UpdateAccountSchema>({
         resolver: zodResolver(updateAccountSchema),
@@ -32,7 +32,7 @@ export default function ChangeAccountForm({ t, account }: Props) {
 
     function onSuccess(account: PublicAccountModel) {
         updateAccount(account);
-        msgBar.pushSuccessMsg("Success");
+        toaster.successToast("Success");
     }
 
     return (
