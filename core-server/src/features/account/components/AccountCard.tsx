@@ -125,7 +125,7 @@ export default async function AccountCard({ t, lang, account }: Props) {
                             </div>
                         </div>
 
-                        <NotificationBanner icon={Clock} colorVariant="secondary" text={t.account.statistics.updateDisclaimer} />
+                        <NotificationBanner OverwriteIcon={Clock} colorVariant="secondary" text={t.account.statistics.updateDisclaimer} />
 
                         <Seperator />
 
