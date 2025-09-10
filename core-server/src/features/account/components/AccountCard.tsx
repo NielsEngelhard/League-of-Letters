@@ -2,7 +2,7 @@
 
 import Card from "@/components/ui/card/Card";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card/card-children";
-import InfoBanner from "@/components/ui/InfoBanner";
+import NotificationBanner from "@/components/ui/NotificationBanner";
 import Seperator from "@/components/ui/Seperator";
 import StatisticHighlight from "@/components/ui/StatisticHighlight";
 import { SupportedLanguage } from "@/features/i18n/languages";
@@ -125,7 +125,7 @@ export default async function AccountCard({ t, lang, account }: Props) {
                             </div>
                         </div>
 
-                        <InfoBanner icon={Clock} colorVariant="secondary" text={t.account.statistics.updateDisclaimer} />
+                        <NotificationBanner icon={Clock} colorVariant="secondary" text={t.account.statistics.updateDisclaimer} />
 
                         <Seperator />
 

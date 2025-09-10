@@ -18,21 +18,22 @@ export default async function Header({ lang } : {lang: SupportedLanguage }) {
             <div className="flex items-center justify-between max-w-6xl mx-auto px-6 h-full">
                 {/* Left - Logo & Status */}
                 <div className="flex items-center gap-4">
-                    <Link 
-                        href={currentUser ? LANGUAGE_ROUTE(lang, PICK_GAME_MODE_ROUTE) : LANGUAGE_ROUTE(lang, HOME_ROUTE)}
-                        className="group flex items-center transition-all duration-200"
-                    >
-                        <div className="relative">
-                                <Image
-                                    src="/logo.png"
-                                    className="object-contain transition-all duration-200 group-hover:brightness-110"
-                                    alt="Logo"
-                                    width={70}
-                                    height={30}
-                                />                            
-                            <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-primary/0 to-secondary/0 group-hover:from-primary/10 group-hover:to-secondary/10 transition-all duration-300 blur-sm" />
-                        </div>
-                    </Link>                     
+                <Link
+                    href={currentUser ? LANGUAGE_ROUTE(lang, PICK_GAME_MODE_ROUTE) : LANGUAGE_ROUTE(lang, HOME_ROUTE)}
+                    className="group flex items-center"
+                >
+                    <div className="relative transform transition-all duration-300 ease-out group-hover:scale-105 group-hover:-translate-y-1">
+                        <Image
+                            src="/logo.png"
+                            className="object-contain transition-all duration-300 ease-out group-hover:brightness-110"
+                            alt="Logo"
+                            width={70}
+                            height={30}
+                        />
+                        
+                        <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-primary/0 to-secondary/0 group-hover:from-primary/20 group-hover:to-secondary/20 transition-all duration-300 ease-out blur-sm opacity-0 group-hover:opacity-100" />
+                    </div>
+                </Link>                 
                     
                     {/* Status Indicator */}
                     <div className="hidden sm:block">

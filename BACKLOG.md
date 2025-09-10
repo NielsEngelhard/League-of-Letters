@@ -1,6 +1,4 @@
 BUGS NA LAUNCH
-- rename MessageBarProvider naar Toaster
-- message bar is nu echt foei lelijk
 - HOME PAGE AANKLEDEN MET PLAYING GAME
 - themas bij aanmaken account want leuk
 MUST

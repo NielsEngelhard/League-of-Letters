@@ -8,7 +8,7 @@ import { SupportedLanguage } from "@/features/i18n/languages";
 import InGameTranslations from "@/features/i18n/translation-file-interfaces/InGameTranslations";
 import DefaultCardHeader from "@/components/ui/card/DefaultCardHeader";
 import { Repeat, Trophy } from "lucide-react";
-import InfoBanner from "@/components/ui/InfoBanner";
+import NotificationBanner from "@/components/ui/NotificationBanner";
 import CreateNewLobbyBasedOnEndedGame from "@/features/lobby/actions/command/create-new-lobby-based-on-ended-game";
 import { useSocket } from "@/features/realtime/socket-context";
 
@@ -64,7 +64,7 @@ export default function GameResultOverview({ players, lang, t, gameId, thisPlaye
             
             {/* Prominent message for multiplayer games so participants can stay and play another game easily */}
             {(!isSoloGame && !thisPlayerIsHost) && (
-                <InfoBanner
+                <NotificationBanner
                     icon={Repeat}
                     text={t.overview.infoBanner.participantStayMsg}
                 />
@@ -72,7 +72,7 @@ export default function GameResultOverview({ players, lang, t, gameId, thisPlaye
 
             {/* Prominent host message for multiplayer games so host knows he can bring all other players to a new lobby */}
             {(!isSoloGame && thisPlayerIsHost == true) && (
-                <InfoBanner
+                <NotificationBanner
                     icon={Repeat}
                     text={t.overview.infoBanner.hostPlayAgainMsg}
                 />  
