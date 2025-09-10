@@ -19,7 +19,7 @@ type ActiveGameContextType = {
   currentPlayerId: string;
   isThisPlayersTurn: boolean;
   isAnimating: boolean;
-  theWord?: string;
+  revealedWord?: string;
 
   // Actions
   initializeGameState: (_game: ActiveGameModel, _thisPlayersUserId: string) => void;
@@ -43,7 +43,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
   const [game, setGame] = useState<ActiveGameModel | undefined>(undefined);
   const [currentRound, setCurrentRound] = useState<GameRoundModel | undefined>(undefined);
   const [players, setPlayers] = useState<GamePlayerModel[]>([]);
-  const [theWord, setTheWord] = useState<string | undefined>(undefined);
+  const [revealedWord, setRevealedWord] = useState<string | undefined>(undefined);
   const [currentGuess, setCurrentGuess] = useState<string>("");
   const [currentPlayerId, setCurrentPlayerId] = useState<string>("");
   const [isThisPlayersTurn, setIsThisPlayersTurn] = useState<boolean>(false);
@@ -76,7 +76,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     setCurrentRound(undefined);
     setCurrentGuess("");
     setPlayers([]); 
-    setTheWord(undefined);
+    setRevealedWord(undefined);
   }
 
 
@@ -172,23 +172,19 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
   function handleEndOfCurrentRound(roundTransitionData: RoundTransitionData) {
     if (!gameRef.current || !currentRoundRef.current) return;
 
-    const letterAnimationLength = GetLetterAnimationDurationInMs(currentRoundRef.current.wordLength);
-
-    setTimeout(() => {
-      setTheWord(roundTransitionData.currentWord);
-    }, letterAnimationLength);
+    setRevealedWord(roundTransitionData.currentWord);
 
     if (roundTransitionData.isEndOfGame)
     {
       setTimeout(() => {
           triggerEndOfGame();
-        }, TIME_BETWEEN_ROUNDS_MS + letterAnimationLength);          
+        }, TIME_BETWEEN_ROUNDS_MS);
     }
     else
     {
       setTimeout(() => {
           triggerNextRound(roundTransitionData.lastGuessUnixUtcTimestamp_InSeconds);
-        }, TIME_BETWEEN_ROUNDS_MS + letterAnimationLength);          
+        }, TIME_BETWEEN_ROUNDS_MS);          
     }
   }
 
@@ -219,7 +215,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
       ...getRound(gameRef.current, nextRoundIndex),
       lastGuessUnixUtcTimestamp_InSeconds: guessStartUnixTimestampInSeconds
     });
-    setTheWord(undefined);
+    setRevealedWord(undefined);
     setIsAnimating(false);
   }
 
@@ -308,7 +304,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
         addOrReconnectPlayer,
         disconnectPlayer,
         removePlayer,
-        theWord,
+        revealedWord,
         recalculateCurrentPlayer,
         setInitialPlayers,
         kickPlayer,

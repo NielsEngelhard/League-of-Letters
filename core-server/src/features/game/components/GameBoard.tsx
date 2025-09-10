@@ -25,7 +25,7 @@ interface Props {
 
 export default function GameBoard({generalTranslations, inGameTranslations, settingsTranslations}: Props) {
     const [showSettings, setShowSettings] = useState(false);
-    const { game, players, currentGuess, currentRound, isThisPlayersTurn, isAnimating, theWord, currentPlayerId, recalculateCurrentPlayer } = useActiveGame();
+    const { game, players, currentGuess, currentRound, isThisPlayersTurn, isAnimating, revealedWord, currentPlayerId, recalculateCurrentPlayer } = useActiveGame();
     const [initialTimeLeftForThisTurn, setInitialTimeLeftForThisTurn] = useState<number | null>(null);
     const { onToggleKeyboard } = useAuth();
 
@@ -89,34 +89,23 @@ export default function GameBoard({generalTranslations, inGameTranslations, sett
                             </div>
                         )}
                         
-                        {/* Letter Grid - responsive sizing */}
-                        <div className="w-full flex justify-center">
-                            <div className={``}>
-                                <LetterRowGrid
-                                    currentGuess={currentGuess}
-                                    maxNGuesses={game.nGuessesPerRound}
-                                    preFilledRows={currentRound.guesses ?? []}
-                                    wordLength={currentRound.wordLength}
-                                />
-                            </div>
-                        </div>
+                        {/* Letter Grid */}
+                        <LetterRowGrid
+                            currentGuess={currentGuess}
+                            maxNGuesses={game.nGuessesPerRound}
+                            preFilledRows={currentRound.guesses ?? []}
+                            wordLength={currentRound.wordLength}
+                            revealedWord={revealedWord}
+                            label={inGameTranslations.theWordWas}
+                        />
                     </div>
 
                     {/* Word Input Section - responsive sizing and positioning */}
                     <div className="w-full max-w-xs sm:max-w-sm md:max-w-md mt-2 sm:mt-4">
-                        {!theWord ? (
-                            <ActiveGameWordInput
-                                disabled={!isThisPlayersTurn || isAnimating}
-                                t={generalTranslations}
-                            />
-                        ) : (
-                            <div className="w-full flex flex-col items-center gap-1 sm:gap-2">
-                                <span className="text-xs sm:text-sm text-foreground-muted">The word was:</span>
-                                <span className="text-2xl sm:text-3xl md:text-4xl text-primary font-bold text-center break-all">
-                                    {theWord}
-                                </span>
-                            </div>
-                        )}
+                        <ActiveGameWordInput
+                            disabled={!isThisPlayersTurn || isAnimating}
+                            t={generalTranslations}
+                        />                        
                     </div>
 
                     {/* Action buttons */}
