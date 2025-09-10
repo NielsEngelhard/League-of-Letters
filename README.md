@@ -1,9 +1,20 @@
+![Next.js](https://img.shields.io/badge/Next.js-000000?logo=next.js&logoColor=white)
+![Express.js](https://img.shields.io/badge/Express.js-404d59?logo=express&logoColor=white)
+![Postgres](https://img.shields.io/badge/Postgres-336791?logo=postgresql&logoColor=white)
+![WebSockets](https://img.shields.io/badge/WebSockets-010101?logo=socket.io&logoColor=white)
+![Drizzle ORM](https://img.shields.io/badge/Drizzle-0A0A0A?logo=drizzle&logoColor=yellow)
+![License](https://img.shields.io/badge/License-MIT-green)
+![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white)
+![Nginx](https://img.shields.io/badge/Nginx-009639?logo=nginx&logoColor=white)
+![DigitalOcean](https://img.shields.io/badge/DigitalOcean-0080FF?logo=digitalocean&logoColor=white)
+![Certbot](https://img.shields.io/badge/Certbot-3EAAAF?logo=letsencrypt&logoColor=white)
+![Bash](https://img.shields.io/badge/Shell_Scripts-121011?logo=gnu-bash&logoColor=white)
 # League of Letters
 
 **League of Letters** is a multilingual word-guessing game, with both **solo** and **real-time multiplayer** modes.  
 Built with modern web technologies, it supports large scraped word lists for multiple languages.
 
-![Teaser Image](./teaser.png)
+![Teaser Image](./teaser.png) // TODO: other teaser image for multiplayer
 
 ---
 

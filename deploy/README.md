@@ -1,44 +1,105 @@
-# Deploying with docker compose
+![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white)
+![Nginx](https://img.shields.io/badge/Nginx-009639?logo=nginx&logoColor=white)
+![DigitalOcean](https://img.shields.io/badge/DigitalOcean-0080FF?logo=digitalocean&logoColor=white)
+![Certbot](https://img.shields.io/badge/Certbot-3EAAAF?logo=letsencrypt&logoColor=white)
+![Bash](https://img.shields.io/badge/Shell_Scripts-121011?logo=gnu-bash&logoColor=white)
 
-## Local
-cd to ./local and run ```docker compose up --build``` everything for local development is already filled in
+# 🚀 Deployment Guide — League of Letters
 
-## Prod
-cd to ./prod
+This folder contains all scripts and configuration needed to deploy **League of Letters** using **Docker Compose**.  
+It supports both **local development** and **production deployment** (PROD scrips to deploy on a DigitalOcean Droplet).  
 
-Create a ```lol-actions.env``` and ```lol-core.env``` in the prod folder. See local folder for format. Also have a .env in the /prod directory for the docker-compose to use.
+---
 
-## Deploy script
-The droplet-prod-deploy.bash script does some automated steps:
-- Deploy docker-compose.yml (copy)
-- Deploy env directory (copy)
-- Deploy nginx.config
-- Apply Docker Compose changes
+## 📦 Prerequisites
 
-## Scripts
-- init-server.bash Run once on the server to install dependencies like docker and nginx so the deployment can run.
-- deploy-bash Deploys environment variables and docker compose that are in the prod folder on the server and runs them
-- docker-build-and-push.bash bash docker-build-and-push.bash <version_tag> <build_core:true|false> <build_actions:true|false>
+- Docker & Docker Compose installed.
+- SSH access to the target server (using an SSH key).
+- (For production) A domain name configured to point to the server.
+- Nginx + Certbot for HTTPS certificates.
+---
 
-### One time setup of server 
-- run init-server.bash. This installs all needed things on the server like nginx and docker (compose).
+## 🖥️ Local Deployment
 
-You need to get the Nginx container running on port 80 to allow Certbot to verify your domain. However, Nginx will fail to start the HTTPS block if the certificate files don't exist. To bypass this, we will use a temporary, self-signed certificate. Generate dummy certificates: From your project directory on the droplet, run this command to generate a temporary certificate.
-``` sudo openssl req -x509 -nodes -newkey rsa:4096 -days 1 -keyout ~/certbot/conf/privkey.pem -out ~/certbot/conf/fullchain.pem -subj "/CN=league-of-letters.online"```
+For local development with Docker Compose:
 
-### Connect to Droplet
-- Create SSH key
-- Add in DigitalOcean the public key you just generated (see article on what and how)
+```bash
+cd ./local
+docker compose up --build
+```
+Everything required for local development is preconfigured.
 
-The droplet is authenticated via ssh key. So you need to create an ssh key pair and add it to the server the connect to it: https://docs.digitalocean.com/products/droplets/how-to/add-ssh-keys/
+---
 
-### Create a new deployment
+## 🌐 Production Deployment
+Production configs are located in ```./prod```.
+Create environment files:
+- lol-actions.env
+- lol-core.env
+
+.env (used by docker-compose.yml)
+
+👉 Use the ```./local``` folder as a reference for formatting.
+
+Start services:
+```bash
+cd ./prod
+docker compose up -d
+```
+
+## Connecting with Digital Ocean Droplet
+There are several deployment script in ```/deploy/prod/script``` available. These should be executed using ssh, so you need to setup ssh with the server first by creating a new SSH key.
+
+### Generating SSH Key
+Generate a new SSH key:
+``` ssh-keygen -t ed25519 -C "your_email@example.com"```
+
+Add the public key to your DigitalOcean Droplet.
+👉 Guide: Adding SSH Keys to Droplets (https://docs.digitalocean.com/products/droplets/how-to/add-ssh-keys/)
+
+Connect to the server:
+```ssh root@<your-server-ip>```
+
+## 🚀 Creating a New Deployment
 Steps:
-- Build images using docker-build-and-push.bash
-- Change versions to new ones in docker-compose.yml
-- run deploy.bash to apply the version changes and run them on the server. deploy.bash updates everything based on what you have in the /deploy/prod directory of this repository.
+- 1: Build Docker images: ```bash docker-build-and-push.bash <version_tag> <build_core:true|false> <build_actions:true|false>```
+- 2: Update versions in docker-compose.yml.
+- 3: Apply changes on server by running ```bash deploy.bash```. This updates all services using the configs in /deploy/prod.
 
-# CheatSheet
-- Terminal to droplet ```ssh root@159.223.228.197```
-- bash docker-build-and-push.bash 0.2 true false
-- bash deploy.bash
+## Deployment Scripts
+
+### Deploy
+```deploy.bash```
+
+Automates deployment by:
+- Copying docker-compose.yml
+- Copying environment files
+- Deploying nginx.config
+- Applying Docker Compose changes
+
+### Initialize server
+```init-server.bash```
+Run once on a fresh server to install dependencies (Docker, Docker Compose, Nginx).
+
+### Docker build new image
+```docker-build-and-push.bash```
+
+Example:
+``` bash
+bash docker-build-and-push.bash 0.15 true false
+```
+
+## One-Time Server Setup
+Run ```init-server.bash``` to install dependencies like docker (compose).
+
+
+
+### Cheatsheet: 
+#### Connect to Droplet
+ssh root@159.223.228.197
+
+#### Build & push core only, version 0.2
+bash docker-build-and-push.bash 0.2 true false
+
+#### Deploy updated services
+bash deploy.bash
