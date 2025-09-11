@@ -1,33 +1,36 @@
+import { CREATE_MULTIPLAYER_GAME_ROUTE, JOIN_GAME_ROUTE, LANGUAGE_ROUTE, MULTIPLAYER_GAME_ROUTE, PROFILE_ROUTE, PROFILE_SETTINGS_ROUTE, SCORE_ROUTE, SOLO_GAME_ROUTE } from "@/app/routes";
+import { SupportedLanguage } from "@/features/i18n/languages";
+import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 import Link from "next/link";
 
 interface Props {
-
+    t: GeneralTranslations;
+    lang: SupportedLanguage;
 }
 
+export default function SubHeader({t, lang}: Props) {
     const mainNavItems = [
-        { label: "Solo Game", href: "/solo", icon: "🎯" },
-        { label: "Online Game", href: "/online", icon: "🌐" },
-        { label: "Create Game", href: "/create", icon: "➕" },
-        { label: "Join Game", href: "/join", icon: "🔗" }
+        { label: "Solo Game", href: LANGUAGE_ROUTE(lang, SOLO_GAME_ROUTE), icon: "🎯" },
+        { label: "Online Game", href: LANGUAGE_ROUTE(lang, MULTIPLAYER_GAME_ROUTE), icon: "🌐" },
+        { label: "Create Game", href: LANGUAGE_ROUTE(lang, CREATE_MULTIPLAYER_GAME_ROUTE), icon: "➕" },
+        { label: "Join Game", href: LANGUAGE_ROUTE(lang, MULTIPLAYER_GAME_ROUTE), icon: "🔗" }
     ];
 
     const subNavItems = [
-        { label: "Settings", href: "/settings" },
-        { label: "Score System", href: "/scores" },
-        { label: "Privacy Policy", href: "/privacy" },
-        { label: "My Profile", href: "/profile" }
+        { label: "Settings", href: LANGUAGE_ROUTE(lang, PROFILE_SETTINGS_ROUTE)},
+        { label: "Score System", href: LANGUAGE_ROUTE(lang, SCORE_ROUTE) },
+        { label: "My Profile", href: LANGUAGE_ROUTE(lang, PROFILE_ROUTE) }
     ];
 
-export default function SubHeader({}: Props) {
     return (
-        <div className="w-full flex flex-row justify-between">
+        <div className="w-full flex flex-row justify-between my-2">
             {/* Left (main) */}
-            <div className="flex flex-row gap-2">
+            <div className="flex flex-row gap-6">
                 {mainNavItems.map((item) => (
                     <Link
-                        key={item.href}
+                        key={item.label}
                         href={item.href}
-                        className="group relative flex items-center gap-1 text-sm font-medium text-foreground-muted hover:text-foreground"
+                        className="group relative flex items-center gap-1 text-sm font-medium text-foreground-muted hover:text-foreground tracking-tight"
                     >
                         <span className="text-xs opacity-60 group-hover:opacity-80 transition-opacity">
                             {item.icon}
@@ -46,7 +49,7 @@ export default function SubHeader({}: Props) {
                     <Link
                         key={item.href}
                         href={item.href}
-                        className="group relative rounded-md text-xs font-medium text-foreground/50 hover:text-foreground/80 transition-all duration-200 hover:bg-background-secondary/30"
+                        className="group relative rounded-md text-xs font-medium text-foreground/50 hover:text-foreground/80 transition-all duration-200 hover:bg-background-secondary/30 tracking-tight"
                     >
                         {item.label}
                         

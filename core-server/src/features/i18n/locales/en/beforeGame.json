@@ -42,7 +42,7 @@
             "title": "Lobby",
             "description": "Start a new game and invite friends / (or foes)",
             "extraDescription": "Create a lobby and share the game ID with friends",
-            "btnText": "Play Online"
+            "btnText": "Create Game"
         }        
     },
     "lobby": {

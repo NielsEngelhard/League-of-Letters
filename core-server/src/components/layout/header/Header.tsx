@@ -16,7 +16,7 @@ export default async function Header({ lang } : {lang: SupportedLanguage }) {
     const currentUser = await Authenticate_Server();
 
     return (
-        <header className="flex flex-col fixed top-0 z-50 w-full">
+        <header className="flex flex-col z-50 w-full">
 
             {/* Main header */}
             <div className="w-full bg-background-secondary border-b border-border/20 shadow-sm">
@@ -45,7 +45,7 @@ export default async function Header({ lang } : {lang: SupportedLanguage }) {
             {/* Sub header nav menu */}
             <div className="justify-center flex w-full">
                 <div className="max-w-6xl px-6 w-full">
-                    <SubHeader />
+                    <SubHeader t={t.general} lang={lang} />
                 </div>
             </div>
 

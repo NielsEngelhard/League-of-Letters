@@ -32,11 +32,9 @@ export default function LangRootLayout({
       <HeaderMessageBar />
 
       <Header lang={lang} />
-      <div className="mt-[60px]">        
         <div className="flex justify-center bg-background h-full">
           {children}
         </div>
-      </div>
       <Footer lang={lang} />
     </Providers>
   );
