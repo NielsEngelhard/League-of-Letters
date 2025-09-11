@@ -41,5 +41,9 @@
             "createGuestSessionButton": "Create guest session",
             "guestDisclaimer": "24-hour guest session. Progress won’t be saved, and reconnecting will be limited."
         }
+    },
+    "accountType": {
+        "guest": "Guest",
+        "member": "Member"
     }   
 }

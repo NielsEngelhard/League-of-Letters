@@ -24,15 +24,15 @@ export default async function Header({ lang } : {lang: SupportedLanguage }) {
                     {/* Left - Logo & Status */}
                     <Link
                         href={currentUser ? LANGUAGE_ROUTE(lang, PICK_GAME_MODE_ROUTE) : LANGUAGE_ROUTE(lang, HOME_ROUTE)}
-                        className="group flex items-center"
+                        className="group flex items-center w-fit px-2 h-full"
                     >
-                        {/* <Image
+                        <Image
                             src="/logo.png"
                             className="object-contain transition-all duration-300 ease-out group-hover:brightness-110"
                             alt="Logo"
-                            width={70}
+                            width={60}
                             height={30}
-                        /> */}
+                        />
                     </Link>                 
 
                     {/* Right - User Section */}
@@ -43,7 +43,11 @@ export default async function Header({ lang } : {lang: SupportedLanguage }) {
             </div>
 
             {/* Sub header nav menu */}
-            <SubHeader />
+            <div className="justify-center flex w-full">
+                <div className="max-w-6xl px-6 w-full">
+                    <SubHeader />
+                </div>
+            </div>
 
             <LoginModal t={t.general} lang={lang} />
         </header>

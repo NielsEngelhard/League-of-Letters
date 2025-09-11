@@ -41,5 +41,9 @@
             "createGuestSessionButton": "Gastsessie aanmaken",
             "guestDisclaimer": "24-uurs gastsessie. Voortgang wordt niet opgeslagen, en herverbinden is beperkt."
         }
+    },
+    "accountType": {
+        "guest": "Gast",
+        "member": "Abonnee"
     }
 }

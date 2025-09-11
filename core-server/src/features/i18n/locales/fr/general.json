@@ -41,5 +41,9 @@
             "createGuestSessionButton": "Créer une session invité",
             "guestDisclaimer": "Session invité de 24 heures. Les progrès ne seront pas sauvegardés, et la reconnexion sera limitée."
         }
-    }
+    },
+    "accountType": {
+        "guest": "Invité",
+        "member": "Membre"
+    }    
 }

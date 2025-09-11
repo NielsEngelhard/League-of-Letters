@@ -41,5 +41,9 @@
             "createGuestSessionButton": "Gastsitzung erstellen",
             "guestDisclaimer": "24-Stunden Gastsitzung. Fortschritt wird nicht gespeichert, und Wiederverbindung ist begrenzt."
         }
-    }
+    },
+    "accountType": {
+        "guest": "Gast",
+        "member": "Mitglied"
+    }    
 }

@@ -26,7 +26,7 @@ export default async function HeaderAccountInfo({t, lang, account}: { t: General
         {/* Profile Section */}
         <Link 
             href={LANGUAGE_ROUTE(lang, PROFILE_ROUTE)} 
-            className="group flex items-center gap-3 pl-2 pr-4 py-2 rounded-2xl bg-background/30 hover:bg-background/50 border border-border/20 hover:border-primary/30 transition-all duration-200 hover:shadow-lg hover:shadow-primary/5"
+            className="flex items-center gap-3 pl-2 pr-4 py-2"
         >
             {/* Avatar with gradient border */}
             <div className="relative">
@@ -47,11 +47,9 @@ export default async function HeaderAccountInfo({t, lang, account}: { t: General
                     </span>
                 </div>
                 
-                <div className="flex items-center gap-1">
-                    <span className="text-xs text-foreground-muted/80 font-medium">
-                        {account.isGuest ? 'Guest' : 'Member'}
-                    </span>
-                </div>
+                <span className="text-xs text-foreground-muted/60 font-medium">
+                    {account.isGuest ? t.accountType.guest : t.accountType.member}
+                </span>
             </div>
         </Link>
     </div>        

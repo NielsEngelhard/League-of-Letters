@@ -42,23 +42,8 @@ export interface GeneralTranslations {
       guestDisclaimer: string;
     }
   },
-  account: {
-    title: string;
-    guestDisclaimerTitle: string;
-    guestDisclaimerDescription: string;
-    memberSince: string;
-    guestIndicator: string;
-    memberIndicator: string;
-    gameStatistics: {
-      title: string;
-      winsLabel: string;
-      highestScoreLabel: string;
-      favouriteWordLabel: string;
-      updateDisclaimer: string;
-    },
-    accountSettings: {
-      title: string;
-      updateDescription: string;
-    }
+  accountType: {
+    guest: string;
+    member: string;
   }
 }
