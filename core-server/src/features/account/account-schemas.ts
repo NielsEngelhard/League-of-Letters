@@ -6,7 +6,6 @@ export const settingsSchema = z.object({
     theme: z.enum(themeOptions).default("light").optional(),
     
     // Keyboard
-    keyboardInput: z.enum(wordInputOptions).default("on-screen-keyboard").optional(),
     showKeyboardHints: z.boolean().default(true).optional(),
     showCompleteCorrect: z.boolean().default(false).optional(),
 

@@ -1,15 +1,13 @@
 import LoadingDots from "@/components/ui/animation/LoadingDots";
-import Button from "@/components/ui/Button";
-import TextInput from "@/components/ui/form/TextInput";
 import CustomKeyboard from "@/components/ui/keyboard/CustomKeyboard";
-import DesktopKeyLogger from "@/components/ui/keyboard/DesktopKeyLogger";
+import KeyboardKeyLogger from "@/components/ui/keyboard/KeyboardKeyLogger";
 import { useAuth } from "@/features/auth/AuthContext";
 import { useEffect, useState } from "react";
 import { useActiveGame } from "./active-game-context";
 import { LetterState } from "@/features/word/word-models";
-import { mapLetterColors } from "@/features/word/util/letter-color-map";
 import { preFillWordFinder } from "@/features/word/util/prefill-word-finder";
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
+import { mapLetterColors } from "@/features/word/util/letter-color-map";
 
 interface Props {
     disabled?: boolean;
@@ -23,11 +21,7 @@ export default function WordInput({ t, disabled = false }: Props) {
     const { currentRound, setCurrentGuess, submitGuess } = useActiveGame();
     const [prefilledGuess, setPrefilledGuess] = useState<string>("");
 
-    // Reset when keyboard input methods changes
-    useEffect(() => {
-        setCurrentGuess("");
-    }, [settings.keyboardInput]);
-
+    // Prefill guess
     useEffect(() => {
         if (settings.preFillGuess && settings.preFillGuess == true) {
             preFillGuess();
@@ -37,17 +31,14 @@ export default function WordInput({ t, disabled = false }: Props) {
         }
     }, [settings.preFillGuess, currentRound?.currentGuessIndex]);
 
+    // Update key states on keyboard
     useEffect(() => {
-        if (settings.keyboardInput != "on-screen-keyboard" || !currentRound) return;
+        if (!currentRound) return;
 
         const keyStates = mapLetterColors(currentRound.guesses, currentRound.unguessedMisplacedLetters, currentRound.startingLetter, !settings.showCompleteCorrect);
         setKeyStates(keyStates);
         
-    }, [settings.keyboardInput, settings.showCompleteCorrect, currentRound]);    
-
-    function onInputChange(event: React.ChangeEvent<HTMLInputElement>) {
-        setCurrentGuess(event.target.value);
-    }
+    }, [settings.showCompleteCorrect, currentRound]);
 
     function onKeyPress(keyboardKey: string) {
         setCurrentGuess(prev => {
@@ -101,45 +92,20 @@ export default function WordInput({ t, disabled = false }: Props) {
                 <LoadingDots />
             </div>
         )
-    }
-
-    // Return correct input option
-    if (settings.keyboardInput == "html-input") {
-        return (
-            <div className="w-full flex flex-col items-center">
-                <TextInput
-                    key={`ti-${settings.preFillGuess}`}
-                    className="text-center"
-                    onChange={onInputChange}
-                    maxLength={currentRound?.wordLength ?? 0}
-                    placeholder="Type here ..."
-                    centerText={true}
-                    initialValue={settings.preFillGuess ? prefilledGuess : ""}
-                    autoFocus={true}
-                />
-                <Button className="mt-2 w-full" variant="secondary" size="md" onClick={submitGuess}>
-                    Guess
-                </Button>
-            </div>                      
-        )
-    } else if (settings.keyboardInput == "keystroke") {
-        return (
-            <div>
-                <div className="p-4 text-foreground/80 bg-background-secondary rounded border-2 border-dashed border-border font-semibold text-center">
-                    Desktop keyboard
-                </div>            
-                <DesktopKeyLogger onKeyboardEvent={onKeyboardLog} />
-            </div>            
-        )
     } else {
         return (
-            <CustomKeyboard
-                onKeyPress={onKeyPress}
-                onDelete={onKeyDelete}
-                onEnter={submitGuess}
-                keyStates={keyStates}
-                t={t}
-            />                        
+            <>
+                <CustomKeyboard
+                    onKeyPress={onKeyPress}
+                    onDelete={onKeyDelete}
+                    onEnter={submitGuess}
+                    keyStates={keyStates}
+                    t={t}
+                />
+                
+                {/* Also log keyboard keys as input */}
+                <KeyboardKeyLogger onKeyboardEvent={onKeyboardLog} />
+            </>
         )
     }
 } 

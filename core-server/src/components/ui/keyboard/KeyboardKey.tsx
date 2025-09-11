@@ -15,7 +15,7 @@ export const KeyboardKeyVariants = cva(
         variants: {
             variant: {
                 neutral: "",
-                primary: "bg-primary border-primary hover:opacity-90 text-white",
+                primary: "bg-primary border-primary hover:bg-primary/90 text-white",
             }
         }
     }
@@ -40,7 +40,7 @@ export default function KeyboardKey({
             case LetterState.Wrong:
                 return "bg-error border-error hover:opacity-90 text-white";
             default:
-                return "bg-background-secondary border-gray-200 hover:bg-background-secondary/50";                                                
+                return "bg-background-secondary border-gray-200 hover:bg-background-secondary/90";                                                
         }
     }
 
@@ -50,7 +50,7 @@ export default function KeyboardKey({
                 ${determineKeyClasses(letterState)}
                 ${KeyboardKeyVariants({ variant })} 
                 ${fixedWidth ? 'lg:w-7 lg:h-12 lg:min-w-[2.5rem] px-2 lg:px-0' : ''}
-                ${disabled ? 'opacity-50 cursor-not-allowed' : ''}
+                ${disabled ? 'opacity-50 cursor-not-allowed' : 'hover:-translate-y-1 duration-100'}
             `}
             type="button"
             onClick={onClick}

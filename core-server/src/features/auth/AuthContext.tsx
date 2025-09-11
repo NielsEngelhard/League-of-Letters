@@ -7,7 +7,6 @@ import { LogoutCommand } from './actions/command/logout-command';
 import { LoginModalState } from './components/LoginModal';
 
 const DEFAULT_SETTINGS: SettingsSchema = {
-  keyboardInput: "on-screen-keyboard",
   playBackgroundMusic: true,
   playSoundEffects: true,
   showKeyboardHints: true,
@@ -29,7 +28,6 @@ type AuthContextType = {
   setLoginModalState: (loginModalState: LoginModalState) => void;
   setSettingsOnClient: (s: SettingsSchema) => void;
   updateAccount: (data: PublicAccountModel) => void;
-  onToggleKeyboard: () => void;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -121,22 +119,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(ACCOUNT_LOCALSTORAGE_KEY, JSON.stringify(account));
   }, [account]);
 
-function onToggleKeyboard() {
-  const current = account?.settings?.keyboardInput ?? wordInputOptions[0];
-
-  const index = wordInputOptions.indexOf(current as WordInputOption);
-  const nextInputOption =
-    index === -1
-      ? wordInputOptions[0] // fallback if somehow invalid
-      : wordInputOptions[(index + 1) % wordInputOptions.length];
-
-  setSettingsOnClient({
-    ...(account?.settings ?? DEFAULT_SETTINGS),
-    keyboardInput: nextInputOption,
-  });
-}
-
-
   return (
     <AuthContext.Provider value={{ 
       account,
@@ -148,7 +130,6 @@ function onToggleKeyboard() {
       setSettingsOnClient,
       guestSessionTimeRemaining,
       updateAccount,
-      onToggleKeyboard
     }}>
       {children}
     </AuthContext.Provider>

@@ -14,7 +14,6 @@ import Button from "@/components/ui/Button";
 import { ArrowBigLeft, Keyboard, Settings } from "lucide-react";
 import Modal from "@/components/ui/Modal";
 import { SettingsTranslations } from "@/features/i18n/translation-file-interfaces/SettingsTranslations";
-import { useAuth } from "@/features/auth/AuthContext";
 import { LANGUAGE_ROUTE, PICK_GAME_MODE_ROUTE } from "@/app/routes";
 import InGamePlayerBar from "./in-game/InGamePlayersBar";
 
@@ -29,7 +28,6 @@ export default function GameBoard({generalTranslations, inGameTranslations, sett
     const [showSettings, setShowSettings] = useState(false);
     const { game, players, currentGuess, currentRound, isThisPlayersTurn, isAnimating, revealedWord, currentPlayerId, recalculateCurrentPlayer } = useActiveGame();
     const [initialTimeLeftForThisTurn, setInitialTimeLeftForThisTurn] = useState<number | null>(null);
-    const { onToggleKeyboard } = useAuth();
 
     // Update timer if needed
     useEffect(() => {
@@ -118,11 +116,6 @@ export default function GameBoard({generalTranslations, inGameTranslations, sett
 
                     {/* Action buttons */}
                     <div className="flex flex-row justify-between w-full">
-                        <Button variant="skeleton" size="sm" corners="square" type="button" onClick={onToggleKeyboard}>
-                            <Keyboard size={16} />
-                            Toggle keyboard
-                        </Button>
-
                         <Button variant="skeleton" size="sm" corners="square" type="button" onClick={() => setShowSettings(true)}>
                             <Settings size={16} />
                             {settingsTranslations.settings.title}

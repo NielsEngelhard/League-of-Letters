@@ -101,24 +101,6 @@ export default function SettingsCard({ t }: Props) {
                             <Label text={t.settings.featureGroups.keyboardInputLabel} />
                         </div>
                         <div className="pl-6 space-y-6">
-                            <div className="space-y-3">
-                                <SelectDropdown
-                                    name="keyboardInput"
-                                    control={form.control}
-                                    label={t.settings.features.keyboardInput.title}
-                                    placeholder={t.settings.features.keyboardInput.title}
-                                    required
-                                    options={[
-                                        { value: "on-screen-keyboard", label: "On-screen Keyboard" },
-                                        { value: "html-input", label: "Input Box" },
-                                        { value: "keystroke", label: "External Keyboard" }
-                                    ]}
-                                />
-                                <p className="text-xs text-muted-foreground">
-                                    {t.settings.features.keyboardInput.description}
-                                </p>
-                            </div>
-
                             <SwitchInput
                                 label={t.settings.features.showKeyboardHints.title}
                                 description={t.settings.features.showKeyboardHints.description}

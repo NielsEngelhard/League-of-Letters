@@ -11,8 +11,9 @@ BUGS NA LAUNCH
 - Wanneer woord niet geldig, rij wordt rood
 - toetsenbord oplichten bij typen lmz
 - in game, welke taal speel ik?
-- in ame wie is aan de beurt?
+- in game wie is aan de beurt?
 - public private game en ergens een overview
+- desktop in game meer zoals chess.com?
 MUST
 
 FEEDBACK
