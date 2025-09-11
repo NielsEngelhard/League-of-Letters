@@ -7,6 +7,7 @@ interface Props extends VariantProps<typeof KeyboardKeyVariants> {
     fixedWidth?: boolean;
     disabled?: boolean;
     letterState?: LetterState | undefined;
+    triggerAnimation?: boolean;
 }
 
 export const KeyboardKeyVariants = cva(
@@ -27,6 +28,7 @@ export default function KeyboardKey({
     fixedWidth = true, 
     variant = "neutral",
     disabled = false,
+    triggerAnimation = false,
     letterState = LetterState.Unguessed,
 }: Props) {
     function determineKeyClasses(letterState: LetterState): string {
@@ -51,6 +53,7 @@ export default function KeyboardKey({
                 ${KeyboardKeyVariants({ variant })} 
                 ${fixedWidth ? 'lg:w-7 lg:h-12 lg:min-w-[2.5rem] px-2 lg:px-0' : ''}
                 ${disabled ? 'opacity-50 cursor-not-allowed' : 'hover:-translate-y-1 duration-100'}
+                ${triggerAnimation ? '-translate-y-1': ''}
             `}
             type="button"
             onClick={onClick}

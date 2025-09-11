@@ -16,6 +16,7 @@ interface Props {
 
 export default function WordInput({ t, disabled = false }: Props) {
     const [keyStates, setKeyStates] = useState<Map<string, LetterState>>(new Map());
+    const [currentAnimatedKey, setCurrentAnimatedKey] = useState<string>("");
     
     const { settings } = useAuth();
     const { currentRound, setCurrentGuess, submitGuess } = useActiveGame();
@@ -41,6 +42,10 @@ export default function WordInput({ t, disabled = false }: Props) {
     }, [settings.showCompleteCorrect, currentRound]);
 
     function onKeyPress(keyboardKey: string) {
+        if (isValidInput(keyboardKey) == false) {
+            return;
+        }
+
         setCurrentGuess(prev => {
             if (prev.length >= (currentRound?.wordLength ?? 1)) return prev;
 
@@ -57,6 +62,8 @@ export default function WordInput({ t, disabled = false }: Props) {
     }
 
     function onKeyboardLog(event: KeyboardEvent) {
+        setCurrentAnimatedKey(event.key);
+
         if (event.key == 'Backspace') {
             onKeyDelete();
             return;
@@ -86,6 +93,10 @@ export default function WordInput({ t, disabled = false }: Props) {
         setPrefilledGuess(prefilledWord);
     }
 
+    function isValidInput(input: string): boolean {
+        return /^[A-Za-z]$/.test(input);
+    }
+
     if (disabled) {
         return (
             <div className="w-full flex justify-center">
@@ -100,6 +111,7 @@ export default function WordInput({ t, disabled = false }: Props) {
                     onDelete={onKeyDelete}
                     onEnter={submitGuess}
                     keyStates={keyStates}
+                    currentlyAnimatedKey={currentAnimatedKey}
                     t={t}
                 />
                 
