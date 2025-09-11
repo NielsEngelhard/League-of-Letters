@@ -121,23 +121,7 @@ export default function GameBoard({generalTranslations, inGameTranslations, sett
                             {settingsTranslations.settings.title}
                         </Button>                                          
                     </div>
-
-                    {/* Spacer to push content up on mobile and prevent keyboard overlap */}
-                    <div className="h-4 sm:h-8 md:h-12 flex-shrink-0" />
                 </div>
-
-                {/* Back button for mobile */}
-                <Button
-                    href={LANGUAGE_ROUTE(lang, PICK_GAME_MODE_ROUTE)}
-                    size="sm"
-                    className="w-full flex md:hidden"
-                    corners="square"
-                    variant="skeleton">
-                    <div className="flex gap-1 items-center">
-                        <ArrowBigLeft size={16} />
-                        Spel verlaten
-                    </div>
-                </Button>    
             </div>
             ): (
                 <div className="min-h-screen flex items-center justify-center">

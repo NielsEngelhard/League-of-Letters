@@ -1,19 +1,17 @@
 BUGS NA LAUNCH
 - themas bij aanmaken account want leuk
 - home page infinite load bug bij 2e terugkomst?!!?!
-- Na update guest account geen active game
+- Na update guest account geen active game (of telt lobby niet mee???)
 - SECURE actions endpoint emit-to-room (geen auth momenteel??)
-- toggle keyboard bugged?
 - players sorteren op volgorde, niet op score oid
 - score system als popup in game
-- toetsenbord altijd normaal
 - duidelijker als het jouw beurt is (ipv 3 puntjes de naam?)
 - Wanneer woord niet geldig, rij wordt rood
-- toetsenbord oplichten bij typen lmz
 - in game, welke taal speel ik?
 - in game wie is aan de beurt?
 - public private game en ergens een overview
 - desktop in game meer zoals chess.com?
+- Soort navbar voor snel navigeren naar paginas
 MUST
 
 FEEDBACK
