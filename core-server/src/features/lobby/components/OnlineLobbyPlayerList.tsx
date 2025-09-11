@@ -4,10 +4,10 @@ import Avatar from "@/components/ui/Avatar";
 import { Crown } from "lucide-react";
 import Seperator from "@/components/ui/Seperator";
 import { useAuth } from "@/features/auth/AuthContext";
-import RealtimeStatusIndicator from "@/features/realtime/RealtimeStatusIndicator";
 import KickPlayerFromLobbyCommand from "../actions/command/kick-player-from-lobby-command";
 import { useEffect, useState } from "react";
 import { useActiveGame } from "@/features/game/components/active-game-context";
+import WebSocketStatusIndicator from "@/features/realtime/WebSocketStatusIndicator";
 
 interface Props {
     hostAccountId?: string;
@@ -58,11 +58,8 @@ export default function OnlineLobbyPlayerList({ hostAccountId, lobbyId }: Props)
             </div>
             
             <div className="flex items-center gap-2">
-                <RealtimeStatusIndicator 
-                    status={player.connectionStatus} 
-                    showLabel={true} 
-                    showDot={false} 
-                    showIcon={true} 
+                <WebSocketStatusIndicator 
+                    connectionStatus={player.connectionStatus} 
                 />
                 
                 {/* Kick button - only show for host and not for themselves */}

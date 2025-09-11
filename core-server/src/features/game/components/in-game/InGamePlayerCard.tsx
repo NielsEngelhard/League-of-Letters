@@ -1,4 +1,4 @@
-import RealtimeStatusIndicator from "@/features/realtime/RealtimeStatusIndicator";
+import WebSocketStatusIndicator from "@/features/realtime/WebSocketStatusIndicator";
 import { GamePlayerModel } from "../../game-models";
 
 interface Props {
@@ -23,7 +23,7 @@ export default function InGamePlayerCards({ player, scorePosition, isCurrentPlay
             {/* Player indicator */}
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                     <RealtimeStatusIndicator status={player.connectionStatus} />
+                     <WebSocketStatusIndicator connectionStatus={player.connectionStatus} />
                     <span className="text-sm font-med">{player.username}</span>
                 </div>
                 

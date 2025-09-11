@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import localFont from 'next/font/local'
 import "./globals.css";
 import "./animations.css";
@@ -120,6 +120,13 @@ const inter = localFont({
 export const metadata: Metadata = {
   title: APP_NAME,
   description: "Have some fun!",
+};
+
+// Disable zooming in (especially usefull for preventing mobile double tap)
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
 };
 
 export default function RootLayout({

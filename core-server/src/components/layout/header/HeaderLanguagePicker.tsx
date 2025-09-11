@@ -38,8 +38,8 @@ export default function HeaderLanguagePicker() {
         const languageStyles = GetLanguageStyle(language)
         return (
             <button 
-                className={`flex flex-row items-center gap-2 px-3 py-2 text-sm transition-colors hover:bg-gray-100 w-full text-left ${
-                    isCurrentLanguage ? 'bg-gray-50 font-medium' : ''
+                className={`flex flex-row items-center gap-2 px-3 py-2 text-sm transition-colors hover:bg-primary/10 w-full text-left ${
+                    isCurrentLanguage ? 'bg-primary/20 font-bold' : ''
                 }`}
                 onClick={() => onLanguageChange(language)}
             >
@@ -74,7 +74,7 @@ export default function HeaderLanguagePicker() {
         <div className="relative" ref={dropdownRef}>
             {/* Current Language Button */}
             <button
-                className="flex flex-row items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                className="flex flex-row items-center gap-2 px-3 py-2 text-sm font-medium text-foreground bg-background border border-border rounded-md hover:bg-primary/10 transition-colors"
                 onClick={() => setIsOpen(!isOpen)}
                 aria-expanded={isOpen}
                 aria-haspopup="true"

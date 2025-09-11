@@ -1,4 +1,4 @@
-import RealtimeStatusIndicator from "@/features/realtime/RealtimeStatusIndicator";
+import WebSocketStatusIndicator from "@/features/realtime/WebSocketStatusIndicator";
 import { GamePlayerModel } from "../../game-models";
 import InGameConnectionStatusIndicator from "./InGameConnectionStatusIndicator";
 import InGamePlayerCard from "./InGamePlayerCard";
@@ -24,7 +24,7 @@ export default function InGamePlayerBar({ players, currentPlayerId, playersLabel
                         </span>
                     ) : (
                         <>
-                        <RealtimeStatusIndicator status={disconnectedPlayers.length == 0 ? "connected" : "disconnected"} />
+                        <WebSocketStatusIndicator connectionStatus={disconnectedPlayers.length == 0 ? "connected" : "disconnected"} />
                         <span>
                             {playersLabel} ({players.length - disconnectedPlayers.length}/{players.length})
                         </span>

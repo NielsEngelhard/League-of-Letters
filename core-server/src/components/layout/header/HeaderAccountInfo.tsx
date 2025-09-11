@@ -1,44 +1,27 @@
-"use client"
+"use server"
 
-import { useAuth } from "@/features/auth/AuthContext"
 import UnauthenticatedHeaderSection from "./UnAuthenticatedHeaderSection";
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 import Link from "next/link";
 import { SupportedLanguage } from "@/features/i18n/languages";
-import { LANGUAGE_ROUTE, PROFILE_ROUTE, PROFILE_SETTINGS_ROUTE, RECONNECT_ROUTE } from "@/app/routes";
-import { GetLanguageStyle } from "@/features/language/LanguageStyles";
-import GuestSessionTimeRemaining from "./GuestSessionTimeRemaining";
-import { RefreshCw } from "lucide-react";
-import HeaderConnectionStatus from "./HeaderConnectionStatus";
+import { LANGUAGE_ROUTE, PROFILE_ROUTE } from "@/app/routes";
 import { JwtAccountPayload } from "@/features/auth/jwt/jwt-models";
+import HeaderLanguagePicker from "./HeaderLanguagePicker";
+import HeaderWebSocketStatusIndicator from "./HeaderWebSocketStatusIndicator";
 
-export default function HeaderUserClient({t, lang, account}: { t: GeneralTranslations, lang: SupportedLanguage, account: JwtAccountPayload | null}) {
+export default async function HeaderAccountInfo({t, lang, account}: { t: GeneralTranslations, lang: SupportedLanguage, account: JwtAccountPayload | null}) {
     if (!account) {
         return <UnauthenticatedHeaderSection t={t} />
     }    
 
-    const languageStyle = GetLanguageStyle(account.language);
-
     return (
     <div className="flex items-center gap-3">
+
+        {/* Websocket status indicator (live, disconnected etc.) */}
+        <HeaderWebSocketStatusIndicator />
+
         {/* Language Flag */}
-        <Link className="cursor-pointer" href={LANGUAGE_ROUTE(lang, PROFILE_SETTINGS_ROUTE)}>
-            {languageStyle?.flag}
-        </Link>
-
-        {/* Guest Session Timer */}
-        {account.isGuest && (
-            <GuestSessionTimeRemaining />
-        )}
-
-        {/* Reconnect Button */}
-        <Link
-            href={LANGUAGE_ROUTE(lang, RECONNECT_ROUTE)}
-            className="group relative flex items-center justify-center w-9 h-9 rounded-full bg-background/40 hover:bg-background/60 border border-border/20 hover:border-border/40 transition-all duration-200"
-            title="Reconnect to game"
-        >
-            <RefreshCw className="w-4 h-4 text-foreground-muted group-hover:text-foreground group-hover:rotate-180 transition-all duration-300" />
-        </Link>
+        <HeaderLanguagePicker />
 
         {/* Profile Section */}
         <Link 
@@ -54,9 +37,6 @@ export default function HeaderUserClient({t, lang, account}: { t: GeneralTransla
                         </span>
                     </div>
                 </div>
-                
-                {/* Status dot */}
-                <HeaderConnectionStatus />
             </div>
 
             {/* User Info */}
