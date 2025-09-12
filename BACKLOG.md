@@ -1,17 +1,18 @@
 BUGS NA LAUNCH
-- themas bij aanmaken account want leuk
-- home page infinite load bug bij 2e terugkomst?!!?!
+- Tijd bij online game is helemaal gebugged
+- themas in header
 - Na update guest account geen active game (of telt lobby niet mee???)
-- SECURE actions endpoint emit-to-room (geen auth momenteel??)
-- players sorteren op volgorde, niet op score oid
-- score system als popup in game
-- duidelijker als het jouw beurt is (ipv 3 puntjes de naam?)
 - Wanneer woord niet geldig, rij wordt rood
-- in game, welke taal speel ik?
-- in game wie is aan de beurt?
 - public private game en ergens een overview
+
+
 - desktop in game meer zoals chess.com?
-- Soort navbar voor snel navigeren naar paginas
+    - players sorteren op volgorde, niet op score oid
+    - duidelijker als het jouw beurt is (ipv 3 puntjes de naam?)
+    - Als jouw beurt, een visuele trigger en een geluidje?
+    - score system als popup in game
+    - in game, welke taal speel ik?
+    - in game wie is aan de beurt?    
 MUST
 
 FEEDBACK

@@ -5,8 +5,13 @@ const router = express.Router();
 module.exports = (io) => {
   // POST: Emit to a specific room
   router.post('/emit-to-room', (req, res) => {
+    // Api key auth
+    const apiKey = req.headers['api-key'];
+    if (apiKey != process.env.API_KEY) throw Error("404 Unauthenticated");
+
     const { room, event, data } = req.body;
 
+    // Emit websocket request to room
     io.to(room).emit(event, data);
 
     res.json({ 

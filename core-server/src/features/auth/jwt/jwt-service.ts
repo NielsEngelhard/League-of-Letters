@@ -86,8 +86,7 @@ export class JWTService {
     if (isGuestAccount) {
         return 60 * 60 * GUEST_USER_JWT_EXPIRE_TIME_IN_HOURS;
     } else {
-        return 5;
-        // return 60 * 60 * REGULAR_USER_JWT_EXPIRE_TIME_IN_HOURS;
+        return 60 * 60 * REGULAR_USER_JWT_EXPIRE_TIME_IN_HOURS;
     }
   }
 
