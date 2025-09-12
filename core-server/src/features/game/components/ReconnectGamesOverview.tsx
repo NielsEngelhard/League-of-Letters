@@ -38,7 +38,7 @@ export default function ReconnectGamesOverview({lang}:Props) {
                     <span>No active games at the moment...</span>
                 ) : (
                     <div className="w-full flex flex-col gap-2">
-                        {games.map((teaser, i) => <GameTeaserCard key={i} teaser={teaser} lang={lang} />)}
+                        {games.map((teaser, i) => <GameTeaserCard key={i} teaser={teaser} lang={lang} currentPlayerAccountId={account.id} />)}
                     </div>                        
                 )
             ) : (

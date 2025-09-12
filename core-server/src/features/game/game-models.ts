@@ -25,6 +25,8 @@ export interface ActiveGameTeaserModel {
     gameMode: GameMode;
     createdAt: Date;
     language: SupportedLanguage;
+    hostAccountId: string;
+    isLobby?: boolean;
 }
 
 // Data that is send when the current round has ended

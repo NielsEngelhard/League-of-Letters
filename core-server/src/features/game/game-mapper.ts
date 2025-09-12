@@ -1,4 +1,4 @@
-import { DbGamePlayer, DbGameRound, DbActiveGameWithRoundsAndPlayers, DbActiveGame } from "@/drizzle/schema";
+import { DbGamePlayer, DbGameRound, DbActiveGameWithRoundsAndPlayers, DbActiveGame, DbOnlineLobby } from "@/drizzle/schema";
 import { ActiveGameModel, ActiveGameTeaserModel, GamePlayerModel, GameRoundModel } from "./game-models";
 import { WordState } from "../word/word-models";
 
@@ -31,7 +31,9 @@ export class GameMapper {
             totalRounds: game.nRounds,
             gameMode: game.gameMode,
             createdAt: game.createdAt,
-            language: game.language
+            language: game.language,
+            hostAccountId: game.hostAccountId,
+            isLobby: false
         }        
     }
 
@@ -62,5 +64,18 @@ export class GameMapper {
     static FilterMisplacedLettersForCurrentWord(allMisplacedLettersForThisRound: string[], currentWordState: WordState): string[] {
         const currentWordUngussedLetters = currentWordState.letterStates.filter(c => c.guessed == false).map(c => c.letter.toUpperCase());
         return allMisplacedLettersForThisRound.filter(letter => currentWordUngussedLetters.includes(letter.toUpperCase()));
+    }
+
+    static LobbyToActiveGameTeaserModel(lobby: DbOnlineLobby): ActiveGameTeaserModel {
+        return {
+            id: lobby.id,
+            createdAt: lobby.createdAt,
+            currentRoundIndex: 0,
+            gameMode: "online",
+            language: lobby.language,
+            totalRounds: 0,
+            isLobby: true,
+            hostAccountId: lobby.hostAccountId
+        }
     }
 }

@@ -1,22 +1,38 @@
 import Card from "@/components/ui/card/Card";
 import { ActiveGameTeaserModel } from "../game-models";
 import Button from "@/components/ui/Button";
-import { ArrowUpAZ, Clock, User, Users } from "lucide-react";
+import { ArrowUpAZ, Clock, MonitorDot, User, Users } from "lucide-react";
 import { timeAgo } from "@/lib/time-util";
-import { LANGUAGE_ROUTE, PLAY_ONLINE_GAME_ROUTE, PLAY_SOLO_GAME_ROUTE } from "@/app/routes";
+import { CREATE_MULTIPLAYER_GAME_ROUTE, JOIN_GAME_ROUTE, LANGUAGE_ROUTE, PLAY_ONLINE_GAME_ROUTE, PLAY_SOLO_GAME_ROUTE } from "@/app/routes";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import { GetLanguageStyle } from "@/features/language/LanguageStyles";
 
-interface Props {
-    
+interface Props {    
     teaser: ActiveGameTeaserModel;
     lang: SupportedLanguage;
+    currentPlayerAccountId: string;
 }
 
-export default function GameTeaserCard({ teaser, lang }: Props) {
+export default function GameTeaserCard({ teaser, lang, currentPlayerAccountId }: Props) {
     const languageStyle = GetLanguageStyle(teaser.language);
 
-    const playGameRoute = teaser.gameMode == "solo" ? PLAY_SOLO_GAME_ROUTE(teaser.id) : PLAY_ONLINE_GAME_ROUTE(teaser.id);
+    function determineReconnectRoute(): string {
+        // Lobby
+        if (teaser.isLobby) {
+            if (teaser.hostAccountId == currentPlayerAccountId) {
+                return CREATE_MULTIPLAYER_GAME_ROUTE;
+            } else {
+                return JOIN_GAME_ROUTE(teaser.id);
+            }
+        }
+
+        // Active game
+        if (teaser.gameMode == "solo") {
+            return PLAY_SOLO_GAME_ROUTE(teaser.id);
+        } else {
+            return PLAY_ONLINE_GAME_ROUTE(teaser.id);
+        }
+    }
 
     return (
         <Card>
@@ -26,26 +42,38 @@ export default function GameTeaserCard({ teaser, lang }: Props) {
                     
                     {/* Icon */}
                     <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-background flex-shrink-0">
-                        {teaser.gameMode == "online" ? (
-                            <Users className="w-4 h-4" />
+                        {teaser.isLobby ? (
+                            <MonitorDot className="w-4 h-4" />
                         ) : (
-                            <User className="w-4 h-4" />
+                            teaser.gameMode == "online" ? (
+                                <Users className="w-4 h-4" />
+                            ) : (
+                                <User className="w-4 h-4" />
+                            )                           
                         )}
                     </div>
 
                     {/* Name */}
-                    <div className="flex flex-col min-w-0 flex-1">                     
+                    {teaser.isLobby ? (
+                        // Lobby
                         <span className="font-bold text-sm">
-                            {teaser.gameMode == "online" ? (
-                                <>Online Game</>
-                            ) : (
-                                <>Solo Game</>
-                            )}                            
+                            Lobby
                         </span>
-                        <span className="font-medium text-foreground-muted text-xs">
-                            Round {teaser.currentRoundIndex}/{teaser.totalRounds}
-                        </span>
-                    </div>
+                    ): (
+                        // Active game
+                        <div className="flex flex-col min-w-0 flex-1">                     
+                            <span className="font-bold text-sm">
+                                {teaser.gameMode == "online" ? (
+                                    <>Online Game</>
+                                ) : (
+                                    <>Solo Game</>
+                                )}                            
+                            </span>
+                            <span className="font-medium text-foreground-muted text-xs">
+                                Round {teaser.currentRoundIndex}/{teaser.totalRounds}
+                            </span>
+                        </div>                        
+                    )}
                 </div>
 
                 {/* Right */}
@@ -61,7 +89,7 @@ export default function GameTeaserCard({ teaser, lang }: Props) {
                         </div>
                     </div>
 
-                    <Button variant="secondary" size="sm" href={LANGUAGE_ROUTE(lang, playGameRoute)} className="w-full sm:w-auto">
+                    <Button variant="secondary" size="sm" href={LANGUAGE_ROUTE(lang, determineReconnectRoute())} className="w-full sm:w-auto">
                         <ArrowUpAZ className="w-4 h-4" />
                         Reconnect
                     </Button>                    
