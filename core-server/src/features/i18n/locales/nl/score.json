@@ -1,17 +1,17 @@
 {
   "title": "Scoresysteem",
-  "description": "Beheers de kunst van strategisch gokken",
+  "description": "Zo wordt je score berekend",
   "letterScores": {
     "title": "Letterpunten",
-    "allCorrect": "Juiste letter op juiste plek – jackpot!",
-    "wrongPosition": "Letter zit erin, maar staat lekker fout",
-    "correctAfterMisplaced": "Eindelijk goed na een dwaaltocht"
+    "allCorrect": "Juiste letter, juiste plek",
+    "wrongPosition": "Juiste letter, verkeerde plek (telt maar 1x per letter)",
+    "correctAfterMisplaced": "Na misplaatsing alsnog juist"
   },
   "wordGuessedScores": {
-    "title": "Woordafmaakshow",
-    "correctGuess": "Woord juist geraden – applaus!",
-    "correctInFirstGuessBonus": "Bam! In één keer goed, bonuspunten",
-    "correctInSecondGuessBonus": "Tweede keer is de charm, extra punten!"
+    "title": "Woord juist",
+    "correctGuess": "Hele woord goed",
+    "correctInFirstGuessBonus": "Bonus: in 1e gok",
+    "correctInSecondGuessBonus": "Bonus: in 2e gok"
   },
-  "proTip": "Pro tip: Slim gokken = meer punten. Elke letter telt – echt waar!"
+  "proTip": "Pro tip: Slim gokken = meer punten!"
 }

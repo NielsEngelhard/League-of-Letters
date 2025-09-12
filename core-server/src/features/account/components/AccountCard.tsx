@@ -35,7 +35,7 @@ export default async function AccountCard({ t, lang, account }: Props) {
         }
     };
 
-    const languageStyles = GetLanguageStyle(lang);
+    const languageStyles = GetLanguageStyle(account.language);
 
     return (
         account && (

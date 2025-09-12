@@ -6,13 +6,17 @@ import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces
 import HeaderLanguagePicker from "./HeaderLanguagePicker";
 import { HatGlasses, Play } from "lucide-react";
 import { LoginModalState } from "@/features/auth/components/LoginModal";
+import { SupportedLanguage } from "@/features/i18n/languages";
+import HeaderThemePicker from "./HeaderThemePicker";
 
-export default function UnauthenticatedHeaderSection({ t }: { t: GeneralTranslations }) {
+export default function UnauthenticatedHeaderSection({ t, lang }: { t: GeneralTranslations, lang: SupportedLanguage }) {
     const { setLoginModalState } = useAuth();
 
     return (
         <div className="flex items-center gap-3 py-2">
-            <HeaderLanguagePicker />
+            <HeaderThemePicker />
+
+            <HeaderLanguagePicker currentLanguage={lang} />
             
             <Button
                 variant="primary" 

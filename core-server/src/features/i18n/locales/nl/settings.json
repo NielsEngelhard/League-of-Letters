@@ -63,7 +63,7 @@
                 "description": "Markeer letters die correct zijn en niet meer voorkomen met speciale styling"
             },
             "preFill": {
-                "title": "Gok vooraf invullen",
+                "title": "Gok vooraf invullen (prefill)",
                 "description": "Vul automatisch je gok in wanneer jij aan de beurt bent"
             },
             "enableSoundEffects": {

@@ -6,10 +6,11 @@ import { SupportedLanguage } from "@/features/i18n/languages";
 import { JwtAccountPayload } from "@/features/auth/jwt/jwt-models";
 import HeaderLanguagePicker from "./HeaderLanguagePicker";
 import HeaderWebSocketStatusIndicator from "./HeaderWebSocketStatusIndicator";
+import HeaderThemePicker from "./HeaderThemePicker";
 
 export default async function HeaderAccountInfo({t, lang, account}: { t: GeneralTranslations, lang: SupportedLanguage, account: JwtAccountPayload | null}) {
     if (!account) {
-        return <UnauthenticatedHeaderSection t={t} />
+        return <UnauthenticatedHeaderSection t={t} lang={lang} />
     }    
 
     return (
@@ -18,8 +19,11 @@ export default async function HeaderAccountInfo({t, lang, account}: { t: General
         {/* Websocket status indicator (live, disconnected etc.) */}
         <HeaderWebSocketStatusIndicator />
 
+        {/* Theme */}
+        <HeaderThemePicker />
+
         {/* Language Flag */}
-        <HeaderLanguagePicker />
+        <HeaderLanguagePicker currentLanguage={lang} />
 
         {/* Profile Section */}
         <div className="flex items-center gap-3 pl-2 pr-4 py-2">

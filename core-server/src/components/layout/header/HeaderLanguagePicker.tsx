@@ -4,14 +4,19 @@ import { useState, useRef, useEffect } from "react"
 import { useRouter, usePathname } from "next/navigation"
 import { GetLanguageStyle } from "@/features/language/LanguageStyles"
 import { SupportedLanguage, supportedLanguages } from "@/features/i18n/languages"
+import UpdateCurrentUserLanguage from "@/features/account/actions/command/update-current-user-language"
+import { useToaster } from "@/components/general/toaster/ToasterContext"
 
+interface Props {
+    currentLanguage: SupportedLanguage
+}
 
-export default function HeaderLanguagePicker() {
-    const [isOpen, setIsOpen] = useState(false)
-    const [currentLanguage, setCurrentLanguage] = useState<SupportedLanguage>("en")
-    const dropdownRef = useRef<HTMLDivElement>(null)
-    const router = useRouter()
-    const pathname = usePathname()
+export default function HeaderLanguagePicker({ currentLanguage }: Props) {
+    const [isOpen, setIsOpen] = useState(false);
+    const dropdownRef = useRef<HTMLDivElement>(null);
+    const router = useRouter();
+    const pathname = usePathname();
+    const toaster = useToaster();
     
     // Close dropdown when clicking outside
     useEffect(() => {
@@ -25,14 +30,6 @@ export default function HeaderLanguagePicker() {
         return () => document.removeEventListener("mousedown", handleClickOutside)
     }, [])
 
-    // Extract current language from pathname on mount
-    useEffect(() => {
-        const pathSegments = pathname.split('/')
-        const langFromPath = pathSegments[1] as SupportedLanguage
-        if (supportedLanguages.includes(langFromPath)) {
-            setCurrentLanguage(langFromPath)
-        }
-    }, [pathname])
 
     function getLanguageSection(language: SupportedLanguage, isCurrentLanguage = false) {
         const languageStyles = GetLanguageStyle(language)
@@ -49,10 +46,21 @@ export default function HeaderLanguagePicker() {
         )
     } 
 
-    function onLanguageChange(newLanguage: SupportedLanguage) {
-        setCurrentLanguage(newLanguage)
-        setIsOpen(false)
-        
+    async function onLanguageChange(newLanguage: SupportedLanguage) {
+        setIsOpen(false);
+        changeLanguageInUrl(newLanguage);
+        await changeLanguageForAccountOnServer(newLanguage);
+    }
+
+    async function changeLanguageForAccountOnServer(newLanguage: SupportedLanguage) {
+        try {
+            await UpdateCurrentUserLanguage({ language: newLanguage });
+        } catch {
+            toaster.errorToast("Error updating language");
+        }
+    }
+
+    function changeLanguageInUrl(newLanguage: SupportedLanguage) {
         // Get current pathname and replace language segment
         const pathSegments = pathname.split('/')
         
@@ -80,9 +88,9 @@ export default function HeaderLanguagePicker() {
                 aria-haspopup="true"
             >
                 <span className="text-lg">{currentLanguageStyles?.flag}</span>
-                <span>{currentLanguageStyles?.shortName}</span>
+                <span className="hidden md:flex">{currentLanguageStyles?.shortName}</span>
                 <svg 
-                    className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+                    className={`w-4 h-4 transition-transform hidden md:flex ${isOpen ? 'rotate-180' : ''}`}
                     fill="none" 
                     stroke="currentColor" 
                     viewBox="0 0 24 24"

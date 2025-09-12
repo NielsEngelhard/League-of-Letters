@@ -1,9 +1,8 @@
 "use client"
 
 import Card from "@/components/ui/card/Card";
-import SelectDropdown from "@/components/ui/form/SelectInput";
 import { zodResolver } from "@hookform/resolvers/zod"
-import { CaseUpper, CheckCheck, KeyboardMusic, Music, Palette, Settings, Volume2 } from "lucide-react";
+import { CaseUpper, CheckCheck, KeyboardMusic, Music, Settings, Volume2 } from "lucide-react";
 import { useForm } from "react-hook-form"
 import { settingsSchema, SettingsSchema } from "../account-schemas";
 import SwitchInput from "@/components/ui/form/SwitchInput";
@@ -68,7 +67,7 @@ export default function SettingsCard({ t }: Props) {
                 <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>    
 
                     {/* Appearance Section */}
-                    <div className="space-y-4">
+                    {/* <div className="space-y-4">
                         <div className="flex items-center gap-2 pb-2 border-b border-border/50">
                             <Palette className="w-4 h-4 text-muted-foreground" />
                             <Label text={t.settings.featureGroups.appearanceLabel} />
@@ -92,7 +91,7 @@ export default function SettingsCard({ t }: Props) {
                                 {t.settings.features.theme.description}
                             </p>
                         </div>
-                    </div>
+                    </div> */}
 
                     {/* Keyboard Section */}
                     <div className="space-y-4">
