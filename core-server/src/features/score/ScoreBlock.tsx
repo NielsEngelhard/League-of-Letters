@@ -22,17 +22,17 @@ export default function ScoreBlock({ t }: Props) {
                 {
                     description: t.letterScores.allCorrect,
                     points: LETTER_CORRECTLY_GUESSED_WITHOUT_MISPLACE_POINTS,
-                    color: "text-green-500"
+                    color: "text-success"
                 },
                 {
                     description: t.letterScores.wrongPosition,
                     points: LETTER_MISPLACED_POINTS,
-                    color: "text-amber-500"
+                    color: "text-warning"
                 },
                 {
                     description: t.letterScores.correctAfterMisplaced,
                     points: LETTER_CORRECT_AFTER_MISPLACED_POINTS,
-                    color: "text-blue-500"
+                    color: "text-primary"
                 }
             ]
         },
@@ -43,17 +43,17 @@ export default function ScoreBlock({ t }: Props) {
                 {
                     description: t.wordGuessedScores.correctGuess,
                     points: WORD_GUESSED_POINTS,
-                    color: "text-primary"
+                    color: "text-secondary"
                 },
                 {
                     description: t.wordGuessedScores.correctInFirstGuessBonus,
                     points: WORD_GUESSED_FIRST_TRY_BONUS_POINTS,
-                    color: "text-yellow-500"
+                    color: "text-success"
                 },
                 {
                     description: t.wordGuessedScores.correctInSecondGuessBonus,
                     points: WORD_GUESSED_SECOND_TRY_BONUS_POINTS,
-                    color: "text-orange-500"
+                    color: "text-warning"
                 }
             ]
         }
