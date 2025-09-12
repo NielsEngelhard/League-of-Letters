@@ -45,5 +45,14 @@ export interface GeneralTranslations {
   accountType: {
     guest: string;
     member: string;
+  },
+  nav: {
+    soloGame: string;
+    onlineGame: string;
+    createGame: string;
+    joinGame: string;
+    settings: string;
+    scoreSystem: string;
+    profile: string;
   }
 }

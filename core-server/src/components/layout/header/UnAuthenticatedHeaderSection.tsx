@@ -11,7 +11,7 @@ export default function UnauthenticatedHeaderSection({ t }: { t: GeneralTranslat
     const { setLoginModalState } = useAuth();
 
     return (
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 py-2">
             <HeaderLanguagePicker />
             
             <Button

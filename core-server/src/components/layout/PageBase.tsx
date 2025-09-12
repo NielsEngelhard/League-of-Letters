@@ -8,9 +8,9 @@ import { SupportedLanguage } from "@/features/i18n/languages";
 import { Authenticate_Server } from "@/features/auth/current-user";
 
 interface Props extends VariantProps<typeof pageBaseVariants> {
-  lang: SupportedLanguage;
+    lang: SupportedLanguage;
     children: React.ReactNode;
-    requiresAuh?: boolean;    
+    requiresAuh?: boolean;
 }
 
 const pageBaseVariants = cva(

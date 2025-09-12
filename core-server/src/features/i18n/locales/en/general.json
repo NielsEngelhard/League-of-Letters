@@ -45,5 +45,14 @@
     "accountType": {
         "guest": "Guest",
         "member": "Member"
-    }   
+    },
+    "nav": {
+        "soloGame": "Solo Game",
+        "onlineGame": "Online Game",
+        "createGame": "Create Lobby",
+        "joinGame": "Join Game",
+        "settings": "Settings",
+        "scoreSystem": "Score System",
+        "profile": "Profile"
+    }    
 }

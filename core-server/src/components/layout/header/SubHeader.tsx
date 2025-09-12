@@ -10,16 +10,16 @@ interface Props {
 
 export default function SubHeader({t, lang}: Props) {
     const mainNavItems = [
-        { label: "Solo Game", href: LANGUAGE_ROUTE(lang, SOLO_GAME_ROUTE), icon: "🎯" },
-        { label: "Online Game", href: LANGUAGE_ROUTE(lang, MULTIPLAYER_GAME_ROUTE), icon: "🌐" },
-        { label: "Create Game", href: LANGUAGE_ROUTE(lang, CREATE_MULTIPLAYER_GAME_ROUTE), icon: "➕" },
-        { label: "Join Game", href: LANGUAGE_ROUTE(lang, MULTIPLAYER_GAME_ROUTE), icon: "🔗" }
+        { label: t.nav.soloGame, href: LANGUAGE_ROUTE(lang, SOLO_GAME_ROUTE), icon: "🎯" },
+        { label: t.nav.onlineGame, href: LANGUAGE_ROUTE(lang, MULTIPLAYER_GAME_ROUTE), icon: "🌐" },
+        { label: t.nav.createGame, href: LANGUAGE_ROUTE(lang, CREATE_MULTIPLAYER_GAME_ROUTE), icon: "➕" },
+        { label: t.nav.joinGame, href: LANGUAGE_ROUTE(lang, MULTIPLAYER_GAME_ROUTE), icon: "🔗" }
     ];
 
     const subNavItems = [
-        { label: "Settings", href: LANGUAGE_ROUTE(lang, PROFILE_SETTINGS_ROUTE)},
-        { label: "Score System", href: LANGUAGE_ROUTE(lang, SCORE_ROUTE) },
-        { label: "My Profile", href: LANGUAGE_ROUTE(lang, PROFILE_ROUTE) }
+        { label: t.nav.settings, href: LANGUAGE_ROUTE(lang, PROFILE_SETTINGS_ROUTE)},
+        { label: t.nav.scoreSystem, href: LANGUAGE_ROUTE(lang, SCORE_ROUTE) },
+        { label: t.nav.profile, href: LANGUAGE_ROUTE(lang, PROFILE_ROUTE) }
     ];
 
     return (
@@ -32,7 +32,7 @@ export default function SubHeader({t, lang}: Props) {
                         href={item.href}
                         className="group relative flex items-center gap-1 text-sm font-medium text-foreground-muted hover:text-foreground tracking-tight"
                     >
-                        <span className="text-xs opacity-60 group-hover:opacity-80 transition-opacity">
+                        <span className="text-sm opacity-80 group-hover:opacity-80 transition-opacity">
                             {item.icon}
                         </span>
                         {item.label}

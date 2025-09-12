@@ -45,5 +45,14 @@
     "accountType": {
         "guest": "Gast",
         "member": "Abonnee"
+    },
+    "nav": {
+        "soloGame": "Solo",
+        "onlineGame": "Online",
+        "createGame": "Create Lobby",
+        "joinGame": "Join",
+        "settings": "Instellingen",
+        "scoreSystem": "Scoresysteem",
+        "profile": "Profiel"
     }
 }

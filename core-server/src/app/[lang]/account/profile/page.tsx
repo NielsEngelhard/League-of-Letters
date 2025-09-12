@@ -6,11 +6,10 @@ import BackButton from "@/components/ui/BackButton";
 import DefaultCard from "@/components/ui/card/DefaultCard";
 import GetCurrentPrivateAccount from "@/features/account/actions/request/get-current-private-account";
 import ChangeAccountForm from "@/features/account/components/settings/ChangeAccountForm";
-import ChangeLanguageForm from "@/features/account/components/settings/ChangeLanguageForm";
 import ChangePasswordForm from "@/features/account/components/settings/ChangePasswordForm";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import { loadTranslations } from "@/features/i18n/utils";
-import { Languages, Lock } from "lucide-react";
+import { Lock } from "lucide-react";
 import { redirect } from "next/navigation";
 
 export default async function ProfileSettingsPage({
@@ -30,9 +29,9 @@ export default async function ProfileSettingsPage({
                 <BackButton href={LANGUAGE_ROUTE(lang, PROFILE_ROUTE)} />                 
                  
                  {/* Change Language */}
-                <DefaultCard Icon={Languages} title={t.settings.profile.updateLanguage.title}>
+                {/* <DefaultCard Icon={Languages} title={t.settings.profile.updateLanguage.title}>
                     <ChangeLanguageForm currentLanguage={privateAccount.language} t={t.settings} />
-                </DefaultCard>
+                </DefaultCard> */}
                  
                 {/* Change profile info */}
                 <DefaultCard Icon={Lock} title={t.settings.profile.updateAccount.title}>
