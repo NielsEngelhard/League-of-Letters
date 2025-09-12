@@ -1,8 +1,7 @@
 BUGS NA LAUNCH
 - Tijd bij online game is helemaal gebugged
-- themas in header
+
 - Na update guest account geen active game (of telt lobby niet mee???)
-- Wanneer woord niet geldig, rij wordt rood
 - public private game en ergens een overview
 
 

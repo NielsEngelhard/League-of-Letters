@@ -12,9 +12,10 @@ import { mapLetterColors } from "@/features/word/util/letter-color-map";
 interface Props {
     disabled?: boolean;
     t: GeneralTranslations;
+    onSubmitFailed?: () => void;
 }
 
-export default function WordInput({ t, disabled = false }: Props) {
+export default function WordInput({ t, onSubmitFailed, disabled = false }: Props) {
     const [keyStates, setKeyStates] = useState<Map<string, LetterState>>(new Map());
     const [currentAnimatedKey, setCurrentAnimatedKey] = useState<string>("");
     
@@ -70,13 +71,21 @@ export default function WordInput({ t, disabled = false }: Props) {
         }
 
         if (event.key == 'Enter') {
-            submitGuess();
+            onSubmit();
             return;
         }
 
         if (event.key.length == 1) {
             onKeyPress(event.key);
             return;
+        }
+    }
+
+    async function onSubmit() {
+        const successfullSubmit = await submitGuess();
+
+        if (!successfullSubmit && onSubmitFailed) {
+            onSubmitFailed();
         }
     }
 
@@ -109,7 +118,7 @@ export default function WordInput({ t, disabled = false }: Props) {
                 <CustomKeyboard
                     onKeyPress={onKeyPress}
                     onDelete={onKeyDelete}
-                    onEnter={submitGuess}
+                    onEnter={onSubmit}
                     keyStates={keyStates}
                     currentlyAnimatedKey={currentAnimatedKey}
                     t={t}

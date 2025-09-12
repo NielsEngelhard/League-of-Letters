@@ -28,6 +28,7 @@ export default function GameBoard({generalTranslations, inGameTranslations, sett
     const [showSettings, setShowSettings] = useState(false);
     const { game, players, currentGuess, currentRound, isThisPlayersTurn, isAnimating, revealedWord, currentPlayerId, recalculateCurrentPlayer } = useActiveGame();
     const [initialTimeLeftForThisTurn, setInitialTimeLeftForThisTurn] = useState<number | null>(null);
+    const [currentSubmitFailed, setCurrentSubmitFailed] = useState(false); // e.g. invalid word input
 
     // Update timer if needed
     useEffect(() => {
@@ -56,6 +57,15 @@ export default function GameBoard({generalTranslations, inGameTranslations, sett
 
         return "scale-100";
     }
+
+    function onSubmitGuessFailed() {
+        setCurrentSubmitFailed(true);
+
+        setTimeout(() => {
+            setCurrentSubmitFailed(false);
+        }, 500);
+    }
+
     return (
         <>
         {(game && currentRound) ? (
@@ -103,6 +113,7 @@ export default function GameBoard({generalTranslations, inGameTranslations, sett
                             wordLength={currentRound.wordLength}
                             revealedWord={revealedWord}
                             revealedWordLabel={inGameTranslations.theWordWas}
+                            currentSubmitFailed={currentSubmitFailed}
                         />
                     </div>
 
@@ -111,6 +122,7 @@ export default function GameBoard({generalTranslations, inGameTranslations, sett
                         <ActiveGameWordInput
                             disabled={!isThisPlayersTurn || isAnimating}
                             t={generalTranslations}
+                            onSubmitFailed={onSubmitGuessFailed}
                         />                        
                     </div>
 

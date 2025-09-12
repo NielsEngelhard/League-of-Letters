@@ -23,7 +23,7 @@ type ActiveGameContextType = {
 
   // Actions
   initializeGameState: (_game: ActiveGameModel, _thisPlayersUserId: string) => void;
-  submitGuess: () => Promise<void>;
+  submitGuess: () => Promise<boolean>;
   setCurrentGuess: Dispatch<SetStateAction<string>>;
   handleWordGuess: (response: GuessWordResponse) => void;
   clearGameState: () => void;
@@ -89,9 +89,9 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     currentRoundRef.current = currentRound;
   }, [currentRound]);  
 
-  async function submitGuess(): Promise<void> {
-    if (!game || !currentRound) return;
-    if (currentGuessRef.current?.length != currentRound.wordLength) return;
+  async function submitGuess(): Promise<boolean> {
+    if (!game || !currentRound) return false;
+    if (currentGuessRef.current?.length != currentRound.wordLength) return false;
 
     const serverResponse = await GuessWordCommand({
         gameId: game.id,
@@ -101,9 +101,10 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
 
     if (!serverResponse.ok || !serverResponse.data) {
       errorToast(serverResponse.errorMsg);
-      return;
+      return false;
     } else {
       handleWordGuess(serverResponse.data);
+      return true;
     }
   }
 

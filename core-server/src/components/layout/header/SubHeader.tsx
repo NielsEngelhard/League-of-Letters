@@ -1,4 +1,4 @@
-import { ACCOUNT_SETTINGS_ROUTE, CREATE_MULTIPLAYER_GAME_ROUTE, JOIN_GAME_ROUTE, LANGUAGE_ROUTE, MULTIPLAYER_GAME_ROUTE, PROFILE_ROUTE, PROFILE_SETTINGS_ROUTE, SCORE_ROUTE, SOLO_GAME_ROUTE } from "@/app/routes";
+import { ACCOUNT_SETTINGS_ROUTE, CREATE_MULTIPLAYER_GAME_ROUTE, LANGUAGE_ROUTE, MULTIPLAYER_GAME_ROUTE, PROFILE_ROUTE, RECONNECT_ROUTE, SCORE_ROUTE, SOLO_GAME_ROUTE } from "@/app/routes";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 import Link from "next/link";
@@ -13,7 +13,8 @@ export default function SubHeader({t, lang}: Props) {
         { label: t.nav.soloGame, href: LANGUAGE_ROUTE(lang, SOLO_GAME_ROUTE), icon: "🎯" },
         { label: t.nav.onlineGame, href: LANGUAGE_ROUTE(lang, MULTIPLAYER_GAME_ROUTE), icon: "🌐" },
         { label: t.nav.createGame, href: LANGUAGE_ROUTE(lang, CREATE_MULTIPLAYER_GAME_ROUTE), icon: "➕" },
-        { label: t.nav.joinGame, href: LANGUAGE_ROUTE(lang, MULTIPLAYER_GAME_ROUTE), icon: "🔗" }
+        { label: t.nav.joinGame, href: LANGUAGE_ROUTE(lang, MULTIPLAYER_GAME_ROUTE), icon: "🔗" },
+        { label: "Reconnect", href: LANGUAGE_ROUTE(lang, RECONNECT_ROUTE), icon: "🔄" }
     ];
 
     const subNavItems = [

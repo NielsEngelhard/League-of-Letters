@@ -9,6 +9,7 @@ interface Props {
     currentGuess: string;
     revealedWordLabel?: string;
     revealedWord?: string;
+    currentSubmitFailed?: boolean;
 }
 
 export default function LetterRowGrid({ 
@@ -17,7 +18,8 @@ export default function LetterRowGrid({
     wordLength, 
     currentGuess, 
     revealedWordLabel: label,
-    revealedWord
+    revealedWord,
+    currentSubmitFailed
 }: Props) {
     const remainingRows = maxNGuesses - preFilledRows.length - 1;
 
@@ -37,10 +39,14 @@ export default function LetterRowGrid({
         const letters: EvaluatedLetter[] = Array.from({ length: wordLength }, (_, index) => ({
             position: index + 1,
             letter: currentGuess[index] || "",
-            state: LetterState.Unguessed
+            state: currentSubmitFailed ? LetterState.Wrong : LetterState.Unguessed
         }));
 
-        return <LetterRow key="current-guess" letters={letters} />;
+        return (
+            <div className={currentSubmitFailed ? 'animate-ping duration-500' : ''}>
+                <LetterRow key="current-guess" letters={letters} />
+            </div>
+        );
     };
 
     const renderEmptyRow = (index: number) => {
