@@ -21,7 +21,15 @@ export default function ReconnectGamesOverview({lang}:Props) {
 
         async function fetchGames() {
             const response = await GetActiveGamesForCurrentPlayerRequest();
-            setGames(response);
+            
+            // Sort games by creation date (newest first)
+            const sortedGames = response.sort((a, b) => {
+                const dateA = new Date(a.createdAt);
+                const dateB = new Date(b.createdAt);
+                return dateB.getTime() - dateA.getTime();
+            });
+            
+            setGames(sortedGames);
         }
 
         fetchGames();
@@ -39,11 +47,13 @@ export default function ReconnectGamesOverview({lang}:Props) {
                 ) : (
                     <div className="w-full flex flex-col gap-2">
                         {games.map((teaser, i) => <GameTeaserCard key={i} teaser={teaser} lang={lang} currentPlayerAccountId={account.id} />)}
-                    </div>                        
+                    </div>
+                                        
                 )
             ) : (
                 <><LoadingDots /></>
-            )}            
+            )}
+                    
         </div>
     )
 }
