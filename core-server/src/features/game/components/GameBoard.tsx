@@ -11,11 +11,12 @@ import { SupportedLanguage } from "@/features/i18n/languages";
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 import InGameTranslations from "@/features/i18n/translation-file-interfaces/InGameTranslations";
 import Button from "@/components/ui/Button";
-import { ArrowBigLeft, Keyboard, Settings } from "lucide-react";
+import { Settings } from "lucide-react";
 import Modal from "@/components/ui/Modal";
 import { SettingsTranslations } from "@/features/i18n/translation-file-interfaces/SettingsTranslations";
-import { LANGUAGE_ROUTE, PICK_GAME_MODE_ROUTE } from "@/app/routes";
 import InGamePlayerBar from "./in-game/InGamePlayersBar";
+import Card from "@/components/ui/card/Card";
+import { CardContent } from "@/components/ui/card/card-children";
 
 interface Props {
     lang: SupportedLanguage;
@@ -69,11 +70,11 @@ export default function GameBoard({generalTranslations, inGameTranslations, sett
     return (
         <>
         {(game && currentRound) ? (
-            <div className="">
-                {/* Mobile-optimized container with responsive spacing */}
-                <div className="w-full flex flex-col items-center gap-3 sm:gap-4 md:gap-6">
-                    
-                    <div className="fixed md:relative top-0 w-full z-50">
+            <div className="grid grid-cols-3 gap-6">
+                <div className="col-span-2">
+                     <div className={`w-full flex flex-col items-center justify-center gap-2 sm:gap-3 ${getMobileScale()} md:scale-100 origin-top`}>
+
+                     <div className="fixed md:relative top-0 w-full z-50">
                         <InGameProgressionBar
                             currentRound={currentRound}
                             totalRounds={game.totalRounds}
@@ -81,19 +82,10 @@ export default function GameBoard({generalTranslations, inGameTranslations, sett
                             inGameTranslations={inGameTranslations}
                             currentPlayerUsername={players.find(p => p.accountId == currentPlayerId)?.username}
                         />
-                    </div>
+                     </div>
 
-                    <InGamePlayerBar
-                        players={players}
-                        playersLabel="Players"
-                        currentPlayerId={currentPlayerId}                        
-                    />
-
-                    {/* Game Grid Section - responsive spacing */}
-                    <div className={`w-full flex flex-col items-center justify-center gap-2 sm:gap-3 ${getMobileScale()} md:scale-100 origin-top`}>
-
-                        {/* Timer - smaller on mobile */}
-                        {(currentRound.lastGuessUnixUtcTimestamp_InSeconds && initialTimeLeftForThisTurn && game.nSecondsPerGuess) && (
+                         {/* Timer - smaller on mobile */}
+                         {(currentRound.lastGuessUnixUtcTimestamp_InSeconds && initialTimeLeftForThisTurn && game.nSecondsPerGuess) && (
                             <div className="w-full">
                                 <InGameTimer
                                     key={`${currentPlayerId}-${currentRound.currentGuessIndex}`}
@@ -105,7 +97,7 @@ export default function GameBoard({generalTranslations, inGameTranslations, sett
                             </div>
                         )}
                         
-                        {/* Letter Grid */}
+                         {/* Letter Grid */}
                         <LetterRowGrid
                             currentGuess={currentGuess}
                             maxNGuesses={game.nGuessesPerRound}
@@ -115,25 +107,38 @@ export default function GameBoard({generalTranslations, inGameTranslations, sett
                             revealedWordLabel={inGameTranslations.theWordWas}
                             currentSubmitFailed={currentSubmitFailed}
                         />
-                    </div>
-
-                    {/* Word Input Section - responsive sizing and positioning */}
-                    <div className="w-full max-w-xs sm:max-w-sm md:max-w-md mt-2 sm:mt-4">
-                        <ActiveGameWordInput
-                            disabled={!isThisPlayersTurn || isAnimating}
-                            t={generalTranslations}
-                            onSubmitFailed={onSubmitGuessFailed}
-                        />                        
-                    </div>
-
-                    {/* Action buttons */}
-                    <div className="flex flex-row justify-between w-full">
-                        <Button variant="skeleton" size="sm" corners="square" type="button" onClick={() => setShowSettings(true)}>
-                            <Settings size={16} />
-                            {settingsTranslations.settings.title}
-                        </Button>                                          
+                        
+                        {/* Keyboard/Input */}
+                        <div className="w-full max-w-xs sm:max-w-sm md:max-w-md mt-2 sm:mt-4">
+                            <ActiveGameWordInput
+                                disabled={!isThisPlayersTurn || isAnimating}
+                                t={generalTranslations}
+                                onSubmitFailed={onSubmitGuessFailed}
+                            />                        
+                        </div>                        
                     </div>
                 </div>
+
+                <Card className="col-span-1">
+                    <CardContent className="p-6 flex flex-col justify-between h-full">
+                        {/* Players */}
+                        <div>
+                            <InGamePlayerBar
+                                players={players}
+                                playersLabel="Players"
+                                currentPlayerId={currentPlayerId}                        
+                            />                             
+                        </div>
+
+                        {/* Actions */}
+                        <div className="flex flex-row justify-between w-full">
+                            <Button variant="skeleton" size="sm" corners="square" type="button" onClick={() => setShowSettings(true)}>
+                                <Settings size={16} />
+                                {settingsTranslations.settings.title}
+                            </Button>                                          
+                        </div>                        
+                    </CardContent>
+                </Card>
             </div>
             ): (
                 <div className="min-h-screen flex items-center justify-center">

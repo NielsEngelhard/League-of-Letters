@@ -19,8 +19,8 @@ const pageBaseVariants = cva(
     variants: {
       size: {
         sm: "max-w-sm",
-        md: "max-w-2xl",
-        lg: "max-w-4xl"
+        md: "max-w-4xl",
+        lg: "max-w-6xl"
       }
     },
     defaultVariants: {
