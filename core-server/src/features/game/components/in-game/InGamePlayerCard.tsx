@@ -1,56 +1,43 @@
-import WebSocketStatusIndicator from "@/features/realtime/WebSocketStatusIndicator";
+import InGameTranslations from "@/features/i18n/translation-file-interfaces/InGameTranslations";
 import { GamePlayerModel } from "../../game-models";
+import WebSocketStatusIndicator from "@/features/realtime/WebSocketStatusIndicator";
 
 interface Props {
     player: GamePlayerModel;
-    scorePosition: number;
+    t: InGameTranslations;
     isCurrentPlayer?: boolean;
-    isHisTurn?: boolean;
 }
 
-export default function InGamePlayerCards({ player, scorePosition, isCurrentPlayer = false, isHisTurn }: Props) {
+export default function InGamePlayerCard({ player, t, isCurrentPlayer = false }: Props) {
     return (
         <div
-            key={player.accountId}
-            className={`
-                relative overflow-hidden rounded-xl p-3 transition-all duration-200 border border-gray-100 hover:border-gray-200 hover:shadow-sm
-                ${isHisTurn
-                    ? "bg-primary/20 font-bold"
-                    : "bg-background-secondary font-medium"
-                }
-            `}
+        key={player.accountId}
+        className={`
+            relative px-2 py-0.5 rounded-lg border transition-all duration-200
+            ${isCurrentPlayer
+            ? 'bg-gradient-to-r from-primary/20 to-secondary/20 border-primary ring-1 ring-primary' 
+            : 'border-border bg-background'
+            }
+        `}
         >
-            {/* Player indicator */}
-            <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                     <WebSocketStatusIndicator connectionStatus={player.connectionStatus} />
-                    <span className="text-sm font-med">{player.username}</span>
-                </div>
-                
-                <div className={`
-                    text-xs font-bold mr-0.5
-                `}>
-                    {player.score}
-                </div>
+        <div className="flex items-center justify-between gap-1.5">
+            <WebSocketStatusIndicator connectionStatus="connected" showText={false} />
+
+            <div className="flex-1 truncate">
+                <p className="text-sm font-semibold text-foreground/80">
+                    {player.username}
+                </p>
             </div>
-
-            {/* Ranking indicator */}
-            <div className="absolute top-1 right-1">
-                <div className={`
-                    w-4 h-4 rounded-full flex items-center justify-center text-xs font-bold
-                    ${scorePosition === 1 ? "bg-yellow-100 text-yellow-600" : 
-                        scorePosition === 2 ? "bg-gray-100 text-gray-600" : 
-                        scorePosition === 3 ? "bg-orange-100 text-orange-600" : 
-                        "bg-gray-50 text-gray-500"}
-                `}>
-                    {scorePosition}
-                </div>
-            </div>            
-
-            {/* Current player glow effect */}
-            {isCurrentPlayer && (
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-400/10 to-indigo-400/10 rounded-xl" />
-            )}
-        </div>        
+            
+            <div className="flex gap-0.5 items-center">
+            <span className='font-monos text-foreground font-semibold'>
+                {player.score}
+            </span>
+            <span className='text-foreground-muted text-xs'>
+                pts
+            </span>
+            </div>
+        </div>
+        </div>
     )
 }

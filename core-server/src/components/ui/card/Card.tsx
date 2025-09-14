@@ -9,7 +9,7 @@ export interface Props extends VariantProps<typeof cardVariants> {
 }
 
 const cardVariants = cva(
-  "border border-border overflow-hidden flex flex-col duration-300 transition-all rounded-lg",
+  "border border-border overflow-hidden flex flex-col duration-300 transition-all rounded-xl",
   {
     variants: {
       variant: {

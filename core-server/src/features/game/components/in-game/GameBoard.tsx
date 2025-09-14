@@ -1,22 +1,19 @@
 import LetterRowGrid from "@/features/word/components/LetterRowGrid";
-import ActiveGameWordInput from "./ActiveGameWordInput";
-import { useActiveGame } from "./active-game-context";
-import InGameProgressionBar from "./in-game/InGameProgressionBar";
+import ActiveGameWordInput from "../ActiveGameWordInput";
+import { useActiveGame } from "../active-game-context";
+import InGameProgressionBar from "./InGameProgressionBar";
 import LoadingSpinner from "@/components/ui/animation/LoadingSpinner";
 import SettingsCard from "@/features/account/components/SettingsCard";
 import { useEffect, useState } from "react";
-import InGameTimer from "./in-game/InGameTimer";
+import InGameTimer from "./InGameTimer";
 import { getCurrentUtcUnixTimestamp_Seconds } from "@/lib/time-util";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 import InGameTranslations from "@/features/i18n/translation-file-interfaces/InGameTranslations";
-import Button from "@/components/ui/Button";
-import { Settings } from "lucide-react";
 import Modal from "@/components/ui/Modal";
 import { SettingsTranslations } from "@/features/i18n/translation-file-interfaces/SettingsTranslations";
-import InGamePlayerBar from "./in-game/InGamePlayersBar";
 import Card from "@/components/ui/card/Card";
-import { CardContent } from "@/components/ui/card/card-children";
+import GameMetaData from "./GameMetaData";
 
 interface Props {
     lang: SupportedLanguage;
@@ -70,11 +67,11 @@ export default function GameBoard({generalTranslations, inGameTranslations, sett
     return (
         <>
         {(game && currentRound) ? (
-            <div className="grid grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <div className="col-span-2">
                      <div className={`w-full flex flex-col items-center justify-center gap-2 sm:gap-3 ${getMobileScale()} md:scale-100 origin-top`}>
 
-                     <div className="fixed md:relative top-0 w-full z-50">
+                     <div className="relative top-0 w-full z-50">
                         <InGameProgressionBar
                             currentRound={currentRound}
                             totalRounds={game.totalRounds}
@@ -120,24 +117,12 @@ export default function GameBoard({generalTranslations, inGameTranslations, sett
                 </div>
 
                 <Card className="col-span-1">
-                    <CardContent className="p-6 flex flex-col justify-between h-full">
-                        {/* Players */}
-                        <div>
-                            <InGamePlayerBar
-                                players={players}
-                                playersLabel="Players"
-                                currentPlayerId={currentPlayerId}                        
-                            />                             
-                        </div>
-
-                        {/* Actions */}
-                        <div className="flex flex-row justify-between w-full">
-                            <Button variant="skeleton" size="sm" corners="square" type="button" onClick={() => setShowSettings(true)}>
-                                <Settings size={16} />
-                                {settingsTranslations.settings.title}
-                            </Button>                                          
-                        </div>                        
-                    </CardContent>
+                    <GameMetaData
+                        t={inGameTranslations}
+                        game={game}
+                        players={players}
+                        currentPlayerAccountId={currentPlayerId}
+                    />
                 </Card>
             </div>
             ): (
