@@ -9,22 +9,19 @@ interface Props {
     t: InGameTranslations;
     isCurrentTurn?: boolean;
     turnOrder?: number;
-    height?: "sm" | "md" | "lg";
-    startsNextRound?: boolean;
-    hasNextGuess?: boolean;
 }
 
-export default function InGamePlayerCardMobile({ player, t, turnOrder = 1, isCurrentTurn = true, height = "lg", startsNextRound = false, hasNextGuess = false }: Props) {
+export default function InGamePlayerCardMobile({ player, t, turnOrder = 1, isCurrentTurn = true }: Props) {
     return (
-   <div className="relative col-span-1 w-full flex flex-col gap-0 border border-border p-1 border-b-2 border-b-primary">
+   <div className="relative col-span-1 w-full flex flex-col gap-0 border border-border px-1.5 py-0.5 border-b-4 border-b-primary rounded-lg shadow-md">
         {/* top indicators */}
         <div className="flex flex-row w-full justify-center">
              <span className="font-bold">{player.score}</span>
         </div>
 
         {/* bottom */}
-        <span className="truncate text-xs text-center">
-            Username_2000
+        <span className="truncate text-xs text-center font-medium">
+            {player.username}
         </span>
 
         {/* Top Right connectionstatus */}
