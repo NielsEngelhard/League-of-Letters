@@ -111,7 +111,7 @@ export default function SubHeader({t, lang}: Props) {
                             {/* Main Navigation Section */}
                             <div className="mb-6">
                                 <h3 className="text-xs font-semibold text-foreground/60 uppercase tracking-wider mb-3">
-                                    Game Modes
+                                    Play
                                 </h3>
                                 <div className="space-y-1">
                                     {mainNavItems.map((item) => (
