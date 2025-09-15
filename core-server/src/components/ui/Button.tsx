@@ -19,18 +19,19 @@ export interface Props extends VariantProps<typeof buttonVariants> {
 }
 
 const buttonVariants = cva(
-  "border-2 font-medium text-lg !cursor-pointer hover:opacity-95 justify-center flex items-center gap-1 transform hover:scale-105 transition-all duration-300 hover:shadow-primary/25",
+  "border font-medium text-lg !cursor-pointer hover:opacity-95 justify-center flex items-center gap-1 transition-colors duration-300 hover:shadow-primary/25",
   {
     variants: {
       variant: {
-        primary: "bg-primary text-white border-border",
-        primaryFade: "bg-gradient-to-r from-primary to-secondary text-background border-border",
-        secondary: "bg-secondary text-white border-border",
+        primary: "bg-primary/10 border-primary text-primary",
+        primaryFade: "bg-gradient-to-r from-primary to-secondary text-background",
+        secondary: "bg-secondary/10 border-secondary text-secondary",
         skeleton: "border-border text-foreground hover:border-primary/20",
-        error: "bg-error text-white border-border"
+        muted: "bg-foreground-muted/5 text-foreground/70 border-foreground-muted/30",
+        error: "bg-error/20 border-error text-error hover:bg-error/40"
       },
       size: {
-        sm: "px-3 py-1.5 md:px-5 md:py-2 text-sm font-semibold",
+        sm: "px-4 py-2 text-sm font-semibold",
         md: "px-2 py-2 lg:px-4 lg:py-3",
         lg: "px-12 py-4 text-xl font-bold",
       },
@@ -46,7 +47,6 @@ const buttonVariants = cva(
     }
   }
 )
-
 export default function Button({ 
   children, 
   className, 
@@ -62,7 +62,7 @@ export default function Button({
   const isNavigationButton: boolean = (href != null && href != undefined && href != "");
   const [isLoading, setIsLoading] = useState(false);
      
-  const classes: string = `${cn(buttonVariants({ variant, size, corners }), className)} ${disable && "!bg-gray-500/50 !cursor-not-allowed"}`;
+  const classes: string = `${cn(buttonVariants({ variant, size, corners }), className)} ${disable && "!bg-gray-500/50 !border-gray-500/50 !text-white/90 !cursor-not-allowed"}`;
        
   async function handleOnClick(): Promise<void> {
     // Don't handle loading for navigation buttons

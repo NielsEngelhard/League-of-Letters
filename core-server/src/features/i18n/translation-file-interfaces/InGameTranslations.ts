@@ -5,8 +5,19 @@ export default interface InGameTranslations {
     board: {
         players: string;
         time: string;
-        round: string;        
-    }   
+        round: string;
+    },
+    metaData: {
+        languageLabel: string;
+        modeLabel: string;
+        createdLabel: string;
+        hostLabel: string;
+        settingsBtn: string;
+        scoringExplainedBtn: string;
+        leaveGameBtn: string;
+        yourTurnText: string;
+        isHostIndicator: string;
+    },        
     overview: {
         title: string;
         points: string;

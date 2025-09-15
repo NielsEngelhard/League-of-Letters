@@ -7,6 +7,17 @@
     "time": "Tijd",
     "round": "Ronde"
   },    
+  "metaData": {
+    "languageLabel": "Taal",
+    "modeLabel": "Spelmodus",
+    "createdLabel": "Aangemaakt op",
+    "hostLabel": "Host",
+    "settingsBtn": "Instellingen",
+    "scoringExplainedBtn": "Puntentelling",
+    "leaveGameBtn": "Verlaten",
+    "yourTurnText": "Het is nu jouw beurt!",
+    "isHostIndicator": "Spelleider"
+  },  
   "overview": {
     "title": "Speloverzicht",
     "points": "punten",

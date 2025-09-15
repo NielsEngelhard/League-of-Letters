@@ -79,6 +79,7 @@ export default function FormBase<TFormData extends FieldValues, TResponseData = 
         <Button
           className="w-full"
           type="submit"
+          variant="primaryFade"
           isLoadingExternal={form.formState.isSubmitting}
         >
           {BtnIcon && <BtnIcon size={16} />}

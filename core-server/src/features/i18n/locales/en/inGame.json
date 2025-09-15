@@ -7,6 +7,17 @@
         "time": "Time",
         "round": "Round"
     },
+    "metaData": {
+        "languageLabel": "Language",
+        "modeLabel": "Game Mode",
+        "createdLabel": "Created On",
+        "hostLabel": "Host",
+        "settingsBtn": "Settings",
+        "scoringExplainedBtn": "Scoring",
+        "leaveGameBtn": "Leave",
+        "yourTurnText": "It's your turn!",
+        "isHostIndicator": "Host"
+    },    
     "overview": {
         "title": "Game Overview",
         "points": "points",

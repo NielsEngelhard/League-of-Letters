@@ -5,7 +5,18 @@
   "board": {
     "players": "Spieler",
     "time": "Zeit",
-    "round": "Runde"
+    "round": "Runde",
+    "metaData": {
+      "languageLabel": "Sprache",
+      "modeLabel": "Spielmodus",
+      "createdLabel": "Erstellt am",
+      "hostLabel": "Gastgeber",
+      "settingsBtn": "Einstellungen",
+      "scoringExplainedBtn": "Punktewertung",
+      "leaveGameBtn": "Verlassen",
+      "yourTurnText": "Du bist dran!",
+      "isHostIndicator": "Gastgeber"
+    }    
   },
   "overview": {
     "title": "Spielübersicht",

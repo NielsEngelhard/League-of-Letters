@@ -180,7 +180,7 @@ export default function CreateGameForm({ onLeaveGame, submitDisabled = false, pl
 
             <div>
                 <Button 
-                    variant="primary" 
+                    variant="primaryFade" 
                     type="submit" 
                     disable={submitDisabled} 
                     isLoadingExternal={isSubmitting}

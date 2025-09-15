@@ -5,7 +5,18 @@
   "board": {
     "players": "Joueurs",
     "time": "Temps",
-    "round": "Manche"
+    "round": "Manche",
+    "metaData": {
+      "languageLabel": "Langue",
+      "modeLabel": "Mode de jeu",
+      "createdLabel": "Créé le",
+      "hostLabel": "Hôte",
+      "settingsBtn": "Paramètres",
+      "scoringExplainedBtn": "Score",
+      "leaveGameBtn": "Quitter",
+      "yourTurnText": "C’est ton tour !",
+      "isHostIndicator": "Hôte"
+    }    
   },  
   "overview": {
     "title": "Aperçu du jeu",

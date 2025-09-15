@@ -13,7 +13,7 @@ import SubHeader from "./SubHeader";
 export default async function Header({ lang } : {lang: SupportedLanguage }) {
     const t = await loadTranslations(lang, ["general"]);
     
-    const currentUser = null;
+    const currentUser = await Authenticate_Server();
 
     return (
         <header className="flex flex-col z-50 w-full">

@@ -21,7 +21,7 @@ export default function InGamePlayerCard({ player, t, isCurrentPlayer = false }:
         `}
         >
         <div className="flex items-center justify-between gap-1.5">
-            <WebSocketStatusIndicator connectionStatus="connected" showText={false} />
+            <WebSocketStatusIndicator connectionStatus={player.connectionStatus} showText={false} />
 
             <div className="flex-1 truncate">
                 <p className="text-sm font-semibold text-foreground/80">
