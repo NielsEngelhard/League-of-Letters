@@ -24,6 +24,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         primary: "bg-primary text-white",
+        accent: "bg-accent text-white",
         primaryFade: "bg-gradient-to-r from-primary to-secondary text-background",
         secondary: "bg-secondary text-white",
         skeleton: "border-border text-foreground hover:border-primary/20",

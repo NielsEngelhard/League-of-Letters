@@ -9,6 +9,7 @@ import { loadTranslations } from "@/features/i18n/utils";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import JoinGameForm from "@/features/game/components/JoinGameForm";
 import Button from "@/components/ui/Button";
+import NotificationBanner from "@/components/ui/NotificationBanner";
 
 export default async function OnlinePage({
   params
@@ -54,15 +55,14 @@ export default async function OnlinePage({
 
         <GameModeCard
           title={t.beforeGame.online.searchGame.title}
-          subTxt={t.beforeGame.online.searchGame.description}
-          btnTxt={t.beforeGame.online.searchGame.btnText}
+          subTxt=""
+          btnTxt="asdsad"
           Icon={Search}
           variant="accent"
         >
-          <Button variant='secondary' className="w-full">
-            <Search />
-            {t.beforeGame.online.searchGame.btnText}
-          </Button>
+          <NotificationBanner text="Work in Progress ..." colorVariant="warning">
+
+          </NotificationBanner>
         </GameModeCard>                
       </div>
 

@@ -2,6 +2,7 @@ export * from "./schema/enum/supported-language";
 export * from "./schema/enum/game-mode";
 export * from "./schema/enum/connection-status";
 export * from "./schema/enum/settings-enum";
+export * from "./schema/enum/game-visibility";
 
 export * from "./schema/account";
 export * from "./schema/account-settings";
