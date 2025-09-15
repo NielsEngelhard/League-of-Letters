@@ -14,7 +14,7 @@ interface Props {
     hasNextGuess?: boolean;
 }
 
-export default function InGamePlayerCard({ player, t, turnOrder = 1, isCurrentTurn = true, height = "lg", startsNextRound = false, hasNextGuess = false }: Props) {
+export default function InGamePlayerCardDesktop({ player, t, turnOrder = 1, isCurrentTurn = true, height = "lg", startsNextRound = false, hasNextGuess = false }: Props) {
     
     function getHeight() {
         switch (height) {
@@ -60,7 +60,7 @@ export default function InGamePlayerCard({ player, t, turnOrder = 1, isCurrentTu
                         text-sm font-medium truncate
                         ${isCurrentTurn ? 'text-primary' : 'text-foreground'}
                     `}>
-                        {player.username}asdasdsaasdsadsdasd
+                        {player.username}
                     </p>
                 </div>
 

@@ -13,6 +13,9 @@ import { SettingsTranslations } from "@/features/i18n/translation-file-interface
 import Card from "@/components/ui/card/Card";
 import GameMetaData from "./GameMetaData";
 import ScoreTranslations from "@/features/i18n/translation-file-interfaces/ScoreTranslations";
+import InGamePlayerCard from "./InGamePlayerCardDesktop";
+import InGamePlayerCardMobile from "./InGamePlayerCardMobile";
+import InGamePlayerCardDesktop from "./InGamePlayerCardDesktop";
 
 interface Props {
     lang: SupportedLanguage;
@@ -43,16 +46,18 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
         return timePerTurn - timePastForThisTurn;
     }
 
+    // TODO only apply for board
     function getMobileScale(): string {
-        if (!currentRound) return "scale-100";
+        return "scale-100"
+        // if (!currentRound) return "scale-100";
 
-        if (currentRound.wordLength >= 10) return "scale-50";
-        if (currentRound.wordLength >= 9) return "scale-60";
-        if (currentRound.wordLength >= 8) return "scale-70";
-        if (currentRound.wordLength >= 7) return "scale-80";
-        if (currentRound.wordLength >= 6) return "scale-90";
+        // if (currentRound.wordLength >= 10) return "scale-50";
+        // if (currentRound.wordLength >= 9) return "scale-60";
+        // if (currentRound.wordLength >= 8) return "scale-70";
+        // if (currentRound.wordLength >= 7) return "scale-80";
+        // if (currentRound.wordLength >= 6) return "scale-90";
 
-        return "scale-100";
+        // return "scale-100";
     }
 
     function onSubmitGuessFailed() {
@@ -80,6 +85,14 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
                             gameLanguage={game.language}
                         />
                      </div>
+
+                        {/* On mobile show player grid small above the board, on desktop in metadata section */}
+                        <div className="md:hidden grid grid-cols-3 w-full gap-2">
+                            {players.map((player) => (
+                                <InGamePlayerCardMobile key={player.accountId} player={player} t={inGameTranslations}
+                                />
+                            ))}                        
+                        </div>
 
                          {/* Timer - smaller on mobile */}
                          {(currentRound.lastGuessUnixUtcTimestamp_InSeconds && initialTimeLeftForThisTurn && game.nSecondsPerGuess) && (

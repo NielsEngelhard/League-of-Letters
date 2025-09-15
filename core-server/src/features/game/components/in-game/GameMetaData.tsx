@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Settings, HelpCircle, Users, MoveLeft } from 'lucide-react';
 import { ActiveGameModel, GamePlayerModel } from '../../game-models';
 import InGameTranslations from '@/features/i18n/translation-file-interfaces/InGameTranslations';
-import InGamePlayerCard from './InGamePlayerCard';
+import InGamePlayerCardDesktop from './InGamePlayerCardDesktop';
 import Card from '@/components/ui/card/Card';
 import { ConnectionStatus } from '@/features/realtime/realtime-models';
 import WebSocketStatusIndicator from '@/features/realtime/WebSocketStatusIndicator';
@@ -83,7 +83,7 @@ export default function GameMetaData({ players, game, currentPlayerAccountId, in
         {/* Scrollable Players List */}
         <div className="overflow-y-auto flex-1 space-y-2 min-h-0">
           {players.map((player) => (
-            <InGamePlayerCard
+            <InGamePlayerCardDesktop
               key={player.accountId}                
               player={player}
               isCurrentTurn={player.accountId == currentPlayerAccountId}
