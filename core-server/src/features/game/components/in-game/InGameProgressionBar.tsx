@@ -5,6 +5,8 @@ import { LetterState } from "@/features/word/word-models";
 import InGameTranslations from "@/features/i18n/translation-file-interfaces/InGameTranslations";
 import { BetweenHorizonalEnd, Clock } from "lucide-react";
 import Tooltip from "@/components/ui/Tooltip";
+import { SupportedLanguage } from "@/features/i18n/languages";
+import { GetLanguageStyle } from "@/features/language/LanguageStyles";
 
 interface Props {
     currentRound: GameRoundModel;
@@ -12,9 +14,10 @@ interface Props {
     timePerGuess: string;
     guessesPerRound: number;
     inGameTranslations: InGameTranslations;
+    gameLanguage: SupportedLanguage;
 }
 
-export default function InGameProgressionBar({ currentRound, totalRounds, timePerGuess, guessesPerRound, inGameTranslations }: Props) {
+export default function InGameProgressionBar({ currentRound, totalRounds, timePerGuess, guessesPerRound, inGameTranslations, gameLanguage }: Props) {
     return (
         <PopupCard classes="h-[66px] md:max-h-none">
             <>
@@ -43,7 +46,7 @@ export default function InGameProgressionBar({ currentRound, totalRounds, timePe
                                 <BetweenHorizonalEnd size={14} />
                                 <span className="text-xs sm:text-sm font-mono font-medium">{guessesPerRound}</span>                                                            
                             </div>
-                        </Tooltip>                        
+                        </Tooltip>
                     </div>
 
                     {/* Right side */}
@@ -70,6 +73,10 @@ export default function InGameProgressionBar({ currentRound, totalRounds, timePe
                         {currentRound.startingLetter && (
                             <LetterTile letter={currentRound.startingLetter} state={LetterState.Correct} variant="extraSmall" />
                         )}
+
+                        <Tooltip content={gameLanguage}>
+                            {GetLanguageStyle(gameLanguage)?.flag}                         
+                        </Tooltip>                        
                     </div>
                 </div>
 

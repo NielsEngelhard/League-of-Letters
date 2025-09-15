@@ -75,6 +75,7 @@ export default function GameBoard({generalTranslations, inGameTranslations, sett
                             timePerGuess={game.nSecondsPerGuess?.toString() ?? "∞"}
                             inGameTranslations={inGameTranslations}
                             guessesPerRound={game.nGuessesPerRound}
+                            gameLanguage={game.language}
                         />
                      </div>
 
@@ -119,6 +120,7 @@ export default function GameBoard({generalTranslations, inGameTranslations, sett
                         game={game}
                         players={players}
                         currentPlayerAccountId={currentPlayerId}
+                        lang={lang}
                     />
                 </Card>
             </div>

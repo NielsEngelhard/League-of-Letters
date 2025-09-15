@@ -1,5 +1,5 @@
 import React from 'react';
-import { Settings, HelpCircle, Users } from 'lucide-react';
+import { Settings, HelpCircle, Users, MoveLeft } from 'lucide-react';
 import { ActiveGameModel, GamePlayerModel } from '../../game-models';
 import InGameTranslations from '@/features/i18n/translation-file-interfaces/InGameTranslations';
 import InGamePlayerCard from './InGamePlayerCard';
@@ -7,6 +7,9 @@ import Card from '@/components/ui/card/Card';
 import { ConnectionStatus } from '@/features/realtime/realtime-models';
 import WebSocketStatusIndicator from '@/features/realtime/WebSocketStatusIndicator';
 import Button from '@/components/ui/Button';
+import { LANGUAGE_ROUTE, PICK_GAME_MODE_ROUTE } from '@/app/routes';
+import { SupportedLanguage } from '@/features/i18n/languages';
+import Link from 'next/link';
 
 interface Props {
     players: GamePlayerModel[];
@@ -14,6 +17,7 @@ interface Props {
     currentPlayerAccountId: string;
     t: InGameTranslations
     hostUsername?: string;
+    lang: SupportedLanguage;
 }
 
 const formatDate = (date: Date) => {
@@ -25,7 +29,7 @@ const formatDate = (date: Date) => {
   });
 };
 
-export default function GameMetaData({ players, game, currentPlayerAccountId, t, hostUsername }: Props) {
+export default function GameMetaData({ players, game, currentPlayerAccountId, t, hostUsername, lang }: Props) {
   const gameInfoOverview: {key: string, value: string}[] = [
     { key: t.metaData.languageLabel, value: game.language},
     { key: t.metaData.modeLabel, value: game.gameMode},
@@ -104,9 +108,12 @@ export default function GameMetaData({ players, game, currentPlayerAccountId, t,
             {t.metaData.scoringExplainedBtn}
           </Button>
 
-          <Button size="sm" variant="error" className='col-span-2' corners="square">
-            {t.metaData.leaveGameBtn}
-          </Button>                        
+          <Link className='col-span-2' href={LANGUAGE_ROUTE(lang, PICK_GAME_MODE_ROUTE)}>
+            <Button size="sm" variant="error" className='w-full' corners="square" >
+              <MoveLeft size={16} />
+              {t.metaData.leaveGameBtn}
+            </Button>          
+          </Link>
         </div>
       </div>
     </div>
