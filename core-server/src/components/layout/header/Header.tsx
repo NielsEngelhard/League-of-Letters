@@ -44,7 +44,7 @@ export default async function Header({ lang } : {lang: SupportedLanguage }) {
 
             {/* Sub header nav menu */}
             {currentUser && (
-                <div className="justify-center hidden md:flex w-full">
+                <div className="justify-center">
                     <div className="max-w-6xl px-6 w-full">
                         <SubHeader t={t.general} lang={lang} />
                     </div>

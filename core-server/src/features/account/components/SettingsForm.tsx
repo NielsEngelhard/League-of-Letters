@@ -18,14 +18,14 @@ interface Props {
 }
 
 export default function SettingsForm({ t }: Props) {
-    const { settings, setSettingsOnClient } = useAuth();
+    const { account, settings, setSettingsOnClient, updateAccount } = useAuth();
     const [atLeastOneSettingChanged, setAtLeastOneSettingChanged] = useState(false);
     const { pushToast } = useToaster();
 
     const form = useForm<SettingsSchema>({
       resolver: zodResolver(settingsSchema),
       defaultValues: settings
-    })
+    });
 
     const watchedValues = form.watch();
 
@@ -40,6 +40,12 @@ export default function SettingsForm({ t }: Props) {
 
     async function onSubmit() {
         await saveSettingsOnServer(watchedValues);
+        
+        const accountRef = account;
+        if (!accountRef) return;
+
+        accountRef.settings = watchedValues; 
+        updateAccount(accountRef);
         setAtLeastOneSettingChanged(false);
     }
 

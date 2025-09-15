@@ -21,7 +21,7 @@ const tooltipVariants = cva(
         lg: 'px-4 py-3 text-base',
       },
       variant: {
-        default: 'bg-foreground-muted text-background',
+        default: 'bg-foreground-muted/80 text-background',
       }
     },
     defaultVariants: {

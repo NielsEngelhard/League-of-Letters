@@ -1,6 +1,8 @@
 import InGameTranslations from "@/features/i18n/translation-file-interfaces/InGameTranslations";
 import { GamePlayerModel } from "../../game-models";
 import WebSocketStatusIndicator from "@/features/realtime/WebSocketStatusIndicator";
+import { Clover, ListStart } from "lucide-react";
+import Tooltip from "@/components/ui/Tooltip";
 
 interface Props {
     player: GamePlayerModel;
@@ -9,9 +11,10 @@ interface Props {
     turnOrder?: number;
     height?: "sm" | "md" | "lg";
     startsNextRound?: boolean;
+    hasNextGuess?: boolean;
 }
 
-export default function InGamePlayerCard({ player, t, turnOrder = 1, isCurrentTurn = true, height = "lg", startsNextRound = true }: Props) {
+export default function InGamePlayerCard({ player, t, turnOrder = 1, isCurrentTurn = true, height = "lg", startsNextRound = false, hasNextGuess = false }: Props) {
     
     function getHeight() {
         switch (height) {
@@ -75,11 +78,22 @@ export default function InGamePlayerCard({ player, t, turnOrder = 1, isCurrentTu
                 </div>
             </div>
 
-            {startsNextRound && (
-                <div className="absolute bottom-0.5 right-3 z-20 text-xs text-primary/80 font-bold">
-                    {t.tooltip.startsNextRound}
-                </div>                
-            )}
+            {/* Indicators */}
+            <div className="absolute bottom-0 left-9 z-50 flex flex-row gap-2">
+                {hasNextGuess && (
+                    <Tooltip content={t.tooltip.hasNextGuess} className="text-secondary" position="right">
+                        <Clover size={18} />
+                    </Tooltip>
+                )}
+
+                {startsNextRound && (
+                    <Tooltip content={t.tooltip.startsNextRound} className="text-primary" position="right">
+                        <ListStart size={18} />
+                    </Tooltip>
+                )}
+            </div>
+
+       
         </div>
     );
 }

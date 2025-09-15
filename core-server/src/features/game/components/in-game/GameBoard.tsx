@@ -66,7 +66,7 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
     return (
         <>
         {(game && currentRound) ? (
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="col-span-2">
                      <div className={`w-full flex flex-col items-center justify-center gap-2 sm:gap-3 ${getMobileScale()} md:scale-100 origin-top`}>
 

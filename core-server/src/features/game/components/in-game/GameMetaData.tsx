@@ -39,7 +39,7 @@ const formatDate = (date: Date) => {
 
 export default function GameMetaData({ players, game, currentPlayerAccountId, inGameTranslations, hostUsername, lang, scoreTranslations, settingsTranslations }: Props) {
   const [showScoreExplanation, setShowScoreExplanation] = useState(false);
-  const [showSettings, setShowSettings] = useState(true);
+  const [showSettings, setShowSettings] = useState(false);
 
   const gameInfoOverview: {key: string, value: string}[] = [
     { key: inGameTranslations.metaData.languageLabel, value: game.language},
@@ -66,7 +66,7 @@ export default function GameMetaData({ players, game, currentPlayerAccountId, in
   return (
     <div className="p-6 h-full flex flex-col">
       {/* Players Section */}
-      <div className="flex flex-col flex-1 min-h-0">
+      <div className="flex-col flex-1 min-h-0 hidden md:flex">
         {players.length >= 2 && (
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-bold flex items-center gap-2">
@@ -130,7 +130,7 @@ export default function GameMetaData({ players, game, currentPlayerAccountId, in
       </div>
 
       {showScoreExplanation && (
-        <SidePopup onClose={() => setShowScoreExplanation(false)}>
+        <SidePopup title={scoreTranslations.title} onClose={() => setShowScoreExplanation(false)}>
           <ScoreBlock t={scoreTranslations} />
         </SidePopup>
       )}
