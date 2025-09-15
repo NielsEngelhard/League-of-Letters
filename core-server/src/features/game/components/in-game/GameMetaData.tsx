@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Settings, HelpCircle, Users, MoveLeft } from 'lucide-react';
 import { ActiveGameModel, GamePlayerModel } from '../../game-models';
 import InGameTranslations from '@/features/i18n/translation-file-interfaces/InGameTranslations';
@@ -10,14 +10,22 @@ import Button from '@/components/ui/Button';
 import { LANGUAGE_ROUTE, PICK_GAME_MODE_ROUTE } from '@/app/routes';
 import { SupportedLanguage } from '@/features/i18n/languages';
 import Link from 'next/link';
+import ScoreBlock from '@/features/score/ScoreBlock';
+import ScoreTranslations from '@/features/i18n/translation-file-interfaces/ScoreTranslations';
+import SidePopup from '@/components/ui/SidePopup';
+import SettingsForm from '@/features/account/components/SettingsForm';
+import { SettingsTranslations } from '@/features/i18n/translation-file-interfaces/SettingsTranslations';
 
 interface Props {
     players: GamePlayerModel[];
     game: ActiveGameModel;
     currentPlayerAccountId: string;
-    t: InGameTranslations
     hostUsername?: string;
     lang: SupportedLanguage;
+
+    inGameTranslations: InGameTranslations
+    scoreTranslations: ScoreTranslations;
+    settingsTranslations: SettingsTranslations;
 }
 
 const formatDate = (date: Date) => {
@@ -29,12 +37,15 @@ const formatDate = (date: Date) => {
   });
 };
 
-export default function GameMetaData({ players, game, currentPlayerAccountId, t, hostUsername, lang }: Props) {
+export default function GameMetaData({ players, game, currentPlayerAccountId, inGameTranslations, hostUsername, lang, scoreTranslations, settingsTranslations }: Props) {
+  const [showScoreExplanation, setShowScoreExplanation] = useState(false);
+  const [showSettings, setShowSettings] = useState(true);
+
   const gameInfoOverview: {key: string, value: string}[] = [
-    { key: t.metaData.languageLabel, value: game.language},
-    { key: t.metaData.modeLabel, value: game.gameMode},
-    { key: t.metaData.createdLabel, value: formatDate(game.createdAt)},
-    { key: t.metaData.hostLabel, value: hostUsername ?? "-"},
+    { key: inGameTranslations.metaData.languageLabel, value: game.language},
+    { key: inGameTranslations.metaData.modeLabel, value: game.gameMode},
+    { key: inGameTranslations.metaData.createdLabel, value: formatDate(game.createdAt)},
+    { key: inGameTranslations.metaData.hostLabel, value: hostUsername ?? "-"},
   ]  
 
   const gamePlayersCombinedConnectionStatus: ConnectionStatus = game.players.some(p => p.connectionStatus != "connected") ? "disconnected" : "connected";
@@ -60,7 +71,7 @@ export default function GameMetaData({ players, game, currentPlayerAccountId, t,
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-bold flex items-center gap-2">
               <Users size={20} className="text-primary" />
-              {t.board.players}
+              {inGameTranslations.board.players}
             </h3>
             <div className="flex items-center gap-2 text-sm text-foreground-muted">
               <WebSocketStatusIndicator connectionStatus={gamePlayersCombinedConnectionStatus} showText={false} />
@@ -76,7 +87,7 @@ export default function GameMetaData({ players, game, currentPlayerAccountId, t,
               key={player.accountId}                
               player={player}
               isCurrentTurn={player.accountId == currentPlayerAccountId}
-              t={t}
+              t={inGameTranslations}
               height={playerCardHeight}
             />
           ))}
@@ -99,23 +110,36 @@ export default function GameMetaData({ players, game, currentPlayerAccountId, t,
 
         {/* Action Buttons */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <Button variant="muted" corners="square" className='col-span-1' size="sm">
+          <Button variant="muted" corners="square" className='col-span-1' size="sm" onClick={() => setShowSettings(prev => !prev)}>
             <Settings size={16} />
-            {t.metaData.settingsBtn}
+            {inGameTranslations.metaData.settingsBtn}
           </Button>
-          <Button variant="primary" corners="square" className='col-span-1' size="sm">
+          
+          <Button variant="primary" corners="square" className='col-span-1' size="sm" onClick={() => setShowScoreExplanation(prev => !prev)}>
             <HelpCircle size={16} />
-            {t.metaData.scoringExplainedBtn}
+            {inGameTranslations.metaData.scoringExplainedBtn}
           </Button>
 
           <Link className='col-span-2' href={LANGUAGE_ROUTE(lang, PICK_GAME_MODE_ROUTE)}>
             <Button size="sm" variant="error" className='w-full' corners="square" >
               <MoveLeft size={16} />
-              {t.metaData.leaveGameBtn}
+              {inGameTranslations.metaData.leaveGameBtn}
             </Button>          
           </Link>
         </div>
       </div>
+
+      {showScoreExplanation && (
+        <SidePopup onClose={() => setShowScoreExplanation(false)}>
+          <ScoreBlock t={scoreTranslations} />
+        </SidePopup>
+      )}
+
+      {showSettings && (
+        <SidePopup title={settingsTranslations.settings.title} onClose={() => setShowSettings(false)}>
+          <SettingsForm t={settingsTranslations} />
+        </SidePopup>
+      )}      
     </div>
   );
 }

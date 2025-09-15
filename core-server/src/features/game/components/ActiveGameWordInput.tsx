@@ -37,10 +37,15 @@ export default function WordInput({ t, onSubmitFailed, disabled = false }: Props
     useEffect(() => {
         if (!currentRound) return;
 
+        if (settings.showKeyboardHints == false) {
+            setKeyStates(new Map());
+            return;
+        }
+
         const keyStates = mapLetterColors(currentRound.guesses, currentRound.unguessedMisplacedLetters, currentRound.startingLetter, !settings.showCompleteCorrect);
         setKeyStates(keyStates);
         
-    }, [settings.showCompleteCorrect, currentRound]);
+    }, [settings.showCompleteCorrect, settings.showKeyboardHints, currentRound]);
 
     function onKeyPress(keyboardKey: string) {
         if (isValidInput(keyboardKey) == false) {

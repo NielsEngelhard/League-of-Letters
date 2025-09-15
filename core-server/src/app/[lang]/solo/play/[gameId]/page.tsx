@@ -14,7 +14,7 @@ export default async function PlaySoloGamePage({
   params: Promise<{ lang: SupportedLanguage, gameId: string }>
 }) {
     const { lang, gameId } = await params;
-    const t = await loadTranslations(lang, ["inGame", "general", "settings"]);
+    const t = await loadTranslations(lang, ["inGame", "general", "settings", "score"]);
 
     // Game does not exist
     const game = await GetActiveGameByIdRequest(gameId);
@@ -24,7 +24,14 @@ export default async function PlaySoloGamePage({
 
     return (
         <PageBase lang={lang} requiresAuh={true} size="lg">
-            <IngameClient initialGameState={game} lang={lang} generalTranslations={t.general} inGameTranslations={t.inGame} settingsTranslations={t.settings} />
+            <IngameClient
+              initialGameState={game}
+              lang={lang}
+              generalTranslations={t.general}
+              inGameTranslations={t.inGame}
+              settingsTranslations={t.settings}
+              scoreTranslations={t.score}
+            />
         </PageBase>
     )
 }

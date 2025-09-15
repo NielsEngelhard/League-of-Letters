@@ -12,6 +12,7 @@ import { useSocket } from "@/features/realtime/socket-context";
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 import InGameTranslations from "@/features/i18n/translation-file-interfaces/InGameTranslations";
 import { SettingsTranslations } from "@/features/i18n/translation-file-interfaces/SettingsTranslations";
+import ScoreTranslations from "@/features/i18n/translation-file-interfaces/ScoreTranslations";
 
 interface Props {
     initialGameState: ActiveGameModel;
@@ -19,9 +20,10 @@ interface Props {
     generalTranslations: GeneralTranslations;
     inGameTranslations: InGameTranslations;
     settingsTranslations: SettingsTranslations;
+    scoreTranslations: ScoreTranslations;
 }
 
-export default function IngameClient({ initialGameState, lang, generalTranslations, inGameTranslations, settingsTranslations }: Props) {
+export default function IngameClient({ initialGameState, lang, generalTranslations, inGameTranslations, settingsTranslations, scoreTranslations }: Props) {
     const { initializeGameState, game, clearGameState, players } = useActiveGame();    
     const { emitJoinGame, connectionStatus } = useSocket(); 
     const { account } = useAuth();
@@ -71,6 +73,7 @@ export default function IngameClient({ initialGameState, lang, generalTranslatio
                     generalTranslations={generalTranslations}
                     inGameTranslations={inGameTranslations}
                     settingsTranslations={settingsTranslations}
+                    scoreTranslations={scoreTranslations}
                 />
             )}
         </>

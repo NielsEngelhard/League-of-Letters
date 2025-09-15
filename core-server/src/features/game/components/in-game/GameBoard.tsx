@@ -12,15 +12,17 @@ import InGameTranslations from "@/features/i18n/translation-file-interfaces/InGa
 import { SettingsTranslations } from "@/features/i18n/translation-file-interfaces/SettingsTranslations";
 import Card from "@/components/ui/card/Card";
 import GameMetaData from "./GameMetaData";
+import ScoreTranslations from "@/features/i18n/translation-file-interfaces/ScoreTranslations";
 
 interface Props {
     lang: SupportedLanguage;
     generalTranslations: GeneralTranslations;
     inGameTranslations: InGameTranslations;
     settingsTranslations: SettingsTranslations;
+    scoreTranslations: ScoreTranslations;
 }
 
-export default function GameBoard({generalTranslations, inGameTranslations, settingsTranslations, lang}: Props) {
+export default function GameBoard({generalTranslations, inGameTranslations, scoreTranslations, settingsTranslations, lang}: Props) {
     const { game, players, currentGuess, currentRound, isThisPlayersTurn, isAnimating, revealedWord, currentPlayerId, recalculateCurrentPlayer } = useActiveGame();
     const [initialTimeLeftForThisTurn, setInitialTimeLeftForThisTurn] = useState<number | null>(null);
     const [currentSubmitFailed, setCurrentSubmitFailed] = useState(false); // e.g. invalid word input
@@ -116,11 +118,13 @@ export default function GameBoard({generalTranslations, inGameTranslations, sett
 
                 <Card className="col-span-1 max-h-[725px]">
                     <GameMetaData
-                        t={inGameTranslations}
+                        inGameTranslations={inGameTranslations}
                         game={game}
                         players={players}
                         currentPlayerAccountId={currentPlayerId}
                         lang={lang}
+                        scoreTranslations={scoreTranslations}
+                        settingsTranslations={settingsTranslations}
                     />
                 </Card>
             </div>
