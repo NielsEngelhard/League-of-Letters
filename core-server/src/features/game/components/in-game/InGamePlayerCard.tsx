@@ -5,39 +5,81 @@ import WebSocketStatusIndicator from "@/features/realtime/WebSocketStatusIndicat
 interface Props {
     player: GamePlayerModel;
     t: InGameTranslations;
-    isCurrentPlayer?: boolean;
+    isCurrentTurn?: boolean;
+    turnOrder?: number;
+    height?: "sm" | "md" | "lg";
+    startsNextRound?: boolean;
 }
 
-export default function InGamePlayerCard({ player, t, isCurrentPlayer = false }: Props) {
+export default function InGamePlayerCard({ player, t, turnOrder = 1, isCurrentTurn = true, height = "lg", startsNextRound = true }: Props) {
+    
+    function getHeight() {
+        switch (height) {
+            case "sm":
+                return "py-1.5";
+            case "md":
+                return "py-2";
+            case "lg":
+                return "py-3";                                
+        }
+    }
+
     return (
         <div
-        key={player.accountId}
-        className={`
-            relative px-2 py-0.5 rounded-lg border transition-all duration-200
-            ${isCurrentPlayer
-            ? 'bg-gradient-to-r from-primary/20 to-secondary/20 border-primary ring-1 ring-primary' 
-            : 'border-border bg-background'
-            }
-        `}
+            key={player.accountId}
+            className={`
+                relative px-4 ${getHeight()} rounded-r-xl transition-all duration-300 ease-out border-l-4 border-l-primary
+                ${isCurrentTurn
+                    ? 'bg-primary/10 border border-primary font-bold' 
+                    : 'bg-background border border-border'
+                }
+            `}
         >
-        <div className="flex items-center justify-between gap-1.5">
-            <WebSocketStatusIndicator connectionStatus={player.connectionStatus} showText={false} />
+            <div className="flex items-center gap-2">
+                {/* Turn order indicator */}
+                {turnOrder && (
+                    <div className="text-sm font-bold">
+                        {turnOrder}
+                    </div>
+                )}
 
-            <div className="flex-1 truncate">
-                <p className="text-sm font-semibold text-foreground/80">
-                    {player.username}
-                </p>
+                {/* Connection status */}
+                <div className="flex-shrink-0">
+                    <WebSocketStatusIndicator 
+                        connectionStatus={player.connectionStatus} 
+                        showText={false} 
+                    />
+                </div>
+
+                {/* Username - takes up remaining space */}
+                <div className="flex-1 min-w-0">
+                    <p className={`
+                        text-sm font-medium truncate
+                        ${isCurrentTurn ? 'text-primary' : 'text-foreground'}
+                    `}>
+                        {player.username}asdasdsaasdsadsdasd
+                    </p>
+                </div>
+
+                {/* Score section */}
+                <div className="flex-shrink-0 flex items-baseline gap-1">
+                    <span className={`
+                        text-lg font-bold tabular-nums
+                        ${isCurrentTurn ? 'text-primary' : 'text-foreground'}
+                    `}>
+                        {player.score}
+                    </span>
+                    <span className="text-xs text-muted-foreground font-medium">
+                        {t.overview.points}
+                    </span>
+                </div>
             </div>
-            
-            <div className="flex gap-0.5 items-center">
-            <span className='font-monos text-foreground font-semibold'>
-                {player.score}
-            </span>
-            <span className='text-foreground-muted text-xs'>
-                pts
-            </span>
-            </div>
+
+            {startsNextRound && (
+                <div className="absolute bottom-0.5 right-3 z-20 text-xs text-primary/80 font-bold">
+                    {t.tooltip.startsNextRound}
+                </div>                
+            )}
         </div>
-        </div>
-    )
+    );
 }

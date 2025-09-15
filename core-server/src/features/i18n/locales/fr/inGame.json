@@ -5,22 +5,28 @@
   "board": {
     "players": "Joueurs",
     "time": "Temps",
-    "round": "Manche",
-    "metaData": {
-      "languageLabel": "Langue",
-      "modeLabel": "Mode de jeu",
-      "createdLabel": "Créé le",
-      "hostLabel": "Hôte",
-      "settingsBtn": "Paramètres",
-      "scoringExplainedBtn": "Score",
-      "leaveGameBtn": "Quitter",
-      "yourTurnText": "C’est ton tour !",
-      "isHostIndicator": "Hôte"
-    }    
+    "round": "Manche"
+  },  
+  "metaData": {
+    "languageLabel": "Langue",
+    "modeLabel": "Mode de jeu",
+    "createdLabel": "Créé le",
+    "hostLabel": "Hôte",
+    "settingsBtn": "Paramètres",
+    "scoringExplainedBtn": "Score",
+    "leaveGameBtn": "Quitter",
+    "yourTurnText": "C’est ton tour !",
+    "isHostIndicator": "Hôte"
+  },  
+  "tooltip": {
+    "secondsPerGuess": "Secondes par tour",
+    "guessesPerRound": "Essais par manche",
+    "startsNextRound": "Commence le prochain tour",
+    "hasNextGuess": "A la prochaine supposition"
   },  
   "overview": {
     "title": "Aperçu du jeu",
-    "points": "points",
+    "points": "pt",
     "leaveBtn": "Quitter la partie",
     "playAgainBtn": "Rejouer",
     "infoBanner": {

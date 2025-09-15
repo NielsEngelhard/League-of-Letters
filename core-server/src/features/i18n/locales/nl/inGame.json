@@ -18,9 +18,15 @@
     "yourTurnText": "Het is nu jouw beurt!",
     "isHostIndicator": "Spelleider"
   },  
+  "tooltip": {
+    "secondsPerGuess": "Seconden per beurt",
+    "guessesPerRound": "Aantal beurten per ronde",
+    "startsNextRound": "Start volgende ronde",
+    "hasNextGuess": "Heeft volgende beurt"
+  },
   "overview": {
     "title": "Speloverzicht",
-    "points": "punten",
+    "points": "pnt",
     "leaveBtn": "Spel verlaten",
     "playAgainBtn": "Nog een potje",
     "infoBanner": {

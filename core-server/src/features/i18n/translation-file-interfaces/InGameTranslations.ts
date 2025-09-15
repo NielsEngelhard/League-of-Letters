@@ -17,7 +17,13 @@ export default interface InGameTranslations {
         leaveGameBtn: string;
         yourTurnText: string;
         isHostIndicator: string;
-    },        
+    },
+    tooltip: {
+        secondsPerGuess: string;
+        guessesPerRound: string;
+        startsNextRound: string;
+        hasNextGuess: string;           
+    },
     overview: {
         title: string;
         points: string;

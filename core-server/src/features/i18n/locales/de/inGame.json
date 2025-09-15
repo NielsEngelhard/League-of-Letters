@@ -5,22 +5,28 @@
   "board": {
     "players": "Spieler",
     "time": "Zeit",
-    "round": "Runde",
-    "metaData": {
-      "languageLabel": "Sprache",
-      "modeLabel": "Spielmodus",
-      "createdLabel": "Erstellt am",
-      "hostLabel": "Gastgeber",
-      "settingsBtn": "Einstellungen",
-      "scoringExplainedBtn": "Punktewertung",
-      "leaveGameBtn": "Verlassen",
-      "yourTurnText": "Du bist dran!",
-      "isHostIndicator": "Gastgeber"
-    }    
+    "round": "Runde"  
   },
+  "metaData": {
+    "languageLabel": "Sprache",
+    "modeLabel": "Spielmodus",
+    "createdLabel": "Erstellt am",
+    "hostLabel": "Gastgeber",
+    "settingsBtn": "Einstellungen",
+    "scoringExplainedBtn": "Punktewertung",
+    "leaveGameBtn": "Verlassen",
+    "yourTurnText": "Du bist dran!",
+    "isHostIndicator": "Gastgeber"
+  },
+  "tooltip": {
+    "secondsPerGuess": "Sekunden pro Zug",
+    "guessesPerRound": "Versuche pro Runde",
+    "startsNextRound": "Startet nächste Runde",
+    "hasNextGuess": "Hat nächsten Tipp"    
+  },  
   "overview": {
     "title": "Spielübersicht",
-    "points": "Punkte",
+    "points": "pt",
     "leaveBtn": "Spiel verlassen",
     "playAgainBtn": "Nochmal spielen",
     "infoBanner": {

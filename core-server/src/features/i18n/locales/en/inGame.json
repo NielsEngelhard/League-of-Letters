@@ -18,9 +18,15 @@
         "yourTurnText": "It's your turn!",
         "isHostIndicator": "Host"
     },    
+    "tooltip": {
+        "secondsPerGuess": "Seconds per turn",
+        "guessesPerRound": "Guesses per round",
+        "startsNextRound": "Starts next round",
+        "hasNextGuess": "Has next guess"        
+    },    
     "overview": {
         "title": "Game Overview",
-        "points": "points",
+        "points": "pts",
         "leaveBtn": "Leave Game",
         "playAgainBtn": "Play Again",
         "infoBanner": {

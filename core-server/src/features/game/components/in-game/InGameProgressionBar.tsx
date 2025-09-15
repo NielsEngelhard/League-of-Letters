@@ -3,17 +3,18 @@ import { GameRoundModel } from "../../game-models";
 import LetterTile from "@/features/word/components/LetterTile";
 import { LetterState } from "@/features/word/word-models";
 import InGameTranslations from "@/features/i18n/translation-file-interfaces/InGameTranslations";
-import { Clock, User } from "lucide-react";
+import { BetweenHorizonalEnd, Clock } from "lucide-react";
+import Tooltip from "@/components/ui/Tooltip";
 
 interface Props {
     currentRound: GameRoundModel;
     totalRounds: number;
     timePerGuess: string;
+    guessesPerRound: number;
     inGameTranslations: InGameTranslations;
-    currentPlayerUsername?: string;
 }
 
-export default function InGameProgressionBar({ currentRound, totalRounds, timePerGuess, inGameTranslations, currentPlayerUsername }: Props) {
+export default function InGameProgressionBar({ currentRound, totalRounds, timePerGuess, guessesPerRound, inGameTranslations }: Props) {
     return (
         <PopupCard classes="h-[66px] md:max-h-none">
             <>
@@ -30,17 +31,19 @@ export default function InGameProgressionBar({ currentRound, totalRounds, timePe
                             </div>
                         </div>
                         
-                        <div className="flex items-center gap-1">
-                            <Clock size={14} />
-                            <span className="text-xs sm:text-sm font-mono font-medium">{timePerGuess}</span>
-                        </div>
-
-                        {currentPlayerUsername && (
-                            <div className="flex items-center gap-1">
-                                <User size={14} />
-                                <span className="text-xs sm:text-sm font-mono font-medium">{currentPlayerUsername}</span>
+                         <Tooltip content={inGameTranslations.tooltip.secondsPerGuess}>
+                            <div className="flex items-center gap-1">                           
+                                <Clock size={14} />
+                                <span className="text-xs sm:text-sm font-mono font-medium">{timePerGuess}</span>                                                            
                             </div>
-                        )}                      
+                        </Tooltip>
+
+                         <Tooltip content={inGameTranslations.tooltip.guessesPerRound}>
+                            <div className="flex items-center gap-1">                           
+                                <BetweenHorizonalEnd size={14} />
+                                <span className="text-xs sm:text-sm font-mono font-medium">{guessesPerRound}</span>                                                            
+                            </div>
+                        </Tooltip>                        
                     </div>
 
                     {/* Right side */}

@@ -23,11 +23,11 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        primary: "bg-primary/10 border-primary text-primary",
+        primary: "bg-primary/10 border-primary text-primary hover:bg-primary/20",
         primaryFade: "bg-gradient-to-r from-primary to-secondary text-background",
         secondary: "bg-secondary/10 border-secondary text-secondary",
         skeleton: "border-border text-foreground hover:border-primary/20",
-        muted: "bg-foreground-muted/5 text-foreground/70 border-foreground-muted/30",
+        muted: "bg-foreground-muted/5 hover:bg-foreground-muted/15 text-foreground/70 border-foreground-muted/30",
         error: "bg-error/20 border-error text-error hover:bg-error/40"
       },
       size: {

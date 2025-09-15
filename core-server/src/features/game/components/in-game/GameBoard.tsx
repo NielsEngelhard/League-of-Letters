@@ -3,14 +3,12 @@ import ActiveGameWordInput from "../ActiveGameWordInput";
 import { useActiveGame } from "../active-game-context";
 import InGameProgressionBar from "./InGameProgressionBar";
 import LoadingSpinner from "@/components/ui/animation/LoadingSpinner";
-import SettingsCard from "@/features/account/components/SettingsCard";
 import { useEffect, useState } from "react";
 import InGameTimer from "./InGameTimer";
 import { getCurrentUtcUnixTimestamp_Seconds } from "@/lib/time-util";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 import InGameTranslations from "@/features/i18n/translation-file-interfaces/InGameTranslations";
-import Modal from "@/components/ui/Modal";
 import { SettingsTranslations } from "@/features/i18n/translation-file-interfaces/SettingsTranslations";
 import Card from "@/components/ui/card/Card";
 import GameMetaData from "./GameMetaData";
@@ -23,7 +21,6 @@ interface Props {
 }
 
 export default function GameBoard({generalTranslations, inGameTranslations, settingsTranslations, lang}: Props) {
-    const [showSettings, setShowSettings] = useState(false);
     const { game, players, currentGuess, currentRound, isThisPlayersTurn, isAnimating, revealedWord, currentPlayerId, recalculateCurrentPlayer } = useActiveGame();
     const [initialTimeLeftForThisTurn, setInitialTimeLeftForThisTurn] = useState<number | null>(null);
     const [currentSubmitFailed, setCurrentSubmitFailed] = useState(false); // e.g. invalid word input
@@ -71,13 +68,13 @@ export default function GameBoard({generalTranslations, inGameTranslations, sett
                 <div className="col-span-2">
                      <div className={`w-full flex flex-col items-center justify-center gap-2 sm:gap-3 ${getMobileScale()} md:scale-100 origin-top`}>
 
-                     <div className="relative top-0 w-full z-50">
+                     <div className="relative top-0 w-full z-50 mb-0 md:mb-3">
                         <InGameProgressionBar
                             currentRound={currentRound}
                             totalRounds={game.totalRounds}
                             timePerGuess={game.nSecondsPerGuess?.toString() ?? "∞"}
                             inGameTranslations={inGameTranslations}
-                            currentPlayerUsername={players.find(p => p.accountId == currentPlayerId)?.username}
+                            guessesPerRound={game.nGuessesPerRound}
                         />
                      </div>
 
@@ -116,7 +113,7 @@ export default function GameBoard({generalTranslations, inGameTranslations, sett
                     </div>
                 </div>
 
-                <Card className="col-span-1">
+                <Card className="col-span-1 max-h-[725px]">
                     <GameMetaData
                         t={inGameTranslations}
                         game={game}
@@ -130,10 +127,6 @@ export default function GameBoard({generalTranslations, inGameTranslations, sett
                     <LoadingSpinner size="md" />
                 </div>
             )}
-
-            <Modal show={showSettings} onClose={() => setShowSettings(false)}>
-                <SettingsCard t={settingsTranslations} />
-            </Modal>
         </>
     );
 }
