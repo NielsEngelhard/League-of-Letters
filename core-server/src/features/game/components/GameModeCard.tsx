@@ -59,6 +59,7 @@ export default function GameModeCard({
                   href={href}                  
                   className={`w-full ${cn(buttonVariants({ variant }), className)}`}
                 >
+                  <Icon />
                   {btnTxt}
                 </Button>           
               )}

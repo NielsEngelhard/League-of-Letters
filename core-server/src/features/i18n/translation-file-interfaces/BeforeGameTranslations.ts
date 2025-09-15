@@ -31,7 +31,6 @@ export default interface BeforeGameTranslations {
   online: {
     title: string;
     description: string;
-    subDescription: string;
     joinGame: {
       title: string;
       description: string;
@@ -44,6 +43,11 @@ export default interface BeforeGameTranslations {
       extraDescription: string;
       btnText: string;
     };
+    searchGame: {
+      title: string;
+      description: string;
+      btnText: string;
+    }
   };  
   lobby: {
     create: {

@@ -115,13 +115,13 @@ export default function GameMetaData({ players, game, currentPlayerAccountId, in
             {inGameTranslations.metaData.settingsBtn}
           </Button>
           
-          <Button variant="primary" corners="square" className='col-span-1' size="sm" onClick={() => setShowScoreExplanation(prev => !prev)}>
+          <Button variant="primaryLight" corners="square" className='col-span-1' size="sm" onClick={() => setShowScoreExplanation(prev => !prev)}>
             <HelpCircle size={16} />
             {inGameTranslations.metaData.scoringExplainedBtn}
           </Button>
 
           <Link className='col-span-2' href={LANGUAGE_ROUTE(lang, PICK_GAME_MODE_ROUTE)}>
-            <Button size="sm" variant="error" className='w-full' corners="square" >
+            <Button size="sm" variant="errorLight" className='w-full' corners="square" >
               <MoveLeft size={16} />
               {inGameTranslations.metaData.leaveGameBtn}
             </Button>          

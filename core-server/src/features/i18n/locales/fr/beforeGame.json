@@ -31,7 +31,6 @@
     "online": {
         "title": "Jeu en Ligne",
         "description": "Joue avec d'autres personnes",
-        "subDescription": "Rejoins un jeu avec un code, ou crée-en un nouveau.",
         "joinGame": {
             "title": "Rejoindre",
             "description": "Entre un ID de jeu pour rejoindre un match existant",
