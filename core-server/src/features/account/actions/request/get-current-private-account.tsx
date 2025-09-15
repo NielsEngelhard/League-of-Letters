@@ -8,7 +8,7 @@ import { AccountMapper } from "../../account-mapper";
 import { Authenticate_Server } from "@/features/auth/current-user";
 
 export default async function GetCurrentPrivateAccount(): Promise<PrivateAccountModel | null> {
-    const currentUser = await Authenticate_Server();
+    const currentUser = await Authenticate_Server(true);
     if (!currentUser) return null;
     
     const account = await db.select().from(AccountTable).where(eq(AccountTable.id, currentUser.accountId)).then(rows => rows[0]);

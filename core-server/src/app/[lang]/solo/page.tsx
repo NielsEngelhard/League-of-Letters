@@ -18,7 +18,7 @@ export default async function SoloPage({
 
   const t = await loadTranslations(lang, ["beforeGame"]);
 
-  const account = await Authenticate_Server();
+  const account = await Authenticate_Server(true);
 
   return (
     <PageBase size="md" lang={lang} requiresAuh={true}>

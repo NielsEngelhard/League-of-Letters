@@ -6,7 +6,7 @@ import { loadTranslations } from '@/features/i18n/utils';
 import { Authenticate_Server } from '@/features/auth/current-user';
 
 export default async function NotFound() {  
-  const authenticatedUser = await Authenticate_Server();  
+  const authenticatedUser = await Authenticate_Server(true);  
   
   const lang = authenticatedUser?.language ?? DefaultLanguage;
   const t = await loadTranslations(lang, ["home"]);

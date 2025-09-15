@@ -1,12 +1,10 @@
 "use client"
 
-import { HOME_ROUTE, LANGUAGE_ROUTE } from "@/app/routes";
 import Button from "@/components/ui/Button";
 import { LogoutCommand } from "@/features/auth/actions/command/logout-command";
 import { useAuth } from "@/features/auth/AuthContext";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import { LogOut } from "lucide-react";
-import { useRouter } from "next/navigation";
 
 interface Props {
     label: string;
@@ -15,7 +13,6 @@ interface Props {
 
 export default function LogoutButton({ lang, label }: Props) {
     const { clearAccountData } = useAuth();
-    const router = useRouter();
 
     async function onLogout() {
         await LogoutCommand();

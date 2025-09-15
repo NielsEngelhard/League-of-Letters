@@ -2,7 +2,7 @@
 
 import { createContext, useState, ReactNode, useContext, useEffect } from 'react';
 import { SettingsSchema } from '../account/account-schemas';
-import { PublicAccountModel, WordInputOption, wordInputOptions } from '../account/account-models';
+import { PublicAccountModel } from '../account/account-models';
 import { LogoutCommand } from './actions/command/logout-command';
 import { LoginModalState } from './components/LoginModal';
 
@@ -17,7 +17,7 @@ const DEFAULT_SETTINGS: SettingsSchema = {
 const ACCOUNT_LOCALSTORAGE_KEY: string = "account";
 
 type AuthContextType = {
-  account: PublicAccountModel | null;
+  account: PublicAccountModel | null | undefined;
   settings: SettingsSchema;
   isLoggedIn: boolean;
   loginModalState: LoginModalState;
@@ -33,7 +33,7 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [account, setAccount] = useState<PublicAccountModel | null>(null);
+  const [account, setAccount] = useState<PublicAccountModel | null | undefined>(undefined);
   const [loginModalState, setLoginModalState] = useState<LoginModalState>(LoginModalState.Hidden);
 
   const [guestSessionTimeRemaining, setGuestSessionTimeRemaining] = useState<string | null>(null);
@@ -54,10 +54,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // For guest accounts check every 5 minutes if the auth token is still valid and otherwise set guestSessionStillValid to false
     useEffect(() => {
-        if (account?.isGuest == false || !account?.tokenExpireUtcDate) return;
+        if (!account || account?.isGuest == false || !account?.tokenExpireUtcDate) return;
 
         const updateTimeRemaining = async () => {
-            if (!account.tokenExpireUtcDate) return;
+            if (!account || !account.isGuest || !account.tokenExpireUtcDate) return;
 
             const now = new Date();
             const diffMs = new Date(account.tokenExpireUtcDate).getTime() - now.getTime();
@@ -65,7 +65,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             const isExpired: boolean = diffMs <= 0;
             if (isExpired) {
                 setGuestSessionTimeRemaining("Expired");
-                clearAccountData();
+                await clearAccountData();
                 await LogoutCommand();
                 return;
             }
@@ -84,7 +84,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const interval = setInterval(updateTimeRemaining, 60000 * 5); // Update every 5 minutes
 
         return () => clearInterval(interval);
-    }, [account?.tokenExpireUtcDate]);  
+    }, [account]);
 
   const clearAccountData = async (): Promise<void> => {
     try {
@@ -111,13 +111,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       };
     });
   };
-
-  // Set account in local storage when the value is updated
-  useEffect(() => {
-    if (!account) return;
-
-    localStorage.setItem(ACCOUNT_LOCALSTORAGE_KEY, JSON.stringify(account));
-  }, [account]);
 
   return (
     <AuthContext.Provider value={{ 

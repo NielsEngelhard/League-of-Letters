@@ -9,7 +9,7 @@ import { redirect } from "next/navigation";
 export default async function JoinGamePage({params}: {params: Promise<{gameId: string }>}) {
     const { gameId } = await params;
 
-    const authenticatedUser = await Authenticate_Server();
+    const authenticatedUser = await Authenticate_Server(true);
 
     if (authenticatedUser != undefined && authenticatedUser != null) {
         redirect(LANGUAGE_ROUTE(authenticatedUser.language, JOINED_GAME_ROUTE(gameId)));

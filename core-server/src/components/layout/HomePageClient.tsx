@@ -15,8 +15,12 @@ export default function HomePageClient() {
     }, []);
 
     function getBrowserLanguageOrDefault(): SupportedLanguage {
-        const lang = navigator.language || (navigator.languages && navigator.languages[0]) || DefaultLanguage;
-        return lang.split("-")[0] as SupportedLanguage; // take only the language code
+        try {
+            const lang = navigator.language || (navigator.languages && navigator.languages[0]) || DefaultLanguage;
+            return lang.split("-")[0] as SupportedLanguage;            
+        } catch {
+            return DefaultLanguage;
+        }
     }    
     
     return (

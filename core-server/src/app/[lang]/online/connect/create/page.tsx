@@ -28,7 +28,7 @@ export default async function CreateOnlineGamePage({
     const { lang } = await params;
     const t = await loadTranslations(lang, ["beforeGame"]);
 
-    const authenticatedUser = await Authenticate_Server();
+    const authenticatedUser = await Authenticate_Server(true);
     if (!authenticatedUser) {
         return <AuthenticationRequiredBlock lang={lang} />
     }
