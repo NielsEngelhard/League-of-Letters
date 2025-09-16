@@ -20,6 +20,7 @@ import BeforeGameTranslations from "@/features/i18n/translation-file-interfaces/
 import CreateOnlineGameBasedOnLobbyCommand from "@/features/lobby/actions/command/create-online-game-based-on-lobby-command"
 import { GetLanguageStyle } from "@/features/language/LanguageStyles"
 import Label from "@/components/ui/form/Label"
+import LanguagePicker from "@/components/ui/form/LanguagePicker"
 
 interface Props {
     submitDisabled?: boolean;
@@ -37,9 +38,6 @@ export default function CreateGameForm({ onLeaveGame, submitDisabled = false, pl
     
     const searchParams = useSearchParams();
     const instaStart = searchParams.get("playDemoGame") == "true";
-
-
-    const languageStyle = GetLanguageStyle(lang);
 
     function onSubmit(data: CreateGameSchema) {
         if (gameMode == "online") {
@@ -169,7 +167,10 @@ export default function CreateGameForm({ onLeaveGame, submitDisabled = false, pl
 
             <div className="flex flex-row justify-between">
                 <Label text={t.createGameForm.languageLabel} />
-                {languageStyle?.flag}
+                <LanguagePicker
+                    currentLanguage={form.getValues("language")}
+                    onLanguageChange={(newLang: SupportedLanguage) => form.setValue("language", newLang)}
+                />
             </div>
 
             <Seperator />
