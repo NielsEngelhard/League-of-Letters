@@ -81,14 +81,15 @@ export default function GameMetaData({ players, game, currentPlayerAccountId, in
         )}
         
         {/* Scrollable Players List */}
-        <div className="overflow-y-auto flex-1 space-y-2 min-h-0">
-          {players.map((player) => (
+        <div className="overflow-y-auto flex-1 space-y-2 min-h-0">          
+          {players.map((player, index) => (
             <InGamePlayerCardDesktop
               key={player.accountId}                
               player={player}
               isCurrentTurn={player.accountId == currentPlayerAccountId}
               t={inGameTranslations}
               height={playerCardHeight}
+              turnOrder={index + 1}
             />
           ))}
         </div>

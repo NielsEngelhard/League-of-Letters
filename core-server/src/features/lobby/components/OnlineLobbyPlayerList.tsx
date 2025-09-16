@@ -54,6 +54,7 @@ export default function OnlineLobbyPlayerList({ hostAccountId, lobbyId }: Props)
             
             <div className="flex items-center gap-2">
                 <WebSocketStatusIndicator 
+                    showText={true}
                     connectionStatus={player.connectionStatus} 
                 />
                 

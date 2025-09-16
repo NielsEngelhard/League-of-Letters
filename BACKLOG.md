@@ -1,9 +1,7 @@
 BUGS NA LAUNCH
 - Tijd bij online game is helemaal gebugged ONLINE GAME BUGGED OPLOSSEN
 
-- toetsenbord op mobiel beter (scale op basis van breedte)
-- board op mobiel beter (scale op basis van breedte)
-
+- play sound on your turn
 
 - desktop in game meer zoals chess.com?
     - players sorteren op volgorde, niet op score oid
