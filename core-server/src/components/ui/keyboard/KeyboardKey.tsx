@@ -53,7 +53,7 @@ export default function KeyboardKey({
             return "flex-grow-0 flex-shrink-0 basis-auto min-w-[3.5rem] sm:min-w-[4rem] md:min-w-[4.5rem] h-10 sm:h-12 md:h-14 px-2 text-xs sm:text-sm";
         } else {
             // Regular letter keys scale with available space
-            return "flex-1 h-10 sm:h-12 md:h-14 min-w-0 text-sm sm:text-base md:text-lg";
+            return "flex-1 h-10 sm:h-12 md:h-13 min-w-0 text-sm sm:text-base md:text-lg";
         }
     };
 

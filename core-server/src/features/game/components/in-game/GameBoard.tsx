@@ -44,18 +44,16 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
         return timePerTurn - timePastForThisTurn;
     }
 
-    // TODO only apply for board
-    function getMobileScale(): string {
-        return "scale-100"
-        // if (!currentRound) return "scale-100";
+    function getGridScale(): string {
+        if (!currentRound) return "scale-100";
 
-        // if (currentRound.wordLength >= 10) return "scale-50";
-        // if (currentRound.wordLength >= 9) return "scale-60";
-        // if (currentRound.wordLength >= 8) return "scale-70";
-        // if (currentRound.wordLength >= 7) return "scale-80";
-        // if (currentRound.wordLength >= 6) return "scale-90";
+        if (currentRound.wordLength >= 10) return "scale-55 sm:scale-70 lg:scale-80 xl:scale-90";
+        if (currentRound.wordLength >= 9) return "scale-70 sm:scale-80 lg:scale-90 xl:scale-100";
+        if (currentRound.wordLength >= 8) return "scale-75 sm:scale-85 lg:scale-90 xl:scale-100";
+        if (currentRound.wordLength >= 7) return "scale-85 sm:scale-95 md:scale-100";
+        if (currentRound.wordLength >= 6) return "scale-90 md-scale-100";
 
-        // return "scale-100";
+        return "scale-100";
     }
 
     function onSubmitGuessFailed() {
@@ -71,7 +69,7 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
         {(game && currentRound) ? (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="col-span-2">
-                     <div className={`w-full flex flex-col items-center justify-center gap-2 sm:gap-3 ${getMobileScale()} md:scale-100 origin-top`}>
+                     <div className={`w-full flex flex-col items-center justify-center gap-2 sm:gap-3`}>
 
                      <div className="fixed md:relative top-0 w-full z-50 mb-0 md:mb-3">
                         <InGameProgressionBar
@@ -106,15 +104,17 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
                         )}
                         
                          {/* Letter Grid */}
-                        <LetterRowGrid
-                            currentGuess={currentGuess}
-                            maxNGuesses={game.nGuessesPerRound}
-                            preFilledRows={currentRound.guesses ?? []}
-                            wordLength={currentRound.wordLength}
-                            revealedWord={revealedWord}
-                            revealedWordLabel={inGameTranslations.theWordWas}
-                            currentSubmitFailed={currentSubmitFailed}
-                        />
+                         <div className={`${getGridScale()} `}>
+                            <LetterRowGrid
+                                currentGuess={currentGuess}
+                                maxNGuesses={game.nGuessesPerRound}
+                                preFilledRows={currentRound.guesses ?? []}
+                                wordLength={currentRound.wordLength}
+                                revealedWord={revealedWord}
+                                revealedWordLabel={inGameTranslations.theWordWas}
+                                currentSubmitFailed={currentSubmitFailed}
+                            />
+                         </div>
                         
                         {/* Keyboard/Input */}
                         <div className="w-full mt-2 sm:mt-4 md:max-w-lg">
