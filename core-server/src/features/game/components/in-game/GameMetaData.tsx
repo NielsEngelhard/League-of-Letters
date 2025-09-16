@@ -57,7 +57,7 @@ export default function GameMetaData({ players, game, currentPlayerAccountId, in
     }
 
     if (players.length <= 4) {
-      "md"
+      return "md";
     }
 
     return "sm";

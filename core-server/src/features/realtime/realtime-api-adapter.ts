@@ -29,10 +29,8 @@ async function TriggerRealtimeEventOnSocketServer<T>(request: TriggerRealtimeEve
     }
     
     return response.ok;
-  } catch(err: any) {
+  } catch(err) {
     console.log("TriggerRealtimeEventOnSocketServer failed");
-    console.log("Error name:", err?.name);
-    console.log("Error message:", err?.message);
     console.log("Full error:", err);
     return false;
   }

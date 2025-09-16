@@ -29,7 +29,7 @@ export async function AuthenticateOrRedirect(): Promise<JwtAccountPayload> {
     }
 
     return tokenInfo.parsedToken;
-  } catch (err) {
+  } catch {
     ReturnUnauthorized();
   }
 }

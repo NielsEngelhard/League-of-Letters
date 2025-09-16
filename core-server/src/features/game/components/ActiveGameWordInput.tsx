@@ -21,7 +21,6 @@ export default function WordInput({ t, onSubmitFailed, disabled = false }: Props
     
     const { settings } = useAuth();
     const { currentRound, setCurrentGuess, submitGuess } = useActiveGame();
-    const [prefilledGuess, setPrefilledGuess] = useState<string>("");
 
     // Prefill guess
     useEffect(() => {
@@ -29,7 +28,6 @@ export default function WordInput({ t, onSubmitFailed, disabled = false }: Props
             preFillGuess();
         } else {
             setCurrentGuess("");
-            setPrefilledGuess("");
         }
     }, [settings.preFillGuess, currentRound?.currentGuessIndex]);
 
@@ -104,7 +102,6 @@ export default function WordInput({ t, onSubmitFailed, disabled = false }: Props
         }
 
         setCurrentGuess(prefilledWord);
-        setPrefilledGuess(prefilledWord);
     }
 
     function isValidInput(input: string): boolean {

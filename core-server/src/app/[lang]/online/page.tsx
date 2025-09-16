@@ -8,7 +8,6 @@ import { CREATE_MULTIPLAYER_GAME_ROUTE, LANGUAGE_ROUTE, PICK_GAME_MODE_ROUTE } f
 import { loadTranslations } from "@/features/i18n/utils";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import JoinGameForm from "@/features/game/components/JoinGameForm";
-import Button from "@/components/ui/Button";
 import NotificationBanner from "@/components/ui/NotificationBanner";
 
 export default async function OnlinePage({

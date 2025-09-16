@@ -13,9 +13,7 @@ import { SettingsTranslations } from "@/features/i18n/translation-file-interface
 import Card from "@/components/ui/card/Card";
 import GameMetaData from "./GameMetaData";
 import ScoreTranslations from "@/features/i18n/translation-file-interfaces/ScoreTranslations";
-import InGamePlayerCard from "./InGamePlayerCardDesktop";
 import InGamePlayerCardMobile from "./InGamePlayerCardMobile";
-import InGamePlayerCardDesktop from "./InGamePlayerCardDesktop";
 
 interface Props {
     lang: SupportedLanguage;
@@ -89,7 +87,7 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
                         {/* On mobile show player grid small above the board, on desktop in metadata section */}
                         <div className="md:hidden grid grid-cols-3 w-full gap-2">
                             {players.map((player) => (
-                                <InGamePlayerCardMobile key={player.accountId} player={player} t={inGameTranslations}
+                                <InGamePlayerCardMobile key={player.accountId} player={player}
                                 />
                             ))}                        
                         </div>

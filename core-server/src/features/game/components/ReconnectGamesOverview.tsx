@@ -7,12 +7,14 @@ import GameTeaserCard from "./GameTeaserCard";
 import { useAuth } from "@/features/auth/AuthContext";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import LoadingDots from "@/components/ui/animation/LoadingDots";
+import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 
 interface Props {
     lang: SupportedLanguage;
+    t: GeneralTranslations;
 }
 
-export default function ReconnectGamesOverview({lang}:Props) {
+export default function ReconnectGamesOverview({lang,t}:Props) {
     const {account} = useAuth();
     const [games, setGames] = useState<ActiveGameTeaserModel[] | null>(null);
 
@@ -43,7 +45,7 @@ export default function ReconnectGamesOverview({lang}:Props) {
         <div className="flex flex-col gap-2 items-center justify-center">
             {games ? (
                 games.length == 0 ? (
-                    <span>No active games at the moment...</span>
+                    <span>{t.reconnect.noGamesFound}</span>
                 ) : (
                     <div className="w-full flex flex-col gap-2">
                         {games.map((teaser, i) => <GameTeaserCard key={i} teaser={teaser} lang={lang} currentPlayerAccountId={account.id} />)}

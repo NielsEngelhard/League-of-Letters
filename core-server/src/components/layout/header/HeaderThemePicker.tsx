@@ -39,7 +39,7 @@ export default function HeaderThemePicker() {
             try {
                 // Replace this with your actual server update logic
                 await updateThemeOnServer(pendingTheme);
-            } catch (error) {
+            } catch {
                 toaster.errorToast("Theme update error");
             } finally {
                 setPendingTheme(null);

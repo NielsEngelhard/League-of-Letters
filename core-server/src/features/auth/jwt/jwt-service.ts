@@ -113,6 +113,7 @@ export class JWTService {
       }
 
     } catch (error) {
+      console.log(error);
       return null;
     }
   }

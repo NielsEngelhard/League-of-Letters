@@ -33,7 +33,7 @@ export default function GuestLoginForm({ lang, t }: { lang: SupportedLanguage, t
     useEffect(() => {
         if (!account || !form.formState.isSubmitted) return;
 
-        // router.push(LANGUAGE_ROUTE(form.getValues("language"), PICK_GAME_MODE_ROUTE));
+        router.push(LANGUAGE_ROUTE(form.getValues("language"), PICK_GAME_MODE_ROUTE));
     }, [account, form.formState.isSubmitted]);
 
     return (

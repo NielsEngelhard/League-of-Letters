@@ -4,8 +4,6 @@ import Avatar from "@/components/ui/Avatar";
 import { Crown } from "lucide-react";
 import Seperator from "@/components/ui/Seperator";
 import { useAuth } from "@/features/auth/AuthContext";
-import KickPlayerFromLobbyCommand from "../actions/command/kick-player-from-lobby-command";
-import { useEffect, useState } from "react";
 import { useActiveGame } from "@/features/game/components/active-game-context";
 import WebSocketStatusIndicator from "@/features/realtime/WebSocketStatusIndicator";
 
@@ -16,21 +14,18 @@ interface Props {
 
 export default function OnlineLobbyPlayerList({ hostAccountId, lobbyId }: Props) {
     const { account } = useAuth();
-    const [isHost, setIsHost] = useState(false);
     const { players } = useActiveGame();
     
-    useEffect(() => {
-        setIsHost(account?.id == hostAccountId);
-    }, [account, hostAccountId]);
-    
-    const handleKickPlayer = async (accountIdToKick: string) => {
-        if (!lobbyId) return;
+    console.log(lobbyId);
 
-        await KickPlayerFromLobbyCommand({
-            accountIdToKick: accountIdToKick,
-            lobbyId: lobbyId
-        });
-    };
+    // const handleKickPlayer = async (accountIdToKick: string) => {
+    //     if (!lobbyId) return;
+
+    //     await KickPlayerFromLobbyCommand({
+    //         accountIdToKick: accountIdToKick,
+    //         lobbyId: lobbyId
+    //     });
+    // };
 
     return (
         <>

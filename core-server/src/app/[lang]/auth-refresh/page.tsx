@@ -4,7 +4,6 @@ import RefreshJwtToken from "@/features/auth/actions/command/refresh-token-comma
 import { redirect, useSearchParams } from "next/navigation";
 import { useEffect } from "react"
 import { HOME_ROUTE, LANGUAGE_ROUTE } from "../../routes";
-import { useAuth } from "@/features/auth/AuthContext";
 import { LogoutCommand } from "@/features/auth/actions/command/logout-command";
 
 // This is needed for refreshing the auth cookie on page load (when the cookie was expired)

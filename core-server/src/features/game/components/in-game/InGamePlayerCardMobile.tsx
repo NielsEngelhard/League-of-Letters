@@ -2,18 +2,19 @@
 
 import WebSocketStatusIndicator from "@/features/realtime/WebSocketStatusIndicator"
 import { GamePlayerModel } from "../../game-models";
-import InGameTranslations from "@/features/i18n/translation-file-interfaces/InGameTranslations";
 
 interface Props {
     player: GamePlayerModel;
-    t: InGameTranslations;
     isCurrentTurn?: boolean;
     turnOrder?: number;
 }
 
-export default function InGamePlayerCardMobile({ player, t, turnOrder = 1, isCurrentTurn = true }: Props) {
+export default function InGamePlayerCardMobile({ player, turnOrder = 1, isCurrentTurn = true }: Props) {
     return (
-   <div className="relative col-span-1 w-full flex flex-col gap-0 border border-border px-1.5 py-0.5 border-b-4 border-b-primary rounded-lg shadow-md">
+   <div className={`
+     relative col-span-1 w-full flex flex-col gap-0 border border-border px-1.5 py-0.5 border-b-4 border-b-primary rounded-lg shadow-md
+     ${isCurrentTurn ? "bg-primary/20" : "bg-background"}
+   `}>
         {/* top indicators */}
         <div className="flex flex-row w-full justify-center">
              <span className="font-bold">{player.score}</span>

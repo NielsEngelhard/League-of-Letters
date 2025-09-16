@@ -10,7 +10,7 @@ interface Props {
     children: React.ReactNode;
 }
 
-export default function({ children }: Props) {
+export default function RealtimeInitClient({ children }: Props) {
     const { initializeConnection, connectionStatus, disconnectConnection } = useSocket();
     const { clearGameState } = useActiveGame();
     const { account } = useAuth();

@@ -1,3 +1,4 @@
+/* eslint-disable */
 "use client"
 
 import { useToaster } from "@/components/general/toaster/ToasterContext";
@@ -40,7 +41,7 @@ export default function FormBase<TFormData extends FieldValues, TResponseData = 
       } else {
         handleExpectedError(response.errorMsg);
       }
-    } catch (error) {
+    } catch {
       handleUnexpectedError();
     }
   };

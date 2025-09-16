@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import { FileText, User, Shield, Gamepad2, Users, AlertTriangle, Scale, Ban, RefreshCw, Mail } from 'lucide-react';
 

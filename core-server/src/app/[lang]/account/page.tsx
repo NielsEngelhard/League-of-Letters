@@ -45,7 +45,7 @@ export default async function AccountPage({
             </div>
             
             {!privateAccount.isGuest ? (
-                <AccountCard t={t.settings} lang={lang} account={privateAccount} />
+                <AccountCard t={t.settings} account={privateAccount} />
             ) : (
                 <DefaultCard title={t.settings.upgradeGuestAccount.title} description={t.settings.upgradeGuestAccount.description} Icon={Flame}>
                     <UpgradeGuestAccountForm
@@ -54,7 +54,7 @@ export default async function AccountPage({
                         currentLanguage={privateAccount.language}
                     />
 
-                    <LogoutButton label={t.general.logoutButton} lang={lang} />
+                    <LogoutButton label={t.general.logoutButton} />
                 </DefaultCard>
             )}
         </PageBase>

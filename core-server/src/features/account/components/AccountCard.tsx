@@ -5,20 +5,18 @@ import { CardContent, CardHeader, CardTitle } from "@/components/ui/card/card-ch
 import NotificationBanner from "@/components/ui/NotificationBanner";
 import Seperator from "@/components/ui/Seperator";
 import StatisticHighlight from "@/components/ui/StatisticHighlight";
-import { SupportedLanguage } from "@/features/i18n/languages";
 import { GetLanguageStyle } from "@/features/language/LanguageStyles";
-import { Calendar1, User, Crown, UserCheck, BarChart3, Clock, Settings } from "lucide-react";
+import { Calendar1, User, Crown, UserCheck, BarChart3, Clock } from "lucide-react";
 import { PrivateAccountModel } from "../account-models";
 import { SettingsTranslations } from "@/features/i18n/translation-file-interfaces/SettingsTranslations";
 import LogoutButton from "@/features/auth/components/LogoutButton";
 
 interface Props {
     t: SettingsTranslations;
-    lang: SupportedLanguage;
     account: PrivateAccountModel;
 }
 
-export default async function AccountCard({ t, lang, account }: Props) {
+export default async function AccountCard({ t, account }: Props) {
     const getInitials = (name: string) => {
         return name?.charAt(0).toUpperCase() || "?";
     };
@@ -129,7 +127,7 @@ export default async function AccountCard({ t, lang, account }: Props) {
 
                         <Seperator />
 
-                        <LogoutButton lang={lang} label={t.account.logoutButton} />
+                        <LogoutButton label={t.account.logoutButton} />
                     </div>
                 </CardContent>
             </Card>

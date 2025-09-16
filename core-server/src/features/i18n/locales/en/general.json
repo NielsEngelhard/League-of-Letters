@@ -54,5 +54,10 @@
         "settings": "Settings",
         "scoreSystem": "Score System",
         "profile": "Profile"
-    }    
+    },
+    "reconnect": {
+        "title": "Reconnect",
+        "desription": "Overview of your active games",
+        "noGamesFound": "No active games at the moment..."
+    }
 }

@@ -1,5 +1,5 @@
 import z from "zod";
-import { themeOptions, wordInputOptions } from "./account-models";
+import { themeOptions } from "./account-models";
 import { supportedLanguages } from "../i18n/languages";
 
 export const settingsSchema = z.object({    

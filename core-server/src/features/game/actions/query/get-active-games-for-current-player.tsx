@@ -4,7 +4,7 @@ import { AuthenticateOrRedirect_Server } from "@/features/auth/current-user";
 import { ActiveGameTeaserModel } from "../../game-models";
 import { db } from "@/drizzle/db";
 import { and, eq } from "drizzle-orm";
-import { ActiveGameTable, gameModeEnum, GamePlayerTable, OnlineLobbyPlayerTable, OnlineLobbyTable } from "@/drizzle/schema";
+import { ActiveGameTable, GamePlayerTable, OnlineLobbyPlayerTable, OnlineLobbyTable } from "@/drizzle/schema";
 import { GameMapper } from "../../game-mapper";
 
 

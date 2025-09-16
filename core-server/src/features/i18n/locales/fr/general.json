@@ -54,5 +54,10 @@
         "settings": "Paramètres",
         "scoreSystem": "Système de Score",
         "profile": "Profil"
+    },
+    "reconnect": {
+        "title": "Reconnexion",
+        "desription": "Aperçu de vos parties actives",
+        "noGamesFound": "Aucune partie active pour le moment..."
     }    
 }

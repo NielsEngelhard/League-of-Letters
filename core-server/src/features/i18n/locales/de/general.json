@@ -54,5 +54,10 @@
         "settings": "Einstellungen",
         "scoreSystem": "Punktesystem",
         "profile": "Profil"
-    }    
+    },
+    "reconnect": {
+        "title": "Erneut verbinden",
+        "desription": "Übersicht deiner aktiven Spiele",
+        "noGamesFound": "Zurzeit keine aktiven Spiele..."        
+    }
 }

@@ -54,5 +54,10 @@
         "settings": "Instellingen",
         "scoreSystem": "Scoresysteem",
         "profile": "Profiel"
-    }
+    },
+    "reconnect": {
+        "title": "Opnieuw verbinden",
+        "desription": "Overzicht van je actieve spellen",
+        "noGamesFound": "Momenteel geen actieve spellen..."
+    }       
 }

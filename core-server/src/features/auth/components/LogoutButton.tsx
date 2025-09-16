@@ -3,15 +3,13 @@
 import Button from "@/components/ui/Button";
 import { LogoutCommand } from "@/features/auth/actions/command/logout-command";
 import { useAuth } from "@/features/auth/AuthContext";
-import { SupportedLanguage } from "@/features/i18n/languages";
 import { LogOut } from "lucide-react";
 
 interface Props {
     label: string;
-    lang: SupportedLanguage;
 }
 
-export default function LogoutButton({ lang, label }: Props) {
+export default function LogoutButton({ label }: Props) {
     const { clearAccountData } = useAuth();
 
     async function onLogout() {

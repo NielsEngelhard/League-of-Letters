@@ -11,11 +11,9 @@ import { SupportedLanguage } from "@/features/i18n/languages";
 import { SettingsTranslations } from "@/features/i18n/translation-file-interfaces/SettingsTranslations";
 import { PublicAccountModel } from "../../account-models";
 import { useAuth } from "@/features/auth/AuthContext";
-import { useRouter } from "next/navigation";
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 
 export default function UpgradeGuestAccountForm({ currentLanguage, settingsTranslations, generalTranslations }: { currentLanguage: SupportedLanguage, settingsTranslations: SettingsTranslations, generalTranslations: GeneralTranslations }) {
-   const router = useRouter();
    const { updateAccount } = useAuth();
 
     const form = useForm<UpgradeGuestAccountSchema>({

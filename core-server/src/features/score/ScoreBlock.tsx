@@ -1,4 +1,4 @@
-import { Target, Trophy, Star } from "lucide-react";
+import { Target, Trophy } from "lucide-react";
 import {     
     LETTER_CORRECTLY_GUESSED_WITHOUT_MISPLACE_POINTS,
     LETTER_MISPLACED_POINTS,

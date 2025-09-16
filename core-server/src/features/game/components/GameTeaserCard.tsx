@@ -70,7 +70,7 @@ export default function GameTeaserCard({ teaser, lang, currentPlayerAccountId }:
                                 )}                            
                             </span>
                             <span className="font-medium text-foreground-muted text-xs">
-                                Round {teaser.currentRoundIndex}/{teaser.totalRounds}
+                                {teaser.currentRoundIndex}/{teaser.totalRounds}
                             </span>
                         </div>                        
                     )}
@@ -81,7 +81,7 @@ export default function GameTeaserCard({ teaser, lang, currentPlayerAccountId }:
                     <div className="flex items-center justify-between sm:justify-start sm:gap-2">
                         <span className="text-foreground-muted text-xs flex truncate items-center gap-1">
                             <Clock className="w-3 h-3" />
-                            {timeAgo(teaser.createdAt)} ago
+                            {timeAgo(teaser.createdAt)}
                         </span>
 
                         <div className="sm:order-last">

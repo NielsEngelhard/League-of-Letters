@@ -1,5 +1,4 @@
-import { LucideIcon } from 'lucide-react';
-import { Check, CircleX, Info, Loader2, X } from "lucide-react";
+import { Check, CircleX, Info } from "lucide-react";
 
 type ColorVariant = 'primary' | 'secondary' | 'accent' | 'success' | 'warning' | 'error';
 

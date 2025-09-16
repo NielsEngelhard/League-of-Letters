@@ -1,6 +1,6 @@
 "use client"
 
-import { LANGUAGE_ROUTE, PICK_GAME_MODE_ROUTE, PLAY_SOLO_GAME_DEMO_ROUTE, SOLO_GAME_ROUTE } from "@/app/routes";
+import { LANGUAGE_ROUTE, PICK_GAME_MODE_ROUTE, PLAY_SOLO_GAME_DEMO_ROUTE } from "@/app/routes";
 import { SupportedLanguage } from "@/features/i18n/languages"
 import { useRouter } from "next/navigation";
 import Button from "../ui/Button";

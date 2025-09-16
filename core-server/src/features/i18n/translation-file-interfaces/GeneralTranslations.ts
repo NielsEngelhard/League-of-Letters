@@ -54,5 +54,10 @@ export interface GeneralTranslations {
     settings: string;
     scoreSystem: string;
     profile: string;
+  },
+  reconnect: {
+    title: string;
+    desription: string;
+    noGamesFound: string;
   }
 }

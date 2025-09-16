@@ -6,6 +6,7 @@ interface Props {
   description?: string;
   Icon: React.ElementType;
   name: string; // Field name for react-hook-form
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   control: Control<any>; // Control from useForm
   defaultValue?: boolean;
   disabled?: boolean;

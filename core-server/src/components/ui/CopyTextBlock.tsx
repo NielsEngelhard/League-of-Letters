@@ -2,7 +2,6 @@
 
 import { Check, Copy } from "lucide-react";
 import { useState } from "react";
-import Card from "./card/Card";
 
 interface Props {
     label: string;

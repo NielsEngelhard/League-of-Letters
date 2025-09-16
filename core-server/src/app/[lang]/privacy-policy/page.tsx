@@ -1,3 +1,4 @@
+/* eslint-disable */
 import React from 'react';
 import { Shield, Eye, Lock, Users, Database, Mail, Calendar, AlertCircle } from 'lucide-react';
 

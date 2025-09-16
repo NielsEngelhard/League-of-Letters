@@ -2,9 +2,6 @@ import cn from "@/lib/cn";
 import { cva, VariantProps } from "class-variance-authority";
 import React from "react";
 
-interface Props extends VariantProps<typeof loadingDotsVariants> {
-}
-
 const loadingDotsVariants = cva(
   "rounded-full animate-bounce",
   {
@@ -27,7 +24,7 @@ const loadingDotsVariants = cva(
   }
 )
 
-export default function LoadingDots({ size, color }: Props) {
+export default function LoadingDots({ size, color }: VariantProps<typeof loadingDotsVariants>) {
     return (
         <div className="flex items-center gap-1">
             <div className={`[animation-delay:-0.3s] ${cn(loadingDotsVariants({ size, color }))}`}></div>

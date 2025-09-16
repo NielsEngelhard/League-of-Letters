@@ -18,11 +18,11 @@ export default async function ReconnectPage({
   return (
     <PageBase size="md" lang={lang} requiresAuh={true}>
   
-        <PageIntro title="Reconnect" subText="Overview of your active games" backHref={LANGUAGE_ROUTE(lang, MULTIPLAYER_GAME_ROUTE)}>
+        <PageIntro title={t.general.reconnect.title} subText={t.general.reconnect.title} backHref={LANGUAGE_ROUTE(lang, MULTIPLAYER_GAME_ROUTE)}>
 
         </PageIntro>
 
-        <ReconnectGamesOverview lang={lang}/>
+        <ReconnectGamesOverview lang={lang} t={t.general}/>
     </PageBase>
   )
 }
