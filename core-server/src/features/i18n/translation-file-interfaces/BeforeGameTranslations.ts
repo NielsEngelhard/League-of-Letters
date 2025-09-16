@@ -27,6 +27,17 @@ export default interface BeforeGameTranslations {
     moreSettingsSoon: string,
     startButton: string;
     secondsPerGuessLabel: string;
+    wordLengthOptions: {
+      four: string;
+      five: string;
+      six: string;
+      seven: string;
+      eight: string;
+      nine: string;
+      ten: string;
+      eleven: string;
+      twelve: string;
+    }
   },
   online: {
     title: string;

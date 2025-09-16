@@ -26,7 +26,18 @@
         "languageLabel": "Language",
         "moreSettingsSoon": "More settings coming soon...",
         "startButton": "Start Game",
-        "secondsPerGuessLabel": "Seconds per guess"            
+        "secondsPerGuessLabel": "Seconds per guess",
+        "wordLengthOptions": {
+            "four": "4 (easy)",
+            "five": "5 (fine)",
+            "six": "6 (tricky)",
+            "seven": "7 (spicy)",
+            "eight": "8 (a challenge)",
+            "nine": "9 (sweaty)",
+            "ten": "10 (madness)",
+            "eleven": "11 (insane)",
+            "twelve": "12 (impossible)"
+        }              
     },
     "online": {
         "title": "Online Game",

@@ -26,7 +26,18 @@
         "languageLabel": "Langue",
         "moreSettingsSoon": "Plus de paramètres bientôt...",
         "startButton": "Commencer le Jeu",
-        "secondsPerGuessLabel": "Secondes par tentative"
+        "secondsPerGuessLabel": "Secondes par tentative",
+        "wordLengthOptions": {
+            "four": "4 (facile)",
+            "five": "5 (ça va)",
+            "six": "6 (costaud)",
+            "seven": "7 (épicé)",
+            "eight": "8 (un défi)",
+            "nine": "9 (chaud)",
+            "ten": "10 (dingue)",
+            "eleven": "11 (folie)",
+            "twelve": "12 (impossible)"
+        }        
     },
     "online": {
         "title": "Jeu en Ligne",

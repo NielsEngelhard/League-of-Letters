@@ -26,7 +26,18 @@
         "languageLabel": "Taal",
         "moreSettingsSoon": "Meer instellingen komen eraan...",
         "startButton": "Start Spel",
-        "secondsPerGuessLabel": "Seconden per gok"
+        "secondsPerGuessLabel": "Seconden per gok",
+        "wordLengthOptions": {
+            "four": "4 (makkelijk)",
+            "five": "5 (prima)",
+            "six": "6 (lastig)",
+            "seven": "7 (pittig)",
+            "eight": "8 (een uitdaging)",
+            "nine": "9 (zweten)",
+            "ten": "10 (gekkenwerk)",
+            "eleven": "11 (waanzin)",
+            "twelve": "12 (niet te doen)"
+        }
     },
     "online": {
         "title": "Online Spel",
