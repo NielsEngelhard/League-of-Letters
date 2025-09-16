@@ -133,10 +133,10 @@ export default function CreateGameForm({ onLeaveGame, submitDisabled = false, pl
                     placeholder="Number of rounds"
                     required
                     options={[
-                        { value: 1, label: "1 (one)" },
-                        { value: 2, label: "2 (two)" },
-                        { value: 3, label: "3 (three)" },
-                        { value: 4, label: "4 (four)" },
+                        { value: 1, label: `${((players?.length ?? 1) * 1).toString()} (1pp)` },
+                        { value: 2, label: `${((players?.length ?? 1) * 2).toString()} (2pp)` },
+                        { value: 3, label: `${((players?.length ?? 1) * 3).toString()} (3pp)` },
+                        { value: 4, label: `${((players?.length ?? 1) * 4).toString()} (4pp)` },
                     ]}
                 />                
             </div>
