@@ -1,6 +1,5 @@
 BUGS NA LAUNCH
 - Tijd bij online game is helemaal gebugged ONLINE GAME BUGGED OPLOSSEN
-minimaal x rondes per speler bij online
 
 - toetsenbord op mobiel beter (scale op basis van breedte)
 - board op mobiel beter (scale op basis van breedte)
