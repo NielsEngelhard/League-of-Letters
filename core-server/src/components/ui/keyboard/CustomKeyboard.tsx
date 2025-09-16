@@ -25,49 +25,50 @@ export default function CustomKeyboard({ onKeyPress, onDelete, onEnter, keyState
 
     return (
     <>
-        <div className="flex flex-col gap-1.5 lg:gap-2.5 items-center w-full">
+        <div className="flex flex-col gap-1 sm:gap-2 items-center w-full max-w-2xl mx-auto">
             {keyboardRows.map((keyboardRow, rowIndex) => (
-                <div className="flex flex-row gap-1.5 lg:gap-2.5" key={`kb-row-${rowIndex}`}>
-
+                <div className="flex flex-row gap-1 sm:gap-2 w-full justify-center" key={`kb-row-${rowIndex}`}>
+                    
                     {/* ENTER Key - positioned at the beginning of the bottom row */}
                     {onEnter && rowIndex === keyboardRows.length - 1 && (
                         <KeyboardKey
-                        
                             key="kb-key-enter"
                             variant="primary"
-                            fixedWidth={false}
                             onClick={onEnter}
                             triggerAnimation={currentlyAnimatedKey == "Enter"}
+                            isSpecialKey={true}
                         >
-                            <div className="px-2 text-xs font-bold">ENTER</div>
+                            <div className="text-xs font-bold whitespace-nowrap">ENTER</div>
                         </KeyboardKey>
                     )}
-
+                    
                     {/* Letters */}
                     {keyboardRow.map((keyboardKey, index) => (
                         <KeyboardKey
                             key={`kb-key-${index}`}
                             onClick={() => onKeyPress(keyboardKey)}
                             triggerAnimation={currentlyAnimatedKey?.toUpperCase() == keyboardKey}
-                            letterState={keyStates?.get(keyboardKey.toUpperCase())}>
+                            letterState={keyStates?.get(keyboardKey.toUpperCase())}
+                        >
                             <>{keyboardKey}</>
-                        </KeyboardKey>             
-                    ))}     
-
+                        </KeyboardKey>
+                    ))}
+                        
                     {/* Delete Key - positioned at the end of the bottom row */}
                     {onDelete && rowIndex === keyboardRows.length - 1 && (
                         <KeyboardKey
                             key="kb-key-delete"
                             variant="neutral"
-                            fixedWidth={false}
                             onClick={onDelete}
                             triggerAnimation={currentlyAnimatedKey == "Backspace"}
+                            isSpecialKey={true}
                         >
-                            <div className="px-2">
-                                <Delete size={18} />
+                            <div className="flex items-center justify-center">
+                                <Delete className="w-4 h-4 sm:w-5 sm:h-5" />
                             </div>
                         </KeyboardKey>
-                    )}                     
+                    )}
+                    
                 </div>
             ))}
         </div>

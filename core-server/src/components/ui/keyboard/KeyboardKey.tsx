@@ -4,14 +4,14 @@ import { cva, VariantProps } from "class-variance-authority";
 interface Props extends VariantProps<typeof KeyboardKeyVariants> {
     children: React.ReactElement;
     onClick: () => void;
-    fixedWidth?: boolean;
     disabled?: boolean;
     letterState?: LetterState | undefined;
     triggerAnimation?: boolean;
+    isSpecialKey?: boolean;
 }
 
 export const KeyboardKeyVariants = cva(
-    "px-1.5 py-2 rounded-md flex items-center justify-center cursor-pointer font-semibold text-sm transition-all duration-200 border touch-manipulation active:scale-95",
+    "rounded-md flex items-center justify-center cursor-pointer font-semibold transition-all duration-200 border touch-manipulation active:scale-95",
     {
         variants: {
             variant: {
@@ -25,11 +25,11 @@ export const KeyboardKeyVariants = cva(
 export default function KeyboardKey({
     children, 
     onClick, 
-    fixedWidth = true, 
     variant = "neutral",
     disabled = false,
     triggerAnimation = false,
     letterState = LetterState.Unguessed,
+    isSpecialKey = false,
 }: Props) {
     function determineKeyClasses(letterState: LetterState): string {
         switch (letterState) {
@@ -42,16 +42,27 @@ export default function KeyboardKey({
             case LetterState.Wrong:
                 return "bg-error border-error hover:opacity-90 text-white";
             default:
-                return "bg-background-secondary border-gray-200 hover:bg-background-secondary/90";                                                
+                return "bg-background-secondary border-gray-200 hover:bg-background-secondary/90";                                                        
         }
     }
+
+    // Dynamic sizing based on screen size and key type
+    const getSizeClasses = () => {
+        if (isSpecialKey) {
+            // Special keys (ENTER, DELETE) get more space
+            return "flex-grow-0 flex-shrink-0 basis-auto min-w-[3.5rem] sm:min-w-[4rem] md:min-w-[4.5rem] h-10 sm:h-12 md:h-14 px-2 text-xs sm:text-sm";
+        } else {
+            // Regular letter keys scale with available space
+            return "flex-1 h-10 sm:h-12 md:h-14 min-w-0 text-sm sm:text-base md:text-lg";
+        }
+    };
 
     return (
         <button
             className={`
                 ${determineKeyClasses(letterState)}
                 ${KeyboardKeyVariants({ variant })} 
-                ${fixedWidth ? 'lg:w-7 lg:h-12 lg:min-w-[2.5rem] px-2 lg:px-0' : ''}
+                ${getSizeClasses()}
                 ${disabled ? 'opacity-50 cursor-not-allowed' : 'hover:-translate-y-1 hover:shadow-lg duration-100'}
                 ${triggerAnimation ? '-translate-y-1 shadow-lg': ''}
             `}

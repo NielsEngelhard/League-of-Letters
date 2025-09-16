@@ -73,7 +73,7 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
                 <div className="col-span-2">
                      <div className={`w-full flex flex-col items-center justify-center gap-2 sm:gap-3 ${getMobileScale()} md:scale-100 origin-top`}>
 
-                     <div className="relative top-0 w-full z-50 mb-0 md:mb-3">
+                     <div className="fixed md:relative top-0 w-full z-50 mb-0 md:mb-3">
                         <InGameProgressionBar
                             currentRound={currentRound}
                             totalRounds={game.totalRounds}
@@ -117,7 +117,7 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
                         />
                         
                         {/* Keyboard/Input */}
-                        <div className="w-full max-w-xs sm:max-w-sm md:max-w-md mt-2 sm:mt-4">
+                        <div className="w-full mt-2 sm:mt-4 md:max-w-lg">
                             <ActiveGameWordInput
                                 disabled={!isThisPlayersTurn || isAnimating}
                                 t={generalTranslations}
