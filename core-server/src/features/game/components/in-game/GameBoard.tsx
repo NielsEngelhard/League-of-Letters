@@ -14,6 +14,7 @@ import Card from "@/components/ui/card/Card";
 import GameMetaData from "./GameMetaData";
 import ScoreTranslations from "@/features/i18n/translation-file-interfaces/ScoreTranslations";
 import InGamePlayerCardMobile from "./InGamePlayerCardMobile";
+import { PlayBrowserSoundEffect } from "@/lib/sound-player";
 
 interface Props {
     lang: SupportedLanguage;
@@ -68,10 +69,7 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
     useEffect(() => {
         if (!isThisPlayersTurn || game?.gameMode != "online") return;
         
-        const audio = new Audio('/sound/your-turn.wav');
-        audio.play().catch(error => {
-            console.log('Could not play sound:', error);
-        });
+        PlayBrowserSoundEffect("your-turn");
     }, [isThisPlayersTurn]);
 
     // Memoize sorted players to avoid recalculating on every render
@@ -102,7 +100,7 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
                 <div className="col-span-2">
                      <div className={`w-full flex flex-col items-center justify-center gap-2 sm:gap-3`}>
 
-                     <div className="fixed md:relative top-0 w-full z-50 mb-0 md:mb-3">
+                     <div className="fixed md:relative top-0 w-full z-50 md:z-0 mb-0 md:mb-3">
                         <InGameProgressionBar
                             currentRound={currentRound}
                             totalRounds={game.totalRounds}

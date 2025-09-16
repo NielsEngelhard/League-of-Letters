@@ -9,6 +9,7 @@ import { TurnTrackerAlgorithm } from '../util/algorithm/turn-tracker-algorithm/t
 import { GetLetterAnimationDurationInMs } from '../util/game-time-calculators';
 import { sortPlayerModelOnPositionAndGetUserIds } from '../util/player-sorting';
 import { getSecondsBetweenNowAndUnixTimestampInSeconds } from '@/lib/time-util';
+import { PlayBrowserSoundEffect } from '@/lib/sound-player';
 
 type ActiveGameContextType = {  
   // Data
@@ -287,6 +288,17 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
   function disconnectPlayer(playerId: string) {
     setPlayers(prev => prev.map(player => player.accountId == playerId ? {...player, connectionStatus: "disconnected"} : player));
   }
+
+  // BEGIN sound effects
+
+    // Play sound effect for game is over
+    useEffect(() => {
+        if (game?.gameIsOver != true) return;
+        
+        PlayBrowserSoundEffect("game-over");
+    }, [game?.gameIsOver]);  
+
+  // END sound effects
 
   return (
     <ActiveGameContext.Provider value={{        

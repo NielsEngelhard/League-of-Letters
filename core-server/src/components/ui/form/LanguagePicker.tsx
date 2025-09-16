@@ -81,7 +81,7 @@ export default function LanguagePicker({
 
             {/* Dropdown Menu */}
             {isOpen && (
-                <div className="absolute right-0 mt-1 w-24 bg-white border border-gray-200 rounded-md shadow-lg z-50 py-1">
+                <div className="absolute right-0 mt-1 w-24 bg-background border-border rounded-md shadow-lg z-50 py-1">
                     {supportedLanguages.map((language) => (
                         <div key={language}>
                             {getLanguageSection(language, language === currentLanguage)}

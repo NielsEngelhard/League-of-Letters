@@ -5,17 +5,20 @@ import { cva, VariantProps } from "class-variance-authority";
 import React, { useState } from "react";
 import Link from "next/link";
 import LoadingSpinner from "./animation/LoadingSpinner";
+import { PlayBrowserSoundEffect } from "@/lib/sound-player";
 
 export interface Props extends VariantProps<typeof buttonVariants> {
-    children: React.ReactNode;
-    href?: string;
-    onClick?: () => void | Promise<void>; // Allow async onClick
-    onSubmit?: (e: React.FormEvent) => void | Promise<void>; // For submit buttons
-    className?: string;
-    disable?: boolean;
-    soundOnClick?: boolean;
-    isLoadingExternal?: boolean;
-    type?: "button" | "reset" | "submit";
+  children: React.ReactNode;
+  href?: string;
+  onClick?: () => void | Promise<void>;
+  onSubmit?: (e: React.FormEvent) => void | Promise<void>;
+  className?: string;
+  disable?: boolean;
+  soundOnClick?: boolean;
+  isLoadingExternal?: boolean;
+  type?: "button" | "reset" | "submit";
+  playHoverSound?: boolean;
+  playClickSound?: boolean;
 }
 
 const buttonVariants = cva(
@@ -44,70 +47,82 @@ const buttonVariants = cva(
       }
     },
     defaultVariants: {
-        variant: "primary",
-        size: "md",
-        corners: "rounded"
+      variant: "primary",
+      size: "md",
+      corners: "rounded"
     }
   }
-)
-export default function Button({ 
-  children, 
-  className, 
-  variant, 
-  size, 
-  disable, 
+);
+
+export default function Button({
+  children,
+  className,
+  variant,
+  size,
+  disable,
   corners,
-  href, 
-  onClick, 
+  href,
+  onClick,
   type = "button",
-  isLoadingExternal = false 
+  isLoadingExternal = false,
+  playHoverSound = true,
+  playClickSound = true
 }: Props) {
-  const isNavigationButton: boolean = (href != null && href != undefined && href != "");
+  const isNavigationButton = !!href;
   const [isLoading, setIsLoading] = useState(false);
-     
-  const classes: string = `${cn(buttonVariants({ variant, size, corners }), className)} ${disable && "!bg-gray-500/50 !border-gray-500/50 !text-white/90 !cursor-not-allowed"}`;
-       
+
+  const classes = `${cn(buttonVariants({ variant, size, corners }), className)} ${
+    disable &&
+    "!bg-gray-500/50 !border-gray-500/50 !text-white/90 !cursor-not-allowed"
+  }`;
+
   async function handleOnClick(): Promise<void> {
-    // Don't handle loading for navigation buttons
+    if (playClickSound) PlayBrowserSoundEffect("button-click");
     if (isNavigationButton) return;
-    
     setIsLoading(true);
-      
     try {
-      if (onClick) {
-        await onClick(); // Wait for onClick to complete (whether sync or async)
-      }
+      if (onClick) await onClick();
     } finally {
       setIsLoading(false);
     }
   }
-   
-  // Button that is route to another page
+
+  function handleHover(): void {
+    if (playHoverSound) PlayBrowserSoundEffect("button-hover");
+  }
+
+  // Navigation button
   if (href && isNavigationButton) {
     return (
       <Link href={href} className="w-full">
-        <button className={classes} disabled={disable} type="button">
+        <button
+          className={classes}
+          disabled={disable}
+          type="button"
+          onMouseEnter={handleHover}
+        >
           {children}
         </button>
       </Link>
-    )
+    );
   }
-   
-  // Button with javascript action on click
+
+  // Action button
   return (
-    <button 
-      className={classes} 
-      disabled={disable || isLoading} 
-      type={type} 
+    <button
+      className={classes}
+      disabled={disable || isLoading}
+      type={type}
       onClick={handleOnClick}
+      onMouseEnter={handleHover}
     >
       <div className="flex items-center justify-center min-w-0 min-h-[1lh] gap-1">
-        {(isLoading || isLoadingExternal) ? (
+        {isLoading || isLoadingExternal ? (
           <LoadingSpinner color="background" />
         ) : (
           children
         )}
       </div>
     </button>
-  )
+  );
 }

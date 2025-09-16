@@ -79,7 +79,7 @@ export default function HeaderThemePicker() {
 
             {/* Dropdown menu */}
             {isOpen && (
-                <div className="absolute top-full right-0 mt-1 w-40 bg-background border border-border/50 rounded-md shadow-lg backdrop-blur-sm z-50">
+                <div className="absolute top-full right-0 mt-1 w-40 bg-background border border-border/50 rounded-md shadow-lg backdrop-blur-sm z-[100]">
                     <div className="py-1">
                         {themes.map((theme) => (
                             <button
