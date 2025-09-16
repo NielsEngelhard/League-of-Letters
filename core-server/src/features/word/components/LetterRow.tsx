@@ -1,5 +1,6 @@
 "use client"
 
+import { PlayBrowserSoundEffect } from "@/lib/sound-player";
 import { EvaluatedLetter, LetterState } from "../word-models";
 import LetterTile from "./LetterTile";
 import { useEffect, useState } from "react";
@@ -30,6 +31,7 @@ export default function LetterRow({ letters, animate = false }: Props) {
                 setVisibleTiles(prev => [...prev, index]);
 
                 if (allCorrect && index == letters.length-1) {
+                    PlayBrowserSoundEffect("success");
                     triggerAllCorrectAnimation();
                 }
             }, index * 300);

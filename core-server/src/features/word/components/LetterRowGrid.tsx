@@ -43,7 +43,7 @@ export default function LetterRowGrid({
         }));
 
         return (
-            <div className={currentSubmitFailed ? 'animate-ping duration-500' : ''}>
+            <div className={currentSubmitFailed ? 'transition-colors duration-300' : ''}>
                 <LetterRow key="current-guess" letters={letters} />
             </div>
         );

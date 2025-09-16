@@ -58,6 +58,7 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
     }
 
     function onSubmitGuessFailed() {
+        PlayBrowserSoundEffect("failing");
         setCurrentSubmitFailed(true);
 
         setTimeout(() => {
