@@ -1,12 +1,6 @@
 BUGS NA LAUNCH
 - Tijd bij online game is helemaal gebugged ONLINE GAME BUGGED OPLOSSEN
 
-- play sound on your turn
-
-- desktop in game meer zoals chess.com?
-    - players sorteren op volgorde, niet op score oid
-    - duidelijker als het jouw beurt is (ipv 3 puntjes de naam?)
-
 - kick player werkt niet
 
 - revamp van in lobby overview (create is nu lelijk)

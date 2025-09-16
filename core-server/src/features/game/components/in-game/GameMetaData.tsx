@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Settings, HelpCircle, Users, MoveLeft } from 'lucide-react';
 import { ActiveGameModel, GamePlayerModel } from '../../game-models';
 import InGameTranslations from '@/features/i18n/translation-file-interfaces/InGameTranslations';
@@ -17,11 +17,12 @@ import SettingsForm from '@/features/account/components/SettingsForm';
 import { SettingsTranslations } from '@/features/i18n/translation-file-interfaces/SettingsTranslations';
 
 interface Props {
-    players: GamePlayerModel[];
+    sortedPlayers: GamePlayerModel[];
     game: ActiveGameModel;
     currentPlayerAccountId: string;
     hostUsername?: string;
     lang: SupportedLanguage;
+    currentRoundNumber: number;
 
     inGameTranslations: InGameTranslations
     scoreTranslations: ScoreTranslations;
@@ -37,7 +38,7 @@ const formatDate = (date: Date) => {
   });
 };
 
-export default function GameMetaData({ players, game, currentPlayerAccountId, inGameTranslations, hostUsername, lang, scoreTranslations, settingsTranslations }: Props) {
+export default function GameMetaData({ sortedPlayers, game, currentPlayerAccountId, inGameTranslations, hostUsername, lang, scoreTranslations, settingsTranslations, currentRoundNumber: currentRoundIndex }: Props) {
   const [showScoreExplanation, setShowScoreExplanation] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
 
@@ -52,22 +53,24 @@ export default function GameMetaData({ players, game, currentPlayerAccountId, in
   const playerCardHeight = determinePlayerCardHeight();
   
   function determinePlayerCardHeight(): "sm" | "md" | "lg" {
-    if (players.length <= 2) {
+    if (sortedPlayers.length <= 2) {
       return "lg";
     }
 
-    if (players.length <= 4) {
+    if (sortedPlayers.length <= 4) {
       return "md";
     }
 
     return "sm";
   }
 
+
+
   return (
     <div className="p-6 h-full flex flex-col">
       {/* Players Section */}
       <div className="flex-col flex-1 min-h-0 hidden md:flex">
-        {players.length >= 2 && (
+        {sortedPlayers.length >= 2 && (
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-bold flex items-center gap-2">
               <Users size={20} className="text-primary" />
@@ -75,14 +78,14 @@ export default function GameMetaData({ players, game, currentPlayerAccountId, in
             </h3>
             <div className="flex items-center gap-2 text-sm text-foreground-muted">
               <WebSocketStatusIndicator connectionStatus={gamePlayersCombinedConnectionStatus} showText={false} />
-              {players.filter(p => p.connectionStatus === 'connected').length}/{players.length}
+              {sortedPlayers.filter(p => p.connectionStatus === 'connected').length}/{sortedPlayers.length}
             </div>
           </div>            
         )}
         
         {/* Scrollable Players List */}
         <div className="overflow-y-auto flex-1 space-y-2 min-h-0">          
-          {players.map((player, index) => (
+          {sortedPlayers.map((player, index) => (
             <InGamePlayerCardDesktop
               key={player.accountId}                
               player={player}

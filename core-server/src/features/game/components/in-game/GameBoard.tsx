@@ -3,7 +3,7 @@ import ActiveGameWordInput from "../ActiveGameWordInput";
 import { useActiveGame } from "../active-game-context";
 import InGameProgressionBar from "./InGameProgressionBar";
 import LoadingSpinner from "@/components/ui/animation/LoadingSpinner";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import InGameTimer from "./InGameTimer";
 import { getCurrentUtcUnixTimestamp_Seconds } from "@/lib/time-util";
 import { SupportedLanguage } from "@/features/i18n/languages";
@@ -64,6 +64,37 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
         }, 500);
     }
 
+    // Play sound effect everytime it becomes your turn
+    useEffect(() => {
+        if (!isThisPlayersTurn || game?.gameMode != "online") return;
+        
+        const audio = new Audio('/sound/your-turn.wav');
+        audio.play().catch(error => {
+            console.log('Could not play sound:', error);
+        });
+    }, [isThisPlayersTurn]);
+
+    // Memoize sorted players to avoid recalculating on every render
+    const sortedPlayers = useMemo(() => {
+        if (players.length === 0 || !currentRound) return players;
+        
+        return [...players].sort((a, b) => {
+        // Get the original indices of players in the array
+        const indexA = players.indexOf(a);
+        const indexB = players.indexOf(b);
+        
+        // Calculate turn order based on current round
+        // currentRoundIndex 1 = player at index 0 starts
+        const startingPlayerIndex = (currentRound.roundNumber - 1) % players.length;
+        
+        // Calculate the turn position for each player relative to the starting player
+        const turnPositionA = (indexA - startingPlayerIndex + players.length) % players.length;
+        const turnPositionB = (indexB - startingPlayerIndex + players.length) % players.length;
+        
+        return turnPositionA - turnPositionB;
+        });
+    }, [players, currentRound?.roundNumber]);    
+
     return (
         <>
         {(game && currentRound) ? (
@@ -84,8 +115,12 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
 
                         {/* On mobile show player grid small above the board, on desktop in metadata section */}
                         <div className="md:hidden grid grid-cols-3 w-full gap-2">
-                            {players.map((player) => (
-                                <InGamePlayerCardMobile key={player.accountId} player={player}
+                            {sortedPlayers.map((player, i) => (
+                                <InGamePlayerCardMobile
+                                    key={player.accountId}
+                                    turnOrder={i + 1}
+                                    player={player}
+                                    isCurrentTurn={player.accountId == currentPlayerId}
                                 />
                             ))}                        
                         </div>
@@ -131,11 +166,12 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
                     <GameMetaData
                         inGameTranslations={inGameTranslations}
                         game={game}
-                        players={players}
+                        sortedPlayers={sortedPlayers}
                         currentPlayerAccountId={currentPlayerId}
                         lang={lang}
                         scoreTranslations={scoreTranslations}
                         settingsTranslations={settingsTranslations}
+                        currentRoundNumber={currentRound.roundNumber}
                     />
                 </Card>
             </div>
