@@ -152,9 +152,8 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: APP_NAME,
     description:
-      "Challenge friends or strangers in League of Letters — the ultimate multiplayer Wordle game!",
-    images: ["https://yourdomain.com/og-image.png"], // same as above
-    creator: "@yourTwitterHandle", // optional
+      "Challenge friends or strangers in League of Letters — the ultimate online multiplayer word guessing game!",
+    images: ["https://league-of-letters.online/logo.png"], // same as above
   },
   icons: {
     icon: "/favicon.ico",

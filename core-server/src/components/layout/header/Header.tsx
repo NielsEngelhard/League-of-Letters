@@ -22,18 +22,26 @@ export default async function Header({ lang } : {lang: SupportedLanguage }) {
             <div className="w-full bg-background-secondary border-b border-border/20 shadow-sm">
                 <div className="flex items-center justify-between max-w-6xl mx-auto px-6 h-full">
                     {/* Left - Logo & Status */}
-                    <Link
-                        href={currentUser ? LANGUAGE_ROUTE(lang, PICK_GAME_MODE_ROUTE) : LANGUAGE_ROUTE(lang, HOME_ROUTE)}
-                        className="group flex items-center w-fit px-2 h-full"
-                    >
-                        <Image
+                    <div className="relative">
+                        <Link
+                            href={currentUser ? LANGUAGE_ROUTE(lang, PICK_GAME_MODE_ROUTE) : LANGUAGE_ROUTE(lang, HOME_ROUTE)}
+                            className="group flex items-center w-fit pl-2 h-full"
+                        >
+                            <Image
                             src="/logo.png"
                             className="object-contain transition-all duration-300 ease-out group-hover:brightness-110"
                             alt="Logo"
                             width={60}
                             height={30}
-                        />
-                    </Link>                 
+                            />
+                        </Link>
+                        <div className="absolute w-full h-full flex items-center justify-center">
+                            <span className="text-[0.55rem] text-foreground-muted font-monos opacity-60 align-bottom h-full">
+                                {process.env.APP_VERSION}
+                            </span>
+                        </div>
+                    </div>
+   
 
                     {/* Right - User Section */}
                     <HeaderAccountInfo t={t.general} lang={lang} account={currentUser} />

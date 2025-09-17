@@ -63,7 +63,7 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
 
         setTimeout(() => {
             setCurrentSubmitFailed(false);
-        }, 500);
+        }, 1500);
     }
 
     // Play sound effect everytime it becomes your turn
