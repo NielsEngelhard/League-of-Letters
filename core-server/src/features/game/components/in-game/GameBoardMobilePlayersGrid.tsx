@@ -4,6 +4,7 @@ import { GamePlayerModel } from "../../game-models"
 import Avatar from "@/components/ui/Avatar";
 import WebSocketStatusIndicator from "@/features/realtime/WebSocketStatusIndicator";
 import Tooltip from "@/components/ui/Tooltip";
+import { ArrowDown, ArrowUp } from "lucide-react";
 
 interface Props {
     sortedPlayers: GamePlayerModel[];
@@ -27,10 +28,12 @@ export default function GameBoardMobilePlayersGrid({ sortedPlayers, currentAccou
                                     <WebSocketStatusIndicator connectionStatus={player.connectionStatus} />
                                 </div>
 
-                                {/* Websocket status bottom right */}
-                                <div className="absolute right-0 bottom-0 z-10">
-                                    <WebSocketStatusIndicator connectionStatus={player.connectionStatus} />
-                                </div>       
+                                {/* Your turn indicator */}
+                                {player.accountId == currentAccountId && (
+                                    <div className="absolute -bottom-3 -left-3">
+                                        <ArrowUp className="font-bold text-primary rotate-45" size={20} />
+                                    </div>                                        
+                                )}                             
                             </>                     
                         </Avatar>
 

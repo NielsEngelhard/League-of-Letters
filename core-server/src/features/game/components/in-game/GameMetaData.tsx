@@ -21,6 +21,7 @@ interface Props {
     game: ActiveGameModel;
     hostUsername?: string;
     lang: SupportedLanguage;
+    currentPlayerAccountId?: string;
 
     inGameTranslations: InGameTranslations
     scoreTranslations: ScoreTranslations;
@@ -36,7 +37,7 @@ const formatDate = (date: Date) => {
   });
 };
 
-export default function GameMetaData({ sortedPlayers, game, inGameTranslations, hostUsername, lang, scoreTranslations, settingsTranslations }: Props) {
+export default function GameMetaData({ sortedPlayers, game, inGameTranslations, hostUsername, lang, scoreTranslations, settingsTranslations, currentPlayerAccountId }: Props) {
   const [showScoreExplanation, setShowScoreExplanation] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
 
@@ -85,6 +86,7 @@ export default function GameMetaData({ sortedPlayers, game, inGameTranslations, 
             includeKickOption={false}
             gameId={game.id}
             t={inGameTranslations}
+            accountIdCurrentPlayer={currentPlayerAccountId}
           />
         </div>
       </div>

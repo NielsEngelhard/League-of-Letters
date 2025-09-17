@@ -1,7 +1,7 @@
 "use client"
 
 import Avatar from "@/components/ui/Avatar";
-import { Clover, Crown, ListStart } from "lucide-react";
+import { ArrowUp, Clover, Crown, ListStart } from "lucide-react";
 import WebSocketStatusIndicator from "@/features/realtime/WebSocketStatusIndicator";
 import Card from "@/components/ui/card/Card";
 import Button from "@/components/ui/Button";
@@ -43,10 +43,19 @@ export default function PlayerGrid({ players, hostAccountId, gameId, includeKick
                         `}                    
                 >
                     <div className="flex flex-col items-center text-center space-y-1.5">
-                        <Avatar colorHex={player.colorHex}>
-                            <div className="text-sm font-extrabold">
-                                {player.username.charAt(0)}
-                            </div>
+                        <Avatar colorHex={player.colorHex} className={accountIdCurrentPlayer == player.accountId ? 'border-primary border-2' : ''}>
+                            <>
+                                <div className="text-sm font-extrabold">
+                                    {player.username.charAt(0)}
+                                </div>
+
+                                {/* Your turn indicator */}
+                                {player.accountId == accountIdCurrentPlayer && (
+                                    <div className="absolute -bottom-3 -left-3">
+                                        <ArrowUp className="font-bold text-primary rotate-45" size={20} />
+                                    </div>                                        
+                                )}
+                            </>                                    
                         </Avatar>
                         
                         {/* Username section */}

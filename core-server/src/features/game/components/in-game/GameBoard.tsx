@@ -164,6 +164,7 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
                         lang={lang}
                         scoreTranslations={scoreTranslations}
                         settingsTranslations={settingsTranslations}
+                        currentPlayerAccountId={currentPlayerId}
                     />
                 </Card>
             </div>
