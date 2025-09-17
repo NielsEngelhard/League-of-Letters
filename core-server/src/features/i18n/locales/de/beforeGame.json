@@ -53,7 +53,14 @@
             "description": "Starte ein neues Spiel und lade Freunde ein / (oder Feinde)",
             "extraDescription": "Erstelle eine Lobby und teile die Spiel-ID mit Freunden",
             "btnText": "Online Spielen"
-        }
+        },
+        "searchGame": {
+            "title": "Lobby suchen",
+            "description": "Finde ganz einfach eine öffentliche Lobby, um sofort mitzuspielen.",
+            "btnText": "Öffentliche Lobbys suchen",
+            "searchAgain": "Erneut suchen",
+            "noLobbiesFound": "Keine öffentlichen Lobbys gefunden. Versuche es später erneut oder starte deine eigene Lobby."
+        }        
     },
     "lobby": {
         "create": {

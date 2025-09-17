@@ -1,7 +1,6 @@
 BUGS NA LAUNCH
 - Tijd bij online game is helemaal gebugged ONLINE GAME BUGGED OPLOSSEN
 - kick player werkt niet
-- revamp van in lobby overview (create is nu lelijk)
 - sound effects die matchen met de vibe
 
 MUST

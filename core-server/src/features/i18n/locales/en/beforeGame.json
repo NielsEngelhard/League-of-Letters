@@ -53,7 +53,14 @@
             "description": "Start a new game and invite friends / (or foes)",
             "extraDescription": "Create a lobby and share the game ID with friends",
             "btnText": "Create Game"
-        }        
+        },
+        "searchGame": {
+            "title": "Search Lobby",
+            "description": "Easily find a public lobby to start playing right away.",
+            "btnText": "Search public lobbies",
+            "searchAgain": "Search again",
+            "noLobbiesFound": "No public lobbies found. Try again later or start your own lobby."
+        }             
     },
     "lobby": {
         "create": {

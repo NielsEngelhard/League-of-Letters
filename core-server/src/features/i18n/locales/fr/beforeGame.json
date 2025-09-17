@@ -53,7 +53,14 @@
             "description": "Lance un nouveau jeu et invite tes amis / (ou ennemis)",
             "extraDescription": "Crée un lobby et partage l'ID du jeu avec tes amis",
             "btnText": "Jouer en Ligne"
-        }
+        },
+        "searchGame": {
+            "title": "Rechercher une salle",
+            "description": "Trouvez facilement une salle publique pour jouer immédiatement.",
+            "btnText": "Rechercher des salles publiques",
+            "searchAgain": "Rechercher à nouveau",
+            "noLobbiesFound": "Aucune salle publique trouvée. Réessayez plus tard ou créez votre propre salle."
+        }        
     },
     "lobby": {
         "create": {
