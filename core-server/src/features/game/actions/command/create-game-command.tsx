@@ -31,7 +31,6 @@ export default async function CreateGameCommand(schema: CreateGameSchema, gameId
     await dbInstance.transaction(async (tx) => {
         await cleanupOtherCurrentGames(accountIds, schema.gameMode, tx);
 
-
         await tx.insert(ActiveGameTable).values({
             id: gameId,
             nRounds: schema.totalRounds,            
@@ -66,7 +65,7 @@ function createPlayers(schema: CreateGameSchema, gameId: string): DbGamePlayer[]
     if (!schema.players) throw Error("No players assigned");
 
     return schema.players?.map((schemaPlayer, index) => 
-        GamePlayerFactory.createGamePlayer(gameId, schemaPlayer.accountId, index + 1, schemaPlayer.connectionStatus ?? "empty", schemaPlayer.username)
+        GamePlayerFactory.createGamePlayer(gameId, schemaPlayer.accountId, index + 1, schemaPlayer.connectionStatus ?? "empty", schemaPlayer.username, schemaPlayer.colorHex)
     );
 }
 
@@ -75,6 +74,7 @@ function AddCallerAsOnlyPlayer(schema: CreateGameSchema, currentUser: JwtAccount
         {
             accountId: currentUser.accountId,
             username: currentUser.username,
+            colorHex: currentUser.colorHex ?? "#3B82F6"
         }
     ];
 }

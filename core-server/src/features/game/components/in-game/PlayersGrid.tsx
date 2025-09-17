@@ -91,6 +91,11 @@ export default function PlayerGrid({ players, hostAccountId, gameId, includeKick
                         />
                     </div>
 
+                    {/* Score */}
+                    <div className="absolute top-2 left-2">
+                        <span className="text-sm font-bold text-primary">0<sub className="text-xs">{t?.overview.points}</sub></span>
+                    </div>                    
+
                     {/* Position */}
                     <div className="absolute bottom-1 right-2">
                         <span className="text-xs font-medium">{index + 1}</span>

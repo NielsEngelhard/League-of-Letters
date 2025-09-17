@@ -119,31 +119,32 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
                             t={inGameTranslations}
                         />
 
-                         {/* Timer - smaller on mobile */}
-                         {(currentRound.lastGuessUnixUtcTimestamp_InSeconds && initialTimeLeftForThisTurn && game.nSecondsPerGuess) && (
-                            <div className="w-full">
-                                <InGameTimer
-                                    key={`${currentPlayerId}-${currentRound.currentGuessIndex}`}
-                                    timePerTurn={game.nSecondsPerGuess}
-                                    initialTime={initialTimeLeftForThisTurn}
-                                    onTimerEnd={recalculateCurrentPlayer}
-                                    isPaused={isAnimating}
-                                />   
-                            </div>
-                        )}
-                        
-                         {/* Letter Grid */}
-                         <div className={`${getGridScale()} `}>
-                            <LetterRowGrid
-                                currentGuess={currentGuess}
-                                maxNGuesses={game.nGuessesPerRound}
-                                preFilledRows={currentRound.guesses ?? []}
-                                wordLength={currentRound.wordLength}
-                                revealedWord={revealedWord}
-                                revealedWordLabel={inGameTranslations.theWordWas}
-                                currentSubmitFailed={currentSubmitFailed}
-                            />
-                         </div>
+                        <div className="flex flex-col-reverse md:flex-col">
+                            {(currentRound.lastGuessUnixUtcTimestamp_InSeconds && initialTimeLeftForThisTurn && game.nSecondsPerGuess) && (
+                                <div className="w-full">
+                                    <InGameTimer
+                                        key={`${currentPlayerId}-${currentRound.currentGuessIndex}`}
+                                        timePerTurn={game.nSecondsPerGuess}
+                                        initialTime={initialTimeLeftForThisTurn}
+                                        onTimerEnd={recalculateCurrentPlayer}
+                                        isPaused={isAnimating}
+                                    />   
+                                </div>
+                            )}
+                            
+                            {/* Letter Grid */}
+                            <div className={`${getGridScale()} `}>
+                                <LetterRowGrid
+                                    currentGuess={currentGuess}
+                                    maxNGuesses={game.nGuessesPerRound}
+                                    preFilledRows={currentRound.guesses ?? []}
+                                    wordLength={currentRound.wordLength}
+                                    revealedWord={revealedWord}
+                                    revealedWordLabel={inGameTranslations.theWordWas}
+                                    currentSubmitFailed={currentSubmitFailed}
+                                />
+                            </div>                            
+                        </div>
                         
                         {/* Keyboard/Input */}
                         <div className="w-full mt-2 sm:mt-4 md:max-w-lg">

@@ -44,7 +44,12 @@ export default function CreateLobbyClient({ initialLobby, lang, t, accountId, us
         t={t}
         gameId={initialLobby.id}
         gameMode="online" 
-        players={players.map((p) => ({ accountId: p.accountId, username: p.username }))}
+        players={players.map((p) => ({
+          accountId: p.accountId,
+          username: p.username,
+          colorHex: p.colorHex ?? "#3B82F6",
+          connectionStatus: p.connectionStatus
+        }))}
       />
     )
 }

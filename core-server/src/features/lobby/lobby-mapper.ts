@@ -13,7 +13,7 @@ export class OnlineLobbyMapper {
             connectionStatus: connectionStatus,
             username: currentUser.username,
             createdAt: undefined!,
-            colorHex: currentUser.colorHex ?? null
+            colorHex: currentUser.colorHex
         }
     }
 

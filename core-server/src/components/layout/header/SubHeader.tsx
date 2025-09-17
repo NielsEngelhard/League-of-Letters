@@ -4,7 +4,8 @@ import { ACCOUNT_SETTINGS_ROUTE, CREATE_MULTIPLAYER_GAME_ROUTE, LANGUAGE_ROUTE, 
 import { SupportedLanguage } from "@/features/i18n/languages";
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 import Link from "next/link";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 
 interface Props {
     t: GeneralTranslations;
@@ -12,7 +13,18 @@ interface Props {
 }
 
 export default function SubHeader({t, lang}: Props) {
+    const [isInGame, setIsInGame] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const pathName = usePathname();
+    
+    // Dont show the subnavbar (on mobile) when in game (it blocks the keyboard)
+    useEffect(() => {
+        if (pathName.includes('/connect/')) {
+            setIsInGame(true);
+        } else {
+            setIsInGame(false);
+        }
+    }, [pathName]);
 
     const mainNavItems = [
         { label: t.nav.soloGame, href: LANGUAGE_ROUTE(lang, SOLO_GAME_ROUTE), icon: "🎯" },
@@ -76,7 +88,7 @@ export default function SubHeader({t, lang}: Props) {
             </div>
 
             {/* Mobile Navigation Button - Bottom Right Corner */}
-            <div className="fixed md:hidden bottom-4 right-4 z-[1000]">
+            <div className={`fixed md:hidden bottom-4 right-4 z-[1000] ${isInGame && 'hidden'}`}>
                 <button
                     onClick={toggleMobileMenu}
                     className="w-14 h-14 bg-gradient-to-bl from-primary to-secondary text-background rounded-full shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"

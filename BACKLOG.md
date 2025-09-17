@@ -1,5 +1,9 @@
 BUGS NA LAUNCH
 - Tijd bij online game is helemaal gebugged ONLINE GAME BUGGED OPLOSSEN
+    - tijd niet zichtbaar op mobiel? Secondes miss kort ernaast toch - of de tijd bar onderaa tussen board en toetsenbord?
+
+
+
 - sound effects die matchen met de vibe
 MUST
 

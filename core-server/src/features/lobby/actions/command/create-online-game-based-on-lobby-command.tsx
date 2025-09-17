@@ -32,7 +32,8 @@ function AddPlayersToCreateSchema(schema: CreateGameSchema, lobbyPlayers: DbOnli
         return {
             accountId: p.accountId,
             username: p.username,
-            connectionStatus: p.connectionStatus
+            connectionStatus: p.connectionStatus,
+            colorHex: p.colorHex ?? "#3B82F6"
         }
     });
 }
