@@ -16,16 +16,17 @@ type Props = {
 
 export function Providers({ children, lang, actionsServerUrl, websocketPath }: Props) {
   return (
-    <SoundPlayerProvider>
-      <ToasterProvider>
-        <AuthProvider>
-          <ActiveGameProvider>
-            <SocketProvider lang={lang} serverUrl={actionsServerUrl} path={websocketPath}>
-                {children}
-            </SocketProvider>              
-          </ActiveGameProvider>
-        </AuthProvider>        
-      </ToasterProvider>
-    </SoundPlayerProvider>
+    <AuthProvider>
+      <SoundPlayerProvider>
+        <ToasterProvider>
+          
+            <ActiveGameProvider>
+              <SocketProvider lang={lang} serverUrl={actionsServerUrl} path={websocketPath}>
+                  {children}
+              </SocketProvider>              
+            </ActiveGameProvider>
+        </ToasterProvider>
+      </SoundPlayerProvider>
+    </AuthProvider>
   );
 }

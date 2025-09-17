@@ -15,8 +15,7 @@ export function SoundPlayerProvider({ children }: { children: React.ReactNode })
 
     const playEffect = (soundEffect: SoundEffect) => {
         try {
-            const soundsEnabled = settings.playSoundEffects;
-            if (soundsEnabled !== true) return;
+            if (settings.playSoundEffects !== true) return;
 
             const audio = new Audio(`/sound/${soundEffect}.wav`);
             audio.play().catch(err => {
