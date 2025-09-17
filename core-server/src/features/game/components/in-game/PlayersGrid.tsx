@@ -49,14 +49,18 @@ export default function PlayerGrid({ players, hostAccountId, gameId: lobbyId, in
                             </div>
                         </Avatar>
                         
-                        <div className="flex items-center gap-1 mx-2 w-full truncate">
-                            <span className="text-xs md:text-sm font-medium text-center w-full flex flex-row items-center gap-0.5 justify-center">
+                        {/* Username section */}
+                        <div className="flex items-center gap-0.5 sm:gap-1 mx-1 sm:mx-2 w-full truncate">
+                            <span className="text-xs sm:text-sm font-medium text-center w-full flex flex-row items-center gap-0.5 justify-center">
+                                {/* Host indicator - hidden on very small screens */}
+                                {player.accountId == hostAccountId && (
+                                    <Crown className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-warning flex-shrink-0 hidden xs:flex" />
+                                )}
 
-                                {/* Host indicator */}
-                                {player.accountId == hostAccountId && <Crown className="w-3 h-3 text-warning flex-shrink-0 hidden md:flex" />}
-
-                                {/* Username */}
-                                <span>{player.username}</span>
+                                {/* Username - truncated more aggressively on mobile */}
+                                <span className="truncate max-w-full">
+                                    {player.username}
+                                </span>
                             </span>
                         </div>
                         
