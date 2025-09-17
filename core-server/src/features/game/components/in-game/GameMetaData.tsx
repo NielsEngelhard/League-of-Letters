@@ -84,7 +84,7 @@ export default function GameMetaData({ sortedPlayers, game, inGameTranslations, 
             gridCols={playerCardGridCols}
             hostAccountId={game.hostAccountId}
             includeKickOption={false}
-            lobbyId={game.id}
+            gameId={game.id}
             t={inGameTranslations}
           />
         </div>

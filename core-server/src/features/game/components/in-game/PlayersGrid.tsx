@@ -13,7 +13,7 @@ import Tooltip from "@/components/ui/Tooltip";
 interface Props {
     players: GamePlayerModel[];
     hostAccountId?: string;
-    lobbyId?: string;
+    gameId?: string;
     includeKickOption?: boolean;
     gridCols?: string;
     accountIdPlayerThatStartsNextRound?: string;
@@ -22,7 +22,7 @@ interface Props {
     t?: InGameTranslations;
 }
 
-export default function PlayerGrid({ players, hostAccountId, lobbyId, includeKickOption = false, gridCols, accountIdPlayerThatHasNextTurn, accountIdPlayerThatStartsNextRound, accountIdCurrentPlayer, t }: Props) {    
+export default function PlayerGrid({ players, hostAccountId, gameId: lobbyId, includeKickOption = false, gridCols, accountIdPlayerThatHasNextTurn, accountIdPlayerThatStartsNextRound, accountIdCurrentPlayer, t }: Props) {    
     const handleKickPlayer = async (accountIdToKick: string) => {
         if (!lobbyId) return;
         await KickPlayerFromLobbyCommand({

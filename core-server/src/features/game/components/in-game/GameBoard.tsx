@@ -15,6 +15,7 @@ import GameMetaData from "./GameMetaData";
 import ScoreTranslations from "@/features/i18n/translation-file-interfaces/ScoreTranslations";
 import { PlayBrowserSoundEffect } from "@/lib/sound-player";
 import PlayerGrid from "./PlayersGrid";
+import GameBoardMobilePlayersGrid from "./GameBoardMobilePlayersGrid";
 
 interface Props {
     lang: SupportedLanguage;
@@ -113,16 +114,11 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
                      </div>
 
                         {/* On mobile show player grid small above the board, on desktop in metadata section */}
-                        <div className="md:hidden w-full">
-                            <PlayerGrid
-                                players={sortedPlayers}
-                                gridCols="grid-cols-3"
-                                hostAccountId={game.hostAccountId}
-                                includeKickOption={false}
-                                lobbyId={game.id}
-                                t={inGameTranslations}
-                            />                      
-                        </div>
+                        <GameBoardMobilePlayersGrid
+                            game={game}
+                            sortedPlayers={sortedPlayers}
+                            t={inGameTranslations}
+                        />
 
                          {/* Timer - smaller on mobile */}
                          {(currentRound.lastGuessUnixUtcTimestamp_InSeconds && initialTimeLeftForThisTurn && game.nSecondsPerGuess) && (

@@ -19,7 +19,7 @@ export default function ActiveGamePlayersGrid({hostAccountId, lobbyId, includeKi
         <PlayerGrid
             players={players}
             hostAccountId={hostAccountId}
-            lobbyId={lobbyId}
+            gameId={lobbyId}
             includeKickOption={includeKickOption}
             gridCols={gridCols}
             t={t}
