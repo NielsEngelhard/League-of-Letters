@@ -88,19 +88,23 @@ export default function SubHeader({t, lang}: Props) {
             </div>
 
             {/* Mobile Navigation Button - Bottom Right Corner */}
-            <div className={`fixed md:hidden bottom-4 right-4 z-[1000] ${isInGame && 'hidden'}`}>
+            <div className={`fixed md:hidden bottom-6 right-6 z-[100] ${isInGame && 'hidden'}`}>
                 <button
                     onClick={toggleMobileMenu}
-                    className="w-14 h-14 bg-gradient-to-bl from-primary to-secondary text-background rounded-full shadow-lg hover:shadow-xl transition-all duration-200 flex items-center justify-center"
+                    className={`w-12 h-12 rounded-full shadow-lg transition-all duration-300 flex items-center justify-center ${
+                        isMobileMenuOpen 
+                            ? 'bg-secondary text-background scale-105' 
+                            : 'bg-primary text-background'
+                    }`}
                     aria-label="Toggle navigation menu"
                 >
                     <div className={`transition-transform duration-300 ${isMobileMenuOpen ? 'rotate-45' : ''}`}>
                         {isMobileMenuOpen ? (
-                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
                             </svg>
                         ) : (
-                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                             </svg>
                         )}
@@ -108,65 +112,80 @@ export default function SubHeader({t, lang}: Props) {
                 </button>
             </div>
 
-            {/* Mobile Menu Overlay */}
-            {isMobileMenuOpen && (
-                <>
-                    {/* Backdrop */}
-                    <div 
-                        className="md:hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-40 transition-opacity duration-300"
-                        onClick={closeMobileMenu}
-                    />
-                    
-                    {/* Menu Panel */}
-                    <div className="md:hidden fixed inset-x-4 bottom-24 z-50 bg-background/95 backdrop-blur-md rounded-2xl shadow-2xl border border-border/50 overflow-hidden animate-in slide-in-from-bottom-5 duration-300">
-                        <div className="p-6">
-                            {/* Main Navigation Section */}
-                            <div className="mb-6">
-                                <h3 className="text-xs font-semibold text-foreground/60 uppercase tracking-wider mb-3">
-                                    Play
-                                </h3>
-                                <div className="space-y-1">
-                                    {mainNavItems.map((item) => (
-                                        <Link
-                                            key={item.label}
-                                            href={item.href}
-                                            onClick={closeMobileMenu}
-                                            className="flex items-center gap-3 p-3 rounded-xl hover:bg-background-secondary/50 transition-colors group"
-                                        >
-                                            <span className="text-lg">{item.icon}</span>
-                                            <span className="text-sm font-medium text-foreground group-hover:text-primary">
-                                                {item.label}
-                                            </span>
-                                        </Link>
-                                    ))}
-                                </div>
-                            </div>
+            {/* Mobile Menu - Full Screen Slide Up */}
+            <div className={`md:hidden fixed inset-0 z-50 transition-transform duration-500 ease-out ${
+                isMobileMenuOpen ? 'translate-y-0' : 'translate-y-full'
+            }`}>
+                {/* Menu Background */}
+                <div className="absolute inset-0 bg-background" />
+                
+                {/* Menu Content */}
+                <div className="relative h-full flex flex-col">
+                    {/* Close Button */}
+                    <div className="flex justify-end p-6">
+                        <button
+                            onClick={closeMobileMenu}
+                            className="w-10 h-10 rounded-full bg-background-secondary flex items-center justify-center text-foreground-muted transition-colors"
+                        >
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
 
-                            {/* Secondary Navigation Section */}
-                            <div>
-                                <h3 className="text-xs font-semibold text-foreground/60 uppercase tracking-wider mb-3 z-50">
-                                    Account
-                                </h3>
-                                <div className="space-y-1">
-                                    {subNavItems.map((item) => (
-                                        <Link
-                                            key={item.href}
-                                            href={item.href}
-                                            onClick={closeMobileMenu}
-                                            className="flex items-center gap-3 p-3 rounded-xl hover:bg-background-secondary/50 transition-colors group"
-                                        >
-                                            <span className="text-lg">{item.icon}</span>
-                                            <span className="text-sm font-medium text-foreground group-hover:text-primary">
-                                                {item.label}
-                                            </span>
-                                        </Link>
-                                    ))}
-                                </div>
+                    {/* Navigation Content */}
+                    <div className="flex-1 px-6 pb-8">
+                        {/* Main Navigation */}
+                        <div className="mb-12">
+                            <div className="grid gap-3">
+                                {mainNavItems.map((item, index) => (
+                                    <Link
+                                        key={item.label}
+                                        href={item.href}
+                                        onClick={closeMobileMenu}
+                                        className={`flex items-center gap-4 p-4 rounded-2xl transition-all duration-200 group animate-in slide-in-from-bottom-3 ${
+                                            `animation-delay-${index * 50}`
+                                        }`}
+                                        style={{ animationDelay: `${index * 50}ms` }}
+                                    >
+                                        <div className="w-10 h-10 rounded-full bg-background flex items-center justify-center text-lg transition-colors">
+                                            {item.icon}
+                                        </div>
+                                        <span className="text-lg font-medium text-foreground">
+                                            {item.label}
+                                        </span>
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Divider */}
+                        <div className="w-full h-px bg-background-secondary mb-8" />
+
+                        {/* Secondary Navigation */}
+                        <div>
+                            <div className="grid gap-2">
+                                {subNavItems.map((item, index) => (
+                                    <Link
+                                        key={item.href}
+                                        href={item.href}
+                                        onClick={closeMobileMenu}
+                                        className={`flex items-center gap-3 p-3 rounded-xl transition-all duration-200 group animate-in slide-in-from-bottom-2 ${
+                                            `animation-delay-${(mainNavItems.length + index) * 50 + 100}`
+                                        }`}
+                                        style={{ animationDelay: `${(mainNavItems.length + index) * 50 + 100}ms` }}
+                                    >
+                                        <span className="text-base opacity-70">{item.icon}</span>
+                                        <span className="text-base font-medium text-foreground">
+                                            {item.label}
+                                        </span>
+                                    </Link>
+                                ))}
                             </div>
                         </div>
                     </div>
-                </>
-            )}
+                </div>
+            </div>
         </>
     )
 }
