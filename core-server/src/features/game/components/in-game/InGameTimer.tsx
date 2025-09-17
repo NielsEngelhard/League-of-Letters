@@ -75,9 +75,9 @@ export default function InGameTimer({
   };
 
   return (
-    <div className="w-full flex flex-col items-center">
+    <div className="w-full flex flex-row gap-1 items-center text-foreground-muted">
       {/* Timer Display */}
-      <div className="items-center space-x-3 hidden md:flex">
+      {/* <div className="items-center space-x-3 hidden md:flex">
         <Clock className={`w-5 h-5 ${
           timerState === 'warning' ? 'text-warning' : 
           'text-foreground-muted'
@@ -86,7 +86,9 @@ export default function InGameTimer({
         <div className={getTimerStyles()}>
           {secondsLeft}
         </div>
-      </div>
+      </div> */}
+
+      <Clock size={14} />
 
       {/* Progress Bar */}
       <div className="w-full max-w-xs bg-foreground-muted/10 rounded-full h-2 overflow-hidden">

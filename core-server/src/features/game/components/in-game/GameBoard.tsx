@@ -114,12 +114,11 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
 
                         {/* On mobile show player grid small above the board, on desktop in metadata section */}
                         <GameBoardMobilePlayersGrid
-                            game={game}
                             sortedPlayers={sortedPlayers}
-                            t={inGameTranslations}
+                            currentAccountId={currentPlayerId}
                         />
 
-                        <div className="flex flex-col-reverse md:flex-col">
+                        <div className="flex flex-col-reverse md:flex-col-reverse">
                             {(currentRound.lastGuessUnixUtcTimestamp_InSeconds && initialTimeLeftForThisTurn && game.nSecondsPerGuess) && (
                                 <div className="w-full">
                                     <InGameTimer
