@@ -13,8 +13,8 @@ import { SettingsTranslations } from "@/features/i18n/translation-file-interface
 import Card from "@/components/ui/card/Card";
 import GameMetaData from "./GameMetaData";
 import ScoreTranslations from "@/features/i18n/translation-file-interfaces/ScoreTranslations";
-import InGamePlayerCardMobile from "./InGamePlayerCardMobile";
 import { PlayBrowserSoundEffect } from "@/lib/sound-player";
+import PlayerGrid from "./PlayersGrid";
 
 interface Props {
     lang: SupportedLanguage;
@@ -114,14 +114,14 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
 
                         {/* On mobile show player grid small above the board, on desktop in metadata section */}
                         <div className="md:hidden grid grid-cols-3 w-full gap-2">
-                            {sortedPlayers.map((player, i) => (
-                                <InGamePlayerCardMobile
-                                    key={player.accountId}
-                                    turnOrder={i + 1}
-                                    player={player}
-                                    isCurrentTurn={player.accountId == currentPlayerId}
-                                />
-                            ))}                        
+                            <PlayerGrid
+                                players={sortedPlayers}
+                                gridCols=""
+                                hostAccountId={game.hostAccountId}
+                                includeKickOption={false}
+                                lobbyId={game.id}
+                                t={inGameTranslations}
+                            />                      
                         </div>
 
                          {/* Timer - smaller on mobile */}
@@ -166,7 +166,6 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
                         inGameTranslations={inGameTranslations}
                         game={game}
                         sortedPlayers={sortedPlayers}
-                        currentPlayerAccountId={currentPlayerId}
                         lang={lang}
                         scoreTranslations={scoreTranslations}
                         settingsTranslations={settingsTranslations}

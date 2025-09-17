@@ -1,8 +1,7 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { Settings, HelpCircle, Users, MoveLeft } from 'lucide-react';
 import { ActiveGameModel, GamePlayerModel } from '../../game-models';
 import InGameTranslations from '@/features/i18n/translation-file-interfaces/InGameTranslations';
-import InGamePlayerCardDesktop from './InGamePlayerCardDesktop';
 import Card from '@/components/ui/card/Card';
 import { ConnectionStatus } from '@/features/realtime/realtime-models';
 import WebSocketStatusIndicator from '@/features/realtime/WebSocketStatusIndicator';
@@ -15,11 +14,11 @@ import ScoreTranslations from '@/features/i18n/translation-file-interfaces/Score
 import SidePopup from '@/components/ui/SidePopup';
 import SettingsForm from '@/features/account/components/SettingsForm';
 import { SettingsTranslations } from '@/features/i18n/translation-file-interfaces/SettingsTranslations';
+import PlayerGrid from './PlayersGrid';
 
 interface Props {
     sortedPlayers: GamePlayerModel[];
     game: ActiveGameModel;
-    currentPlayerAccountId: string;
     hostUsername?: string;
     lang: SupportedLanguage;
     currentRoundNumber: number;
@@ -38,7 +37,7 @@ const formatDate = (date: Date) => {
   });
 };
 
-export default function GameMetaData({ sortedPlayers, game, currentPlayerAccountId, inGameTranslations, hostUsername, lang, scoreTranslations, settingsTranslations, currentRoundNumber: currentRoundIndex }: Props) {
+export default function GameMetaData({ sortedPlayers, game, inGameTranslations, hostUsername, lang, scoreTranslations, settingsTranslations, currentRoundNumber: currentRoundIndex }: Props) {
   const [showScoreExplanation, setShowScoreExplanation] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
 
@@ -50,21 +49,16 @@ export default function GameMetaData({ sortedPlayers, game, currentPlayerAccount
   ]  
 
   const gamePlayersCombinedConnectionStatus: ConnectionStatus = game.players.some(p => p.connectionStatus != "connected") ? "disconnected" : "connected";
-  const playerCardHeight = determinePlayerCardHeight();
   
-  function determinePlayerCardHeight(): "sm" | "md" | "lg" {
-    if (sortedPlayers.length <= 2) {
-      return "lg";
+  const playerCardGridCols = determinePlayerCardGridCols();
+  
+  function determinePlayerCardGridCols(): string {
+    if (sortedPlayers.length <= 3) {
+      return "grid-cols-1";
     }
-
-    if (sortedPlayers.length <= 4) {
-      return "md";
-    }
-
-    return "sm";
+    
+    return "grid-cols-2";
   }
-
-
 
   return (
     <div className="p-6 h-full flex flex-col">
@@ -84,17 +78,15 @@ export default function GameMetaData({ sortedPlayers, game, currentPlayerAccount
         )}
         
         {/* Scrollable Players List */}
-        <div className="overflow-y-auto flex-1 space-y-2 min-h-0">          
-          {sortedPlayers.map((player, index) => (
-            <InGamePlayerCardDesktop
-              key={player.accountId}                
-              player={player}
-              isCurrentTurn={player.accountId == currentPlayerAccountId}
-              t={inGameTranslations}
-              height={playerCardHeight}
-              turnOrder={index + 1}
-            />
-          ))}
+        <div className="overflow-y-auto flex-1 space-y-2 min-h-0">
+          <PlayerGrid
+            players={sortedPlayers}
+            gridCols={playerCardGridCols}
+            hostAccountId={game.hostAccountId}
+            includeKickOption={false}
+            lobbyId={game.id}
+            t={inGameTranslations}
+          />
         </div>
       </div>
 

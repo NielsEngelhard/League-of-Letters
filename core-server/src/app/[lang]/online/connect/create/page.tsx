@@ -15,8 +15,9 @@ import AuthenticationRequiredBlock from "@/components/layout/AuthenticationRequi
 import LobbyOptions from "@/features/game/components/lobby/LobbyOptions";
 import { Authenticate_Server } from "@/features/auth/current-user";
 import ShareGameCard from "@/features/lobby/components/ShareGameCard";
-import PlayerGrid from "@/features/lobby/components/PlayersGrid";
 import { Settings, Users } from "lucide-react";
+import PlayerGrid from "@/features/game/components/in-game/PlayersGrid";
+import ActiveGamePlayersGrid from "@/features/game/components/in-game/ActiveGamePlayersGrid";
 
 export default async function CreateOnlineGamePage({
   params
@@ -54,11 +55,7 @@ export default async function CreateOnlineGamePage({
             {t.beforeGame.lobby.join.players}
             <sup className="text-foreground-muted text-xs">max 6</sup>
           </CardTitle>
-        <PlayerGrid
-          hostAccountId={lobby?.hostAccountId}
-          lobbyId={lobby?.id}
-          includeKickOption={true}
-        />      
+          {/* <ActiveGamePlayersGrid />   */}
       </div>    
 
       {/* game config */}

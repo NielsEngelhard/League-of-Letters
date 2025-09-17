@@ -5,13 +5,13 @@ import { CardContent, CardHeader, CardTitle } from "@/components/ui/card/card-ch
 import { User } from "lucide-react"
 import { useActiveGame } from "../active-game-context"
 import { MAX_ONLINE_GAME_PLAYERS } from "../../game-constants"
-import PlayerGrid from "@/features/lobby/components/PlayersGrid"
 import { useEffect } from "react"
 import { useSocket } from "@/features/realtime/socket-context"
 import { OnlineLobbyModel } from "@/features/lobby/lobby-models"
 import { LANGUAGE_ROUTE, MULTIPLAYER_GAME_ROUTE } from "@/app/routes"
 import { redirect } from "next/navigation"
 import { SupportedLanguage } from "@/features/i18n/languages"
+import PlayerGrid from "../in-game/PlayersGrid"
 
 interface Props {
     hostAccountId: string;
@@ -56,6 +56,7 @@ export default function JoinedLobbyClient({ hostAccountId, initialLobby, lang, a
             </CardHeader>
             <CardContent>
                 <PlayerGrid
+                    players={players}
                     hostAccountId={hostAccountId}
                     gridCols="grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
                 />
