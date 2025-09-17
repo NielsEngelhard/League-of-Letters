@@ -1,8 +1,6 @@
 BUGS NA LAUNCH
 - Tijd bij online game is helemaal gebugged ONLINE GAME BUGGED OPLOSSEN
-- kick player werkt niet
 - sound effects die matchen met de vibe
-
 MUST
 
 FEEDBACK

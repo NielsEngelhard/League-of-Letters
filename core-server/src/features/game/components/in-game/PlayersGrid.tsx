@@ -22,12 +22,12 @@ interface Props {
     t?: InGameTranslations;
 }
 
-export default function PlayerGrid({ players, hostAccountId, gameId: lobbyId, includeKickOption = false, gridCols, accountIdPlayerThatHasNextTurn, accountIdPlayerThatStartsNextRound, accountIdCurrentPlayer, t }: Props) {    
+export default function PlayerGrid({ players, hostAccountId, gameId, includeKickOption = false, gridCols, accountIdPlayerThatHasNextTurn, accountIdPlayerThatStartsNextRound, accountIdCurrentPlayer, t }: Props) {    
     const handleKickPlayer = async (accountIdToKick: string) => {
-        if (!lobbyId) return;
+        if (!gameId) return;
         await KickPlayerFromLobbyCommand({
             accountIdToKick: accountIdToKick,
-            lobbyId: lobbyId
+            lobbyId: gameId
         });
     };
 

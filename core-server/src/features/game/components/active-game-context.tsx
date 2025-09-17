@@ -10,6 +10,7 @@ import { GetLetterAnimationDurationInMs } from '../util/game-time-calculators';
 import { sortPlayerModelOnPositionAndGetUserIds } from '../util/player-sorting';
 import { getSecondsBetweenNowAndUnixTimestampInSeconds } from '@/lib/time-util';
 import { PlayBrowserSoundEffect } from '@/lib/sound-player';
+import { useAuth } from '@/features/auth/AuthContext';
 
 type ActiveGameContextType = {  
   // Data
@@ -40,6 +41,7 @@ const ActiveGameContext = createContext<ActiveGameContextType | undefined>(undef
 
 export function ActiveGameProvider({ children }: { children: ReactNode }) {
   const { errorToast, pushToast } = useToaster();
+  const { account } = useAuth();
   
   const [game, setGame] = useState<ActiveGameModel | undefined>(undefined);
   const [currentRound, setCurrentRound] = useState<GameRoundModel | undefined>(undefined);
@@ -55,6 +57,8 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
   const gameRef = useRef<ActiveGameModel | undefined>(undefined);
   const currentRoundRef = useRef<GameRoundModel | undefined>(undefined);
   const currentGuessRef = useRef(currentGuess);
+  const playersRef = useRef(players);
+  const currentPlayerAccountId = useRef("");
 
   // keep ref in sync with state
   useEffect(() => {
@@ -89,6 +93,10 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     currentRoundRef.current = currentRound;
   }, [currentRound]);  
+
+  useEffect(() => {
+    playersRef.current = players;
+  }, [players]);  
 
   async function submitGuess(): Promise<boolean> {
     if (!game || !currentRound) return false;
@@ -140,7 +148,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
   }
 
   function kickPlayer(accountId: string) {
-    const playerToRemove = players.find(p => p.accountId == accountId);
+    const playerToRemove = playersRef.current.find(p => p.accountId == accountId);
     if (!playerToRemove) return;
 
     pushToast({ msg: `${playerToRemove.username} kicked`, type: "information" }, 3000);

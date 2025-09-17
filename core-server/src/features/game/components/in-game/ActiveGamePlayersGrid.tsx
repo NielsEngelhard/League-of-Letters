@@ -6,20 +6,20 @@ import PlayerGrid from "./PlayersGrid";
 
 interface Props {
     hostAccountId?: string;
-    lobbyId?: string;
+    gameId?: string;
     includeKickOption?: boolean;
     gridCols?: string;
     t: InGameTranslations;
 }
 
-export default function ActiveGamePlayersGrid({hostAccountId, lobbyId, includeKickOption, gridCols, t}: Props) {
+export default function ActiveGamePlayersGrid({hostAccountId, gameId, includeKickOption, gridCols, t}: Props) {
     const { players } = useActiveGame();
 
     return (
         <PlayerGrid
             players={players}
             hostAccountId={hostAccountId}
-            gameId={lobbyId}
+            gameId={gameId}
             includeKickOption={includeKickOption}
             gridCols={gridCols}
             t={t}

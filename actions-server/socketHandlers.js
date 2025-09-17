@@ -56,11 +56,6 @@ module.exports = (io, socket) => {
   socket.on('host-created-new-lobby', ({oldGameId, newLobbyId}) => {
     Logger.LogWebsocketTrigger("host-created-new-lobby", `oldGameId: '${oldGameId}' newLobbyId: ${newLobbyId}'`);  
     socket.broadcast.to(oldGameId).emit('host-created-new-lobby', newLobbyId);
-  });  
-
-  socket.on('kick-player', ({ accountId, gameId }) => {
-    Logger.LogWebsocketTrigger("kick-player", `GameId/Room: '${gameId}' AccountId: '${accountId}'`);
-    io.to(gameId).emit('kick-player', accountId);
   });
   // END USER ACTIONS --------------------------------------------------------------------
 

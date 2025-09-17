@@ -1,16 +1,19 @@
 "use client"
 
+import { LANGUAGE_ROUTE, MULTIPLAYER_GAME_ROUTE } from "@/app/routes";
 import DotPulseAnimation from "@/components/ui/animation/DotPulseAnimation";
 import { useAuth } from "@/features/auth/AuthContext";
 import { useActiveGame } from "@/features/game/components/active-game-context";
 import { useSocket } from "@/features/realtime/socket-context";
+import { useRouter } from "next/navigation";
 import { ReactNode, useEffect } from "react";
 
 // Game layout for managing websocket connection lifecycle over multiple pages (not discard when switching between pages)
 export default function GameLayout({children}: {children: ReactNode}) {
     const { initializeConnection, connectionStatus, disconnectConnection } = useSocket();
-    const { clearGameState } = useActiveGame();
+    const { clearGameState, players } = useActiveGame();
     const { account } = useAuth();
+    const router = useRouter();
 
     // Clear game state when discarding the client
     useEffect(() => {
@@ -27,6 +30,16 @@ export default function GameLayout({children}: {children: ReactNode}) {
 
         initializeConnection();
     }, [account]);    
+
+    // IF you are removed from the players list, navigate away (kicked probably)
+    useEffect(() => {
+        if (!account) return;
+
+        const currentPlayerAccountId = account.id;
+        if (players.some(p => p.accountId == currentPlayerAccountId) == false) {
+            router.push(LANGUAGE_ROUTE(account.language, MULTIPLAYER_GAME_ROUTE));
+        }
+    }, [players]);    
 
     if (connectionStatus != "connected") {
         return (

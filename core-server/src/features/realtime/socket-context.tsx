@@ -172,6 +172,11 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
       RealtimeLogger.Log(`player-guess-changed ${guess}`);
       activeGameContext.setCurrentGuess(guess);
     });
+
+    socket.on('kick-player', ({ gameId, accountId }: {gameId: string, accountId: string}) => {
+      RealtimeLogger.Log(`kick player accountId: '${accountId}' gameId: '${gameId}'`);
+      activeGameContext.kickPlayer(accountId);
+    });    
   };
 
   const initializeConnection = () => {

@@ -57,6 +57,7 @@ export default async function CreateOnlineGamePage({
           <ActiveGamePlayersGrid
             t={t.inGame}
             includeKickOption={true}
+            gameId={lobby.id}
             hostAccountId={lobby.hostAccountId}
           />
       </div>    

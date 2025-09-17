@@ -64,6 +64,6 @@ export async function EmitPlayerKickedRealtimeEvent(gameId: string, accountId: s
     return await TriggerRealtimeEventOnSocketServer({
         event: "kick-player",
         room: gameId,
-        data: { accountId: accountId, gameId: gameId}
+        data: { gameId: gameId, accountId: accountId}
     });
 }
