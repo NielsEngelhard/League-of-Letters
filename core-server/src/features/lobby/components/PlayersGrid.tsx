@@ -2,7 +2,6 @@
 
 import Avatar from "@/components/ui/Avatar";
 import { Crown } from "lucide-react";
-import { useAuth } from "@/features/auth/AuthContext";
 import { useActiveGame } from "@/features/game/components/active-game-context";
 import WebSocketStatusIndicator from "@/features/realtime/WebSocketStatusIndicator";
 import Card from "@/components/ui/card/Card";
@@ -32,7 +31,7 @@ export default function PlayerGrid({ hostAccountId, lobbyId, includeKickOption =
             {players.map((player, index) => (
                 <Card 
                     key={index} 
-                    className={`relative p-2 ${player.connectionStatus == "connected" ? "border-t-2 border-t-success" : "border-t-2 border-t-error"}`}
+                    className={`relative p-2 border-t-2 ${player.connectionStatus == "connected" ? "border-t-success" : "border-t-error bg-error/10"}`}
                 >
                     <div className="flex flex-col items-center text-center space-y-1.5">
                         <Avatar>
