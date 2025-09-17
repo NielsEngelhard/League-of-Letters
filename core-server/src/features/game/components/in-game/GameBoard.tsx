@@ -3,7 +3,7 @@ import ActiveGameWordInput from "../ActiveGameWordInput";
 import { useActiveGame } from "../active-game-context";
 import InGameProgressionBar from "./InGameProgressionBar";
 import LoadingSpinner from "@/components/ui/animation/LoadingSpinner";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import InGameTimer from "./InGameTimer";
 import { getCurrentUtcUnixTimestamp_Seconds } from "@/lib/time-util";
 import { SupportedLanguage } from "@/features/i18n/languages";
@@ -26,24 +26,53 @@ interface Props {
 
 export default function GameBoard({generalTranslations, inGameTranslations, scoreTranslations, settingsTranslations, lang}: Props) {
     const { game, players, currentGuess, currentRound, isThisPlayersTurn, isAnimating, revealedWord, currentPlayerId, recalculateCurrentPlayer } = useActiveGame();
-    const [initialTimeLeftForThisTurn, setInitialTimeLeftForThisTurn] = useState<number | null>(null);
-    const [currentSubmitFailed, setCurrentSubmitFailed] = useState(false); // e.g. invalid word input
+    const [currentSubmitFailed, setCurrentSubmitFailed] = useState(false);
+    
+    // Use refs to track timer state more reliably
+    const timerCalculationRef = useRef<{
+        timeLeft: number;
+        turnKey: string;
+        calculatedAt: number;
+    } | null>(null);
 
-    // Update timer if needed
-    useEffect(() => {
-        if (!game || !currentRound) return;
-        if (!currentRound.lastGuessUnixUtcTimestamp_InSeconds || !game.nSecondsPerGuess) return;
-        const timeLeftForThisTurn = calculateTimeLeftForThisTurn(currentRound.lastGuessUnixUtcTimestamp_InSeconds, game.nSecondsPerGuess);
+    // Calculate timer values more reliably
+    const timerData = useMemo(() => {
+        if (!game || !currentRound || !currentRound.lastGuessUnixUtcTimestamp_InSeconds || !game.nSecondsPerGuess) {
+            return null;
+        }
 
-        setInitialTimeLeftForThisTurn(timeLeftForThisTurn);
-    }, [game?.currentRoundIndex, currentRound?.currentGuessIndex, currentRound?.lastGuessUnixUtcTimestamp_InSeconds, currentPlayerId]);
-
-    function calculateTimeLeftForThisTurn(lastGuessUnixSeconds: number, timePerTurn: number) {
-        const diff = getCurrentUtcUnixTimestamp_Seconds() - lastGuessUnixSeconds;
-        const timePastForThisTurn = diff % timePerTurn;
-
-        return timePerTurn - timePastForThisTurn;
-    }
+        const currentTime = getCurrentUtcUnixTimestamp_Seconds();
+        const timeSinceLastGuess = currentTime - currentRound.lastGuessUnixUtcTimestamp_InSeconds;
+        
+        // Calculate which "turn slot" we're in within the repeating cycle
+        const turnSlot = Math.floor(timeSinceLastGuess / game.nSecondsPerGuess);
+        const timeWithinCurrentTurn = timeSinceLastGuess % game.nSecondsPerGuess;
+        const timeLeft = Math.max(0, game.nSecondsPerGuess - timeWithinCurrentTurn);
+        
+        // Create a unique key that changes when we move to a new turn slot
+        const turnKey = `${currentRound.roundNumber}-${currentRound.currentGuessIndex}-${turnSlot}`;
+        
+        // Only update if this is a genuinely new calculation
+        const shouldUpdate = !timerCalculationRef.current || 
+                           timerCalculationRef.current.turnKey !== turnKey ||
+                           Math.abs(timerCalculationRef.current.timeLeft - timeLeft) > 2; // Allow 2 second tolerance
+        
+        if (shouldUpdate) {
+            timerCalculationRef.current = {
+                timeLeft,
+                turnKey,
+                calculatedAt: currentTime
+            };
+        }
+        
+        return timerCalculationRef.current;
+    }, [
+        game?.nSecondsPerGuess, 
+        currentRound?.roundNumber, 
+        currentRound?.currentGuessIndex, 
+        currentRound?.lastGuessUnixUtcTimestamp_InSeconds,
+        currentPlayerId // Include this to recalculate when player changes
+    ]);
 
     function getGridScale(): string {
         if (!currentRound) return "scale-100";
@@ -66,7 +95,7 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
         }, 1500);
     }
 
-    // Play sound effect everytime it becomes your turn
+    // Play sound effect every time it becomes your turn
     useEffect(() => {
         if (!isThisPlayersTurn || game?.gameMode != "online") return;
         
@@ -78,19 +107,19 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
         if (players.length === 0 || !currentRound) return players;
         
         return [...players].sort((a, b) => {
-        // Get the original indices of players in the array
-        const indexA = players.indexOf(a);
-        const indexB = players.indexOf(b);
-        
-        // Calculate turn order based on current round
-        // currentRoundIndex 1 = player at index 0 starts
-        const startingPlayerIndex = (currentRound.roundNumber - 1) % players.length;
-        
-        // Calculate the turn position for each player relative to the starting player
-        const turnPositionA = (indexA - startingPlayerIndex + players.length) % players.length;
-        const turnPositionB = (indexB - startingPlayerIndex + players.length) % players.length;
-        
-        return turnPositionA - turnPositionB;
+            // Get the original indices of players in the array
+            const indexA = players.indexOf(a);
+            const indexB = players.indexOf(b);
+            
+            // Calculate turn order based on current round
+            // currentRoundIndex 1 = player at index 0 starts
+            const startingPlayerIndex = (currentRound.roundNumber - 1) % players.length;
+            
+            // Calculate the turn position for each player relative to the starting player
+            const turnPositionA = (indexA - startingPlayerIndex + players.length) % players.length;
+            const turnPositionB = (indexB - startingPlayerIndex + players.length) % players.length;
+            
+            return turnPositionA - turnPositionB;
         });
     }, [players, currentRound?.roundNumber]);    
 
@@ -119,12 +148,12 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
                         />
 
                         <div className="flex flex-col-reverse md:flex-col-reverse">
-                            {(currentRound.lastGuessUnixUtcTimestamp_InSeconds && initialTimeLeftForThisTurn && game.nSecondsPerGuess) && (
+                            {timerData && game.nSecondsPerGuess && (
                                 <div className="w-full">
                                     <InGameTimer
-                                        key={`${currentPlayerId}-${currentRound.currentGuessIndex}`}
+                                        turnKey={timerData.turnKey}
                                         timePerTurn={game.nSecondsPerGuess}
-                                        initialTime={initialTimeLeftForThisTurn}
+                                        initialTime={timerData.timeLeft}
                                         onTimerEnd={recalculateCurrentPlayer}
                                         isPaused={isAnimating}
                                     />   
@@ -165,6 +194,7 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
                         scoreTranslations={scoreTranslations}
                         settingsTranslations={settingsTranslations}
                         currentPlayerAccountId={currentPlayerId}
+                        hostUsername={players.find(p => p.isHost)?.username ?? "-"}
                     />
                 </Card>
             </div>

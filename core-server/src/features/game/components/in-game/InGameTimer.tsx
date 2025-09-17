@@ -7,6 +7,8 @@ interface InGameTimerProps {
   onTimerEnd?: () => void;
   isPaused?: boolean;
   warningThreshold?: number; // seconds when to show warning state
+  // Add a unique key to force timer reset when turn changes
+  turnKey?: string;
 }
 
 export default function InGameTimer({
@@ -14,16 +16,22 @@ export default function InGameTimer({
   initialTime,
   onTimerEnd,
   warningThreshold = 7,
-  isPaused = false
+  isPaused = false,
+  turnKey
 }: InGameTimerProps) {
   const [secondsLeft, setSecondsLeft] = useState(initialTime);
   const hasEndedRef = useRef(false);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const lastTurnKeyRef = useRef(turnKey);
 
-  // Reset timer when initialTime changes (new turn started)
+  // Reset timer when turnKey changes (more reliable than initialTime)
   useEffect(() => {
-    setSecondsLeft(initialTime);
-    hasEndedRef.current = false;
-  }, [initialTime]);
+    if (turnKey !== lastTurnKeyRef.current) {
+      setSecondsLeft(initialTime);
+      hasEndedRef.current = false;
+      lastTurnKeyRef.current = turnKey;
+    }
+  }, [turnKey, initialTime]);
 
   // Get timer state for styling
   const getTimerState = useCallback(() => {
@@ -33,21 +41,24 @@ export default function InGameTimer({
 
   // Timer logic
   useEffect(() => {
-    let interval: NodeJS.Timeout | null = null;
+    // Clear any existing interval
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
 
-    if (!isPaused && secondsLeft > 0) {
-      interval = setInterval(() => {
+    if (!isPaused && secondsLeft > 0 && !hasEndedRef.current) {
+      intervalRef.current = setInterval(() => {
         setSecondsLeft((prevTime) => {
-          const newTime = prevTime - 1;
+          const newTime = Math.max(0, prevTime - 1);
           
           // Check if timer just ended and hasn't been handled yet
           if (newTime <= 0 && !hasEndedRef.current) {
             hasEndedRef.current = true;
-            // Schedule the callback to run after the current render cycle
-            setTimeout(() => {
+            // Use requestAnimationFrame for better timing
+            requestAnimationFrame(() => {
               if (onTimerEnd) onTimerEnd();
-            }, 0);
-            return 0;
+            });
           }
           
           return newTime;
@@ -56,16 +67,19 @@ export default function InGameTimer({
     }
 
     return () => {
-      if (interval) clearInterval(interval);
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = null;
+      }
     };
-  }, [isPaused, onTimerEnd]); // Removed initialTime from here to prevent restart loops
+  }, [isPaused, secondsLeft, onTimerEnd]);
 
   const timerState = getTimerState();
 
   // Dynamic styling based on timer state
   const getTimerStyles = () => {
     const baseStyles = "font-mono font-bold transition-all duration-300 text-xl sm:text-2xl";
-        
+    
     switch (timerState) {
       case 'warning':
         return `${baseStyles} text-warning`;
@@ -76,29 +90,16 @@ export default function InGameTimer({
 
   return (
     <div className="w-full flex flex-row gap-1 items-center text-foreground-muted">
-      {/* Timer Display */}
-      {/* <div className="items-center space-x-3 hidden md:flex">
-        <Clock className={`w-5 h-5 ${
-          timerState === 'warning' ? 'text-warning' : 
-          'text-foreground-muted'
-        }`} />
-                        
-        <div className={getTimerStyles()}>
-          {secondsLeft}
-        </div>
-      </div> */}
-
       <Clock size={14} />
-
+      
       {/* Progress Bar */}
       <div className="w-full max-w-xs bg-foreground-muted/10 rounded-full h-2 overflow-hidden">
         <div 
           className={`h-full transition-all duration-1000 ease-linear ${
-            timerState === 'warning' ? 'bg-warning' :
-            'bg-primary'
+            timerState === 'warning' ? 'bg-warning' : 'bg-primary'
           }`}
           style={{
-            width: `${(secondsLeft / timePerTurn) * 100}%`
+            width: `${Math.max(0, (secondsLeft / timePerTurn) * 100)}%`
           }}
         />
       </div>
