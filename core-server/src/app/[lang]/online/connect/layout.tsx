@@ -33,7 +33,7 @@ export default function GameLayout({children}: {children: ReactNode}) {
 
     // IF you are removed from the players list, navigate away (kicked probably)
     useEffect(() => {
-        if (!account) return;
+        if (!account || !players || players.length < 1) return;
 
         const currentPlayerAccountId = account.id;
         if (players.some(p => p.accountId == currentPlayerAccountId) == false) {

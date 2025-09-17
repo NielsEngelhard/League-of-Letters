@@ -99,7 +99,7 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
         {(game && currentRound) ? (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="col-span-2">
-                     <div className={`w-full flex flex-col items-center justify-center gap-2 sm:gap-3`}>
+                     <div className={`w-full flex flex-col items-center justify-center md:gap-2 sm:gap-3`}>
 
                      <div className="fixed md:relative top-0 w-full z-50 md:z-0 mb-0 md:mb-3">
                         <InGameProgressionBar
