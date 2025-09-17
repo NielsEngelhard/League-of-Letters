@@ -1,5 +1,6 @@
 'use client';
 
+import { useSounds } from '@/lib/SoundPlayerContext';
 import { generateUUID } from '@/lib/token-generation';
 import { createContext, useState, ReactNode, useContext } from 'react';
 
@@ -30,11 +31,14 @@ const ToasterContext = createContext<ToasterContextType | undefined>(undefined);
 
 export function ToasterProvider({ children }: { children: ReactNode }) {
   const [toasts, setToasts] = useState<Toast[]>([]);
+  const sounds = useSounds();
 
   function pushToast(msg: ToastContent, durationInSeconds: number | null = 3) {
     if (!msg.type) msg.type = "information";
 
     const id = generateUUID();
+
+    sounds.playEffect("notification");
 
     setToasts(prev => [...prev, {
       id: id,

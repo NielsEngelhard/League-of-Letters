@@ -1,7 +1,7 @@
 import { useAuth } from "@/features/auth/AuthContext";
 import { createContext, useContext } from "react";
 
-export const soundEffects = ["button-hover", "button-click", "failing", "game-over", "success", "your-turn"] as const;
+export const soundEffects = ["button-hover", "button-click", "failing", "game-over", "success", "your-turn", "notification"] as const;
 export type SoundEffect = (typeof soundEffects)[number];
 
 type SoundPlayerContextType = {
