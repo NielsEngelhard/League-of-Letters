@@ -34,7 +34,8 @@ export default function PlayerGrid({ hostAccountId, lobbyId, includeKickOption =
                     className={`relative p-2 border-t-2 ${player.connectionStatus == "connected" ? "border-t-success" : "border-t-error bg-error/10"}`}
                 >
                     <div className="flex flex-col items-center text-center space-y-1.5">
-                        <Avatar colorHex="#FF0000">
+                        {player.colorHex}ss
+                        <Avatar colorHex={player.colorHex}>
                             <div className="text-sm font-medium">
                                 {player.username.charAt(0)}
                             </div>

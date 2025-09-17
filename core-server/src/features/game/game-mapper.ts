@@ -45,6 +45,7 @@ export class GameMapper {
             isHost: player.accountId == hostUserId,
             position: player.position,
             connectionStatus: player.connectionStatus,
+            colorHex: player.colorHex
         }
     }
 

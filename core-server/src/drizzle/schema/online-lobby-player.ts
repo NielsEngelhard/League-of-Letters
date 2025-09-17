@@ -10,6 +10,7 @@ export const OnlineLobbyPlayerTable = pgTable("online_lobby_player", {
     lobbyId: text().references(() => OnlineLobbyTable.id, { onDelete: 'cascade' }),
     username: text().notNull().default("anonymous"),
     connectionStatus: connectionStatusEnum().notNull().default("empty"),
+    colorHex: text(),
     createdAt,
 });
 

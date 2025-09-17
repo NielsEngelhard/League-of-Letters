@@ -14,7 +14,7 @@ export default async function GameModePage({
   params: Promise<{ lang: SupportedLanguage }>
 }) {  
   const { lang } = await params;
-  const t = await loadTranslations(lang, ["beforeGame"]);
+  const t = await loadTranslations(lang, ["beforeGame", "general"]);
 
   return (
     <PageBase requiresAuh={false} lang={lang}>
@@ -45,7 +45,7 @@ export default async function GameModePage({
         />           
       </div>
 
-      <ReconnectGamesOverview lang={lang} />
+      <ReconnectGamesOverview lang={lang} t={t.general} />
 
       <div className="text-center text-sm text-foreground-muted">
         {t.beforeGame.gameMode.scoreRedirect.sentence} <Link href={LANGUAGE_ROUTE(lang, SCORE_ROUTE)} className="font-bold underline text-primary">{t.beforeGame.gameMode.scoreRedirect.clickHere}</Link>

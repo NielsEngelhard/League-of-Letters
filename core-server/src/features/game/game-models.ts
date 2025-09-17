@@ -55,4 +55,5 @@ export interface GamePlayerModel {
     score: number;
     connectionStatus: ConnectionStatus;
     position: number;
+    colorHex?: string | null;
 }

@@ -6,6 +6,7 @@ export interface JwtAccountPayload {
   username: string;
   isGuest: boolean;
   language: SupportedLanguage;
+  colorHex?: string | null;
   
   iat?: number;
   exp?: number;  

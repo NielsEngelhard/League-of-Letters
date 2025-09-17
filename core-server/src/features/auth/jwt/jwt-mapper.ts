@@ -8,7 +8,8 @@ export class JwtMapper {
             email: account.email,
             isGuest: account.isGuestAccount,
             language: account.language,
-            username: account.username
+            username: account.username,
+            colorHex: account.colorHex
         }
     }
 }

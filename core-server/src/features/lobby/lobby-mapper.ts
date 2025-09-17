@@ -12,7 +12,8 @@ export class OnlineLobbyMapper {
             lobbyId: lobbyId,
             connectionStatus: connectionStatus,
             username: currentUser.username,
-            createdAt: undefined!
+            createdAt: undefined!,
+            colorHex: currentUser.colorHex ?? null
         }
     }
 
@@ -33,7 +34,8 @@ export class OnlineLobbyMapper {
             connectionStatus: lobbyPlayer.connectionStatus,
             isHost: false,
             position: 0,
-            score: 0
+            score: 0,
+            colorHex: lobbyPlayer.colorHex
         }
     }
 }

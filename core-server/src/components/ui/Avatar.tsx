@@ -1,5 +1,5 @@
 interface Props {
-    colorHex?: string;
+    colorHex?: string | null;
     children?: React.ReactElement;
 }
 

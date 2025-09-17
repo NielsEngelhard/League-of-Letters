@@ -32,7 +32,7 @@ const variants = cva(
   }
 )
 
-export default function CopyTextCard({ text, description, label, bg, txt }: Props) {
+export default function CopyTextCard({ text, description, label, txt }: Props) {
     const [copied, setCopied] = useState(false);
 
     function copyTextToClipboard() {
