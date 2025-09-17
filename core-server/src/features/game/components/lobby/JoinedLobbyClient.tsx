@@ -5,7 +5,7 @@ import { CardContent, CardHeader, CardTitle } from "@/components/ui/card/card-ch
 import { User } from "lucide-react"
 import { useActiveGame } from "../active-game-context"
 import { MAX_ONLINE_GAME_PLAYERS } from "../../game-constants"
-import OnlineLobbyPlayerList from "@/features/lobby/components/OnlineLobbyPlayerList"
+import PlayerGrid from "@/features/lobby/components/PlayersGrid"
 import { useEffect } from "react"
 import { useSocket } from "@/features/realtime/socket-context"
 import { OnlineLobbyModel } from "@/features/lobby/lobby-models"
@@ -55,7 +55,10 @@ export default function JoinedLobbyClient({ hostAccountId, initialLobby, lang, a
                 </span>
             </CardHeader>
             <CardContent>
-                <OnlineLobbyPlayerList hostAccountId={hostAccountId} />
+                <PlayerGrid
+                    hostAccountId={hostAccountId}
+                    gridCols="grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+                />
             </CardContent>
         </Card>
     )

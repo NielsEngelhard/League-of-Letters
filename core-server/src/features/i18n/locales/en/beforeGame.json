@@ -64,7 +64,19 @@
         "join": {
             "title": "Joined Game",
             "wating": "Waiting for host to start...",
-            "players": "players"
+            "players": "players",
+            "joinCode": {
+                "label": "Code",
+                "description": "Other players can find your game with this code"
+            },
+            "joinUrl": {
+                "label": "Link",
+                "description": "Other players can join instantly via this link"
+            },
+            "share": {
+                "title": "Share",
+                "description": "Invite other players: send a link or share the GameID so they can find your game and join instantly."
+            }                     
         }
     }
 }

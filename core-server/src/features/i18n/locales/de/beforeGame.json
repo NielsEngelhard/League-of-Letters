@@ -64,7 +64,19 @@
         "join": {
             "title": "Beigetretenes Spiel",
             "wating": "Warten darauf, dass der Host startet...",
-            "players": "Spieler"
+            "players": "Spieler",
+            "joinCode": {
+                "label": "Code",
+                "description": "Andere Spieler finden dein Spiel mit diesem Code"
+            },
+            "joinUrl": {
+                "label": "Link",
+                "description": "Andere Spieler können direkt über diesen Link mitmachen"
+            },
+            "share": {
+                "title": "Teilen",
+                "description": "Lade andere Spieler ein: Sende einen Link oder teile die GameID, damit sie dein Spiel finden und sofort mitspielen können."
+            }            
         }
     }
 }

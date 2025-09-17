@@ -63,13 +63,23 @@ export default interface BeforeGameTranslations {
   lobby: {
     create: {
       title: string;
-      joinCode: string;
-      joinLink: string;
     },
     join: {
       title: string;
       wating: string;
-      players: string;      
+      players: string;
+      joinCode: {
+        label: string;
+        description: string;
+      },
+      joinUrl: {
+        label: string;
+        description: string;
+      },
+      share: {
+        title: string;
+        description: string;
+      }
     }
   }
 }

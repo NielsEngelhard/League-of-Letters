@@ -9,10 +9,11 @@ import cn from "@/lib/cn";
 interface Props extends VariantProps<typeof variants> {
     text: string;
     label?: string;
+    description?: string;
 }
 
 const variants = cva(
-  "w-full p-3 border rounded-lg flex items-center justify-between hover:opacity-80 transition-all duration-200",
+  "",
   {
     variants: {
       bg: {
@@ -20,8 +21,8 @@ const variants = cva(
         primary: "bg-primary/10 border-primary/50 hover:bg-primary/20"
       },
       txt: {
-        default: "text-muted-foreground",
-        primary: "text-primary font-bold text-lg"
+        default: "text-muted-foreground text-md",
+        primary: "text-primary font-bold text-xl"
       }
     },
     defaultVariants: {
@@ -31,7 +32,7 @@ const variants = cva(
   }
 )
 
-export default function CopyTextCard({ text, label, bg, txt }: Props) {
+export default function CopyTextCard({ text, description, label, bg, txt }: Props) {
     const [copied, setCopied] = useState(false);
 
     function copyTextToClipboard() {
@@ -45,33 +46,24 @@ export default function CopyTextCard({ text, label, bg, txt }: Props) {
     }
 
     return (
-        <div className="w-full flex flex-col justify-end">
-            {label && (
-                <label className="text-xs font-medium text-muted-foreground block mb-1 w-full">
-                    {label}
-                </label>
-            )}
-            <button
-                onClick={copyTextToClipboard}
-                className={cn(variants({ bg, txt }))}
-            >
-                <span className={cn(
-                    "truncate pr-2 min-w-0",
-                    txt === "primary" ? "font-bold text-primary text-lg" : "text-sm text-muted-foreground"
-                )}>
-                    {text}
-                </span>
-                <div className="flex justify-end flex-shrink-0 ml-1 sm:ml-2">
-                    {copied ? (
-                        <Check size={16} className="text-success sm:w-5 sm:h-5" />
-                    ) : (
-                        <Copy size={16} className={cn(
-                            "sm:w-5 sm:h-5",
-                            txt === "primary" ? "text-primary" : "text-muted-foreground"
-                        )} />
-                    )}
-                </div>
-            </button>
-        </div>
+            <div className="w-full flex flex-col">
+              <label className="text-sm font-medium text-foreground block">{label}</label>
+              <div 
+                className="flex items-center bg-background-secondary rounded-lg p-3 cursor-pointer hover:bg-background transition-colors w-full"
+                onClick={() => copyTextToClipboard()}
+              >
+                <code className={`font-monos w-full ${variants({ txt })} truncate`}>{text}</code>
+                 <div className="flex justify-end flex-shrink-0 ml-1 sm:ml-2">
+                     {copied ? (
+                         <Check size={16} className="text-success sm:w-5 sm:h-5" />
+                     ) : (
+                         <Copy size={16} className={cn(
+                             `sm:w-5 sm:h-5 ${variants({ txt })}`,                             
+                         )} />
+                     )}
+                 </div>
+              </div>
+              <p className="text-xs text-foreground-muted font-mo ">{description}</p>
+            </div>
     );
 }

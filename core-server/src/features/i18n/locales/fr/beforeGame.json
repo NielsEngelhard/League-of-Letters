@@ -64,7 +64,19 @@
         "join": {
             "title": "Jeu Rejoint",
             "wating": "En attente que l'hôte démarre...",
-            "players": "joueurs"
+            "players": "joueurs",
+            "joinCode": {
+                "label": "Code",
+                "description": "D'autres joueurs trouvent ta partie avec ce code"
+            },
+            "joinUrl": {
+                "label": "Lien",
+                "description": "D'autres joueurs peuvent rejoindre directement via ce lien"
+            },
+            "share": {
+                "title": "Partager",
+                "description": "Invite d'autres joueurs : envoie un lien ou partage l'ID de la partie pour qu'ils trouvent ton jeu et participent directement."
+            }                        
         }
     }
 }

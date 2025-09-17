@@ -64,14 +64,26 @@
     },
     "lobby": {
         "create": {
-            "title": "Lobby",
+            "title": "Online Lobby",
             "joinCode": "Code",
             "joinLink": "Link"
         },
         "join": {
             "title": "Verbonden",
             "wating": "Wachten tot de host begint...",
-            "players": "spelers"
+            "players": "spelers",
+            "joinCode": {
+                "label": "Code",
+                "description": "Andere spelers vinden jouw spel met deze code"
+            },
+            "joinUrl": {
+                "label": "Link",
+                "description": "Andere spelers doen direct mee via deze link"
+            },
+            "share": {
+                "title": "Delen",
+                "description": "Nodig andere spelers uit: stuur een link of deel de GameID zodat ze jouw spel kunnen vinden en direct meedoen."
+            }
         }
     }
 }
