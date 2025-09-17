@@ -14,7 +14,6 @@ import Card from "@/components/ui/card/Card";
 import GameMetaData from "./GameMetaData";
 import ScoreTranslations from "@/features/i18n/translation-file-interfaces/ScoreTranslations";
 import { PlayBrowserSoundEffect } from "@/lib/sound-player";
-import PlayerGrid from "./PlayersGrid";
 import GameBoardMobilePlayersGrid from "./GameBoardMobilePlayersGrid";
 
 interface Props {
@@ -165,7 +164,6 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
                         lang={lang}
                         scoreTranslations={scoreTranslations}
                         settingsTranslations={settingsTranslations}
-                        currentRoundNumber={currentRound.roundNumber}
                     />
                 </Card>
             </div>

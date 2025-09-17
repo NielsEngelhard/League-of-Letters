@@ -119,7 +119,48 @@ const inter = localFont({
 
 export const metadata: Metadata = {
   title: APP_NAME,
-  description: "Have some fun!",
+  description:
+    "League of Letters — an online multiplayer word guessing game - multilingual support.",
+  keywords: [
+    "wordle multiplayer",
+    "multiplayer wordle",
+    "word game",
+    "word guessing game",
+    "league of letters",
+    "online game",
+    "puzzle",
+  ],
+  applicationName: APP_NAME,
+  openGraph: {
+    title: APP_NAME,
+    description:
+      "Challenge friends or strangers in League of Letters — the ultimate online multiplayer word guessing game!",
+    url: "https://league-of-letters.online",
+    siteName: APP_NAME,
+    images: [
+      {
+        url: "https://league-of-letters.online/logo.png", // 🔗 replace with your logo or custom banner
+        width: 1200,
+        height: 630,
+        alt: APP_NAME,
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: APP_NAME,
+    description:
+      "Challenge friends or strangers in League of Letters — the ultimate multiplayer Wordle game!",
+    images: ["https://yourdomain.com/og-image.png"], // same as above
+    creator: "@yourTwitterHandle", // optional
+  },
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon-16x16.png",
+    apple: "/apple-touch-icon.png",
+  },
 };
 
 // Disable zooming in (especially usefull for preventing mobile double tap)

@@ -15,7 +15,7 @@ import { PublicAccountModel } from "@/features/account/account-models";
 import { HatGlasses } from "lucide-react";
 
 export default function GuestLoginForm({ lang, t }: { lang: SupportedLanguage, t: GeneralTranslations }) {
-    const { updateAccount, account } = useAuth();
+    const { updateAccount } = useAuth();
     const router = useRouter();
 
     const form = useForm<GuestLoginSchema>({

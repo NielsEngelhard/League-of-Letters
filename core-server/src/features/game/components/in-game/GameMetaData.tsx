@@ -21,7 +21,6 @@ interface Props {
     game: ActiveGameModel;
     hostUsername?: string;
     lang: SupportedLanguage;
-    currentRoundNumber: number;
 
     inGameTranslations: InGameTranslations
     scoreTranslations: ScoreTranslations;
@@ -37,7 +36,7 @@ const formatDate = (date: Date) => {
   });
 };
 
-export default function GameMetaData({ sortedPlayers, game, inGameTranslations, hostUsername, lang, scoreTranslations, settingsTranslations, currentRoundNumber: currentRoundIndex }: Props) {
+export default function GameMetaData({ sortedPlayers, game, inGameTranslations, hostUsername, lang, scoreTranslations, settingsTranslations }: Props) {
   const [showScoreExplanation, setShowScoreExplanation] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
 
