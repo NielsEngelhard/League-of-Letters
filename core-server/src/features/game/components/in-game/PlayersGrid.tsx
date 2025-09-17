@@ -87,6 +87,11 @@ export default function PlayerGrid({ players, hostAccountId, lobbyId, includeKic
                         />
                     </div>
 
+                    {/* Position */}
+                    <div className="absolute bottom-1 right-2">
+                        <span className="text-xs font-medium">{index + 1}</span>
+                    </div>                    
+
                     {/* Indicators */}
                     <div className="absolute top-2 left-2 z-50 flex flex-row gap-2">
                         {(t && player.accountId == accountIdPlayerThatHasNextTurn) && (
