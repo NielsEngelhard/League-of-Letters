@@ -16,8 +16,8 @@ export default function HeaderLanguagePicker({ currentLanguage }: Props) {
     const toaster = useToaster();
 
     async function onLanguageChange(newLanguage: SupportedLanguage) {
-        changeLanguageInUrl(newLanguage);
         await changeLanguageForAccountOnServer(newLanguage);
+        changeLanguageInUrl(newLanguage);
     }
 
     async function changeLanguageForAccountOnServer(newLanguage: SupportedLanguage) {

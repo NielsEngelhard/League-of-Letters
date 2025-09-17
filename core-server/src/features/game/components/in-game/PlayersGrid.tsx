@@ -38,7 +38,7 @@ export default function PlayerGrid({ players, hostAccountId, lobbyId, includeKic
                     key={index} 
                     className={`
                         relative p-2 border-t-2
-                        ${player.connectionStatus == "connected" ? `border-t-success` : "border-t-error bg-error/10"}
+                        ${player.connectionStatus == "disconnected" ? `border-t-error bg-error/10` : "border-t-success"}
                         ${player.accountId == accountIdCurrentPlayer ? "bg-primary/10" : ""}
                         `}                    
                 >
@@ -53,7 +53,7 @@ export default function PlayerGrid({ players, hostAccountId, lobbyId, includeKic
                             <span className="text-xs md:text-sm font-medium text-center w-full flex flex-row items-center gap-0.5 justify-center">
 
                                 {/* Host indicator */}
-                                {player.accountId == hostAccountId && <Crown className="w-3 h-3 text-warning flex-shrink-0" />}
+                                {player.accountId == hostAccountId && <Crown className="w-3 h-3 text-warning flex-shrink-0 hidden md:flex" />}
 
                                 {/* Username */}
                                 <span>{player.username}</span>

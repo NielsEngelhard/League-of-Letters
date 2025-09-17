@@ -18,9 +18,10 @@ interface Props {
     keyStates?: Map<string, LetterState>;
     t: GeneralTranslations;
     currentlyAnimatedKey?: string;
+    disabled?: boolean;
 }
 
-export default function CustomKeyboard({ onKeyPress, onDelete, onEnter, keyStates, t, currentlyAnimatedKey }: Props) {
+export default function CustomKeyboard({ onKeyPress, onDelete, onEnter, keyStates, t, currentlyAnimatedKey, disabled = false }: Props) {
     const { settings } = useAuth();
 
     return (
@@ -37,6 +38,7 @@ export default function CustomKeyboard({ onKeyPress, onDelete, onEnter, keyState
                             onClick={onEnter}
                             triggerAnimation={currentlyAnimatedKey == "Enter"}
                             isSpecialKey={true}
+                            disabled={disabled}
                         >
                             <div className="text-xs font-bold whitespace-nowrap">ENTER</div>
                         </KeyboardKey>
@@ -49,6 +51,7 @@ export default function CustomKeyboard({ onKeyPress, onDelete, onEnter, keyState
                             onClick={() => onKeyPress(keyboardKey)}
                             triggerAnimation={currentlyAnimatedKey?.toUpperCase() == keyboardKey}
                             letterState={keyStates?.get(keyboardKey.toUpperCase())}
+                            disabled={disabled}
                         >
                             <>{keyboardKey}</>
                         </KeyboardKey>
@@ -62,6 +65,7 @@ export default function CustomKeyboard({ onKeyPress, onDelete, onEnter, keyState
                             onClick={onDelete}
                             triggerAnimation={currentlyAnimatedKey == "Backspace"}
                             isSpecialKey={true}
+                            disabled={disabled}
                         >
                             <div className="flex items-center justify-center">
                                 <Delete className="w-4 h-4 sm:w-5 sm:h-5" />

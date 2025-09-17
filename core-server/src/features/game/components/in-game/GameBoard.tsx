@@ -113,10 +113,10 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
                      </div>
 
                         {/* On mobile show player grid small above the board, on desktop in metadata section */}
-                        <div className="md:hidden grid grid-cols-3 w-full gap-2">
+                        <div className="md:hidden w-full">
                             <PlayerGrid
                                 players={sortedPlayers}
-                                gridCols=""
+                                gridCols="grid-cols-3"
                                 hostAccountId={game.hostAccountId}
                                 includeKickOption={false}
                                 lobbyId={game.id}

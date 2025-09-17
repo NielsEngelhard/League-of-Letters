@@ -1,4 +1,3 @@
-import LoadingDots from "@/components/ui/animation/LoadingDots";
 import CustomKeyboard from "@/components/ui/keyboard/CustomKeyboard";
 import KeyboardKeyLogger from "@/components/ui/keyboard/KeyboardKeyLogger";
 import { useAuth } from "@/features/auth/AuthContext";
@@ -46,6 +45,8 @@ export default function WordInput({ t, onSubmitFailed, disabled = false }: Props
     }, [settings.showCompleteCorrect, settings.showKeyboardHints, currentRound]);
 
     function onKeyPress(keyboardKey: string) {
+        if (disabled) return;
+
         if (isValidInput(keyboardKey) == false) {
             return;
         }
@@ -58,6 +59,8 @@ export default function WordInput({ t, onSubmitFailed, disabled = false }: Props
     }
 
     function onKeyDelete() {
+        if (disabled) return;
+
         setCurrentGuess(prev => {
             if (prev.length <= 0) return "";
 
@@ -66,6 +69,8 @@ export default function WordInput({ t, onSubmitFailed, disabled = false }: Props
     }
 
     function onKeyboardLog(event: KeyboardEvent) {
+        if (disabled) return;
+
         setCurrentAnimatedKey(event.key);
 
         if (event.key == 'Backspace') {
@@ -85,6 +90,8 @@ export default function WordInput({ t, onSubmitFailed, disabled = false }: Props
     }
 
     async function onSubmit() {
+        if (disabled) return;
+
         const successfullSubmit = await submitGuess();
 
         if (!successfullSubmit && onSubmitFailed) {
@@ -108,27 +115,22 @@ export default function WordInput({ t, onSubmitFailed, disabled = false }: Props
         return /^[A-Za-z]$/.test(input);
     }
 
-    if (disabled) {
-        return (
-            <div className="w-full flex justify-center">
-                <LoadingDots />
-            </div>
-        )
-    } else {
-        return (
-            <>
-                <CustomKeyboard
-                    onKeyPress={onKeyPress}
-                    onDelete={onKeyDelete}
-                    onEnter={onSubmit}
-                    keyStates={keyStates}
-                    currentlyAnimatedKey={currentAnimatedKey}
-                    t={t}
-                />
-                
-                {/* Also log keyboard keys as input */}
-                <KeyboardKeyLogger onKeyboardEvent={onKeyboardLog} />
-            </>
-        )
-    }
+    return (
+        <>
+            <CustomKeyboard
+                disabled={disabled}
+                onKeyPress={onKeyPress}
+                onDelete={onKeyDelete}
+                onEnter={onSubmit}
+                keyStates={keyStates}
+                currentlyAnimatedKey={currentAnimatedKey}
+                t={t}
+            />
+            
+            {/* Also log keyboard keys as input */}
+           {!disabled && (
+                <KeyboardKeyLogger onKeyboardEvent={onKeyboardLog} />            
+           )}
+        </>
+    )
 } 
