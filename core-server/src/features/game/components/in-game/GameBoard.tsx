@@ -13,8 +13,8 @@ import { SettingsTranslations } from "@/features/i18n/translation-file-interface
 import Card from "@/components/ui/card/Card";
 import GameMetaData from "./GameMetaData";
 import ScoreTranslations from "@/features/i18n/translation-file-interfaces/ScoreTranslations";
-import { PlayBrowserSoundEffect } from "@/lib/sound-player";
 import GameBoardMobilePlayersGrid from "./GameBoardMobilePlayersGrid";
+import { useSounds } from "@/lib/SoundPlayerContext";
 
 interface Props {
     lang: SupportedLanguage;
@@ -27,6 +27,7 @@ interface Props {
 export default function GameBoard({generalTranslations, inGameTranslations, scoreTranslations, settingsTranslations, lang}: Props) {
     const { game, players, currentGuess, currentRound, isThisPlayersTurn, isAnimating, revealedWord, currentPlayerId, recalculateCurrentPlayer } = useActiveGame();
     const [currentSubmitFailed, setCurrentSubmitFailed] = useState(false);
+    const soundPlayer = useSounds();
     
     // Use refs to track timer state more reliably
     const timerCalculationRef = useRef<{
@@ -87,7 +88,7 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
     }
 
     function onSubmitGuessFailed() {
-        PlayBrowserSoundEffect("failing");
+        soundPlayer.playEffect("failing");
         setCurrentSubmitFailed(true);
 
         setTimeout(() => {
@@ -99,7 +100,7 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
     useEffect(() => {
         if (!isThisPlayersTurn || game?.gameMode != "online") return;
         
-        PlayBrowserSoundEffect("your-turn");
+        soundPlayer.playEffect("your-turn");
     }, [isThisPlayersTurn]);
 
     // Memoize sorted players to avoid recalculating on every render

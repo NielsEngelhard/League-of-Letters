@@ -9,7 +9,7 @@ import { TurnTrackerAlgorithm } from '../util/algorithm/turn-tracker-algorithm/t
 import { GetLetterAnimationDurationInMs } from '../util/game-time-calculators';
 import { sortPlayerModelOnPositionAndGetUserIds } from '../util/player-sorting';
 import { getSecondsBetweenNowAndUnixTimestampInSeconds } from '@/lib/time-util';
-import { PlayBrowserSoundEffect } from '@/lib/sound-player';
+import { useSounds } from '@/lib/SoundPlayerContext';
 
 type ActiveGameContextType = {  
   // Data
@@ -40,6 +40,7 @@ const ActiveGameContext = createContext<ActiveGameContextType | undefined>(undef
 
 export function ActiveGameProvider({ children }: { children: ReactNode }) {
   const { errorToast, pushToast } = useToaster();
+  const soundPlayer = useSounds();
   
   const [game, setGame] = useState<ActiveGameModel | undefined>(undefined);
   const [currentRound, setCurrentRound] = useState<GameRoundModel | undefined>(undefined);
@@ -300,7 +301,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     useEffect(() => {
         if (game?.gameIsOver != true) return;
         
-        PlayBrowserSoundEffect("game-over");
+        soundPlayer.playEffect("game-over");
     }, [game?.gameIsOver]);  
 
   // END sound effects

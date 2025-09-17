@@ -5,7 +5,7 @@ import { cva, VariantProps } from "class-variance-authority";
 import React, { useState } from "react";
 import Link from "next/link";
 import LoadingSpinner from "./animation/LoadingSpinner";
-import { PlayBrowserSoundEffect } from "@/lib/sound-player";
+import { useSounds } from "@/lib/SoundPlayerContext";
 
 export interface Props extends VariantProps<typeof buttonVariants> {
   children: React.ReactNode;
@@ -70,6 +70,7 @@ export default function Button({
 }: Props) {
   const isNavigationButton = !!href;
   const [isLoading, setIsLoading] = useState(false);
+  const soundPlayer = useSounds();
 
   const classes = `${cn(buttonVariants({ variant, size, corners }), className)} ${
     disable &&
@@ -77,7 +78,7 @@ export default function Button({
   }`;
 
   async function handleOnClick(): Promise<void> {
-    if (playClickSound) PlayBrowserSoundEffect("button-click");
+    if (playClickSound) soundPlayer.playEffect("button-click");
     if (isNavigationButton) return;
     setIsLoading(true);
     try {
@@ -88,7 +89,7 @@ export default function Button({
   }
 
   function handleHover(): void {
-    if (playHoverSound) PlayBrowserSoundEffect("button-hover");
+    if (playHoverSound) soundPlayer.playEffect("button-hover");
   }
 
   // Navigation button
