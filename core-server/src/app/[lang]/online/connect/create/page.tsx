@@ -16,7 +16,6 @@ import LobbyOptions from "@/features/game/components/lobby/LobbyOptions";
 import { Authenticate_Server } from "@/features/auth/current-user";
 import ShareGameCard from "@/features/lobby/components/ShareGameCard";
 import { Settings, Users } from "lucide-react";
-import PlayerGrid from "@/features/game/components/in-game/PlayersGrid";
 import ActiveGamePlayersGrid from "@/features/game/components/in-game/ActiveGamePlayersGrid";
 
 export default async function CreateOnlineGamePage({
@@ -25,7 +24,7 @@ export default async function CreateOnlineGamePage({
   params: Promise<{ lang: SupportedLanguage }>
 }) {
     const { lang } = await params;
-    const t = await loadTranslations(lang, ["beforeGame"]);
+    const t = await loadTranslations(lang, ["beforeGame", "inGame"]);
 
     const authenticatedUser = await Authenticate_Server(true);
     if (!authenticatedUser) {
@@ -55,11 +54,14 @@ export default async function CreateOnlineGamePage({
             {t.beforeGame.lobby.join.players}
             <sup className="text-foreground-muted text-xs">max 6</sup>
           </CardTitle>
-          {/* <ActiveGamePlayersGrid />   */}
+          <ActiveGamePlayersGrid
+            t={t.inGame}
+            includeKickOption={true}
+            hostAccountId={lobby.hostAccountId}
+          />
       </div>    
 
       {/* game config */}
-
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {/* Left */}
           <Card className="w-full">
