@@ -58,7 +58,8 @@ export default function JoinedLobbyClient({ hostAccountId, initialLobby, lang, a
                 <PlayerGrid
                     players={players}
                     hostAccountId={hostAccountId}
-                    gridCols="grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+                    gridCols="grid-cols-1 md:grid-cols-2 lg:grid-cols-3"
+                    isInGame={false}
                 />
             </CardContent>
         </Card>

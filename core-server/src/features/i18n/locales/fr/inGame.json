@@ -2,6 +2,7 @@
   "round": "Manche",
   "time": "Temps",
   "theWordWas": "Le mot était",
+  "isCurrentTurn": "C'est ton tour",
   "board": {
     "players": "Joueurs",
     "time": "Temps",

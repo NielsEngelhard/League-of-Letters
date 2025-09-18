@@ -1,23 +1,9 @@
+Voor v1.0-beta
 - Theme switch is kapot
-
-
-BUGS NA LAUNCH
-- punten zijn kapot bij player card
-- player card desktop is het niet
-- pre fill kapot als je niet aan de beurt bent
-- Links naast de row komt wie die beurt heeft
-
-
-
-Tijd bugs:
-- sws moet je initieel refreshen
-- LAATSTE BUG: wanneer tijd voorbij, dan wordt de huidige ROW doorgestreept (behalve als het de laatste guess is)
-
-
+- Random player volgorde in back-end bepalen bij create game
+- pre fill kapot als je niet aan de beurt bent en je toggled - maakt het board leeg
+- Wanneer je niet binnen de tijd gokt, is jouw beurt gewoon volledig weg (ook weg in het board lmz)
 - sound effects die matchen met de vibe
-MUST
-
-FEEDBACK
 
 SHOULD
 - public & private games and some overview where you can see current games (refactor online game route)

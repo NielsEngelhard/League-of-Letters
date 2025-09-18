@@ -48,7 +48,7 @@ export default async function CreateOnlineGamePage({
       </PageIntro>      
 
       {/* players bar */}
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-2">
           <CardTitle>
             <Users />
             {t.beforeGame.lobby.join.players}
@@ -59,6 +59,8 @@ export default async function CreateOnlineGamePage({
             includeKickOption={true}
             gameId={lobby.id}
             hostAccountId={lobby.hostAccountId}
+            gridCols="grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+            showScore={false}
           />
       </div>    
 

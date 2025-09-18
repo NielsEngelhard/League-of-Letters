@@ -13,8 +13,9 @@ import { SettingsTranslations } from "@/features/i18n/translation-file-interface
 import Card from "@/components/ui/card/Card";
 import GameMetaData from "./GameMetaData";
 import ScoreTranslations from "@/features/i18n/translation-file-interfaces/ScoreTranslations";
-import GameBoardMobilePlayersGrid from "./GameBoardMobilePlayersGrid";
 import { useSounds } from "@/lib/SoundPlayerContext";
+import PlayerGrid from "./PlayersGrid";
+import { GamePlayerModel } from "../../game-models";
 
 interface Props {
     lang: SupportedLanguage;
@@ -26,6 +27,7 @@ interface Props {
 
 export default function GameBoard({generalTranslations, inGameTranslations, scoreTranslations, settingsTranslations, lang}: Props) {
     const { game, players, currentGuess, currentRound, isThisPlayersTurn, isAnimating, revealedWord, currentPlayerId, recalculateCurrentPlayer } = useActiveGame();
+    const [currentPlayer, setCurrentPlayer] = useState<GamePlayerModel | undefined>(undefined);
     const [currentSubmitFailed, setCurrentSubmitFailed] = useState(false);
     const soundPlayer = useSounds();
     
@@ -103,6 +105,12 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
         soundPlayer.playEffect("your-turn");
     }, [isThisPlayersTurn]);
 
+    // Set the current player and update
+    useEffect(() => {
+        const player = sortedPlayers.find(p => p.accountId == currentPlayerId);
+        setCurrentPlayer(player);
+    }, [currentPlayerId]);    
+
     // Memoize sorted players to avoid recalculating on every render
     const sortedPlayers = useMemo(() => {
         if (players.length === 0 || !currentRound) return players;
@@ -128,7 +136,7 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
         <>
         {(game && currentRound) ? (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="col-span-2">
+                <div className="col-span-1 md:col-span-2">
                      <div className={`w-full flex flex-col items-center justify-center md:gap-2 sm:gap-3`}>
 
                      <div className="fixed md:relative top-0 w-full z-50 md:z-0 mb-0 md:mb-3">
@@ -142,11 +150,16 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
                         />
                      </div>
 
-                        {/* On mobile show player grid small above the board, on desktop in metadata section */}
-                        <GameBoardMobilePlayersGrid
-                            sortedPlayers={sortedPlayers}
-                            currentAccountId={currentPlayerId}
-                        />
+                        {/* On mobile show for clearity the current player at the top of the screen */}
+                        {currentPlayer && (
+                            <div className="block md:hidden w-full">
+                                <PlayerGrid
+                                    players={[currentPlayer]}
+                                    accountIdCurrentPlayer={currentPlayerId}
+                                    isInGame={true}
+                                />                                 
+                            </div>                           
+                        )}
 
                         <div className="flex flex-col-reverse md:flex-col-reverse">
                             {timerData && game.nSecondsPerGuess && (
@@ -186,7 +199,7 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
                     </div>
                 </div>
 
-                <Card className="col-span-1 max-h-[725px]">
+                <Card className="col-span-1">
                     <GameMetaData
                         inGameTranslations={inGameTranslations}
                         game={game}

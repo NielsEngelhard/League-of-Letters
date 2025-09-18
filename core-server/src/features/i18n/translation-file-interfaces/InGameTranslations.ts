@@ -2,6 +2,7 @@ export default interface InGameTranslations {
     round: string;
     time: string;
     theWordWas: string;
+    isCurrentTurn: string;
     board: {
         players: string;
         time: string;

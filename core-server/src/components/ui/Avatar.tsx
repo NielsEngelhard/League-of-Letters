@@ -14,7 +14,7 @@ export default function Avatar({ colorHex, children, className }: Props) {
       }`}
       style={
         colorHex
-          ? { backgroundColor: hexToRgba(colorHex, 0.7) }
+          ? { backgroundColor: hexToRgba(colorHex, 0.5) }
           : {}
       }
     >

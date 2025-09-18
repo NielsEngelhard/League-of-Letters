@@ -1,9 +1,8 @@
 "use client"
 
 import Avatar from "@/components/ui/Avatar";
-import { ArrowUp, Clover, Crown, ListStart } from "lucide-react";
+import { Crown, Clover, ListStart } from "lucide-react";
 import WebSocketStatusIndicator from "@/features/realtime/WebSocketStatusIndicator";
-import Card from "@/components/ui/card/Card";
 import Button from "@/components/ui/Button";
 import { GamePlayerModel } from "@/features/game/game-models";
 import KickPlayerFromLobbyCommand from "@/features/lobby/actions/command/kick-player-from-lobby-command";
@@ -14,15 +13,27 @@ interface Props {
     players: GamePlayerModel[];
     hostAccountId?: string;
     gameId?: string;
-    includeKickOption?: boolean;
     gridCols?: string;
     accountIdPlayerThatStartsNextRound?: string;
     accountIdPlayerThatHasNextTurn?: string;
     accountIdCurrentPlayer?: string;
+    isInGame?: boolean;
     t?: InGameTranslations;
+    includeKickOption?: boolean;
 }
 
-export default function PlayerGrid({ players, hostAccountId, gameId, includeKickOption = false, gridCols, accountIdPlayerThatHasNextTurn, accountIdPlayerThatStartsNextRound, accountIdCurrentPlayer, t }: Props) {    
+export default function PlayerGrid({ 
+    players, 
+    hostAccountId, 
+    gameId, 
+    gridCols = "grid-cols-1",
+    accountIdPlayerThatHasNextTurn,
+    accountIdPlayerThatStartsNextRound,
+    accountIdCurrentPlayer,
+    isInGame = true,
+    includeKickOption = false,
+    t
+}: Props) {    
     const handleKickPlayer = async (accountIdToKick: string) => {
         if (!gameId) return;
         await KickPlayerFromLobbyCommand({
@@ -32,100 +43,106 @@ export default function PlayerGrid({ players, hostAccountId, gameId, includeKick
     };
 
     return (
-        <div className={`grid gap-3 ${gridCols ? gridCols : "grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"}`}>
-            {players.map((player, index) => (
-                <Card 
-                    key={index} 
-                    className={`
-                        relative p-2 border-t-2
-                        ${player.connectionStatus == "disconnected" ? `border-t-error bg-error/10` : "border-t-success"}
-                        ${player.accountId == accountIdCurrentPlayer ? "bg-primary/10" : ""}
-                        `}                    
-                >
-                    <div className="flex flex-col items-center text-center space-y-1.5">
-                        <Avatar colorHex={player.colorHex} className={accountIdCurrentPlayer == player.accountId ? 'border-primary border-2' : ''}>
-                            <>
-                                <div className="text-sm font-extrabold">
-                                    {player.username.charAt(0)}
+        <div className={`space-y-3 grid ${gridCols}`}>
+            {players.map((player, index) => {
+                const isCurrentPlayer = player.accountId === accountIdCurrentPlayer;
+                const isHost = player.accountId === hostAccountId;
+                const hasNextTurn = player.accountId === accountIdPlayerThatHasNextTurn;
+                const startsNextRound = player.accountId === accountIdPlayerThatStartsNextRound;
+
+                return (
+                    <Tooltip content={player.username} key={player.accountId}>
+                        <div 
+                            key={index} 
+                            className={`
+                                group relative flex items-center gap-4 p-2 md:p-4 rounded-xl border transition-all duration-200
+                                ${isCurrentPlayer 
+                                    ? 'bg-primary/10 border-primary/30 shadow-md' 
+                                    : 'bg-backbround-secondary border-border hover:shadow-sm'
+                                }
+                            `}
+                        >
+                            {/* Left side - Avatar and main info */}
+                            <div className="flex items-center gap-3 flex-1 min-w-0">
+                                {/* Avatar with indicators */}
+                                <div className="relative">
+                                    <Avatar 
+                                        colorHex={player.colorHex} 
+                                    >
+                                        <div className="text-md font-bold">
+                                            {player.username.charAt(0).toUpperCase()}
+                                        </div>
+                                    </Avatar>
                                 </div>
 
-                                {/* Your turn indicator */}
-                                {player.accountId == accountIdCurrentPlayer && (
-                                    <div className="absolute -bottom-3 -left-3">
-                                        <ArrowUp className="font-bold text-primary rotate-45" size={20} />
-                                    </div>                                        
-                                )}
-                            </>                                    
-                        </Avatar>
-                        
-                        {/* Username section */}
-                        <div className="flex items-center gap-0.5 sm:gap-1 mx-1 sm:mx-2 w-full truncate">
-                            <span className="text-xs sm:text-sm font-medium text-center w-full flex flex-row items-center gap-0.5 justify-center">
-                                {/* Host indicator - hidden on very small screens */}
-                                {player.accountId == hostAccountId && (
-                                    <Crown className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-warning flex-shrink-0 hidden xs:flex" />
-                                )}
+                                {/* Username and role */}
+                                <div className="flex-1 min-w-0">
+                                    <div className="flex items-center gap-2">
+                                        <span className="font-medium text-foreground text-xs md:text-md truncate">
+                                            {player.username}
+                                        </span>
+                                        
+                                        {/* Special indicators */}
+                                        <div className="flex gap-1">
+                                            {hasNextTurn && t && (
+                                                <Tooltip content={t.tooltip.hasNextGuess} position="bottom">
+                                                    <Clover className="w-4 h-4 text-secondary" />
+                                                </Tooltip>
+                                            )}
+                                            
+                                            {startsNextRound && t && (
+                                                <Tooltip content={t.tooltip.startsNextRound} position="bottom">
+                                                    <ListStart className="w-4 h-4 text-primary" />
+                                                </Tooltip>
+                                            )}
+                                        </div>
+                                    </div>
+                                    
+                                    {/* Position and connection status */}
+                                    <div className="flex items-center gap-3 mt-1">
+                                        <div className="flex items-center gap-1">
+                                            <WebSocketStatusIndicator
+                                                showText={false}
+                                                connectionStatus={player.connectionStatus}
+                                            />
+                                            {(!isHost && includeKickOption) && (
+                                                <Button 
+                                                    variant="errorLight" 
+                                                    size="sm" 
+                                                    className="group-hover:opacity-100 transition-opacity px-1.5 py-0.5 text-xs h-5 flex-shrink-0"
+                                                    corners="square"
+                                                    onClick={() => handleKickPlayer(player.accountId)}
+                                                >
+                                                    Kick
+                                                </Button>  
+                                            )}           
 
-                                {/* Username - truncated more aggressively on mobile */}
-                                <span className="truncate max-w-full">
-                                    {player.username}
-                                </span>
-                            </span>
-                        </div>
-                        
-                        {includeKickOption && (
-                            <div className="flex items-center justify-center gap-1.5">                                    
-                                {player.accountId != hostAccountId ? (
-                                    <Button 
-                                        variant="errorLight" 
-                                        size="sm" 
-                                        className="px-1.5 py-0.5 text-xs h-5 flex-shrink-0" 
-                                        corners="square" 
-                                        onClick={() => handleKickPlayer(player.accountId)}
-                                    >
-                                        Kick
-                                    </Button>
-                                ) : 
-                                <span className="text-primary font-bold">You</span>
-                            }
+                                            {isCurrentPlayer && (
+                                                <span className="text-xs font-bold text-primary">{t?.isCurrentTurn}</span>  
+                                            )}                         
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        )}
-                    </div>
-                    
-                    {/* Online status indicator */}
-                    <div className="absolute top-2 right-2">
-                        <WebSocketStatusIndicator
-                            showText={false}
-                            connectionStatus={player.connectionStatus}
-                        />
-                    </div>
 
-                    {/* Score */}
-                    <div className="absolute top-2 left-2">
-                        <span className="text-sm font-bold text-primary">0<sub className="text-xs">{t?.overview.points}</sub></span>
-                    </div>                    
-
-                    {/* Position */}
-                    <div className="absolute bottom-1 right-2">
-                        <span className="text-xs font-medium">{index + 1}</span>
-                    </div>                    
-
-                    {/* Indicators */}
-                    <div className="absolute top-2 left-2 z-50 flex flex-row gap-2">
-                        {(t && player.accountId == accountIdPlayerThatHasNextTurn) && (
-                            <Tooltip content={t.tooltip.hasNextGuess} className="text-secondary" position="bottom">
-                                <Clover size={18} />
-                            </Tooltip>
-                        )}
-
-                        {(t && player.accountId == accountIdPlayerThatStartsNextRound) && (
-                            <Tooltip content={t.tooltip.startsNextRound} className="text-primary" position="bottom">
-                                <ListStart size={18} />
-                            </Tooltip>
-                        )}
-                    </div>                                 
-                </Card>
-            ))}
+                            {/* Right side - Score and actions */}
+                            <div className="flex items-center gap-4">
+                                {/* Score */}
+                                {isInGame && (
+                                    <div className="text-right">
+                                        <div className="text-lg font-bold text-primary">
+                                            {player.score}
+                                        </div>
+                                        <div className="text-xs text-foreground">
+                                            {t?.overview.points || 'pts'}
+                                        </div>
+                                    </div>                                
+                                )}
+                            </div>
+                        </div>                        
+                    </Tooltip>
+                );
+            })}
         </div>
     );
 }

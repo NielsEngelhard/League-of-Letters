@@ -2,6 +2,7 @@
     "round": "Round",
     "time": "Time",
     "theWordWas": "The word was",
+    "isCurrentTurn": "It's your turn",
     "board": {
         "players": "Players",
         "time": "Time",

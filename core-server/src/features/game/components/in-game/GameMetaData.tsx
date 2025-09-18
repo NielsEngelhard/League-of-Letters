@@ -61,9 +61,9 @@ export default function GameMetaData({ sortedPlayers, game, inGameTranslations, 
   }
 
   return (
-    <div className="p-6 h-full flex flex-col">
+    <div className="p-2 md:p-6 h-full flex flex-col w-full">
       {/* Players Section */}
-      <div className="flex-col flex-1 min-h-0 hidden md:flex">
+      <div className="flex-col flex-1 min-h-0 flex">
         {sortedPlayers.length >= 2 && (
           <div className="flex items-center justify-between">
             <h3 className="text-lg font-bold flex items-center gap-2">

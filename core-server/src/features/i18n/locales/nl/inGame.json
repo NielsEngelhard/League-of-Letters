@@ -2,6 +2,7 @@
   "round": "Ronde",
   "time": "Tijd",
   "theWordWas": "Het woord was",
+  "isCurrentTurn": "Is aan de beurt",
   "board": {
     "players": "Spelers",
     "time": "Tijd",
