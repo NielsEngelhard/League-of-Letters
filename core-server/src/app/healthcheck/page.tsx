@@ -1,10 +1,10 @@
 "use server"
 
 import PageBase from "@/components/layout/PageBase";
-import BackButton from "@/components/ui/BackButton";
 import HealthCheckClient from "@/lib/healthcheck/components/HealthCheckClient";
 import { HOME_ROUTE } from "../routes";
 import { HealthCheckData } from "@/lib/healthcheck/healthcheck-models";
+import Link from "next/link";
 
     const healthChecks: HealthCheckData[] = [
         {
@@ -24,13 +24,15 @@ import { HealthCheckData } from "@/lib/healthcheck/healthcheck-models";
             description: "Connection with the database",
             status: "checking",
             endpoint: `${process.env.NEXT_PUBLIC_CORE_SERVER_BASE_ADDRESS}/api/health/database`
-        }        
+        }
     ];
 
 export default async function HealthCheckPage() {
     return (
         <PageBase requiresAuh={false} lang="en" >
-            <BackButton href={HOME_ROUTE} />
+            <Link href="/HOME_ROUTE">
+                {HOME_ROUTE}
+            </Link>
 
             {/* Header Section */}
             <div className="space-y-2">

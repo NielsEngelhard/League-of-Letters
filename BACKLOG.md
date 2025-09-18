@@ -1,7 +1,17 @@
-BUGS NA LAUNCH
-- Tijd bij online game is helemaal gebugged ONLINE GAME BUGGED OPLOSSEN
-    - tijd niet zichtbaar op mobiel? Secondes miss kort ernaast toch - of de tijd bar onderaa tussen board en toetsenbord?
+- Theme switch is kapot
 
+
+BUGS NA LAUNCH
+- punten zijn kapot bij player card
+- player card desktop is het niet
+- pre fill kapot als je niet aan de beurt bent
+- Links naast de row komt wie die beurt heeft
+
+
+
+Tijd bugs:
+- sws moet je initieel refreshen
+- LAATSTE BUG: wanneer tijd voorbij, dan wordt de huidige ROW doorgestreept (behalve als het de laatste guess is)
 
 
 - sound effects die matchen met de vibe

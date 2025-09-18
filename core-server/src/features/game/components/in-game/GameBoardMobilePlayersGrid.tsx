@@ -4,7 +4,7 @@ import { GamePlayerModel } from "../../game-models"
 import Avatar from "@/components/ui/Avatar";
 import WebSocketStatusIndicator from "@/features/realtime/WebSocketStatusIndicator";
 import Tooltip from "@/components/ui/Tooltip";
-import { ArrowDown, ArrowUp } from "lucide-react";
+import { ArrowUp } from "lucide-react";
 
 interface Props {
     sortedPlayers: GamePlayerModel[];

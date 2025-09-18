@@ -77,16 +77,16 @@ export default function InGameTimer({
   const timerState = getTimerState();
 
   // Dynamic styling based on timer state
-  const getTimerStyles = () => {
-    const baseStyles = "font-mono font-bold transition-all duration-300 text-xl sm:text-2xl";
+  // const getTimerStyles = () => {
+  //   const baseStyles = "font-mono font-bold transition-all duration-300 text-xl sm:text-2xl";
     
-    switch (timerState) {
-      case 'warning':
-        return `${baseStyles} text-warning`;
-      default:
-        return `${baseStyles} text-foreground`;
-    }
-  };
+  //   switch (timerState) {
+  //     case 'warning':
+  //       return `${baseStyles} text-warning`;
+  //     default:
+  //       return `${baseStyles} text-foreground`;
+  //   }
+  // };
 
   return (
     <div className="w-full flex flex-row gap-1 items-center text-foreground-muted">
