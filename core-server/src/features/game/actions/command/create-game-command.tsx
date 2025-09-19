@@ -39,7 +39,7 @@ export default async function CreateGameCommand(schema: CreateGameSchema, gameId
             currentRoundIndex: 1,
             nGuessesPerRound: schema.guessesPerRound,
             hostAccountId: currentUser.accountId,
-            nSecondsPerGuess: determineSecondsPerGuess(schema.nSecondsPerGuess),
+            nSecondsPerGuess: schema.nSecondsPerGuess,
             withStartingLetter: schema.withStartingLetter,
             language: schema.language
         }).returning({
@@ -81,11 +81,6 @@ function AddCallerAsOnlyPlayer(schema: CreateGameSchema, currentUser: JwtAccount
             colorHex: currentUser.colorHex ?? "#3B82F6"
         }
     ];
-}
-
-function determineSecondsPerGuess(inputValue: number | null | undefined ): number | null {
-    if (!inputValue || inputValue < 5 || inputValue > 300) return null;
-    return inputValue;
 }
 
 async function cleanupOtherCurrentGames(accountIds: string[], gameMode: GameMode, tx: DbOrTransaction) {

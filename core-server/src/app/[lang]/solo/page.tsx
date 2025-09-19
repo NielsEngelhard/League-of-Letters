@@ -35,7 +35,7 @@ export default async function SoloPage({
         <CardContent>          
           <CreateGameForm
             gameMode="solo"
-            lang={account?.language ?? DefaultLanguage}
+            lang={lang}
             t={t.beforeGame}
           />          
         </CardContent>

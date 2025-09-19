@@ -18,7 +18,6 @@ import { LANGUAGE_ROUTE, PLAY_SOLO_GAME_ROUTE } from "@/app/routes"
 import { SupportedLanguage } from "@/features/i18n/languages"
 import BeforeGameTranslations from "@/features/i18n/translation-file-interfaces/BeforeGameTranslations"
 import CreateOnlineGameBasedOnLobbyCommand from "@/features/lobby/actions/command/create-online-game-based-on-lobby-command"
-import Label from "@/components/ui/form/Label"
 import LanguagePicker from "@/components/ui/form/LanguagePicker"
 
 interface Props {
@@ -31,7 +30,7 @@ interface Props {
     t: BeforeGameTranslations;
 }
 
-export default function CreateGameForm({ onLeaveGame, submitDisabled = false, players, gameMode = "solo", gameId, lang, t }: Props) {
+export default function CreateGameForm({ onLeaveGame, submitDisabled = false, players, gameMode = "solo", gameId, lang, t }: Props) {    
     const [isSubmitting, setIsSubmitting] = useState(false);
     const router = useRouter(); 
     
@@ -151,7 +150,7 @@ export default function CreateGameForm({ onLeaveGame, submitDisabled = false, pl
                     required
                     options={[
                         { value: 0, label: "∞" },
-                        // { value: 5, label: "5s (DEV ONLY)" },
+                        { value: 5, label: "5s (DEV ONLY)" },
                         { value: 20, label: "20s" },
                         { value: 40, label: "40s" },
                         { value: 60, label: "60s" },
@@ -166,7 +165,7 @@ export default function CreateGameForm({ onLeaveGame, submitDisabled = false, pl
                         onLanguageChange={(newLang: SupportedLanguage) => form.setValue("language", newLang)}
                     />                          
                 </div>
-            </div>                      
+            </div>
 
             <SwitchInput
                 control={form.control}
