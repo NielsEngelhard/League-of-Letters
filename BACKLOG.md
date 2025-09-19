@@ -1,6 +1,5 @@
 Voor v1.0-beta
 - pre fill kapot als je niet aan de beurt bent en je toggled - maakt het board leeg
-- bug account link -> login guest account -> je gaat niet naar join??
 
 - Wanneer je niet binnen de tijd gokt, is jouw beurt gewoon volledig weg (ook weg in het board lmz)
 - sound effects die matchen met de vibe

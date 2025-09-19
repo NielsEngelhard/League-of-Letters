@@ -4,8 +4,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAuth } from "@/features/auth/AuthContext";
 import SelectLanguageGrid from "@/features/language/component/SelectLanguageGrid";
-import { useRouter } from "next/navigation";
-import { LANGUAGE_ROUTE, PICK_GAME_MODE_ROUTE } from "@/app/routes";
+import { usePathname, useRouter } from "next/navigation";
+import { HOME_ROUTE, LANGUAGE_ROUTE, PICK_GAME_MODE_ROUTE } from "@/app/routes";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 import { guestLoginSchema, GuestLoginSchema } from "../../auth-schemas";
@@ -17,6 +17,7 @@ import { HatGlasses } from "lucide-react";
 export default function GuestLoginForm({ lang, t }: { lang: SupportedLanguage, t: GeneralTranslations }) {
     const { updateAccount } = useAuth();
     const router = useRouter();
+    const pathName = usePathname();
 
     const form = useForm<GuestLoginSchema>({
         resolver: zodResolver(guestLoginSchema),
@@ -27,7 +28,15 @@ export default function GuestLoginForm({ lang, t }: { lang: SupportedLanguage, t
 
     function onSuccessfullGuestLogin(account: PublicAccountModel) {
         updateAccount(account);
-        router.push(LANGUAGE_ROUTE(form.getValues("language"), PICK_GAME_MODE_ROUTE));
+        
+        if (currentPageIsHomeRoute()) {
+            router.push(LANGUAGE_ROUTE(form.getValues("language"), PICK_GAME_MODE_ROUTE));
+        }
+    }
+
+    function currentPageIsHomeRoute(): boolean {
+        const homeRoutePath = LANGUAGE_ROUTE(lang, HOME_ROUTE);
+        return `${pathName}/` == homeRoutePath;
     }
 
     return (
