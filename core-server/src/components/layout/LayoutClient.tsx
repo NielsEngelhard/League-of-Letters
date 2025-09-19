@@ -12,7 +12,7 @@ export default function LayoutClient() {
         if (!settings.theme) return;
 
         document.documentElement.setAttribute('data-theme', settings.theme);
-    }, [settings.theme]);
+    }, [settings]);
 
     return <></>;
 }

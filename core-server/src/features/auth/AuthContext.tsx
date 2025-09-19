@@ -8,6 +8,7 @@ import { LoginModalState } from './components/LoginModal';
 import { DEFAULT_SETTINGS } from './auth-constants';
 
 const ACCOUNT_LOCALSTORAGE_KEY: string = "account";
+const SETTINGS_LOCALSTORAGE_KEY: string = "settings";
 
 type AuthContextType = {
   account: PublicAccountModel | null | undefined;
@@ -40,6 +41,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const parsedAccount: PublicAccountModel = JSON.parse(storedAccount);
         setAccount(parsedAccount);
       }
+
+      const storedSettings = localStorage.getItem(SETTINGS_LOCALSTORAGE_KEY);
+      if (storedSettings) {
+        const parsedSettings: SettingsSchema = JSON.parse(storedSettings);
+        setSettings(parsedSettings);
+      }      
     } catch (error) {
       console.error('Failed to parse stored account:', error);
       localStorage.removeItem(ACCOUNT_LOCALSTORAGE_KEY);
@@ -98,6 +105,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const setSettingsOnClient = (updatedSettings: SettingsSchema) => {
     setSettings(updatedSettings);
   };
+
+  // Update settings in local storage when they change
+  useEffect(() => {
+    if (!settings) return;
+    const settingsAsJson = JSON.stringify(settings);
+    localStorage.setItem(SETTINGS_LOCALSTORAGE_KEY, settingsAsJson);
+  }, [settings]);
 
   return (
     <AuthContext.Provider value={{ 

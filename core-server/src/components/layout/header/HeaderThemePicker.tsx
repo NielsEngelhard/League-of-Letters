@@ -66,8 +66,10 @@ export default function HeaderThemePicker() {
         };
         
         // Update client immediately
-        settings.theme = newTheme;
-        setSettingsOnClient(settings);
+        setSettingsOnClient({
+        ...settings,
+        theme: newTheme,
+        });
         
         // Set pending theme for debounced server update
         setPendingTheme(newTheme);
