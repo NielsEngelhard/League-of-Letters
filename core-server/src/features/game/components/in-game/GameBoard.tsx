@@ -115,16 +115,15 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
 
                         <div className="flex flex-col-reverse md:flex-col-reverse">
                             {game.nSecondsPerGuess && (
-                                // <div className="w-full">
-                                //     <InGameTimer
-                                //         turnKey={timerData.turnKey}
-                                //         timePerTurn={game.nSecondsPerGuess}
-                                //         initialTime={timerData.timeLeft}
-                                //         onTimerEnd={recalculateCurrentPlayer}
-                                //         isPaused={isAnimating}
-                                //     />   
-                                // </div>
-                                <div>TIMER WIP</div>
+                                <div className="w-full">
+                                    {/* <InGameTimer
+                                        turnKey={timerData.turnKey}
+                                        timePerTurn={game.nSecondsPerGuess}
+                                        initialTime={timerData.timeLeft}
+                                        onTimerEnd={recalculateCurrentPlayer}
+                                        isPaused={isAnimating}
+                                    />    */}
+                                </div>
                             )}
                             
                             {/* Letter Grid */}

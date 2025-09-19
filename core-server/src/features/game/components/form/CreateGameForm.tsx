@@ -141,16 +141,16 @@ export default function CreateGameForm({ onLeaveGame, submitDisabled = false, pl
                 />                
             </div>
 
-            {gameMode == "online" && (
+            <div className="flex flex-col md:flex-row gap-2">
                 <SelectDropdown
                     key={form.watch("language")}
                     name="nSecondsPerGuess"
                     control={form.control}
                     label={t.createGameForm.secondsPerGuessLabel}
-                    placeholder="Seconds per guess"
+                    placeholder="∞"
                     required
                     options={[
-                        { value: 0, label: "no time" },
+                        { value: 0, label: "∞" },
                         // { value: 5, label: "5s (DEV ONLY)" },
                         { value: 20, label: "20s" },
                         { value: 40, label: "40s" },
@@ -158,8 +158,15 @@ export default function CreateGameForm({ onLeaveGame, submitDisabled = false, pl
                         { value: 80, label: "80s" },
                         { value: 100, label: "100s" },
                     ]}
-                />                      
-            )}         
+                />     
+
+                <div className="items-end flex">
+                    <LanguagePicker
+                        currentLanguage={form.getValues("language")}
+                        onLanguageChange={(newLang: SupportedLanguage) => form.setValue("language", newLang)}
+                    />                          
+                </div>
+            </div>                      
 
             <SwitchInput
                 control={form.control}
@@ -167,14 +174,6 @@ export default function CreateGameForm({ onLeaveGame, submitDisabled = false, pl
                 label={t.createGameForm.withStartingLetterLabel}
                 Icon={LetterText}
             />         
-
-            <div className="flex flex-row justify-between">
-                <Label text={t.createGameForm.languageLabel} />
-                <LanguagePicker
-                    currentLanguage={form.getValues("language")}
-                    onLanguageChange={(newLang: SupportedLanguage) => form.setValue("language", newLang)}
-                />
-            </div>
 
             <Seperator />
 
