@@ -30,7 +30,7 @@ describe("Determine whose turn it is with time being a factor - so based on time
                 secondsPerGuess: secondsPerGuess
             });
             
-            expect(result).toBe(expectedPlayerId);
+            expect(result.currentPlayerAccountId).toBe(expectedPlayerId);
         }
     );
 });

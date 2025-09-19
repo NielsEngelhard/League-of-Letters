@@ -1,108 +1,47 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { Clock } from 'lucide-react';
+import { Clock } from "lucide-react";
+import { useState, useEffect } from "react";
 
-interface InGameTimerProps {
-  timePerTurn: number;
-  initialTime: number; // in seconds
-  onTimerEnd?: () => void;
-  isPaused?: boolean;
-  warningThreshold?: number; // seconds when to show warning state
-  // Add a unique key to force timer reset when turn changes
-  turnKey?: string;
+interface Props {
+  secondsPerGuess: number;
+  lastGuessDateTime: Date;
 }
 
-export default function InGameTimer({
-  timePerTurn,
-  initialTime,
-  onTimerEnd,
-  warningThreshold = 7,
-  isPaused = false,
-  turnKey
-}: InGameTimerProps) {
-  const [secondsLeft, setSecondsLeft] = useState(initialTime);
-  const hasEndedRef = useRef(false);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
-  const lastTurnKeyRef = useRef(turnKey);
+export default function InGameTimer({ secondsPerGuess, lastGuessDateTime }: Props) {
+  const [secondsRemaining, setTimeRemaining] = useState(0);
 
-  // Reset timer when turnKey changes (more reliable than initialTime)
   useEffect(() => {
-    if (turnKey !== lastTurnKeyRef.current) {
-      setSecondsLeft(initialTime);
-      hasEndedRef.current = false;
-      lastTurnKeyRef.current = turnKey;
-    }
-  }, [turnKey, initialTime]);
-
-  // Get timer state for styling
-  const getTimerState = useCallback(() => {
-    if (secondsLeft <= warningThreshold) return 'warning';
-    return 'normal';
-  }, [secondsLeft, warningThreshold]);
-
-  // Timer logic
-  useEffect(() => {
-    // Clear any existing interval
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
-    }
-
-    if (!isPaused && secondsLeft > 0 && !hasEndedRef.current) {
-      intervalRef.current = setInterval(() => {
-        setSecondsLeft((prevTime) => {
-          const newTime = Math.max(0, prevTime - 1);
-          
-          // Check if timer just ended and hasn't been handled yet
-          if (newTime <= 0 && !hasEndedRef.current) {
-            hasEndedRef.current = true;
-            // Use requestAnimationFrame for better timing
-            requestAnimationFrame(() => {
-              if (onTimerEnd) onTimerEnd();
-            });
-          }
-          
-          return newTime;
-        });
-      }, 1000);
-    }
-
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-        intervalRef.current = null;
-      }
+    const calculateTimeRemaining = () => {
+      const now = new Date().getTime();
+      const targetTime = new Date(lastGuessDateTime).getTime() + (secondsPerGuess * 1000);
+      const difference = targetTime - now;
+      
+      return Math.max(0, Math.floor(difference / 1000));
     };
-  }, [isPaused, secondsLeft, onTimerEnd]);
 
-  const timerState = getTimerState();
+    // Set initial time
+    setTimeRemaining(calculateTimeRemaining());
 
-  // Dynamic styling based on timer state
-  // const getTimerStyles = () => {
-  //   const baseStyles = "font-mono font-bold transition-all duration-300 text-xl sm:text-2xl";
-    
-  //   switch (timerState) {
-  //     case 'warning':
-  //       return `${baseStyles} text-warning`;
-  //     default:
-  //       return `${baseStyles} text-foreground`;
-  //   }
-  // };
+    // Update every second
+    const interval = setInterval(() => {
+      const remaining = calculateTimeRemaining();
+      setTimeRemaining(remaining);
+      
+      // Clear interval when countdown reaches 0
+      if (remaining <= 0) {
+        clearInterval(interval);
+      }
+    }, 1000);
+
+    // Cleanup interval on unmount
+    return () => clearInterval(interval);
+  }, [secondsPerGuess, lastGuessDateTime]);
 
   return (
-    <div className="w-full flex flex-row gap-1 items-center text-foreground-muted">
-      <Clock size={14} />
-      
-      {/* Progress Bar */}
-      <div className="w-full max-w-xs bg-foreground-muted/10 rounded-full h-2 overflow-hidden">
-        <div 
-          className={`h-full transition-all duration-1000 ease-linear ${
-            timerState === 'warning' ? 'bg-warning' : 'bg-primary'
-          }`}
-          style={{
-            width: `${Math.max(0, (secondsLeft / timePerTurn) * 100)}%`
-          }}
-        />
-      </div>
+    <div className="font-medium font-monos text-lg md:text-4xl">
+      <span className="flex items-center gap-0.5">
+        <Clock size={20} />
+        {secondsRemaining}
+      </span>
     </div>
   );
 }

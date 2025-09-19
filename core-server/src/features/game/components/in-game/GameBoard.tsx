@@ -14,6 +14,7 @@ import ScoreTranslations from "@/features/i18n/translation-file-interfaces/Score
 import { useSounds } from "@/lib/SoundPlayerContext";
 import PlayerGrid from "./PlayersGrid";
 import { GamePlayerModel } from "../../game-models";
+import InGameTimer from "./InGameTimer";
 
 interface Props {
     lang: SupportedLanguage;
@@ -113,16 +114,13 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
                             </div>                           
                         )}
 
-                        <div className="flex flex-col-reverse md:flex-col-reverse">
+                        <div className="flex flex-col-reverse md:flex-col">
                             {game.nSecondsPerGuess && (
-                                <div className="w-full">
-                                    {/* <InGameTimer
-                                        turnKey={timerData.turnKey}
-                                        timePerTurn={game.nSecondsPerGuess}
-                                        initialTime={timerData.timeLeft}
-                                        onTimerEnd={recalculateCurrentPlayer}
-                                        isPaused={isAnimating}
-                                    />    */}
+                                <div className="w-full flex justify-center">
+                                    <InGameTimer
+                                        lastGuessDateTime={new Date()}
+                                        secondsPerGuess={game.nSecondsPerGuess}
+                                    />
                                 </div>
                             )}
                             

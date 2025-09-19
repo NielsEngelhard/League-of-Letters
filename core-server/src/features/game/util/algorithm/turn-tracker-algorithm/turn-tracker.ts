@@ -6,33 +6,47 @@ export interface DetermineWhosTurnItIsData {
     secondsPerGuess?: number | null;
 }
 
+export interface DetermineWhosTurnItIsResponse {
+    currentPlayerAccountId: string;
+    amountOfSkippedGuesses: number;
+}
+
 export class TurnTrackerAlgorithm {
-    static determineWhosTurnItIs(data: DetermineWhosTurnItIsData): string {
+    static determineWhosTurnItIs(data: DetermineWhosTurnItIsData): DetermineWhosTurnItIsResponse {
         if (!data.playerIdsInOrder || data.playerIdsInOrder.length === 0) {
             throw new Error("No player ids provided");
-        }
+        } 
         
         if (data.playerIdsInOrder.length === 1) {
-            return data.playerIdsInOrder[0];
+            return {
+                currentPlayerAccountId: data.playerIdsInOrder[0],
+                amountOfSkippedGuesses: data.secondsPerGuess ? calculateAmountOfSkippedGuesses(data.secondsPerGuess, data.secondsBetweenLastGuess) : 0
+            };
         }
         
         const nPlayers = data.playerIdsInOrder.length;
-
         const startingPlayerIndex = calculateStartingPlayerForRound(data.currentRound, nPlayers);
-        
         const currentGuessOffset = calculatePlayerOffsetForCurrentGuess(data.currentGuess, nPlayers);
-        
         const currentPlayerIndexByRoundAndGuessIndex = calculateCurrentPlayerIndexByCurrentRoundAndCurrentGuess(startingPlayerIndex, currentGuessOffset, nPlayers);
         
         const withoutTime: boolean = (!data.secondsBetweenLastGuess || !data.secondsPerGuess);
         if (withoutTime) {
-            return data.playerIdsInOrder[currentPlayerIndexByRoundAndGuessIndex];
+            return {
+                amountOfSkippedGuesses: 0,
+                currentPlayerAccountId: data.playerIdsInOrder[currentPlayerIndexByRoundAndGuessIndex]
+            }
         }
 
-        const passedTimeOffset = calculateTimePassedOffset(data.secondsPerGuess!, data.secondsBetweenLastGuess!);
-        const playerIndexAdjustedWithTimeOffset = (currentPlayerIndexByRoundAndGuessIndex + passedTimeOffset) % nPlayers;
+        // With time flow
 
-        return data.playerIdsInOrder[playerIndexAdjustedWithTimeOffset];
+        // When game is with time, rounds can be skipped if not answered on time.
+        const amountOfSkippedGuesses = calculateAmountOfSkippedGuesses(data.secondsPerGuess!, data.secondsBetweenLastGuess!);
+        const playerIndexAdjustedWithTimeOffset = (currentPlayerIndexByRoundAndGuessIndex + amountOfSkippedGuesses) % nPlayers;
+
+        return {
+            amountOfSkippedGuesses: amountOfSkippedGuesses,
+            currentPlayerAccountId: data.playerIdsInOrder[playerIndexAdjustedWithTimeOffset]
+        };
     }
 }
 
@@ -54,8 +68,8 @@ function calculateCurrentPlayerIndexByCurrentRoundAndCurrentGuess(startingPlayer
     return (startingPlayerIndex + currentGuessOffset) % nPlayers;
 }
 
-function calculateTimePassedOffset(secondsPerGuess: number, secondsBetweenLastGuess: number) {
-    if (secondsBetweenLastGuess < secondsPerGuess) return 0;
+function calculateAmountOfSkippedGuesses(secondsPerGuess: number, secondsBetweenLastGuess?: number) {
+    if (!secondsBetweenLastGuess || (secondsBetweenLastGuess < secondsPerGuess)) return 0;
 
     return Math.floor(secondsBetweenLastGuess / secondsPerGuess);
 }

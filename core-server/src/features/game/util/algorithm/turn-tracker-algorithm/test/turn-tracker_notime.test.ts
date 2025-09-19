@@ -17,7 +17,7 @@ describe("Determine whose turn it is with time not being a factor", () => {
                 currentGuess: guess,
                 currentRound: round
             });
-            expect(result).toBe(expected);
+            expect(result.currentPlayerAccountId).toBe(expected);
         }
     );
 });
@@ -41,7 +41,7 @@ describe("Solo player should return the only player no matter what round or gues
                 currentRound: round
             });
             
-            expect(result).toEqual(playerIds[0]);
+            expect(result.currentPlayerAccountId).toEqual(playerIds[0]);
         });
 });    
 
@@ -59,13 +59,13 @@ describe("Game with 2 players", () => {
                 currentGuess: 1,
                 currentRound: 1
             });
-        expect(firstRoundResult).toBe(sortedPlayerIds[0]);
+        expect(firstRoundResult.currentPlayerAccountId).toBe(sortedPlayerIds[0]);
 
         const secondRoundResult = TurnTrackerAlgorithm.determineWhosTurnItIs({
                 playerIdsInOrder: sortedPlayerIds,
                 currentGuess: 2,
                 currentRound: 1
             });
-        expect(secondRoundResult).toBe(sortedPlayerIds[1]);
+        expect(secondRoundResult.currentPlayerAccountId).toBe(sortedPlayerIds[1]);
     });        
 });

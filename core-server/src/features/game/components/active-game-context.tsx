@@ -244,7 +244,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     }
 
     const sortedPlayerIds = sortPlayerModelOnPositionAndGetUserIds(game.players);
-    const newCurrentPlayerId = TurnTrackerAlgorithm.determineWhosTurnItIs({
+    const resp = TurnTrackerAlgorithm.determineWhosTurnItIs({
       playerIdsInOrder: sortedPlayerIds,
       currentGuess: currentRound.currentGuessIndex,
       currentRound: game.currentRoundIndex,
@@ -252,11 +252,11 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
       secondsPerGuess: game.nSecondsPerGuess
     });
 
-    const currentPlayerIdChanged = currentPlayerId != newCurrentPlayerId;
+    const currentPlayerIdChanged = currentPlayerId != resp.currentPlayerAccountId;
 
     if (currentPlayerIdChanged) {
-      setCurrentPlayerId(newCurrentPlayerId);
-      setIsThisPlayersTurn(thisPlayersUserId == newCurrentPlayerId);
+      setCurrentPlayerId(resp.currentPlayerAccountId);
+      setIsThisPlayersTurn(thisPlayersUserId == resp.currentPlayerAccountId);
       setCurrentGuess("");
     }
   }

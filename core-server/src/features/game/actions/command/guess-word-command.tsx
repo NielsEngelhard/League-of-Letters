@@ -73,7 +73,7 @@ function getPlayerWhosTurnItIs(game: DbActiveGameWithRoundsAndPlayers, currentRo
 
     const sortedPlayerIds = sortDbPlayerOnPositionAndGetUserIds(game.players);
 
-    const playerId = TurnTrackerAlgorithm.determineWhosTurnItIs({
+    const resp = TurnTrackerAlgorithm.determineWhosTurnItIs({
         playerIdsInOrder: sortedPlayerIds,
         currentRound: game.currentRoundIndex,
         currentGuess: currentRound.currentGuessIndex,
@@ -81,7 +81,7 @@ function getPlayerWhosTurnItIs(game: DbActiveGameWithRoundsAndPlayers, currentRo
         secondsBetweenLastGuess: getSecondsBetweenNowAndUnixTimestampInSeconds(currentRound.lastGuessUnixUtcTimestamp_InSeconds)
     });
 
-    return game.players.find(p => p.accountId == playerId)!;
+    return game.players.find(p => p.accountId == resp.currentPlayerAccountId)!;
 }
 
 async function updateCurrentGameState(game: DbActiveGameWithRoundsAndPlayers, currentRound: DbGameRound, validationResult: DetailedValidationResult, currentPlayer: DbGamePlayer): Promise<GuessWordResponse> {
