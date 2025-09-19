@@ -20,6 +20,7 @@ export default function HeaderThemePicker() {
     const timeoutRef = useRef<NodeJS.Timeout | null>(null);
     const [pendingTheme, setPendingTheme] = useState<ThemeOption | null>(null);
     const toaster = useToaster();
+    const { account } = useAuth();
 
     const waitingTimeForServerUpdate = 6000;
 
@@ -27,7 +28,7 @@ export default function HeaderThemePicker() {
 
     // Debounced server update effect, when user is spamming themes, send a request when they are done instead of everytime they switch
     useEffect(() => {
-        if (pendingTheme === null) return;
+        if (pendingTheme === null || account === null) return;
 
         // Clear existing timeout
         if (timeoutRef.current) {
@@ -52,19 +53,28 @@ export default function HeaderThemePicker() {
                 clearTimeout(timeoutRef.current);
             }
         };
-    }, [pendingTheme]);
+    }, [pendingTheme, account]);
 
     async function updateThemeOnServer(newTheme: ThemeOption) {
         await UpdateCurrentUserTheme(newTheme);        
     }
 
     async function onThemeChange(newTheme: ThemeOption) {
+        if (!account) {
+            changeInBrowserOnly(newTheme);
+            return;
+        };
+        
         // Update client immediately
         settings.theme = newTheme;
         setSettingsOnClient(settings);
         
         // Set pending theme for debounced server update
         setPendingTheme(newTheme);
+    }
+
+    function changeInBrowserOnly(newTheme: ThemeOption) {
+        document.documentElement.setAttribute('data-theme', newTheme);        
     }
 
     return (
