@@ -3,19 +3,21 @@ import { useState, useEffect } from "react";
 
 interface Props {
   secondsPerGuess: number;
-  lastGuessDateTime: Date;
+  lastGuessUnixUtcTimestamp: number;
+  onTimerZero?: () => void;
 }
 
-export default function InGameTimer({ secondsPerGuess, lastGuessDateTime }: Props) {
+export default function InGameTimer({ secondsPerGuess, lastGuessUnixUtcTimestamp, onTimerZero }: Props) {
   const [secondsRemaining, setTimeRemaining] = useState(0);
 
   useEffect(() => {
     const calculateTimeRemaining = () => {
-      const now = new Date().getTime();
-      const targetTime = new Date(lastGuessDateTime).getTime() + (secondsPerGuess * 1000);
-      const difference = targetTime - now;
+      const now = Date.now(); // Already in milliseconds
+      const timeSinceLastGuess = now - (lastGuessUnixUtcTimestamp * 1000);
+      const cyclePosition = timeSinceLastGuess % (secondsPerGuess * 1000);
+      const timeRemainingInCycle = (secondsPerGuess * 1000) - cyclePosition;
       
-      return Math.max(0, Math.floor(difference / 1000));
+      return Math.max(0, Math.floor(timeRemainingInCycle / 1000));
     };
 
     // Set initial time
@@ -24,17 +26,19 @@ export default function InGameTimer({ secondsPerGuess, lastGuessDateTime }: Prop
     // Update every second
     const interval = setInterval(() => {
       const remaining = calculateTimeRemaining();
+      const previousRemaining = secondsRemaining;
+      
       setTimeRemaining(remaining);
       
-      // Clear interval when countdown reaches 0
-      if (remaining <= 0) {
-        clearInterval(interval);
+      // Trigger callback when countdown reaches 0 (transitioning from 1 to 0)
+      if (remaining === 0 && previousRemaining === 1) {
+        onTimerZero?.();
       }
     }, 1000);
 
     // Cleanup interval on unmount
     return () => clearInterval(interval);
-  }, [secondsPerGuess, lastGuessDateTime]);
+  }, [secondsPerGuess, lastGuessUnixUtcTimestamp, onTimerZero, secondsRemaining]);
 
   return (
     <div className="font-medium font-monos text-lg md:text-4xl">

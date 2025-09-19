@@ -2,6 +2,8 @@ Voor v1.0-beta
 - Wanneer je niet binnen de tijd gokt, is jouw beurt gewoon volledig weg (ook weg in het board lmz)
 - sound effects die matchen met de vibe
 
+- BUGFIX: invoer woord doet de andere client altijd kijken of de input wel vanaf de juiste zender komt (minder buggevoelig lmz met dubbel typen)
+
 SHOULD
 - public & private games and some overview where you can see current games (refactor online game route)
 - GAME MODE: bring your own word

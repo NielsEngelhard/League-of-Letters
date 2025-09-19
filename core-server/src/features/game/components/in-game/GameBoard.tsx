@@ -25,7 +25,7 @@ interface Props {
 }
 
 export default function GameBoard({generalTranslations, inGameTranslations, scoreTranslations, settingsTranslations, lang}: Props) {
-    const { game, players, currentGuess, currentRound, isThisPlayersTurn, isAnimating, revealedWord, currentPlayerId } = useActiveGame();
+    const { game, players, currentGuess, currentRound, isThisPlayersTurn, isAnimating, revealedWord, currentPlayerId, recalculateCurrentPlayer } = useActiveGame();
     const [currentPlayer, setCurrentPlayer] = useState<GamePlayerModel | undefined>(undefined);
     const [currentSubmitFailed, setCurrentSubmitFailed] = useState(false);
     const soundPlayer = useSounds();
@@ -83,7 +83,20 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
             
             return turnPositionA - turnPositionB;
         });
-    }, [players, currentRound?.roundNumber]);    
+    }, [players, currentRound?.roundNumber]);
+
+    // Current guess abandoned
+    function onTimerZero() {
+        console.log("TRIGGER: onTimerZero");
+
+        const isLastGuessOfRound = false;
+
+        if (!isLastGuessOfRound) {
+            // TODO: Set current row to skipped
+        }
+        
+        recalculateCurrentPlayer();
+    }
 
     return (
         <>
@@ -115,11 +128,12 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
                         )}
 
                         <div className="flex flex-col-reverse md:flex-col">
-                            {game.nSecondsPerGuess && (
+                            {(game.nSecondsPerGuess && currentRound.lastGuessUnixUtcTimestamp_InSeconds) && (
                                 <div className="w-full flex justify-center">
                                     <InGameTimer
-                                        lastGuessDateTime={new Date()}
                                         secondsPerGuess={game.nSecondsPerGuess}
+                                        lastGuessUnixUtcTimestamp={currentRound.lastGuessUnixUtcTimestamp_InSeconds}
+                                        onTimerZero={onTimerZero}
                                     />
                                 </div>
                             )}
