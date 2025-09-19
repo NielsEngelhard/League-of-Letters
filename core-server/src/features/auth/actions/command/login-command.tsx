@@ -1,7 +1,7 @@
 "use server"
 
 import z from "zod";
-import { AccountTable, DbAccount } from "@/drizzle/schema";
+import { AccountSettingsTable, AccountTable, DbAccount } from "@/drizzle/schema";
 import { db } from "@/drizzle/db";
 import { eq } from "drizzle-orm";
 import { comparePasswords } from "@/features/auth/password-hasher";
@@ -11,8 +11,15 @@ import { AccountMapper } from "../../../account/account-mapper";
 import { JWTService } from "../../jwt/jwt-service";
 import { JwtMapper } from "../../jwt/jwt-mapper";
 import { loginSchema } from "../../auth-schemas";
+import { SettingsSchema } from "@/features/account/account-schemas";
+import { DEFAULT_SETTINGS } from "../../auth-constants";
 
-export default async function LoginCommand(unsafeData: z.infer<typeof loginSchema>): Promise<ServerResponse<PublicAccountModel>> {
+export interface LoginResponse {
+  account: PublicAccountModel;
+  settings: SettingsSchema;
+}
+
+export default async function LoginCommand(unsafeData: z.infer<typeof loginSchema>): Promise<ServerResponse<LoginResponse>> {
     const { success, data } = loginSchema.safeParse(unsafeData);
     if (!success) return ServerResponseFactory.error("Invalid login data");
     
@@ -29,11 +36,21 @@ export default async function LoginCommand(unsafeData: z.infer<typeof loginSchem
 
     if (!isCorrectPassword) ServerResponseFactory.error("Invalid credentials");
 
+    const settings = await getAccountSettings(account.id);
+
     const jwtService = new JWTService();
     const jwtPayload = JwtMapper.MapAccountToJwtPayload(account);
     await jwtService.generateTokensAndSetAuthCookies(jwtPayload);
 
-    return ServerResponseFactory.success(AccountMapper.DbAccountToPublicModel(account));
+    return ServerResponseFactory.success({
+      account: AccountMapper.DbAccountToPublicModel(account),
+      settings: settings
+    });
+}
+
+async function getAccountSettings(accountId: string) {
+  const result = await db.select().from(AccountSettingsTable).where(eq(AccountSettingsTable.accountId, accountId));
+  return (result && result.length == 1) ? result[0] : DEFAULT_SETTINGS;
 }
 
 async function findAccountByEmailOrUsername(usernameOrEmail: string): Promise<DbAccount> {

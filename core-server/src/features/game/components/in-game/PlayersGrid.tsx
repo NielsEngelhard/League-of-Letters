@@ -1,7 +1,7 @@
 "use client"
 
 import Avatar from "@/components/ui/Avatar";
-import { Crown, Clover, ListStart } from "lucide-react";
+import { Clover, ListStart } from "lucide-react";
 import WebSocketStatusIndicator from "@/features/realtime/WebSocketStatusIndicator";
 import Button from "@/components/ui/Button";
 import { GamePlayerModel } from "@/features/game/game-models";

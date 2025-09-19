@@ -18,7 +18,7 @@ interface Props {
 }
 
 export default function SettingsForm({ t }: Props) {
-    const { account, settings, setSettingsOnClient, updateAccount } = useAuth();
+    const { settings, setSettingsOnClient } = useAuth();
     const [atLeastOneSettingChanged, setAtLeastOneSettingChanged] = useState(false);
     const { pushToast } = useToaster();
 
@@ -40,12 +40,6 @@ export default function SettingsForm({ t }: Props) {
 
     async function onSubmit() {
         await saveSettingsOnServer(watchedValues);
-        
-        const accountRef = account;
-        if (!accountRef) return;
-
-        accountRef.settings = watchedValues; 
-        updateAccount(accountRef);
         setAtLeastOneSettingChanged(false);
     }
 

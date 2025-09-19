@@ -5,14 +5,7 @@ import { SettingsSchema } from '../account/account-schemas';
 import { PublicAccountModel } from '../account/account-models';
 import { LogoutCommand } from './actions/command/logout-command';
 import { LoginModalState } from './components/LoginModal';
-
-const DEFAULT_SETTINGS: SettingsSchema = {
-  playBackgroundMusic: true,
-  playSoundEffects: true,
-  showKeyboardHints: true,
-  showCompleteCorrect: false,
-  theme: "light"
-}
+import { DEFAULT_SETTINGS } from './auth-constants';
 
 const ACCOUNT_LOCALSTORAGE_KEY: string = "account";
 
@@ -34,6 +27,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [account, setAccount] = useState<PublicAccountModel | null | undefined>(undefined);
+  const [settings, setSettings] = useState<SettingsSchema>();
   const [loginModalState, setLoginModalState] = useState<LoginModalState>(LoginModalState.Hidden);
 
   const [guestSessionTimeRemaining, setGuestSessionTimeRemaining] = useState<string | null>(null);
@@ -102,14 +96,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   const setSettingsOnClient = (updatedSettings: SettingsSchema) => {
-    setAccount(prev => {
-      if (!prev) return prev;
-      
-      return {
-        ...prev,
-        settings: updatedSettings
-      };
-    });
+    setSettings(updatedSettings);
   };
 
   return (
@@ -119,7 +106,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       clearAccountData, 
       setLoginModalState,
       loginModalState,
-      settings: account?.settings ?? DEFAULT_SETTINGS,
+      settings: settings ?? DEFAULT_SETTINGS,
       setSettingsOnClient,
       guestSessionTimeRemaining,
       updateAccount,

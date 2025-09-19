@@ -1,5 +1,4 @@
 import { SupportedLanguage } from "../i18n/languages";
-import { SettingsSchema } from "./account-schemas";
 
 export const wordInputOptions = ['on-screen-keyboard', 'html-input', 'keystroke'] as const;
 export type WordInputOption = (typeof wordInputOptions)[number];
@@ -17,7 +16,6 @@ export interface PublicAccountModel {
     createdAt: Date;
     language: SupportedLanguage;
     isGuest?: boolean;
-    settings?: SettingsSchema;
     tokenExpireUtcDate?: Date;
 }
 

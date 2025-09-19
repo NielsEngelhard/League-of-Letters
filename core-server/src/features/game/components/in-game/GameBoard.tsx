@@ -3,9 +3,7 @@ import ActiveGameWordInput from "../ActiveGameWordInput";
 import { useActiveGame } from "../active-game-context";
 import InGameProgressionBar from "./InGameProgressionBar";
 import LoadingSpinner from "@/components/ui/animation/LoadingSpinner";
-import { useEffect, useMemo, useState, useRef } from "react";
-import InGameTimer from "./InGameTimer";
-import { getCurrentUtcUnixTimestamp_Seconds } from "@/lib/time-util";
+import { useEffect, useMemo, useState } from "react";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 import InGameTranslations from "@/features/i18n/translation-file-interfaces/InGameTranslations";
@@ -26,57 +24,11 @@ interface Props {
 }
 
 export default function GameBoard({generalTranslations, inGameTranslations, scoreTranslations, settingsTranslations, lang}: Props) {
-    const { game, players, currentGuess, currentRound, isThisPlayersTurn, isAnimating, revealedWord, currentPlayerId, recalculateCurrentPlayer } = useActiveGame();
+    const { game, players, currentGuess, currentRound, isThisPlayersTurn, isAnimating, revealedWord, currentPlayerId } = useActiveGame();
     const [currentPlayer, setCurrentPlayer] = useState<GamePlayerModel | undefined>(undefined);
     const [currentSubmitFailed, setCurrentSubmitFailed] = useState(false);
     const soundPlayer = useSounds();
     
-    // Use refs to track timer state more reliably
-    const timerCalculationRef = useRef<{
-        timeLeft: number;
-        turnKey: string;
-        calculatedAt: number;
-    } | null>(null);
-
-    // Calculate timer values more reliably
-    const timerData = useMemo(() => {
-        if (!game || !currentRound || !currentRound.lastGuessUnixUtcTimestamp_InSeconds || !game.nSecondsPerGuess) {
-            return null;
-        }
-
-        const currentTime = getCurrentUtcUnixTimestamp_Seconds();
-        const timeSinceLastGuess = currentTime - currentRound.lastGuessUnixUtcTimestamp_InSeconds;
-        
-        // Calculate which "turn slot" we're in within the repeating cycle
-        const turnSlot = Math.floor(timeSinceLastGuess / game.nSecondsPerGuess);
-        const timeWithinCurrentTurn = timeSinceLastGuess % game.nSecondsPerGuess;
-        const timeLeft = Math.max(0, game.nSecondsPerGuess - timeWithinCurrentTurn);
-        
-        // Create a unique key that changes when we move to a new turn slot
-        const turnKey = `${currentRound.roundNumber}-${currentRound.currentGuessIndex}-${turnSlot}`;
-        
-        // Only update if this is a genuinely new calculation
-        const shouldUpdate = !timerCalculationRef.current || 
-                           timerCalculationRef.current.turnKey !== turnKey ||
-                           Math.abs(timerCalculationRef.current.timeLeft - timeLeft) > 2; // Allow 2 second tolerance
-        
-        if (shouldUpdate) {
-            timerCalculationRef.current = {
-                timeLeft,
-                turnKey,
-                calculatedAt: currentTime
-            };
-        }
-        
-        return timerCalculationRef.current;
-    }, [
-        game?.nSecondsPerGuess, 
-        currentRound?.roundNumber, 
-        currentRound?.currentGuessIndex, 
-        currentRound?.lastGuessUnixUtcTimestamp_InSeconds,
-        currentPlayerId // Include this to recalculate when player changes
-    ]);
-
     function getGridScale(): string {
         if (!currentRound) return "scale-100";
 
@@ -162,16 +114,17 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
                         )}
 
                         <div className="flex flex-col-reverse md:flex-col-reverse">
-                            {timerData && game.nSecondsPerGuess && (
-                                <div className="w-full">
-                                    <InGameTimer
-                                        turnKey={timerData.turnKey}
-                                        timePerTurn={game.nSecondsPerGuess}
-                                        initialTime={timerData.timeLeft}
-                                        onTimerEnd={recalculateCurrentPlayer}
-                                        isPaused={isAnimating}
-                                    />   
-                                </div>
+                            {game.nSecondsPerGuess && (
+                                // <div className="w-full">
+                                //     <InGameTimer
+                                //         turnKey={timerData.turnKey}
+                                //         timePerTurn={game.nSecondsPerGuess}
+                                //         initialTime={timerData.timeLeft}
+                                //         onTimerEnd={recalculateCurrentPlayer}
+                                //         isPaused={isAnimating}
+                                //     />   
+                                // </div>
+                                <div>TIMER WIP</div>
                             )}
                             
                             {/* Letter Grid */}
