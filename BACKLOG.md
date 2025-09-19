@@ -1,6 +1,6 @@
 Voor v1.0-beta
-- Random player volgorde in back-end bepalen bij create game
 - pre fill kapot als je niet aan de beurt bent en je toggled - maakt het board leeg
+- bug account link -> login guest account -> je gaat niet naar join??
 
 - Wanneer je niet binnen de tijd gokt, is jouw beurt gewoon volledig weg (ook weg in het board lmz)
 - sound effects die matchen met de vibe

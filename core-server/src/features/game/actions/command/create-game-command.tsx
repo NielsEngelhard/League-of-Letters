@@ -11,6 +11,7 @@ import { DbOrTransaction } from "@/drizzle/util/transaction-util";
 import { AuthenticateOrRedirect_Server } from "@/features/auth/current-user";
 import { and, eq, inArray } from "drizzle-orm";
 import { JwtAccountPayload } from "@/features/auth/jwt/jwt-models";
+import { shuffleArray } from "@/lib/array-util";
 
 
 export default async function CreateGameCommand(schema: CreateGameSchema, gameId?: string, transaction?: DbOrTransaction): Promise<string> {
@@ -63,6 +64,9 @@ export default async function CreateGameCommand(schema: CreateGameSchema, gameId
 
 function createPlayers(schema: CreateGameSchema, gameId: string): DbGamePlayer[] {
     if (!schema.players) throw Error("No players assigned");
+
+    // Randomize order for players
+    schema.players = shuffleArray(schema.players);
 
     return schema.players?.map((schemaPlayer, index) => 
         GamePlayerFactory.createGamePlayer(gameId, schemaPlayer.accountId, index + 1, schemaPlayer.connectionStatus ?? "empty", schemaPlayer.username, schemaPlayer.colorHex)
