@@ -34,6 +34,7 @@ type ActiveGameContextType = {
   disconnectPlayer: (playerId: string) => void;
   recalculateCurrentPlayer: () => void;
   kickPlayer: (accountId: string) => void;
+  skipCurrentGuess: () => void;
 };
 
 const ActiveGameContext = createContext<ActiveGameContextType | undefined>(undefined);
@@ -295,6 +296,22 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     setPlayers(prev => prev.map(player => player.accountId == playerId ? {...player, connectionStatus: "disconnected"} : player));
   }
 
+  function skipCurrentGuess() {
+    // Skip current guess (if not the last guess)
+    // WIP
+    console.log("SKIP CURRENT GUESS");
+    setCurrentRound(prev => {
+      if (!prev) return prev;
+      
+      prev.guesses = [
+        ...prev.guesses,
+        { position: prev.guesses.length+1, evaluatedLetters: [] }
+      ]
+      
+      return prev;
+    })
+  }
+
   // BEGIN sound effects
 
     // Play sound effect for game is over
@@ -327,6 +344,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
         recalculateCurrentPlayer,
         setInitialPlayers,
         kickPlayer,
+        skipCurrentGuess,
        }}>
       {children}
     </ActiveGameContext.Provider>

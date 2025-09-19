@@ -25,7 +25,7 @@ interface Props {
 }
 
 export default function GameBoard({generalTranslations, inGameTranslations, scoreTranslations, settingsTranslations, lang}: Props) {
-    const { game, players, currentGuess, currentRound, isThisPlayersTurn, isAnimating, revealedWord, currentPlayerId, recalculateCurrentPlayer } = useActiveGame();
+    const { game, players, currentGuess, currentRound, isThisPlayersTurn, isAnimating, revealedWord, currentPlayerId, recalculateCurrentPlayer, skipCurrentGuess } = useActiveGame();
     const [currentPlayer, setCurrentPlayer] = useState<GamePlayerModel | undefined>(undefined);
     const [currentSubmitFailed, setCurrentSubmitFailed] = useState(false);
     const soundPlayer = useSounds();
@@ -88,13 +88,7 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
     // Current guess abandoned
     function onTimerZero() {
         console.log("TRIGGER: onTimerZero");
-
-        const isLastGuessOfRound = false;
-
-        if (!isLastGuessOfRound) {
-            // TODO: Set current row to skipped
-        }
-        
+        skipCurrentGuess();        
         recalculateCurrentPlayer();
     }
 
