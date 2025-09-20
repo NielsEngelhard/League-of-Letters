@@ -298,19 +298,27 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
   }
 
 function skipCurrentGuess() {
+  const isLastGuess: boolean = currentRound?.currentGuessIndex == game?.nGuessesPerRound;
+
+  // Add skipped guess to list
   setCurrentRound(prev => {
     if (!prev || ! currentRound) return prev;
 
+    // Add skipped guess
     const skippedGuess = EvaluatedWordFactory.createSkipped(currentRound?.wordLength, 1);
-    
     return {
       ...prev,
       guesses: [
         ...prev.guesses,
         skippedGuess
-      ]
+      ],
+      currentGuessIndex: prev.currentGuessIndex + 1 // Update current guess index
     };
   });
+
+  if (isLastGuess) {
+    console.log("GOTO: next round");
+  }
 }
 
   // BEGIN sound effects

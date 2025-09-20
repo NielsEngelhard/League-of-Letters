@@ -31,7 +31,11 @@ export default function LetterTile({ state, letter, animate = false, variant = "
              ${!state && !letter ? 'bg-border/30' : ''}
              ${!state && letter ? 'bg-primary/20 border-primary/40' : ''}`}>
             <span className="font-bold uppercase">
-                {letter}
+                {state == LetterState.Skipped ? (
+                    <>☠</>
+                ): (
+                    <>{letter}</>
+                )}
             </span>
         </div>
     )
