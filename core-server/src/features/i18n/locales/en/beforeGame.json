@@ -27,6 +27,7 @@
         "moreSettingsSoon": "More settings coming soon...",
         "startButton": "Start Game",
         "secondsPerGuessLabel": "Seconds per guess",
+        "guessesPerRoundLabel": "Attempts per round",
         "wordLengthOptions": {
             "four": "4 (easy)",
             "five": "5 (fine)",

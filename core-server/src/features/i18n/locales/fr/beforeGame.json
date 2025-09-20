@@ -27,6 +27,7 @@
         "moreSettingsSoon": "Plus de paramètres bientôt...",
         "startButton": "Commencer le Jeu",
         "secondsPerGuessLabel": "Secondes par tentative",
+        "guessesPerRoundLabel": "Tentatives par tour",
         "wordLengthOptions": {
             "four": "4 (facile)",
             "five": "5 (ça va)",

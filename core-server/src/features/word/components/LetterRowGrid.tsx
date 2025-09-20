@@ -1,4 +1,3 @@
-import { last } from "@/lib/array-util";
 import { EvaluatedLetter, EvaluatedWord, LetterState } from "../word-models"
 import LetterRow from "./LetterRow";
 
@@ -7,8 +6,6 @@ interface Props {
     maxNGuesses: number;
     wordLength: number;
     currentGuess: string;
-    revealedWordLabel?: string;
-    revealedWord?: string;
     currentSubmitFailed?: boolean;
 }
 
@@ -17,8 +14,6 @@ export default function LetterRowGrid({
     maxNGuesses, 
     wordLength, 
     currentGuess, 
-    revealedWordLabel: label,
-    revealedWord,
     currentSubmitFailed
 }: Props) {
     const remainingRows = maxNGuesses - preFilledRows.length - 1;
@@ -59,29 +54,6 @@ export default function LetterRowGrid({
         return <LetterRow key={`empty-${index}`} letters={emptyLetters} />;
     };
 
-    const renderWordReveal = () => {
-        if (!revealedWord) return null;
-
-        // If revealedword is guessed, it is already shown, so dont show the revealedword yet another time
-        const lastElementContainsOnlyCorrectLetters = last(preFilledRows)?.evaluatedLetters.every(l => l.state == LetterState.Correct);
-        if (lastElementContainsOnlyCorrectLetters) {
-            return null;
-        }
-
-        return (
-            <div className="absolute inset-0 bg-background-secondary/60 rounded-lg flex items-center justify-center transition-all duration-500 ease-out">
-                <div className="text-center space-y-1 bg-background-secondary/90 p-4 rounded-md">
-                    <div className="text-xs font-medium text-foreground-muted uppercase tracking-wider">
-                        {label}
-                    </div>
-                    <div className="text-3xl font-bold text-primary tracking-widest font-monos">
-                        {revealedWord.toUpperCase()}
-                    </div>
-                </div>
-            </div>
-        );
-    };
-
     return (
         <div className="relative">
             <div className="flex flex-col gap-1.5">
@@ -96,9 +68,6 @@ export default function LetterRowGrid({
                     renderEmptyRow(index)
                 )}
             </div>
-
-            {/* Word reveal overlay */}
-            {renderWordReveal()}
         </div>
     );
 }

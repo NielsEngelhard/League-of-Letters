@@ -27,6 +27,7 @@
         "moreSettingsSoon": "Meer instellingen komen eraan...",
         "startButton": "Start Spel",
         "secondsPerGuessLabel": "Seconden per gok",
+        "guessesPerRoundLabel": "Pogingen per ronde",
         "wordLengthOptions": {
             "four": "4 (makkelijk)",
             "five": "5 (prima)",

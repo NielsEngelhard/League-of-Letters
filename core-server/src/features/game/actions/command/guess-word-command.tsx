@@ -205,7 +205,7 @@ async function updateGameForNextRound(game: DbActiveGame, tx: DbOrTransaction) {
         .set({
             currentRoundIndex: game.currentRoundIndex + 1
         })
-        .where(eq(ActiveGameTable.id, game.id));    
+        .where(eq(ActiveGameTable.id, game.id));
 }
 
 async function addScoreForPlayer(player: DbGamePlayer, score: number, tx: DbOrTransaction) {

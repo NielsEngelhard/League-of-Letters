@@ -27,6 +27,7 @@ export default interface BeforeGameTranslations {
     moreSettingsSoon: string,
     startButton: string;
     secondsPerGuessLabel: string;
+    guessesPerRoundLabel: string;
     wordLengthOptions: {
       four: string;
       five: string;

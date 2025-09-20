@@ -27,6 +27,7 @@
         "moreSettingsSoon": "Mehr Einstellungen kommen bald...",
         "startButton": "Spiel Starten",
         "secondsPerGuessLabel": "Sekunden pro Versuch",
+        "guessesPerRoundLabel": "Versuche pro Runde",
         "wordLengthOptions": {
             "four": "4 (leicht)",
             "five": "5 (okay)",

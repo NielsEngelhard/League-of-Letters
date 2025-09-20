@@ -11,6 +11,7 @@ import { sortPlayerModelOnPositionAndGetUserIds } from '../util/player-sorting';
 import { getSecondsBetweenNowAndUnixTimestampInSeconds } from '@/lib/time-util';
 import { useSounds } from '@/lib/SoundPlayerContext';
 import { EvaluatedWordFactory } from '@/features/word/util/factories/evaluated-word-factory';
+import FinalizeRoundAfterSkip from '../actions/command/finalize-round-after-skip';
 
 type ActiveGameContextType = {  
   // Data
@@ -179,7 +180,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
       });    
   }
 
-  function handleEndOfCurrentRound(roundTransitionData: RoundTransitionData) {
+  function handleEndOfCurrentRound(roundTransitionData: RoundTransitionData) {    
     if (!gameRef.current || !currentRoundRef.current) return;
 
     setRevealedWord(roundTransitionData.currentWord);
@@ -193,6 +194,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     else
     {
       setTimeout(() => {
+          debugger;
           triggerNextRound(roundTransitionData.lastGuessUnixUtcTimestamp_InSeconds);
         }, TIME_BETWEEN_ROUNDS_MS);          
     }
@@ -297,38 +299,50 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     setPlayers(prev => prev.map(player => player.accountId == playerId ? {...player, connectionStatus: "disconnected"} : player));
   }
 
-function skipCurrentGuess() {
-  const isLastGuess: boolean = currentRound?.currentGuessIndex == game?.nGuessesPerRound;
+  async function skipCurrentGuess() {
+    if (!game) return;
 
-  // Add skipped guess to list
-  setCurrentRound(prev => {
-    if (!prev || ! currentRound) return prev;
+    const isLastGuess: boolean = currentRound?.currentGuessIndex == game?.nGuessesPerRound;
 
-    // Add skipped guess
-    const skippedGuess = EvaluatedWordFactory.createSkipped(currentRound?.wordLength, 1);
-    return {
-      ...prev,
-      guesses: [
-        ...prev.guesses,
-        skippedGuess
-      ],
-      currentGuessIndex: prev.currentGuessIndex + 1 // Update current guess index
-    };
-  });
+    if (isLastGuess) {
+      await HandleFinalizeRoundRequest();
+      return;
+    }
 
-  if (isLastGuess) {
-    console.log("GOTO: next round");
+    // Add skipped guess to list and go to next guess
+    setCurrentRound(prev => {
+      if (!prev || ! currentRound) return prev;
+
+      // Add skipped guess
+      const skippedGuess = EvaluatedWordFactory.createSkipped(currentRound?.wordLength, 1);
+      return {
+        ...prev,
+        guesses: [
+          ...prev.guesses,
+          skippedGuess
+        ],
+        currentGuessIndex: prev.currentGuessIndex + 1 // Update current guess index
+      };
+    });
   }
-}
+
+  async function HandleFinalizeRoundRequest() {
+    if (!game) return;
+
+    const response = await FinalizeRoundAfterSkip(game.id);
+    if (response == null) return;
+    
+    handleWordGuess(response);
+  }
 
   // BEGIN sound effects
 
-    // Play sound effect for game is over
-    useEffect(() => {
-        if (game?.gameIsOver != true) return;
-        
-        soundPlayer.playEffect("game-over");
-    }, [game?.gameIsOver]);  
+  // Play sound effect for game is over
+  useEffect(() => {
+    if (game?.gameIsOver != true) return;
+
+    soundPlayer.playEffect("game-over");
+  }, [game?.gameIsOver]);  
 
   // END sound effects
 

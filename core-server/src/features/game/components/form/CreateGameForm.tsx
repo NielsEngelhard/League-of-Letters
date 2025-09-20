@@ -107,6 +107,7 @@ export default function CreateGameForm({ onLeaveGame, submitDisabled = false, pl
         <form className="flex flex-col gap-3" onSubmit={form.handleSubmit(handleFormSubmit)}>      
             <div className="flex flex-col md:flex-row gap-2">
                 <SelectDropdown
+                    className="w-full"
                     name="wordLength"
                     control={form.control}
                     label={t.createGameForm.wordLengthLabel}
@@ -126,6 +127,7 @@ export default function CreateGameForm({ onLeaveGame, submitDisabled = false, pl
                 />
 
                 <SelectDropdown
+                    className="w-full"
                     name="totalRounds"
                     control={form.control}
                     label={t.createGameForm.totalRoundsLabel}
@@ -142,6 +144,7 @@ export default function CreateGameForm({ onLeaveGame, submitDisabled = false, pl
 
             <div className="flex flex-col md:flex-row gap-2">
                 <SelectDropdown
+                    className="w-full"
                     key={form.watch("language")}
                     name="nSecondsPerGuess"
                     control={form.control}
@@ -159,6 +162,25 @@ export default function CreateGameForm({ onLeaveGame, submitDisabled = false, pl
                     ]}
                 />     
 
+                <SelectDropdown
+                    key={form.watch("guessesPerRound")}
+                    className="w-full"
+                    name="guessesPerRound"
+                    control={form.control}
+                    label={t.createGameForm.guessesPerRoundLabel}
+                    required
+                    options={[
+                        { value: 2, label: "2 (dev only)" },
+                        { value: 4, label: "4" },
+                        { value: 5, label: "5" },
+                        { value: 6, label: "6" },
+                        { value: 7, label: "7" },
+                        { value: 8, label: "8" },
+                    ]}
+                /> 
+            </div>
+
+            <div className="flex flex-col md:flex-row gap-2">
                 <div className="items-end flex">
                     <LanguagePicker
                         currentLanguage={form.getValues("language")}

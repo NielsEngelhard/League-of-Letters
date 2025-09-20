@@ -59,7 +59,7 @@ export default function GameResultOverview({ players, lang, t, gameId, thisPlaye
     }
 
     return (
-        <Card className="p-6 flex flex-col gap-4">
+        <Card className="p-6 flex flex-col gap-4 max-w-lg w-full">
             <DefaultCardHeader Icon={Trophy} title="Game Results" description={getSubtitle()} />
             
             {/* Prominent message for multiplayer games so participants can stay and play another game easily */}

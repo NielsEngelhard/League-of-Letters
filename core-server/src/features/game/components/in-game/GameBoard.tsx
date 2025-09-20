@@ -85,9 +85,8 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
         });
     }, [players, currentRound?.roundNumber]);
 
-    // Current guess abandoned
+    // Timer ended so this guess is skipped
     function onTimerZero() {
-        console.log("TRIGGER: onTimerZero");
         skipCurrentGuess();        
         recalculateCurrentPlayer();
     }
@@ -133,16 +132,28 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
                             )}
                             
                             {/* Letter Grid */}
-                            <div className={`${getGridScale()} `}>
+                            <div className={`${getGridScale()} relative`}>
                                 <LetterRowGrid
                                     currentGuess={currentGuess}
                                     maxNGuesses={game.nGuessesPerRound}
                                     preFilledRows={currentRound.guesses ?? []}
                                     wordLength={currentRound.wordLength}
-                                    revealedWord={revealedWord}
-                                    revealedWordLabel={inGameTranslations.theWordWas}
                                     currentSubmitFailed={currentSubmitFailed}
                                 />
+
+                                {/* Word reveal overlay */}
+                                {revealedWord && (
+                                    <div className="absolute inset-0 bg-background-secondary/60 rounded-lg flex items-center justify-center transition-all duration-500 ease-out">
+                                        <div className="text-center space-y-1 bg-background-secondary/90 p-4 rounded-md">
+                                            <div className="text-xs font-medium text-foreground-muted uppercase tracking-wider">
+                                                {inGameTranslations.theWordWas}
+                                            </div>
+                                            <div className="text-3xl font-bold text-primary tracking-widest font-monos">
+                                                {revealedWord.toUpperCase()}
+                                            </div>
+                                        </div>
+                                    </div>                                    
+                                )}
                             </div>                            
                         </div>
                         

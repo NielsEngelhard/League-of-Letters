@@ -1,5 +1,6 @@
 import { cva, VariantProps } from "class-variance-authority";
 import { LetterState } from "../word-models";
+import { Clock } from "lucide-react";
 
 interface Props extends VariantProps<typeof variants> {
     state?: LetterState;
@@ -32,7 +33,7 @@ export default function LetterTile({ state, letter, animate = false, variant = "
              ${!state && letter ? 'bg-primary/20 border-primary/40' : ''}`}>
             <span className="font-bold uppercase">
                 {state == LetterState.Skipped ? (
-                    <>☠</>
+                    <><Clock size={16} /></>
                 ): (
                     <>{letter}</>
                 )}

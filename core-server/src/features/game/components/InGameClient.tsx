@@ -60,13 +60,15 @@ export default function IngameClient({ initialGameState, lang, generalTranslatio
     return (
         <>
             {game?.gameIsOver ? (
-                <GameResultOverview
-                    t={inGameTranslations}
-                    lang={lang}
-                    players={players}
-                    thisPlayerIsHost={account.id == game.hostAccountId}
-                    gameId={game.id}
-                />
+                <div className="flex justify-center">
+                    <GameResultOverview
+                        t={inGameTranslations}
+                        lang={lang}
+                        players={players}
+                        thisPlayerIsHost={account.id == game.hostAccountId}
+                        gameId={game.id}
+                    />
+                </div>
             ) : (
                 <GameBoard
                     lang={lang}
