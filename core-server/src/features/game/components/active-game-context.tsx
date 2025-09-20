@@ -10,6 +10,7 @@ import { GetLetterAnimationDurationInMs } from '../util/game-time-calculators';
 import { sortPlayerModelOnPositionAndGetUserIds } from '../util/player-sorting';
 import { getSecondsBetweenNowAndUnixTimestampInSeconds } from '@/lib/time-util';
 import { useSounds } from '@/lib/SoundPlayerContext';
+import { EvaluatedWordFactory } from '@/features/word/util/factories/evaluated-word-factory';
 
 type ActiveGameContextType = {  
   // Data
@@ -296,21 +297,21 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     setPlayers(prev => prev.map(player => player.accountId == playerId ? {...player, connectionStatus: "disconnected"} : player));
   }
 
-  function skipCurrentGuess() {
-    // Skip current guess (if not the last guess)
-    // WIP
-    console.log("SKIP CURRENT GUESS");
-    setCurrentRound(prev => {
-      if (!prev) return prev;
-      
-      prev.guesses = [
+function skipCurrentGuess() {
+  setCurrentRound(prev => {
+    if (!prev || ! currentRound) return prev;
+
+    const skippedGuess = EvaluatedWordFactory.createSkipped(currentRound?.wordLength, 1);
+    
+    return {
+      ...prev,
+      guesses: [
         ...prev.guesses,
-        { position: prev.guesses.length+1, evaluatedLetters: [] }
+        skippedGuess
       ]
-      
-      return prev;
-    })
-  }
+    };
+  });
+}
 
   // BEGIN sound effects
 

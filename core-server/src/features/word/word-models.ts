@@ -16,7 +16,8 @@ export enum LetterState {
   CompleteCorrect = "complete-correct", // Only used in client to indicate that it is sure that there are no more misplaced letters of this letter
   Wrong = "wrong",
   Misplaced = "misplaced",
-  Unguessed = "unguessed",  
+  Unguessed = "unguessed",
+  Skipped = "skipped"
 }
 
 export interface WordState {

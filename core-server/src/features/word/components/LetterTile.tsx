@@ -27,9 +27,12 @@ export default function LetterTile({ state, letter, animate = false, variant = "
              ${state == LetterState.Correct ? 'bg-success text-white' : ''}
              ${state == LetterState.Wrong ? 'bg-error text-white' : ''}
              ${state == LetterState.Misplaced ? 'bg-warning text-white' : ''}
+             ${state == LetterState.Skipped ? 'bg-foreground-muted/20' : ''}
              ${!state && !letter ? 'bg-border/30' : ''}
              ${!state && letter ? 'bg-primary/20 border-primary/40' : ''}`}>
-            <span className="font-bold uppercase">{letter}</span>
+            <span className="font-bold uppercase">
+                {letter}
+            </span>
         </div>
     )
 }

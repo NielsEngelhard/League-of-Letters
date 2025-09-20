@@ -73,7 +73,7 @@ export default function CreateGameForm({ onLeaveGame, submitDisabled = false, pl
         gameMode: gameMode,
         gameId: gameId,
         withStartingLetter: true,
-        nSecondsPerGuess: gameMode == "online" ? 60 : undefined,
+        nSecondsPerGuess: gameMode == "online" ? 0 : 0,
         language: lang
       }
     })    
@@ -146,7 +146,7 @@ export default function CreateGameForm({ onLeaveGame, submitDisabled = false, pl
                     name="nSecondsPerGuess"
                     control={form.control}
                     label={t.createGameForm.secondsPerGuessLabel}
-                    placeholder="∞"
+                    placeholder=""
                     required
                     options={[
                         { value: 0, label: "∞" },
