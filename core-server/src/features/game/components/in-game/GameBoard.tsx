@@ -121,9 +121,10 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
                         )}
 
                         <div className="flex flex-col-reverse md:flex-col">
-                            {(game.nSecondsPerGuess && currentRound.lastGuessUnixUtcTimestamp_InSeconds) && (
+                            {(!isAnimating && game.nSecondsPerGuess && currentRound.lastGuessUnixUtcTimestamp_InSeconds) && (
                                 <div className="w-full flex justify-center">
                                     <InGameTimer
+                                        key={currentRound.lastGuessUnixUtcTimestamp_InSeconds}
                                         secondsPerGuess={game.nSecondsPerGuess}
                                         lastGuessUnixUtcTimestamp={currentRound.lastGuessUnixUtcTimestamp_InSeconds}
                                         onTimerZero={onTimerZero}
