@@ -3,7 +3,7 @@
 import { getCurrentUtcUnixTimestamp_Seconds } from "@/lib/time-util";
 import { GuessWordResponse } from "./guess-word-command"
 import { db } from "@/drizzle/db";
-import { ActiveGameTable, DbActiveGameWithRoundsAndPlayers, DbGameRound, GameRoundTable } from "@/drizzle/schema";
+import { ActiveGameTable, DbActiveGameWithRoundsAndPlayers, DbGameRound } from "@/drizzle/schema";
 import { eq } from "drizzle-orm";
 import { EmitGuessWordRealtimeEvent } from "@/features/realtime/realtime-api-adapter";
 import { EvaluatedWordFactory } from "@/features/word/util/factories/evaluated-word-factory";
@@ -64,6 +64,7 @@ function getRound(game: DbActiveGameWithRoundsAndPlayers): DbGameRound | undefin
 }
 
 function roundIsOver(currentRound: DbGameRound): boolean {
+    console.log(currentRound);
     // Is it with time? 
     // Not with time? Then just STOP DLOW
 

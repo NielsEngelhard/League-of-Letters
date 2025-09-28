@@ -15,7 +15,7 @@ export interface ActiveGameModel {
     players: GamePlayerModel[];
     gameIsOver: boolean;
     hostAccountId: string;
-    nSecondsPerGuess?: number | null;
+    nSecondsPerGuess?: number | null;    
 }
 
 export interface ActiveGameTeaserModel {

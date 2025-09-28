@@ -3,11 +3,10 @@ import Card from "@/components/ui/card/Card";
 import SubText from "@/components/ui/text/SubText";
 import CreateGameForm from "@/features/game/components/form/CreateGameForm";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card/card-children";
-import { DefaultLanguage, SupportedLanguage } from "@/features/i18n/languages";
+import { SupportedLanguage } from "@/features/i18n/languages";
 import { loadTranslations } from "@/features/i18n/utils";
 import { LANGUAGE_ROUTE, PICK_GAME_MODE_ROUTE } from "@/app/routes";
 import PageIntro from "@/components/ui/block/PageIntro";
-import { Authenticate_Server } from "@/features/auth/current-user";
 
 export default async function SoloPage({
   params
@@ -17,8 +16,6 @@ export default async function SoloPage({
   const { lang } = await params;
 
   const t = await loadTranslations(lang, ["beforeGame"]);
-
-  const account = await Authenticate_Server(true);
 
   return (
     <PageBase size="sm" lang={lang} requiresAuh={true}>

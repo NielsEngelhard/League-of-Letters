@@ -4,6 +4,10 @@ import { WordState } from "../word/word-models";
 
 export class GameMapper {
     static ActiveGameToModel(game: DbActiveGameWithRoundsAndPlayers): ActiveGameModel {
+        if (game.nSecondsPerGuess) {
+            // TODO: bereken welke guess and turn het momenteel is
+        }
+
         return {
             id: game.id,
             currentRoundIndex: game.currentRoundIndex,

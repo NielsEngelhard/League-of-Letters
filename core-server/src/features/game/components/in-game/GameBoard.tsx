@@ -29,7 +29,7 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
     const [currentPlayer, setCurrentPlayer] = useState<GamePlayerModel | undefined>(undefined);
     const [currentSubmitFailed, setCurrentSubmitFailed] = useState(false);
     const soundPlayer = useSounds();
-    
+
     function getGridScale(): string {
         if (!currentRound) return "scale-100";
 
