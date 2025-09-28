@@ -168,9 +168,9 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
       router.push(LANGUAGE_ROUTE(account?.language ?? DefaultLanguage, JOIN_GAME_ROUTE(newLobbyId)));
     });
     
-    socket.on('player-guess-changed', (guess: string) => {
+    socket.on('player-guess-changed', ({ guess, accountId }: { guess: string, accountId: string}) => {
       RealtimeLogger.Log(`player-guess-changed ${guess}`);
-      activeGameContext.setCurrentGuess(guess);
+      activeGameContext.handleExternalCurrentGuessChanged(guess, accountId);
     });
 
     socket.on('kick-player', ({ gameId, accountId }: {gameId: string, accountId: string}) => {

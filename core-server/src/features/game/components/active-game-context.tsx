@@ -36,6 +36,7 @@ type ActiveGameContextType = {
   recalculateCurrentPlayer: () => void;
   kickPlayer: (accountId: string) => void;
   skipCurrentGuess: () => void;
+  handleExternalCurrentGuessChanged: (guess: string, callerAccountId: string) => void;
 };
 
 const ActiveGameContext = createContext<ActiveGameContextType | undefined>(undefined);
@@ -286,6 +287,11 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     });
   }
 
+  function handleExternalCurrentGuessChanged(guess: string, callerAccountId: string) {
+    if (currentPlayerId != callerAccountId) return;
+    setCurrentGuess(guess);
+  }
+
   function setInitialPlayers(players: GamePlayerModel[]) {
     setPlayers(players);
   }
@@ -362,6 +368,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
         setInitialPlayers,
         kickPlayer,
         skipCurrentGuess,
+        handleExternalCurrentGuessChanged
        }}>
       {children}
     </ActiveGameContext.Provider>

@@ -12,9 +12,10 @@ interface Props {
     disabled?: boolean;
     t: GeneralTranslations;
     onSubmitFailed?: () => void;
+    currentPlayerUsername?: string;
 }
 
-export default function WordInput({ t, onSubmitFailed, disabled = false }: Props) {
+export default function WordInput({ t, onSubmitFailed, disabled = false, currentPlayerUsername }: Props) {
     const [keyStates, setKeyStates] = useState<Map<string, LetterState>>(new Map());
     const [currentAnimatedKey, setCurrentAnimatedKey] = useState<string>("");
     
@@ -124,6 +125,7 @@ export default function WordInput({ t, onSubmitFailed, disabled = false }: Props
                 onEnter={onSubmit}
                 keyStates={keyStates}
                 currentlyAnimatedKey={currentAnimatedKey}
+                currentPlayerUsername={currentPlayerUsername}
                 t={t}
             />
             

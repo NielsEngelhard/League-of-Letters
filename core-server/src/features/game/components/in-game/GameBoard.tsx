@@ -165,6 +165,7 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
                                 disabled={!isThisPlayersTurn || isAnimating}
                                 t={generalTranslations}
                                 onSubmitFailed={onSubmitGuessFailed}
+                                currentPlayerUsername={currentPlayer?.username}
                             />                        
                         </div>                        
                     </div>

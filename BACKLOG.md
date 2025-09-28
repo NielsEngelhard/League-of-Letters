@@ -1,15 +1,8 @@
 Voor v1.0-beta
-- Wanneer je niet binnen de tijd gokt, is jouw beurt gewoon volledig weg (ook weg in het board lmz)
 - sound effects die matchen met de vibe
-
-- BUGFIX: invoer woord doet de andere client altijd kijken of de input wel vanaf de juiste zender komt (minder buggevoelig lmz met dubbel typen)
-
 - Niet geldige woorden uit de lijst halen
 
 - laat de app refreshen als je bij de pagina komt op bijv. telefoon via terug en als je de browser gesloten had en weer terugkomt.
-
-- duidelijker als jij aan de beurt bent (toetsenbord is nu te vaag lmz)
-
 SHOULD
 - public & private games and some overview where you can see current games (refactor online game route)
 - GAME MODE: bring your own word

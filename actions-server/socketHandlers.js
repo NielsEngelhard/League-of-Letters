@@ -45,7 +45,7 @@ module.exports = (io, socket) => {
 
   socket.on('player-guess-changed', (guess) => {
     Logger.LogWebsocketTrigger("player-guess-changed", `GameId/Room: '${socket.gameId}' Guess: '${guess}'`);  
-    socket.broadcast.to(socket.gameId).emit('player-guess-changed', guess);
+    socket.broadcast.to(socket.gameId).emit('player-guess-changed', { guess: guess, accountId: socket.accountId});
   });
 
   socket.on('guess-word', (guessWordResponse) => {

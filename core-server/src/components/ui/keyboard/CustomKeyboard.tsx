@@ -4,6 +4,7 @@ import KeyboardColorExplanation from "./KeyboardColorExplanation";
 import { useAuth } from "@/features/auth/AuthContext";
 import { LetterState } from "@/features/word/word-models";
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
+import Card from "../card/Card";
 
 const keyboardRows = [
     ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
@@ -19,14 +20,15 @@ interface Props {
     t: GeneralTranslations;
     currentlyAnimatedKey?: string;
     disabled?: boolean;
+    currentPlayerUsername?: string;
 }
 
-export default function CustomKeyboard({ onKeyPress, onDelete, onEnter, keyStates, t, currentlyAnimatedKey, disabled = false }: Props) {
+export default function CustomKeyboard({ onKeyPress, onDelete, onEnter, keyStates, t, currentlyAnimatedKey, disabled = false, currentPlayerUsername = undefined }: Props) {
     const { settings } = useAuth();
 
     return (
     <>
-        <div className="flex flex-col gap-1 sm:gap-2 items-center w-full max-w-2xl mx-auto">
+        <div className="relative flex flex-col gap-1 sm:gap-2 items-center w-full max-w-2xl mx-auto">
             {keyboardRows.map((keyboardRow, rowIndex) => (
                 <div className="flex flex-row gap-1 sm:gap-2 w-full justify-center" key={`kb-row-${rowIndex}`}>
                     
@@ -75,6 +77,16 @@ export default function CustomKeyboard({ onKeyPress, onDelete, onEnter, keyState
                     
                 </div>
             ))}
+
+            {(disabled && currentPlayerUsername) ? (
+                <div className="absolute inset-0 bg-background-secondary/60 rounded-lg flex items-center justify-center transition-all duration-500 ease-out">
+                    <div className="text-center space-y-1 bg-background-secondary/90 p-4 rounded-md">
+                        <div className="text-3xl font-bold text-primary tracking-widest font-monos">
+                            {currentPlayerUsername}
+                        </div>
+                    </div>
+                </div>                  
+            ): <></>}
         </div>
         {settings.showKeyboardHints == true && <KeyboardColorExplanation t={t} />}
     </>
