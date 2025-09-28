@@ -137,9 +137,10 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
                                 <LetterRowGrid
                                     currentGuess={currentGuess}
                                     maxNGuesses={game.nGuessesPerRound}
-                                    preFilledRows={currentRound.guesses ?? []}
+                                    previousGuesses={currentRound.guesses ?? []}
                                     wordLength={currentRound.wordLength}
                                     currentSubmitFailed={currentSubmitFailed}
+                                    currentGuessIndex={currentRound.currentGuessIndex}
                                 />
 
                                 {/* Word reveal overlay */}

@@ -1,3 +1,5 @@
+import { ActiveGameModel } from "@/features/game/game-models";
+
 export interface TimeOffsetRequestData {
     timePerGuess: number;
     currentRoundNumber: number; // 1-based
@@ -14,6 +16,24 @@ export interface TimeOffsetResponse {
 
 // Calculate the actual current guess and round based on the time that has past 
 export class GameTimeOffsetTracker {
+
+    static calculateForGame(game: ActiveGameModel): TimeOffsetResponse | null {
+        if (!game.nSecondsPerGuess) return null;
+        
+        const currentRound = game.rounds.find(r => r.roundNumber == game.currentRoundIndex);
+        if (!currentRound) return null;
+        
+        if (!currentRound.lastGuessUnixUtcTimestamp_InSeconds) throw Error("INVALID GAME STATE: seconds per guess is defined but no last unix timestamp provided");
+        
+        return this.calculate({
+            currentRoundNumber: game.currentRoundIndex,
+            currentGuessNumber: currentRound.currentGuessIndex,
+            guessesPerRound: game.nGuessesPerRound,
+            lastGuessUnixUtcTimeStamp_InSeconds: currentRound.lastGuessUnixUtcTimestamp_InSeconds,
+            maxRounds: game.totalRounds,
+            timePerGuess: game.nSecondsPerGuess
+        });
+    }
 
     // Calculate the actual guess and round when playing with time. The database can indicate round 1 guess 1, but when you play with time
     // It can be that e.g. it is guess 2 in reality.

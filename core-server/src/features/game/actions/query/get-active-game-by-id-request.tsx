@@ -8,7 +8,7 @@ import { GameMapper } from "../../game-mapper";
 export async function GetActiveGameByIdRequest(gameId: string): Promise<ActiveGameModel | null> {
     try {
         const game = await getGame(gameId);
-        return GameMapper.ActiveGameToModel(game);        
+        return GameMapper.ActiveGameToModel(game);
     } catch {
         return null;
     }

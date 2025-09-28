@@ -304,23 +304,19 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
 
     const isLastGuess: boolean = currentRound?.currentGuessIndex == game?.nGuessesPerRound;
 
+    // Go to next round
     if (isLastGuess) {
       await HandleFinalizeRoundRequest();
       return;
     }
 
-    // Add skipped guess to list and go to next guess
+    // To to next guess
     setCurrentRound(prev => {
       if (!prev || ! currentRound) return prev;
 
       // Add skipped guess
-      const skippedGuess = EvaluatedWordFactory.createSkipped(currentRound?.wordLength, 1);
       return {
         ...prev,
-        guesses: [
-          ...prev.guesses,
-          skippedGuess
-        ],
         currentGuessIndex: prev.currentGuessIndex + 1 // Update current guess index
       };
     });

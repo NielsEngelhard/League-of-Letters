@@ -58,9 +58,10 @@ export default function WordsPlayingBlock({ guesses, actualWord }: Props) {
     return (
         <LetterRowGrid
             maxNGuesses={6}
-            preFilledRows={prefilledRows}
+            previousGuesses={prefilledRows}
             wordLength={actualWord.length}
             currentGuess=""
+            currentGuessIndex={currentGuessIndex}
         />
     );
 }

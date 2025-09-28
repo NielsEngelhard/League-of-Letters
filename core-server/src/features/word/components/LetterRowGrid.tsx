@@ -1,22 +1,26 @@
+import { EvaluatedWordFactory } from "../util/factories/evaluated-word-factory";
 import { EvaluatedLetter, EvaluatedWord, LetterState } from "../word-models"
 import LetterRow from "./LetterRow";
 
 interface Props {
-    preFilledRows: EvaluatedWord[];
+    previousGuesses: EvaluatedWord[];
     maxNGuesses: number;
     wordLength: number;
     currentGuess: string;
     currentSubmitFailed?: boolean;
+    currentGuessIndex: number;
 }
 
 export default function LetterRowGrid({ 
-    preFilledRows, 
+    previousGuesses: preFilledRows, 
     maxNGuesses, 
     wordLength, 
     currentGuess, 
-    currentSubmitFailed
+    currentSubmitFailed,
+    currentGuessIndex
 }: Props) {
-    const remainingRows = maxNGuesses - preFilledRows.length - 1;
+    const nSkippedGuesses: number = (currentGuessIndex - preFilledRows.length) - 1;
+    const nEmptyRows = maxNGuesses - currentGuessIndex;
 
     const renderPreviousGuesses = () => (
         <>
@@ -29,6 +33,23 @@ export default function LetterRowGrid({
             ))}
         </>
     );
+
+    const renderSkippedGuesses = () => {
+        if (!currentGuessIndex || !preFilledRows) return;
+
+
+        return (
+            <>
+                {Array.from({length: nSkippedGuesses}).map((v, index) => (
+                    <LetterRow 
+                        key={`skip-${index}`} 
+                        letters={EvaluatedWordFactory.createSkipped(wordLength, index).evaluatedLetters} 
+                        animate={index === preFilledRows.length - 1} 
+                    />
+                ))}
+            </>            
+        )
+    };
 
     const renderCurrentGuess = () => {
         const letters: EvaluatedLetter[] = Array.from({ length: wordLength }, (_, index) => ({
@@ -44,14 +65,20 @@ export default function LetterRowGrid({
         );
     };
 
-    const renderEmptyRow = (index: number) => {
+    const renderEmptyRows = () => {
         const emptyLetters: EvaluatedLetter[] = Array.from({ length: wordLength }, (_, i) => ({
             position: i + 1,
             letter: "",
             state: LetterState.Unguessed
         }));
 
-        return <LetterRow key={`empty-${index}`} letters={emptyLetters} />;
+        return (
+          <>
+            {Array.from({ length: nEmptyRows }, (_, index) => 
+                <LetterRow key={`empty-${index}`} letters={emptyLetters} />
+            )}
+          </>  
+        );
     };
 
     return (
@@ -59,14 +86,15 @@ export default function LetterRowGrid({
             <div className="flex flex-col gap-1.5">
                 {/* Previous guesses */}
                 {renderPreviousGuesses()}
-                
+
+                {/* Skipped guesses */}
+                {renderSkippedGuesses()}
+
                 {/* Current guess row */}
                 {preFilledRows.length < maxNGuesses && renderCurrentGuess()}
                 
                 {/* Empty rows */}
-                {Array.from({ length: remainingRows }, (_, index) => 
-                    renderEmptyRow(index)
-                )}
+                {renderEmptyRows()}
             </div>
         </div>
     );
