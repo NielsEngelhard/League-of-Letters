@@ -1,11 +1,18 @@
 import { DbGamePlayer, DbGameRound, DbActiveGameWithRoundsAndPlayers, DbActiveGame, DbOnlineLobby } from "@/drizzle/schema";
 import { ActiveGameModel, ActiveGameTeaserModel, GamePlayerModel, GameRoundModel } from "./game-models";
 import { WordState } from "../word/word-models";
+import { GameTimeOffsetTracker } from "./util/algorithm/time-offset/game-time-offset-tracker";
 
 export class GameMapper {
     static ActiveGameToModel(game: DbActiveGameWithRoundsAndPlayers): ActiveGameModel {
+        
+        // Calculate time offset when it is a game with seconds per guess 
         if (game.nSecondsPerGuess) {
-            // TODO: bereken welke guess and turn het momenteel is
+            var offset = GameTimeOffsetTracker.calculateForGame(game);
+            if (offset != null) {
+                game.currentRoundIndex = offset.actualRound;
+                game.rounds.find(r => r.roundNumber = offset!.actualRound)!.currentGuessIndex = offset.actualGuess;
+            }
         }
 
         return {
@@ -20,7 +27,7 @@ export class GameMapper {
             nSecondsPerGuess: game.nSecondsPerGuess,
             language: game.language,
             rounds: game.rounds.map((round) => {
-                return GameMapper.GameRoundToModel(round, game.withStartingLetter);
+                return GameMapper.GameRoundToModel(round, game.withStartingLetter, round.roundNumber < game.currentRoundIndex);
             }),
             players: game.players.map((player) => {
                 return GameMapper.GamePlayerToModel(player, game.hostAccountId);
@@ -53,7 +60,7 @@ export class GameMapper {
         }
     }
 
-    static GameRoundToModel(round: DbGameRound, showFirstLetter: boolean = true): GameRoundModel {
+    static GameRoundToModel(round: DbGameRound, showFirstLetter: boolean = true, roundIsOver: boolean = false): GameRoundModel {
         return {
             id: round.id,
             roundNumber: round.roundNumber,
@@ -62,7 +69,8 @@ export class GameMapper {
             wordLength: round.wordLength,
             lastGuessUnixUtcTimestamp_InSeconds: round.lastGuessUnixUtcTimestamp_InSeconds ?? undefined,
             startingLetter: showFirstLetter ? round.word.strippedWord[0] : undefined,
-            unguessedMisplacedLetters: this.FilterMisplacedLettersForCurrentWord(round.previouslyMisplacedLetters, round.word)
+            unguessedMisplacedLetters: this.FilterMisplacedLettersForCurrentWord(round.previouslyMisplacedLetters, round.word),
+            word: roundIsOver ? round.word.originalWord : undefined
         }
     }
 

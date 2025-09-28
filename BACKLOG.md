@@ -3,7 +3,6 @@ Voor v1.0-beta
 - sound effects die matchen met de vibe
 
 - BUGFIX: invoer woord doet de andere client altijd kijken of de input wel vanaf de juiste zender komt (minder buggevoelig lmz met dubbel typen)
-- Vorige woorden in een lijstje ergens bij in game
 
 - Niet geldige woorden uit de lijst halen
 

@@ -121,7 +121,7 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
                         )}
 
                         <div className="flex flex-col-reverse md:flex-col">
-                            {(!isAnimating && game.nSecondsPerGuess && currentRound.lastGuessUnixUtcTimestamp_InSeconds) && (
+                            {(!isAnimating && game.nSecondsPerGuess && currentRound.lastGuessUnixUtcTimestamp_InSeconds) ? (
                                 <div className="w-full flex justify-center">
                                     <InGameTimer
                                         key={currentRound.lastGuessUnixUtcTimestamp_InSeconds}
@@ -130,7 +130,7 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
                                         onTimerZero={onTimerZero}
                                     />
                                 </div>
-                            )}
+                            ) : <></>}
                             
                             {/* Letter Grid */}
                             <div className={`${getGridScale()} relative`}>

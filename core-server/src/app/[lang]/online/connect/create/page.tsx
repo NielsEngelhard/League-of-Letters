@@ -59,7 +59,6 @@ export default async function CreateOnlineGamePage({
             includeKickOption={true}
             gameId={lobby.id}
             hostAccountId={lobby.hostAccountId}
-            gridCols="grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
             showScore={false}
           />
       </div>    

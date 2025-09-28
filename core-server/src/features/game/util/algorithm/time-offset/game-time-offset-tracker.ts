@@ -1,3 +1,4 @@
+import { DbActiveGameWithRoundsAndPlayers } from "@/drizzle/schema";
 import { ActiveGameModel } from "@/features/game/game-models";
 
 export interface TimeOffsetRequestData {
@@ -17,7 +18,7 @@ export interface TimeOffsetResponse {
 // Calculate the actual current guess and round based on the time that has past 
 export class GameTimeOffsetTracker {
 
-    static calculateForGame(game: ActiveGameModel): TimeOffsetResponse | null {
+    static calculateForGame(game: ActiveGameModel | DbActiveGameWithRoundsAndPlayers): TimeOffsetResponse | null {
         if (!game.nSecondsPerGuess) return null;
         
         const currentRound = game.rounds.find(r => r.roundNumber == game.currentRoundIndex);
@@ -30,7 +31,7 @@ export class GameTimeOffsetTracker {
             currentGuessNumber: currentRound.currentGuessIndex,
             guessesPerRound: game.nGuessesPerRound,
             lastGuessUnixUtcTimeStamp_InSeconds: currentRound.lastGuessUnixUtcTimestamp_InSeconds,
-            maxRounds: game.totalRounds,
+            maxRounds: game.rounds.length,
             timePerGuess: game.nSecondsPerGuess
         });
     }

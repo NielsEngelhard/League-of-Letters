@@ -15,6 +15,7 @@ import SidePopup from '@/components/ui/SidePopup';
 import SettingsForm from '@/features/account/components/SettingsForm';
 import { SettingsTranslations } from '@/features/i18n/translation-file-interfaces/SettingsTranslations';
 import PlayerGrid from './PlayersGrid';
+import PreviousRoundWords from './PreviousRoundWords';
 
 interface Props {
     sortedPlayers: GamePlayerModel[];
@@ -93,6 +94,9 @@ export default function GameMetaData({ sortedPlayers, game, inGameTranslations, 
 
       {/* Bottom Fixed Section */}
       <div className="mt-6 space-y-3 flex-shrink-0">
+        {/* Previous words */}
+        <PreviousRoundWords />
+
         {/* Game Info Section */}
         <Card className="p-3 rounded-lg border space-y-2 bg-background-secondary">
           {gameInfoOverview.map(item => {

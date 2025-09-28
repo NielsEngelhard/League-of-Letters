@@ -8,13 +8,12 @@ interface Props {
     hostAccountId?: string;
     gameId?: string;
     includeKickOption?: boolean;
-    gridCols?: string;
     t: InGameTranslations;
     showScore?: boolean;
     isInGame?: boolean;
 }
 
-export default function ActiveGamePlayersGrid({hostAccountId, gameId, includeKickOption, gridCols, t, isInGame}: Props) {
+export default function ActiveGamePlayersGrid({hostAccountId, gameId, includeKickOption, t, isInGame}: Props) {
     const { players } = useActiveGame();
 
     return (
@@ -23,7 +22,6 @@ export default function ActiveGamePlayersGrid({hostAccountId, gameId, includeKic
             hostAccountId={hostAccountId}
             gameId={gameId}
             includeKickOption={includeKickOption}
-            gridCols={gridCols}
             t={t}
             isInGame={isInGame}
         />      

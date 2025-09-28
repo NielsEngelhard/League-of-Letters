@@ -55,7 +55,7 @@ export default function PlayerGrid({
                         <div 
                             key={index} 
                             className={`
-                                group relative flex items-center gap-4 p-2 md:p-4 rounded-xl border transition-all duration-200
+                                group relative flex items-center gap-4 p-2 md:px-4 rounded-xl border transition-all duration-200
                                 ${isCurrentPlayer 
                                     ? 'bg-primary/10 border-primary/30 shadow-md' 
                                     : 'bg-backbround-secondary border-border hover:shadow-sm'
