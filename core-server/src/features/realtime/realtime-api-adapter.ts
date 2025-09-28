@@ -36,11 +36,11 @@ async function TriggerRealtimeEventOnSocketServer<T>(request: TriggerRealtimeEve
   }
 }
 
-export async function EmitStartGameRealtimeEvent(gameId: string) {
+export async function EmitStartGameRealtimeEvent(data: StartGameRealtimeEventData) {
     return await TriggerRealtimeEventOnSocketServer({
         event: "start-game-transition",
-        room: gameId,
-        data: gameId
+        room: data.gameId,
+        data: data
     });
 }
 
@@ -60,18 +60,16 @@ export async function EmitGuessWordRealtimeEvent(gameId: string, guessWordRespon
     });
 }
 
-export async function EmiSkipGuessRealtimeEvent(gameId: string, guessWordResponse: GuessWordResponse) {
-    return await TriggerRealtimeEventOnSocketServer({
-        event: "guess-word",
-        room: gameId,
-        data: guessWordResponse
-    });
-}
-
 export async function EmitPlayerKickedRealtimeEvent(gameId: string, accountId: string) {
     return await TriggerRealtimeEventOnSocketServer({
         event: "kick-player",
         room: gameId,
         data: { gameId: gameId, accountId: accountId}
     });
+}
+
+interface StartGameRealtimeEventData {
+    gameId: string;
+    withTimer: boolean;
+    secondsPerGuess?: number;
 }

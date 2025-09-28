@@ -19,12 +19,18 @@ export default async function CreateOnlineGameBasedOnLobbyCommand(schema: Create
     
     AddPlayersToCreateSchema(schema, lobby.players);
 
-    await db.transaction(async (tx) => {
-        await CreateGameCommand(schema, lobby.id);
+    const gameId = await db.transaction(async (tx) => {
+        const gameId = await CreateGameCommand(schema, lobby.id);
         await DeleteOnlineLobbyById(lobby.id, tx);
+
+        return gameId;
     });
 
-    await EmitStartGameRealtimeEvent(schema.gameId!);
+    await EmitStartGameRealtimeEvent({
+        gameId: gameId,
+        withTimer: Boolean(schema.nSecondsPerGuess && schema.gameMode == "online"),
+        secondsPerGuess: schema.nSecondsPerGuess ?? 30
+    });
 }
 
 function AddPlayersToCreateSchema(schema: CreateGameSchema, lobbyPlayers: DbOnlineLobbyPlayer[]) {

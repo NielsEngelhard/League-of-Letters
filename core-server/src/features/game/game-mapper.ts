@@ -1,20 +1,9 @@
 import { DbGamePlayer, DbGameRound, DbActiveGameWithRoundsAndPlayers, DbActiveGame, DbOnlineLobby } from "@/drizzle/schema";
 import { ActiveGameModel, ActiveGameTeaserModel, GamePlayerModel, GameRoundModel } from "./game-models";
 import { WordState } from "../word/word-models";
-import { GameTimeOffsetTracker } from "./util/algorithm/time-offset/game-time-offset-tracker";
 
 export class GameMapper {
     static ActiveGameToModel(game: DbActiveGameWithRoundsAndPlayers): ActiveGameModel {
-        
-        // Calculate time offset when it is a game with seconds per guess 
-        if (game.nSecondsPerGuess) {
-            const offset = GameTimeOffsetTracker.calculateForGame(game);
-            if (offset != null) {
-                game.currentRoundIndex = offset.actualRound;
-                game.rounds.find(r => r.roundNumber = offset!.actualRound)!.currentGuessIndex = offset.actualGuess;
-            }
-        }
-
         return {
             id: game.id,
             currentRoundIndex: game.currentRoundIndex,

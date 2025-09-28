@@ -13,7 +13,6 @@ import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces
 import InGameTranslations from "@/features/i18n/translation-file-interfaces/InGameTranslations";
 import { SettingsTranslations } from "@/features/i18n/translation-file-interfaces/SettingsTranslations";
 import ScoreTranslations from "@/features/i18n/translation-file-interfaces/ScoreTranslations";
-import { GameTimeOffsetTracker } from "../util/algorithm/time-offset/game-time-offset-tracker";
 import { GetCurrentRoundIndexInArray } from "../active-game-util";
 
 interface Props {
@@ -40,19 +39,8 @@ export default function IngameClient({ initialGameState, lang, generalTranslatio
     // Initialize game
     useEffect(() => {
         if (!account) return;
-        applyTimeOffset(initialGameState);
         initializeGameState(initialGameState, account.id);
     }, [account]);
-
-    function applyTimeOffset(game: ActiveGameModel) {
-        const offset = GameTimeOffsetTracker.calculateForGame(game);
-        if (offset == null) return;
-
-        game.currentRoundIndex = offset.actualRound;
-        
-        const currentRoundArrayIndex = GetCurrentRoundIndexInArray(game);
-        game.rounds[currentRoundArrayIndex].currentGuessIndex = offset.actualGuess;
-    }
 
     // Join the game room when realtime is connected
     useEffect(() => {
