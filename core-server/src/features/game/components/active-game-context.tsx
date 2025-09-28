@@ -10,7 +10,6 @@ import { GetLetterAnimationDurationInMs } from '../util/game-time-calculators';
 import { sortPlayerModelOnPositionAndGetUserIds } from '../util/player-sorting';
 import { getSecondsBetweenNowAndUnixTimestampInSeconds } from '@/lib/time-util';
 import { useSounds } from '@/lib/SoundPlayerContext';
-import { EvaluatedWordFactory } from '@/features/word/util/factories/evaluated-word-factory';
 import FinalizeRoundAfterSkip from '../actions/command/finalize-round-after-skip';
 
 type ActiveGameContextType = {  
@@ -304,12 +303,6 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
 
     const isLastGuess: boolean = currentRound?.currentGuessIndex == game?.nGuessesPerRound;
 
-    // Go to next round
-    if (isLastGuess) {
-      await HandleFinalizeRoundRequest();
-      return;
-    }
-
     // To to next guess
     setCurrentRound(prev => {
       if (!prev || ! currentRound) return prev;
@@ -320,6 +313,11 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
         currentGuessIndex: prev.currentGuessIndex + 1 // Update current guess index
       };
     });
+
+    // Go to next round
+    if (isLastGuess) {
+      await HandleFinalizeRoundRequest();
+    }    
   }
 
   async function HandleFinalizeRoundRequest() {

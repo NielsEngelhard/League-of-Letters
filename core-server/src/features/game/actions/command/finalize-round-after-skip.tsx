@@ -8,7 +8,7 @@ import { eq } from "drizzle-orm";
 import { EmitGuessWordRealtimeEvent } from "@/features/realtime/realtime-api-adapter";
 import { EvaluatedWordFactory } from "@/features/word/util/factories/evaluated-word-factory";
 
-// When the round is skipped but you still want to 
+// When the round is skipped you still need to check what the word was.
 export default async function FinalizeRoundAfterSkip(gameId: string): Promise<GuessWordResponse | null> {
     // Send realtime event once (if not already sent)
     const game = await getGame(gameId);

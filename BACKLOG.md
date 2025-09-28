@@ -9,6 +9,8 @@ Voor v1.0-beta
 
 - laat de app refreshen als je bij de pagina komt op bijv. telefoon via terug en als je de browser gesloten had en weer terugkomt.
 
+- duidelijker als jij aan de beurt bent (toetsenbord is nu te vaag lmz)
+
 SHOULD
 - public & private games and some overview where you can see current games (refactor online game route)
 - GAME MODE: bring your own word

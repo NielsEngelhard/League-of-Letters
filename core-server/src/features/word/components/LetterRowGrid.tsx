@@ -12,42 +12,47 @@ interface Props {
 }
 
 export default function LetterRowGrid({ 
-    previousGuesses: preFilledRows, 
+    previousGuesses, 
     maxNGuesses, 
     wordLength, 
     currentGuess, 
     currentSubmitFailed,
     currentGuessIndex
 }: Props) {
-    const nSkippedGuesses: number = (currentGuessIndex - preFilledRows.length) - 1;
     const nEmptyRows = maxNGuesses - currentGuessIndex;
+    const nPreviousGuesses = currentGuessIndex - 1;
 
     const renderPreviousGuesses = () => (
         <>
-            {preFilledRows.map((evaluatedWord, index) => (
-                <LetterRow 
-                    key={`guess-${index}`} 
-                    letters={evaluatedWord.evaluatedLetters} 
-                    animate={index === preFilledRows.length - 1} 
-                />
+            {Array.from({length: nPreviousGuesses}).map((v, index) => (
+                renderPreviousGuess(index + 1)
             ))}
         </>
     );
 
-    const renderSkippedGuesses = () => {
-        if (!currentGuessIndex || !preFilledRows) return;
+    const renderPreviousGuess = (position: number) => {
+        const previousGuess = previousGuesses.find(g => g.position = position);
 
+        // Skipped row
+        if (!previousGuess) {
+            return (
+                <LetterRow 
+                    key={`skip-${position}`} 
+                    letters={EvaluatedWordFactory.createSkipped(wordLength, position).evaluatedLetters} 
+                    animate={position === currentGuessIndex - 1} 
+                />                  
+            )
+        }
 
+        // Render previous guess
         return (
-            <>
-                {Array.from({length: nSkippedGuesses}).map((v, index) => (
-                    <LetterRow 
-                        key={`skip-${index}`} 
-                        letters={EvaluatedWordFactory.createSkipped(wordLength, index).evaluatedLetters} 
-                        animate={index === preFilledRows.length - 1} 
-                    />
-                ))}
-            </>            
+        <>
+            <LetterRow 
+                key={`guess-${position}`} 
+                letters={previousGuess.evaluatedLetters} 
+                animate={position === currentGuessIndex - 1} 
+            />
+        </>            
         )
     };
 
@@ -84,14 +89,11 @@ export default function LetterRowGrid({
     return (
         <div className="relative">
             <div className="flex flex-col gap-1.5">
-                {/* Previous guesses */}
+                {/* Previous guesses - or skipped */}
                 {renderPreviousGuesses()}
 
-                {/* Skipped guesses */}
-                {renderSkippedGuesses()}
-
                 {/* Current guess row */}
-                {preFilledRows.length < maxNGuesses && renderCurrentGuess()}
+                {currentGuessIndex <= maxNGuesses && renderCurrentGuess()}
                 
                 {/* Empty rows */}
                 {renderEmptyRows()}
