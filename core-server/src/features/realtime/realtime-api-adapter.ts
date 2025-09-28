@@ -6,10 +6,12 @@ interface TriggerRealtimeEvent<T> {
     room: string;
     event: string;
     data: T;
+    path?: string;
 }
 
 async function TriggerRealtimeEventOnSocketServer<T>(request: TriggerRealtimeEvent<T>): Promise<boolean> {
-  const realtimeApiUrl = `${process.env.ACTIONS_SERVER_API_URL}/emit-to-room`;
+  const path = request.path ?? "/emit-to-room";
+  const realtimeApiUrl = `${process.env.ACTIONS_SERVER_API_URL}${path}`;
   
   try {
     const headers = {
@@ -38,9 +40,10 @@ async function TriggerRealtimeEventOnSocketServer<T>(request: TriggerRealtimeEve
 
 export async function EmitStartGameRealtimeEvent(data: StartGameRealtimeEventData) {
     return await TriggerRealtimeEventOnSocketServer({
-        event: "start-game-transition",
+        event: "start-game",
         room: data.gameId,
-        data: data
+        data: data,
+        path: "/start-game"
     });
 }
 

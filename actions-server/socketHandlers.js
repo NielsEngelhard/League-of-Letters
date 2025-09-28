@@ -64,18 +64,6 @@ module.exports = (io, socket, onlineGameTimerManager) => {
   });
   // END USER ACTIONS --------------------------------------------------------------------
 
-  // SERVER ACTIONS ---------------------------------------------------------------------
-  socket.on('start-game-transition', (eventData) => {
-    Logger.LogWebsocketTrigger("start-game-transition", `GameId/Room: '${eventData.gameId}' with time = ${eventData.withTimer}`);
-    
-    if (eventData.withTimer) {
-      onlineGameTimerManager.createTimer(eventData.gameId, eventData.secondsPerGuess);
-    }
-    
-    socket.in(eventData.gameId).emit('start-game', { gameId: eventData.gameId });
-  });
-  // END SERVER ACTIONS -----------------------------------------------------------------
-
   // GENERAL ACTIONS --------------------------------------------------------------------
   socket.on('disconnect', () => {
     Logger.LogWebsocketTrigger("disconnect", `GameId/Room: '${socket.gameId} AccountId: ${socket.accountId}'`);

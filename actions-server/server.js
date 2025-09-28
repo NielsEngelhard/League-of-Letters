@@ -25,7 +25,7 @@ const io = new Server(server, {
 // Initialize Game Manager
 const onlineGameTimerManager = new OnlineGameTimerManager();
 
-const httpRoutes = require('./http-routes')(io);
+const httpRoutes = require('./http-routes')(io, onlineGameTimerManager);
 const socketHandlers = require('./socketHandlers');
 
 // Middleware
