@@ -1,5 +1,5 @@
 {
-  "id": "321a6f5f-500e-44b5-9281-df1292da9458",
+  "id": "55efea22-7664-48c7-8470-6fdd45b23182",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -78,6 +78,12 @@
           "typeSchema": "public",
           "primaryKey": false,
           "notNull": true
+        },
+        "refreshToken": {
+          "name": "refreshToken",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
         },
         "createdAt": {
           "name": "createdAt",
@@ -449,9 +455,9 @@
           "notNull": true,
           "default": "'[]'::jsonb"
         },
-        "last_guess_unix_utc_timestamp_in_seconds": {
-          "name": "last_guess_unix_utc_timestamp_in_seconds",
-          "type": "bigint",
+        "lastGuessUtcDate": {
+          "name": "lastGuessUtcDate",
+          "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": false
         },
@@ -583,6 +589,12 @@
           "primaryKey": false,
           "notNull": true,
           "default": "'empty'"
+        },
+        "colorHex": {
+          "name": "colorHex",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false
         },
         "createdAt": {
           "name": "createdAt",

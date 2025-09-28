@@ -1,1 +1,0 @@
-ALTER TABLE "online_lobby_player" ADD COLUMN "colorHex" text;

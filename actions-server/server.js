@@ -1,4 +1,6 @@
 require('dotenv').config();
+const OnlineGameTimerManager = require('./onlineGameTimerManager'); // Add this line
+
 const { initializeScheduler } = require('./schedules/removeExpiredDataScheduler');
 
 const express = require('express');
@@ -20,6 +22,9 @@ const io = new Server(server, {
   proxies: true
 });
 
+// Initialize Game Manager
+const onlineGameTimerManager = new OnlineGameTimerManager();
+
 const httpRoutes = require('./http-routes')(io);
 const socketHandlers = require('./socketHandlers');
 
@@ -36,7 +41,7 @@ app.use('/', httpRoutes);
 
 // Socket.io connection handling
 io.on('connection', (socket) => {
-  socketHandlers(io, socket);
+  socketHandlers(io, socket, onlineGameTimerManager);
 });
 
 // Schedules (cronjobs)

@@ -34,7 +34,7 @@ export interface RoundTransitionData {
     currentWord: string;
     isEndOfGame: boolean;
     nextRoundFirstLetter?: string;
-    lastGuessUnixUtcTimestamp_InSeconds?: number; 
+    lastGuessUtcDate?: Date; 
 }
 
 export interface GameRoundModel {
@@ -43,7 +43,7 @@ export interface GameRoundModel {
     currentGuessIndex: number;
     guesses: EvaluatedWord[];
     wordLength: number;
-    lastGuessUnixUtcTimestamp_InSeconds?: number;
+    lastGuessUtcDate?: Date;
     startingLetter?: string;
     unguessedMisplacedLetters: string[];
     word?: string;

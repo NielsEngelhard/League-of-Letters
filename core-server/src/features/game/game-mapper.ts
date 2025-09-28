@@ -8,7 +8,7 @@ export class GameMapper {
         
         // Calculate time offset when it is a game with seconds per guess 
         if (game.nSecondsPerGuess) {
-            var offset = GameTimeOffsetTracker.calculateForGame(game);
+            const offset = GameTimeOffsetTracker.calculateForGame(game);
             if (offset != null) {
                 game.currentRoundIndex = offset.actualRound;
                 game.rounds.find(r => r.roundNumber = offset!.actualRound)!.currentGuessIndex = offset.actualGuess;
@@ -67,7 +67,7 @@ export class GameMapper {
             currentGuessIndex: round.currentGuessIndex,            
             guesses: round.guesses,
             wordLength: round.wordLength,
-            lastGuessUnixUtcTimestamp_InSeconds: round.lastGuessUnixUtcTimestamp_InSeconds ?? undefined,
+            lastGuessUtcDate: round.lastGuessUtcDate ?? undefined,
             startingLetter: showFirstLetter ? round.word.strippedWord[0] : undefined,
             unguessedMisplacedLetters: this.FilterMisplacedLettersForCurrentWord(round.previouslyMisplacedLetters, round.word),
             word: roundIsOver ? round.word.originalWord : undefined

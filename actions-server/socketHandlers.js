@@ -1,7 +1,7 @@
 const { CallWebhook_UpdatePlayerConnectionStatus } = require("./core-api-webhooks");
 const { Logger } = require("./logger");
 
-module.exports = (io, socket) => {
+module.exports = (io, socket, onlineGameTimerManager) => {
   Logger.LogWebsocketTrigger("initializing-connection", socket.id);
 
   // USER ACTIONS --------------------------------------------------------------------
@@ -49,6 +49,11 @@ module.exports = (io, socket) => {
   });
 
   socket.on('guess-word', (guessWordResponse) => {
+    // If the game is timed, reset the timer in the timer manager
+    if (guessWordResponse.lastGuessUtcDate) {
+      onlineGameTimerManager.resetTimer(guessWordResponse.gameId);
+    }
+
     Logger.LogWebsocketTrigger("guess-word", `GameId/Room: '${socket.gameId}'`);  
     socket.broadcast.to(socket.gameId).emit('guess-word', guessWordResponse);
   });

@@ -60,6 +60,14 @@ export async function EmitGuessWordRealtimeEvent(gameId: string, guessWordRespon
     });
 }
 
+export async function EmiSkipGuessRealtimeEvent(gameId: string, guessWordResponse: GuessWordResponse) {
+    return await TriggerRealtimeEventOnSocketServer({
+        event: "guess-word",
+        room: gameId,
+        data: guessWordResponse
+    });
+}
+
 export async function EmitPlayerKickedRealtimeEvent(gameId: string, accountId: string) {
     return await TriggerRealtimeEventOnSocketServer({
         event: "kick-player",

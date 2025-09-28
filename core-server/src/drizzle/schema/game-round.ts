@@ -1,4 +1,4 @@
-import { bigint, integer, jsonb, pgTable, text, unique } from "drizzle-orm/pg-core";
+import { integer, jsonb, pgTable, text, unique, timestamp } from "drizzle-orm/pg-core";
 import { InferSelectModel, relations } from "drizzle-orm";
 import { id } from "../schema-helpers";
 import { ActiveGameTable } from "./active-game";
@@ -12,7 +12,7 @@ export const GameRoundTable = pgTable("game_round", {
     word: jsonb('word').$type<WordState>().notNull(),
     guesses: jsonb('guesses').$type<EvaluatedWord[]>().notNull().default([]),
     previouslyMisplacedLetters: jsonb('previously_misplaced_letters').$type<string[]>().notNull().default([]),
-    lastGuessUnixUtcTimestamp_InSeconds: bigint("last_guess_unix_utc_timestamp_in_seconds", { mode: "number" }), // Used in games where time plays a role
+    lastGuessUtcDate: timestamp({ withTimezone: true }), // Used in games where time plays a role
     wordLength: integer().notNull(),
 }, (t) => [
   unique().on(t.gameId, t.roundNumber)

@@ -1,9 +1,4 @@
-import Card from "@/components/ui/card/Card"
 import { useActiveGame } from "../active-game-context"
-
-interface Props {
-    
-}
 
 export default function PreviousRoundWords() {
     const { game } = useActiveGame();

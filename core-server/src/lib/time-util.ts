@@ -1,12 +1,8 @@
-export function getCurrentUtcUnixTimestamp_Seconds(): number {
-    return Math.floor(Date.now() / 1000); // Current Unix timestamp
-}
+export function getCurrentUtcDate(): Date {
+  const utcTimestamp = Date.now(); // Returns UTC milliseconds since epoch
+  const utcDate = new Date(utcTimestamp);
 
-export function getSecondsBetweenNowAndUnixTimestampInSeconds(unixTimestamp: number | null | undefined): number | undefined {
-    if (!unixTimestamp) return undefined;
-
-    const now = Math.floor(Date.now() / 1000); // Current time in seconds
-    return now - unixTimestamp;
+  return utcDate;
 }
 
 export function timeAgo(date: Date): string {

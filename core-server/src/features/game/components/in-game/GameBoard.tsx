@@ -25,7 +25,7 @@ interface Props {
 }
 
 export default function GameBoard({generalTranslations, inGameTranslations, scoreTranslations, settingsTranslations, lang}: Props) {
-    const { game, players, currentGuess, currentRound, isThisPlayersTurn, isAnimating, revealedWord, currentPlayerId, recalculateCurrentPlayer, skipCurrentGuess } = useActiveGame();
+    const { game, players, currentGuess, currentRound, isThisPlayersTurn, isAnimating, revealedWord, currentPlayerId, recalculateCurrentPlayer } = useActiveGame();
     const [currentPlayer, setCurrentPlayer] = useState<GamePlayerModel | undefined>(undefined);
     const [currentSubmitFailed, setCurrentSubmitFailed] = useState(false);
     const soundPlayer = useSounds();
@@ -87,7 +87,6 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
 
     // Timer ended so this guess is skipped
     function onTimerZero() {
-        skipCurrentGuess();        
         recalculateCurrentPlayer();
     }
 
@@ -121,12 +120,11 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
                         )}
 
                         <div className="flex flex-col-reverse md:flex-col">
-                            {(!isAnimating && game.nSecondsPerGuess && currentRound.lastGuessUnixUtcTimestamp_InSeconds) ? (
+                            {(!isAnimating && game.nSecondsPerGuess && currentRound.lastGuessUtcDate) ? (
                                 <div className="w-full flex justify-center">
                                     <InGameTimer
-                                        key={currentRound.lastGuessUnixUtcTimestamp_InSeconds}
-                                        secondsPerGuess={game.nSecondsPerGuess}
-                                        lastGuessUnixUtcTimestamp={currentRound.lastGuessUnixUtcTimestamp_InSeconds}
+                                        key={currentRound.lastGuessUtcDate.toDateString()}
+                                        targetDate={new Date(currentRound.lastGuessUtcDate.getTime() + (game.nSecondsPerGuess * 1000))}
                                         onTimerZero={onTimerZero}
                                     />
                                 </div>

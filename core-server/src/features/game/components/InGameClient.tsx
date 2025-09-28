@@ -45,7 +45,7 @@ export default function IngameClient({ initialGameState, lang, generalTranslatio
     }, [account]);
 
     function applyTimeOffset(game: ActiveGameModel) {
-        var offset = GameTimeOffsetTracker.calculateForGame(game);
+        const offset = GameTimeOffsetTracker.calculateForGame(game);
         if (offset == null) return;
 
         game.currentRoundIndex = offset.actualRound;

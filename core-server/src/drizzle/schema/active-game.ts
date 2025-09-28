@@ -27,6 +27,10 @@ export type DbActiveGameWithRoundsAndPlayers = DbActiveGame & {
   players: DbGamePlayer[];
 };
 
+export type DbActiveGameWithRounds = DbActiveGame & {
+  rounds: DbGameRound[];
+};
+
 export const gameRelations = relations(ActiveGameTable, ({ many }) => ({
   rounds: many(GameRoundTable),
   players: many(GamePlayerTable)

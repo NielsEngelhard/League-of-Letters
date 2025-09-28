@@ -4,7 +4,6 @@ import KeyboardColorExplanation from "./KeyboardColorExplanation";
 import { useAuth } from "@/features/auth/AuthContext";
 import { LetterState } from "@/features/word/word-models";
 import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
-import Card from "../card/Card";
 
 const keyboardRows = [
     ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],

@@ -15,6 +15,7 @@ CREATE TABLE "account" (
 	"colorHex" text NOT NULL,
 	"isGuestAccount" boolean DEFAULT false NOT NULL,
 	"language" "supported_language" NOT NULL,
+	"refreshToken" text,
 	"createdAt" timestamp with time zone DEFAULT now() NOT NULL
 );
 --> statement-breakpoint
@@ -63,7 +64,7 @@ CREATE TABLE "game_round" (
 	"word" jsonb NOT NULL,
 	"guesses" jsonb DEFAULT '[]'::jsonb NOT NULL,
 	"previously_misplaced_letters" jsonb DEFAULT '[]'::jsonb NOT NULL,
-	"last_guess_unix_utc_timestamp_in_seconds" bigint,
+	"lastGuessUtcDate" timestamp with time zone,
 	"wordLength" integer NOT NULL,
 	CONSTRAINT "game_round_gameId_roundNumber_unique" UNIQUE("gameId","roundNumber")
 );
@@ -81,6 +82,7 @@ CREATE TABLE "online_lobby_player" (
 	"lobbyId" text,
 	"username" text DEFAULT 'anonymous' NOT NULL,
 	"connectionStatus" "connection_status" DEFAULT 'empty' NOT NULL,
+	"colorHex" text,
 	"createdAt" timestamp with time zone DEFAULT now() NOT NULL
 );
 --> statement-breakpoint

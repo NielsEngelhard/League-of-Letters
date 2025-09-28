@@ -28,6 +28,12 @@ async function CallWebhook_UpdatePlayerConnectionStatus(gameId, accountId, conne
     }); 
 }
 
+async function CallWebhook_TimerEnded(gameId) {
+  await CallWebhook("timer-ended", {             
+      gameId: gameId,
+    });   
+}
+
 async function CallWebhook_RemoveExpiredRecords() {
   await CallWebhook("remove-expired-records", {});   
 }
@@ -35,5 +41,6 @@ async function CallWebhook_RemoveExpiredRecords() {
 // Export using CommonJS
 module.exports = {
   CallWebhook_UpdatePlayerConnectionStatus,
-  CallWebhook_RemoveExpiredRecords
+  CallWebhook_RemoveExpiredRecords,
+  CallWebhook_TimerEnded
 };

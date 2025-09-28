@@ -1,6 +1,6 @@
 import { DbGameRound } from "@/drizzle/schema";
 import { WordStateFactory } from "@/features/word/util/factories/word-state-factory";
-import { getCurrentUtcUnixTimestamp_Seconds } from "@/lib/time-util";
+import { getCurrentUtcDate } from "@/lib/time-util";
 import {v4 as uuid} from 'uuid';
 
 export interface CreateGameRoundData {
@@ -20,10 +20,6 @@ export interface CreateGameRoundsData {
 
 export class GameRoundFactory {
     static createDbRound(data: CreateGameRoundData): DbGameRound {
-        const unixTimestampInSeconds = (data.hasTimePerGuess && data.roundNumber == 1)
-            ? getCurrentUtcUnixTimestamp_Seconds()
-            : null;
-
         return {
             id: uuid(),
             word: WordStateFactory.create(data.word, data.firstLetterIsGuessed),
@@ -31,7 +27,7 @@ export class GameRoundFactory {
             currentGuessIndex: 1,
             gameId: data.gameId,
             guesses: [],
-            lastGuessUnixUtcTimestamp_InSeconds: unixTimestampInSeconds,
+            lastGuessUtcDate: data.roundNumber == 1 ? getCurrentUtcDate() : null,
             wordLength: data.word.length,
             previouslyMisplacedLetters: []
         }

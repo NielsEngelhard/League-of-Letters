@@ -8,9 +8,7 @@ import { useToaster } from '@/components/general/toaster/ToasterContext';
 import { TurnTrackerAlgorithm } from '../util/algorithm/turn-tracker-algorithm/turn-tracker';
 import { GetLetterAnimationDurationInMs } from '../util/game-time-calculators';
 import { sortPlayerModelOnPositionAndGetUserIds } from '../util/player-sorting';
-import { getSecondsBetweenNowAndUnixTimestampInSeconds } from '@/lib/time-util';
 import { useSounds } from '@/lib/SoundPlayerContext';
-import FinalizeRoundAfterSkip from '../actions/command/finalize-round-after-skip';
 
 type ActiveGameContextType = {  
   // Data
@@ -35,7 +33,6 @@ type ActiveGameContextType = {
   disconnectPlayer: (playerId: string) => void;
   recalculateCurrentPlayer: () => void;
   kickPlayer: (accountId: string) => void;
-  skipCurrentGuess: () => void;
   handleExternalCurrentGuessChanged: (guess: string, callerAccountId: string) => void;
 };
 
@@ -174,7 +171,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
 
         return {
           ...prevRound,
-          lastGuessUnixUtcTimestamp_InSeconds: guessWordResponse?.unixTimestampInSeconds,
+          lastGuessUtcDate: guessWordResponse?.lastGuessUtcDate,
           unguessedMisplacedLetters: guessWordResponse.unguessedMisplacedLetters
         };
       });    
@@ -194,8 +191,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     else
     {
       setTimeout(() => {
-          debugger;
-          triggerNextRound(roundTransitionData.lastGuessUnixUtcTimestamp_InSeconds);
+          triggerNextRound(roundTransitionData.lastGuessUtcDate);
         }, TIME_BETWEEN_ROUNDS_MS);          
     }
   }
@@ -211,7 +207,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     });
   }  
 
-  function triggerNextRound(guessStartUnixTimestampInSeconds?: number) {
+  function triggerNextRound(lastGuessUtcDate?: Date) {
     if (!gameRef.current) return;
     const nextRoundIndex: number = gameRef.current.currentRoundIndex + 1;
 
@@ -225,7 +221,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
 
     setCurrentRound({
       ...getRound(gameRef.current, nextRoundIndex),
-      lastGuessUnixUtcTimestamp_InSeconds: guessStartUnixTimestampInSeconds
+      lastGuessUtcDate: lastGuessUtcDate
     });
     setRevealedWord(undefined);
     setIsAnimating(false);
@@ -252,8 +248,6 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
       playerIdsInOrder: sortedPlayerIds,
       currentGuess: currentRound.currentGuessIndex,
       currentRound: game.currentRoundIndex,
-      secondsBetweenLastGuess: getSecondsBetweenNowAndUnixTimestampInSeconds(currentRound.lastGuessUnixUtcTimestamp_InSeconds),
-      secondsPerGuess: game.nSecondsPerGuess
     });
 
     const currentPlayerIdChanged = currentPlayerId != resp.currentPlayerAccountId;
@@ -304,37 +298,6 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     setPlayers(prev => prev.map(player => player.accountId == playerId ? {...player, connectionStatus: "disconnected"} : player));
   }
 
-  async function skipCurrentGuess() {
-    if (!game) return;
-
-    const isLastGuess: boolean = currentRound?.currentGuessIndex == game?.nGuessesPerRound;
-
-    // To to next guess
-    setCurrentRound(prev => {
-      if (!prev || ! currentRound) return prev;
-
-      // Add skipped guess
-      return {
-        ...prev,
-        currentGuessIndex: prev.currentGuessIndex + 1 // Update current guess index
-      };
-    });
-
-    // Go to next round
-    if (isLastGuess) {
-      await HandleFinalizeRoundRequest();
-    }    
-  }
-
-  async function HandleFinalizeRoundRequest() {
-    if (!game) return;
-
-    const response = await FinalizeRoundAfterSkip(game.id);
-    if (response == null) return;
-    
-    handleWordGuess(response);
-  }
-
   // BEGIN sound effects
 
   // Play sound effect for game is over
@@ -367,7 +330,6 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
         recalculateCurrentPlayer,
         setInitialPlayers,
         kickPlayer,
-        skipCurrentGuess,
         handleExternalCurrentGuessChanged
        }}>
       {children}
