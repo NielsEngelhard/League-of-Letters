@@ -162,6 +162,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
       return {
         ...prevRound,
         guesses: [...prevRound.guesses, response.guessResult],        
+        currentGuessIndex: prevRound.currentGuessIndex + 1,
       };
     });
   }
@@ -172,7 +173,6 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
 
         return {
           ...prevRound,
-          currentGuessIndex: prevRound.currentGuessIndex + 1,
           lastGuessUnixUtcTimestamp_InSeconds: guessWordResponse?.unixTimestampInSeconds,
           unguessedMisplacedLetters: guessWordResponse.unguessedMisplacedLetters
         };

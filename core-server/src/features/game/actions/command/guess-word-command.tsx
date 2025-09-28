@@ -16,6 +16,7 @@ import { DbOrTransaction } from "@/drizzle/util/transaction-util";
 import { GameMapper } from "../../game-mapper";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import { IsOfficialWordRequestOptimized } from "@/features/word/actions/query/is-offical-word-request";
+import { GameTimeOffsetTracker } from "../../util/algorithm/time-offset/game-time-offset-tracker";
 
 export interface GuessWordCommandInput {
     gameId: string;
@@ -40,6 +41,15 @@ export async function GuessWordCommand(command: GuessWordCommandInput): Promise<
     
     const game = await getGame(command.gameId);
     
+    // Apply time offset when it is timed game
+    if (game.nSecondsPerGuess) {
+        var offset = GameTimeOffsetTracker.calculateForGame(game);
+        if (offset != null) {
+            game.currentRoundIndex = offset.actualRound;
+            game.rounds.find(r => r.roundNumber = offset!.actualRound)!.currentGuessIndex = offset.actualGuess;
+        }
+    }    
+
     const currentRound = game.rounds.find(g => g.roundNumber == game.currentRoundIndex);
     if (!currentRound) throw Error(`GUESS WORD: INVALID STATE could not find round`);
 

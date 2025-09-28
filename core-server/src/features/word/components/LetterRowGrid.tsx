@@ -46,13 +46,11 @@ export default function LetterRowGrid({
 
         // Render previous guess
         return (
-        <>
             <LetterRow 
                 key={`guess-${position}`} 
                 letters={previousGuess.evaluatedLetters} 
                 animate={position === currentGuessIndex - 1} 
-            />
-        </>            
+            />         
         )
     };
 
