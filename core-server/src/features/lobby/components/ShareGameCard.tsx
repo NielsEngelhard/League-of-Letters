@@ -51,6 +51,21 @@ export default function ShareGameCard({ joinCode, lang, t }: Props) {
                 label={t.lobby.join.joinUrl.label}
                 description={t.lobby.join.joinUrl.description}
             />
+
+            {/* On mobile show always fixed on screen */}
+            <div className='fixed left-0 bottom-0 w-full h-full flex items-end md:hidden'>
+                <Card>
+                    <CopyTextCard
+                        text={splitStringInMiddle(joinCode)}
+                        copyText={joinCode}
+                        txt="primary"
+                        bg="primary"
+                    />                
+                    <CopyTextCard
+                        text={joinUrl}
+                    />                    
+                </Card>
+            </div>
         </CardContent>
     </Card>
     );

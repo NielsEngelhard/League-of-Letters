@@ -8,6 +8,7 @@ import cn from "@/lib/cn";
 
 interface Props extends VariantProps<typeof variants> {
     text: string;
+    copyText?: string;
     label?: string;
     description?: string;
 }
@@ -32,11 +33,11 @@ const variants = cva(
   }
 )
 
-export default function CopyTextCard({ text, description, label, txt }: Props) {
+export default function CopyTextCard({ text, description, label, txt, copyText = text }: Props) {
     const [copied, setCopied] = useState(false);
 
     function copyTextToClipboard() {
-        copyToClipboard(text).then(() => {
+        copyToClipboard(copyText).then(() => {
             setCopied(true);
             
             setTimeout(() => {
