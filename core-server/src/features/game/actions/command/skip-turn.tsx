@@ -5,7 +5,6 @@ import { db } from "@/drizzle/db";
 import { ActiveGameTable, DbActiveGame, DbActiveGameWithRounds, DbGameRound, GameRoundTable } from "@/drizzle/schema";
 import { DbOrTransaction } from "@/drizzle/util/transaction-util";
 import { EmitGuessWordRealtimeEvent } from "@/features/realtime/realtime-api-adapter";
-import { EvaluatedWordFactory } from "@/features/word/util/factories/evaluated-word-factory";
 import { eq } from "drizzle-orm";
 import { GetNextGuessExpiresUtcDate } from "../../util/timed-game-util";
 

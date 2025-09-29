@@ -65,7 +65,7 @@ export default function Button({
   onClick,
   type = "button",
   isLoadingExternal = false,
-  playHoverSound = true,
+  playHoverSound = false,
   playClickSound = true
 }: Props) {
   const isNavigationButton = !!href;
@@ -89,7 +89,7 @@ export default function Button({
   }
 
   function handleHover(): void {
-    // if (playHoverSound) soundPlayer.playEffect("button-hover");
+    if (playHoverSound) soundPlayer.playEffect("button-hover");
   }
 
   // Navigation button
