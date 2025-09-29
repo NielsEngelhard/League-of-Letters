@@ -57,7 +57,9 @@ module.exports = (io, onlineGameTimerManager) => {
     // LOGIC
     Logger.LogWebsocketTrigger("submit-word-guess", `GameId/Room: '${data.gameId}' with time = ${data.withTimer}`);
     
-    if (data.nextGuessMaxUtcDate) {
+    if (data.roundTransitionData && (data.roundTransitionData.isEndOfGame == true)) {
+      onlineGameTimerManager.removeTimer(data.gameId);
+    } else if (data.nextGuessMaxUtcDate) { // Schedule next
       onlineGameTimerManager.updateTimer(data.gameId, data.nextGuessMaxUtcDate);
     }
     
