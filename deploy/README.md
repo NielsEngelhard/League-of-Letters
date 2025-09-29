@@ -88,6 +88,34 @@ Automates deployment by:
 ```init-server.bash```
 Run once on a fresh server to install dependencies (Docker, Docker Compose, Nginx).
 
+### Initialize https
+After running the init script and deploying the code, it does work with http, but not with https yet. Certbot needs to be configured. First start docker-compose with the nginx config
+```nginx-initial.conf```. Then run:
+```
+# Start everything (certbot won't run automatically due to profile)
+docker-compose up -d
+
+# Verify nginx is running
+docker-compose ps
+
+# Get certificates
+docker-compose run --rm certbot
+
+# Verify certificates were created
+ls -la ./certbot/conf/live/league-of-letters.online/
+```
+
+and
+
+```
+# Download SSL config files
+curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot-nginx/certbot_nginx/_internal/tls_configs/options-ssl-nginx.conf -o ./certbot/conf/options-ssl-nginx.conf
+
+curl -s https://raw.githubusercontent.com/certbot/certbot/master/certbot/certbot/ssl-dhparams.pem -o ./certbot/conf/ssl-dhparams.pem
+```
+
+After that you can use the nginx.conf and https should work!
+
 ### Docker build new image
 ```docker-build-and-push.bash```
 
