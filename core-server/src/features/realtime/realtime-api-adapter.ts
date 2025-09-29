@@ -59,7 +59,8 @@ export async function EmitGuessWordRealtimeEvent(gameId: string, guessWordRespon
     return await TriggerRealtimeEventOnSocketServer({
         event: "guess-word",
         room: gameId,
-        data: guessWordResponse
+        data: guessWordResponse,
+        path: "/submit-word-guess"
     });
 }
 

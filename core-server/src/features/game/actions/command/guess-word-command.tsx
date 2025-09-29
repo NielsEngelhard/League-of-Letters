@@ -30,7 +30,7 @@ export interface GuessWordResponse {
     score: number;
     unguessedMisplacedLetters: string[]; // hard to determine in client with public info, so determined easily in the server
     roundTransitionData?: RoundTransitionData;
-    currentGuessMaxUtcDate?: Date;    
+    nextGuessMaxUtcDate?: Date;    
 }
 
 export async function GuessWordCommand(command: GuessWordCommandInput): Promise<ServerResponse<GuessWordResponse>> {    
@@ -120,9 +120,9 @@ async function updateCurrentGameState(game: DbActiveGameWithRoundsAndPlayers, cu
             isEndOfGame: endGame,
             currentWord: currentRound.word.originalWord,
             nextRoundFirstLetter: nextRound?.word.strippedWord[0],
-            currentGuessMaxUtcDate: nextGuessMaxUtcDate
         } : undefined,
-        unguessedMisplacedLetters: GameMapper.FilterMisplacedLettersForCurrentWord(validationResult.previouslyGuessedMisplacedLetters, currentRound.word)
+        unguessedMisplacedLetters: GameMapper.FilterMisplacedLettersForCurrentWord(validationResult.previouslyGuessedMisplacedLetters, currentRound.word),
+        nextGuessMaxUtcDate: nextGuessMaxUtcDate
     };    
 }
 

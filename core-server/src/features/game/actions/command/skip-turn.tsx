@@ -10,14 +10,12 @@ import { getCurrentUtcDatePlusSeconds } from "@/lib/time-util";
 import { eq } from "drizzle-orm";
 
 // Skip turn when timer is up for this guess
-export default async function SkipTurn(gameId: string): Promise<GuessWordResponse> {
-
+export default async function SkipTurn(gameId: string): Promise<GuessWordResponse> {    
     const game = await getGameWithRounds(gameId);
     if (game.gameMode != "online" || !game.nSecondsPerGuess) throw Error(`INVALID Game with ID ${gameId} is not a timed game`);
 
     const currentRound = game.rounds.find(g => g.roundNumber == game.currentRoundIndex);
     if (!currentRound) throw Error(`INVALID can't find current round`);
-
 
     const skippedGuessResponse = await UpdateGameState(game, currentRound);
     
@@ -52,10 +50,10 @@ async function UpdateGameState(game: DbActiveGameWithRounds, currentRound: DbGam
         roundTransitionData: endCurrentRound ? {
             isEndOfGame: endGame,
             currentWord: currentRound.word.originalWord,
-            nextRoundFirstLetter: nextRound?.word.strippedWord[0],
-            currentGuessMaxUtcDate: nextGuessMaxUtcDate
+            nextRoundFirstLetter: nextRound?.word.strippedWord[0],            
         } : undefined,
-        unguessedMisplacedLetters: []
+        unguessedMisplacedLetters: [],
+        nextGuessMaxUtcDate: nextGuessMaxUtcDate
     }    
 }
 
@@ -76,7 +74,7 @@ async function triggerNextRound(nextRound: DbGameRound, game: DbActiveGame, next
         if (nextGuessMaxUtcDate) {
             updateNextRoundsNextGuessUtcDate(nextRound.id, nextGuessMaxUtcDate, tx);
         }
-    });          
+    });
 }
 
 async function updateNextRoundsNextGuessUtcDate(nextRoundId: string, nextGuessMaxUtcDate: Date, tx: DbOrTransaction) {

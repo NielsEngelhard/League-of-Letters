@@ -123,7 +123,7 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
                             {(!isAnimating && game.nSecondsPerGuess && currentRound.currentGuessMaxUtcDate) ? (
                                 <div className="w-full flex justify-center">
                                     <InGameTimer
-                                        key={currentRound.currentGuessMaxUtcDate.toDateString()}
+                                        key={`timer-${currentRound.currentGuessMaxUtcDate.toString()}`}
                                         targetDate={currentRound.currentGuessMaxUtcDate}
                                         onTimerZero={onTimerZero}
                                     />

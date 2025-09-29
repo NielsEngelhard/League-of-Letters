@@ -126,7 +126,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     setTimeout(() => {
       if (response.roundTransitionData) {
         updatePlayerScores(response);
-        handleEndOfCurrentRound(response.roundTransitionData);
+        handleEndOfCurrentRound(response.roundTransitionData, response.nextGuessMaxUtcDate);
       } else {
         updatePlayerScores(response);
         updateCurrentRoundWithGuess(response);
@@ -168,16 +168,16 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
   function updateCurrentRoundWithGuess(guessWordResponse: GuessWordResponse) {
       setCurrentRound(prevRound => {
         if (prevRound == null) return;
-
+        
         return {
           ...prevRound,
-          nextGuessMaxUtcDate: guessWordResponse?.currentGuessMaxUtcDate,
+          currentGuessMaxUtcDate: guessWordResponse?.nextGuessMaxUtcDate,
           unguessedMisplacedLetters: guessWordResponse.unguessedMisplacedLetters
         };
       });    
   }
 
-  function handleEndOfCurrentRound(roundTransitionData: RoundTransitionData) {    
+  function handleEndOfCurrentRound(roundTransitionData: RoundTransitionData, nextGuessMaxUtcDate?: Date) {    
     if (!gameRef.current || !currentRoundRef.current) return;
 
     setRevealedWord(roundTransitionData.currentWord);
@@ -191,7 +191,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     else
     {
       setTimeout(() => {
-          triggerNextRound(roundTransitionData.currentGuessMaxUtcDate);
+          triggerNextRound(nextGuessMaxUtcDate);
         }, TIME_BETWEEN_ROUNDS_MS);          
     }
   }

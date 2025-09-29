@@ -2,7 +2,7 @@ import { Clock } from "lucide-react";
 import { useState, useEffect } from "react";
 
 interface Props {
-  targetDate: Date;
+  targetDate: Date | string | number;
   onTimerZero?: () => void;
 }
 
@@ -12,7 +12,13 @@ export default function InGameTimer({ targetDate, onTimerZero }: Props) {
   useEffect(() => {
     const calculateTimeRemaining = () => {
       const now = Date.now();
-      const timeRemaining = targetDate.getTime() - now;
+      
+      // Convert targetDate to timestamp, handling different input types
+      const targetTimestamp = targetDate instanceof Date 
+        ? targetDate.getTime()
+        : new Date(targetDate).getTime();
+      
+      const timeRemaining = targetTimestamp - now;
       
       return Math.max(0, Math.floor(timeRemaining / 1000));
     };

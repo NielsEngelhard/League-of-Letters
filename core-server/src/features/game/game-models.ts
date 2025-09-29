@@ -34,7 +34,6 @@ export interface RoundTransitionData {
     currentWord: string;
     isEndOfGame: boolean;
     nextRoundFirstLetter?: string;
-    currentGuessMaxUtcDate?: Date; 
 }
 
 export interface GameRoundModel {

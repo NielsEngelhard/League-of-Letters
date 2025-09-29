@@ -21,6 +21,7 @@ module.exports = (io, onlineGameTimerManager) => {
     });
   });
 
+  // Start game (comming from Server)
   router.post('/start-game', (req, res) => {
     // Api key auth
     const apiKey = req.headers['api-key'];
@@ -36,6 +37,31 @@ module.exports = (io, onlineGameTimerManager) => {
     }
     
     io.to(data.gameId).emit('start-game-transition', data.gameId);
+    // LOGIC
+
+    res.json({ 
+      success: true, 
+      message: `Event ${event} sent to room ${room}` 
+    });
+  });
+
+
+  // Submit word guess (comming from Server)
+  router.post('/submit-word-guess', (req, res) => {
+    // Api key auth
+    const apiKey = req.headers['api-key'];
+    if (apiKey != process.env.API_KEY) throw Error("404 Unauthenticated");
+
+    const { room, event, data } = req.body;
+
+    // LOGIC
+    Logger.LogWebsocketTrigger("submit-word-guess", `GameId/Room: '${data.gameId}' with time = ${data.withTimer}`);
+    
+    if (data.nextGuessMaxUtcDate) {
+      onlineGameTimerManager.updateTimer(data.gameId, data.nextGuessMaxUtcDate);
+    }
+    
+    io.to(data.gameId).emit('guess-word', data);
     // LOGIC
 
     res.json({ 

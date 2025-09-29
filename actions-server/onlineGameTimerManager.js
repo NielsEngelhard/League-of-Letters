@@ -53,17 +53,14 @@ class OnlineGameTimer {
     this.updateEndTime(endTime);
   }
 
-  updateEndTime(endTime) {
+  updateEndTime(endTimeString) {
     // Clear any existing timer
     this.clearTimer();
     
     // Validate and store the end time
-    if (!(endTime instanceof Date) || isNaN(endTime.getTime())) {
-      console.error(`Game ${this.gameId}: Invalid end time provided`);
-      return;
-    }
     
-    this.endTime = endTime;
+    
+    this.endTime = new Date(endTimeString);
     this.isActive = true;
     
     const now = new Date();
