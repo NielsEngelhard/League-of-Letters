@@ -31,6 +31,22 @@ export default function GameLayout({children}: {children: ReactNode}) {
         initializeConnection();
     }, [account]);    
 
+    // When you navigate away and come back, do a hard refresh for if you missed realtime updates. E.g. minify on mobile browser.
+    useEffect(() => {
+    const handleVisibilityChange = () => {
+        if (document.visibilityState === 'visible') {
+        // User came back to the tab/app
+        window.location.reload();
+        }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+
+    return () => {
+        document.removeEventListener('visibilitychange', handleVisibilityChange);
+    };
+    }, []);    
+
     // IF you are removed from the players list, navigate away (kicked probably)
     useEffect(() => {
         if (!account || !players || players.length < 1) return;
