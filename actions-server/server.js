@@ -1,7 +1,8 @@
 require('dotenv').config();
 const OnlineGameTimerManager = require('./onlineGameTimerManager'); // Add this line
 
-const { initializeScheduler } = require('./schedules/removeExpiredDataScheduler');
+const { initCleanDbScheduler } = require('./schedules/cleanDatabaseScheduler');
+const { initCleanTimersScheduler } = require('./schedules/cleanTimerManagerScheduler');
 
 const express = require('express');
 const { createServer } = require('http');
@@ -45,7 +46,8 @@ io.on('connection', (socket) => {
 });
 
 // Schedules (cronjobs)
-initializeScheduler();
+initCleanDbScheduler();
+initCleanTimersScheduler(onlineGameTimerManager);
 
 // Error handling for the server
 server.on('error', (error) => {

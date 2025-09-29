@@ -2,7 +2,7 @@ const { CallWebhook_RemoveExpiredRecords } = require("../core-api-webhooks");
 
 const cron = require('node-cron');
 
-function initializeScheduler() {
+function initCleanDbScheduler() {
   console.log('Initializing scheduler...');
   
   // Run at midnight every day (0 0 * * *)
@@ -38,4 +38,4 @@ async function executeMidnightTask() {
   }
 }
 
-module.exports = { initializeScheduler };
+module.exports = { initializeScheduler: initCleanDbScheduler };

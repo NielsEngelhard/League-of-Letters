@@ -1,6 +1,5 @@
 const { CallWebhook_TimerEnded } = require("./core-api-webhooks");
 
-
 class OnlineGameTimerManager {
   constructor() {
     this.onlineGameTimers = new Map();
@@ -13,7 +12,7 @@ class OnlineGameTimerManager {
 
     const game = new OnlineGameTimer(gameId, endTime);
     this.onlineGameTimers.set(gameId, game);
-    console.log(`OnlineGameTimer created for game ${gameId}`);
+
     return game;
   }
 
@@ -22,6 +21,40 @@ class OnlineGameTimerManager {
     if (timer) {
       timer.updateEndTime(endTime);
     }
+  }
+
+  removeTimer(gameId) {
+    const timer = this.onlineGameTimers.get(gameId);
+    if (timer) {
+      // Clear all timer resources
+      timer.clearTimer();
+      // Remove from the map
+      this.onlineGameTimers.delete(gameId);
+      return true;
+    }
+    return false;
+  }
+
+  removeExpiredTimers() {
+    const now = new Date();
+    const twoHoursInMs = 2 * 60 * 60 * 1000; // For now hard coded 2h
+    const removedGameIds = [];
+
+    for (const [gameId, timer] of this.onlineGameTimers.entries()) {
+      // Check if timer has an end time and it's more than 2 hours in the past
+      if (timer.endTime) {
+        const timeSinceEnd = now.getTime() - timer.endTime.getTime();
+        
+        if (timeSinceEnd > twoHoursInMs) {
+          timer.clearTimer();
+          this.onlineGameTimers.delete(gameId);
+          removedGameIds.push(gameId);
+        }
+      }
+    }
+
+    console.log(`Removed ${removedGameIds.length} expired timers: ${removedGameIds.join(', ')}`);
+    return removedGameIds;
   }
 
   getAllTimers() {
@@ -58,15 +91,11 @@ class OnlineGameTimer {
     this.clearTimer();
     
     // Validate and store the end time
-    
-    
     this.endTime = new Date(endTimeString);
     this.isActive = true;
     
     const now = new Date();
     const timeUntilEnd = this.endTime.getTime() - now.getTime();
-    
-    console.log(`Game ${this.gameId}: Timer set to expire at ${this.endTime.toISOString()}`);
     
     if (timeUntilEnd <= 0) {
       // Already past the end time, trigger immediately
