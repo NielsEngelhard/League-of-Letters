@@ -2,7 +2,7 @@
 
 set -e
 
-DROPLET_IP="152.42.140.58"
+DROPLET_IP="152.42.143.118"
 DROPLET_USER="root"
 REMOTE_DIR="/root"
 
@@ -63,4 +63,4 @@ echo "- Create necessary directories"
 ssh_cmd "mkdir -p $REMOTE_DIR/env"
 
 echo "✅ Server initialization complete!"
-echo "You can now run the deploy script to deploy your application."
+echo "You can now run the docker compose to deploy the actual application(s)."
