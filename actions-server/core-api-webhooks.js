@@ -15,7 +15,9 @@ async function CallWebhook(webhookPath, data) {
     
     return response.ok;   
   } catch (error) {     
-    console.log(`error calling webhook ` + error);
+    console.error(`[CallWebhook] Error type: ${error.name}`);
+    console.error(`[CallWebhook] Error message: ${error.message}`);
+    console.error(`[CallWebhook] Error stack:`, error.stack);
     return false;   
   } 
 }  

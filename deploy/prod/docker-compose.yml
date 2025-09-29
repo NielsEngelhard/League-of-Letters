@@ -5,7 +5,7 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      # - ./env/nginx-initial.conf:/etc/nginx/conf.d/default.conf  # Only for initial when certbot did not generate certificate yet
+      #- ./env/nginx-initial.conf:/etc/nginx/conf.d/default.conf  # Only for initial when certbot did not generate certificate yet
       - ./env/nginx.conf:/etc/nginx/conf.d/default.conf
       - ./certbot/www:/var/www/certbot
       - ./certbot/conf:/etc/letsencrypt
@@ -36,7 +36,7 @@ services:
     restart: unless-stopped
 
   lol_actions:
-    image: nielsts/lol-actions:1.0.17-beta
+    image: nielsts/lol-actions:1.0.19-beta
     expose:
       - "8081"
     env_file:

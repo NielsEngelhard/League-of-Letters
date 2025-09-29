@@ -2,7 +2,7 @@
 
 set -e
 
-DROPLET_IP="64.227.93.150"
+DROPLET_IP="134.209.199.44"
 DROPLET_USER="root"
 REMOTE_DIR="/root"
 

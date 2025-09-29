@@ -1,6 +1,6 @@
 import { seedWordsInDatabase } from "./data-seed-base";
 
-const dbConnectionString  = "postgresql://postgres:Q8XOibO0dKHRa8Q8XOibO0dKHRa@64.227.93.150:8082/league_of_letters";
+const dbConnectionString  = "postgresql://postgres:1797BBE575CC4BA9960982B37AE055EB@134.209.199.44:8082/league_of_letters";
 
 const isSmallSubset = false; // FULL WORDS
 seedWordsInDatabase(dbConnectionString, isSmallSubset);

@@ -1,6 +1,6 @@
 import { seedWordsInDatabase } from "./data-seed-base";
 
-// const dbConnectionString  = "postgresql://postgres:<PASSWORD>@64.227.93.150:8082/league_of_letters"; // Droplet db
+// const dbConnectionString  = "postgresql://postgres:<PASSWORD>@134.209.199.44:8082/league_of_letters"; // Droplet db
 // const dbConnectionString  = "postgresql://postgres:kaas@localhost:8082/league-of-letters"; // Local docker
 const dbConnectionString = "postgresql://postgres:kaas@localhost:5432/league-of-letters"; // Local pg server
 
