@@ -73,7 +73,7 @@ export default function CreateGameForm({ onLeaveGame, submitDisabled = false, pl
         gameMode: gameMode,
         gameId: gameId,
         withStartingLetter: true,
-        nSecondsPerGuess: gameMode == "online" ? 0 : 0,
+        nSecondsPerGuess: gameMode == "online" ? 60 : 0,
         language: lang
       }
     })    
@@ -143,24 +143,26 @@ export default function CreateGameForm({ onLeaveGame, submitDisabled = false, pl
             </div>
 
             <div className="flex flex-col md:flex-row gap-2">
-                <SelectDropdown
-                    className="w-full"
-                    key={form.watch("language")}
-                    name="nSecondsPerGuess"
-                    control={form.control}
-                    label={t.createGameForm.secondsPerGuessLabel}
-                    placeholder=""
-                    required
-                    options={[
-                        { value: 0, label: "∞" },
-                        { value: 5, label: "5s (DEV ONLY)" },
-                        { value: 20, label: "20s" },
-                        { value: 40, label: "40s" },
-                        { value: 60, label: "60s" },
-                        { value: 80, label: "80s" },
-                        { value: 100, label: "100s" },
-                    ]}
-                />     
+                {gameMode == "online" && (
+                    <SelectDropdown
+                        className="w-full"
+                        key={form.watch("language")}
+                        name="nSecondsPerGuess"
+                        control={form.control}
+                        label={t.createGameForm.secondsPerGuessLabel}
+                        placeholder=""
+                        required
+                        options={[
+                            { value: 0, label: "∞" },
+                            // { value: 5, label: "5s (DEV ONLY)" },
+                            { value: 20, label: "20s" },
+                            { value: 40, label: "40s" },
+                            { value: 60, label: "60s" },
+                            { value: 80, label: "80s" },
+                            { value: 100, label: "100s" },
+                        ]}
+                    />
+                )}
 
                 <SelectDropdown
                     key={form.watch("guessesPerRound")}

@@ -13,7 +13,6 @@ import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces
 import InGameTranslations from "@/features/i18n/translation-file-interfaces/InGameTranslations";
 import { SettingsTranslations } from "@/features/i18n/translation-file-interfaces/SettingsTranslations";
 import ScoreTranslations from "@/features/i18n/translation-file-interfaces/ScoreTranslations";
-import { GetCurrentRoundIndexInArray } from "../active-game-util";
 
 interface Props {
     initialGameState: ActiveGameModel;

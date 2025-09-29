@@ -41,7 +41,7 @@ app.use('/', httpRoutes);
 
 // Socket.io connection handling
 io.on('connection', (socket) => {
-  socketHandlers(io, socket, onlineGameTimerManager);
+  socketHandlers(io, socket);
 });
 
 // Schedules (cronjobs)

@@ -8,7 +8,7 @@ import DeleteOnlineLobbyById from "./delete-online-lobby";
 import { EmitStartGameRealtimeEvent } from "@/features/realtime/realtime-api-adapter";
 import { DbOnlineLobbyPlayer } from "@/drizzle/schema";
 import { AuthenticateOrRedirect_Server } from "@/features/auth/current-user";
-import { getCurrentUtcDate, getCurrentUtcDatePlusSeconds } from "@/lib/time-util";
+import { getCurrentUtcDatePlusSeconds } from "@/lib/time-util";
 
 export default async function CreateOnlineGameBasedOnLobbyCommand(schema: CreateGameSchema): Promise<void> {
     const currentUser = await AuthenticateOrRedirect_Server();       

@@ -1,7 +1,7 @@
 const { CallWebhook_UpdatePlayerConnectionStatus } = require("./core-api-webhooks");
 const { Logger } = require("./logger");
 
-module.exports = (io, socket, onlineGameTimerManager) => {
+module.exports = (io, socket) => {
   Logger.LogWebsocketTrigger("initializing-connection", socket.id);
 
   // USER ACTIONS --------------------------------------------------------------------
@@ -47,16 +47,6 @@ module.exports = (io, socket, onlineGameTimerManager) => {
     Logger.LogWebsocketTrigger("player-guess-changed", `GameId/Room: '${socket.gameId}' Guess: '${guess}'`);  
     socket.broadcast.to(socket.gameId).emit('player-guess-changed', { guess: guess, accountId: socket.accountId});
   });
-
-  // socket.on('guess-word', (guessWordResponse) => {
-  //   // If the game is timed, reset the timer in the timer manager
-  //   if (guessWordResponse.nextGuessMaxUtcDate) {
-  //     onlineGameTimerManager.resetTimer(guessWordResponse.gameId, guessWordResponse.nextGuessMaxUtcDate);
-  //   }
-
-  //   Logger.LogWebsocketTrigger("guess-word", `GameId/Room: '${socket.gameId}'`);  
-  //   socket.broadcast.to(socket.gameId).emit('guess-word', guessWordResponse);
-  // });
 
   socket.on('host-created-new-lobby', ({oldGameId, newLobbyId}) => {
     Logger.LogWebsocketTrigger("host-created-new-lobby", `oldGameId: '${oldGameId}' newLobbyId: ${newLobbyId}'`);  
