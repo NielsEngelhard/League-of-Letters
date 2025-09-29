@@ -1,7 +1,7 @@
 import { SettingsSchema } from "../account/account-schemas";
 
 export const REGULAR_USER_JWT_EXPIRE_TIME_IN_HOURS = 36;
-export const GUEST_USER_JWT_EXPIRE_TIME_IN_HOURS = 730; // 1 Month, why not
+export const GUEST_USER_JWT_EXPIRE_TIME_IN_HOURS = 20;
 export const REFRESH_TOKEN_EXPIRE_TIME_IN_DAYS = 7;
 export const JWT_EXPIRES_SOON_THRESHOLD_IN_MINUTES = 5;
 
