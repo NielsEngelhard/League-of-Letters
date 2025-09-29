@@ -64,7 +64,7 @@ CREATE TABLE "game_round" (
 	"word" jsonb NOT NULL,
 	"guesses" jsonb DEFAULT '[]'::jsonb NOT NULL,
 	"previously_misplaced_letters" jsonb DEFAULT '[]'::jsonb NOT NULL,
-	"lastGuessUtcDate" timestamp with time zone,
+	"currentGuessMaxUtcDate" timestamp with time zone,
 	"wordLength" integer NOT NULL,
 	CONSTRAINT "game_round_gameId_roundNumber_unique" UNIQUE("gameId","roundNumber")
 );

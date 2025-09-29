@@ -1,21 +1,20 @@
 import { DbGameRound } from "@/drizzle/schema";
 import { WordStateFactory } from "@/features/word/util/factories/word-state-factory";
-import { getCurrentUtcDate } from "@/lib/time-util";
 import {v4 as uuid} from 'uuid';
 
 export interface CreateGameRoundData {
     gameId: string;
     word: string;
     roundNumber: number;
-    hasTimePerGuess: boolean;
     firstLetterIsGuessed: boolean;
+    currentGuessMaxUtcDate?: Date | null;
 }
 
 export interface CreateGameRoundsData {
     gameId: string;
     words: string[];
-    hasTimePerGuess: boolean;
     firstLetterIsGuessed: boolean;
+    currentGuessMaxUtcDate?: Date | null;
 }
 
 export class GameRoundFactory {
@@ -27,7 +26,7 @@ export class GameRoundFactory {
             currentGuessIndex: 1,
             gameId: data.gameId,
             guesses: [],
-            lastGuessUtcDate: data.roundNumber == 1 ? getCurrentUtcDate() : null,
+            currentGuessMaxUtcDate: data.roundNumber == 1 ? data.currentGuessMaxUtcDate ?? null : null,
             wordLength: data.word.length,
             previouslyMisplacedLetters: []
         }
@@ -38,8 +37,8 @@ export class GameRoundFactory {
             gameId: data.gameId,
             word: word,
             roundNumber: i + 1,
-            hasTimePerGuess: data.hasTimePerGuess,
-            firstLetterIsGuessed: data.firstLetterIsGuessed
+            firstLetterIsGuessed: data.firstLetterIsGuessed,
+            currentGuessMaxUtcDate: ((i+1) == 1) ? data.currentGuessMaxUtcDate : null
         }));
     }
 }

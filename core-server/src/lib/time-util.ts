@@ -5,6 +5,10 @@ export function getCurrentUtcDate(): Date {
   return utcDate;
 }
 
+export function getCurrentUtcDatePlusSeconds(seconds: number): Date {
+  return new Date(getCurrentUtcDate().getTime() + (seconds) * 1000);
+}
+
 export function timeAgo(date: Date): string {
   const now = new Date();
   const diffMs = now.getTime() - date.getTime();

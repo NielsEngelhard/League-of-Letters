@@ -15,7 +15,7 @@ import { DbOrTransaction } from "@/drizzle/util/transaction-util";
 import { GameMapper } from "../../game-mapper";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import { IsOfficialWordRequestOptimized } from "@/features/word/actions/query/is-offical-word-request";
-import { getCurrentUtcDate } from "@/lib/time-util";
+import { getCurrentUtcDatePlusSeconds } from "@/lib/time-util";
 
 export interface GuessWordCommandInput {
     gameId: string;
@@ -30,7 +30,7 @@ export interface GuessWordResponse {
     score: number;
     unguessedMisplacedLetters: string[]; // hard to determine in client with public info, so determined easily in the server
     roundTransitionData?: RoundTransitionData;
-    lastGuessUtcDate?: Date;    
+    currentGuessMaxUtcDate?: Date;    
 }
 
 export async function GuessWordCommand(command: GuessWordCommandInput): Promise<ServerResponse<GuessWordResponse>> {    
@@ -95,15 +95,15 @@ async function updateCurrentGameState(game: DbActiveGameWithRoundsAndPlayers, cu
 
     const nextRound = game.rounds.find(g => g.roundNumber == game.currentRoundIndex+1);
 
-    const currentGuessUtcDate = getCurrentUtcDate();
+    const nextGuessMaxUtcDate = getCurrentUtcDatePlusSeconds(game.nSecondsPerGuess ?? 30);
 
     if (endGame) {
         currentRound.guesses.push(currentGuess);
         await triggerEndGame(game, currentPlayer, validationResult.score);
     } else if (endCurrentRound) {        
-        await triggerNextRound(currentRound, nextRound!, validationResult, currentPlayer, game, currentGuessUtcDate);
+        await triggerNextRound(currentRound, nextRound!, validationResult, currentPlayer, game, nextGuessMaxUtcDate);
     } else {
-        await triggerNextGuess(currentRound, validationResult, currentPlayer, currentGuessUtcDate);
+        await triggerNextGuess(currentRound, validationResult, currentPlayer, nextGuessMaxUtcDate);
     }
 
     return {
@@ -115,27 +115,27 @@ async function updateCurrentGameState(game: DbActiveGameWithRoundsAndPlayers, cu
             isEndOfGame: endGame,
             currentWord: currentRound.word.originalWord,
             nextRoundFirstLetter: nextRound?.word.strippedWord[0],
-            lastGuessUtcDate: currentGuessUtcDate
+            currentGuessMaxUtcDate: nextGuessMaxUtcDate
         } : undefined,
         unguessedMisplacedLetters: GameMapper.FilterMisplacedLettersForCurrentWord(validationResult.previouslyGuessedMisplacedLetters, currentRound.word)
     };    
 }
 
-async function triggerNextGuess(currentRound: DbGameRound, validationResult: DetailedValidationResult, currentPlayer: DbGamePlayer, lastGuessUtcDate?: Date) {
+async function triggerNextGuess(currentRound: DbGameRound, validationResult: DetailedValidationResult, currentPlayer: DbGamePlayer, nextGuessMaxUtcDate?: Date) {
     await db.transaction(async (tx) => {   
-        await updateCurrentGameRoundWithCurrentGuess(currentRound, validationResult, tx, lastGuessUtcDate);
+        await updateCurrentGameRoundWithCurrentGuess(currentRound, validationResult, tx, nextGuessMaxUtcDate);
         await addScoreForPlayer(currentPlayer, validationResult.score, tx);
     });          
 }
 
-async function triggerNextRound(currentRound: DbGameRound, nextRound: DbGameRound, validationResult: DetailedValidationResult, currentPlayer: DbGamePlayer, game: DbActiveGame, lastGuessUtcDate?: Date) {
+async function triggerNextRound(currentRound: DbGameRound, nextRound: DbGameRound, validationResult: DetailedValidationResult, currentPlayer: DbGamePlayer, game: DbActiveGame, nextGuessMaxUtcDate?: Date) {
     await db.transaction(async (tx) => {     
-        await updateCurrentGameRoundWithCurrentGuess(currentRound, validationResult, tx, lastGuessUtcDate);
+        await updateCurrentGameRoundWithCurrentGuess(currentRound, validationResult, tx, nextGuessMaxUtcDate);
         await addScoreForPlayer(currentPlayer, validationResult.score, tx);
         await updateGameForNextRound(game, tx);
 
-        if (lastGuessUtcDate) {
-            updateNextRoundsLastGuessUtcDate(nextRound.id, lastGuessUtcDate, tx);
+        if (nextGuessMaxUtcDate) {
+            updateNextRoundsMaxGuessUtcDate(nextRound.id, nextGuessMaxUtcDate, tx);
         }
     });          
 }
@@ -172,7 +172,7 @@ async function isPlayersTurn(currentPlayer: DbGamePlayer): Promise<boolean> {
     return currentUser.accountId == currentPlayer.accountId;
 }
 
-async function updateCurrentGameRoundWithCurrentGuess(currentRound: DbGameRound, validationResult: DetailedValidationResult, tx: DbOrTransaction, lastGuessUtcDate?: Date) {
+async function updateCurrentGameRoundWithCurrentGuess(currentRound: DbGameRound, validationResult: DetailedValidationResult, tx: DbOrTransaction, currentGuessMaxUtcDate?: Date) {
     await tx.update(GameRoundTable)
         .set({
             currentGuessIndex: currentRound.currentGuessIndex + 1,
@@ -181,16 +181,16 @@ async function updateCurrentGameRoundWithCurrentGuess(currentRound: DbGameRound,
                 evaluatedLetters: validationResult.evaluatedGuess
             }],
             previouslyMisplacedLetters: validationResult.previouslyGuessedMisplacedLetters,
-            lastGuessUtcDate: lastGuessUtcDate,
+            currentGuessMaxUtcDate: currentGuessMaxUtcDate,
             word: validationResult.actualWordState            
         })
         .where(eq(GameRoundTable.id, currentRound.id));        
 }
 
-async function updateNextRoundsLastGuessUtcDate(nextRoundId: string, lastGuessUtcDate: Date, tx: DbOrTransaction) {
+async function updateNextRoundsMaxGuessUtcDate(nextRoundId: string, currentGuessMaxUtcDate: Date, tx: DbOrTransaction) {
     await tx.update(GameRoundTable)
         .set({
-            lastGuessUtcDate: lastGuessUtcDate
+            currentGuessMaxUtcDate: currentGuessMaxUtcDate
         })
         .where(eq(GameRoundTable.id, nextRoundId));    
 }

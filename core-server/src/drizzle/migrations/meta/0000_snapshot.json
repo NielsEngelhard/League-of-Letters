@@ -1,5 +1,5 @@
 {
-  "id": "55efea22-7664-48c7-8470-6fdd45b23182",
+  "id": "32bc2a56-4e1f-47c6-aa2d-81cb4b37f473",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "7",
   "dialect": "postgresql",
@@ -455,8 +455,8 @@
           "notNull": true,
           "default": "'[]'::jsonb"
         },
-        "lastGuessUtcDate": {
-          "name": "lastGuessUtcDate",
+        "currentGuessMaxUtcDate": {
+          "name": "currentGuessMaxUtcDate",
           "type": "timestamp with time zone",
           "primaryKey": false,
           "notNull": false

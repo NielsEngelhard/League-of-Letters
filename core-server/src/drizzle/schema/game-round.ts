@@ -12,7 +12,7 @@ export const GameRoundTable = pgTable("game_round", {
     word: jsonb('word').$type<WordState>().notNull(),
     guesses: jsonb('guesses').$type<EvaluatedWord[]>().notNull().default([]),
     previouslyMisplacedLetters: jsonb('previously_misplaced_letters').$type<string[]>().notNull().default([]),
-    lastGuessUtcDate: timestamp({ withTimezone: true }), // Used in games where time plays a role
+    currentGuessMaxUtcDate: timestamp({ withTimezone: true }), // Used in games where time plays a role
     wordLength: integer().notNull(),
 }, (t) => [
   unique().on(t.gameId, t.roundNumber)

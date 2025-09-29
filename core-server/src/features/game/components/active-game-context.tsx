@@ -171,7 +171,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
 
         return {
           ...prevRound,
-          lastGuessUtcDate: guessWordResponse?.lastGuessUtcDate,
+          nextGuessMaxUtcDate: guessWordResponse?.currentGuessMaxUtcDate,
           unguessedMisplacedLetters: guessWordResponse.unguessedMisplacedLetters
         };
       });    
@@ -191,7 +191,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     else
     {
       setTimeout(() => {
-          triggerNextRound(roundTransitionData.lastGuessUtcDate);
+          triggerNextRound(roundTransitionData.currentGuessMaxUtcDate);
         }, TIME_BETWEEN_ROUNDS_MS);          
     }
   }
@@ -207,7 +207,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     });
   }  
 
-  function triggerNextRound(lastGuessUtcDate?: Date) {
+  function triggerNextRound(nextGuessMaxUtcDate?: Date) {
     if (!gameRef.current) return;
     const nextRoundIndex: number = gameRef.current.currentRoundIndex + 1;
 
@@ -221,7 +221,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
 
     setCurrentRound({
       ...getRound(gameRef.current, nextRoundIndex),
-      lastGuessUtcDate: lastGuessUtcDate
+      currentGuessMaxUtcDate: nextGuessMaxUtcDate
     });
     setRevealedWord(undefined);
     setIsAnimating(false);

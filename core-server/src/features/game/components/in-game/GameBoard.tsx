@@ -120,11 +120,11 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
                         )}
 
                         <div className="flex flex-col-reverse md:flex-col">
-                            {(!isAnimating && game.nSecondsPerGuess && currentRound.lastGuessUtcDate) ? (
+                            {(!isAnimating && game.nSecondsPerGuess && currentRound.currentGuessMaxUtcDate) ? (
                                 <div className="w-full flex justify-center">
                                     <InGameTimer
-                                        key={currentRound.lastGuessUtcDate.toDateString()}
-                                        targetDate={new Date(currentRound.lastGuessUtcDate.getTime() + (game.nSecondsPerGuess * 1000))}
+                                        key={currentRound.currentGuessMaxUtcDate.toDateString()}
+                                        targetDate={currentRound.currentGuessMaxUtcDate}
                                         onTimerZero={onTimerZero}
                                     />
                                 </div>

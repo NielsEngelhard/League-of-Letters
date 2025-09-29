@@ -50,7 +50,7 @@ module.exports = (io, socket, onlineGameTimerManager) => {
 
   socket.on('guess-word', (guessWordResponse) => {
     // If the game is timed, reset the timer in the timer manager
-    if (guessWordResponse.lastGuessUtcDate) {
+    if (guessWordResponse.currentGuessMaxUtcDate) {
       onlineGameTimerManager.resetTimer(guessWordResponse.gameId);
     }
 

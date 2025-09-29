@@ -56,7 +56,7 @@ export class GameMapper {
             currentGuessIndex: round.currentGuessIndex,            
             guesses: round.guesses,
             wordLength: round.wordLength,
-            lastGuessUtcDate: round.lastGuessUtcDate ?? undefined,
+            currentGuessMaxUtcDate: round.currentGuessMaxUtcDate ?? undefined,
             startingLetter: showFirstLetter ? round.word.strippedWord[0] : undefined,
             unguessedMisplacedLetters: this.FilterMisplacedLettersForCurrentWord(round.previouslyMisplacedLetters, round.word),
             word: roundIsOver ? round.word.originalWord : undefined

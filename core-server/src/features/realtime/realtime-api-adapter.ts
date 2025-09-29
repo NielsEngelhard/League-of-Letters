@@ -74,5 +74,5 @@ export async function EmitPlayerKickedRealtimeEvent(gameId: string, accountId: s
 interface StartGameRealtimeEventData {
     gameId: string;
     withTimer: boolean;
-    secondsPerGuess?: number;
+    guessEndDateTime?: Date;
 }

@@ -31,8 +31,8 @@ module.exports = (io, onlineGameTimerManager) => {
     // LOGIC
     Logger.LogWebsocketTrigger("start-game", `GameId/Room: '${data.gameId}' with time = ${data.withTimer}`);
     
-    if (data.withTimer) {
-      onlineGameTimerManager.createTimer(data.gameId, data.secondsPerGuess);
+    if (data.withTimer && data.guessEndDateTime) {
+      onlineGameTimerManager.createTimer(data.gameId, data.guessEndDateTime);
     }
     
     io.to(data.gameId).emit('start-game-transition', data.gameId);
@@ -51,6 +51,13 @@ module.exports = (io, onlineGameTimerManager) => {
       timestamp: new Date().toISOString() 
     });
   });
+
+  // GET Active timers
+  router.get('/timers', (req, res) => {
+    const timersJSON = onlineGameTimerManager.getAllTimers();
+
+    res.json(timersJSON);
+  });  
 
   return router;
 };
