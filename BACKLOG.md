@@ -1,7 +1,5 @@
 Voor v1.0-beta
-- sound effects die matchen met de vibe
 - Niet geldige woorden uit de lijst halen
-- miss guest toch eigen username want nu verwarrend
 
 SHOULD
 - public & private games and some overview where you can see current games (refactor online game route)

@@ -89,7 +89,7 @@ export default function Button({
   }
 
   function handleHover(): void {
-    if (playHoverSound) soundPlayer.playEffect("button-hover");
+    // if (playHoverSound) soundPlayer.playEffect("button-hover");
   }
 
   // Navigation button
