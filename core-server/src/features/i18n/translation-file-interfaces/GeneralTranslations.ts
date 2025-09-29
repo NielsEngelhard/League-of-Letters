@@ -40,6 +40,7 @@ export interface GeneralTranslations {
       description: string;
       createGuestSessionButton: string;
       guestDisclaimer: string;
+      leaveEmptyPlaceholder: string;
     }
   },
   accountType: {

@@ -13,6 +13,7 @@ import FormBase from "@/components/general/form/FormBase";
 import CreateGuestSessionCommand from "../../actions/command/create-guest-session-command";
 import { PublicAccountModel } from "@/features/account/account-models";
 import { HatGlasses } from "lucide-react";
+import TextInput from "@/components/ui/form/TextInput";
 
 export default function GuestLoginForm({ lang, t }: { lang: SupportedLanguage, t: GeneralTranslations }) {
     const { updateAccount } = useAuth();
@@ -41,7 +42,17 @@ export default function GuestLoginForm({ lang, t }: { lang: SupportedLanguage, t
 
     return (
         <FormBase form={form} onSubmit={CreateGuestSessionCommand} onSuccess={onSuccessfullGuestLogin} btnTxt={t.login.guest.createGuestSessionButton} BtnIcon={HatGlasses}>
-            <SelectLanguageGrid name="language" control={form.control} />
+            <SelectLanguageGrid
+                name="language"
+                control={form.control}
+            />
+
+            <TextInput
+                label={t.login.login.usernameLabel}
+                placeholder={t.login.guest.leaveEmptyPlaceholder}
+                {...form.register("username")}
+                errorMsg={form.formState.errors.username?.message}
+            />
         </FormBase>
     )
 }

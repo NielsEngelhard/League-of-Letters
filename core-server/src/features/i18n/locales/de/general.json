@@ -39,7 +39,8 @@
             "title": "Als Gast Fortfahren",
             "description": "Spring schnell rein mit einem temporären Konto",
             "createGuestSessionButton": "Gastsitzung erstellen",
-            "guestDisclaimer": "24-Stunden Gastsitzung. Fortschritt wird nicht gespeichert, und Wiederverbindung ist begrenzt."
+            "guestDisclaimer": "24-Stunden Gastsitzung. Fortschritt wird nicht gespeichert, und Wiederverbindung ist begrenzt.",
+            "leaveEmptyPlaceholder": "Für den Zufallsprinzip leer lassen"
         }
     },
     "accountType": {

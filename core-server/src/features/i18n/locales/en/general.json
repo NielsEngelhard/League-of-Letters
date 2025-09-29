@@ -39,7 +39,8 @@
             "title": "Continue as Guest",
             "description": "In which language do you want your words?",
             "createGuestSessionButton": "Create guest session",
-            "guestDisclaimer": "24-hour guest session. Progress won’t be saved, and reconnecting will be limited."
+            "guestDisclaimer": "24-hour guest session. Progress won’t be saved, and reconnecting will be limited.",
+            "leaveEmptyPlaceholder": "Leave empty for random"
         }
     },
     "accountType": {

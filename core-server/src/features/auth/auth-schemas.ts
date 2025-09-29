@@ -17,5 +17,6 @@ export type SignUpSchema = z.infer<typeof signUpSchema>;
 
 export const guestLoginSchema = z.object({
     language: z.enum(supportedLanguages),
+    username: z.string().max(12).optional()
 });
 export type GuestLoginSchema = z.infer<typeof guestLoginSchema>;

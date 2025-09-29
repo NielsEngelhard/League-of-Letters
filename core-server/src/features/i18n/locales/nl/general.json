@@ -39,7 +39,8 @@
             "title": "Doorgaan als Gast",
             "description": "Maak een tijdelijke gastsessie",
             "createGuestSessionButton": "Gastsessie aanmaken",
-            "guestDisclaimer": "24-uurs gastsessie. Voortgang wordt niet opgeslagen, en herverbinden is beperkt."
+            "guestDisclaimer": "24-uurs gastsessie. Voortgang wordt niet opgeslagen, en herverbinden is beperkt.",
+            "leaveEmptyPlaceholder": "Laat leeg voor willekeurig"
         }
     },
     "accountType": {

@@ -39,7 +39,8 @@
             "title": "Continuer en Tant qu'Invité",
             "description": "Plonge rapidement avec un compte temporaire",
             "createGuestSessionButton": "Créer une session invité",
-            "guestDisclaimer": "Session invité de 24 heures. Les progrès ne seront pas sauvegardés, et la reconnexion sera limitée."
+            "guestDisclaimer": "Session invité de 24 heures. Les progrès ne seront pas sauvegardés, et la reconnexion sera limitée.",
+            "leaveEmptyPlaceholder": "Laisser vide pour le hasard"
         }
     },
     "accountType": {
