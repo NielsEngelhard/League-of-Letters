@@ -15,7 +15,8 @@ import { DbOrTransaction } from "@/drizzle/util/transaction-util";
 import { GameMapper } from "../../game-mapper";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import { IsOfficialWordRequestOptimized } from "@/features/word/actions/query/is-offical-word-request";
-import { getCurrentUtcDate, getCurrentUtcDatePlusSeconds } from "@/lib/time-util";
+import { GetNextGuessExpiresUtcDate } from "../../util/timed-game-util";
+import { getCurrentUtcDate } from "@/lib/time-util";
 
 export interface GuessWordCommandInput {
     gameId: string;
@@ -100,7 +101,7 @@ async function updateCurrentGameState(game: DbActiveGameWithRoundsAndPlayers, cu
 
     const nextRound = game.rounds.find(g => g.roundNumber == game.currentRoundIndex+1);
 
-    const nextGuessMaxUtcDate = getCurrentUtcDatePlusSeconds(game.nSecondsPerGuess ?? 30);
+    const nextGuessMaxUtcDate = GetNextGuessExpiresUtcDate(game.nSecondsPerGuess, currentRound.wordLength);
 
     if (endGame) {
         currentRound.guesses.push(currentGuess);

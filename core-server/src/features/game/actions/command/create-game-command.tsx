@@ -12,7 +12,7 @@ import { AuthenticateOrRedirect_Server } from "@/features/auth/current-user";
 import { and, eq, inArray } from "drizzle-orm";
 import { JwtAccountPayload } from "@/features/auth/jwt/jwt-models";
 import { shuffleArray } from "@/lib/array-util";
-import { getCurrentUtcDatePlusSeconds } from "@/lib/time-util";
+import { GetNextGuessExpiresUtcDate } from "../../util/timed-game-util";
 
 
 export default async function CreateGameCommand(schema: CreateGameSchema, gameId?: string, transaction?: DbOrTransaction): Promise<string> {
@@ -51,7 +51,7 @@ export default async function CreateGameCommand(schema: CreateGameSchema, gameId
             gameId: gameId,
             words: words,            
             firstLetterIsGuessed: schema.withStartingLetter == true,
-            currentGuessMaxUtcDate: schema.nSecondsPerGuess ? getCurrentUtcDatePlusSeconds(schema.nSecondsPerGuess) : null
+            currentGuessMaxUtcDate: GetNextGuessExpiresUtcDate(schema.nSecondsPerGuess, schema.wordLength)
         });
         await tx.insert(GameRoundTable).values(rounds);
 

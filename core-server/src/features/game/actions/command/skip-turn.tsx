@@ -6,8 +6,8 @@ import { ActiveGameTable, DbActiveGame, DbActiveGameWithRounds, DbGameRound, Gam
 import { DbOrTransaction } from "@/drizzle/util/transaction-util";
 import { EmitGuessWordRealtimeEvent } from "@/features/realtime/realtime-api-adapter";
 import { EvaluatedWordFactory } from "@/features/word/util/factories/evaluated-word-factory";
-import { getCurrentUtcDatePlusSeconds } from "@/lib/time-util";
 import { eq } from "drizzle-orm";
+import { GetNextGuessExpiresUtcDate } from "../../util/timed-game-util";
 
 // Skip turn when timer is up for this guess
 export default async function SkipTurn(gameId: string): Promise<GuessWordResponse> {    
@@ -32,7 +32,7 @@ async function UpdateGameState(game: DbActiveGameWithRounds, currentRound: DbGam
 
     const nextRound = game.rounds.find(g => g.roundNumber == game.currentRoundIndex+1);
 
-    const nextGuessMaxUtcDate = getCurrentUtcDatePlusSeconds(game.nSecondsPerGuess ?? 30);
+    const nextGuessMaxUtcDate = GetNextGuessExpiresUtcDate(game.nSecondsPerGuess, currentRound.wordLength);
 
     if (endGame) {
         await triggerEndGame(game);

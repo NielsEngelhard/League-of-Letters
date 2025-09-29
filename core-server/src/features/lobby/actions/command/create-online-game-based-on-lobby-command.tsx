@@ -8,7 +8,7 @@ import DeleteOnlineLobbyById from "./delete-online-lobby";
 import { EmitStartGameRealtimeEvent } from "@/features/realtime/realtime-api-adapter";
 import { DbOnlineLobbyPlayer } from "@/drizzle/schema";
 import { AuthenticateOrRedirect_Server } from "@/features/auth/current-user";
-import { getCurrentUtcDatePlusSeconds } from "@/lib/time-util";
+import { GetNextGuessExpiresUtcDate } from "@/features/game/util/timed-game-util";
 
 export default async function CreateOnlineGameBasedOnLobbyCommand(schema: CreateGameSchema): Promise<void> {
     const currentUser = await AuthenticateOrRedirect_Server();       
@@ -27,9 +27,7 @@ export default async function CreateOnlineGameBasedOnLobbyCommand(schema: Create
         return gameId;
     });
 
-    const guessEndDateTime: Date | undefined = schema.nSecondsPerGuess
-        ? getCurrentUtcDatePlusSeconds(schema.nSecondsPerGuess) // Current utc date + seconds per guess
-        : undefined
+    const guessEndDateTime: Date | undefined = GetNextGuessExpiresUtcDate(schema.nSecondsPerGuess, schema.wordLength);
 
     await EmitStartGameRealtimeEvent({
         gameId: gameId,
