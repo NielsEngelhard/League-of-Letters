@@ -73,7 +73,7 @@ export default function CreateGameForm({ onLeaveGame, submitDisabled = false, pl
         gameMode: gameMode,
         gameId: gameId,
         withStartingLetter: true,
-        nSecondsPerGuess: gameMode == "online" ? 60 : 0,
+        nSecondsPerGuess: gameMode == "online" ? 40 : 0,
         language: lang
       }
     })    
