@@ -45,7 +45,7 @@ async function UpdateGameState(game: DbActiveGameWithRounds, currentRound: DbGam
     return {
         gameId: game.id,
         accountId: "-",
-        guessResult: EvaluatedWordFactory.createSkipped(currentRound.wordLength, currentRound.currentGuessIndex),
+        guessResult: undefined, // undefined because skipped
         score: 0,
         roundTransitionData: endCurrentRound ? {
             isEndOfGame: endGame,

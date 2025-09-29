@@ -31,8 +31,9 @@ export default function LetterRowGrid({
     );
 
     const renderPreviousGuess = (position: number) => {
-        const previousGuess = previousGuesses.find(g => g.position = position);
+        const previousGuess = previousGuesses.find(g => g.position == position);
 
+        debugger;
         // Skipped row
         if (!previousGuess) {
             return (

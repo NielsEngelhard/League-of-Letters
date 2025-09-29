@@ -27,7 +27,7 @@ export interface GuessWordCommandInput {
 export interface GuessWordResponse {
     gameId: string;
     accountId: string;
-    guessResult: EvaluatedWord;
+    guessResult?: EvaluatedWord;
     score: number;
     unguessedMisplacedLetters: string[]; // hard to determine in client with public info, so determined easily in the server
     roundTransitionData?: RoundTransitionData;

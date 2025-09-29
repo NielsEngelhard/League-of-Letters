@@ -158,7 +158,7 @@ export const SocketProvider: React.FC<SocketProviderProps> = ({
     });
 
     socket.on('guess-word', (response: GuessWordResponse) => {
-      RealtimeLogger.Log(`guess-word ${response.guessResult.evaluatedLetters.map(el => el.letter)}`);
+      RealtimeLogger.Log(`guess-word ${response.guessResult?.evaluatedLetters.map(el => el.letter)}`);
       if (response.accountId == account?.id) return;
       activeGameContext.handleWordGuess(response);
     });

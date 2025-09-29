@@ -115,12 +115,12 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     }
   }
 
-  function handleWordGuess(response: GuessWordResponse) {    
+  function handleWordGuess(response: GuessWordResponse) {   
     setCurrentGuess("");
 
     addGuessToCurrentRound(response);
 
-    const letterAnimationDuration = GetLetterAnimationDurationInMs(response.guessResult.evaluatedLetters.length);
+    const letterAnimationDuration = GetLetterAnimationDurationInMs(currentRound?.wordLength ?? 6);
     setIsAnimating(true);
 
     setTimeout(() => {
@@ -159,7 +159,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
 
       return {
         ...prevRound,
-        guesses: [...prevRound.guesses, response.guessResult],        
+        guesses: response.guessResult ? [...prevRound.guesses, response.guessResult] : prevRound.guesses,        
         currentGuessIndex: prevRound.currentGuessIndex + 1,
       };
     });
