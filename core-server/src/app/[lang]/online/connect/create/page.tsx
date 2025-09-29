@@ -59,7 +59,7 @@ export default async function CreateOnlineGamePage({
             includeKickOption={true}
             gameId={lobby.id}
             hostAccountId={lobby.hostAccountId}
-            showScore={false}
+            isInGame={false}
           />
       </div>    
 

@@ -9,7 +9,6 @@ interface Props {
     gameId?: string;
     includeKickOption?: boolean;
     t: InGameTranslations;
-    showScore?: boolean;
     isInGame?: boolean;
 }
 
@@ -24,6 +23,7 @@ export default function ActiveGamePlayersGrid({hostAccountId, gameId, includeKic
             includeKickOption={includeKickOption}
             t={t}
             isInGame={isInGame}
+            gridCols="grid-cols-2 lg:grid-cols-4 xl:grid-cols-5"
         />      
     )
 }
