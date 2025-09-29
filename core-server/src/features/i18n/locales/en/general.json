@@ -15,7 +15,7 @@
         "login": {
             "title": "Login to proceed.",
             "description": "You can also continue as a guest and create a temporarily session.",
-            "usernameLabel": "Email/Username",
+            "usernameLabel": "Email",
             "usernamePlaceholder": "Your login",
             "passwordLabel": "Password",
             "passwordPlaceholder": "Enter your password",

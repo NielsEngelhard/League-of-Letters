@@ -23,7 +23,7 @@ export default async function LoginCommand(unsafeData: z.infer<typeof loginSchem
     const { success, data } = loginSchema.safeParse(unsafeData);
     if (!success) return ServerResponseFactory.error("Invalid login data");
     
-    const account = await findAccountByEmailOrUsername(data.username);
+    const account = await findAccountByEmail(data.username);
     
     if (!account) return ServerResponseFactory.error("Invalid credentials");
     if (account.isGuestAccount) return ServerResponseFactory.error("Can't login to a GUEST_SESSION");
@@ -53,12 +53,8 @@ async function getAccountSettings(accountId: string) {
   return (result && result.length == 1) ? result[0] : DEFAULT_SETTINGS;
 }
 
-async function findAccountByEmailOrUsername(usernameOrEmail: string): Promise<DbAccount> {
-  const usernameIsEmail = usernameOrEmail.includes("@");
-
-  const users = usernameIsEmail
-    ? await db.select().from(AccountTable).where(eq(AccountTable.email, usernameOrEmail))
-    : await db.select().from(AccountTable).where(eq(AccountTable.username, usernameOrEmail));
+async function findAccountByEmail(email: string): Promise<DbAccount> {
+  const users = await db.select().from(AccountTable).where(eq(AccountTable.email, email));
 
   return users[0] ?? null;
 }

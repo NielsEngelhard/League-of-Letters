@@ -16,7 +16,7 @@ export default function AdminTestPage() {
     }
 
     return (
-        <div lang="en">
+        <div>
             <div className="mt-10">
                 <button onClick={onTriggerToast} className="p-4 border">
                     trigger toast

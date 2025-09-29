@@ -22,7 +22,7 @@ export default function AuthRefresh() {
         if (!callbackUrl || refreshResult == null) {
             // Clear cookies to prevent infinite loop scenarios
             LogoutCommand();
-            redirect(LANGUAGE_ROUTE("en", HOME_ROUTE));
+            redirect(LANGUAGE_ROUTE("nl", HOME_ROUTE));
         };
       
         redirect(callbackUrl);
