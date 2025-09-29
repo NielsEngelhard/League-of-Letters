@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-DROPLET_IP="152.42.143.118"
+DROPLET_IP="64.227.93.150"
 DROPLET_USER="root"
 REMOTE_DIR="/root"
 

@@ -20,4 +20,4 @@ function initCleanTimersScheduler(onlineGameTimerManager) {
   console.log('Clean timers cron job scheduled');
 }
 
-module.exports = { initializeScheduler };
+module.exports = { initCleanTimersScheduler };

@@ -38,4 +38,4 @@ async function executeMidnightTask() {
   }
 }
 
-module.exports = { initializeScheduler: initCleanDbScheduler };
+module.exports = { initCleanDbScheduler };

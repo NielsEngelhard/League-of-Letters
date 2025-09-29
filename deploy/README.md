@@ -65,6 +65,13 @@ Steps:
 - 1: Build Docker images: ```bash docker-build-and-push.bash <version_tag> <build_core:true|false> <build_actions:true|false>```
 - 2: Update versions in docker-compose.yml.
 - 3: Apply changes on server by running ```bash deploy.bash```. This updates all services using the configs in /deploy/prod.
+- 4: Because nginx expects a certificate (which certbot will generate) we must do some small manual steps first:
+
+Start nginx first:
+```docker-compose up -d nginx```
+
+Run certbot manually to obtain certificates:
+```docker-compose run --rm certbot```
 
 ## Deployment Scripts
 
