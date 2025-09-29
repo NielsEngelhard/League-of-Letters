@@ -97,7 +97,7 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
                 <div className="col-span-1 md:col-span-2">
                      <div className={`w-full flex flex-col items-center justify-center md:gap-2 sm:gap-3`}>
 
-                     <div className="fixed md:relative top-0 w-full z-50 md:z-0 mb-0 md:mb-3">
+                     <div className="relative w-full md:z-0 mb-0 md:mb-3">
                         <InGameProgressionBar
                             currentRound={currentRound}
                             totalRounds={game.totalRounds}
