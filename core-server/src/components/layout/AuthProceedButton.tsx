@@ -14,11 +14,11 @@ export default function GoBackButton({btnText}: Props) {
     const { setLoginModalState } = useAuth();
 
     useEffect(() => {
-      setLoginModalState(LoginModalState.Login);
+      setLoginModalState(LoginModalState.ContinueAsGuest);
     }, []);
 
     return (
-      <Button onClick={() => setLoginModalState(LoginModalState.Login)} size="lg">
+      <Button onClick={() => setLoginModalState(LoginModalState.ContinueAsGuest)} size="lg">
         {btnText}
         <ArrowRight className="w-4 h-4" />
       </Button>        

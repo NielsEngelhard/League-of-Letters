@@ -15,7 +15,7 @@ import { DbOrTransaction } from "@/drizzle/util/transaction-util";
 import { GameMapper } from "../../game-mapper";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import { IsOfficialWordRequestOptimized } from "@/features/word/actions/query/is-offical-word-request";
-import { getCurrentUtcDatePlusSeconds } from "@/lib/time-util";
+import { getCurrentUtcDate, getCurrentUtcDatePlusSeconds } from "@/lib/time-util";
 
 export interface GuessWordCommandInput {
     gameId: string;
@@ -43,6 +43,11 @@ export async function GuessWordCommand(command: GuessWordCommandInput): Promise<
 
     const currentRound = game.rounds.find(g => g.roundNumber == game.currentRoundIndex);
     if (!currentRound) throw Error(`GUESS WORD: INVALID STATE could not find round`);
+
+    // For timed games check if guess is within time
+    const guessIsWithinTime = GuessIsWithinTime(game, currentRound);
+    if (!guessIsWithinTime)
+        return ServerResponseFactory.error("Out of time :(");
 
     const currentPlayer = getPlayerWhosTurnItIs(game, currentRound);
 
@@ -222,4 +227,14 @@ async function GuessIsValidWord(word: string, language: SupportedLanguage): Prom
     }
 
     return await IsOfficialWordRequestOptimized({ word: word, language: language });
+}
+
+function GuessIsWithinTime(game: DbActiveGameWithRoundsAndPlayers, currentRound: DbGameRound) {
+    // For non timed games, guess is always within time
+    if (!game.nSecondsPerGuess || !currentRound.currentGuessMaxUtcDate) return true;
+
+    const currentTime = getCurrentUtcDate();
+    const deadline = currentRound.currentGuessMaxUtcDate;
+    
+    return currentTime <= deadline; // Still have time remaining
 }
