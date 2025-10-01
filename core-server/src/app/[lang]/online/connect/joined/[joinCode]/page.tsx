@@ -11,7 +11,6 @@ import LoadingDots from "@/components/ui/animation/LoadingDots";
 import { JOIN_GAME_ROUTE, LANGUAGE_ROUTE, MULTIPLAYER_GAME_ROUTE } from "@/app/routes";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import { loadTranslations } from "@/features/i18n/utils";
-import AuthenticationRequiredBlock from "@/components/layout/AuthenticationRequiredBlock";
 import JoinedLobbyClient from "@/features/game/components/lobby/JoinedLobbyClient";
 import { GetLanguageStyle } from "@/features/language/LanguageStyles";
 import { Authenticate_Server } from "@/features/auth/current-user";

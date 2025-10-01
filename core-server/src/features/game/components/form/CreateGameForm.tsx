@@ -119,10 +119,10 @@ export default function CreateGameForm({ onLeaveGame, submitDisabled = false, pl
                         { value: 6, label: t.createGameForm.wordLengthOptions.six },
                         { value: 7, label: t.createGameForm.wordLengthOptions.seven },
                         { value: 8, label: t.createGameForm.wordLengthOptions.eight },
-                        { value: 9, label: t.createGameForm.wordLengthOptions.nine },
-                        { value: 10, label: t.createGameForm.wordLengthOptions.ten },
-                        { value: 11, label: t.createGameForm.wordLengthOptions.eleven },
-                        { value: 12, label: t.createGameForm.wordLengthOptions.twelve },
+                        // { value: 9, label: t.createGameForm.wordLengthOptions.nine },
+                        // { value: 10, label: t.createGameForm.wordLengthOptions.ten },
+                        // { value: 11, label: t.createGameForm.wordLengthOptions.eleven },
+                        // { value: 12, label: t.createGameForm.wordLengthOptions.twelve },
                     ]}
                 />
 
@@ -170,7 +170,6 @@ export default function CreateGameForm({ onLeaveGame, submitDisabled = false, pl
                     label={t.createGameForm.guessesPerRoundLabel}
                     required
                     options={[
-                        { value: 2, label: "2 (dev only)" },
                         { value: 4, label: "4" },
                         { value: 5, label: "5" },
                         { value: 6, label: "6" },

@@ -1,4 +1,5 @@
 MUST
+- Tot max 8 ondersteunen miss?
 
 
 SHOULD

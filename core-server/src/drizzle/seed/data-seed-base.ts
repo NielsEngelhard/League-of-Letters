@@ -19,7 +19,7 @@ export async function seedWordsInDatabase(dbConnectionString: string, onlySeedSm
             continue;
         }
 
-        const fileName = onlySeedSmallDutchSubset ? `${languageToSeed}-clean-words-small.txt` : `${languageToSeed}-clean-words-full.txt`; 
+        const fileName = onlySeedSmallDutchSubset ? `${languageToSeed}-words-small-subset.txt` : `${languageToSeed}-words.txt`; 
 
         console.log(`🌱 Seeding list for language '${languageToSeed}' with file name '${fileName}'`);
         try {                                    
