@@ -4,6 +4,7 @@ import Button from '@/components/ui/Button';
 import { DefaultLanguage } from '@/features/i18n/languages';
 import { loadTranslations } from '@/features/i18n/utils';
 import { Authenticate_Server } from '@/features/auth/current-user';
+import Link from 'next/link';
 
 export default async function NotFound() {  
   const authenticatedUser = await Authenticate_Server(true);  
@@ -30,9 +31,12 @@ export default async function NotFound() {
 
           {/* Action Buttons */}
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <Button size="lg" href={LANGUAGE_ROUTE(lang, PICK_GAME_MODE_ROUTE)}>
+              {/* Sounds not available here so custom button */}
+              <Link href={LANGUAGE_ROUTE(lang, PICK_GAME_MODE_ROUTE)}>
+                <button className='text-lg font-bold bg-primary rounded-md text-background px-4 py-2'>
                   {t.home.notFound.btnText}
-              </Button>          
+                </button>
+              </Link>
           </div>
         </div>        
       </div>
