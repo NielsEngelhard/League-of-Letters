@@ -53,7 +53,7 @@ export default function ShareGameCard({ joinCode, lang, t }: Props) {
             />
 
             {/* On mobile show always fixed on screen */}
-            <div className='fixed left-0 bottom-0 w-full h-full flex items-end md:hidden'>
+            <div className='fixed left-0 bottom-0 flex items-end md:hidden'>
                 <Card>
                     <CopyTextCard
                         text={splitStringInMiddle(joinCode)}

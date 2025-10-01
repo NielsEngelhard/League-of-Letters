@@ -57,6 +57,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
   const currentRoundRef = useRef<GameRoundModel | undefined>(undefined);
   const currentGuessRef = useRef(currentGuess);
   const playersRef = useRef(players);
+  const currentPlayerIdRef = useRef(currentPlayerId);
 
   // keep ref in sync with state
   useEffect(() => {
@@ -94,7 +95,11 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     playersRef.current = players;
-  }, [players]);  
+  }, [players]); 
+  
+  useEffect(() => {
+    currentPlayerIdRef.current = currentPlayerId;
+  }, [currentPlayerId]);   
 
   async function submitGuess(): Promise<boolean> {
     if (!game || !currentRound) return false;
@@ -282,7 +287,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
   }
 
   function handleExternalCurrentGuessChanged(guess: string, callerAccountId: string) {
-    if (currentPlayerId != callerAccountId) return;
+    if (currentPlayerIdRef.current != callerAccountId) return;
     setCurrentGuess(guess);
   }
 

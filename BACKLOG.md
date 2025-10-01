@@ -14,7 +14,6 @@ COULD
 
 
 BUG:
-- Je kan niet meer de letters realtime zien
 - Bij nieuwe input gaan de meest recente  klokjes steeds opnieuw animeren
 - Vorige woord staat er niet behalve bij refresh (previous words lmz wordt niet geupdate)
-- nav menu mobiel rechtsboven
+- Joined bug met copy paste lmz infinite loading

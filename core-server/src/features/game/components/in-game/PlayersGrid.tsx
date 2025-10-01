@@ -43,7 +43,7 @@ export default function PlayerGrid({
     };
 
     return (
-        <div className={`space-y-3 grid ${gridCols}`}>
+        <div className={`space-y-3 grid ${gridCols} gap-2`}>
             {players.map((player, index) => {
                 const isCurrentPlayer = player.accountId === accountIdCurrentPlayer;
                 const isHost = player.accountId === hostAccountId;
