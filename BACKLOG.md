@@ -11,3 +11,10 @@ COULD
 - Timer also determines the score (bonus system extended)
 - See which player guessed which word
 - Online game mode "challenge each other by picking your own words at the beginning of the game"
+
+
+BUG:
+- Je kan niet meer de letters realtime zien
+- Bij nieuwe input gaan de meest recente  klokjes steeds opnieuw animeren
+- Vorige woord staat er niet behalve bij refresh (previous words lmz wordt niet geupdate)
+- nav menu mobiel rechtsboven

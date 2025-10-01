@@ -26,7 +26,7 @@ export default async function HeaderAccountInfo({t, lang, account}: { t: General
         <HeaderLanguagePicker currentLanguage={lang} />
 
         {/* Profile Section */}
-        <div className="flex items-center gap-3 pl-2 pr-4 py-2">
+        <div className="hidden md:flex items-center gap-3 pl-2 pr-4 py-2">
             {/* Avatar with gradient border */}
             <div className="relative">
                 <div className="w-8 h-8 rounded-full p-0.5 bg-gradient-to-br from-primary to-secondary">
@@ -39,7 +39,7 @@ export default async function HeaderAccountInfo({t, lang, account}: { t: General
             </div>
 
             {/* User Info */}
-            <div className="hidden sm:flex flex-col min-w-0">
+            <div className="flex flex-col min-w-0">
                 <div className="flex items-center gap-1.5">
                     <span className="text-sm font-semibold text-foreground/90 group-hover:text-foreground transition-colors duration-200 truncate">
                         {account.username}

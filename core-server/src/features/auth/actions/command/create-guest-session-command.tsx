@@ -28,7 +28,7 @@ export default async function CreateGuestSessionCommand(data: GuestLoginSchema):
 
 async function createTempGuestAccount(schema: GuestLoginSchema): Promise<DbAccount> {
     const isGuestAccount: boolean = true;
-    const guestAccountUsername: string = schema.username ?? GenerateRandomUsername(isGuestAccount);
+    const guestAccountUsername: string = (schema.username && schema.username != "") ? schema.username : GenerateRandomUsername(isGuestAccount);
     const guestAccountEmail: string = `${guestAccountUsername}@guest_account`;
     const guestAccountPassword: string = "GuestyGuest69";
 
