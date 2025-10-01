@@ -17,12 +17,12 @@ export default async function NotFound() {
         <div className="text-center space-y-8 flex flex-col items-center justify-center w-full">
           {/* 404 Number */}
           <div className="relative">
-            <h1 className="text-8xl font-bold text-gray-200 select-none">404</h1>
+            <h1 className="text-8xl font-bold text-foreground select-none">404</h1>
           </div>
 
           {/* Error Message */}
           <div className="space-y-4">
-            <h2 className="text-2xl font-semibold text-gray-700">{t.home.notFound.title}</h2>
+            <h2 className="text-2xl font-semibold text-foreground-muted">{t.home.notFound.title}</h2>
             <p className="text-gray-500 leading-relaxed">
               {t.home.notFound.description}
             </p>

@@ -8,7 +8,7 @@ import { MAX_ONLINE_GAME_PLAYERS } from "@/features/game/game-constants";
 import { redirect } from "next/navigation";
 import LoadingSpinner from "@/components/ui/animation/LoadingSpinner";
 import LoadingDots from "@/components/ui/animation/LoadingDots";
-import { LANGUAGE_ROUTE, MULTIPLAYER_GAME_ROUTE } from "@/app/routes";
+import { JOIN_GAME_ROUTE, LANGUAGE_ROUTE, MULTIPLAYER_GAME_ROUTE } from "@/app/routes";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import { loadTranslations } from "@/features/i18n/utils";
 import AuthenticationRequiredBlock from "@/components/layout/AuthenticationRequiredBlock";
@@ -26,7 +26,7 @@ export default async function JoinedOnlineGamePage({
 
     const authenticatedUser = await Authenticate_Server(true);
     if (!authenticatedUser) {
-        return <AuthenticationRequiredBlock lang={lang} />
+        redirect(LANGUAGE_ROUTE(lang, JOIN_GAME_ROUTE(joinCode)));
     }
 
     const serverResponse = await JoinGameLobbyCommand({ gameId: joinCode.toString() });

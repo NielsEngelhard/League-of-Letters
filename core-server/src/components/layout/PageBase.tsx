@@ -40,7 +40,7 @@ export default async function PageBase({ children, size, lang, requiresAuh = tru
 
   // Return content
   return (
-        <div className="px-2 my-0 md:my-4 w-full flex flex-col gap-3 items-center h-full mt-[55px] md:mt-[100px] justify-center">
+        <div className="px-2 my-0 md:my-4 w-full flex flex-col gap-3 items-center h-full mt-[60px] md:mt-[100px] justify-center">
             <div className={`flex flex-col w-full gap-2 md:gap-4 ${cn(pageBaseVariants({ size }))}`}>
                 {children}
             </div>

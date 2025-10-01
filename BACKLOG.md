@@ -1,5 +1,7 @@
 Voor v1.0-beta
 - Niet geldige woorden uit de lijst halen
+- delay op home pagina?
+- mobiel padding top niet goed in page base lijkt het (zie unauthed pagina)
 
 SHOULD
 - public & private games and some overview where you can see current games (refactor online game route)
