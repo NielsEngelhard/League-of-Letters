@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { EvaluatedWordFactory } from "../util/factories/evaluated-word-factory";
 import { EvaluatedLetter, EvaluatedWord, LetterState } from "../word-models"
 import LetterRow from "./LetterRow";
@@ -22,17 +23,9 @@ export default function LetterRowGrid({
     const nEmptyRows = maxNGuesses - currentGuessIndex;
     const nPreviousGuesses = currentGuessIndex - 1;
 
-    const renderPreviousGuesses = () => (
-        <>
-            {Array.from({length: nPreviousGuesses}).map((v, index) => (
-                renderPreviousGuess(index + 1)
-            ))}
-        </>
-    );
-
     const renderPreviousGuess = (position: number) => {
         const previousGuess = previousGuesses.find(g => g.position == position);
-
+        
         // Skipped row
         if (!previousGuess) {
             return (
@@ -53,6 +46,14 @@ export default function LetterRowGrid({
             />         
         )
     };
+
+    const previousGuessesRendered = useMemo(() => (
+        <>
+            {Array.from({length: nPreviousGuesses}).map((v, index) => (
+                renderPreviousGuess(index + 1)
+            ))}
+        </>
+    ), [previousGuesses, currentGuessIndex, wordLength]);
 
     const renderCurrentGuess = () => {
         const letters: EvaluatedLetter[] = Array.from({ length: wordLength }, (_, index) => ({
@@ -88,7 +89,7 @@ export default function LetterRowGrid({
         <div className="relative">
             <div className="flex flex-col gap-1.5">
                 {/* Previous guesses - or skipped */}
-                {renderPreviousGuesses()}
+                {previousGuessesRendered}
 
                 {/* Current guess row */}
                 {currentGuessIndex <= maxNGuesses && renderCurrentGuess()}

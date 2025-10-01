@@ -154,8 +154,6 @@ export default function CreateGameForm({ onLeaveGame, submitDisabled = false, pl
                         required
                         options={[
                             { value: 0, label: "∞" },
-                            { value: 10, label: "5s (DEV ONLY)" },
-                            { value: 20, label: "20s" },
                             { value: 40, label: "40s" },
                             { value: 60, label: "60s" },
                             { value: 80, label: "80s" },

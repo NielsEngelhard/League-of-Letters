@@ -196,7 +196,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     else
     {
       setTimeout(() => {
-          triggerNextRound(nextGuessMaxUtcDate);
+          triggerNextRound(roundTransitionData.currentWord, nextGuessMaxUtcDate);
         }, TIME_BETWEEN_ROUNDS_MS);          
     }
   }
@@ -212,22 +212,29 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     });
   }  
 
-  function triggerNextRound(nextGuessMaxUtcDate?: Date) {
+  function triggerNextRound(currentWord: string, nextGuessMaxUtcDate?: Date) {
     if (!gameRef.current) return;
     const nextRoundIndex: number = gameRef.current.currentRoundIndex + 1;
+    const currentRoundId = currentRound?.id;
 
-    setGame(g => {
-      if (!g) return;      
-      return {
-        ...g,
-        currentRoundIndex: nextRoundIndex,
-      }
-    });
+        setGame(g => {
+          if (!g) return;      
+          return {
+            ...g,
+            currentRoundIndex: nextRoundIndex,
+            rounds: g.rounds.map(round => 
+              round.id === currentRoundId 
+                ? { ...round, theWord: currentWord } // Also set the currentWord of this round on next round switch
+                : round
+            )
+          }
+        });
 
     setCurrentRound({
       ...getRound(gameRef.current, nextRoundIndex),
       currentGuessMaxUtcDate: nextGuessMaxUtcDate
     });
+    
     setRevealedWord(undefined);
     setIsAnimating(false);
   }

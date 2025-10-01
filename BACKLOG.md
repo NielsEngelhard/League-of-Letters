@@ -14,6 +14,4 @@ COULD
 
 
 BUG:
-- Bij nieuwe input gaan de meest recente  klokjes steeds opnieuw animeren
-- Vorige woord staat er niet behalve bij refresh (previous words lmz wordt niet geupdate)
 - Joined bug met copy paste lmz infinite loading

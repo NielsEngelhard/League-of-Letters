@@ -14,6 +14,8 @@
 **League of Letters** is a multilingual word-guessing game, with both **solo** and **real-time multiplayer** modes.  
 Built with modern web technologies, it supports large scraped word lists for multiple languages.
 
+![Teaser Image](./teaser.png)
+
 ---
 
 ## 🚀 Features
