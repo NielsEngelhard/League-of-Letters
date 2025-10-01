@@ -1,10 +1,10 @@
 "use client"
 
 import { LETTER_ANIMATION_TIME_MS } from "@/features/game/game-constants";
-import LetterRowGrid from "@/features/word/components/LetterRowGrid";
+import LetterRow from "@/features/word/components/LetterRow";
 import { WordStateFactory } from "@/features/word/util/factories/word-state-factory";
 import { WordValidator } from "@/features/word/util/word-validator/word-validator";
-import { EvaluatedWord, WordState } from "@/features/word/word-models";
+import { EvaluatedLetter, EvaluatedWord, LetterState, WordState } from "@/features/word/word-models";
 import { useEffect, useState } from "react";
 
 interface Props {
@@ -55,13 +55,36 @@ export default function WordsPlayingBlock({ guesses, actualWord }: Props) {
         }
     }
 
+    const renderEmptyRows = () => {
+        const emptyLetters: EvaluatedLetter[] = Array.from({ length: actualWord.length }, (_, i) => ({
+            position: i + 1,
+            letter: "",
+            state: LetterState.Unguessed
+        }));
+
+        return (
+          <>
+            {Array.from({ length: 6 - prefilledRows.length }, (_, index) => 
+                <LetterRow key={`empty-${index}`} letters={emptyLetters} />
+            )}
+          </>  
+        );
+    };    
+
     return (
-        <LetterRowGrid
-            maxNGuesses={6}
-            previousGuesses={prefilledRows}
-            wordLength={actualWord.length}
-            currentGuess=""
-            currentGuessIndex={currentGuessIndex}
-        />
+        <>
+            <div className="flex flex-col gap-1.5">
+                {prefilledRows.map(row => (
+                    <LetterRow
+                        key={row.position} 
+                        letters={row.evaluatedLetters} 
+                        animate={currentGuessIndex == row.position} 
+                    />   
+                ))}
+
+                {/* Empty rows */}
+                {renderEmptyRows()}                
+            </div>     
+        </>
     );
 }
