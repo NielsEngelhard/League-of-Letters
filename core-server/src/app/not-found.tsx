@@ -1,6 +1,5 @@
 import PageBase from '@/components/layout/PageBase';
 import { LANGUAGE_ROUTE, PICK_GAME_MODE_ROUTE } from './routes';
-import Button from '@/components/ui/Button';
 import { DefaultLanguage } from '@/features/i18n/languages';
 import { loadTranslations } from '@/features/i18n/utils';
 import { Authenticate_Server } from '@/features/auth/current-user';

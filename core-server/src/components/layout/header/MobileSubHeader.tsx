@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { HeaderNavigationItem } from "./Header";
 import { useState } from "react";
 import { Menu } from "lucide-react";
