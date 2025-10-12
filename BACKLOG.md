@@ -1,5 +1,4 @@
 MUST
-- bug nog steeds je vorige woorden niet zichttbaar
 
 SHOULD
 - public & private games and some overview where you can see current games (refactor online game route)

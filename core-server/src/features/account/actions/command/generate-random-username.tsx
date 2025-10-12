@@ -11,9 +11,9 @@
     "Koekje", "Broodje", "Stoel", "Robot", "Pannekoek", "Bitterbal", "Kaasblokje", "Koffiebeker", "Pindakaas", "Poffertje"
   ];
 
-export default function GenerateRandomUsername(): string {
+export default function GenerateRandomUsername(isGuestAccount: boolean = false): string {
   const randomColor = colors[Math.floor(Math.random() * colors.length)];
   const randomNoun = funkyNouns[Math.floor(Math.random() * funkyNouns.length)];
 
-  return `${randomColor}_${randomNoun}`;
+  return `${randomColor} ${randomNoun}${isGuestAccount ? " (G)" : ""}`;
 }

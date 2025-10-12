@@ -187,6 +187,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     if (!gameRef.current || !currentRoundRef.current) return;
 
     setRevealedWord(roundTransitionData.currentWord);
+    setCurrentRoundWord(roundTransitionData.currentWord.word);
 
     if (roundTransitionData.isEndOfGame)
     {
@@ -247,6 +248,23 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     const round = _game.rounds.find(r => r.roundNumber == index);
     if (!round) throw Error("Could not find current round CORRUPT STATE");
     return round;
+  }
+
+  function setCurrentRoundWord(word: string) {
+    setGame(g => {
+      if (!g) return g;
+      
+      const updatedRounds = g.rounds.map((round, index) => 
+        index === g.currentRoundIndex 
+          ? { ...round, word }
+          : round
+      );
+      
+      return {
+        ...g,
+        rounds: updatedRounds
+      };
+    });
   }
 
   function determineCurrentPlayer() {
