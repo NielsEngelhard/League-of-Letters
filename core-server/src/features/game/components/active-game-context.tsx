@@ -190,6 +190,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     if (roundTransitionData.isEndOfGame)
     {
       setTimeout(() => {
+          setIsAnimating(false);
           triggerEndOfGame();
         }, TIME_BETWEEN_ROUNDS_MS);
     }
