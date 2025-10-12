@@ -2,7 +2,7 @@
 export const MIN_TOTAL_ROUNDS: number = 1;
 export const MAX_TOTAL_ROUNDS: number = 16;
 
-export const MIN_GUESSES_PER_ROUND: number = 2;
+export const MIN_GUESSES_PER_ROUND: number = 1;
 export const MAX_GUESSES_PER_ROUND: number = 8;
 
 export const MAX_ONLINE_GAME_PLAYERS: number = 6;

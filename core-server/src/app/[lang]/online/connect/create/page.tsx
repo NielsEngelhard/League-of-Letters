@@ -86,7 +86,7 @@ export default async function CreateOnlineGamePage({
             </Card>
 
           {/* Right */}
-          <div className="flex flex-col gap-2">  
+          <div className="flex flex-col gap-2 z-50">  
             {/* Share options */}
             <ShareGameCard joinCode={lobby.id} lang={lang} t={t.beforeGame} />
           </div>

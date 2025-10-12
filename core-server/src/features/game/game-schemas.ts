@@ -25,7 +25,7 @@ export const createGameSchema = z.object({
     language: z.enum(supportedLanguages)
 }).refine((data) => {
     if (data.gameMode == "online") {
-        return data.players && data.players.length >= 2;
+        return data.players && data.players.length >= MIN_GUESSES_PER_ROUND;
     } 
 
     return true;

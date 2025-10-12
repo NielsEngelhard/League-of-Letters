@@ -95,9 +95,8 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
         {(game && currentRound) ? (
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="col-span-1 md:col-span-2">
-                     <div className={`w-full flex flex-col items-center justify-center md:gap-2 sm:gap-3`}>
+                     <div className={`w-full flex flex-col items-center justify-center gap-2`}>
 
-                     <div className="relative w-full md:z-0 mb-0 md:mb-3">
                         <InGameProgressionBar
                             currentRound={currentRound}
                             totalRounds={game.totalRounds}
@@ -106,7 +105,6 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
                             guessesPerRound={game.nGuessesPerRound}
                             gameLanguage={game.language}
                         />
-                     </div>
 
                         {/* On mobile show for clearity the current player at the top of the screen */}
                         {currentPlayer && (
