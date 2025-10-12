@@ -15,7 +15,7 @@ export type CreateGamePlayerSchema = z.infer<typeof createGamePlayerSchema>;
 
 export const createGameSchema = z.object({
     wordLength: z.number().min(MIN_WORD_LENGTH).max(MAX_WORD_LENGTH),
-    totalRounds: z.number().min(MIN_TOTAL_ROUNDS).max(MAX_TOTAL_ROUNDS),
+    totalRounds: z.number().min(MIN_TOTAL_ROUNDS).max(MAX_TOTAL_ROUNDS), // TODO: this is actually rounds per player
     guessesPerRound: z.number().min(MIN_GUESSES_PER_ROUND).max(MAX_GUESSES_PER_ROUND),
     players: z.array(createGamePlayerSchema).optional(),
     gameMode: z.enum(gameModes),

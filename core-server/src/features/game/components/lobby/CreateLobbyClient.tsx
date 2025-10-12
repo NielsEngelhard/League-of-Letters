@@ -36,7 +36,7 @@ export default function CreateLobbyClient({ initialLobby, lang, t, accountId, us
             username: username,
             isHost: false
         });
-    }, []);    
+    }, []);
 
     return (
       <CreateGameForm

@@ -39,7 +39,7 @@ export default function CreateGameForm({ onLeaveGame, submitDisabled = false, pl
 
     // Each rounds must be dividable by n_players so that every player has the same order structure once (regarding starting position and order after that)
     const numberOfRoundsMultiplier = (players && players.length > 0) ? players?.length : 1;
-
+    
     function onSubmit(data: CreateGameSchema) {
         if (gameMode == "online") {
             CreateOnlineGameBasedOnLobbyCommand(data)
@@ -69,7 +69,7 @@ export default function CreateGameForm({ onLeaveGame, submitDisabled = false, pl
       defaultValues: {
         wordLength: 6,
         guessesPerRound: 6,
-        totalRounds: 4,
+        totalRounds: numberOfRoundsMultiplier * 4,
         gameMode: gameMode,
         gameId: gameId,
         withStartingLetter: true,
@@ -104,7 +104,8 @@ export default function CreateGameForm({ onLeaveGame, submitDisabled = false, pl
     };
 
     return (
-        <form className="flex flex-col gap-3" onSubmit={form.handleSubmit(handleFormSubmit)}>      
+        <form className="flex flex-col gap-3" onSubmit={form.handleSubmit(handleFormSubmit)}>   
+        <div>temp: {form.getValues("totalRounds")}</div>
             <div className="flex flex-col md:flex-row gap-2">
                 <SelectDropdown
                     className="w-full"
@@ -134,10 +135,10 @@ export default function CreateGameForm({ onLeaveGame, submitDisabled = false, pl
                     placeholder="Number of rounds"
                     required
                     options={[
-                        { value: numberOfRoundsMultiplier * 1, label: `${(numberOfRoundsMultiplier * 1).toString()} (1pp)` },
-                        { value: numberOfRoundsMultiplier * 2, label: `${(numberOfRoundsMultiplier * 2).toString()} (2pp)` },
-                        { value: numberOfRoundsMultiplier * 3, label: `${(numberOfRoundsMultiplier * 3).toString()} (3pp)` },
-                        { value: numberOfRoundsMultiplier * 4, label: `${(numberOfRoundsMultiplier * 4).toString()} (4pp)` },
+                        { value: 1, label: `${(numberOfRoundsMultiplier * 1).toString()} (1pp)` },
+                        { value: 2, label: `${(numberOfRoundsMultiplier * 2).toString()} (2pp)` },
+                        { value: 3, label: `${(numberOfRoundsMultiplier * 3).toString()} (3pp)` },
+                        { value: 4, label: `${(numberOfRoundsMultiplier * 4).toString()} (4pp)` },
                     ]}
                 />                
             </div>

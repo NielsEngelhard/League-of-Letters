@@ -35,7 +35,7 @@ export default async function CreateGameCommand(schema: CreateGameSchema, gameId
 
         await tx.insert(ActiveGameTable).values({
             id: gameId,
-            nRounds: schema.totalRounds,            
+            nRounds: schema.totalRounds * ((schema.players?.length ?? 1) * schema.totalRounds), // TODO: RENAME - totalRounds is actually rounds per player in lobby            
             gameMode: schema.gameMode,
             currentRoundIndex: 1,
             nGuessesPerRound: schema.guessesPerRound,
