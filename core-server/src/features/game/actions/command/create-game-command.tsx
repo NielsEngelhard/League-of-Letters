@@ -24,7 +24,9 @@ export default async function CreateGameCommand(schema: CreateGameSchema, gameId
         AddCallerAsOnlyPlayer(schema, currentUser);
     }
 
-    const words = await GetWordsCommand(schema.wordLength, schema.totalRounds, schema.language);
+    const totalRounds = determineTotalRounds(schema);
+
+    const words = await GetWordsCommand(schema.wordLength, totalRounds, schema.language);
 
     if (!gameId) gameId = generateGameId();
 
@@ -35,7 +37,7 @@ export default async function CreateGameCommand(schema: CreateGameSchema, gameId
 
         await tx.insert(ActiveGameTable).values({
             id: gameId,
-            nRounds: schema.totalRounds * ((schema.players?.length ?? 1) * schema.totalRounds), // TODO: RENAME - totalRounds is actually rounds per player in lobby            
+            nRounds: totalRounds,        
             gameMode: schema.gameMode,
             currentRoundIndex: 1,
             nGuessesPerRound: schema.guessesPerRound,
@@ -62,6 +64,12 @@ export default async function CreateGameCommand(schema: CreateGameSchema, gameId
     return gameId;
 }
 
+function determineTotalRounds(schema: CreateGameSchema): number {
+    if (schema.gameMode == "solo") return schema.totalRounds;
+
+    // TODO: RENAME - totalRounds is actually rounds per player in lobby    
+    return (schema.players?.length ?? 1) * schema.totalRounds;
+}
 
 function createPlayers(schema: CreateGameSchema, gameId: string): DbGamePlayer[] {
     if (!schema.players) throw Error("No players assigned");

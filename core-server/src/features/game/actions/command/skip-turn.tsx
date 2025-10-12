@@ -48,7 +48,10 @@ async function UpdateGameState(game: DbActiveGameWithRounds, currentRound: DbGam
         score: 0,
         roundTransitionData: endCurrentRound ? {
             isEndOfGame: endGame,
-            currentWord: currentRound.word.originalWord,
+            currentWord: {
+                word: currentRound.word.originalWord,
+                definition: currentRound.word.definition
+            },
             nextRoundFirstLetter: nextRound?.word.strippedWord[0],            
         } : undefined,
         unguessedMisplacedLetters: [],
