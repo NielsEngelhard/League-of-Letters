@@ -6,6 +6,7 @@ import * as readline from 'readline';
 import { WordFormatValidator } from '../../word-format-validator/word-format-validator';
 import { sql } from 'drizzle-orm';
 import { ALLOWED_NORMAL_AND_SPECIAL_CHARACTERS } from '@/features/game/game-constants';
+import { parseWordLine } from '../parse-wordlist-line';
 
 export async function seedWordListInDb(wordListPath: string, language: SupportedLanguage, db: DbOrTransaction): Promise<void> {
   try {
@@ -22,17 +23,31 @@ export async function seedWordListInDb(wordListPath: string, language: Supported
     
     // Process each line
     for await (const line of rl) {
-      const validateWordResponse = WordFormatValidator.validateFormat(line, ALLOWED_NORMAL_AND_SPECIAL_CHARACTERS);
-      
-      if (validateWordResponse.isValid == true) {
-        // Add to database
-        await db.insert(table).values({
-            word: validateWordResponse.word,
-            length: validateWordResponse.word.length,            
-        }).onConflictDoNothing();
-      } else {
-        // Invalid word format
-      }; 
+        try {
+          const parsedLine = parseWordLine(line);
+
+          const word = parsedLine.word;
+          const definition = parsedLine.definition;
+
+          const validateWordResponse = WordFormatValidator.validateFormat(word, ALLOWED_NORMAL_AND_SPECIAL_CHARACTERS);
+
+          if (validateWordResponse.isValid == true) {
+            
+
+            // Add to database
+            await db.insert(table).values({
+                word: word,
+                definition: definition,
+                length: validateWordResponse.word.length,            
+            }).onConflictDoNothing();
+                    
+          } else {
+            // Invalid word format
+          }; 
+        }
+        catch (e) {
+          console.log(e);
+        }
     }
 
     const nRecordsInDbTable = await db

@@ -4,6 +4,7 @@ import { pgTable, text, integer } from "drizzle-orm/pg-core";
 export function OfficialWordsTable(language: SupportedLanguage) {
   return pgTable(`${language}_words`, {
     word: text().notNull().unique().primaryKey(),
+    definition: text(),
     length: integer().notNull()
   });
 }

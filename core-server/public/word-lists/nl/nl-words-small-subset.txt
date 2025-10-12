@@ -1,176 +1,300 @@
-apart
-adres
-avond
-aders
-airco
-amper
-ander
-azijn
-akker
-angst
-alles
-arena
-ademt
-alsof
-april
-allen
-autos
-alpen
-anders
-actief
-aanzet
-afloop
-agenda
-afrond
-afzien
-achten
-alleen
-afdruk
-aantal
-andere
-atlete
-afrika
-alsnog
-oord
-allicht
-amerika
-agendas
-acteurs
-analoge
-analoog
-aankoop
-anoniem
-aanslag
-anderen
-alsmaar
-ameland
-artikel
-angstig
-althans
-aflopen
-afkomst
-adoptie
-airport
-antieke
-afspraak
-aftreden
-arreslee
-aantonen
-aanwezig
-absoluut
-afghaans
-atletiek
-augustus
-afgelost
-algemene
-allemaal
-aangeven
-afscheid
-achttien
-atoombom
-allerlei
-afstraft
-aanziens
-afdracht
-abonnees
-aspecten
-afgelegd
-avontuur
-afsturen
-algemeen
-afspraken
-assistent
-afgedankt
-afgelopen
-anderhalf
-aangepast
-aanzetten
-afkomstig
-arnhemmer
-afgewerkt
-ademhalen
-afgebouwd
-adviseurs
-aanvullen
-aantreden
-antwerpen
-afspreken
-afsluiten
-aanbieden
-aangewend
-agrarische
-achterhoek
-afgebroken
-ambtenaren
-afgesloten
-activiteit
-ambitieuze
-abonnement
-aanvallers
-aanleiding
-aangeraden
-afgeleverd
-aanmerking
-aanvliegen
-afmetingen
-amerikanen
-aangewezen
-aangegeven
-aangelegde
-aanspoelen
-autoritair
-actiegroep
-aangetoond
-afgeblazen
-autowassen
-accupakket
-alcoholwet
-aanbieding
-analyseren
-accepteren
-aangevallen
-afgekondigd
-afgesproken
-anticiperen
-accepterend
-amsterdamse
-amerikaanse
-automatisch
-aanvallende
-aangespoeld
-aangevraagd
-alternatief
-aantoonbare
-achterstand
-achterbleef
-afgetrainde
-analyserend
-angstvallig
-afghanistan
-aanmaningen
-atlantische
-actieradius
-oekdiensten
-zoekmachines
-zuurstofrijk
-zomerseizoen
-zelfgemaakte
-zijdeachtige
-zomermaanden
-zoutminnende
-zeiltijdperk
-zesentwintig
-aanvankelijk
-boerenpartij
-bijvoorbeeld
-belangrijker
-beginprijzen
-gelijknamige
-kabelbedrijf
-mogelijkheid
-nabijgelegen
-noodzakelijk
-ongelooflijk
-onmiddellijk
-testbewijzen
-uiteindelijk
+AAIDE - aai·en (aaide, heeft geaaid) 1strelen: een kat aaien
+AAIDEN - aai·en (aaide, heeft geaaid) 1strelen: een kat aaien
+AAIEN - aai (de; m; meervoud: aaien) 1streling
+AAIT - aai·en (aaide, heeft geaaid) 1strelen: een kat aaien
+AAITJE - aai (de; m; meervoud: aaien) 1streling
+AAITJES - aai (de; m; meervoud: aaien) 1streling
+AALBES - aal·bes (de; v(m); meervoud: aalbessen) 1rode, eetbare bes
+AALBES - aal·bes (de; v(m); meervoud: aalbessen) 1rode, eetbare bes
+AALBESSEN - aal·bes (de; v(m); meervoud: aalbessen) 1rode, eetbare bes
+AALGLAD - aal·glad (bijvoeglijk naamwoord) 1bijzonder glad2bijzonder sluw
+AALGLADDE - aal·glad (bijvoeglijk naamwoord) 1bijzonder glad2bijzonder sluw
+AALMOES - aal·moes (de; v(m); meervoud: aalmoezen) 1gift aan een bedelaar
+AALMOEZEN - aal·moes (de; v(m); meervoud: aalmoezen) 1gift aan een bedelaar
+AALMOEZENIER - aal·moe·ze·nier (de; m; meervoud: aalmoezeniers) 1priester in het leger
+AALSCHOLVER - aal·schol·ver (de; m; meervoud: aalscholvers) 1zwarte watervogel die van vis leeft
+AALSCHOLVER - aal·schol·ver (de; m; meervoud: aalscholvers) 1zwarte watervogel die van vis leeft
+AALSCHOLVERS - aal·schol·ver (de; m; meervoud: aalscholvers) 1zwarte watervogel die van vis leeft
+AALTJE - aal (de; m; meervoud: alen) 1paling, m.n. nog niet volgroeid exemplaar: hij is zo glad als...
+AALTJE - aal (de; m; meervoud: alen) 1paling, m.n. nog niet volgroeid exemplaar: hij is zo glad als...
+AALTJES - aal (de; m; meervoud: alen) 1paling, m.n. nog niet volgroeid exemplaar: hij is zo glad als...
+AALTJES - aal (de; m; meervoud: alen) 1paling, m.n. nog niet volgroeid exemplaar: hij is zo glad als...
+AAMBEELD - aam·beeld (het; o; meervoud: aambeelden) 1ijzeren smeedblok
+AAMBEELD - aam·beeld (het; o; meervoud: aambeelden) 1ijzeren smeedblok
+AAMBEELDEN - aam·beeld (het; o; meervoud: aambeelden) 1ijzeren smeedblok
+AAMBEELDJE - aam·beeld (het; o; meervoud: aambeelden) 1ijzeren smeedblok
+AAMBEELDJES - aam·beeld (het; o; meervoud: aambeelden) 1ijzeren smeedblok
+AAMBEIEN - aam·bei·en (meervoud) 1knobbelachtige zwellingen van aderen aan de endeldarm
+AANBAD - aan·bid·den (aanbad, heeft aanbeden) 1als goddelijk wezen vereren2hartstochtelijk vereren: zijn leerlingen aanbidden hem
+AANBADEN - aan·bid·den (aanbad, heeft aanbeden) 1als goddelijk wezen vereren2hartstochtelijk vereren: zijn leerlingen aanbidden hem
+AANBAK - aan·bak·ken (bakte aan, is aangebakken) 1zich tijdens het bakken vasthechten: de aardappels zijn aangebakken
+AANBAKKEN - aan·bak·ken (bakte aan, is aangebakken) 1zich tijdens het bakken vasthechten: de aardappels zijn aangebakken
+AANBAKT - aan·bak·ken (bakte aan, is aangebakken) 1zich tijdens het bakken vasthechten: de aardappels zijn aangebakken
+AANBAKTE - aan·bak·ken (bakte aan, is aangebakken) 1zich tijdens het bakken vasthechten: de aardappels zijn aangebakken
+AANBEDEN - aan·bid·den (aanbad, heeft aanbeden) 1als goddelijk wezen vereren2hartstochtelijk vereren: zijn leerlingen aanbidden hem
+AANBEL - aan·bel·len (belde aan, heeft aangebeld) 1aan de deurbel trekken, op de belknop drukken
+AANBELDE - aan·bel·len (belde aan, heeft aangebeld) 1aan de deurbel trekken, op de belknop drukken
+AANBELDEN - aan·bel·len (belde aan, heeft aangebeld) 1aan de deurbel trekken, op de belknop drukken
+AANBELLEN - aan·bel·len (belde aan, heeft aangebeld) 1aan de deurbel trekken, op de belknop drukken
+AANBELT - aan·bel·len (belde aan, heeft aangebeld) 1aan de deurbel trekken, op de belknop drukken
+AANBESTEDE - aan·be·ste·den (besteedde aan, heeft aanbesteed) 1(van een werk of levering) ondernemers in de gelegenheid stellen er...
+AANBESTEDEN - aan·be·ste·den (besteedde aan, heeft aanbesteed) 1(van een werk of levering) ondernemers in de gelegenheid stellen er...
+AANBESTEDEND - aan·be·ste·den (besteedde aan, heeft aanbesteed) 1(van een werk of levering) ondernemers in de gelegenheid stellen er...
+AANBESTEDING - aan·be·ste·ding (de; v; meervoud: aanbestedingen) 1het aanbesteden: een publieke aanbesteding
+AANBESTEED - aan·be·ste·den (besteedde aan, heeft aanbesteed) 1(van een werk of levering) ondernemers in de gelegenheid stellen er...
+AANBESTEEDDE - aan·be·ste·den (besteedde aan, heeft aanbesteed) 1(van een werk of levering) ondernemers in de gelegenheid stellen er...
+AANBESTEEDT - aan·be·ste·den (besteedde aan, heeft aanbesteed) 1(van een werk of levering) ondernemers in de gelegenheid stellen er...
+AANBETALING - aan·be·ta·ling (de; v; meervoud: aanbetalingen) 1eerste betaling bij aankoop op afbetaling
+AANBEVAL - aan·be·ve·len (beval aan, heeft aanbevolen) 1aanprijzen, aanraden: iem. iets warm aanbevelen; ik kan je dat hotel...
+AANBEVALEN - aan·be·ve·len (beval aan, heeft aanbevolen) 1aanprijzen, aanraden: iem. iets warm aanbevelen; ik kan je dat hotel...
+AANBEVEEL - aan·be·ve·len (beval aan, heeft aanbevolen) 1aanprijzen, aanraden: iem. iets warm aanbevelen; ik kan je dat hotel...
+AANBEVEELT - aan·be·ve·len (beval aan, heeft aanbevolen) 1aanprijzen, aanraden: iem. iets warm aanbevelen; ik kan je dat hotel...
+AANBEVELEN - aan·be·ve·len (beval aan, heeft aanbevolen) 1aanprijzen, aanraden: iem. iets warm aanbevelen; ik kan je dat hotel...
+AANBEVELEND - aan·be·ve·len (beval aan, heeft aanbevolen) 1aanprijzen, aanraden: iem. iets warm aanbevelen; ik kan je dat hotel...
+AANBEVELENDE - aan·be·ve·len (beval aan, heeft aanbevolen) 1aanprijzen, aanraden: iem. iets warm aanbevelen; ik kan je dat hotel...
+AANBEVELING - aan·be·ve·ling (de; v; meervoud: aanbevelingen; verkleinwoord: aanbevelinkje) 1het aanbevelen: op aanbeveling van; tot aanbeveling strekken als...
+AANBEVOLEN - aan·be·ve·len (beval aan, heeft aanbevolen) 1aanprijzen, aanraden: iem. iets warm aanbevelen; ik kan je dat hotel...
+AANBID - aan·bid·den (aanbad, heeft aanbeden) 1als goddelijk wezen vereren2hartstochtelijk vereren: zijn leerlingen aanbidden hem
+AANBIDDELIJK - aan·bid·de·lijk (bijvoeglijk naamwoord) 1verrukkelijk
+AANBIDDEN - aan·bid·den (aanbad, heeft aanbeden) 1als goddelijk wezen vereren2hartstochtelijk vereren: zijn leerlingen aanbidden hem
+AANBIDDEND - aan·bid·den (aanbad, heeft aanbeden) 1als goddelijk wezen vereren2hartstochtelijk vereren: zijn leerlingen aanbidden hem
+AANBIDDENDE - aan·bid·den (aanbad, heeft aanbeden) 1als goddelijk wezen vereren2hartstochtelijk vereren: zijn leerlingen aanbidden hem
+AANBIDDER - aan·bid·der (de; m/v/x; meervoud: aanbidders), aan·bid·ster (de; v; meervoud: aanbidsters) 1iem. die aanbidt2iem. die verliefd op...
+AANBIDDERS - aan·bid·der (de; m/v/x; meervoud: aanbidders), aan·bid·ster (de; v; meervoud: aanbidsters) 1iem. die aanbidt2iem. die verliefd op...
+AANBIDSTER - aan·bid·der (de; m/v/x; meervoud: aanbidders), aan·bid·ster (de; v; meervoud: aanbidsters) 1iem. die aanbidt2iem. die verliefd op...
+AANBIDSTERS - aan·bid·der (de; m/v/x; meervoud: aanbidders), aan·bid·ster (de; v; meervoud: aanbidsters) 1iem. die aanbidt2iem. die verliefd op...
+AANBIDT - aan·bid·den (aanbad, heeft aanbeden) 1als goddelijk wezen vereren2hartstochtelijk vereren: zijn leerlingen aanbidden hem
+AANBIED - aan·bie·den (bood aan, heeft aangeboden) 1laten weten dat iemand iets kan krijgen: kan ik u een...
+AANBIEDEN - aan·bie·den (bood aan, heeft aangeboden) 1laten weten dat iemand iets kan krijgen: kan ik u een...
+AANBIEDEND - aan·bie·den (bood aan, heeft aangeboden) 1laten weten dat iemand iets kan krijgen: kan ik u een...
+AANBIEDENDE - aan·bie·den (bood aan, heeft aangeboden) 1laten weten dat iemand iets kan krijgen: kan ik u een...
+AANBIEDER - aan·bie·der (de; m/v/x; meervoud: aanbieders) 1persoon die, bedrijf dat iets (een advies, een product) ter beschikking...
+AANBIEDERS - aan·bie·der (de; m/v/x; meervoud: aanbieders) 1persoon die, bedrijf dat iets (een advies, een product) ter beschikking...
+AANBIEDING - aan·bie·ding (de; v; meervoud: aanbiedingen) 1artikel dat tijdelijk goedkoper is dan normaal; = koopje: kaas is...
+AANBIEDINGEN - aan·bie·ding (de; v; meervoud: aanbiedingen) 1artikel dat tijdelijk goedkoper is dan normaal; = koopje: kaas is...
+AANBIEDT - aan·bie·den (bood aan, heeft aangeboden) 1laten weten dat iemand iets kan krijgen: kan ik u een...
+AANBIND - aan·bin·den (bond aan, heeft aangebonden) 1met riem, touw enz. vastmaken2beginnen: de strijd aanbinden met (of: tegen)...
+AANBINDEN - aan·bin·den (bond aan, heeft aangebonden) 1met riem, touw enz. vastmaken2beginnen: de strijd aanbinden met (of: tegen)...
+AANBINDT - aan·bin·den (bond aan, heeft aangebonden) 1met riem, touw enz. vastmaken2beginnen: de strijd aanbinden met (of: tegen)...
+AANBLEEF - aan·blij·ven (bleef aan, is aangebleven) 1in functie blijven
+AANBLEVEN - aan·blij·ven (bleef aan, is aangebleven) 1in functie blijven
+AANBLIJF - aan·blij·ven (bleef aan, is aangebleven) 1in functie blijven
+AANBLIJFT - aan·blij·ven (bleef aan, is aangebleven) 1in functie blijven
+AANBLIJVEN - aan·blij·ven (bleef aan, is aangebleven) 1in functie blijven
+AANBLIJVEND - aan·blij·ven (bleef aan, is aangebleven) 1in functie blijven
+AANBLIJVENDE - aan·blij·ven (bleef aan, is aangebleven) 1in functie blijven
+AANBLIK - aan·blik (de; m) 1uiterlijk: het industrieterrein bood een troosteloze aanblik
+AANBLIKKEN - aan·blik (de; m) 1uiterlijk: het industrieterrein bood een troosteloze aanblik
+AANBOD - aan·bod (het; o) 1(economie) het aanbieden, dat wat op de markt wordt gebracht: vraag en aanbod2het...
+AANBODEN - aan·bie·den (bood aan, heeft aangeboden) 1laten weten dat iemand iets kan krijgen: kan ik u een...
+AANBODLIJN - aan·bod·lijn (de; v(m); meervoud: aanbodlijnen) ¶(economie) collectieve aanbodlijn lijn die het verband uitdrukt tussen de prijs...
+AANBOND - aan·bin·den (bond aan, heeft aangebonden) 1met riem, touw enz. vastmaken2beginnen: de strijd aanbinden met (of: tegen)...
+AANBONDEN - aan·bin·den (bond aan, heeft aangebonden) 1met riem, touw enz. vastmaken2beginnen: de strijd aanbinden met (of: tegen)...
+AANBOOD - aan·bie·den (bood aan, heeft aangeboden) 1laten weten dat iemand iets kan krijgen: kan ik u een...
+AANBOOR - aan·bo·ren (boorde aan, heeft aangeboord) 1met een boor(machine) bereiken: een steenkoollaag aanboren2gaan gebruiken: een nieuwe markt...
+AANBOORDE - aan·bo·ren (boorde aan, heeft aangeboord) 1met een boor(machine) bereiken: een steenkoollaag aanboren2gaan gebruiken: een nieuwe markt...
+AANBOORDEN - aan·bo·ren (boorde aan, heeft aangeboord) 1met een boor(machine) bereiken: een steenkoollaag aanboren2gaan gebruiken: een nieuwe markt...
+AANBOORT - aan·bo·ren (boorde aan, heeft aangeboord) 1met een boor(machine) bereiken: een steenkoollaag aanboren2gaan gebruiken: een nieuwe markt...
+AANBOREN - aan·bo·ren (boorde aan, heeft aangeboord) 1met een boor(machine) bereiken: een steenkoollaag aanboren2gaan gebruiken: een nieuwe markt...
+AANBOUW - aan·bouw (de; m) 1het bouwen van iets nieuws: dit huis is in aanbouw2het aangebouwde: het landhuis...
+AANBOUWDE - aan·bou·wen (bouwde aan, heeft aangebouwd) 1bij iets bouwen dat al bestaat: een stal bij het huis...
+AANBOUWDEN - aan·bou·wen (bouwde aan, heeft aangebouwd) 1bij iets bouwen dat al bestaat: een stal bij het huis...
+AANBOUWEN - aan·bouw (de; m) 1het bouwen van iets nieuws: dit huis is in aanbouw2het aangebouwde: het landhuis...
+AANBOUWT - aan·bou·wen (bouwde aan, heeft aangebouwd) 1bij iets bouwen dat al bestaat: een stal bij het huis...
+AANBRACHT - aan·bren·gen (bracht aan, heeft aangebracht) 1ergens iets plaatsen: versieringen aanbrengen; verbeteringen aanbrengen in een opstel2bekendmaken bij...
+AANBRACHTEN - aan·bren·gen (bracht aan, heeft aangebracht) 1ergens iets plaatsen: versieringen aanbrengen; verbeteringen aanbrengen in een opstel2bekendmaken bij...
+AANBRAK - aan·bre·ken (brak aan, heeft, is aangebroken) 1beginnen te gebruiken: een fles aanbreken2(van het licht, de dag,...
+AANBRAKEN - aan·bre·ken (brak aan, heeft, is aangebroken) 1beginnen te gebruiken: een fles aanbreken2(van het licht, de dag,...
+AANBRAND - aan·bran·den (brandde aan, is aangebrand) 1zich met een donkere korst op de bodem van een pan...
+AANBRANDDE - aan·bran·den (brandde aan, is aangebrand) 1zich met een donkere korst op de bodem van een pan...
+AANBRANDDEN - aan·bran·den (brandde aan, is aangebrand) 1zich met een donkere korst op de bodem van een pan...
+AANBRANDEN - aan·bran·den (brandde aan, is aangebrand) 1zich met een donkere korst op de bodem van een pan...
+AANBRANDT - aan·bran·den (brandde aan, is aangebrand) 1zich met een donkere korst op de bodem van een pan...
+AANBREEK - aan·bre·ken (brak aan, heeft, is aangebroken) 1beginnen te gebruiken: een fles aanbreken2(van het licht, de dag,...
+AANBREEKT - aan·bre·ken (brak aan, heeft, is aangebroken) 1beginnen te gebruiken: een fles aanbreken2(van het licht, de dag,...
+AANBREKEN - aan·bre·ken (brak aan, heeft, is aangebroken) 1beginnen te gebruiken: een fles aanbreken2(van het licht, de dag,...
+AANBRENG - aan·bren·gen (bracht aan, heeft aangebracht) 1ergens iets plaatsen: versieringen aanbrengen; verbeteringen aanbrengen in een opstel2bekendmaken bij...
+AANBRENGEN - aan·bren·gen (bracht aan, heeft aangebracht) 1ergens iets plaatsen: versieringen aanbrengen; verbeteringen aanbrengen in een opstel2bekendmaken bij...
+AANBRENGEND - aan·bren·gen (bracht aan, heeft aangebracht) 1ergens iets plaatsen: versieringen aanbrengen; verbeteringen aanbrengen in een opstel2bekendmaken bij...
+AANBRENGENDE - aan·bren·gen (bracht aan, heeft aangebracht) 1ergens iets plaatsen: versieringen aanbrengen; verbeteringen aanbrengen in een opstel2bekendmaken bij...
+AANBRENGT - aan·bren·gen (bracht aan, heeft aangebracht) 1ergens iets plaatsen: versieringen aanbrengen; verbeteringen aanbrengen in een opstel2bekendmaken bij...
+AANDACHT - aan·dacht (de; v(m)) 1oplettendheid, belangstelling: de aandacht trekken opvallen; de aandacht vestigen op
+AANDACHTIG - aan·dach·tig (bijvoeglijk naamwoord, bijwoord) 1oplettend: aandachtig luisteren
+AANDACHTIGE - aan·dach·tig (bijvoeglijk naamwoord, bijwoord) 1oplettend: aandachtig luisteren
+AANDACHTIGER - aan·dach·tig (bijvoeglijk naamwoord, bijwoord) 1oplettend: aandachtig luisteren
+AANDACHTIGST - aan·dach·tig (bijvoeglijk naamwoord, bijwoord) 1oplettend: aandachtig luisteren
+AANDACHTPUNT - aan·dachts·punt (het; o; meervoud: aandachtspunten) 1onderwerp waaraan aandacht wordt of moet worden besteed
+AANDEDEN - aan·doen (deed aan, heeft aangedaan) 1aantrekken, aan het lichaam doen2veroorzaken, verwekken: verdriet aandoen3aantasten: zijn longen waren...
+AANDEED - aan·doen (deed aan, heeft aangedaan) 1aantrekken, aan het lichaam doen2veroorzaken, verwekken: verdriet aandoen3aantasten: zijn longen waren...
+AANDEEL - aan·deel (het; o; meervoud: aandelen) 1deel van een gemeenschappelijk bezit dat iem. toekomt: zijn aandeel ontvangen2bewijs...
+AANDEELTJE - aan·deel (het; o; meervoud: aandelen) 1deel van een gemeenschappelijk bezit dat iem. toekomt: zijn aandeel ontvangen2bewijs...
+AANDEELTJES - aan·deel (het; o; meervoud: aandelen) 1deel van een gemeenschappelijk bezit dat iem. toekomt: zijn aandeel ontvangen2bewijs...
+AANDELEN - aan·deel (het; o; meervoud: aandelen) 1deel van een gemeenschappelijk bezit dat iem. toekomt: zijn aandeel ontvangen2bewijs...
+AANDENKEN - aan·den·ken (het; o; meervoud: aandenkens) 1voorwerp dat aan iets of iem. herinnert; = souvenir
+AANDENKENS - aan·den·ken (het; o; meervoud: aandenkens) 1voorwerp dat aan iets of iem. herinnert; = souvenir
+AANDIEN - 1aan·die·nen (diende aan, heeft aangediend) 1de komst melden van: een bezoeker aandienen
+AANDIENDE - 1aan·die·nen (diende aan, heeft aangediend) 1de komst melden van: een bezoeker aandienen
+AANDIENDEN - 1aan·die·nen (diende aan, heeft aangediend) 1de komst melden van: een bezoeker aandienen
+AANDIENEN - 1aan·die·nen (diende aan, heeft aangediend) 1de komst melden van: een bezoeker aandienen
+AANDIENEND - 1aan·die·nen (diende aan, heeft aangediend) 1de komst melden van: een bezoeker aandienen
+AANDIENENDE - 1aan·die·nen (diende aan, heeft aangediend) 1de komst melden van: een bezoeker aandienen
+AANDIENT - 1aan·die·nen (diende aan, heeft aangediend) 1de komst melden van: een bezoeker aandienen
+AANDIK - aan·dik·ken (dikte aan, heeft aangedikt) 1dikker maken2overdrijven
+AANDIKKEN - aan·dik·ken (dikte aan, heeft aangedikt) 1dikker maken2overdrijven
+AANDIKKEND - aan·dik·ken (dikte aan, heeft aangedikt) 1dikker maken2overdrijven
+AANDIKKENDE - aan·dik·ken (dikte aan, heeft aangedikt) 1dikker maken2overdrijven
+AANDIKT - aan·dik·ken (dikte aan, heeft aangedikt) 1dikker maken2overdrijven
+AANDIKTE - aan·dik·ken (dikte aan, heeft aangedikt) 1dikker maken2overdrijven
+AANDIKTEN - aan·dik·ken (dikte aan, heeft aangedikt) 1dikker maken2overdrijven
+AANDOE - aan·doen (deed aan, heeft aangedaan) 1aantrekken, aan het lichaam doen2veroorzaken, verwekken: verdriet aandoen3aantasten: zijn longen waren...
+AANDOEN - aan·doen (deed aan, heeft aangedaan) 1aantrekken, aan het lichaam doen2veroorzaken, verwekken: verdriet aandoen3aantasten: zijn longen waren...
+AANDOEND - aan·doen (deed aan, heeft aangedaan) 1aantrekken, aan het lichaam doen2veroorzaken, verwekken: verdriet aandoen3aantasten: zijn longen waren...
+AANDOENDE - aan·doen (deed aan, heeft aangedaan) 1aantrekken, aan het lichaam doen2veroorzaken, verwekken: verdriet aandoen3aantasten: zijn longen waren...
+AANDOENING - aan·doe·ning (de; v; meervoud: aandoeningen) 1ziekelijke toestand: een aandoening aan het hart hebben2ontroering: met aandoening naar...
+AANDOENINGEN - aan·doe·ning (de; v; meervoud: aandoeningen) 1ziekelijke toestand: een aandoening aan het hart hebben2ontroering: met aandoening naar...
+AANDOENLIJK - aan·doen·lijk (bijvoeglijk naamwoord, bijwoord) 1treffend, ontroerend
+AANDOENLIJKE - aan·doen·lijk (bijvoeglijk naamwoord, bijwoord) 1treffend, ontroerend
+AANDOET - aan·doen (deed aan, heeft aangedaan) 1aantrekken, aan het lichaam doen2veroorzaken, verwekken: verdriet aandoen3aantasten: zijn longen waren...
+AANDRAAG - aan·dra·gen (droeg aan, heeft aangedragen) 1naar voren brengen; = opperen, voorstellen: oplossingen aandragen
+AANDRAAGT - aan·dra·gen (droeg aan, heeft aangedragen) 1naar voren brengen; = opperen, voorstellen: oplossingen aandragen
+AANDRAAI - aan·draai·en (draaide aan, heeft aangedraaid) 1door draaien vaster maken: een schroef aandraaien
+AANDRAAIDE - aan·draai·en (draaide aan, heeft aangedraaid) 1door draaien vaster maken: een schroef aandraaien
+AANDRAAIDEN - aan·draai·en (draaide aan, heeft aangedraaid) 1door draaien vaster maken: een schroef aandraaien
+AANDRAAIEN - aan·draai·en (draaide aan, heeft aangedraaid) 1door draaien vaster maken: een schroef aandraaien
+AANDRAAIT - aan·draai·en (draaide aan, heeft aangedraaid) 1door draaien vaster maken: een schroef aandraaien
+AANDRAGEN - aan·dra·gen (droeg aan, heeft aangedragen) 1naar voren brengen; = opperen, voorstellen: oplossingen aandragen
+AANDRAGEND - aan·dra·gen (droeg aan, heeft aangedragen) 1naar voren brengen; = opperen, voorstellen: oplossingen aandragen
+AANDRAGENDE - aan·dra·gen (droeg aan, heeft aangedragen) 1naar voren brengen; = opperen, voorstellen: oplossingen aandragen
+AANDRANG - aan·drang (de; m) 1druk in een bep. richting: aandrang hebben (of: voelen) naar de wc moeten2aansporing:...
+AANDREEF - aan·drij·ven (dreef aan, heeft aangedreven) 1aansporen2in beweging brengen: een machine aandrijven door een motor
+AANDREVEN - aan·drij·ven (dreef aan, heeft aangedreven) 1aansporen2in beweging brengen: een machine aandrijven door een motor
+AANDRIFT - aan·drift (de; v(m)) 1inwendig gevoel dat tot handelen aanspoort
+AANDRIFTEN - aan·drift (de; v(m)) 1inwendig gevoel dat tot handelen aanspoort
+AANDRIJF - aan·drij·ven (dreef aan, heeft aangedreven) 1aansporen2in beweging brengen: een machine aandrijven door een motor
+AANDRIJFAS - aan·drijf·as (de; v(m); meervoud: aandrijfassen) 1as die een machine in beweging brengt
+AANDRIJFT - aan·drij·ven (dreef aan, heeft aangedreven) 1aansporen2in beweging brengen: een machine aandrijven door een motor
+AANDRIJVEN - aan·drij·ven (dreef aan, heeft aangedreven) 1aansporen2in beweging brengen: een machine aandrijven door een motor
+AANDRIJVEND - aan·drij·ven (dreef aan, heeft aangedreven) 1aansporen2in beweging brengen: een machine aandrijven door een motor
+AANDRIJVENDE - aan·drij·ven (dreef aan, heeft aangedreven) 1aansporen2in beweging brengen: een machine aandrijven door een motor
+AANDRIJVING - aan·drij·ving (de; v; meervoud: aandrijvingen) 1het in beweging brengen: voorwielaandrijving
+AANDRING - aan·drin·gen (drong aan, heeft aangedrongen) 1krachtig aansporen: op betaling aandringen
+AANDRINGEN - aan·drin·gen (drong aan, heeft aangedrongen) 1krachtig aansporen: op betaling aandringen
+AANDRINGEND - aan·drin·gen (drong aan, heeft aangedrongen) 1krachtig aansporen: op betaling aandringen
+AANDRINGENDE - aan·drin·gen (drong aan, heeft aangedrongen) 1krachtig aansporen: op betaling aandringen
+AANDRINGT - aan·drin·gen (drong aan, heeft aangedrongen) 1krachtig aansporen: op betaling aandringen
+AANDROEG - aan·dra·gen (droeg aan, heeft aangedragen) 1naar voren brengen; = opperen, voorstellen: oplossingen aandragen
+AANDROEGEN - aan·dra·gen (droeg aan, heeft aangedragen) 1naar voren brengen; = opperen, voorstellen: oplossingen aandragen
+AANDRONG - aan·drin·gen (drong aan, heeft aangedrongen) 1krachtig aansporen: op betaling aandringen
+AANDRONGEN - aan·drin·gen (drong aan, heeft aangedrongen) 1krachtig aansporen: op betaling aandringen
+AANDRUK - aan·druk·ken (drukte aan, heeft aangedrukt) 1vaster drukken
+AANDRUKKEN - aan·druk·ken (drukte aan, heeft aangedrukt) 1vaster drukken
+AANDRUKT - aan·druk·ken (drukte aan, heeft aangedrukt) 1vaster drukken
+AANDRUKTE - aan·druk·ken (drukte aan, heeft aangedrukt) 1vaster drukken
+AANDRUKTEN - aan·druk·ken (drukte aan, heeft aangedrukt) 1vaster drukken
+AANDUID - aan·dui·den (duidde aan, heeft aangeduid) 1iets aangeven, iets duidelijk maken: kun je aanduiden wat je daarmee...
+AANDUIDDE - aan·dui·den (duidde aan, heeft aangeduid) 1iets aangeven, iets duidelijk maken: kun je aanduiden wat je daarmee...
+AANDUIDDEN - aan·dui·den (duidde aan, heeft aangeduid) 1iets aangeven, iets duidelijk maken: kun je aanduiden wat je daarmee...
+AANDUIDEN - aan·dui·den (duidde aan, heeft aangeduid) 1iets aangeven, iets duidelijk maken: kun je aanduiden wat je daarmee...
+AANDUIDEND - aan·dui·den (duidde aan, heeft aangeduid) 1iets aangeven, iets duidelijk maken: kun je aanduiden wat je daarmee...
+AANDUIDENDE - aan·dui·den (duidde aan, heeft aangeduid) 1iets aangeven, iets duidelijk maken: kun je aanduiden wat je daarmee...
+AANDUIDT - aan·dui·den (duidde aan, heeft aangeduid) 1iets aangeven, iets duidelijk maken: kun je aanduiden wat je daarmee...
+AANDURF - aan·dur·ven (durfde aan, heeft aangedurfd) 1durven ondernemen: een taak aandurven
+AANDURFDE - aan·dur·ven (durfde aan, heeft aangedurfd) 1durven ondernemen: een taak aandurven
+AANDURFDEN - aan·dur·ven (durfde aan, heeft aangedurfd) 1durven ondernemen: een taak aandurven
+AANDURFT - aan·dur·ven (durfde aan, heeft aangedurfd) 1durven ondernemen: een taak aandurven
+AANDURVEN - aan·dur·ven (durfde aan, heeft aangedurfd) 1durven ondernemen: een taak aandurven
+AANDUW - aan·du·wen (duwde aan, heeft aangeduwd) 1vooruitduwen: een auto aanduwen2vaster drukken
+AANDUWDE - aan·du·wen (duwde aan, heeft aangeduwd) 1vooruitduwen: een auto aanduwen2vaster drukken
+AANDUWDEN - aan·du·wen (duwde aan, heeft aangeduwd) 1vooruitduwen: een auto aanduwen2vaster drukken
+AANDUWEN - aan·du·wen (duwde aan, heeft aangeduwd) 1vooruitduwen: een auto aanduwen2vaster drukken
+AANDUWT - aan·du·wen (duwde aan, heeft aangeduwd) 1vooruitduwen: een auto aanduwen2vaster drukken
+AANEEN - aan·een (bijwoord) 1zonder tussenruimte of onderbreking: drie weken aaneen
+AANFLUITING - aan·flui·ting (de; v; meervoud: aanfluitingen) 1bespottelijke toestand: het optreden was een aanfluiting2bespotting: een aanfluiting voor de...
+AANGA - aan·gaan (ging aan, is aangegaan) 1gaan functioneren: de lamp gaat aan2ermee door kunnen: dat gaat niet...
+AANGAAN - aan·gaan (ging aan, is aangegaan) 1gaan functioneren: de lamp gaat aan2ermee door kunnen: dat gaat niet...
+AANGAAND - aan·gaan (ging aan, is aangegaan) 1gaan functioneren: de lamp gaat aan2ermee door kunnen: dat gaat niet...
+AANGAANDE - aan·gaan (ging aan, is aangegaan) 1gaan functioneren: de lamp gaat aan2ermee door kunnen: dat gaat niet...
+AANGAAP - aan·ga·pen (gaapte aan, heeft aangegaapt) 1met open mond, verbaasd, nieuwsgierig aanstaren
+AANGAAPT - aan·ga·pen (gaapte aan, heeft aangegaapt) 1met open mond, verbaasd, nieuwsgierig aanstaren
+AANGAAPTE - aan·ga·pen (gaapte aan, heeft aangegaapt) 1met open mond, verbaasd, nieuwsgierig aanstaren
+AANGAAPTEN - aan·ga·pen (gaapte aan, heeft aangegaapt) 1met open mond, verbaasd, nieuwsgierig aanstaren
+AANGAAT - aan·gaan (ging aan, is aangegaan) 1gaan functioneren: de lamp gaat aan2ermee door kunnen: dat gaat niet...
+AANGAF - aan·ge·ven (gaf aan, heeft aangegeven) 1aanreiken, overhandigen2in grote lijnen bekendmaken3bekendmaken aan de overheid: een diefstal aangeven;...
+AANGAPEN - aan·ga·pen (gaapte aan, heeft aangegaapt) 1met open mond, verbaasd, nieuwsgierig aanstaren
+AANGAVEN - aan·ge·ven (gaf aan, heeft aangegeven) 1aanreiken, overhandigen2in grote lijnen bekendmaken3bekendmaken aan de overheid: een diefstal aangeven;...
+AANGEBAKKEN - aan·bak·ken (bakte aan, is aangebakken) 1zich tijdens het bakken vasthechten: de aardappels zijn aangebakken
+AANGEBEDEN - aan·bid·den (aanbad, heeft aanbeden) 1als goddelijk wezen vereren2hartstochtelijk vereren: zijn leerlingen aanbidden hem
+AANGEBELD - aan·bel·len (belde aan, heeft aangebeld) 1aan de deurbel trekken, op de belknop drukken
+AANGEBLEVEN - aan·blij·ven (bleef aan, is aangebleven) 1in functie blijven
+AANGEBODEN - aan·bie·den (bood aan, heeft aangeboden) 1laten weten dat iemand iets kan krijgen: kan ik u een...
+AANGEBONDEN - aan·bin·den (bond aan, heeft aangebonden) 1met riem, touw enz. vastmaken2beginnen: de strijd aanbinden met (of: tegen)...
+AANGEBOORD - aan·bo·ren (boorde aan, heeft aangeboord) 1met een boor(machine) bereiken: een steenkoollaag aanboren2gaan gebruiken: een nieuwe markt...
+AANGEBOORDE - aan·bo·ren (boorde aan, heeft aangeboord) 1met een boor(machine) bereiken: een steenkoollaag aanboren2gaan gebruiken: een nieuwe markt...
+AANGEBOREN - aan·ge·bo·ren (bijvoeglijk naamwoord) 1van nature eigen: een aangeboren afwijking een vanaf de geboorte aanwezige lichamelijke of...
+AANGEBOUWD - aan·bou·wen (bouwde aan, heeft aangebouwd) 1bij iets bouwen dat al bestaat: een stal bij het huis...
+AANGEBOUWDE - aan·bou·wen (bouwde aan, heeft aangebouwd) 1bij iets bouwen dat al bestaat: een stal bij het huis...
+AANGEBRACHT - aan·bren·gen (bracht aan, heeft aangebracht) 1ergens iets plaatsen: versieringen aanbrengen; verbeteringen aanbrengen in een opstel2bekendmaken bij...
+AANGEBRACHTE - aan·bren·gen (bracht aan, heeft aangebracht) 1ergens iets plaatsen: versieringen aanbrengen; verbeteringen aanbrengen in een opstel2bekendmaken bij...
+AANGEBRAND - aan·bran·den (brandde aan, is aangebrand) 1zich met een donkere korst op de bodem van een pan...
+AANGEBRANDE - aan·bran·den (brandde aan, is aangebrand) 1zich met een donkere korst op de bodem van een pan...
+AANGEBROKEN - aan·bre·ken (brak aan, heeft, is aangebroken) 1beginnen te gebruiken: een fles aanbreken2(van het licht, de dag,...
+AANGEDAAN - aan·doen (deed aan, heeft aangedaan) 1aantrekken, aan het lichaam doen2veroorzaken, verwekken: verdriet aandoen3aantasten: zijn longen waren...
+AANGEDANE - aan·doen (deed aan, heeft aangedaan) 1aantrekken, aan het lichaam doen2veroorzaken, verwekken: verdriet aandoen3aantasten: zijn longen waren...
+AANGEDIEND - 1aan·die·nen (diende aan, heeft aangediend) 1de komst melden van: een bezoeker aandienen
+AANGEDIENDE - 1aan·die·nen (diende aan, heeft aangediend) 1de komst melden van: een bezoeker aandienen
+AANGEDIKT - aan·dik·ken (dikte aan, heeft aangedikt) 1dikker maken2overdrijven
+AANGEDIKTE - aan·dik·ken (dikte aan, heeft aangedikt) 1dikker maken2overdrijven
+AANGEDRAAID - aan·draai·en (draaide aan, heeft aangedraaid) 1door draaien vaster maken: een schroef aandraaien
+AANGEDRAAIDE - aan·draai·en (draaide aan, heeft aangedraaid) 1door draaien vaster maken: een schroef aandraaien
+AANGEDRAGEN - aan·dra·gen (droeg aan, heeft aangedragen) 1naar voren brengen; = opperen, voorstellen: oplossingen aandragen
+AANGEDREVEN - aan·drij·ven (dreef aan, heeft aangedreven) 1aansporen2in beweging brengen: een machine aandrijven door een motor
+AANGEDRONGEN - aan·drin·gen (drong aan, heeft aangedrongen) 1krachtig aansporen: op betaling aandringen
+AANGEDRUKT - aan·druk·ken (drukte aan, heeft aangedrukt) 1vaster drukken
+AANGEDRUKTE - aan·druk·ken (drukte aan, heeft aangedrukt) 1vaster drukken
+AANGEDUID - aan·dui·den (duidde aan, heeft aangeduid) 1iets aangeven, iets duidelijk maken: kun je aanduiden wat je daarmee...
+AANGEDUIDE - aan·dui·den (duidde aan, heeft aangeduid) 1iets aangeven, iets duidelijk maken: kun je aanduiden wat je daarmee...
+AANGEDURFD - aan·dur·ven (durfde aan, heeft aangedurfd) 1durven ondernemen: een taak aandurven
+AANGEDURFDE - aan·dur·ven (durfde aan, heeft aangedurfd) 1durven ondernemen: een taak aandurven
+AANGEDUWD - aan·du·wen (duwde aan, heeft aangeduwd) 1vooruitduwen: een auto aanduwen2vaster drukken
+AANGEDUWDE - aan·du·wen (duwde aan, heeft aangeduwd) 1vooruitduwen: een auto aanduwen2vaster drukken
+AANGEEF - aan·ge·ven (gaf aan, heeft aangegeven) 1aanreiken, overhandigen2in grote lijnen bekendmaken3bekendmaken aan de overheid: een diefstal aangeven;...
+AANGEEFT - aan·ge·ven (gaf aan, heeft aangegeven) 1aanreiken, overhandigen2in grote lijnen bekendmaken3bekendmaken aan de overheid: een diefstal aangeven;...
+AANGEGAAN - aan·gaan (ging aan, is aangegaan) 1gaan functioneren: de lamp gaat aan2ermee door kunnen: dat gaat niet...
+AANGEGAAPT - aan·ga·pen (gaapte aan, heeft aangegaapt) 1met open mond, verbaasd, nieuwsgierig aanstaren
+AANGEGAAPTE - aan·ga·pen (gaapte aan, heeft aangegaapt) 1met open mond, verbaasd, nieuwsgierig aanstaren
+AANGEGANE - aan·gaan (ging aan, is aangegaan) 1gaan functioneren: de lamp gaat aan2ermee door kunnen: dat gaat niet...
+AANGEGEVEN - aan·ge·ven (gaf aan, heeft aangegeven) 1aanreiken, overhandigen2in grote lijnen bekendmaken3bekendmaken aan de overheid: een diefstal aangeven;...
+AANGEGREPEN - aan·grij·pen (greep aan, heeft aangegrepen) 1plotseling met kracht iets aanpakken: de gelegenheid aangrijpen te baat nemen2hevig...
+AANGEGROEID - aan·groei·en (groeide aan, is aangegroeid) 1toenemen2weer groeien
+AANGEGROEIDE - aan·groei·en (groeide aan, is aangegroeid) 1toenemen2weer groeien
+AANGEHAAKT - aan·ha·ken (haakte aan, heeft, is aangehaakt) 1verder doorgaan op wat eerder geschreven, gezegd is: aanhaken bij...
+AANGEHAAKTE - aan·ha·ken (haakte aan, heeft, is aangehaakt) 1verder doorgaan op wat eerder geschreven, gezegd is: aanhaken bij...
+AANGEHAALD - aan·ha·len (haalde aan, heeft aangehaald) 1naar zich toe trekken2lief doen tegen; = liefkozen: een kind aanhalen3steviger...
+AANGEHAALDE - aan·ha·len (haalde aan, heeft aangehaald) 1naar zich toe trekken2lief doen tegen; = liefkozen: een kind aanhalen3steviger...
+AANGEHAD - aan·heb·ben (had aan, heeft aangehad) 1een jas aanhebben aan het lijf hebben
+AANGEHANGEN - aan·han·gen (hing aan, heeft aangehangen) 1voorstander zijn van; = steunen
+AANGEHARKT - aan·ge·harkt (bijvoeglijk naamwoord) 1(van tuinen, parken enz.) pijnlijk netjes: het landschap ligt er aangeharkt bij
+AANGEHARKTE - aan·ge·harkt (bijvoeglijk naamwoord) 1(van tuinen, parken enz.) pijnlijk netjes: het landschap ligt er aangeharkt bij
+AANGEHECHT - aan·hech·ten (hechtte aan, heeft aangehecht) 1vastmaken
+AANGEHECHTE - aan·hech·ten (hechtte aan, heeft aangehecht) 1vastmaken
+AANGEHEVEN - aan·hef·fen (hief aan, heeft aangeheven) 1beginnen: een lied aanheffen
+AANGEHIKT - aan·hik·ken (hikte aan, heeft aangehikt) 1tegen iets aanhikken moeilijk tot een besluit kunnen komen over
+AANGEHOLD - aan·hol·len (holde aan, is aangehold) 1hollend naderen: achter de feiten aanhollen beslissingen te laat nemen
+AANGEHOORD - aan·ho·ren (hoorde aan, heeft aangehoord) 1met aandacht luisteren naar: de minister hoorde de kritiek aan2tot het...
+AANGEHOORDE - aan·ho·ren (hoorde aan, heeft aangehoord) 1met aandacht luisteren naar: de minister hoorde de kritiek aan2tot het...
+AANGEHOUDEN - aan·hou·den (hield aan, heeft aangehouden) 1staande houden: iem. op straat aanhouden2(juridisch) staande houden van een verdachte...
+AANGEJAAGD - aan·ja·gen (jaagde of joeg aan, heeft aangejaagd) 1veroorzaken: iem. schrik aanjagen2sneller laten lopen: de koeien aanjagen
+AANGEJAAGDE - aan·ja·gen (jaagde of joeg aan, heeft aangejaagd) 1veroorzaken: iem. schrik aanjagen2sneller laten lopen: de koeien aanjagen
+AANGEKAART - aan·kaar·ten (kaartte aan, heeft aangekaart) 1aanhangig maken
+AANGEKAARTE - aan·kaar·ten (kaartte aan, heeft aangekaart) 1aanhangig maken
+AANGEKEKEN - aan·kij·ken (keek aan, heeft aangekeken) 1kijken naar: iem. aankijken hem in de ogen kijken2de ontwikkeling afwachten:...
+AANGEKLAAGD - aan·kla·gen (klaagde aan, heeft aangeklaagd) 1een aanklacht indienen; = beschuldigen
+AANGEKLAAGDE - aan·ge·klaag·de (de; m/v/x; meervoud: aangeklaagden) 1beschuldigde
+AANGEKLAMPT - aan·klam·pen (klampte aan, heeft aangeklampt) 1onderweg aanspreken of staande houden: iem. aanklampen¶aanklampen bij het peloton dat...
+AANGEKLAMPTE - aan·klam·pen (klampte aan, heeft aangeklampt) 1onderweg aanspreken of staande houden: iem. aanklampen¶aanklampen bij het peloton dat...
+AANGEKLEDE - aan·kle·den (kleedde aan, heeft aangekleed) 1kleren aantrekken
+AANGEKLEED - aan·kle·den (kleedde aan, heeft aangekleed) 1kleren aantrekken
+AANGEKLIKT - aan·klik·ken (klikte aan, heeft aangeklikt) 1(computer) met de muis (3) klikken op
+AANGEKLIKTE - aan·klik·ken (klikte aan, heeft aangeklikt) 1(computer) met de muis (3) klikken op
+AANGEKLOPT - aan·klop·pen (klopte aan, heeft aangeklopt) 1kloppen aan de deur2iem. iets vragen: bij iem. om geld aankloppen
+AANGEKNOOPT - aan·kno·pen (knoopte aan, heeft aangeknoopt) 1beginnen met: onderhandelingen aanknopen
