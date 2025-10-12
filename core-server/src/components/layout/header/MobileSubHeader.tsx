@@ -15,7 +15,7 @@ interface Props {
 }
 
 export default function MobileSubHeader({ lang, t }: Props) {
-    const [show, setShow] = useState(true);
+    const [show, setShow] = useState(false);
     const router = useRouter();
 
     function onNavItemClicked(href: string) {
