@@ -73,8 +73,8 @@ export default async function Header({ lang } : {lang: SupportedLanguage }) {
 
                         {/* Mobile navigation dropdown */}
                         <MobileSubHeader
-                            mainNavItems={mainNavItems}
-                            subNavItems={subNavItems}                
+                            lang={lang}
+                            t={t.general}               
                         />                        
                     </div>                  
                 </div>

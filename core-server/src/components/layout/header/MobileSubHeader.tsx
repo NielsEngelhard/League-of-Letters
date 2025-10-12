@@ -1,17 +1,21 @@
 "use client";
 
-import { HeaderNavigationItem } from "./Header";
 import { useState } from "react";
-import { Menu } from "lucide-react";
+import { CircleUser, Menu, User, Users } from "lucide-react";
 import { useRouter } from "next/navigation";
+import Button from "@/components/ui/Button";
+import Icon from "@/components/ui/Icon";
+import { LANGUAGE_ROUTE, MULTIPLAYER_GAME_ROUTE, PROFILE_ROUTE, SOLO_GAME_ROUTE } from "@/app/routes";
+import { SupportedLanguage } from "@/features/i18n/languages";
+import { GeneralTranslations } from "@/features/i18n/translation-file-interfaces/GeneralTranslations";
 
 interface Props {
-    mainNavItems: HeaderNavigationItem[];
-    subNavItems: HeaderNavigationItem[];
+    lang: SupportedLanguage;
+    t: GeneralTranslations;
 }
 
-export default function MobileSubHeader({mainNavItems, subNavItems}: Props) {
-    const [show, setShow] = useState(false);
+export default function MobileSubHeader({ lang, t }: Props) {
+    const [show, setShow] = useState(true);
     const router = useRouter();
 
     function onNavItemClicked(href: string) {
@@ -25,49 +29,31 @@ export default function MobileSubHeader({mainNavItems, subNavItems}: Props) {
                 <button className="flex items-center text-foreground" type="button" onClick={() => setShow(prev => !prev)}>
                     <Menu size={26} />
                 </button>
-            </div>          
-        
-            <div 
-                className={`fixed left-0 top-[52px] w-full flex flex-col py-4 px-6 bg-background-secondary border-t border-border shadow-sm border-b-2 transition-all duration-300 ease-in-out ${
-                    show 
-                        ? 'opacity-100 translate-y-0' 
-                        : 'opacity-0 -translate-y-4 pointer-events-none'
-                }`}
-            >
-                {/* mainNavItems */}
-                <ul className="flex flex-col">
-                    {mainNavItems.map((navItem, index) => (
-                        <li key={index}>
-                            <button
-                                onClick={() => onNavItemClicked(navItem.href)}
-                                className="flex items-center gap-3 py-3 text-foreground"
-                            >
-                                <span className="text-lg">{navItem.icon}</span>
-                                <span className="font-medium">{navItem.label}</span>
-                            </button>
-                        </li>
-                    ))}
-                </ul>
-
-                {/* Subtle divider */}
-                <div className="h-px bg-background my-2"></div>
-
-                {/* subNavItems */}
-                <ul className="flex flex-col">
-                    {subNavItems.map((navItem, index) => (
-                        <li key={index}>
-                            <button 
-                                onClick={() => onNavItemClicked(navItem.href)}
-                                className="flex items-center gap-3 py-3 text-sm text-foreground-muted"
-                            >
-                                <span className="text-base">{navItem.icon}</span>
-                                <span>{navItem.label}</span>
-                            </button>
-                        </li>
-                    ))}
-                </ul>            
             </div>
 
+            {show && (
+                <div className="fixed left-0 top-[52px] w-full flex flex-col py-4 px-6 bg-background-secondary border-t border-border shadow-lg border-b-2 transition-all duration-300 ease-in-out">
+                    <div className="flex flex-col gap-4 my-10">
+                        <div className="flex flex-row gap-4 w-full">
+                            <Button variant="primary" corners="square" className="w-full" onClick={() => onNavItemClicked(LANGUAGE_ROUTE(lang, SOLO_GAME_ROUTE))}>
+                                <Icon LucideIcon={User} size="sm" />
+                                {t.nav.soloGame}
+                            </Button>
+                            <Button variant="secondary" corners="square" className="w-full" onClick={() => onNavItemClicked(LANGUAGE_ROUTE(lang, MULTIPLAYER_GAME_ROUTE))}>
+                                <Icon LucideIcon={Users} size="sm" />
+                                {t.nav.onlineGame}
+                            </Button>
+                        </div>
+
+                        <div>
+                            <Button variant="skeleton" corners="square" className="w-full" onClick={() => onNavItemClicked(LANGUAGE_ROUTE(lang, PROFILE_ROUTE))}>
+                                <Icon LucideIcon={CircleUser} size="sm" />
+                                {t.nav.profile}
+                            </Button>                        
+                        </div>                        
+                    </div>
+                </div>                
+            )}
         </>
     )
 }

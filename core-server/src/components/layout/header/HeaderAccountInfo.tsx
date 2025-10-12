@@ -7,6 +7,7 @@ import { JwtAccountPayload } from "@/features/auth/jwt/jwt-models";
 import HeaderLanguagePicker from "./HeaderLanguagePicker";
 import HeaderWebSocketStatusIndicator from "./HeaderWebSocketStatusIndicator";
 import HeaderThemePicker from "./HeaderThemePicker";
+import HeaderReconnectNav from "./HeaderReconnectNav";
 
 export default async function HeaderAccountInfo({t, lang, account}: { t: GeneralTranslations, lang: SupportedLanguage, account: JwtAccountPayload | null}) {
     if (!account) {
@@ -18,6 +19,9 @@ export default async function HeaderAccountInfo({t, lang, account}: { t: General
 
         {/* Websocket status indicator (live, disconnected etc.) */}
         <HeaderWebSocketStatusIndicator />
+
+        {/* Reconnect */}
+        <HeaderReconnectNav lang={lang} />
 
         {/* Theme */}
         <HeaderThemePicker />
