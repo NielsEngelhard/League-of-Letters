@@ -13,7 +13,7 @@ interface Props {
 }
 
 export default function WordsPlayingBlock({ guesses, actualWord }: Props) {
-    const wordState: WordState = WordStateFactory.create(actualWord);
+    const wordState: WordState = WordStateFactory.create({ word: actualWord });
 
     const [prefilledRows, setPrefilledRows] = useState<EvaluatedWord[]>([]);
     const [currentGuessIndex, setCurrentGuessIndex] = useState(0);

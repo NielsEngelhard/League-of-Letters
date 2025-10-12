@@ -147,8 +147,14 @@ export default function GameBoard({generalTranslations, inGameTranslations, scor
                                                 {inGameTranslations.theWordWas}
                                             </div>
                                             <div className="text-3xl font-bold text-primary tracking-widest font-monos">
-                                                {revealedWord.toUpperCase()}
+                                                {revealedWord.word.toUpperCase()}
                                             </div>
+
+                                            {revealedWord.definition && (
+                                                <div className="text-xs font-bold text-foreground-muted tracking-widest font-monos">
+                                                    {revealedWord.definition}
+                                                </div>                                                
+                                            )}
                                         </div>
                                     </div>                                    
                                 )}

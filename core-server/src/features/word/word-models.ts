@@ -24,6 +24,7 @@ export interface WordState {
     originalWord: string;
     strippedWord: string;
     letterStates: WordLetterState[];
+    definition?: string;
 }
 
 export interface WordLetterState {
@@ -34,4 +35,9 @@ export interface WordLetterState {
 export interface LanguageWordCount {
     language: SupportedLanguage;
     wordCount: number;
+}
+
+export interface WordAndDefinition {
+    word: string;
+    definition?: string | undefined | null;
 }

@@ -9,6 +9,7 @@ import { TurnTrackerAlgorithm } from '../util/algorithm/turn-tracker-algorithm/t
 import { GetLetterAnimationDurationInMs } from '../util/game-time-calculators';
 import { sortPlayerModelOnPositionAndGetUserIds } from '../util/player-sorting';
 import { useSounds } from '@/lib/SoundPlayerContext';
+import { WordAndDefinition } from '@/features/word/word-models';
 
 type ActiveGameContextType = {  
   // Data
@@ -19,7 +20,7 @@ type ActiveGameContextType = {
   currentPlayerId: string;
   isThisPlayersTurn: boolean;
   isAnimating: boolean;
-  revealedWord?: string;
+  revealedWord?: WordAndDefinition;
 
   // Actions
   initializeGameState: (_game: ActiveGameModel, _thisPlayersUserId: string) => void;
@@ -45,7 +46,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
   const [game, setGame] = useState<ActiveGameModel | undefined>(undefined);
   const [currentRound, setCurrentRound] = useState<GameRoundModel | undefined>(undefined);
   const [players, setPlayers] = useState<GamePlayerModel[]>([]);
-  const [revealedWord, setRevealedWord] = useState<string | undefined>(undefined);
+  const [revealedWord, setRevealedWord] = useState<WordAndDefinition | undefined>(undefined);
   const [currentGuess, setCurrentGuess] = useState<string>("");
   const [currentPlayerId, setCurrentPlayerId] = useState<string>("");
   const [isThisPlayersTurn, setIsThisPlayersTurn] = useState<boolean>(false);
@@ -213,7 +214,7 @@ export function ActiveGameProvider({ children }: { children: ReactNode }) {
     });
   }  
 
-  function triggerNextRound(currentWord: string, nextGuessMaxUtcDate?: Date) {
+  function triggerNextRound(currentWord: WordAndDefinition, nextGuessMaxUtcDate?: Date) {
     if (!gameRef.current) return;
     const nextRoundIndex: number = gameRef.current.currentRoundIndex + 1;
     const currentRoundId = currentRound?.id;

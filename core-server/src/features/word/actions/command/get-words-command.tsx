@@ -4,8 +4,9 @@ import { db } from "@/drizzle/db";
 import { officialWordsLanguageTableMap } from "@/drizzle/schema";
 import { SupportedLanguage } from "@/features/i18n/languages";
 import { eq, sql } from "drizzle-orm";
+import { WordAndDefinition } from "../../word-models";
 
-export default async function GetWordsCommand(wordLength: number, amount: number, language: SupportedLanguage): Promise<string[]> {
+export default async function GetWordsCommand(wordLength: number, amount: number, language: SupportedLanguage): Promise<WordAndDefinition[]> {
     const languageTable = officialWordsLanguageTableMap[language]; 
 
     const dbResult = await db
@@ -19,5 +20,8 @@ export default async function GetWordsCommand(wordLength: number, amount: number
         throw Error(`DB ERROR: Not enough words available for language ${language} | Amount of words '${amount}' | Length: ${wordLength}`);
     }
 
-    return dbResult.map(r => r.word);
+    return dbResult.map(r => ({
+        word: r.word,
+        definition: r.definition
+    }));
 }

@@ -1,5 +1,5 @@
 import { GameMode } from "@/drizzle/schema";
-import { EvaluatedWord } from "../word/word-models";
+import { WordAndDefinition, EvaluatedWord } from "../word/word-models";
 import { ConnectionStatus } from "../realtime/realtime-models";
 import { SupportedLanguage } from "../i18n/languages";
 
@@ -31,7 +31,7 @@ export interface ActiveGameTeaserModel {
 
 // Data that is send when the current round has ended
 export interface RoundTransitionData {    
-    currentWord: string;
+    currentWord: WordAndDefinition;
     isEndOfGame: boolean;
     nextRoundFirstLetter?: string;
 }

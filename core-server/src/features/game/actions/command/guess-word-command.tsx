@@ -119,7 +119,10 @@ async function updateCurrentGameState(game: DbActiveGameWithRoundsAndPlayers, cu
         score: validationResult.score,
         roundTransitionData: endCurrentRound ? {
             isEndOfGame: endGame,
-            currentWord: currentRound.word.originalWord,
+            currentWord: {
+                word: currentRound.word.originalWord,
+                definition: currentRound.word.definition
+            },
             nextRoundFirstLetter: nextRound?.word.strippedWord[0],
         } : undefined,
         unguessedMisplacedLetters: GameMapper.FilterMisplacedLettersForCurrentWord(validationResult.previouslyGuessedMisplacedLetters, currentRound.word),

@@ -1,10 +1,11 @@
 import { DbGameRound } from "@/drizzle/schema";
 import { WordStateFactory } from "@/features/word/util/factories/word-state-factory";
+import { WordAndDefinition } from "@/features/word/word-models";
 import {v4 as uuid} from 'uuid';
 
 export interface CreateGameRoundData {
     gameId: string;
-    word: string;
+    word: WordAndDefinition;
     roundNumber: number;
     firstLetterIsGuessed: boolean;
     currentGuessMaxUtcDate?: Date | null;
@@ -12,7 +13,7 @@ export interface CreateGameRoundData {
 
 export interface CreateGameRoundsData {
     gameId: string;
-    words: string[];
+    words: WordAndDefinition[];
     firstLetterIsGuessed: boolean;
     currentGuessMaxUtcDate?: Date | null;
 }
@@ -27,7 +28,7 @@ export class GameRoundFactory {
             gameId: data.gameId,
             guesses: [],
             currentGuessMaxUtcDate: data.roundNumber == 1 ? data.currentGuessMaxUtcDate ?? null : null,
-            wordLength: data.word.length,
+            wordLength: data.word.word.length,
             previouslyMisplacedLetters: []
         }
     }
