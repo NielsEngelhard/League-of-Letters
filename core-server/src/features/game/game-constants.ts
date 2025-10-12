@@ -9,7 +9,7 @@ export const MAX_ONLINE_GAME_PLAYERS: number = 6;
 
 // Animation
 export const LETTER_ANIMATION_TIME_MS: number = 300;
-export const TIME_BETWEEN_ROUNDS_MS: number = 3000;
+export const TIME_BETWEEN_ROUNDS_MS: number = 5000;
 
 // Word
 export const MIN_WORD_LENGTH: number = 4;

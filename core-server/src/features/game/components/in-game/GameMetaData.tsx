@@ -51,16 +51,6 @@ export default function GameMetaData({ sortedPlayers, game, inGameTranslations, 
 
   const gamePlayersCombinedConnectionStatus: ConnectionStatus = game.players.some(p => p.connectionStatus != "connected") ? "disconnected" : "connected";
   
-  const playerCardGridCols = determinePlayerCardGridCols();
-  
-  function determinePlayerCardGridCols(): string {
-    if (sortedPlayers.length <= 3) {
-      return "grid-cols-1";
-    }
-    
-    return "grid-cols-2";
-  }
-
   return (
     <div className="p-2 md:p-6 h-full flex flex-col w-full">
       {/* Players Section */}
@@ -82,7 +72,6 @@ export default function GameMetaData({ sortedPlayers, game, inGameTranslations, 
         <div className="overflow-y-auto flex-1 space-y-2 min-h-0">
           <PlayerGrid
             players={sortedPlayers}
-            gridCols={playerCardGridCols}
             hostAccountId={game.hostAccountId}
             includeKickOption={false}
             gameId={game.id}

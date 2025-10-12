@@ -31,11 +31,11 @@
         "wordLengthOptions": {
             "four": "4 (makkelijk)",
             "five": "5 (prima)",
-            "six": "6 (lastig)",
+            "six": "6 (klassiek)",
             "seven": "7 (pittig)",
             "eight": "8 (een uitdaging)",
-            "nine": "9 (zweten)",
-            "ten": "10 (gekkenwerk)",
+            "nine": "9 (gekkenwerk)",
+            "ten": "10 (zweten)",
             "eleven": "11 (waanzin)",
             "twelve": "12 (niet te doen)"
         }

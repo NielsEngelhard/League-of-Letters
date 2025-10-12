@@ -120,7 +120,7 @@ export default function CreateGameForm({ onLeaveGame, submitDisabled = false, pl
                         { value: 7, label: t.createGameForm.wordLengthOptions.seven },
                         { value: 8, label: t.createGameForm.wordLengthOptions.eight },
                         { value: 9, label: t.createGameForm.wordLengthOptions.nine },
-                        { value: 10, label: t.createGameForm.wordLengthOptions.ten },
+                        // { value: 10, label: t.createGameForm.wordLengthOptions.ten },
                         // { value: 11, label: t.createGameForm.wordLengthOptions.eleven },
                         // { value: 12, label: t.createGameForm.wordLengthOptions.twelve },
                     ]}

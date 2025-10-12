@@ -71,7 +71,7 @@ export default function GameResultOverviewPlayerCard({
             case 1: 
                 return "bg-success/70";
             default: 
-                return "bg-white border-gray-100 hover:border-gray-200 hover:shadow-md transition-all duration-200";
+                return "bg-background border-border hover:shadow-md transition-all duration-200";
         }
     };
 
