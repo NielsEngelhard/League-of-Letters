@@ -53,27 +53,30 @@ export default function GameTeaserCard({ teaser, lang, currentPlayerAccountId }:
                         )}
                     </div>
 
-                    {/* Name */}
-                    {teaser.isLobby ? (
-                        // Lobby
-                        <span className="font-bold text-sm">
-                            Lobby
-                        </span>
-                    ): (
-                        // Active game
-                        <div className="flex flex-col min-w-0 flex-1">                     
+                    <div className="flex flex-col">
+                        {/* Name */}
+                        {teaser.isLobby ? (
+                            // Lobby
                             <span className="font-bold text-sm">
-                                {teaser.gameMode == "online" ? (
-                                    <>Online Game</>
-                                ) : (
-                                    <>Solo Game</>
-                                )}                            
+                                Lobby
                             </span>
-                            <span className="font-medium text-foreground-muted text-xs">
-                                {teaser.currentRoundIndex}/{teaser.totalRounds}
-                            </span>
-                        </div>                        
-                    )}
+                        ): (
+                            // Active game
+                            <div className="flex flex-col min-w-0 flex-1">                     
+                                <span className="font-bold text-sm">
+                                    {teaser.gameMode == "online" ? (
+                                        <>Online Game</>
+                                    ) : (
+                                        <>Solo Game</>
+                                    )}
+                                </span>
+                            </div>                        
+                        )}
+
+                        <span className="font-monos font-ligh">
+                            {teaser.id}
+                        </span>                                                
+                    </div>                    
                 </div>
 
                 {/* Right */}

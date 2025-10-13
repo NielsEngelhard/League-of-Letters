@@ -17,7 +17,7 @@ services:
     restart: unless-stopped
 
   lol_core:
-    image: nielsts/lol-core:v1.0-release
+    image: nielsts/lol-core:v1.1-release
     hostname: league-of-letters.online
     env_file:
       - ./env/core.env
@@ -36,7 +36,7 @@ services:
     restart: unless-stopped
 
   lol_actions:
-    image: nielsts/lol-actions:v1.0-release
+    image: nielsts/lol-actions:v1.1-release
     expose:
       - "8081"
     env_file:
