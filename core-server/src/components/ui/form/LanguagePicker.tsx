@@ -43,7 +43,7 @@ export default function LanguagePicker({
                 onClick={() => handleLanguageSelect(language)}
             >
                 <span className="text-lg">{languageStyles?.flag}</span>
-                <span>{languageStyles?.shortName}</span>
+                <span>{languageStyles?.shortName.toUpperCase()}</span>
             </button>
         )
     } 
@@ -67,7 +67,7 @@ export default function LanguagePicker({
             >
                 <span className="text-lg">{currentLanguageStyles?.flag}</span>
                 {showLabel && (
-                    <span className="hidden md:flex">{currentLanguageStyles?.shortName}</span>
+                    <span className="hidden md:flex">{currentLanguageStyles?.shortName.toUpperCase()}</span>
                 )}
                 <svg 
                     className={`w-4 h-4 transition-transform ${showLabel ? 'hidden md:flex' : 'flex'} ${isOpen ? 'rotate-180' : ''}`}

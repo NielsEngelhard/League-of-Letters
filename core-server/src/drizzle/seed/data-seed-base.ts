@@ -11,10 +11,6 @@ export async function seedWordsInDatabase(dbConnectionString: string, onlySeedSm
     for(let i=0; i<supportedLanguages.length; i++) {
         const languageToSeed = supportedLanguages[i];
 
-        if (languageToSeed != "nl") {
-            continue;
-        }
-
         if (onlySeedSmallDutchSubset && languageToSeed != "nl") {
             continue;
         }
